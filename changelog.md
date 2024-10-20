@@ -1,3 +1,6 @@
+## Forestry 1.0.12
+- Fixed crash when inserting fuels into Biogas engine (#105)
+
 ## Forestry 1.0.11
 - Fixed world generation crash with fruit pods (#102)
 - Fixed incorrect translation of ru_ru.json (#101)

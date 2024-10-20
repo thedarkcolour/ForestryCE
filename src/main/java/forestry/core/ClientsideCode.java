@@ -5,7 +5,11 @@ import javax.annotation.Nullable;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
 import net.minecraft.world.item.crafting.RecipeManager;
+import net.minecraft.world.level.material.Fluid;
+
+import net.minecraftforge.common.MinecraftForge;
 
 import forestry.core.genetics.root.ClientBreedingHandler;
 import forestry.core.genetics.root.ServerBreedingHandler;
@@ -31,6 +35,10 @@ public class ClientsideCode {
 			return connection.getRecipeManager();
 		}
 		return null;
+	}
+
+	public static Registry<Fluid> getFluidRegistry() {
+		return Minecraft.getInstance().level.registryAccess().registryOrThrow(Registry.FLUID_REGISTRY);
 	}
 
 	public static void markForUpdate(BlockPos pos) {

@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.Container;
@@ -53,6 +54,11 @@ public class RecipeUtils {
 	public static RecipeManager getRecipeManager() {
 		MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
 		return server == null ? (FMLEnvironment.dist == Dist.CLIENT ? ClientsideCode.getRecipeManager() : null) : server.getRecipeManager();
+	}
+
+	public static Registry<Fluid> getFluidRegistry() {
+		MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
+		return server == null ? (FMLEnvironment.dist == Dist.CLIENT ? ClientsideCode.getFluidRegistry() : null) : server.registryAccess().registryOrThrow(Registry.FLUID_REGISTRY);
 	}
 
 	@Nullable
