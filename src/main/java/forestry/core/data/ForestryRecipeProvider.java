@@ -470,7 +470,9 @@ public class ForestryRecipeProvider extends RecipeProvider {
 				.save(helper, ForestryConstants.forestry("charcoal_from_block"));
 		ShapedRecipeBuilder.shaped(CharcoalBlocks.WOOD_PILE.block())
 				.define('L', ItemTags.LOGS)
-				.pattern("LL").pattern("LL")
+				.pattern(" L ")
+				.pattern("L L")
+				.pattern(" L ")
 				.unlockedBy("has_log", has(ItemTags.LOGS)).save(helper);
 		ShapelessRecipeBuilder.shapeless(CharcoalBlocks.WOOD_PILE_DECORATIVE.block())
 				.requires(CharcoalBlocks.WOOD_PILE.block())

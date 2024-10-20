@@ -6,8 +6,9 @@
     }
   },
   "pattern": [
-    "LL",
-    "LL"
+    " L ",
+    "L L",
+    " L "
   ],
   "result": {
     "item": "forestry:wood_pile"
