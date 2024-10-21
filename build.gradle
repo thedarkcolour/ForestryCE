@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "thedarkcolour.forestry"
-version = "1.0.11"
+version = "1.0.12"
 base.archivesName = "forestry-$minecraftVersion"
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
