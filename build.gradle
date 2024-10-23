@@ -8,8 +8,8 @@ plugins {
 }
 
 group = "thedarkcolour.forestry"
-version = "1.0.12"
-base.archivesName = "forestry-$minecraftVersion"
+version = "2.0.0"
+archivesBaseName = "forestry-$minecraftVersion"
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
@@ -73,11 +73,11 @@ dependencies {
 	compileOnly fg.deobf("mezz.jei:jei-$minecraftVersion-forge-api:$jeiVersion")
 	runtimeOnly fg.deobf("mezz.jei:jei-$minecraftVersion-forge:$jeiVersion")
 	// PATCHOULI REQUIRED
-	compileOnly fg.deobf("vazkii.patchouli:Patchouli:$patchouliVersion:api")
-	runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:$patchouliVersion")
+	compileOnly fg.deobf("vazkii.patchouli:Patchouli:$patchouliVersion-FORGE:api")
+	runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:$patchouliVersion-FORGE")
 
-	runtimeOnly fg.deobf("curse.maven:spit-it-out-857141:4888738")
-	runtimeOnly fg.deobf("curse.maven:cyanide-541676:4126944")
+	//runtimeOnly fg.deobf("curse.maven:spit-it-out-857141:4888738")
+	//runtimeOnly fg.deobf("curse.maven:cyanide-541676:4126944")
 }
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }
