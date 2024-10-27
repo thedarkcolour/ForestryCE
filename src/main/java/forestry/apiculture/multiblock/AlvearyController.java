@@ -403,7 +403,7 @@ public class AlvearyController extends RectangularMultiblockControllerBase imple
 	@Override
 	public void writeGuiData(FriendlyByteBuf data) {
 		data.writeVarInt(this.beekeepingLogic.getBeeProgressPercent());
-		NetworkUtil.writeClimateState(data, temperature(), humidity());
+		NetworkUtil.writeClimateState(data, climate.temperature(), climate.humidity());
 		data.writeByte(this.temperatureSteps);
 		data.writeByte(this.humiditySteps);
 	}
