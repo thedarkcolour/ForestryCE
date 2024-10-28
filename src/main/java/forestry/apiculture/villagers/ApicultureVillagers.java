@@ -35,7 +35,8 @@ import forestry.apiculture.blocks.BlockTypeApiculture;
 import forestry.apiculture.features.ApicultureBlocks;
 import forestry.apiculture.features.ApicultureItems;
 import forestry.apiculture.items.EnumPropolis;
-import forestry.apiculture.items.ItemHoneyComb;
+import forestry.core.blocks.BlockTypeCoreTesr;
+import forestry.core.features.CoreBlocks;
 import forestry.core.registration.VillagerTrade;
 import forestry.core.registration.VillagerTrade.GiveEmeraldForItem;
 import forestry.core.registration.VillagerTrade.GiveItemForEmeralds;
@@ -56,11 +57,11 @@ public class ApicultureVillagers {
 	private static final DeferredRegister<PoiType> POINTS_OF_INTEREST = REGISTRY.getRegistry(Registry.POINT_OF_INTEREST_TYPE_REGISTRY);
 	private static final DeferredRegister<VillagerProfession> PROFESSIONS = REGISTRY.getRegistry(Registry.VILLAGER_PROFESSION_REGISTRY);
 
-	public static final RegistryObject<PoiType> POI_APIARY = POINTS_OF_INTEREST.register("apiary", () -> new PoiType(Set.copyOf(ApicultureBlocks.BASE.get(BlockTypeApiculture.APIARY).block().getStateDefinition().getPossibleStates()), 1, 1));
+	public static final RegistryObject<PoiType> POI_ESCRITOIRE = POINTS_OF_INTEREST.register("escritoire", () -> new PoiType(Set.copyOf(CoreBlocks.BASE.get(BlockTypeCoreTesr.ESCRITOIRE).block().getStateDefinition().getPossibleStates()), 1, 1));
 	public static final RegistryObject<VillagerProfession> PROF_BEEKEEPER = PROFESSIONS.register("beekeeper", () -> {
-		ResourceKey<PoiType> key = Objects.requireNonNull(POI_APIARY.getKey());
+		ResourceKey<PoiType> key = Objects.requireNonNull(POI_ESCRITOIRE.getKey());
 		Predicate<Holder<PoiType>> jobSitePredicate = e -> e.is(key);
-		return new VillagerProfession("beekeeper", jobSitePredicate, jobSitePredicate, ImmutableSet.of(), ImmutableSet.of(), SoundEvents.VILLAGER_WORK_FISHERMAN);
+		return new VillagerProfession("beekeeper", jobSitePredicate, jobSitePredicate, ImmutableSet.of(), ImmutableSet.of(), SoundEvents.VILLAGER_WORK_LIBRARIAN);
 	});
 
 	public static void villagerTrades(VillagerTradesEvent event) {

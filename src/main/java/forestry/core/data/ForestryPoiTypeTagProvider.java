@@ -19,6 +19,6 @@ public class ForestryPoiTypeTagProvider extends PoiTypeTagsProvider {
 
 	@Override
 	protected void addTags() {
-		tag(PoiTypeTags.ACQUIRABLE_JOB_SITE).add(ArboricultureVillagers.POI_TREE_CHEST.get(), ApicultureVillagers.POI_APIARY.get());
+		tag(PoiTypeTags.ACQUIRABLE_JOB_SITE).add(ArboricultureVillagers.POI_TREE_CHEST.get(), ApicultureVillagers.POI_ESCRITOIRE.get());
 	}
 }

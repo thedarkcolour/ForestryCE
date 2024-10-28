@@ -1,3 +1,7 @@
+## Forestry 1.0.13
+- Fixed climate display in Alveary when Fan/Heater/Hygroregulator were used (#99)
+- Changed Apiarist villager to use Escritoire as workstation instead of Apiary (#98)
+
 ## Forestry 1.0.12
 - Fixed crash when inserting fuels into Biogas engine (#105)
 - Fix Wood Pile recipe conflict with 1.13 Wood recipes (#104)
