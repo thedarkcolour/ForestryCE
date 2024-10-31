@@ -2,14 +2,14 @@ package forestry.sorting.gui;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
-import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.network.chat.Component;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import forestry.api.genetics.filter.IFilterLogic;
@@ -21,11 +21,10 @@ import forestry.core.gui.widgets.WidgetScrollBar;
 import forestry.sorting.gui.widgets.RuleWidget;
 import forestry.sorting.gui.widgets.SelectionWidget;
 import forestry.sorting.gui.widgets.SpeciesWidget;
-import forestry.sorting.tiles.IFilterContainer;
+import forestry.sorting.tiles.TileGeneticFilter;
 
 public class GuiGeneticFilter extends GuiForestryTitled<ContainerGeneticFilter> {
-
-	private final IFilterContainer tile;
+	private final TileGeneticFilter tile;
 	private final WidgetScrollBar scrollBar;
 	public final SelectionWidget selection;
 	@Nullable
@@ -98,7 +97,7 @@ public class GuiGeneticFilter extends GuiForestryTitled<ContainerGeneticFilter> 
 
 		String oldString = searchField != null ? searchField.getValue() : "";
 
-		this.searchField = new EditBox(this.minecraft.font, this.leftPos + selection.getX() + 89 + 36, selection.getY() + this.topPos + 4, 80, this.minecraft.font.lineHeight, null);
+		this.searchField = new EditBox(this.font, this.leftPos + selection.getX() + 89 + 36, selection.getY() + this.topPos + 4, 80, this.font.lineHeight, null);
 		this.searchField.setMaxLength(50);
 		this.searchField.setBordered(false);
 		this.searchField.setTextColor(16777215);
@@ -106,13 +105,12 @@ public class GuiGeneticFilter extends GuiForestryTitled<ContainerGeneticFilter> 
 	}
 
 	@Override
-	protected void renderBg(PoseStack transform, float partialTicks, int mouseY, int mouseX) {
-		super.renderBg(transform, partialTicks, mouseY, mouseX);
+	protected void renderBg(GuiGraphics graphics, float partialTicks, int mouseY, int mouseX) {
+		super.renderBg(graphics, partialTicks, mouseY, mouseX);
 
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-		// RenderSystem.disableLighting();
 		if (searchField != null) {
-			this.searchField.render(transform, mouseX, mouseY, partialTicks);    //TODO correct?
+			this.searchField.render(graphics, mouseX, mouseY, partialTicks);    //TODO correct?
 		}
 	}
 

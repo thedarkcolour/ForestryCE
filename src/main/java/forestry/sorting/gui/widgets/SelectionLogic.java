@@ -9,6 +9,7 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -98,9 +99,9 @@ public class SelectionLogic<S> implements IScrollable {
 		return widget.isMouseOver(mouseX, mouseY);
 	}
 
-	public void draw(PoseStack transform) {
+	public void draw(GuiGraphics graphics) {
 		for (SelectableWidget selectable : visible) {
-			selectable.draw(widget.gui, transform);
+			selectable.draw(widget.gui, graphics);
 		}
 	}
 
@@ -136,8 +137,8 @@ public class SelectionLogic<S> implements IScrollable {
 			this.yPos = yPos;
 		}
 
-		public void draw(GuiForestry gui, PoseStack transform) {
-			provider.draw(gui, selectable, transform, yPos, xPos);
+		public void draw(GuiForestry gui, GuiGraphics graphics) {
+			provider.draw(gui, selectable, graphics, yPos, xPos);
 		}
 
 		public boolean isMouseOver(double mouseX, double mouseY) {

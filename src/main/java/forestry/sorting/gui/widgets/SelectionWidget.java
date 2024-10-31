@@ -2,11 +2,9 @@ package forestry.sorting.gui.widgets;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import forestry.api.ForestryConstants;
 import forestry.api.core.tooltips.ToolTip;
@@ -21,7 +19,7 @@ public class SelectionWidget extends Widget {
 	public static final ResourceLocation TEXTURE = ForestryConstants.forestry(Constants.TEXTURE_PATH_GUI + "/filter_selection.png");
 	final WidgetScrollBar scrollBar;
 	@Nullable
-	private SelectionLogic logic;
+	private SelectionLogic<?> logic;
 	final GuiGeneticFilter gui;
 
 	public SelectionWidget(WidgetManager manager, int xPos, int yPos, WidgetScrollBar scrollBar, GuiGeneticFilter gui) {
@@ -40,27 +38,25 @@ public class SelectionWidget extends Widget {
 		}
 	}
 
-	public boolean isSame(ISelectableProvider provider) {
+	public boolean isSame(ISelectableProvider<?> provider) {
 		return logic != null && logic.isSame(provider);
 	}
 
 	@Nullable
-	public SelectionLogic getLogic() {
+	public SelectionLogic<?> getLogic() {
 		return logic;
 	}
 
 	@Override
-	public void draw(PoseStack transform, int startX, int startY) {
+	public void draw(GuiGraphics graphics, int startX, int startY) {
 		if (logic == null) {
 			return;
 		}
 
-		RenderSystem.setShaderTexture(0, TEXTURE);
+		graphics.blit(TEXTURE, startX + xPos, startY + yPos, 0, 0, width, height);
+		logic.draw(graphics);
 
-		manager.gui.blit(transform, startX + xPos, startY + yPos, 0, 0, width, height);
-		logic.draw(transform);
-
-		manager.minecraft.font.draw(transform, Component.translatable("for.gui.filter.seletion"), startX + xPos + 12, startY + yPos + 4, manager.gui.getFontColor().get("gui.title"));
+		graphics.drawString(gui.font(), Component.translatable("for.gui.filter.seletion"), startX + xPos + 12, startY + yPos + 4, manager.gui.getFontColor().get("gui.title"));
 	}
 
 	@Override

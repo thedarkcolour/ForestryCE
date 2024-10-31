@@ -4,16 +4,12 @@ import com.google.common.collect.ImmutableSet;
 
 import java.util.Collection;
 
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
-
 import forestry.api.IForestryApi;
-import forestry.api.client.ForestrySprites;
 import forestry.api.client.IForestryClientApi;
 import forestry.api.core.tooltips.ToolTip;
 import forestry.api.genetics.filter.IFilterLogic;
@@ -38,16 +34,15 @@ public class RuleWidget extends Widget implements ISelectableProvider<IFilterRul
 	}
 
 	@Override
-	public void draw(PoseStack transform, int startX, int startY) {
+	public void draw(GuiGraphics graphics, int startX, int startY) {
 		int x = xPos + startX;
 		int y = yPos + startY;
 		IFilterLogic logic = gui.getLogic();
 		IFilterRuleType rule = logic.getRule(facing);
-		draw(manager.gui, rule, transform, y, x);
+		draw(manager.gui, rule, graphics, y, x);
 
 		if (this.gui.selection.isSame(this)) {
-			RenderSystem.setShaderTexture(0, SelectionWidget.TEXTURE);
-			gui.blit(transform, x - 1, y - 1, 212, 0, 18, 18);
+			graphics.blit(SelectionWidget.TEXTURE, x - 1, y - 1, 212, 0, 18, 18);
 		}
 	}
 
@@ -57,11 +52,9 @@ public class RuleWidget extends Widget implements ISelectableProvider<IFilterRul
 	}
 
 	@Override
-	public void draw(GuiForestry gui, IFilterRuleType selectable, PoseStack transform, int y, int x) {
-		RenderSystem.setShaderTexture(0, ForestrySprites.TEXTURE_ATLAS);
-
+	public void draw(GuiForestry<?> gui, IFilterRuleType selectable, GuiGraphics graphics, int y, int x) {
 		TextureAtlasSprite sprite = IForestryClientApi.INSTANCE.getTextureManager().getSprite(selectable.getSprite());
-		GuiComponent.blit(transform, x, y, gui.getBlitOffset(), 16, 16, sprite);
+		graphics.blit(x, y, 0, 16, 16, sprite);
 	}
 
 	@Override

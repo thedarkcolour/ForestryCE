@@ -31,7 +31,7 @@ public record PacketGuiFilterUpdate(BlockPos pos, IFilterRuleType[] filterRules,
 	}
 
 	public static void handle(PacketGuiFilterUpdate msg, Player player) {
-		TileUtil.getInterface(player.level, msg.pos(), ForestryCapabilities.FILTER_LOGIC, null).ifPresent(l -> {
+		TileUtil.getInterface(player.level(), msg.pos(), ForestryCapabilities.FILTER_LOGIC, null).ifPresent(l -> {
 			if (l instanceof FilterLogic logic) {
 				logic.readGuiUpdatePacket(msg);
 			}

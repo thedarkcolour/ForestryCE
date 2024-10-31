@@ -1,7 +1,7 @@
 @ParametersAreNonnullByDefault
 @FieldsAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-package forestry.sorting.network;
+package forestry.factory.client;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 

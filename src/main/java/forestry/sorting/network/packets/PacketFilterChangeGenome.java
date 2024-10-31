@@ -10,8 +10,6 @@ import net.minecraft.server.level.ServerPlayer;
 
 import forestry.api.ForestryCapabilities;
 import forestry.api.genetics.ISpecies;
-import forestry.api.genetics.alleles.ForestryAlleles;
-import forestry.api.genetics.alleles.IRegistryAllele;
 import forestry.api.modules.IForestryPacketServer;
 import forestry.core.network.PacketIdServer;
 import forestry.core.tiles.TileUtil;
@@ -20,9 +18,9 @@ import forestry.core.utils.SpeciesUtil;
 
 public record PacketFilterChangeGenome(BlockPos pos, Direction facing, short index, boolean active, @Nullable ISpecies<?> species) implements IForestryPacketServer {
 	public static void handle(PacketFilterChangeGenome msg, ServerPlayer player) {
-		TileUtil.getInterface(player.level, msg.pos(), ForestryCapabilities.FILTER_LOGIC, null).ifPresent(logic -> {
+		TileUtil.getInterface(player.level(), msg.pos(), ForestryCapabilities.FILTER_LOGIC, null).ifPresent(logic -> {
 			if (logic.setGenomeFilter(msg.facing(), msg.index(), msg.active(), msg.species())) {
-				logic.getNetworkHandler().sendToPlayers(logic, player.getLevel(), player);
+				logic.getNetworkHandler().sendToPlayers(logic, player.serverLevel(), player);
 			}
 		});
 	}

@@ -5,18 +5,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.Container;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.core.Direction;
-import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.block.state.BlockState;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -27,19 +26,19 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 
 import forestry.api.ForestryCapabilities;
+import forestry.api.genetics.filter.FilterData;
 import forestry.core.inventory.AdjacentInventoryCache;
+import forestry.core.inventory.InventoryAdapterTile;
 import forestry.core.network.IStreamableGui;
 import forestry.core.tiles.TileForestry;
 import forestry.core.tiles.TileUtil;
 import forestry.core.utils.ItemStackUtil;
-import forestry.api.genetics.filter.FilterData;
 import forestry.sorting.FilterLogic;
 import forestry.sorting.features.SortingTiles;
 import forestry.sorting.gui.ContainerGeneticFilter;
-import forestry.sorting.inventory.InventoryFilter;
 import forestry.sorting.inventory.ItemHandlerFilter;
 
-public class TileGeneticFilter extends TileForestry implements IStreamableGui, IFilterContainer {
+public class TileGeneticFilter extends TileForestry implements IStreamableGui {
 	private static final int TRANSFER_DELAY = 5;
 
 	private final FilterLogic logic;
@@ -49,7 +48,7 @@ public class TileGeneticFilter extends TileForestry implements IStreamableGui, I
 		super(SortingTiles.GENETIC_FILTER.tileType(), pos, state);
 		this.inventoryCache = new AdjacentInventoryCache(this, getTileCache());
 		this.logic = new FilterLogic(this, (logic1, level, player) -> sendToPlayers(level, player));
-		setInternalInventory(new InventoryFilter(this));
+		setInternalInventory(new InventoryAdapterTile<>(this, 6, "Items"));
 	}
 
 	@Override
@@ -156,17 +155,7 @@ public class TileGeneticFilter extends TileForestry implements IStreamableGui, I
 	}
 
 	public FilterLogic getLogic() {
-		return logic;
-	}
-
-	@Override
-	public Container getBuffer() {
-		return this;
-	}
-
-	@Override
-	public TileGeneticFilter getTileEntity() {
-		return this;
+		return this.logic;
 	}
 
 	@Nullable

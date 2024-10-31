@@ -1,8 +1,7 @@
 package forestry.sorting.gui;
 
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.Container;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.player.Inventory;
 
 import forestry.core.gui.ContainerTile;
 import forestry.core.tiles.TileUtil;
@@ -14,8 +13,8 @@ public class ContainerGeneticFilter extends ContainerTile<TileGeneticFilter> {
 	private boolean guiNeedsUpdate = true;
 
 	public static ContainerGeneticFilter fromNetwork(int windowId, Inventory inv, FriendlyByteBuf data) {
-		TileGeneticFilter tile = TileUtil.getTile(inv.player.level, data.readBlockPos(), TileGeneticFilter.class);
-		return new ContainerGeneticFilter(windowId, inv, tile);    //TODO nullability.
+		TileGeneticFilter tile = TileUtil.getTile(inv.player.level(), data.readBlockPos(), TileGeneticFilter.class);
+		return new ContainerGeneticFilter(windowId, inv, tile);
 	}
 
 	public ContainerGeneticFilter(int windowId, Inventory playerInventory, TileGeneticFilter tile) {
@@ -35,11 +34,8 @@ public class ContainerGeneticFilter extends ContainerTile<TileGeneticFilter> {
 			addSlot(new SlotGeneticFilter(playerInventory, column, xInv + column * 18, yInv + 58));
 		}
 
-		Container buffer = tile.getBuffer();
-		if (buffer != null) {
-			for (int x = 0; x < 6; x++) {
-				addSlot(new SlotFilterFacing(buffer, x, 8, 18 + x * 18));
-			}
+		for (int x = 0; x < 6; x++) {
+			addSlot(new SlotFilterFacing(this.tile, x, 8, 18 + x * 18));
 		}
 	}
 
