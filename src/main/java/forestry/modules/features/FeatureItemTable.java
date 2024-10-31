@@ -9,7 +9,6 @@ import net.minecraft.world.item.Item;
 import forestry.api.core.IItemSubtype;
 
 public class FeatureItemTable<I extends Item, R extends IItemSubtype, C extends IItemSubtype> extends FeatureTable<FeatureItemTable.Builder<I, R, C>, FeatureItem<I>, R, C> {
-
 	public FeatureItemTable(Builder<I, R, C> builder) {
 		super(builder);
 	}

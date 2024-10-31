@@ -9,7 +9,6 @@ import net.minecraftforge.fluids.FluidType;
 import forestry.core.fluids.BlockForestryFluid;
 
 public interface IFluidFeature extends IModFeature {
-
 	IBlockFeature<BlockForestryFluid, BlockItem> fluidBlock();
 
 	FluidProperties properties();

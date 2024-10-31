@@ -6,6 +6,7 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.material.FlowingFluid;
@@ -41,7 +42,7 @@ public class FeatureFluid extends ModFeature implements IFluidFeature {
 				.density(properties.density)
 				.viscosity(properties.viscosity)
 				.temperature(properties.temperature)));
-		DeferredRegister<Fluid> fluidRegistry = builder.registry.getRegistry(Registry.FLUID_REGISTRY);
+		DeferredRegister<Fluid> fluidRegistry = builder.registry.getRegistry(Registries.FLUID);
 		this.internal = new ForgeFlowingFluid.Properties(attributes, this::fluid, this::flowing).block(block::block).bucket(properties().bucket);
 		this.fluidObject = fluidRegistry.register(name, () -> new ForgeFlowingFluid.Source(internal));
 		this.flowingFluidObject = fluidRegistry.register(name + "_flowing", () -> new ForgeFlowingFluid.Flowing(internal));
@@ -49,7 +50,7 @@ public class FeatureFluid extends ModFeature implements IFluidFeature {
 
 	@Override
 	public ResourceKey<? extends Registry<?>> getRegistry() {
-		return Registry.FLUID_REGISTRY;
+		return Registries.FLUID;
 	}
 
 	@Override

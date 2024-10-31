@@ -3,7 +3,6 @@ package forestry.modules.features;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -15,7 +14,6 @@ import forestry.api.core.IBlockSubtype;
 import forestry.core.utils.datastructures.TriFunction;
 
 public class FeatureBlockTable<B extends Block, R extends IBlockSubtype, C extends IBlockSubtype> extends FeatureTable<FeatureBlockTable.Builder<B, R, C>, FeatureBlock<B, BlockItem>, R, C> {
-
 	public FeatureBlockTable(Builder<B, R, C> builder) {
 		super(builder);
 	}

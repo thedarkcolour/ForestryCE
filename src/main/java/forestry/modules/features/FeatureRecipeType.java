@@ -3,6 +3,7 @@ package forestry.modules.features;
 import java.util.function.Supplier;
 
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Recipe;
@@ -18,8 +19,8 @@ public class FeatureRecipeType<R extends Recipe<?>> extends ModFeature implement
 	protected FeatureRecipeType(IFeatureRegistry registry, ResourceLocation moduleId, String name, Supplier<RecipeSerializer<? extends R>> serializer) {
 		super(moduleId, name);
 
-		this.type = registry.getRegistry(Registry.RECIPE_TYPE_REGISTRY).register(name, () -> RecipeType.simple(new ResourceLocation(moduleId.getNamespace(), name)));
-		this.serializer = registry.getRegistry(Registry.RECIPE_SERIALIZER_REGISTRY).register(name, serializer);
+		this.type = registry.getRegistry(Registries.RECIPE_TYPE).register(name, () -> RecipeType.simple(new ResourceLocation(moduleId.getNamespace(), name)));
+		this.serializer = registry.getRegistry(Registries.RECIPE_SERIALIZER).register(name, serializer);
 	}
 
 	public RecipeType<R> type() {
@@ -32,6 +33,6 @@ public class FeatureRecipeType<R extends Recipe<?>> extends ModFeature implement
 
 	@Override
 	public ResourceKey<? extends Registry<?>> getRegistry() {
-		return Registry.RECIPE_TYPE_REGISTRY;
+		return Registries.RECIPE_TYPE;
 	}
 }

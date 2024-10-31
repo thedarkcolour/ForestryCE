@@ -6,6 +6,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
@@ -24,8 +25,8 @@ public class FeatureBlock<B extends Block, I extends BlockItem> extends ModFeatu
 
 	public FeatureBlock(IFeatureRegistry features, ResourceLocation moduleId, String identifier, Supplier<B> constructorBlock, @Nullable Function<B, I> constructorItem) {
 		super(moduleId, identifier);
-		this.blockObject = features.getRegistry(Registry.BLOCK_REGISTRY).register(identifier, constructorBlock);
-		this.itemObject = constructorItem == null ? null : features.getRegistry(Registry.ITEM_REGISTRY).register(identifier, () -> constructorItem.apply(blockObject.get()));
+		this.blockObject = features.getRegistry(Registries.BLOCK).register(identifier, constructorBlock);
+		this.itemObject = constructorItem == null ? null : features.getRegistry(Registries.ITEM).register(identifier, () -> constructorItem.apply(blockObject.get()));
 	}
 
 	public String getTranslationKey() {
@@ -54,6 +55,6 @@ public class FeatureBlock<B extends Block, I extends BlockItem> extends ModFeatu
 
 	@Override
 	public ResourceKey<? extends Registry<?>> getRegistry() {
-		return Registry.BLOCK_REGISTRY;
+		return Registries.BLOCK;
 	}
 }

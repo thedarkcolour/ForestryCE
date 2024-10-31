@@ -36,23 +36,12 @@ public abstract class FeatureGroup<B extends FeatureGroup.Builder<S, ? extends F
 		return featureByType.get(subType);
 	}
 
-	public Optional<F> getProbably(S subType) {
-		return Optional.ofNullable(featureByType.get(subType));
-	}
-
 	public ImmutableMap<S, F> getFeatureByType() {
 		return featureByType;
 	}
 
 	public Collection<F> getFeatures() {
 		return featureByType.values();
-	}
-
-	public Optional<F> findFeature(String typeName) {
-		return featureByType.entrySet().stream()
-				.filter(e -> e.getKey().getSerializedName().equals(typeName))
-				.findFirst()
-				.flatMap(e -> Optional.of(e.getValue()));
 	}
 
 	public boolean itemEqual(ItemStack stack) {
