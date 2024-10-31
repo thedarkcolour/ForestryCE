@@ -32,7 +32,7 @@ public record PacketWorktableMemoryUpdate(BlockPos pos, RecipeMemory memory) imp
 	}
 
 	public static void handle(PacketWorktableMemoryUpdate msg, Player player) {
-		WorktableTile tile = TileUtil.getTile(player.level, msg.pos, WorktableTile.class);
+		WorktableTile tile = TileUtil.getTile(player.level(), msg.pos, WorktableTile.class);
 		if (tile != null) {
 			tile.getMemory().copy(msg.memory);
 		}

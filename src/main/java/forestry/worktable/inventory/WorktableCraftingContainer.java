@@ -1,11 +1,11 @@
 package forestry.worktable.inventory;
 
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.inventory.TransientCraftingContainer;
 
 import forestry.core.gui.DummyMenu;
 
-public class WorktableCraftingContainer extends CraftingContainer {
+public class WorktableCraftingContainer extends TransientCraftingContainer {
 	private final AbstractContainerMenu menu;
 
 	public WorktableCraftingContainer(AbstractContainerMenu menu) {

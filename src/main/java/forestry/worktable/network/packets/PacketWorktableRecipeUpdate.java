@@ -35,6 +35,6 @@ public record PacketWorktableRecipeUpdate(BlockPos pos, @Nullable MemorizedRecip
 	}
 
 	public static void handle(PacketWorktableRecipeUpdate msg, Player player) {
-		TileUtil.actOnTile(player.level, msg.pos, WorktableTile.class, tile -> tile.setCurrentRecipe(msg.recipe));
+		TileUtil.actOnTile(player.level(), msg.pos, WorktableTile.class, tile -> tile.setCurrentRecipe(msg.recipe));
 	}
 }

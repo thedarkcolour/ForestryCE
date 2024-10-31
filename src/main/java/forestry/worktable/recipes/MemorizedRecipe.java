@@ -85,7 +85,7 @@ public class MemorizedRecipe implements INbtWritable, INbtReadable, IStreamable 
 	public ItemStack getOutputIcon(Level level) {
 		CraftingRecipe selectedRecipe = getSelectedRecipe(level);
 		if (selectedRecipe != null) {
-			ItemStack recipeOutput = selectedRecipe.assemble(craftMatrix);
+			ItemStack recipeOutput = selectedRecipe.assemble(craftMatrix, level.registryAccess());
 			if (!recipeOutput.isEmpty()) {
 				return recipeOutput;
 			}
@@ -96,7 +96,7 @@ public class MemorizedRecipe implements INbtWritable, INbtReadable, IStreamable 
 	public ItemStack getCraftingResult(CraftingContainer inventory, Level level) {
 		CraftingRecipe selectedRecipe = getSelectedRecipe(level);
 		if (selectedRecipe != null && selectedRecipe.matches(inventory, level)) {
-			ItemStack recipeOutput = selectedRecipe.assemble(inventory);
+			ItemStack recipeOutput = selectedRecipe.assemble(inventory, level.registryAccess());
 			if (!recipeOutput.isEmpty()) {
 				return recipeOutput;
 			}

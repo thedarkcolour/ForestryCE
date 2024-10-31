@@ -33,7 +33,7 @@ public class WorktableMenu extends ContainerTile<WorktableTile> implements ICont
 	private boolean craftMatrixChanged = false;
 
 	public static WorktableMenu fromNetwork(int windowId, Inventory playerInv, FriendlyByteBuf extraData) {
-		WorktableTile worktable = TileUtil.getTile(playerInv.player.level, extraData.readBlockPos(), WorktableTile.class);
+		WorktableTile worktable = TileUtil.getTile(playerInv.player.level(), extraData.readBlockPos(), WorktableTile.class);
 		return new WorktableMenu(windowId, playerInv, worktable);
 	}
 
@@ -134,7 +134,7 @@ public class WorktableMenu extends ContainerTile<WorktableTile> implements ICont
 				break;
 			}
 			case 1: { // right clicked a memorized recipe
-				long time = player.level.getGameTime();
+				long time = player.level().getGameTime();
 				RecipeMemory memory = tile.getMemory();
 				memory.toggleLock(time, secondary);
 				break;

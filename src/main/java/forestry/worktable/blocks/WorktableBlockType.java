@@ -23,6 +23,6 @@ public enum WorktableBlockType implements IBlockType {
 
 	@Override
 	public String getSerializedName() {
-		return getMachineProperties().getSerializedName();
+		return this.machineProperties.getSerializedName();
 	}
 }

@@ -32,14 +32,14 @@ public record PacketWorktableRecipeRequest(BlockPos pos, MemorizedRecipe recipe)
 	public static void handle(PacketWorktableRecipeRequest msg, ServerPlayer player) {
 		BlockPos pos = msg.pos();
 		MemorizedRecipe recipe = msg.recipe();
-		TileUtil.actOnTile(player.level, pos, WorktableTile.class, worktable -> {
+		TileUtil.actOnTile(player.level(), pos, WorktableTile.class, worktable -> {
 			worktable.setCurrentRecipe(recipe);
 
 			if (player.containerMenu instanceof WorktableMenu containerWorktable) {
 				containerWorktable.updateCraftMatrix();
 			}
 
-			NetworkUtil.sendNetworkPacket(new PacketWorktableRecipeUpdate(worktable), pos, player.level);
+			NetworkUtil.sendNetworkPacket(new PacketWorktableRecipeUpdate(worktable), pos, player.level());
 		});
 	}
 }

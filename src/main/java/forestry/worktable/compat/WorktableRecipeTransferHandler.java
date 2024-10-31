@@ -8,6 +8,7 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.inventory.TransientCraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingRecipe;
 
@@ -43,7 +44,7 @@ class WorktableRecipeTransferHandler implements IRecipeTransferHandler<Worktable
 	@Override
 	public IRecipeTransferError transferRecipe(WorktableMenu container, CraftingRecipe recipe, IRecipeSlotsView recipeSlots, Player player, boolean maxTransfer, boolean doTransfer) {
 		if (doTransfer) {
-			CraftingContainer inventory = new CraftingContainer(container, 3, 3);
+			CraftingContainer inventory = new TransientCraftingContainer(container, 3, 3);
 
 			NonNullList<ItemStack> firstItemStacks = JeiUtil.getFirstItemStacks(recipeSlots);
 			for (int i = 0; i < firstItemStacks.size(); i++) {
@@ -51,7 +52,7 @@ class WorktableRecipeTransferHandler implements IRecipeTransferHandler<Worktable
 				inventory.setItem(i, firstItemStack);
 			}
 
-			List<CraftingRecipe> matchingRecipes = RecipeUtils.findMatchingRecipes(inventory, player.level);
+			List<CraftingRecipe> matchingRecipes = RecipeUtils.findMatchingRecipes(inventory, player.level());
 			if (!matchingRecipes.isEmpty()) {
 				MemorizedRecipe memorizedRecipe = new MemorizedRecipe(inventory, matchingRecipes);
 				container.sendWorktableRecipeRequest(memorizedRecipe);
