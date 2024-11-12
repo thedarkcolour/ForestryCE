@@ -22,7 +22,7 @@ import forestry.core.utils.BlockUtil;
 
 public class FarmableCocoa extends FarmableAgingCrop {
 	public FarmableCocoa() {
-		super(Items.COCOA_BEANS, Blocks.COCOA, new ItemStack(Items.COCOA_BEANS), CocoaBlock.AGE, 2, null);
+		super(Items.COCOA_BEANS, Blocks.COCOA, new ItemStack(Items.COCOA_BEANS), CocoaBlock.AGE, 2, 0);
 	}
 
 	@Override
