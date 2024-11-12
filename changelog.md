@@ -1,6 +1,7 @@
 ## Forestry 1.0.14
 - Add Falkory's textures (#33)
 - Allow Cocoa plantations to automatically replant, thanks to ACGaming
+- Fix erroneous letter NBT, thanks to ACGaming
 
 ## Forestry 1.0.13
 - Fixed climate display in Alveary when Fan/Heater/Hygroregulator were used (#99)
