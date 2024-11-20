@@ -17,17 +17,14 @@ import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.AABB;
 
 import forestry.modules.features.FeatureFluid;
@@ -43,7 +40,7 @@ public class BlockForestryFluid extends LiquidBlock {
 	private final boolean explodes;
 
 	public BlockForestryFluid(FeatureFluid feature) {
-		super(feature::fluid, Block.Properties.of(feature.properties().temperature > 505 ? Material.LAVA : Material.WATER).noCollission().noLootTable());
+		super(feature::fluid, Block.Properties.of().liquid().noCollission().noLootTable());
 		FluidProperties properties = feature.properties();
 		this.flammability = properties.flammability;
 		this.spreadsFire = properties.spreadsFire;
@@ -61,7 +58,7 @@ public class BlockForestryFluid extends LiquidBlock {
 			entity.setIsInPowderSnow(true);
 		} else if (this.burning) {
 			entity.setSecondsOnFire(5);
-			entity.hurt(DamageSource.LAVA, 1);
+			entity.hurt(pLevel.damageSources().lava(), 1);
 		}
 	}
 
@@ -114,12 +111,12 @@ public class BlockForestryFluid extends LiquidBlock {
 				++y;
 				z += rand.nextInt(3) - 1;
 				BlockState blockState = world.getBlockState(new BlockPos(x, y, z));
-				if (blockState.getMaterial() == Material.AIR) {
+				if (blockState.isAir()) {
 					if (isNeighborFlammable(world, x, y, z)) {
 						world.setBlockAndUpdate(new BlockPos(x, y, z), Blocks.FIRE.defaultBlockState());
 						return;
 					}
-				} else if (blockState.getMaterial().blocksMotion()) {
+				} else if (blockState.blocksMotion()) {
 					return;
 				}
 			}
@@ -144,7 +141,7 @@ public class BlockForestryFluid extends LiquidBlock {
 		if (this.explosionPower > 1f) {
 			if (isNearFire(world, pos.getX(), pos.getY(), pos.getZ())) {
 				world.setBlockAndUpdate(pos, Blocks.FIRE.defaultBlockState());
-				world.explode(null, pos.getX(), pos.getY(), pos.getZ(), this.explosionPower, true, Explosion.BlockInteraction.DESTROY);
+				world.explode(null, pos.getX(), pos.getY(), pos.getZ(), this.explosionPower, true, Level.ExplosionInteraction.BLOCK);
 			}
 		}
 	}

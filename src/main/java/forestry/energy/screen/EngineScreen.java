@@ -1,10 +1,9 @@
 package forestry.energy.screen;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import forestry.api.ForestryConstants;
 import forestry.api.client.IForestryClientApi;
@@ -33,22 +32,22 @@ public class EngineScreen<M extends AbstractContainerMenu, E extends EngineBlock
 		}
 
 		@Override
-		public void draw(PoseStack transform, int y, int x) {
-			drawBackground(transform, y, x);
+		public void draw(GuiGraphics graphics, int y, int x) {
+			drawBackground(graphics, y, x);
 
-			drawSprite(transform, IForestryClientApi.INSTANCE.getTextureManager().getSprite(ForestryConstants.forestry("misc/energy")), x + 3, y + 4);
+			drawSprite(graphics, IForestryClientApi.INSTANCE.getTextureManager().getSprite(ForestryConstants.forestry("misc/energy")), x + 3, y + 4);
 
 			if (isFullyOpened()) {
-				drawHeader(transform, Component.translatable("for.gui.energy"), x + 22, y + 8);
+				drawHeader(graphics, Component.translatable("for.gui.energy"), x + 22, y + 8);
 
-				drawSubheader(transform, Component.translatable("for.gui.currentOutput").append(":"), x + 22, y + 20);
-				drawText(transform, GuiUtil.formatRate(engine.getCurrentOutput()), x + 22, y + 32);
+				drawSubheader(graphics, Component.translatable("for.gui.currentOutput").append(":"), x + 22, y + 20);
+				drawText(graphics, GuiUtil.formatRate(engine.getCurrentOutput()), x + 22, y + 32);
 
-				drawSubheader(transform, Component.translatable("for.gui.stored").append(":"), x + 22, y + 44);
-				drawText(transform, GuiUtil.formatEnergyValue(engine.getEnergyManager().getEnergyStored()), x + 22, y + 56);
+				drawSubheader(graphics, Component.translatable("for.gui.stored").append(":"), x + 22, y + 44);
+				drawText(graphics, GuiUtil.formatEnergyValue(engine.getEnergyManager().getEnergyStored()), x + 22, y + 56);
 
-				drawSubheader(transform, Component.translatable("for.gui.heat").append(":"), x + 22, y + 68);
-				drawText(transform, (double) engine.getHeat() / (double) 10 + 20.0 + " C", x + 22, y + 80);
+				drawSubheader(graphics, Component.translatable("for.gui.heat").append(":"), x + 22, y + 68);
+				drawText(graphics, (double) engine.getHeat() / (double) 10 + 20.0 + " C", x + 22, y + 80);
 			}
 		}
 

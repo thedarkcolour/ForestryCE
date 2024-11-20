@@ -14,14 +14,13 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Unit;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.ComposterBlock;
-import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 
@@ -51,7 +50,6 @@ import forestry.apiculture.items.ItemPollenCluster;
 import forestry.apiimpl.plugin.PluginManager;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.features.ArboricultureItems;
-import forestry.arboriculture.loot.CountBlockFunction;
 import forestry.arboriculture.loot.GrafterLootModifier;
 import forestry.core.blocks.TileStreamUpdateTracker;
 import forestry.core.client.CoreClientHandler;
@@ -60,7 +58,6 @@ import forestry.core.commands.DiagnosticsCommand;
 import forestry.core.commands.DumpCommand;
 import forestry.core.features.CoreItems;
 import forestry.core.loot.ConditionLootModifier;
-import forestry.core.loot.OrganismFunction;
 import forestry.core.network.PacketIdClient;
 import forestry.core.network.PacketIdServer;
 import forestry.core.network.packets.PacketActiveUpdate;
@@ -81,7 +78,6 @@ import forestry.core.network.packets.RecipeCachePacket;
 import forestry.core.owner.GameProfileDataSerializer;
 import forestry.core.recipes.RecipeManagers;
 import forestry.core.utils.NetworkUtil;
-import forestry.core.worldgen.VillagerJigsaw;
 import forestry.lepidopterology.features.LepidopterologyItems;
 import forestry.modules.BlankForestryModule;
 import forestry.modules.ForestryModuleManager;
@@ -103,7 +99,6 @@ public class ModuleCore extends BlankForestryModule {
 		modBus.addListener(ModuleCore::registerGlobalLootModifiers);
 		modBus.addListener(EventPriority.LOWEST, ModuleCore::postItemRegistry);
 
-		ItemGroupForestry.initTabs();
 		ModuleUtil.loadFeatureProviders();
 		MinecraftForge.EVENT_BUS.addListener(ModuleCore::onItemPickup);
 		MinecraftForge.EVENT_BUS.addListener(ModuleCore::onLevelTick);
@@ -115,9 +110,7 @@ public class ModuleCore extends BlankForestryModule {
 	}
 
 	private static void onCommonSetup(FMLCommonSetupEvent event) {
-		// Forestry's villager houses
 		event.enqueueWork(() -> {
-			VillagerJigsaw.init();
 			((ForestryModuleManager) IForestryApi.INSTANCE.getModuleManager()).setupApi();
 			PluginManager.registerCircuits();
 			EntityDataSerializers.registerSerializer(GameProfileDataSerializer.INSTANCE);
@@ -155,15 +148,12 @@ public class ModuleCore extends BlankForestryModule {
 		event.register(ForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, helper -> {
 			helper.register(ForestryConstants.forestry("condition_modifier"), ConditionLootModifier.CODEC);
 			helper.register(ForestryConstants.forestry("grafter_modifier"), GrafterLootModifier.CODEC);
-
-			OrganismFunction.type = Registry.register(Registry.LOOT_FUNCTION_TYPE, ForestryConstants.forestry("set_species_nbt"), new LootItemFunctionType(new OrganismFunction.Serializer()));
-			CountBlockFunction.type = Registry.register(Registry.LOOT_FUNCTION_TYPE, ForestryConstants.forestry("count_from_block"), new LootItemFunctionType(new CountBlockFunction.Serializer()));
 		});
 	}
 
 	// Lowest priority
 	private static void postItemRegistry(RegisterEvent event) {
-		event.register(Registry.ITEM_REGISTRY, helper -> {
+		event.register(Registries.ITEM, helper -> {
 			PluginManager.registerGenetics();
 			PluginManager.registerFarming();
 			PluginManager.registerPollen();
@@ -185,7 +175,7 @@ public class ModuleCore extends BlankForestryModule {
 
 	private static void onTagsUpdated(TagsUpdatedEvent event) {
 		if (event.shouldUpdateStaticData()) {
-			event.getRegistryAccess().registry(Registry.BIOME_REGISTRY).ifPresent(registry -> ((ForestryClimateManager) IForestryApi.INSTANCE.getClimateManager()).onBiomesReloaded(registry));
+			event.getRegistryAccess().registry(Registries.BIOME).ifPresent(registry -> ((ForestryClimateManager) IForestryApi.INSTANCE.getClimateManager()).onBiomesReloaded(registry));
 		}
 	}
 

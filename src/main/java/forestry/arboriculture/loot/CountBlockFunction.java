@@ -17,10 +17,9 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 
 import forestry.arboriculture.blocks.BlockAsh;
+import forestry.core.loot.CoreLootFunctions;
 
 public class CountBlockFunction extends LootItemConditionalFunction {
-	public static LootItemFunctionType type;
-
 	protected CountBlockFunction(LootItemCondition[] conditions) {
 		super(conditions);
 	}
@@ -31,7 +30,7 @@ public class CountBlockFunction extends LootItemConditionalFunction {
 
 	@Override
 	public LootItemFunctionType getType() {
-		return type;
+		return CoreLootFunctions.COUNT.get();
 	}
 
 	@Override

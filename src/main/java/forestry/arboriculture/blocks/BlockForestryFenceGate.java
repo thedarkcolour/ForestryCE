@@ -10,14 +10,13 @@
  ******************************************************************************/
 package forestry.arboriculture.blocks;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.FenceGateBlock;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.core.Direction;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.state.BlockState;
 
 import forestry.api.arboriculture.IWoodType;
 import forestry.api.arboriculture.WoodBlockKind;
@@ -28,9 +27,7 @@ public class BlockForestryFenceGate extends FenceGateBlock implements IWoodTyped
 	private final IWoodType woodType;
 
 	public BlockForestryFenceGate(boolean fireproof, IWoodType woodType) {
-		super(Block.Properties.of(Material.WOOD)
-				.strength(woodType.getHardness(), woodType.getHardness() * 1.5F)
-				.sound(SoundType.WOOD));
+		super(Block.Properties.of().strength(woodType.getHardness(), woodType.getHardness() * 1.5F).sound(SoundType.WOOD), woodType.getFenceGateOpenSound(), woodType.getFenceGateCloseSound());
 		this.fireproof = fireproof;
 		this.woodType = woodType;
 	}

@@ -5,11 +5,9 @@ import com.google.gson.JsonObject;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.function.Function;
 
 import net.minecraft.client.renderer.block.model.BakedQuad;
@@ -23,9 +21,8 @@ import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.Material;
-import net.minecraft.client.resources.model.ModelBakery;
+import net.minecraft.client.resources.model.ModelBaker;
 import net.minecraft.client.resources.model.ModelState;
-import net.minecraft.client.resources.model.UnbakedModel;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
@@ -34,14 +31,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 
 import com.mojang.datafixers.util.Either;
-import com.mojang.datafixers.util.Pair;
-import com.mojang.math.Vector3f;
 
 import net.minecraftforge.client.model.geometry.IGeometryBakingContext;
 import net.minecraftforge.client.model.geometry.IGeometryLoader;
 import net.minecraftforge.client.model.geometry.IUnbakedGeometry;
 
 import forestry.api.ForestryConstants;
+
+import org.joml.Vector3f;
 
 @SuppressWarnings("deprecation")
 public class FilledCrateModel implements IUnbakedGeometry<FilledCrateModel> {
@@ -53,26 +50,19 @@ public class FilledCrateModel implements IUnbakedGeometry<FilledCrateModel> {
 	public static TextureAtlasSprite particle = null;
 
 	private final BlockModel contents;
-	private final List<Material> materials;
 
-	public FilledCrateModel(BlockModel contents, List<Material> materials) {
+	public FilledCrateModel(BlockModel contents) {
 		this.contents = contents;
-		this.materials = materials;
 	}
 
 	@SuppressWarnings("DataFlowIssue")
 	@Override
-	public BakedModel bake(IGeometryBakingContext context, ModelBakery bakery, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ItemOverrides overrides, ResourceLocation modelLocation) {
+	public BakedModel bake(IGeometryBakingContext context, ModelBaker bakery, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ItemOverrides overrides, ResourceLocation modelLocation) {
 		if (cachedBaseModel == null) {
 			cachedBaseModel = bakery.getModel(Loader.FILLED_CRATE_LOCATION).bake(bakery, spriteGetter, modelState, modelLocation);
 		}
 
 		return new Baked(contents.bake(bakery, spriteGetter, modelState, modelLocation), cachedBaseModel);
-	}
-
-	@Override
-	public Collection<Material> getMaterials(IGeometryBakingContext context, Function<ResourceLocation, UnbakedModel> modelGetter, Set<Pair<String, String>> missingTextureErrors) {
-		return materials;
 	}
 
 	public static class Loader implements IGeometryLoader<FilledCrateModel> {
@@ -99,7 +89,7 @@ public class FilledCrateModel implements IUnbakedGeometry<FilledCrateModel> {
 			BlockModel contents = new BlockModel(FILLED_CRATE_LOCATION, elements, textureMap, false, BlockModel.GuiLight.FRONT, ItemTransforms.NO_TRANSFORMS, List.of());
 			materials.trimToSize();
 
-			return new FilledCrateModel(contents, materials);
+			return new FilledCrateModel(contents);
 		}
 	}
 

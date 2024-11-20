@@ -27,7 +27,7 @@ public class ContainerBeeHousing extends ContainerAnalyzerProvider<TileBeeHousin
 	private final GuiBeeHousing.Icon icon;
 
 	public static ContainerBeeHousing fromNetwork(int windowId, Inventory inv, FriendlyByteBuf buffer) {
-		TileBeeHousingBase tile = TileUtil.getTile(inv.player.level, buffer.readBlockPos(), TileBeeHousingBase.class);
+		TileBeeHousingBase tile = TileUtil.getTile(inv.player.level(), buffer.readBlockPos(), TileBeeHousingBase.class);
 		boolean hasFrames = buffer.readBoolean();
 		GuiBeeHousing.Icon icon = NetworkUtil.readEnum(buffer, GuiBeeHousing.Icon.VALUES);
 		return new ContainerBeeHousing(windowId, inv, tile, hasFrames, icon);    //TODO nullability.

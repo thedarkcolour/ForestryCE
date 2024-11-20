@@ -14,9 +14,8 @@ import forestry.cultivation.inventory.InventoryPlanter;
 import forestry.cultivation.tiles.TilePlanter;
 
 public class ContainerPlanter extends ContainerLiquidTanks<TilePlanter> {
-
 	public static ContainerPlanter fromNetwork(int windowId, Inventory playerInv, FriendlyByteBuf extraData) {
-		TilePlanter planter = TileUtil.getTile(playerInv.player.level, extraData.readBlockPos(), TilePlanter.class);
+		TilePlanter planter = TileUtil.getTile(playerInv.player.level(), extraData.readBlockPos(), TilePlanter.class);
 		return new ContainerPlanter(windowId, playerInv, planter);
 	}
 

@@ -95,12 +95,6 @@ public class ModuleApiculture extends BlankForestryModule {
 		BeeManager.armorApiaristHelper = new ArmorApiaristHelper();
 	}
 
-	//@Override
-	//public void doInit() {
-	//	// TODO move to apiculture registration
-	//	// Inducers for swarmer
-	//	BeeManager.inducers.put(ApicultureItems.ROYAL_JELLY.stack(), 10);
-	//}
 /*
 
 	// todo replace with tags "acceptable flowers," "plantable flowers," where plantable is subset of acceptable

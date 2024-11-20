@@ -30,7 +30,7 @@ public interface IButterfly extends IIndividualLiving {
 	boolean canTakeFlight(Level level, double x, double y, double z);
 
 	default boolean isAcceptedEnvironment(Level level, double x, double y, double z) {
-		return isAcceptedEnvironment(level, new BlockPos(x, y, z));
+		return isAcceptedEnvironment(level, BlockPos.containing(x, y, z));
 	}
 
 	boolean isAcceptedEnvironment(Level world, BlockPos pos);

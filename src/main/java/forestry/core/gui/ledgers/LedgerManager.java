@@ -14,10 +14,10 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.Rect2i;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -132,7 +132,7 @@ public class LedgerManager {
 		return areas;
 	}
 
-	public void drawLedgers(PoseStack transform) {
+	public void drawLedgers(GuiGraphics transform) {
 		int yPos = 8;
 		for (Ledger ledger : ledgers) {
 
@@ -171,12 +171,12 @@ public class LedgerManager {
 		RenderSystem.setShaderColor(1, 1, 1, 1);
 	}
 
-	public void drawTooltips(PoseStack transform, int mouseX, int mouseY) {
+	public void drawTooltips(GuiGraphics graphics, int mouseX, int mouseY) {
 		Ledger ledger = getAtPosition(mouseX, mouseY);
 		if (ledger != null) {
 			ToolTip toolTip = new ToolTip();
 			toolTip.add(ledger.getTooltip());
-			GuiUtil.drawToolTips(transform, gui, null, toolTip, mouseX, mouseY);
+			GuiUtil.drawToolTips(graphics, gui, null, toolTip, mouseX, mouseY);
 		}
 	}
 

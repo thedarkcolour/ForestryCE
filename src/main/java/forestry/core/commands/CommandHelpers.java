@@ -10,11 +10,11 @@ public class CommandHelpers {
 	public static final Predicate<CommandSourceStack> ADMIN = sender -> sender.hasPermission(2);
 
 	public static void sendLocalizedChatMessage(CommandSourceStack sender, String locTag, Object... args) {
-		sender.sendSuccess(Component.translatable(locTag, args), false);
+		sender.sendSuccess(() -> Component.translatable(locTag, args), false);
 	}
 
 	public static void sendLocalizedChatMessage(CommandSourceStack sender, Style chatStyle, String locTag, Object... args) {
-		sender.sendSuccess(Component.translatable(locTag, args).setStyle(chatStyle), false);
+		sender.sendSuccess(() -> Component.translatable(locTag, args).setStyle(chatStyle), false);
 	}
 
 	/**
@@ -25,6 +25,6 @@ public class CommandHelpers {
 	 * Messages will not be localized properly if you use StringUtil.localize().
 	 */
 	public static void sendChatMessage(CommandSourceStack sender, Component message) {
-		sender.sendSuccess(message, false);
+		sender.sendSuccess(() -> message, false);
 	}
 }

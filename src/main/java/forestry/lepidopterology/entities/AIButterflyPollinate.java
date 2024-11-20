@@ -21,7 +21,7 @@ public class AIButterflyPollinate extends AIButterflyInteract {
 
 	@Override
 	protected boolean canInteract() {
-		return this.rest != null && IForestryApi.INSTANCE.getPollenManager().canPollinate(entity.level, rest, entity.getButterfly());
+		return this.rest != null && IForestryApi.INSTANCE.getPollenManager().canPollinate(entity.level(), rest, entity.getButterfly());
 	}
 
 	@Override
@@ -31,9 +31,9 @@ public class AIButterflyPollinate extends AIButterflyInteract {
 			IPollen<?> butterflyPollen = entity.getPollen();
 
 			if (butterflyPollen == null) {
-				entity.setPollen(pollens.getPollen(entity.level, rest, entity.getButterfly()));
+				entity.setPollen(pollens.getPollen(entity.level(), rest, entity.getButterfly()));
 				entity.changeExhaustion(-entity.getExhaustion());
-			} else if (butterflyPollen.tryPollinate(entity.level, rest, entity.getPollen())) {
+			} else if (butterflyPollen.tryPollinate(entity.level(), rest, entity.getPollen())) {
 				entity.setPollen(null);
 			}
 			setHasInteracted();

@@ -15,6 +15,7 @@ import com.google.gson.JsonObject;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.game.ClientboundUpdateRecipesPacket;
 import net.minecraft.resources.ResourceLocation;
@@ -31,6 +32,7 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.fluids.FluidStack;
 
 import forestry.api.recipes.ICarpenterRecipe;
+import forestry.core.utils.RecipeUtils;
 import forestry.factory.features.FactoryRecipeTypes;
 
 public class CarpenterRecipe implements ICarpenterRecipe {
@@ -39,6 +41,7 @@ public class CarpenterRecipe implements ICarpenterRecipe {
 	private final FluidStack liquid;
 	private final Ingredient box;
 	private final CraftingRecipe recipe;
+	@Nullable
 	private final ItemStack result;
 
 	public CarpenterRecipe(ResourceLocation id, int packagingTime, FluidStack liquid, Ingredient box, CraftingRecipe recipe, @Nullable ItemStack result) {
@@ -51,7 +54,7 @@ public class CarpenterRecipe implements ICarpenterRecipe {
 		this.liquid = liquid;
 		this.box = box;
 		this.recipe = recipe;
-		this.result = result != null ? result : recipe.getResultItem();
+		this.result = result;
 	}
 
 	@Override
@@ -75,8 +78,8 @@ public class CarpenterRecipe implements ICarpenterRecipe {
 	}
 
 	@Override
-	public ItemStack getResultItem() {
-		return this.result;
+	public ItemStack getResultItem(RegistryAccess registryAccess) {
+		return this.result != null ? this.result : this.recipe.getResultItem(RecipeUtils.getRegistryAccess());
 	}
 
 	@Override
@@ -118,7 +121,7 @@ public class CarpenterRecipe implements ICarpenterRecipe {
 			FluidStack liquid = json.has("liquid") ? RecipeSerializers.deserializeFluid(GsonHelper.getAsJsonObject(json, "liquid")) : FluidStack.EMPTY;
 			Ingredient box = RecipeSerializers.deserialize(json.get("box"));
 			CraftingRecipe internal = (CraftingRecipe) RecipeManager.fromJson(recipeId, GsonHelper.getAsJsonObject(json, "recipe"));
-			ItemStack result = json.has("result") ? RecipeSerializers.item(GsonHelper.getAsJsonObject(json, "result")) : internal.getResultItem();
+			ItemStack result = json.has("result") ? RecipeSerializers.item(GsonHelper.getAsJsonObject(json, "result")) : null;
 
 			return new CarpenterRecipe(recipeId, packagingTime, liquid, box, internal, result);
 		}

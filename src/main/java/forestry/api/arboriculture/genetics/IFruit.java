@@ -19,10 +19,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.TextureStitchEvent;
-
 import forestry.api.core.IProduct;
 import forestry.api.core.IProductProducer;
 import forestry.api.core.ISpecialtyProducer;
@@ -115,9 +111,9 @@ public interface IFruit extends IRegistryAlleleValue, IProductProducer, ISpecial
 	 */
 	boolean trySpawnFruitBlock(IGenome genome, LevelAccessor world, RandomSource rand, BlockPos pos);
 
-	@OnlyIn(Dist.CLIENT)
-	default void registerSprites(TextureStitchEvent.Pre event) {
-	}
+	// Replaced with atlas JSONs pointing to the BLOCK atlas.
+	//default void registerSprites(TextureStitchEvent.Pre event) {
+	//}
 
 	/**
 	 * Tag for the log that a pod fruit is placed on

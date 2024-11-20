@@ -19,11 +19,9 @@ import forestry.api.apiculture.BeeManager;
 import forestry.api.apiculture.IBeeHousing;
 import forestry.api.genetics.IEffectData;
 import forestry.api.genetics.IGenome;
-import forestry.core.utils.DamageSourceForestry;
+import forestry.core.damage.CoreDamageTypes;
 
 public class MisanthropeBeeEffect extends ThrottledBeeEffect {
-	private static final DamageSource damageSourceBeeEnd = new DamageSourceForestry("bee.end");
-
 	public MisanthropeBeeEffect() {
 		super(true, 20, false, false);
 	}
@@ -41,7 +39,7 @@ public class MisanthropeBeeEffect extends ThrottledBeeEffect {
 				continue;
 			}
 
-			player.hurt(damageSourceBeeEnd, damage);
+			player.hurt(new DamageSource(CoreDamageTypes.MISANTHROPE.getHolder().get()), damage);
 		}
 
 		return storedData;

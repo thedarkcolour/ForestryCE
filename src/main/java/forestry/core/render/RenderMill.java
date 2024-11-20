@@ -26,7 +26,7 @@ import net.minecraft.util.Mth;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 
 import forestry.api.ForestryConstants;
 import forestry.core.tiles.TileMill;
@@ -72,7 +72,7 @@ public class RenderMill implements BlockEntityRenderer<TileMill> {
 		partdefinition.addOrReplaceChild(Textures.EXTENSION.name(), CubeListBuilder.create().texOffs(0, 0)
 				.addBox(0f, 0f, 0f, 14, 2, 2), PartPose.offset(1, 8, 7));
 		partdefinition.addOrReplaceChild(Textures.BLADE.name(), CubeListBuilder.create().texOffs(0, 0)
-				.addBox(0f, 0f, 0f,  1, 12, 8), PartPose.offset(10, 3, 4));
+				.addBox(0f, 0f, 0f, 1, 12, 8), PartPose.offset(10, 3, 4));
 
 		return LayerDefinition.create(meshdefinition, 64, 32);
 	}
@@ -96,7 +96,7 @@ public class RenderMill implements BlockEntityRenderer<TileMill> {
 		this.blade.render(stack, buffer, light, overlay);
 		stack.popPose();
 		stack.translate(1, 0, 1);
-		stack.mulPose(Vector3f.YP.rotation(Mth.PI));
+		stack.mulPose(Axis.YP.rotation(Mth.PI));
 		stack.translate(step, 0, 0);
 		this.blade.render(stack, buffer, light, overlay);
 

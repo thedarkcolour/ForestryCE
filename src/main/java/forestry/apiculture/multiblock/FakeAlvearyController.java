@@ -15,12 +15,13 @@ import java.util.Collections;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.phys.Vec3;
 
 import com.mojang.authlib.GameProfile;
+
+import net.minecraftforge.registries.ForgeRegistries;
 
 import forestry.api.apiculture.IBeeHousingInventory;
 import forestry.api.apiculture.IBeeListener;
@@ -88,7 +89,7 @@ public enum FakeAlvearyController implements FakeMultiblockController, IAlvearyC
 
 	@Override
 	public Holder<Biome> getBiome() {
-		return BuiltinRegistries.BIOME.getHolderOrThrow(Biomes.PLAINS);
+		return ForgeRegistries.BIOMES.getDelegateOrThrow(Biomes.PLAINS);
 	}
 
 	@Override

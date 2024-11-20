@@ -13,7 +13,7 @@ import forestry.energy.tiles.BiogasEngineBlockEntity;
 
 public class BiogasEngineMenu extends ContainerLiquidTanks<BiogasEngineBlockEntity> {
 	public static BiogasEngineMenu fromNetwork(int windowId, Inventory inv, FriendlyByteBuf extraData) {
-		BiogasEngineBlockEntity tile = TileUtil.getTile(inv.player.level, extraData.readBlockPos(), BiogasEngineBlockEntity.class);
+		BiogasEngineBlockEntity tile = TileUtil.getTile(inv.player.level(), extraData.readBlockPos(), BiogasEngineBlockEntity.class);
 		return new BiogasEngineMenu(windowId, inv, tile);
 	}
 

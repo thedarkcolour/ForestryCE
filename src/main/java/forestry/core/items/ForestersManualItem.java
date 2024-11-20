@@ -1,24 +1,22 @@
 package forestry.core.items;
 
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.core.Registry;
 import net.minecraft.world.level.Level;
 
-import forestry.api.core.ItemGroups;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import vazkii.patchouli.api.PatchouliAPI;
 
 public class ForestersManualItem extends Item {
-
 	public ForestersManualItem() {
-		super(new ItemProperties().tab(ItemGroups.tabForestry));
+		super(new ItemProperties());
 	}
 
 	@Override
@@ -26,7 +24,7 @@ public class ForestersManualItem extends Item {
 		ItemStack stack = player.getItemInHand(hand);
 
 		if (player instanceof ServerPlayer) {
-			PatchouliAPI.get().openBookGUI((ServerPlayer) player, Registry.ITEM.getKey(this));
+			PatchouliAPI.get().openBookGUI((ServerPlayer) player, ForgeRegistries.ITEMS.getKey(this));
 			player.playSound(SoundEvents.BOOK_PAGE_TURN, 1F, (float) (0.7 + Math.random() * 0.4));
 		}
 

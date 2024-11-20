@@ -8,7 +8,7 @@ import java.util.Set;
 import java.util.function.Predicate;
 
 import net.minecraft.core.Holder;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
@@ -35,7 +35,6 @@ import forestry.apiculture.blocks.BlockTypeApiculture;
 import forestry.apiculture.features.ApicultureBlocks;
 import forestry.apiculture.features.ApicultureItems;
 import forestry.apiculture.items.EnumPropolis;
-import forestry.apiculture.items.ItemHoneyComb;
 import forestry.core.registration.VillagerTrade;
 import forestry.core.registration.VillagerTrade.GiveEmeraldForItem;
 import forestry.core.registration.VillagerTrade.GiveItemForEmeralds;
@@ -53,8 +52,8 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 public class ApicultureVillagers {
 	private static final IFeatureRegistry REGISTRY = ModFeatureRegistry.get(ForestryModuleIds.APICULTURE);
 
-	private static final DeferredRegister<PoiType> POINTS_OF_INTEREST = REGISTRY.getRegistry(Registry.POINT_OF_INTEREST_TYPE_REGISTRY);
-	private static final DeferredRegister<VillagerProfession> PROFESSIONS = REGISTRY.getRegistry(Registry.VILLAGER_PROFESSION_REGISTRY);
+	private static final DeferredRegister<PoiType> POINTS_OF_INTEREST = REGISTRY.getRegistry(Registries.POINT_OF_INTEREST_TYPE);
+	private static final DeferredRegister<VillagerProfession> PROFESSIONS = REGISTRY.getRegistry(Registries.VILLAGER_PROFESSION);
 
 	public static final RegistryObject<PoiType> POI_APIARY = POINTS_OF_INTEREST.register("apiary", () -> new PoiType(Set.copyOf(ApicultureBlocks.BASE.get(BlockTypeApiculture.APIARY).block().getStateDefinition().getPossibleStates()), 1, 1));
 	public static final RegistryObject<VillagerProfession> PROF_BEEKEEPER = PROFESSIONS.register("beekeeper", () -> {
@@ -66,7 +65,7 @@ public class ApicultureVillagers {
 	public static void villagerTrades(VillagerTradesEvent event) {
 		if (event.getType().equals(PROF_BEEKEEPER.get())) {
 			Int2ObjectMap<List<VillagerTrades.ItemListing>> trades = event.getTrades();
-			List<Item> combs = ServerLifecycleHooks.getCurrentServer().registryAccess().registryOrThrow(Registry.ITEM_REGISTRY).getTag(ForestryTags.Items.VILLAGE_COMBS).get().stream()
+			List<Item> combs = ServerLifecycleHooks.getCurrentServer().registryAccess().registryOrThrow(Registries.ITEM).getTag(ForestryTags.Items.VILLAGE_COMBS).get().stream()
 					.map(Holder::get)
 					.toList();
 

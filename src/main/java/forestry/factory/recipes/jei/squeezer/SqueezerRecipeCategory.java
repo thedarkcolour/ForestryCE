@@ -2,10 +2,9 @@ package forestry.factory.recipes.jei.squeezer;
 
 import java.util.List;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import forestry.api.ForestryConstants;
 import forestry.api.recipes.ISqueezerRecipe;
@@ -32,7 +31,7 @@ import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 
 public class SqueezerRecipeCategory extends ForestryRecipeCategory<ISqueezerRecipe> {
-	private static final ResourceLocation guiTexture = ForestryConstants.forestry(Constants.TEXTURE_PATH_GUI + "/squeezersocket.png");
+	private static final ResourceLocation TEXTURE = ForestryConstants.forestry(Constants.TEXTURE_PATH_GUI + "/squeezersocket.png");
 
 	private final IDrawableAnimated arrow;
 	private final IDrawable tankOverlay;
@@ -40,11 +39,11 @@ public class SqueezerRecipeCategory extends ForestryRecipeCategory<ISqueezerReci
 	private final ICraftingGridHelper craftingGridHelper;
 
 	public SqueezerRecipeCategory(IGuiHelper guiHelper) {
-		super(guiHelper.createDrawable(guiTexture, 9, 16, 158, 62), "block.forestry.squeezer");
+		super(guiHelper.createDrawable(TEXTURE, 9, 16, 158, 62), "block.forestry.squeezer");
 
-		IDrawableStatic arrowDrawable = guiHelper.createDrawable(guiTexture, 176, 60, 43, 18);
+		IDrawableStatic arrowDrawable = guiHelper.createDrawable(TEXTURE, 176, 60, 43, 18);
 		this.arrow = guiHelper.createAnimatedDrawable(arrowDrawable, 200, IDrawableAnimated.StartDirection.LEFT, false);
-		this.tankOverlay = guiHelper.createDrawable(guiTexture, 176, 0, 16, 58);
+		this.tankOverlay = guiHelper.createDrawable(TEXTURE, 176, 0, 16, 58);
 		ItemStack squeezer = new ItemStack(FactoryBlocks.TESR.get(BlockTypeFactoryTesr.SQUEEZER).block());
 		this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, squeezer);
 		this.craftingGridHelper = guiHelper.createCraftingGridHelper();
@@ -76,7 +75,7 @@ public class SqueezerRecipeCategory extends ForestryRecipeCategory<ISqueezerReci
 	}
 
 	@Override
-	public void draw(ISqueezerRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX, double mouseY) {
-		arrow.draw(stack, 67, 25);
+	public void draw(ISqueezerRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics graphics, double mouseX, double mouseY) {
+		this.arrow.draw(graphics, 67, 25);
 	}
 }

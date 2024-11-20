@@ -22,6 +22,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.biome.Biome;
 
+import forestry.api.ForestryTags;
 import forestry.apiculture.blocks.BlockHiveType;
 import forestry.api.apiculture.hives.IHiveDefinition;
 import forestry.api.apiculture.hives.IHiveGen;
@@ -40,7 +41,7 @@ public class HiveDefinitionSwarmer implements IHiveDefinition {
 
 	@Override
 	public IHiveGen getHiveGen() {
-		return new HiveGenGround(Blocks.DIRT, Blocks.GRASS);
+		return new HiveGenGround(ForestryTags.Blocks.SWARM_BEE_GROUND);
 	}
 
 	@Override

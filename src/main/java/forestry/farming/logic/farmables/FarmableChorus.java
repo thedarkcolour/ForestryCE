@@ -50,7 +50,7 @@ public enum FarmableChorus implements IFarmable {
 
 	@Override
 	public boolean isGermling(ItemStack stack) {
-		return ItemStack.isSame(germling, stack);
+		return ItemStack.isSameItem(this.germling, stack);
 	}
 
 	@Override
@@ -66,7 +66,7 @@ public enum FarmableChorus implements IFarmable {
 
 	@Override
 	public boolean isWindfall(ItemStack stack) {
-		return ItemStack.isSame(fruit, stack);
+		return ItemStack.isSameItem(this.fruit, stack);
 	}
 
 	@Override

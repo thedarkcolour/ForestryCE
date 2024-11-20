@@ -416,6 +416,8 @@ public class DefaultBeeSpecies {
 							.restrictTemperature(TemperatureType.ICY, TemperatureType.COLD);
 				})
 				.setGlint(true);
+		// todo move to IC2 plugin when that's ported
+/*
 
 		// Vindictive
 		apiculture.registerSpecies(ForestryBeeSpecies.VINDICTIVE, GENUS_VENGEFUL, SPECIES_VINDICTIVE, false, new Color(0xeafff3))
@@ -454,6 +456,7 @@ public class DefaultBeeSpecies {
 				})
 				.setGlint(true)
 				.setSecret(true);
+*/
 
 		// Leporine (Easter secret)
 		apiculture.registerSpecies(ForestryBeeSpecies.LEPORINE, GENUS_FESTIVE, SPECIES_LEPORINE, false, new Color(0xfeff8f))

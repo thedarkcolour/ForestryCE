@@ -33,7 +33,6 @@ import forestry.api.genetics.ForestrySpeciesTypes;
 import forestry.api.genetics.IAlyzerPlugin;
 import forestry.api.genetics.IBreedingTracker;
 import forestry.api.genetics.IIndividual;
-import forestry.api.genetics.ILifeStage;
 import forestry.api.genetics.IMutationManager;
 import forestry.api.genetics.alleles.ButterflyChromosomes;
 import forestry.api.genetics.alleles.IKaryotype;
@@ -98,7 +97,7 @@ public class ButterflySpeciesType extends SpeciesType<IButterflySpecies, IButter
 
 	@Override
 	public EntityButterfly spawnButterflyInWorld(Level level, IButterfly butterfly, double x, double y, double z) {
-		return EntityUtil.spawnEntity(level, EntityButterfly.create(LepidopterologyEntities.BUTTERFLY.entityType(), level, butterfly, new BlockPos(x, y, z)), x, y, z);
+		return EntityUtil.spawnEntity(level, EntityButterfly.create(LepidopterologyEntities.BUTTERFLY.entityType(), level, butterfly, BlockPos.containing(x, y, z)), x, y, z);
 	}
 
 	@Nullable

@@ -60,7 +60,7 @@ public class ApiaristAI extends MoveToBlockGoal {
 		BlockPos housePos = this.blockPos.north().above();
 		this.villager.getLookControl().setLookAt(housePos.getX() + 0.5D, housePos.getY(), housePos.getZ() + 0.5D, 10.0F, this.villager.getMaxHeadXRot());
 		if (this.isReachedTarget()) {
-			Level world = this.villager.level;
+			Level world = this.villager.level();
 
 			TileBeeHouse beeHouse = (TileBeeHouse) TileUtil.getTile(world, housePos);
 			if (beeHouse == null) {

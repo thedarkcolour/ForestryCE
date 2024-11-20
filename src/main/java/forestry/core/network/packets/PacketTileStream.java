@@ -59,7 +59,7 @@ public class PacketTileStream implements IForestryPacketClient {
 	}
 
 	public static void handle(PacketTileStream msg, Player player) {
-		IStreamable tile = TileUtil.getTile(player.level, msg.pos, IStreamable.class);
+		IStreamable tile = TileUtil.getTile(player.level(), msg.pos, IStreamable.class);
 
 		if (tile != null) {
 			tile.readData(msg.payload);

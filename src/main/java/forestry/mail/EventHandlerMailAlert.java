@@ -11,6 +11,7 @@
 package forestry.mail;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -37,8 +38,8 @@ public class EventHandlerMailAlert {
 	public void onRenderTick(TickEvent.RenderTickEvent event) {
 		if (event.phase == TickEvent.Phase.END && Minecraft.getInstance().level != null && GuiMailboxInfo.INSTANCE.hasPOBoxInfo()) {
 			if (ForestryConfig.CLIENT.mailAlertsEnabled.get()) {
-				//TODO: Test / Find a valid matrix stack
-				GuiMailboxInfo.INSTANCE.render(new PoseStack());
+				// todo find the necessary GuiGraphics object for this to render
+				//GuiMailboxInfo.INSTANCE.render(new GuiGraphics());
 			}
 		}
 	}
@@ -48,7 +49,7 @@ public class EventHandlerMailAlert {
 		Player player = event.getEntity();
 
 		IMailAddress address = PostManager.postRegistry.getMailAddress(player.getGameProfile());
-		POBox pobox = PostRegistry.getOrCreatePOBox((ServerLevel) player.level, address);
+		POBox pobox = PostRegistry.getOrCreatePOBox((ServerLevel) player.level(), address);
 		PacketPOBoxInfoResponse packet = new PacketPOBoxInfoResponse(pobox.getPOBoxInfo());
 		NetworkUtil.sendToPlayer(packet, (ServerPlayer) player);
 	}

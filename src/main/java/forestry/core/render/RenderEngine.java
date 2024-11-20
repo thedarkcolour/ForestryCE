@@ -16,7 +16,7 @@ import net.minecraft.util.Mth;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 
 import forestry.api.ForestryConstants;
 import forestry.core.config.Constants;
@@ -90,8 +90,8 @@ public class RenderEngine implements BlockEntityRenderer<EngineBlockEntity> {
 		stack.translate(0.5, 0.5, 0.5);
 		Direction orientation = engine.getBlockState().getValue(EngineBlock.VERTICAL_FACING);
 		switch (orientation) {
-			case EAST, WEST, DOWN -> stack.mulPose(Vector3f.ZP.rotation(ANGLE_MAP[orientation.ordinal()]));
-			default -> stack.mulPose(Vector3f.XP.rotation(ANGLE_MAP[orientation.ordinal()]));
+			case EAST, WEST, DOWN -> stack.mulPose(Axis.ZP.rotation(ANGLE_MAP[orientation.ordinal()]));
+			default -> stack.mulPose(Axis.XP.rotation(ANGLE_MAP[orientation.ordinal()]));
 		}
 		stack.translate(-0.5, -0.5, -0.5);
 

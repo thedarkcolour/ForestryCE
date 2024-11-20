@@ -22,7 +22,6 @@ import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.Vec3;
 
 public class AIAvoidPlayers extends Goal {
-
 	private final PathfinderMob mob;
 	private final PathNavigation pathNavigator;
 
@@ -47,8 +46,7 @@ public class AIAvoidPlayers extends Goal {
 
 	@Override
 	public boolean canUse() {
-
-		player = mob.level.getNearestPlayer(mob, minDistance);
+		player = mob.level().getNearestPlayer(mob, minDistance);
 
 		if (player == null) {
 			return false;

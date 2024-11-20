@@ -21,7 +21,6 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
-import net.minecraft.world.level.material.Material;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -32,15 +31,14 @@ import forestry.api.arboriculture.TreeManager;
 import forestry.arboriculture.charcoal.CharcoalManager;
 import forestry.arboriculture.features.CharcoalBlocks;
 
-// TODO: Fix propagation, aging
-public class BlockWoodPile extends Block {
+public class LogPileBlock extends Block {
 	public static final BooleanProperty IS_ACTIVE = BooleanProperty.create("active");
 	public static final IntegerProperty AGE = BlockStateProperties.AGE_7;
 	public static final int RANDOM_TICK = 160;
 	public static final int TICK_RATE = 960;
 
-	public BlockWoodPile() {
-		super(Block.Properties.of(Material.WOOD).strength(1.5f).sound(SoundType.WOOD).noOcclusion());
+	public LogPileBlock() {
+		super(Block.Properties.of().strength(1.5f).sound(SoundType.WOOD).noOcclusion());
 		registerDefaultState(getStateDefinition().any().setValue(AGE, 0).setValue(IS_ACTIVE, false));
 	}
 

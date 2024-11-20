@@ -59,7 +59,7 @@ public class FarmableStacked implements IFarmable {
 
 	@Override
 	public boolean isGermling(ItemStack stack) {
-		return ItemStack.isSame(germling, stack);
+		return ItemStack.isSameItem(germling, stack);
 	}
 
 	@Override

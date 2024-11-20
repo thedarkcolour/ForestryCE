@@ -22,7 +22,7 @@ import forestry.core.tiles.TileUtil;
 
 public class ContainerAlvearyHygroregulator extends ContainerLiquidTanks<TileAlvearyHygroregulator> {
 	public static ContainerAlvearyHygroregulator fromNetwork(int windowId, Inventory inv, FriendlyByteBuf data) {
-		TileAlvearyHygroregulator tile = TileUtil.getTile(inv.player.level, data.readBlockPos(), TileAlvearyHygroregulator.class);
+		TileAlvearyHygroregulator tile = TileUtil.getTile(inv.player.level(), data.readBlockPos(), TileAlvearyHygroregulator.class);
 		return new ContainerAlvearyHygroregulator(windowId, inv, tile);
 	}
 

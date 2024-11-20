@@ -301,10 +301,7 @@ public abstract class InventoryUtil {
 			if (!inventoryStack.isStackable()) {
 				continue;
 			}
-			if (!inventoryStack.sameItem(stack)) {
-				continue;
-			}
-			if (!ItemStack.tagMatches(inventoryStack, stack)) {
+			if (!ItemStack.isSameItemSameTags(inventoryStack, stack)) {
 				continue;
 			}
 
@@ -347,12 +344,11 @@ public abstract class InventoryUtil {
 		return added;
 	}
 
-	public static boolean stowInInventory(ItemStack itemstack, Container inventory, boolean doAdd) {
-		return stowInInventory(itemstack, inventory, doAdd, 0, inventory.getContainerSize());
+	public static boolean stowInInventory(ItemStack stack, Container inventory, boolean doAdd) {
+		return stowInInventory(stack, inventory, doAdd, 0, inventory.getContainerSize());
 	}
 
-	public static boolean stowInInventory(ItemStack itemstack, Container inventory, boolean doAdd, int slot1, int count) {
-
+	public static boolean stowInInventory(ItemStack stack, Container inventory, boolean doAdd, int slot1, int count) {
 		boolean added = false;
 
 		for (int i = slot1; i < slot1 + count; i++) {
@@ -361,8 +357,8 @@ public abstract class InventoryUtil {
 			// Grab those free slots
 			if (inventoryStack.isEmpty()) {
 				if (doAdd) {
-					inventory.setItem(i, itemstack.copy());
-					itemstack.setCount(0);
+					inventory.setItem(i, stack.copy());
+					stack.setCount(0);
 				}
 				return true;
 			}
@@ -373,27 +369,24 @@ public abstract class InventoryUtil {
 			}
 
 			// Not same type
-			if (!inventoryStack.sameItem(itemstack)) {
-				continue;
-			}
-			if (!ItemStack.tagMatches(inventoryStack, itemstack)) {
+			if (!ItemStack.isSameItemSameTags(inventoryStack, stack)) {
 				continue;
 			}
 
 			int space = inventoryStack.getMaxStackSize() - inventoryStack.getCount();
 
 			// Enough space to add all
-			if (space > itemstack.getCount()) {
+			if (space > stack.getCount()) {
 				if (doAdd) {
-					inventoryStack.grow(itemstack.getCount());
-					itemstack.setCount(0);
+					inventoryStack.grow(stack.getCount());
+					stack.setCount(0);
 				}
 				return true;
 				// Only part can be added
 			} else {
 				if (doAdd) {
 					inventoryStack.setCount(inventoryStack.getMaxStackSize());
-					itemstack.shrink(space);
+					stack.shrink(space);
 				}
 				added = true;
 			}

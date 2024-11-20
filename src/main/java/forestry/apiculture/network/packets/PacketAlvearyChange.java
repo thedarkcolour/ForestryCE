@@ -15,8 +15,8 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 
-import forestry.api.multiblock.IMultiblockComponent;
 import forestry.api.modules.IForestryPacketClient;
+import forestry.api.multiblock.IMultiblockComponent;
 import forestry.core.network.PacketIdClient;
 import forestry.core.tiles.TileUtil;
 
@@ -36,6 +36,6 @@ public record PacketAlvearyChange(BlockPos pos) implements IForestryPacketClient
 	}
 
 	public static void handle(PacketAlvearyChange msg, Player player) {
-		TileUtil.actOnTile(player.level, msg.pos, IMultiblockComponent.class, tile -> tile.getMultiblockLogic().getController().reassemble());
+		TileUtil.actOnTile(player.level(), msg.pos, IMultiblockComponent.class, tile -> tile.getMultiblockLogic().getController().reassemble());
 	}
 }

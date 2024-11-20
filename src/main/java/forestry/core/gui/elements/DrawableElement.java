@@ -1,6 +1,6 @@
 package forestry.core.gui.elements;
 
-import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.GuiGraphics;
 
 import forestry.core.gui.Drawable;
 
@@ -19,10 +19,10 @@ public class DrawableElement extends GuiElement {
 	}
 
 	@Override
-	public void drawElement(PoseStack transform, int mouseX, int mouseY) {
+	public void drawElement(GuiGraphics graphics, int mouseX, int mouseY) {
 		if (bounds == null) {
 			return;
 		}
-		drawable.draw(transform, 0, bounds.width, bounds.height, 0);
+		drawable.draw(graphics, 0, bounds.width, bounds.height, 0);
 	}
 }

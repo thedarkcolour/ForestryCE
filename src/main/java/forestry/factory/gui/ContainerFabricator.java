@@ -10,12 +10,12 @@
  ******************************************************************************/
 package forestry.factory.gui;
 
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.Container;
-import net.minecraft.world.inventory.ContainerListener;
-import net.minecraft.world.inventory.Slot;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.Container;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.ContainerListener;
 import net.minecraft.world.inventory.SimpleContainerData;
+import net.minecraft.world.inventory.Slot;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -32,10 +32,9 @@ import forestry.factory.inventory.InventoryFabricator;
 import forestry.factory.tiles.TileFabricator;
 
 public class ContainerFabricator extends ContainerLiquidTanks<TileFabricator> implements IContainerCrafting {
-
 	public static ContainerFabricator fromNetwork(int windowId, Inventory inv, FriendlyByteBuf data) {
-		TileFabricator tile = TileUtil.getTile(inv.player.level, data.readBlockPos(), TileFabricator.class);
-		return new ContainerFabricator(windowId, inv, tile);    //TODO nullability.
+		TileFabricator tile = TileUtil.getTile(inv.player.level(), data.readBlockPos(), TileFabricator.class);
+		return new ContainerFabricator(windowId, inv, tile);
 	}
 
 	public ContainerFabricator(int windowId, Inventory playerInventory, TileFabricator tile) {
@@ -68,11 +67,9 @@ public class ContainerFabricator extends ContainerLiquidTanks<TileFabricator> im
 
 	@Override
 	public void onCraftMatrixChanged(Container iinventory, int slot) {
-
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
 	public void setData(int messageId, int data) {
 		super.setData(messageId, data);
 

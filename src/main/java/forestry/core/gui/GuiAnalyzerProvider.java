@@ -2,12 +2,11 @@ package forestry.core.gui;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import forestry.api.genetics.gatgets.IGeneticAnalyzer;
 import forestry.api.genetics.gatgets.IGeneticAnalyzerProvider;
@@ -83,7 +82,7 @@ public abstract class GuiAnalyzerProvider<C extends AbstractContainerMenu & ICon
 		analyzer.setVisible(!deactivated && analyzerVisible);
 	}
 
-	protected abstract void drawSelectedSlot(PoseStack transform, int selectedSlot);
+	protected abstract void drawSelectedSlot(GuiGraphics graphics, int selectedSlot);
 
 	/* Methods - Implement GuiScreen */
 	@Override
@@ -102,7 +101,7 @@ public abstract class GuiAnalyzerProvider<C extends AbstractContainerMenu & ICon
 	}
 
 	@Override
-	public void render(PoseStack transform, int mouseX, int mouseY, float partialTicks) {
+	public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
 		boolean ledger = hasErrors();
 		if (!deactivated && ledger || !ledger && deactivated) {
 			deactivated = ledger;
@@ -118,7 +117,7 @@ public abstract class GuiAnalyzerProvider<C extends AbstractContainerMenu & ICon
 			analyzer.update();
 			dirty = false;
 		}
-		super.render(transform, mouseX, mouseY, partialTicks);
+		super.render(graphics, mouseX, mouseY, partialTicks);
 
 		//Called after first render, so the item element was laid out
 		if (slotDirty) {
@@ -147,13 +146,13 @@ public abstract class GuiAnalyzerProvider<C extends AbstractContainerMenu & ICon
 
 	/* Methods - Implement GuiContainer */
 	@Override
-	protected void renderBg(PoseStack transform, float partialTicks, int mouseX, int mouseY) {
-		super.renderBg(transform, partialTicks, mouseX, mouseY);
+	protected void renderBg(GuiGraphics graphics, float partialTicks, int mouseX, int mouseY) {
+		super.renderBg(graphics, partialTicks, mouseX, mouseY);
 		// RenderSystem.color3f(1.0F, 1.0F, 1.0F);
 		if (analyzer.isVisible()) {
 			int selectedSlot = analyzer.getSelected();
 			if (selectedSlot >= 0) {
-				drawSelectedSlot(transform, selectedSlot);
+				drawSelectedSlot(graphics, selectedSlot);
 			}
 		}
 	}

@@ -12,10 +12,10 @@ package forestry.lepidopterology.entities;
 
 import java.util.EnumSet;
 
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.BonemealableBlock;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.core.Direction;
 import net.minecraft.core.BlockPos;
@@ -46,15 +46,16 @@ public class AIButterflyRest extends AIButterflyBase {
 			return false;
 		}
 
+		Level level = entity.level();
 		pos = pos.relative(Direction.DOWN);
-		if (entity.level.isEmptyBlock(pos)) {
+		if (level.isEmptyBlock(pos)) {
 			return false;
 		}
-		BlockState blockState = entity.level.getBlockState(pos);
-		if (blockState.getMaterial().isLiquid()) {
+		BlockState blockState = level.getBlockState(pos);
+		if (blockState.liquid()) {
 			return false;
 		}
-		if (!entity.getButterfly().isAcceptedEnvironment(entity.level, x, pos.getY(), z)) {
+		if (!entity.getButterfly().isAcceptedEnvironment(level, x, pos.getY(), z)) {
 			return false;
 		}
 
@@ -85,10 +86,11 @@ public class AIButterflyRest extends AIButterflyBase {
 	}
 
 	private boolean canLand(BlockPos pos) {
-		if (!entity.level.hasChunkAt(pos)) {
+		Level level = entity.level();
+		if (!level.hasChunkAt(pos)) {
 			return false;
 		}
-		BlockState blockState = entity.level.getBlockState(pos);
+		BlockState blockState = level.getBlockState(pos);
 		if (!blockState.isAir()) {
 			return false;
 		}
@@ -96,7 +98,7 @@ public class AIButterflyRest extends AIButterflyBase {
 			return true;
 		}
 
-		BlockState belowState = entity.level.getBlockState(pos.below());
+		BlockState belowState = level.getBlockState(pos.below());
 		return isRest(belowState) || belowState.is(BlockTags.LEAVES);
 	}
 
@@ -113,7 +115,7 @@ public class AIButterflyRest extends AIButterflyBase {
 		} else if (block instanceof BonemealableBlock) {
 			return true;
 		} else {
-			return state.getMaterial() == Material.PLANT;
+			return state.is(BlockTags.LEAVES);
 		}
 	}
 }

@@ -10,21 +10,16 @@
  ******************************************************************************/
 package forestry.mail.gui;
 
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
-import org.lwjgl.opengl.GL30;
-
 import forestry.api.client.ForestrySprites;
-import forestry.api.client.IForestryClientApi;
 import forestry.api.core.tooltips.ToolTip;
 import forestry.api.mail.IPostalCarrier;
 import forestry.api.mail.PostManager;
 import forestry.core.gui.widgets.Widget;
 import forestry.core.gui.widgets.WidgetManager;
-import forestry.core.render.ForestryTextureManager;
 import forestry.core.utils.SoundUtil;
 
 public class AddresseeSlot extends Widget {
@@ -39,12 +34,12 @@ public class AddresseeSlot extends Widget {
 	}
 
 	@Override
-	public void draw(PoseStack transform, int startX, int startY) {
+	public void draw(GuiGraphics graphics, int startX, int startY) {
 		IPostalCarrier carrier = PostManager.postRegistry.getCarrier(containerLetter.getCarrierType());
 		if (carrier != null) {
 			RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0F);
 			RenderSystem.setShaderTexture(0, ForestrySprites.TEXTURE_ATLAS);
-			GuiComponent.blit(transform, startX + xPos, startY + yPos, manager.gui.getBlitOffset(), 32, 32, carrier.getSprite());
+			graphics.blit(startX + xPos, startY + yPos, 0, 32, 32, carrier.getSprite());
 		}
 	}
 

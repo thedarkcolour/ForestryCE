@@ -12,10 +12,9 @@ package forestry.core.blocks;
 
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.material.Material;
 
 public class BlockCore extends BlockBase<BlockTypeCoreTesr> {
 	public BlockCore(BlockTypeCoreTesr blockType) {
-		super(blockType, Block.Properties.of(Material.WOOD).sound(SoundType.WOOD).noOcclusion());
+		super(blockType, Block.Properties.of().sound(SoundType.WOOD).noOcclusion());
 	}
 }

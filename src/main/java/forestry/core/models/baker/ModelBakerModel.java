@@ -10,31 +10,24 @@
  ******************************************************************************/
 package forestry.core.models.baker;
 
-import com.google.common.collect.ImmutableMap;
-
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
-import net.minecraft.util.RandomSource;
 import org.apache.commons.lang3.tuple.Pair;
 
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.client.renderer.block.model.BakedQuad;
+import net.minecraft.client.renderer.block.model.ItemOverrides;
+import net.minecraft.client.renderer.block.model.ItemTransforms;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelState;
-import net.minecraft.client.renderer.block.model.ItemTransforms;
-import net.minecraft.client.renderer.block.model.ItemTransforms.TransformType;
-import net.minecraft.client.renderer.block.model.ItemOverrides;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.Direction;
-import com.mojang.math.Transformation;
-
-import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.block.state.BlockState;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -50,7 +43,6 @@ public class ModelBakerModel implements BakedModel {
 	private TextureAtlasSprite particleSprite;
 	@Nullable
 	private ModelState modelState;
-	private ImmutableMap<TransformType, Transformation> transforms = ImmutableMap.of();
 
 	private final Map<Direction, List<BakedQuad>> faceQuads;
 	private final List<BakedQuad> generalQuads;
@@ -171,7 +163,6 @@ public class ModelBakerModel implements BakedModel {
 
 	public void setModelState(ModelState modelState) {
 		this.modelState = modelState;
-		this.transforms = ImmutableMap.of();//PerspectiveMapWrapper.getTransforms(modelState);
 	}
 
 	public void addQuad(@Nullable Direction facing, BakedQuad quad) {

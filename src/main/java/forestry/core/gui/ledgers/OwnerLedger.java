@@ -12,11 +12,11 @@ package forestry.core.gui.ledgers;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.network.chat.Component;
 
 import com.mojang.authlib.GameProfile;
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import forestry.api.client.ForestrySprites;
 import forestry.api.client.IForestryClientApi;
@@ -43,18 +43,18 @@ public class OwnerLedger extends Ledger {
 	}
 
 	@Override
-	public void draw(PoseStack transform, int y, int x) {
+	public void draw(GuiGraphics graphics, int y, int x) {
 		// Draw background
-		drawBackground(transform, y, x);
+		drawBackground(graphics, y, x);
 
 		// Draw icon
 		TextureAtlasSprite accessIcon = IForestryClientApi.INSTANCE.getTextureManager().getSprite(ForestrySprites.MISC_ACCESS_SHARED);
-		drawSprite(transform, accessIcon, x + 3, y + 4);
+		drawSprite(graphics, accessIcon, x + 3, y + 4);
 
 		// Draw description
 		if (isFullyOpened()) {
-			drawHeader(transform, Component.translatable("for.gui.owner"), x + 22, y + 8);
-			drawText(transform, PlayerUtil.getOwnerName(this.owner), x + 22, y + 20);
+			drawHeader(graphics, Component.translatable("for.gui.owner"), x + 22, y + 8);
+			drawText(graphics, PlayerUtil.getOwnerName(this.owner), x + 22, y + 20);
 		}
 	}
 

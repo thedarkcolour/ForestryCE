@@ -37,7 +37,7 @@ import forestry.lepidopterology.tiles.TileCocoon;
 
 public class BlockSolidCocoon extends Block implements EntityBlock {
 	public BlockSolidCocoon() {
-		super(Block.Properties.of(MaterialCocoon.INSTANCE)
+		super(Block.Properties.of()
 				.strength(0.5F)
 				.randomTicks()
 				.sound(SoundType.GRAVEL));

@@ -27,7 +27,7 @@ import forestry.farming.tiles.TileFarm;
 
 public class ContainerFarm extends ContainerSocketed<TileFarm> {
 	public static ContainerFarm fromNetwork(int windowId, Inventory inv, FriendlyByteBuf data) {
-		TileFarm tile = TileUtil.getTile(inv.player.level, data.readBlockPos(), TileFarm.class);
+		TileFarm tile = TileUtil.getTile(inv.player.level(), data.readBlockPos(), TileFarm.class);
 		return new ContainerFarm(windowId, inv, tile);
 	}
 

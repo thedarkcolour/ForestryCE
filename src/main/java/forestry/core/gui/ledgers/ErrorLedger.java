@@ -12,9 +12,8 @@ package forestry.core.gui.ledgers;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import forestry.api.core.IError;
 import forestry.core.utils.StringUtil;
@@ -41,13 +40,13 @@ public class ErrorLedger extends Ledger {
 	}
 
 	@Override
-	public void draw(PoseStack transform, int y, int x) {
+	public void draw(GuiGraphics graphics, int y, int x) {
 		if (state == null) {
 			return;
 		}
 
 		// Draw background
-		drawBackground(transform, y, x);
+		drawBackground(graphics, y, x);
 		y += 4;
 
 		int xIcon = x + 5;
@@ -55,16 +54,16 @@ public class ErrorLedger extends Ledger {
 		int xHeader = x + 24;
 
 		// Draw sprite
-		drawSprite(transform, state.getSprite(), xIcon, y);
+		drawSprite(graphics, state.getSprite(), xIcon, y);
 		y += 4;
 
 		// Write description if fully opened
 		if (isFullyOpened()) {
-			y += drawHeader(transform, getTooltip(), xHeader, y);
+			y += drawHeader(graphics, getTooltip(), xHeader, y);
 			y += 4;
 
 			Component helpString = Component.translatable(state.getHelpTranslationKey());
-			drawSplitText(transform, helpString, xBody, y, maxTextWidth);
+			drawSplitText(graphics, helpString, xBody, y, maxTextWidth);
 		}
 	}
 

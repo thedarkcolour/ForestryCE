@@ -39,12 +39,12 @@ public class WorktableSlot extends Slot {
 	@Override
 	protected void checkTakeAchievements(ItemStack stack) {
 		if (amountCrafted > 0) {
-			stack.onCraftedBy(player.level, player, amountCrafted);
+			stack.onCraftedBy(player.level(), player, amountCrafted);
 			net.minecraftforge.event.ForgeEventFactory.firePlayerCraftingEvent(player, stack, craftMatrix);
 		}
 
 		if (container instanceof RecipeHolder holder) {
-			holder.awardUsedRecipes(player);
+			holder.awardUsedRecipes(this.player, this.craftMatrix.getItems());
 		}
 
 		amountCrafted = 0;
@@ -67,7 +67,7 @@ public class WorktableSlot extends Slot {
 
 	@Override
 	public ItemStack getItem() {
-		return crafter.getResult(craftMatrix, player.level);
+		return crafter.getResult(craftMatrix, player.level());
 	}
 
 	@Override

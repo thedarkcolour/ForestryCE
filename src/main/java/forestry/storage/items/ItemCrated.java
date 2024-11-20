@@ -10,33 +10,28 @@
  ******************************************************************************/
 package forestry.storage.items;
 
+import java.util.function.Supplier;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.item.ItemColors;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.Level;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import forestry.api.core.ItemGroups;
 import forestry.core.items.ItemForestry;
 import forestry.core.items.definitions.IColoredItem;
 import forestry.core.utils.ItemStackUtil;
 
-import java.util.function.Supplier;
-
 public class ItemCrated extends ItemForestry implements IColoredItem {
 	private final Supplier<ItemStack> contained;
 
-	/**
-	 * @param contained The item which should be dropped on use, or be uncrated into
-	 */
 	public ItemCrated(Supplier<ItemStack> contained) {
-		super(ItemGroups.tabStorage);
 		this.contained = contained;
 	}
 

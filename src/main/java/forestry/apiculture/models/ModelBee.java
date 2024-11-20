@@ -5,13 +5,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 
 import javax.annotation.Nullable;
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 import java.util.function.Function;
 
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -21,9 +18,8 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.BlockModelRotation;
 import net.minecraft.client.resources.model.Material;
-import net.minecraft.client.resources.model.ModelBakery;
+import net.minecraft.client.resources.model.ModelBaker;
 import net.minecraft.client.resources.model.ModelState;
-import net.minecraft.client.resources.model.UnbakedModel;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
@@ -31,8 +27,6 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
-
-import com.mojang.datafixers.util.Pair;
 
 import net.minecraftforge.client.model.geometry.IGeometryBakingContext;
 import net.minecraftforge.client.model.geometry.IGeometryLoader;
@@ -58,14 +52,14 @@ public class ModelBee implements IUnbakedGeometry<ModelBee> {
 	}
 
 	@Override
-	public BakedModel bake(IGeometryBakingContext context, ModelBakery bakery, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ItemOverrides overrides, ResourceLocation modelLocation) {
+	public BakedModel bake(IGeometryBakingContext context, ModelBaker baker, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ItemOverrides overrides, ResourceLocation modelLocation) {
 		IBeeClientManager manager = IForestryClientApi.INSTANCE.getBeeManager();
 		Map<IBeeSpecies, ResourceLocation> models = manager.getBeeModels(this.stage);
 		IdentityHashMap<IBeeSpecies, BakedModel> itemModels = new IdentityHashMap<>();
 
 		for (IBeeSpecies species : SpeciesUtil.getAllBeeSpecies()) {
 			ResourceLocation location = models.get(species);
-			BakedModel model = bakery.bake(location, BlockModelRotation.X0_Y0, spriteGetter);
+			BakedModel model = baker.bake(location, BlockModelRotation.X0_Y0, spriteGetter);
 
 			if (model != null) {
 				itemModels.put(species, model);
@@ -73,25 +67,6 @@ public class ModelBee implements IUnbakedGeometry<ModelBee> {
 		}
 
 		return new ModelBee.Baked(itemModels);
-	}
-
-	@Override
-	public Collection<Material> getMaterials(IGeometryBakingContext context, Function<ResourceLocation, UnbakedModel> modelGetter, Set<Pair<String, String>> missingTextureErrors) {
-		IBeeClientManager manager = IForestryClientApi.INSTANCE.getBeeManager();
-		Map<IBeeSpecies, ResourceLocation> models = manager.getBeeModels(this.stage);
-		HashSet<ResourceLocation> locations = new HashSet<>();
-
-		for (IBeeSpecies species : SpeciesUtil.getAllBeeSpecies()) {
-			locations.add(models.get(species));
-		}
-
-		HashSet<Material> materials = new HashSet<>();
-
-		for (ResourceLocation location : locations) {
-			materials.addAll(modelGetter.apply(location).getMaterials(modelGetter, missingTextureErrors));
-		}
-
-		return materials;
 	}
 
 	public static class Loader implements IGeometryLoader<ModelBee> {

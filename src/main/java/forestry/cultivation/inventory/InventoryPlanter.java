@@ -42,7 +42,7 @@ public class InventoryPlanter extends InventoryPlantation<TilePlanter> implement
 			return false;
 		}
 
-		if (germling.plantSaplingAt(player, germlingStack, player.level, pos)) {
+		if (germling.plantSaplingAt(player, germlingStack, player.level(), pos)) {
 			germlingsInventory.removeItem(index, 1);
 			return true;
 		}

@@ -64,9 +64,9 @@ public class ApiaristPoolElement extends SinglePoolElement {
 	@Override
 	public void handleDataMarker(LevelAccessor level, StructureTemplate.StructureBlockInfo info, BlockPos pos, Rotation rotation, RandomSource random, BoundingBox box) {
 		// yes this is nullable, shut up intellij
-		if (info.nbt != null) {
-			if (StructureMode.valueOf(info.nbt.getString("mode")) == StructureMode.DATA) {
-				String marker = info.nbt.getString("metadata");
+		if (info.nbt() != null) {
+			if (StructureMode.valueOf(info.nbt().getString("mode")) == StructureMode.DATA) {
+				String marker = info.nbt().getString("metadata");
 
 				if ("apiary".equals(marker)) {
 					replaceWithApiary(level, info, random);
@@ -83,7 +83,7 @@ public class ApiaristPoolElement extends SinglePoolElement {
 	}
 
 	private static void replaceWithApiary(LevelAccessor level, StructureTemplate.StructureBlockInfo info, RandomSource random) {
-		BlockPos markerPos = info.pos;
+		BlockPos markerPos = info.pos();
 
 		// remove the block entity of the Data block beforehand so that its NBT doesn't overwrite the apiary
 		level.removeBlock(markerPos, false);

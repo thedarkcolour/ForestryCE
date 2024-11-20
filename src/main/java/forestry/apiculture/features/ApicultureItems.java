@@ -1,6 +1,6 @@
 package forestry.apiculture.features;
 
-import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ArmorItem;
 
 import forestry.api.apiculture.genetics.BeeLifeStage;
 import forestry.api.core.ItemGroups;
@@ -48,9 +48,9 @@ public class ApicultureItems {
 	// / BEE RESOURCES
 	public static final FeatureItemGroup<ItemOverlay, EnumHoneyDrop> HONEY_DROPS = REGISTRY.itemGroup((type) -> new ItemOverlay(ItemGroups.tabApiculture, type), "honey_drop", EnumHoneyDrop.values());
 	public static final FeatureItemGroup<ItemPropolis, EnumPropolis> PROPOLIS = REGISTRY.itemGroup(ItemPropolis::new, "propolis", EnumPropolis.values());
-	public static final FeatureItem<ItemForestry> HONEYDEW = REGISTRY.item(() -> new ItemForestry(ItemGroups.tabApiculture), "honeydew");
+	public static final FeatureItem<ItemForestry> HONEYDEW = REGISTRY.item(ItemForestry::new, "honeydew");
 
-	public static final FeatureItem<ItemForestry> ROYAL_JELLY = REGISTRY.item(() -> new ItemForestry(ItemGroups.tabApiculture), "royal_jelly");
+	public static final FeatureItem<ItemForestry> ROYAL_JELLY = REGISTRY.item(ItemForestry::new, "royal_jelly");
 
 	public static final FeatureItem<ItemWaxCast> WAX_CAST = REGISTRY.item(ItemWaxCast::new, "wax_cast");
 	public static final FeatureItemGroup<ItemPollenCluster, EnumPollenCluster> POLLEN_CLUSTER = REGISTRY.itemGroup(ItemPollenCluster::new, "pollen_cluster", EnumPollenCluster.values());
@@ -62,10 +62,10 @@ public class ApicultureItems {
 	public static final FeatureItem<ItemForestryFood> HONEY_POT = REGISTRY.item(() -> new ItemForestryFood(2, 0.2f).setIsDrink(), "honey_pot");
 
 	// / APIARIST'S CLOTHES
-	public static final FeatureItem<ItemArmorApiarist> APIARIST_HELMET = REGISTRY.item(() -> new ItemArmorApiarist(EquipmentSlot.HEAD), "apiarist_helmet");
-	public static final FeatureItem<ItemArmorApiarist> APIARIST_CHEST = REGISTRY.item(() -> new ItemArmorApiarist(EquipmentSlot.CHEST), "apiarist_chest");
-	public static final FeatureItem<ItemArmorApiarist> APIARIST_LEGS = REGISTRY.item(() -> new ItemArmorApiarist(EquipmentSlot.LEGS), "apiarist_legs");
-	public static final FeatureItem<ItemArmorApiarist> APIARIST_BOOTS = REGISTRY.item(() -> new ItemArmorApiarist(EquipmentSlot.FEET), "apiarist_boots");
+	public static final FeatureItem<ItemArmorApiarist> APIARIST_HELMET = REGISTRY.item(() -> new ItemArmorApiarist(ArmorItem.Type.HELMET), "apiarist_helmet");
+	public static final FeatureItem<ItemArmorApiarist> APIARIST_CHEST = REGISTRY.item(() -> new ItemArmorApiarist(ArmorItem.Type.CHESTPLATE), "apiarist_chest");
+	public static final FeatureItem<ItemArmorApiarist> APIARIST_LEGS = REGISTRY.item(() -> new ItemArmorApiarist(ArmorItem.Type.LEGGINGS), "apiarist_legs");
+	public static final FeatureItem<ItemArmorApiarist> APIARIST_BOOTS = REGISTRY.item(() -> new ItemArmorApiarist(ArmorItem.Type.BOOTS), "apiarist_boots");
 
 	// TOOLS
 	public static final FeatureItem<ItemScoop> SCOOP = REGISTRY.item(ItemScoop::new, "scoop");

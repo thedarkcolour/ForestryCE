@@ -2,11 +2,10 @@ package forestry.cultivation.gui;
 
 import java.util.List;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
-
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import forestry.core.config.Constants;
 import forestry.core.features.CoreItems;
@@ -75,13 +74,13 @@ public class GuiPlanter extends GuiForestryTitled<ContainerPlanter> {
 	}
 
 	@Override
-	protected void renderBg(PoseStack transform, float partialTicks, int mouseY, int mouseX) {
-		super.renderBg(transform, partialTicks, mouseY, mouseX);
+	protected void renderBg(GuiGraphics graphics, float partialTicks, int mouseY, int mouseX) {
+		super.renderBg(graphics, partialTicks, mouseY, mouseX);
 
 		// Fuel remaining
 		int fertilizerRemain = tile.getStoredFertilizerScaled(16);
 		if (fertilizerRemain > 0) {
-			blit(transform, leftPos + 101, topPos + 21 + 17 - fertilizerRemain, imageWidth, 17 - fertilizerRemain, 4, fertilizerRemain);
+			graphics.blit(this.textureFile, leftPos + 101, topPos + 21 + 17 - fertilizerRemain, imageWidth, 17 - fertilizerRemain, 4, fertilizerRemain);
 		}
 	}
 }

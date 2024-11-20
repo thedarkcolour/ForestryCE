@@ -10,7 +10,7 @@ import java.util.function.Predicate;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.core.Holder;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -64,7 +64,7 @@ public class DumpCommand {
 	}
 
 	private static int climates(CommandContext<CommandSourceStack> ctx) {
-		List<Holder.Reference<Biome>> biomes = ctx.getSource().getLevel().registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).holders()
+		List<Holder.Reference<Biome>> biomes = ctx.getSource().getLevel().registryAccess().registryOrThrow(Registries.BIOME).holders()
 				.toList();
 		Forestry.LOGGER.debug("Listing Forestry climates for {} biomes", biomes.size());
 
@@ -91,7 +91,7 @@ public class DumpCommand {
 	}
 
 	private static Table<HumidityType, TemperatureType, List<ResourceLocation>> createClimatesTable(CommandContext<CommandSourceStack> ctx) {
-		List<Holder.Reference<Biome>> biomes = ctx.getSource().getLevel().registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).holders().toList();
+		List<Holder.Reference<Biome>> biomes = ctx.getSource().getLevel().registryAccess().registryOrThrow(Registries.BIOME).holders().toList();
 		Table<HumidityType, TemperatureType, List<ResourceLocation>> climates = HashBasedTable.create(HumidityType.VALUES.size(), TemperatureType.VALUES.size());
 		IClimateManager manager = IForestryApi.INSTANCE.getClimateManager();
 
@@ -127,7 +127,7 @@ public class DumpCommand {
 			Predicate<ItemStack> filter = backpack.get().getDefinition().getFilter();
 			ArrayList<Item> allowedItems = new ArrayList<>();
 
-			for (Item item : ctx.getSource().registryAccess().registryOrThrow(Registry.ITEM_REGISTRY)) {
+			for (Item item : ctx.getSource().registryAccess().registryOrThrow(Registries.ITEM)) {
 				if (filter.test(new ItemStack(item))) {
 					allowedItems.add(item);
 				}
@@ -140,10 +140,6 @@ public class DumpCommand {
 			}
 		}
 
-		return 1;
-	}
-
-	private static int beeHives(CommandContext<CommandSourceStack> ctx) {
 		return 1;
 	}
 

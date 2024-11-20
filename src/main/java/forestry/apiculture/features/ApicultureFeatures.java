@@ -2,7 +2,7 @@ package forestry.apiculture.features;
 
 import java.util.List;
 
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
@@ -23,10 +23,10 @@ import forestry.modules.features.ModFeatureRegistry;
 public class ApicultureFeatures {
 	private static final IFeatureRegistry REGISTRY = ModFeatureRegistry.get(ForestryModuleIds.APICULTURE);
 
-	public static final DeferredRegister<Feature<?>> FEATURES = REGISTRY.getRegistry(Registry.FEATURE_REGISTRY);
-	public static final DeferredRegister<ConfiguredFeature<?, ?>> CONFIGURED_FEATURES = REGISTRY.getRegistry(Registry.CONFIGURED_FEATURE_REGISTRY);
-	public static final DeferredRegister<PlacedFeature> PLACED_FEATURES = REGISTRY.getRegistry(Registry.PLACED_FEATURE_REGISTRY);
-	public static final DeferredRegister<StructurePoolElementType<?>> POOL_ELEMENT_TYPES = REGISTRY.getRegistry(Registry.STRUCTURE_POOL_ELEMENT_REGISTRY);
+	public static final DeferredRegister<Feature<?>> FEATURES = REGISTRY.getRegistry(Registries.FEATURE);
+	public static final DeferredRegister<ConfiguredFeature<?, ?>> CONFIGURED_FEATURES = REGISTRY.getRegistry(Registries.CONFIGURED_FEATURE);
+	public static final DeferredRegister<PlacedFeature> PLACED_FEATURES = REGISTRY.getRegistry(Registries.PLACED_FEATURE);
+	public static final DeferredRegister<StructurePoolElementType<?>> POOL_ELEMENT_TYPES = REGISTRY.getRegistry(Registries.STRUCTURE_POOL_ELEMENT);
 
 	public static final RegistryObject<HiveDecorator> HIVE_DECORATOR = FEATURES.register("hive", HiveDecorator::new);
 	public static final RegistryObject<ConfiguredFeature<?, ?>> CONFIGURED_HIVE_DECORATOR = CONFIGURED_FEATURES.register("hive", () -> new ConfiguredFeature<>(HIVE_DECORATOR.get(), FeatureConfiguration.NONE));

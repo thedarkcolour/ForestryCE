@@ -1,8 +1,8 @@
 package forestry.factory.recipes.jei;
 
-import javax.annotation.Nullable;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.resources.ResourceLocation;
@@ -12,6 +12,7 @@ import net.minecraft.world.item.crafting.RecipeManager;
 
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 
 import forestry.api.fuels.FuelManager;
@@ -20,6 +21,7 @@ import forestry.api.modules.ForestryModuleIds;
 import forestry.core.ClientsideCode;
 import forestry.core.features.FluidsItems;
 import forestry.core.gui.GuiForestry;
+import forestry.core.gui.widgets.TankWidget;
 import forestry.core.recipes.jei.ForestryRecipeType;
 import forestry.core.utils.JeiUtil;
 import forestry.core.utils.ModUtil;
@@ -50,9 +52,11 @@ import forestry.factory.recipes.jei.still.StillRecipeCategory;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.VanillaTypes;
+import mezz.jei.api.forge.ForgeTypes;
 import mezz.jei.api.gui.handlers.IGuiContainerHandler;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.helpers.IJeiHelpers;
+import mezz.jei.api.ingredients.ITypedIngredient;
 import mezz.jei.api.ingredients.subtypes.IIngredientSubtypeInterpreter;
 import mezz.jei.api.registration.IGuiHandlerRegistration;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
@@ -60,6 +64,8 @@ import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import mezz.jei.api.registration.IRecipeTransferRegistration;
 import mezz.jei.api.registration.ISubtypeRegistration;
+import mezz.jei.api.runtime.IClickableIngredient;
+import mezz.jei.api.runtime.IIngredientManager;
 
 @JeiPlugin
 public class FactoryJeiPlugin implements IModPlugin {
@@ -125,7 +131,7 @@ public class FactoryJeiPlugin implements IModPlugin {
 
 	@Override
 	public void registerGuiHandlers(IGuiHandlerRegistration registry) {
-		registry.addGenericGuiContainerHandler(GuiForestry.class, new ForestryAdvancedGuiHandler());
+		registry.addGenericGuiContainerHandler(GuiForestry.class, new ForestryAdvancedGuiHandler(registry.getJeiHelpers().getIngredientManager()));
 
 		registry.addRecipeClickArea(GuiCarpenter.class, 98, 48, 21, 26, ForestryRecipeType.CARPENTER);
 
@@ -160,15 +166,36 @@ public class FactoryJeiPlugin implements IModPlugin {
 
 
 	static class ForestryAdvancedGuiHandler implements IGuiContainerHandler<GuiForestry<?>> {
+		private final IIngredientManager manager;
+
+		ForestryAdvancedGuiHandler(IIngredientManager manager) {
+			this.manager = manager;
+		}
+
 		@Override
 		public List<Rect2i> getGuiExtraAreas(GuiForestry<?> guiContainer) {
 			return guiContainer.getExtraGuiAreas();
 		}
 
-		@Nullable
 		@Override
-		public Object getIngredientUnderMouse(GuiForestry<?> guiContainer, double mouseX, double mouseY) {
-			return guiContainer.getFluidStackAtPosition(mouseX, mouseY);
+		public Optional<IClickableIngredient<?>> getClickableIngredientUnderMouse(GuiForestry<?> guiContainer, double mouseX, double mouseY) {
+			TankWidget widget = guiContainer.getTankAtPosition(mouseX, mouseY);
+
+			if (widget != null && widget.getTank() != null) {
+				return manager.createTypedIngredient(ForgeTypes.FLUID_STACK, widget.getTank().getFluid()).map(ingredient -> new IClickableIngredient<FluidStack>() {
+					@Override
+					public ITypedIngredient<FluidStack> getTypedIngredient() {
+						return ingredient;
+					}
+
+					@Override
+					public Rect2i getArea() {
+						return new Rect2i(widget.getX(), widget.getY(), widget.getWidth(), widget.getHeight());
+					}
+				});
+			} else {
+				return Optional.empty();
+			}
 		}
 	}
 }

@@ -56,7 +56,7 @@ public enum HiveDefinition implements IHiveDefinition {
 			return super.isGoodBiome(biome) && !biome.is(Tags.Biomes.IS_SNOWY);
 		}
 	},
-	MEADOWS(ApicultureBlocks.BEEHIVE.get(BlockHiveType.MEADOWS).defaultState(), 1.0f, ForestryBeeSpecies.MEADOWS, new HiveGenGroundTag(BlockTags.DIRT)) {
+	MEADOWS(ApicultureBlocks.BEEHIVE.get(BlockHiveType.MEADOWS).defaultState(), 1.0f, ForestryBeeSpecies.MEADOWS, new HiveGenGround(BlockTags.DIRT)) {
 		@Override
 		public void postGen(WorldGenLevel world, RandomSource rand, BlockPos pos) {
 			postGenFlowers(world, rand, pos, flowerStates);
@@ -68,20 +68,20 @@ public enum HiveDefinition implements IHiveDefinition {
 			return super.isGoodBiome(biome) && !biome.is(BiomeTags.IS_FOREST);
 		}
 	},
-	DESERT(ApicultureBlocks.BEEHIVE.get(BlockHiveType.DESERT).defaultState(), 1.0f, ForestryBeeSpecies.MODEST, new HiveGenGroundTag(ForestryTags.Blocks.MODEST_BEE_GROUND)) {
+	DESERT(ApicultureBlocks.BEEHIVE.get(BlockHiveType.DESERT).defaultState(), 1.0f, ForestryBeeSpecies.MODEST, new HiveGenGround(ForestryTags.Blocks.MODEST_BEE_GROUND)) {
 		@Override
 		public void postGen(WorldGenLevel world, RandomSource rand, BlockPos pos) {
 			postGenFlowers(world, rand, pos, cactusStates);
 		}
 	},
 	JUNGLE(ApicultureBlocks.BEEHIVE.get(BlockHiveType.JUNGLE).defaultState(), 6.0f, ForestryBeeSpecies.TROPICAL, HiveGenTree.INSTANCE),
-	END(ApicultureBlocks.BEEHIVE.get(BlockHiveType.END).defaultState(), 2.0f, ForestryBeeSpecies.ENDED, new HiveGenGround(Blocks.END_STONE, Blocks.END_STONE_BRICKS)) {
+	END(ApicultureBlocks.BEEHIVE.get(BlockHiveType.END).defaultState(), 2.0f, ForestryBeeSpecies.ENDED, new HiveGenGround(ForestryTags.Blocks.ENDED_BEE_GROUND)) {
 		@Override
 		public boolean isGoodBiome(Holder<Biome> biome) {
 			return biome.is(BiomeTags.IS_END);
 		}
 	},
-	SNOW(ApicultureBlocks.BEEHIVE.get(BlockHiveType.SNOW).defaultState(), 2.0f, ForestryBeeSpecies.WINTRY, new HiveGenGroundTag(ForestryTags.Blocks.WINTRY_BEE_GROUND)) {
+	SNOW(ApicultureBlocks.BEEHIVE.get(BlockHiveType.SNOW).defaultState(), 2.0f, ForestryBeeSpecies.WINTRY, new HiveGenGround(ForestryTags.Blocks.WINTRY_BEE_GROUND)) {
 		@Override
 		public void postGen(WorldGenLevel world, RandomSource rand, BlockPos pos) {
 			BlockPos posAbove = pos.above();
@@ -92,7 +92,7 @@ public enum HiveDefinition implements IHiveDefinition {
 			postGenFlowers(world, rand, pos, flowerStates);
 		}
 	},
-	SWAMP(ApicultureBlocks.BEEHIVE.get(BlockHiveType.SWAMP).defaultState(), 2.0f, ForestryBeeSpecies.MARSHY, new HiveGenGroundTag(BlockTags.DIRT)) {
+	SWAMP(ApicultureBlocks.BEEHIVE.get(BlockHiveType.SWAMP).defaultState(), 2.0f, ForestryBeeSpecies.MARSHY, new HiveGenGround(BlockTags.DIRT)) {
 		@Override
 		public void postGen(WorldGenLevel world, RandomSource rand, BlockPos pos) {
 			postGenFlowers(world, rand, pos, mushroomStates);
@@ -104,7 +104,7 @@ public enum HiveDefinition implements IHiveDefinition {
 			return super.isGoodBiome(biome) && !biome.is(Tags.Biomes.IS_SNOWY);
 		}
 	},
-	SAVANNA(ApicultureBlocks.BEEHIVE.get(BlockHiveType.SAVANNA).defaultState(), 1.0f, ForestryBeeSpecies.SAVANNA, new HiveGenGroundTag(BlockTags.DIRT)) {
+	SAVANNA(ApicultureBlocks.BEEHIVE.get(BlockHiveType.SAVANNA).defaultState(), 1.0f, ForestryBeeSpecies.SAVANNA, new HiveGenGround(BlockTags.DIRT)) {
 		@Override
 		public void postGen(WorldGenLevel world, RandomSource rand, BlockPos pos) {
 			//TODO: generate pumpkins in dry biomes and melons in normal ones
@@ -112,7 +112,7 @@ public enum HiveDefinition implements IHiveDefinition {
 		}
 	};
 
-	private static final IHiveGen FLOWER_GROUND = new HiveGenGround(Blocks.DIRT, Blocks.GRASS_BLOCK, Blocks.SNOW, Blocks.SAND, Blocks.SANDSTONE);
+	private static final IHiveGen FLOWER_GROUND = new HiveGenGround(ForestryTags.Blocks.PLANTABLE_FLOWERS_GROUND);
 	private static final List<BlockState> flowerStates = new ArrayList<>();
 	private static final List<BlockState> mushroomStates = new ArrayList<>();
 	private static final List<BlockState> cactusStates = Collections.singletonList(Blocks.CACTUS.defaultBlockState());

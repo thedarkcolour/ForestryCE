@@ -21,8 +21,6 @@ import forestry.api.genetics.ISpeciesType;
  * Loot function to add genetic information, an organism, to the item stack.
  */
 public class OrganismFunction extends LootItemConditionalFunction {
-	public static LootItemFunctionType type;
-
 	private final ResourceLocation typeId;
 	private final ResourceLocation speciesId;
 
@@ -55,7 +53,7 @@ public class OrganismFunction extends LootItemConditionalFunction {
 
 	@Override
 	public LootItemFunctionType getType() {
-		return type;
+		return CoreLootFunctions.ORGANISM.get();
 	}
 
 	public static class Serializer extends LootItemConditionalFunction.Serializer<OrganismFunction> {

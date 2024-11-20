@@ -2,9 +2,9 @@ package forestry.core.gui.elements;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.util.Mth;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import forestry.core.gui.Drawable;
@@ -138,7 +138,7 @@ public class ScrollBarElement extends ContainerElement {
 	}
 
 	@Override
-	public void drawElement(PoseStack transform, int mouseX, int mouseY) {
+	public void drawElement(GuiGraphics graphics, int mouseX, int mouseY) {
 		if (!isVisible()) {
 			return;
 		}
@@ -146,7 +146,7 @@ public class ScrollBarElement extends ContainerElement {
 		updateSlider(window.getRelativeMouseX(interactionField), window.getRelativeMouseY(interactionField));
 
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-		super.drawElement(transform, mouseX, mouseY);
+		super.drawElement(graphics, mouseX, mouseY);
 	}
 
 	private void updateSlider(int mouseX, int mouseY) {

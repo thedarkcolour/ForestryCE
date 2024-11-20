@@ -36,7 +36,7 @@ public class ItemOverlay extends ItemForestry implements IColoredItem {
 	protected final IOverlayInfo overlay;
 
 	public ItemOverlay(CreativeModeTab tab, IOverlayInfo overlay) {
-		super(new Item.Properties().tab(tab));
+		super(new Item.Properties());
 
 		this.overlay = overlay;
 	}

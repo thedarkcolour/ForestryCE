@@ -49,7 +49,7 @@ public class ContainerNaturalistInventory extends ContainerTile<TileNaturalistCh
 	}
 
 	public static ContainerNaturalistInventory fromNetwork(int windowId, Inventory playerInv, FriendlyByteBuf extraData) {
-		TileNaturalistChest tile = TileUtil.getTile(playerInv.player.level, extraData.readBlockPos(), TileNaturalistChest.class);
+		TileNaturalistChest tile = TileUtil.getTile(playerInv.player.level(), extraData.readBlockPos(), TileNaturalistChest.class);
 		return new ContainerNaturalistInventory(windowId, playerInv, tile, extraData.readVarInt());
 	}
 

@@ -13,7 +13,7 @@ import forestry.energy.tiles.PeatEngineBlockEntity;
 
 public class PeatEngineMenu extends ContainerTile<PeatEngineBlockEntity> {
 	public static PeatEngineMenu fromNetwork(int windowId, Inventory inv, FriendlyByteBuf extraData) {
-		PeatEngineBlockEntity tile = TileUtil.getTile(inv.player.level, extraData.readBlockPos(), PeatEngineBlockEntity.class);
+		PeatEngineBlockEntity tile = TileUtil.getTile(inv.player.level(), extraData.readBlockPos(), PeatEngineBlockEntity.class);
 		return new PeatEngineMenu(windowId, inv, tile);
 	}
 

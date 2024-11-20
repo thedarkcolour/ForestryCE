@@ -1,14 +1,11 @@
 package forestry.core.models;
 
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonObject;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
-import java.util.Set;
 import java.util.function.Function;
 
 import net.minecraft.client.color.item.ItemColor;
@@ -18,17 +15,14 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.BlockModelRotation;
 import net.minecraft.client.resources.model.Material;
-import net.minecraft.client.resources.model.ModelBakery;
+import net.minecraft.client.resources.model.ModelBaker;
 import net.minecraft.client.resources.model.ModelState;
-import net.minecraft.client.resources.model.UnbakedModel;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
-
-import com.mojang.datafixers.util.Pair;
 
 import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
@@ -67,7 +61,7 @@ public class FluidContainerModel implements IUnbakedGeometry<FluidContainerModel
 
 	// Note: The fluid mask is ignored, the fluid element is always from (4, 2) to (12, 14).
 	@Override
-	public BakedModel bake(IGeometryBakingContext context, ModelBakery bakery, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ItemOverrides overrides, ResourceLocation modelLocation) {
+	public BakedModel bake(IGeometryBakingContext context, ModelBaker baker, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ItemOverrides overrides, ResourceLocation modelLocation) {
 		Material baseLocation = context.hasMaterial("base") ? context.getMaterial("base") : null;
 		Material fluidMaskLocation = context.hasMaterial("fluid") ? context.getMaterial("fluid") : null;
 		Material coverLocation = context.hasMaterial("cover") ? context.getMaterial("cover") : null;
@@ -83,11 +77,11 @@ public class FluidContainerModel implements IUnbakedGeometry<FluidContainerModel
 		}
 
 		var itemContext = StandaloneGeometryBakingContext.builder(context).withGui3d(false).withUseBlockLight(false).build(modelLocation);
-		var modelBuilder = CompositeModel.Baked.builder(itemContext, particleSprite, new ContainedFluidOverrideHandler(bakery, itemContext, this), context.getTransforms());
+		var modelBuilder = CompositeModel.Baked.builder(itemContext, particleSprite, new ContainedFluidOverrideHandler(baker, itemContext, this), context.getTransforms());
 		var normalRenderTypes = DynamicFluidContainerModel.getLayerRenderTypes(false);
 
 		if (baseLocation != null && baseSprite != null) {
-			var baseElement = UnbakedGeometryHelper.createUnbakedItemElements(0, baseSprite);
+			var baseElement = UnbakedGeometryHelper.createUnbakedItemElements(0, baseSprite.contents());
 			var quads = UnbakedGeometryHelper.bakeElements(baseElement, $ -> baseSprite, modelState, modelLocation);
 			modelBuilder.addQuads(normalRenderTypes, quads);
 		}
@@ -122,24 +116,6 @@ public class FluidContainerModel implements IUnbakedGeometry<FluidContainerModel
 		return modelBuilder.build();
 	}
 
-	@Override
-	public Collection<Material> getMaterials(IGeometryBakingContext context, Function<ResourceLocation, UnbakedModel> modelGetter, Set<Pair<String, String>> missingTextureErrors) {
-		Set<Material> textures = Sets.newHashSet();
-		if (context.hasMaterial("particle")) {
-			textures.add(context.getMaterial("particle"));
-		}
-		if (context.hasMaterial("base")) {
-			textures.add(context.getMaterial("base"));
-		}
-		if (context.hasMaterial("fluid")) {
-			textures.add(context.getMaterial("fluid"));
-		}
-		if (context.hasMaterial("cover")) {
-			textures.add(context.getMaterial("cover"));
-		}
-		return textures;
-	}
-
 	public enum Loader implements IGeometryLoader<FluidContainerModel> {
 		INSTANCE;
 
@@ -155,11 +131,11 @@ public class FluidContainerModel implements IUnbakedGeometry<FluidContainerModel
 
 	private static final class ContainedFluidOverrideHandler extends ItemOverrides {
 		private final Map<String, BakedModel> cache = Maps.newHashMap();
-		private final ModelBakery bakery;
+		private final ModelBaker bakery;
 		private final IGeometryBakingContext owner;
 		private final FluidContainerModel parent;
 
-		private ContainedFluidOverrideHandler(ModelBakery bakery, IGeometryBakingContext owner, FluidContainerModel parent) {
+		private ContainedFluidOverrideHandler(ModelBaker bakery, IGeometryBakingContext owner, FluidContainerModel parent) {
 			this.bakery = bakery;
 			this.owner = owner;
 			this.parent = parent;

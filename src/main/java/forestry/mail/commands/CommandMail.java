@@ -48,8 +48,8 @@ public class CommandMail {
 
 		public static int execute(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
 			ServerPlayer player = context.getSource().getPlayerOrException();
-			ServerLevel world = (ServerLevel) player.level;
-			for (ITradeStation trade : PostManager.postRegistry.getPostOffice(world).getActiveTradeStations(world).values()) {
+			ServerLevel level = player.serverLevel();
+			for (ITradeStation trade : PostManager.postRegistry.getPostOffice(level).getActiveTradeStations(level).values()) {
 				CommandHelpers.sendChatMessage(context.getSource(), makeTradeListEntry(trade.getTradeInfo()));
 			}
 

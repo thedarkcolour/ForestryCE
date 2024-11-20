@@ -35,7 +35,7 @@ public class MutationsTab<I extends IIndividual> extends DatabaseTab<I> {
 		var mutationContainer = speciesType.getMutations();
 
 		Player player = Minecraft.getInstance().player;
-		IBreedingTracker breedingTracker = speciesType.getBreedingTracker(player.level, player.getGameProfile());
+		IBreedingTracker breedingTracker = speciesType.getBreedingTracker(player.level(), player.getGameProfile());
 
 		LayoutHelper groupHelper = container.layoutHelper((x, y) -> GuiElementFactory.horizontal(16, 0, new Insets(0, 1, 0, 0)), 100, 16);
 		Collection<? extends IMutation<?>> mutations = getValidMutations(mutationContainer.getMutationsFrom(species.cast()));

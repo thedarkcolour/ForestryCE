@@ -12,13 +12,13 @@ package forestry.core.utils;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.core.BlockPos;
-import net.minecraft.util.Mth;
-import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.level.Level;
 
 public abstract class EntityUtil {
@@ -35,7 +35,7 @@ public abstract class EntityUtil {
 		living.moveTo(x, y, z, Mth.wrapDegrees(world.random.nextFloat() * 360.0f), 0.0f);
 		living.yHeadRot = living.getYRot();
 		living.yBodyRot = living.getYRot();
-		DifficultyInstance diff = world.getCurrentDifficultyAt(new BlockPos(x, y, z));
+		DifficultyInstance diff = world.getCurrentDifficultyAt(BlockPos.containing(x, y, z));
 		//TODO - check SpawnReason
 		living.finalizeSpawn((ServerLevel) world, diff, MobSpawnType.MOB_SUMMONED, null, null);
 		world.addFreshEntity(living);

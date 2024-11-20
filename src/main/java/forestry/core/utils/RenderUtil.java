@@ -2,20 +2,21 @@ package forestry.core.utils;
 
 import java.awt.Color;
 
+import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
@@ -31,7 +32,7 @@ public class RenderUtil {
 	public static void rotateByHorizontalDirection(PoseStack stack, Direction facing) {
 		if (facing != Direction.SOUTH) {
 			stack.translate(0.5, 0.5, 0.5);
-			stack.mulPose(Vector3f.YP.rotationDegrees(-facing.toYRot()));
+			stack.mulPose(Axis.YP.rotationDegrees(-facing.toYRot()));
 			stack.translate(-0.5, -0.5, -0.5);
 		}
 	}
@@ -42,11 +43,11 @@ public class RenderUtil {
 		boolean isGui3d = itemModel.isGui3d();
 		float smoothTick = ((float) (int) level.getGameTime()) + partialTick;
 		float f1 = Mth.sin(smoothTick / 10.0f) * 0.1f + 0.1f;
-		float f2 = itemModel.getTransforms().getTransform(ItemTransforms.TransformType.GROUND).scale.y();
+		float f2 = itemModel.getTransforms().getTransform(ItemDisplayContext.GROUND).scale.y();
 		stack.translate(0, f1 + 0.25f * f2, 0);
-		stack.mulPose(Vector3f.YP.rotation(smoothTick / 20f));
+		stack.mulPose(Axis.YP.rotation(smoothTick / 20f));
 
-		itemRenderer.render(displayStack, ItemTransforms.TransformType.GROUND, false, stack, buffers, light, OverlayTexture.NO_OVERLAY, itemModel);
+		itemRenderer.render(displayStack, ItemDisplayContext.GROUND, false, stack, buffers, light, OverlayTexture.NO_OVERLAY, itemModel);
 
 		if (!isGui3d) {
 			stack.translate(0.0, 0.0, 0.09375F);
@@ -68,5 +69,17 @@ public class RenderUtil {
 
 	public static Color getRainbowColor(long time, float partialTicks) {
 		return Color.getHSBColor((180 * Mth.sin((time + partialTicks) / 30.0f) - 180) / 360.0f, 0.5f, 0.8f);
+	}
+
+	// VANILLA COPY
+	public static int getTextureY(Button button) {
+		int i = 1;
+		if (!button.active) {
+			i = 0;
+		} else if (button.isHoveredOrFocused()) {
+			i = 2;
+		}
+
+		return 46 + i * 20;
 	}
 }

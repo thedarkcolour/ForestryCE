@@ -73,7 +73,7 @@ public class SnowingBeeEffect extends ThrottledBeeEffect {
 					} else {
 						level.setBlockAndUpdate(posBlock, Blocks.SNOW.defaultBlockState());
 					}
-				} else if (block.defaultBlockState().getMaterial().isReplaceable()) {
+				} else if (block.defaultBlockState().canBeReplaced()) {
 					level.setBlockAndUpdate(posBlock, Blocks.SNOW.defaultBlockState());
 				}
 			}

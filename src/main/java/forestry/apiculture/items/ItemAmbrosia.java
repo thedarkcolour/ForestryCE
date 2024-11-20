@@ -23,8 +23,7 @@ import forestry.core.items.ItemForestryFood;
 public class ItemAmbrosia extends ItemForestryFood {
 
 	public ItemAmbrosia() {
-		super((new Item.Properties())
-				.tab(ItemGroups.tabForestry)
+		super(new Item.Properties()
 			.food(new FoodProperties.Builder()
 					.alwaysEat()
 					.nutrition(Constants.FOOD_AMBROSIA_HEAL)

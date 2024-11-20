@@ -15,15 +15,13 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
-import forestry.api.core.ItemGroups;
 import forestry.core.circuits.ContainerSolderingIron;
 import forestry.core.circuits.ISolderingIron;
 import forestry.core.inventory.ItemInventorySolderingIron;
 
 public class ItemSolderingIron extends ItemWithGui implements ISolderingIron {
-
 	public ItemSolderingIron() {
-		super(new Item.Properties().durability(5).tab(ItemGroups.tabForestry));
+		super(new Item.Properties().durability(5));
 	}
 
 	@Override

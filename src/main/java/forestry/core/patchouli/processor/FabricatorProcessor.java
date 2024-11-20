@@ -7,6 +7,7 @@ import com.google.common.base.Preconditions;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.Level;
 
 import forestry.api.recipes.IFabricatorRecipe;
 import forestry.core.utils.ModUtil;
@@ -25,17 +26,17 @@ public class FabricatorProcessor implements IComponentProcessor {
 	protected IFabricatorRecipe recipe;
 
 	@Override
-	public void setup(IVariableProvider variables) {
+	public void setup(Level level, IVariableProvider variables) {
 		ItemStack stack = variables.get("item").as(ItemStack.class, ItemStack.EMPTY);
 
-		this.recipe = RecipeUtils.getRecipeByOutput(FactoryRecipeTypes.FABRICATOR, stack);
+		this.recipe = RecipeUtils.getRecipeByOutput(FactoryRecipeTypes.FABRICATOR, level.registryAccess(), stack);
 	}
 
 	@Override
-	public IVariable process(String key) {
+	public IVariable process(Level level, String key) {
 		Preconditions.checkNotNull(recipe);
 		if (key.equals("output")) {
-			return IVariable.from(this.recipe.getCraftingGridRecipe().getResultItem());
+			return IVariable.from(this.recipe.getCraftingGridRecipe().getResultItem(level.registryAccess()));
 		} else if (key.equals("fluid")) {
 			return IVariable.wrap(ModUtil.getRegistryName(this.recipe.getResultFluid().getFluid()).toString());
 		} else if (key.equals("fluidAmount")) {

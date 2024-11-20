@@ -42,7 +42,7 @@ public record PacketRecipeTransferUpdate(BlockPos pos, NonNullList<ItemStack> cr
 	}
 
 	public static void handle(PacketRecipeTransferUpdate msg, Player player) {
-		BlockEntity tile = TileUtil.getTile(player.level, msg.pos);
+		BlockEntity tile = TileUtil.getTile(player.level(), msg.pos);
 		if (tile instanceof TileCarpenter carpenter) {
 			int index = 0;
 			for (ItemStack stack : msg.craftingInventory) {

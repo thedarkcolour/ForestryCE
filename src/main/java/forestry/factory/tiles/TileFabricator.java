@@ -182,7 +182,7 @@ public class TileFabricator extends TilePowered implements ISlotPickupWatcher, I
 			return ItemStack.EMPTY;
 		}
 
-		return myRecipe.getCraftingGridRecipe().getResultItem().copy();
+		return myRecipe.getCraftingGridRecipe().getResultItem(this.level.registryAccess()).copy();
 	}
 
 	/* ISlotPickupWatcher */

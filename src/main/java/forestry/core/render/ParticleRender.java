@@ -16,8 +16,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.phys.Vec3;
 
-import com.mojang.math.Vector3f;
-
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -36,6 +34,8 @@ import forestry.core.config.ForestryConfig;
 import forestry.core.entities.ParticleIgnition;
 import forestry.core.entities.ParticleSmoke;
 import forestry.core.utils.VecUtil;
+
+import org.joml.Vector3f;
 
 @OnlyIn(Dist.CLIENT)
 public class ParticleRender {
@@ -71,7 +71,7 @@ public class ParticleRender {
 		// At 32+ distance, have no bee particles. Make more particles up close.
 		BlockPos playerPosition = Minecraft.getInstance().player.blockPosition();
 		//TODO - correct?
-		double playerDistanceSq = playerPosition.distSqr(new Vec3i(particleStart.x, particleStart.y, particleStart.z));
+		double playerDistanceSq = playerPosition.distSqr(BlockPos.containing(particleStart.x, particleStart.y, particleStart.z));
 		if (world.random.nextInt(1024) < playerDistanceSq) {
 			return;
 		}

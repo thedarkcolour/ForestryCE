@@ -13,10 +13,8 @@ package forestry.core.circuits;
 import javax.annotation.Nullable;
 import java.util.List;
 
-import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
@@ -41,13 +39,6 @@ public class ItemCircuitBoard extends ItemForestry implements IColoredItem {
 
 	public EnumCircuitBoardType getType() {
 		return type;
-	}
-
-	@Override
-	public void fillItemCategory(CreativeModeTab tab, NonNullList<ItemStack> subItems) {
-		if (this.allowedIn(tab)) {
-			subItems.add(createCircuitboard(type, null, new ICircuit[0]));
-		}
 	}
 
 	@Override

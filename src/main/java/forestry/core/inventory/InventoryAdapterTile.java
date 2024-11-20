@@ -15,7 +15,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.core.Direction;
 
 public class InventoryAdapterTile<T extends BlockEntity> extends InventoryAdapterRestricted {
-
 	protected final T tile;
 
 	public InventoryAdapterTile(T tile, int size, String name) {

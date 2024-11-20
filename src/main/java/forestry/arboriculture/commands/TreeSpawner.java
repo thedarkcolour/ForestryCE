@@ -11,9 +11,8 @@
 package forestry.arboriculture.commands;
 
 import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 
 import forestry.api.arboriculture.genetics.ITree;
@@ -28,7 +27,7 @@ public class TreeSpawner implements ITreeSpawner {
 		int z = (int) Math.round(player.getZ() + 3 * look.z);
 		BlockPos pos = new BlockPos(x, y, z);
 
-		TreeGenHelper.generateTree(tree.getSpecies(), (ServerLevel) player.level, pos);
+		TreeGenHelper.generateTree(tree.getSpecies(), source.getLevel(), pos);
 		return 1;
 	}
 }

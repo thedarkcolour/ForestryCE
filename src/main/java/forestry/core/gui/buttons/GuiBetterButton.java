@@ -11,18 +11,17 @@
 package forestry.core.gui.buttons;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import forestry.api.ForestryConstants;
 import forestry.core.config.Constants;
+import forestry.core.utils.RenderUtil;
 
 public class GuiBetterButton extends Button {
 	public static final ResourceLocation TEXTURE = ForestryConstants.forestry(Constants.TEXTURE_PATH_GUI + "/buttons.png");
@@ -30,29 +29,25 @@ public class GuiBetterButton extends Button {
 	protected final IButtonTextureSet texture;
 
 	public GuiBetterButton(int x, int y, IButtonTextureSet texture, OnPress handler) {
-		super(x, y, texture.getWidth(), texture.getHeight(), Component.empty(), handler);
+		super(x, y, texture.getWidth(), texture.getHeight(), Component.empty(), handler, DEFAULT_NARRATION);
 		this.texture = texture;
 	}
 
 	@Override
-	public void renderButton(PoseStack pPoseStack, int pMouseX, int pMouseY, float pPartialTick) {
-		// VANILLA COPY EXCEPT FOR TEXTURE AND COORDINATES
+	public void renderWidget(GuiGraphics graphics, int mX, int mY, float partialTick) {
 		int xOffset = this.texture.getX();
 		int yOffset = this.texture.getY();
 		int h = this.height;
 		int w = this.width;
 
+		// VANILLA COPY EXCEPT FOR TEXTURE AND COORDINATES
 		Minecraft minecraft = Minecraft.getInstance();
-		Font font = minecraft.font;
-		RenderSystem.setShader(GameRenderer::getPositionTexShader);
-		RenderSystem.setShaderTexture(0, TEXTURE);
-		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, this.alpha);
-		int i = this.getYImage(this.isHoveredOrFocused());
+		graphics.setColor(1.0F, 1.0F, 1.0F, this.alpha);
 		RenderSystem.enableBlend();
-		RenderSystem.defaultBlendFunc();
 		RenderSystem.enableDepthTest();
-		blit(pPoseStack, x, y, xOffset, yOffset + i * h, w, h);
-		int j = getFGColor();
-		drawCenteredString(pPoseStack, font, this.getMessage(), this.x + this.width / 2, this.y + (this.height - 8) / 2, j | Mth.ceil(this.alpha * 255.0F) << 24);
+		graphics.blit(TEXTURE, getX(), getY(), xOffset, yOffset + RenderUtil.getTextureY(this) * h, w, h);
+		graphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
+		int i = getFGColor();
+		this.renderString(graphics, minecraft.font, i | Mth.ceil(this.alpha * 255.0F) << 24);
 	}
 }

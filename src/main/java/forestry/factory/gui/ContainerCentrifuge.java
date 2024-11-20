@@ -10,10 +10,10 @@
  ******************************************************************************/
 package forestry.factory.gui;
 
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.Container;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.Container;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.ItemStack;
 
 import forestry.core.gui.ContainerSocketed;
 import forestry.core.gui.slots.SlotFiltered;
@@ -25,10 +25,11 @@ import forestry.factory.features.FactoryMenuTypes;
 import forestry.factory.tiles.TileCentrifuge;
 
 public class ContainerCentrifuge extends ContainerSocketed<TileCentrifuge> {
+	private ItemStack oldCraftPreview = ItemStack.EMPTY;
 
 	public static ContainerCentrifuge fromNetwork(int windowId, Inventory inv, FriendlyByteBuf data) {
-		TileCentrifuge tile = TileUtil.getTile(inv.player.level, data.readBlockPos(), TileCentrifuge.class);
-		return new ContainerCentrifuge(windowId, inv, tile);    //TODO nullability.
+		TileCentrifuge tile = TileUtil.getTile(inv.player.level(), data.readBlockPos(), TileCentrifuge.class);
+		return new ContainerCentrifuge(windowId, inv, tile);
 	}
 
 	public ContainerCentrifuge(int windowId, Inventory player, TileCentrifuge tile) {
@@ -48,8 +49,6 @@ public class ContainerCentrifuge extends ContainerSocketed<TileCentrifuge> {
 		}
 	}
 
-	private ItemStack oldCraftPreview = ItemStack.EMPTY;
-
 	@Override
 	public void broadcastChanges() {
 		super.broadcastChanges();
@@ -64,5 +63,4 @@ public class ContainerCentrifuge extends ContainerSocketed<TileCentrifuge> {
 			sendPacketToListeners(packet);
 		}
 	}
-
 }

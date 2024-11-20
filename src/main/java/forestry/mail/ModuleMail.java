@@ -27,7 +27,6 @@ import forestry.api.mail.PostManager;
 import forestry.api.modules.ForestryModule;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.api.modules.IPacketRegistry;
-import forestry.core.config.ForestryConfig;
 import forestry.core.network.PacketIdClient;
 import forestry.core.network.PacketIdServer;
 import forestry.mail.client.MailClientHandler;

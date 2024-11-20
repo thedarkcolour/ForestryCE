@@ -73,7 +73,7 @@ public class GrafterLootModifier extends LootModifier {
 	}
 
 	public void handleLoot(List<ItemStack> generatedLoot, Player player, ItemStack harvestingTool, BlockState state, LootContext context) {
-		Level world = player.level;
+		Level world = player.level();
 		BlockEntity tileEntity = context.getParamOrNull(LootContextParams.BLOCK_ENTITY);
 		ITree tree = getTree(state, tileEntity);
 		if (tree == null) {
@@ -83,7 +83,7 @@ public class GrafterLootModifier extends LootModifier {
 		if (origin == null) {
 			return;
 		}
-		BlockPos pos = new BlockPos(origin);
+		BlockPos pos = BlockPos.containing(origin);
 		Item item = harvestingTool.getItem();
 		float saplingModifier = 1.0f;
 		if (item instanceof IToolGrafter) {

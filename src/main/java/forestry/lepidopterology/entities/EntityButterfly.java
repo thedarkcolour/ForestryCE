@@ -43,7 +43,6 @@ import net.minecraft.world.level.block.FenceBlock;
 import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
@@ -206,7 +205,7 @@ public class EntityButterfly extends PathfinderMob implements IEntityButterfly {
 	}
 
 	public float getWingFlap(float partialTickTime) {
-		int offset = species != null ? species.id().toString().hashCode() : level.random.nextInt();
+		int offset = species != null ? species.id().toString().hashCode() : level().random.nextInt();
 		return getState().getWingFlap(this, offset, partialTickTime);
 	}
 
@@ -214,7 +213,7 @@ public class EntityButterfly extends PathfinderMob implements IEntityButterfly {
 	public void setState(EnumButterflyState state) {
 		if (this.state != state) {
 			this.state = state;
-			if (!level.isClientSide) {
+			if (!level().isClientSide) {
 				entityData.set(DATAWATCHER_ID_STATE, (byte) state.ordinal());
 			}
 		}
@@ -250,6 +249,7 @@ public class EntityButterfly extends PathfinderMob implements IEntityButterfly {
 
 	@Override
 	public float getWalkTargetValue(BlockPos pos) {
+		Level level = level();
 		if (!level.hasChunkAt(pos)) {
 			return -100f;
 		}
@@ -281,7 +281,7 @@ public class EntityButterfly extends PathfinderMob implements IEntityButterfly {
 				weight += 1.5f;
 			} else if (block instanceof BonemealableBlock) {
 				weight += 1.0f;
-			} else if (blockState.getMaterial() == Material.PLANT) {
+			} else if (blockState.is(BlockTags.LEAVES)) {
 				weight += 1.0f;
 			}
 
@@ -305,8 +305,9 @@ public class EntityButterfly extends PathfinderMob implements IEntityButterfly {
 		return distanceToHome < this.getRestrictRadius() * this.getRestrictRadius();
 	}
 
+	// todo address the deprecated function
 	private int getFluidDepth(BlockPos pos) {
-		ChunkAccess chunk = level.getChunk(pos);
+		ChunkAccess chunk = level().getChunk(pos);
 		int xx = pos.getX() & 15;
 		int zz = pos.getZ() & 15;
 		int depth = 0;
@@ -314,7 +315,7 @@ public class EntityButterfly extends PathfinderMob implements IEntityButterfly {
 
 		for (int y = chunk.getHighestSectionPosition() + 15; y > 0; --y) {
 			BlockState blockState = chunk.getBlockState(cursor.setY(y));
-			if (blockState.getMaterial().isLiquid()) {
+			if (blockState.liquid()) {
 				depth++;
 			} else if (!blockState.isAir()) {
 				break;
@@ -349,7 +350,7 @@ public class EntityButterfly extends PathfinderMob implements IEntityButterfly {
 
 	/* FLYING ABILITY */
 	public boolean canFly() {
-		return contained.canTakeFlight(level, getX(), getY(), getZ());
+		return this.contained.canTakeFlight(level(), getX(), getY(), getZ());
 	}
 
 	public void setIndividual(@Nullable IButterfly butterfly) {
@@ -364,7 +365,7 @@ public class EntityButterfly extends PathfinderMob implements IEntityButterfly {
 		this.size = genome.getActiveValue(ButterflyChromosomes.SIZE);
 		this.species = genome.getActiveValue(ButterflyChromosomes.SPECIES);
 
-		if (!level.isClientSide) {
+		if (!level().isClientSide) {
 			entityData.set(DATAWATCHER_ID_SIZE, (int) (size * 100));
 			entityData.set(DATAWATCHER_ID_SPECIES, this.species.id().toString());
 		} else {
@@ -379,7 +380,7 @@ public class EntityButterfly extends PathfinderMob implements IEntityButterfly {
 
 	@Override
 	public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, @Nullable SpawnGroupData spawnDataIn, @Nullable CompoundTag dataTag) {
-		if (!level.isClientSide) {
+		if (!level().isClientSide) {
 			setIndividual(contained);
 		}
 		return spawnDataIn;
@@ -435,6 +436,7 @@ public class EntityButterfly extends PathfinderMob implements IEntityButterfly {
 		}
 		ItemStack stack = player.getItemInHand(hand);
 		if (stack.is(ForestryTags.Items.SCOOPS)) {
+			Level level = level();
 			if (!level.isClientSide) {
 				IButterflySpeciesType type = SpeciesUtil.BUTTERFLY_TYPE.get();
 				ILepidopteristTracker tracker = (ILepidopteristTracker) type.getBreedingTracker(level, player.getGameProfile());
@@ -455,6 +457,7 @@ public class EntityButterfly extends PathfinderMob implements IEntityButterfly {
 	/* LOOT */
 	@Override
 	protected void dropCustomDeathLoot(DamageSource source, int looting, boolean recentlyHitIn) {
+		Level level = level();
 		for (ItemStack stack : contained.getLootDrop(this, recentlyHitIn, looting)) {
 			ItemStackUtil.dropItemStackAsEntity(stack, level, getX(), getY(), getZ());
 		}
@@ -474,7 +477,7 @@ public class EntityButterfly extends PathfinderMob implements IEntityButterfly {
 		super.tick();
 
 		// Update stuff client side
-		if (level.isClientSide) {
+		if (level().isClientSide) {
 			if (species == null) {
 				String speciesUid = entityData.get(DATAWATCHER_ID_SPECIES);
 				IButterflySpecies species = SpeciesUtil.BUTTERFLY_TYPE.get().getSpeciesSafe(new ResourceLocation(speciesUid));
@@ -501,11 +504,11 @@ public class EntityButterfly extends PathfinderMob implements IEntityButterfly {
 
 		// Make sure we die if the butterfly hasn't rested in a long, long time.
 		if (exhaustion > EXHAUSTION_CONSUMPTION && random.nextInt(20) == 0) {
-			hurt(DamageSource.GENERIC, 1);
+			hurt(damageSources().generic(), 1);
 		}
 
 		if (tickCount > MAX_LIFESPAN) {
-			hurt(DamageSource.GENERIC, 1);
+			hurt(damageSources().generic(), 1);
 		}
 
 		// Reduce cooldowns

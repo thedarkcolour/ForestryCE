@@ -14,7 +14,6 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
-import net.minecraft.world.level.material.Material;
 
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.PlantType;
@@ -25,10 +24,7 @@ public class BlockHumus extends Block {
 	public static final IntegerProperty DEGRADE = IntegerProperty.create("degrade", 0, DEGRADE_STEPS);
 
 	public BlockHumus() {
-		super(Block.Properties.of(Material.DIRT)
-				.randomTicks()
-				.strength(0.5f)
-				.sound(SoundType.GRAVEL));
+		super(Block.Properties.of().randomTicks().strength(0.5f).sound(SoundType.GRAVEL));
 
 		registerDefaultState(this.getStateDefinition().any().setValue(DEGRADE, 0));
 	}

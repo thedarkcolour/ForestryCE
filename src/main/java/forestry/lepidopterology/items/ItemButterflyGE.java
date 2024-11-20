@@ -13,21 +13,18 @@ package forestry.lepidopterology.items;
 import java.util.List;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
 import forestry.Forestry;
-import forestry.api.core.ItemGroups;
 import forestry.api.genetics.ISpeciesType;
 import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.api.lepidopterology.IButterflyNursery;
@@ -48,7 +45,7 @@ public class ItemButterflyGE extends ItemGE implements IColoredItem {
 	public static final int MAX_AGE = 3;
 
 	public ItemButterflyGE(ButterflyLifeStage stage) {
-		super(new Properties().tab(ItemGroups.tabLepidopterology), stage);
+		super(new Properties(), stage);
 	}
 
 	@Override
@@ -61,13 +58,7 @@ public class ItemButterflyGE extends ItemGE implements IColoredItem {
 		return SpeciesUtil.BUTTERFLY_TYPE.get();
 	}
 
-	@Override
-	public void fillItemCategory(CreativeModeTab tab, NonNullList<ItemStack> subItems) {
-		if (this.allowedIn(tab)) {
-			addCreativeItems(subItems, true);
-		}
-	}
-
+	// todo fix
 	public void addCreativeItems(List<ItemStack> subItems, boolean hideSecrets) {
 		if (this.stage == ButterflyLifeStage.COCOON) {
 			for (int age = 0; age < MAX_AGE; age++) {
@@ -101,7 +92,7 @@ public class ItemButterflyGE extends ItemGE implements IColoredItem {
 		if (this.stage != ButterflyLifeStage.BUTTERFLY) {
 			return false;
 		}
-		Level level = entityItem.level;
+		Level level = entityItem.level();
 		if (level.isClientSide || entityItem.tickCount < 80) {
 			return false;
 		}
@@ -118,7 +109,7 @@ public class ItemButterflyGE extends ItemGE implements IColoredItem {
 			return false;
 		}
 
-		EntityUtil.spawnEntity(entityItem.level, EntityButterfly.create(LepidopterologyEntities.BUTTERFLY.entityType(), entityItem.level, butterfly, entityItem.blockPosition()), entityItem.getX(), entityItem.getY(), entityItem.getZ());
+		EntityUtil.spawnEntity(entityItem.level(), EntityButterfly.create(LepidopterologyEntities.BUTTERFLY.entityType(), entityItem.level(), butterfly, entityItem.blockPosition()), entityItem.getX(), entityItem.getY(), entityItem.getZ());
 		if (!entityItem.getItem().isEmpty()) {
 			entityItem.getItem().shrink(1);
 		} else {

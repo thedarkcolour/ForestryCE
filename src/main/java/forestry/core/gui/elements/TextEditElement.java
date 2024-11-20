@@ -5,9 +5,9 @@ import java.awt.Rectangle;
 import java.util.function.Predicate;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.network.chat.Component;
 
 public class TextEditElement extends GuiElement implements IValueElement<String> {
@@ -118,11 +118,11 @@ public class TextEditElement extends GuiElement implements IValueElement<String>
 	//TODO - maybe need to supply start/end points now?
 	//TODO third param probably partial ticks. Is it being 0 a problem?
 	@Override
-	public void drawElement(PoseStack transform, int mouseX, int mouseY) {
+	public void drawElement(GuiGraphics graphics, int mouseX, int mouseY) {
 		if (field == null) {
 			return;
 		}
-		field.render(transform, mouseY, mouseX, 0);
+		field.render(graphics, mouseY, mouseX, 0);
 	}
 
 	@Override

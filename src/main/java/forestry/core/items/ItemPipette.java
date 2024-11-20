@@ -24,14 +24,13 @@ import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fluids.capability.templates.FluidHandlerItemStack;
 
 import forestry.api.core.IToolPipette;
-import forestry.api.core.ItemGroups;
 import forestry.core.fluids.PipetteContents;
 import forestry.core.items.definitions.IColoredItem;
 import forestry.core.utils.RenderUtil;
 
 public class ItemPipette extends ItemForestry implements IToolPipette, IColoredItem {
 	public ItemPipette() {
-		super(new Properties().stacksTo(1).tab(ItemGroups.tabForestry));
+		super(new Properties().stacksTo(1));
 	}
 
 	@Override

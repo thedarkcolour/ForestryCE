@@ -1,30 +1,30 @@
 package forestry.core.gui.buttons;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
-
-import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.network.chat.Component;
 
 import forestry.core.gui.Drawable;
-
-import net.minecraft.client.gui.components.Button.OnPress;
-import net.minecraft.network.chat.Component;
+import forestry.core.utils.RenderUtil;
 
 public class GuiToggleButton extends Button {
 	/* attributes - Final */
 	private final Drawable[] textures = new Drawable[3];
 
 	public GuiToggleButton(int x, int y, int widthIn, int heightIn, Drawable drawable, OnPress handler) {
-		super(x, y, widthIn, heightIn, Component.empty(), handler);
+		super(x, y, widthIn, heightIn, Component.empty(), handler, DEFAULT_NARRATION);
 		for (int i = 0; i < 3; i++) {
 			textures[i] = new Drawable(drawable.textureLocation, drawable.u, drawable.v + drawable.vHeight * i, drawable.uWidth, drawable.vHeight);
 		}
 	}
 
 	@Override
-	public void render(PoseStack transform, int mouseX, int mouseY, float partialTicks) {
-		this.isHovered = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
-		int hoverState = this.getYImage(this.isHovered);
+	public void render(GuiGraphics graphics, int mX, int mY, float partialTick) {
+		int x = getX(), y = getY();
+
+		this.isHovered = mX >= x && mY >= y && mX < x + this.width && mY < y + this.height;
+		int hoverState = RenderUtil.getTextureY(this);
 		Drawable drawable = textures[hoverState];
-		drawable.draw(transform, y, x);
+		drawable.draw(graphics, y, x);
 	}
 }

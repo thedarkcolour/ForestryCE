@@ -12,14 +12,11 @@ package forestry.lepidopterology.proxy;
 
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.client.renderer.item.ItemPropertyFunction;
-import net.minecraft.core.Registry;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
+import net.minecraft.core.registries.Registries;
 
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.ModelEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.registries.RegistryObject;
 
 import forestry.api.ForestryConstants;
 import forestry.api.client.IClientModuleHandler;
@@ -31,9 +28,7 @@ import forestry.lepidopterology.items.ItemButterflyGE;
 import forestry.lepidopterology.render.ButterflyEntityRenderer;
 import forestry.lepidopterology.render.ButterflyItemModel;
 import forestry.lepidopterology.render.ButterflyModel;
-import forestry.modules.features.IFeatureRegistry;
 import forestry.modules.features.ModFeatureRegistry;
-import forestry.storage.items.ItemBackpack;
 
 public class LepidopterologyClientHandler implements IClientModuleHandler {
 	@Override
@@ -42,7 +37,7 @@ public class LepidopterologyClientHandler implements IClientModuleHandler {
 		modBus.addListener(LepidopterologyClientHandler::setupLayers);
 		modBus.addListener(LepidopterologyClientHandler::registerModelLoaders);
 
-		ModFeatureRegistry.get(ForestryModuleIds.LEPIDOPTEROLOGY).addRegistryListener(Registry.ITEM_REGISTRY, event -> {
+		ModFeatureRegistry.get(ForestryModuleIds.LEPIDOPTEROLOGY).addRegistryListener(Registries.ITEM, event -> {
 			@SuppressWarnings("deprecation")
 			ItemPropertyFunction itemPropertyFunction = (stack, clientLevel, holder, idk) -> ItemButterflyGE.getAge(stack);
 

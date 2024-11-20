@@ -26,7 +26,7 @@ public record PacketTraderAddressRequest(BlockPos pos, String addressName) imple
 	}
 
 	public static void handle(PacketTraderAddressRequest msg, ServerPlayer player) {
-		TileUtil.actOnTile(player.level, msg.pos(), TileTrader.class, tile -> tile.handleSetAddressRequest(msg.addressName()));
+		TileUtil.actOnTile(player.level(), msg.pos(), TileTrader.class, tile -> tile.handleSetAddressRequest(msg.addressName()));
 	}
 
 	@Override

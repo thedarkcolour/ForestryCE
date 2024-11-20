@@ -26,7 +26,7 @@ public class ItemBackpackNaturalist extends ItemBackpack {
 	public final ResourceLocation typeId;
 
 	public ItemBackpackNaturalist(ResourceLocation typeId, IBackpackDefinition definition, CreativeModeTab tab) {
-		super(definition, EnumBackpackType.NATURALIST, tab);
+		super(definition, EnumBackpackType.NATURALIST);
 		this.typeId = typeId;
 	}
 

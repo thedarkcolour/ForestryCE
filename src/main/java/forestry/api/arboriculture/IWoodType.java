@@ -8,6 +8,8 @@ package forestry.api.arboriculture;
 import javax.annotation.Nullable;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 
@@ -32,4 +34,12 @@ public interface IWoodType extends IBlockSubtype {
 	 * @return Whether the placement was successful. Typically the same return value as {@link LevelAccessor#setBlock}.
 	 */
 	boolean setDefaultLeaves(LevelAccessor level, BlockPos pos, IGenome genome, RandomSource rand, @Nullable GameProfile owner);
+
+	default SoundEvent getFenceGateOpenSound() {
+		return SoundEvents.FENCE_GATE_OPEN;
+	}
+
+	default SoundEvent getFenceGateCloseSound() {
+		return SoundEvents.FENCE_GATE_CLOSE;
+	}
 }

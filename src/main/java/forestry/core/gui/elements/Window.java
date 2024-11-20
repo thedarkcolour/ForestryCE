@@ -12,6 +12,7 @@ import java.util.ListIterator;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.texture.TextureManager;
 
@@ -222,15 +223,16 @@ public abstract class Window extends ContainerElement {
 		return widgets;
 	}
 
-	public void drawTooltip(PoseStack transform, int mouseX, int mouseY) {
+	public void drawTooltip(GuiGraphics graphics, int mouseX, int mouseY) {
 		ToolTip lines = getTooltip(mouseX, mouseY);
-		if (!lines.isEmpty()) {
-			transform.pushPose();
+		// apparently this is no-op
+		/*if (!lines.isEmpty()) {
+			graphics.pushPose();
 			//TODO test
 			com.mojang.blaze3d.platform.Window window = Minecraft.getInstance().getWindow();
 			// GuiUtils.drawHoveringText(transform, lines.getLines(), mouseX - getX(), mouseY - getY(), window.getGuiScaledWidth(), window.getGuiScaledHeight(), -1, getFontRenderer());
-			transform.popPose();
-		}
+			graphics.popPose();
+		}*/
 	}
 
 	@Override

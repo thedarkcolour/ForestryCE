@@ -24,11 +24,12 @@ import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.FoliageColor;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.phys.BlockHitResult;
 
 import com.mojang.authlib.GameProfile;
@@ -76,14 +77,13 @@ public class BlockForestryLeaves extends BlockAbstractLeaves implements Bonemeal
 		return !state.getValue(PERSISTENT);
 	}
 
-	/* TILE ENTITY */
 	@Override
 	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
 		return new TileLeaves(pos, state);
 	}
 
 	@Override
-	protected void getLeafDrop(List<ItemStack> drops, Level level, @Nullable BlockPos pos, @Nullable GameProfile profile, float saplingModifier, int fortune, LootContext.Builder context) {
+	protected void getLeafDrop(List<ItemStack> drops, Level level, @Nullable BlockPos pos, @Nullable GameProfile profile, float saplingModifier, int fortune, LootParams.Builder context) {
 		if (!(level.getBlockEntity(pos) instanceof TileLeaves leaves)) {
 			return;
 		}
@@ -137,7 +137,7 @@ public class BlockForestryLeaves extends BlockAbstractLeaves implements Bonemeal
 	/* IGrowable */
 
 	@Override
-	public boolean isValidBonemealTarget(BlockGetter world, BlockPos pos, BlockState state, boolean isClient) {
+	public boolean isValidBonemealTarget(LevelReader world, BlockPos pos, BlockState state, boolean isClient) {
 		TileLeaves leafTile = TileUtil.getTile(world, pos, TileLeaves.class);
 		return leafTile != null && leafTile.hasFruit() && leafTile.getRipeness() < 1.0f;
 	}

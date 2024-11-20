@@ -12,7 +12,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -33,7 +32,7 @@ public class BlockDecorativeLeaves extends Block implements IColoredBlock, IForg
 	private final ForestryLeafType type;
 
 	public BlockDecorativeLeaves(ForestryLeafType type) {
-		super(Properties.of(Material.LEAVES)
+		super(Properties.of()
 				.strength(0.2f)
 				.sound(SoundType.GRASS)
 				.noOcclusion()

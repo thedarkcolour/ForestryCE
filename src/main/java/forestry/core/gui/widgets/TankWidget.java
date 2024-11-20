@@ -13,6 +13,7 @@ package forestry.core.gui.widgets;
 import javax.annotation.Nullable;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -27,10 +28,8 @@ import net.minecraft.world.level.material.Fluid;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
-import com.mojang.math.Matrix4f;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -44,6 +43,8 @@ import forestry.core.fluids.StandardTank;
 import forestry.core.gui.IContainerLiquidTanks;
 import forestry.core.utils.ResourceUtil;
 import forestry.farming.gui.ContainerFarm;
+
+import org.joml.Matrix4f;
 
 /**
  * Slot for liquid tanks
@@ -71,16 +72,16 @@ public class TankWidget extends Widget {
 	@Nullable
 	public IFluidTank getTank() {
 		AbstractContainerMenu container = manager.gui.getMenu();
-		if (container instanceof IContainerLiquidTanks) {
-			return ((IContainerLiquidTanks) container).getTank(slot);
-		} else if (container instanceof ContainerFarm) {
-			return ((ContainerFarm) container).getTank(slot);
+		if (container instanceof IContainerLiquidTanks tanks) {
+			return tanks.getTank(slot);
+		} else if (container instanceof ContainerFarm farm) {
+			return farm.getTank(slot);
 		}
 		return null;
 	}
 
 	@Override
-	public void draw(PoseStack transform, int startX, int startY) {
+	public void draw(GuiGraphics graphics, int startX, int startY) {
 		RenderSystem.disableBlend();
 		IFluidTank tank = getTank();
 
@@ -136,7 +137,7 @@ public class TankWidget extends Widget {
 							int maskTop = 16 - height;
 							int maskRight = 16 - width;
 
-							drawFluidTexture(transform.last().pose(), x + xPos, y + yPos, fluidStillSprite, maskTop, maskRight, 100);
+							drawFluidTexture(graphics.pose().last().pose(), x + xPos, y + yPos, fluidStillSprite, maskTop, maskRight, 100);
 						}
 					}
 				}
@@ -146,9 +147,8 @@ public class TankWidget extends Widget {
 		if (drawOverlay) {
 			// RenderSystem.enableAlphaTest();
 			RenderSystem.disableDepthTest();
-			RenderSystem.setShaderTexture(0, manager.gui.textureFile);
 			setGLColorFromInt(0xffffff);
-			manager.gui.blit(transform, startX + xPos, startY + yPos, overlayTexX, overlayTexY, 16, 60);
+			graphics.blit(manager.gui.textureFile, startX + xPos, startY + yPos, overlayTexX, overlayTexY, 16, 60);
 			RenderSystem.enableDepthTest();
 			// RenderSystem.disableAlphaTest();
 		}

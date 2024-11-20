@@ -2,21 +2,19 @@ package forestry.arboriculture.items;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.crafting.RecipeType;
 
 import forestry.api.arboriculture.IWoodType;
-import forestry.api.core.ItemGroups;
 import forestry.arboriculture.WoodHelper;
 import forestry.arboriculture.blocks.BlockForestrySlab;
 
 public class ItemBlockWoodSlab extends BlockItem {
-
 	public ItemBlockWoodSlab(BlockForestrySlab block) {
-		super(block, new Item.Properties().tab(ItemGroups.tabArboriculture));
+		super(block, new Item.Properties());
 	}
 
 	@Override

@@ -74,14 +74,14 @@ public abstract class ContainerForestry extends AbstractContainerMenu {
 	}
 
 	@Override
-	public void clicked(int slotId, int dragType_or_button, ClickType clickTypeIn, Player player) {
+	public void clicked(int slotId, int button, ClickType clickTypeIn, Player player) {
 		if (!canAccess(player)) {
 			return;
 		}
 
-		if (clickTypeIn == ClickType.SWAP && dragType_or_button >= 0 && dragType_or_button < 9) {
+		if (clickTypeIn == ClickType.SWAP && button >= 0 && button < 9) {
 			// hotkey used to move item from slot to hotbar
-			int hotbarSlotIndex = PLAYER_HOTBAR_OFFSET + dragType_or_button;
+			int hotbarSlotIndex = PLAYER_HOTBAR_OFFSET + button;
 			Slot hotbarSlot = getSlot(hotbarSlotIndex);
 			if (hotbarSlot instanceof SlotLocked) {
 				return;
@@ -91,13 +91,13 @@ public abstract class ContainerForestry extends AbstractContainerMenu {
 		Slot slot = slotId < 0 ? null : getSlot(slotId);
 		if (slot instanceof SlotForestry slotForestry) {
 			if (slotForestry.isPhantom()) {
-				SlotUtil.slotClickPhantom(slotForestry, dragType_or_button, clickTypeIn, player);
+				SlotUtil.slotClickPhantom(slotForestry, button, clickTypeIn, player);
 				return;
 			}
 		}
 
 		transferCount = 0;
-		super.clicked(slotId, dragType_or_button, clickTypeIn, player);
+		super.clicked(slotId, button, clickTypeIn, player);
 	}
 
 	public Slot getForestrySlot(int slot) {

@@ -1,10 +1,9 @@
 package forestry.core.gui;
 
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -38,18 +37,18 @@ public class Drawable {
 		this.textureHeight = textureHeight;
 	}
 
-	public void draw(PoseStack transform, int yOffset, int xOffset) {
-		draw(transform, yOffset, uWidth, vHeight, xOffset);
+	public void draw(GuiGraphics graphics, int yOffset, int xOffset) {
+		draw(graphics, yOffset, uWidth, vHeight, xOffset);
 	}
 
-	public void draw(PoseStack transform, int yOffset, int width, int height, int xOffset) {
+	public void draw(GuiGraphics graphics, int yOffset, int width, int height, int xOffset) {
 		RenderSystem.setShaderTexture(0, textureLocation);
 
 		// Enable correct lighting.
 		// RenderSystem.enableAlphaTest();
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 
-		GuiComponent.blit(transform, xOffset, yOffset, width, height, u, v, uWidth, vHeight, textureWidth, textureHeight);
+		graphics.blit(this.textureLocation, xOffset, yOffset, width, height, this.u, this.v, this.uWidth, this.vHeight, this.textureWidth, this.textureHeight);
 		// RenderSystem.disableAlphaTest();
 	}
 }

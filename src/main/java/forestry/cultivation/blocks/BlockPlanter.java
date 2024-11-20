@@ -1,44 +1,25 @@
 package forestry.cultivation.blocks;
 
-import java.util.Locale;
-import java.util.Random;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
 
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-
-import forestry.api.core.IBlockSubtype;
 import forestry.core.blocks.BlockBase;
 import forestry.core.render.ParticleRender;
 import forestry.cultivation.tiles.TilePlanter;
 
 public class BlockPlanter extends BlockBase<BlockTypePlanter> {
-	private final Mode mode;
+	private final boolean manual;
 
-	//TODO can probably propagate mode further through the code
-	public enum Mode implements IBlockSubtype {
-		MANUAL,
-		MANAGED;
-
-		@Override
-		public String getSerializedName() {
-			return toString().toLowerCase(Locale.ENGLISH);
-		}
+	public BlockPlanter(BlockTypePlanter type, boolean manual) {
+		super(type, Properties.of());
+		this.manual = manual;
 	}
 
-	public BlockPlanter(BlockTypePlanter type, Mode mode) {
-		super(type, Material.WOOD);
-		this.mode = mode;
-	}
-
-	public Mode getMode() {
-		return mode;
+	public boolean isManual() {
+		return this.manual;
 	}
 
 	@Override
@@ -55,7 +36,7 @@ public class BlockPlanter extends BlockBase<BlockTypePlanter> {
 		BlockEntity tile = super.newBlockEntity(pos, state);
 
 		if (tile instanceof TilePlanter planter) {
-			planter.setManual(getMode());
+			planter.setManual(this.manual);
 		}
 
 		return tile;

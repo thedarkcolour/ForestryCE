@@ -13,17 +13,17 @@ package forestry.factory.tiles;
 import javax.annotation.Nullable;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.storage.ServerLevelData;
 
 import forestry.api.fuels.FuelManager;
@@ -45,13 +45,13 @@ public class TileMillRainmaker extends TileMill {
 
 	@Override
 	public void openGui(ServerPlayer player, InteractionHand hand, BlockPos pos) {
-		if (!player.level.isClientSide) {
+		if (!player.level().isClientSide) {
 			ItemStack heldItem = player.getItemInHand(hand);
 
 			// We don't have a gui, but we can be activated
 			if (FuelManager.rainSubstrate.containsKey(heldItem) && charge == 0) {
 				RainSubstrate substrate = FuelManager.rainSubstrate.get(heldItem);
-				if (substrate.item().sameItem(heldItem)) {
+				if (ItemStack.isSameItem(substrate.item(), heldItem)) {
 					addCharge(substrate);
 					if (!player.isCreative()) {
 						heldItem.shrink(1);

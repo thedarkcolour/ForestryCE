@@ -1,8 +1,9 @@
 package forestry.lepidopterology.features;
 
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.SimpleRecipeSerializer;
+import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
 
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
@@ -16,7 +17,7 @@ import forestry.modules.features.ModFeatureRegistry;
 @FeatureProvider
 public class LepidopterologyRecipes {
 	private static final IFeatureRegistry REGISTRY = ModFeatureRegistry.get(ForestryModuleIds.LEPIDOPTEROLOGY);
-	private static final DeferredRegister<RecipeSerializer<?>> SERIALIZERS = REGISTRY.getRegistry(Registry.RECIPE_SERIALIZER_REGISTRY);
+	private static final DeferredRegister<RecipeSerializer<?>> SERIALIZERS = REGISTRY.getRegistry(Registries.RECIPE_SERIALIZER);
 
-	public static final RegistryObject<SimpleRecipeSerializer<?>> MATING_SERIALIZER = SERIALIZERS.register("butterfly_mating", () -> new SimpleRecipeSerializer<>(ButterflyMatingRecipe::new));
+	public static final RegistryObject<SimpleCraftingRecipeSerializer<?>> MATING_SERIALIZER = SERIALIZERS.register("butterfly_mating", () -> new SimpleCraftingRecipeSerializer<>(ButterflyMatingRecipe::new));
 }

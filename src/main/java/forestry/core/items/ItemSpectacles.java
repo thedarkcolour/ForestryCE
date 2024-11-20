@@ -31,7 +31,6 @@ import net.minecraftforge.common.util.LazyOptional;
 
 import forestry.api.ForestryCapabilities;
 import forestry.api.ForestryConstants;
-import forestry.api.core.ItemGroups;
 import forestry.arboriculture.capabilities.ArmorNaturalist;
 import forestry.core.config.Constants;
 import forestry.core.utils.ItemTooltipUtil;
@@ -40,7 +39,7 @@ public class ItemSpectacles extends ArmorItem {
 	public static final String TEXTURE_NATURALIST_ARMOR_PRIMARY = ForestryConstants.MOD_ID + ":" + Constants.TEXTURE_PATH_ITEM + "/naturalist_armor_1.png";
 
 	public ItemSpectacles() {
-		super(ArmorMaterials.LEATHER, EquipmentSlot.HEAD, (new Item.Properties()).durability(100).tab(ItemGroups.tabForestry));
+		super(ArmorMaterials.LEATHER, Type.HELMET, (new Item.Properties()).durability(100));
 	}
 
 	@Override

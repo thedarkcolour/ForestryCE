@@ -10,10 +10,10 @@
  ******************************************************************************/
 package forestry.core.gui.widgets;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import forestry.api.core.tooltips.ToolTip;
 import forestry.core.gui.GuiEscritoire;
@@ -34,10 +34,9 @@ public class ProbeButton extends Widget {
 	}
 
 	@Override
-	public void draw(PoseStack transform, int startX, int startY) {
-		RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0F);
-		RenderSystem.setShaderTexture(0, manager.gui.textureFile);
-		manager.gui.blit(transform, startX + xPos, startY + yPos, 228, pressed ? 47 : 22, width, height);
+	public void draw(GuiGraphics graphics, int startX, int startY) {
+		graphics.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+		graphics.blit(manager.gui.textureFile, startX + xPos, startY + yPos, 228, pressed ? 47 : 22, width, height);
 	}
 
 	@Override

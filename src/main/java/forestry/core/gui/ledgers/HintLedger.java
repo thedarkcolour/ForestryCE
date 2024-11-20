@@ -15,9 +15,8 @@ import java.util.Random;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import forestry.api.client.ForestrySprites;
 import forestry.api.client.IForestryClientApi;
@@ -42,20 +41,20 @@ public class HintLedger extends Ledger {
 	}
 
 	@Override
-	public void draw(PoseStack transform, int y, int x) {
+	public void draw(GuiGraphics graphics, int y, int x) {
 
 		// Draw background
-		drawBackground(transform, y, x);
+		drawBackground(graphics, y, x);
 
 		// Draw icon
-		drawSprite(transform, IForestryClientApi.INSTANCE.getTextureManager().getSprite(ForestrySprites.MISC_HINT), x + 3, y + 4);
+		drawSprite(graphics, IForestryClientApi.INSTANCE.getTextureManager().getSprite(ForestrySprites.MISC_HINT), x + 3, y + 4);
 
 		if (!isFullyOpened()) {
 			return;
 		}
 
-		drawHeader(transform, Component.translatable("for.gui.didyouknow").append("?"), x + 22, y + 8);
-		drawSplitText(transform, hintString, x + 12, y + 20, maxTextWidth);
+		drawHeader(graphics, Component.translatable("for.gui.didyouknow").append("?"), x + 22, y + 8);
+		drawSplitText(graphics, hintString, x + 12, y + 20, maxTextWidth);
 	}
 
 	@Override

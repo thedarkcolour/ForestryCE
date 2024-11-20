@@ -5,8 +5,7 @@ import com.google.common.base.Preconditions;
 import javax.annotation.Nullable;
 import java.util.function.Consumer;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.client.gui.GuiGraphics;
 
 import forestry.core.gui.Drawable;
 import forestry.core.gui.buttons.StandardButtonTextureSets;
@@ -39,12 +38,12 @@ public class ButtonElement extends GuiElement {
 	}
 
 	@Override
-	public void drawElement(PoseStack transform, int mouseX, int mouseY) {
+	public void drawElement(GuiGraphics graphics, int mouseX, int mouseY) {
 		// RenderSystem.enableAlphaTest();
 		boolean mouseOver = isMouseOver();
 		int hoverState = getTextureIndex(mouseOver);
 		Drawable drawable = textures[hoverState];
-		drawable.draw(transform, 0, 0);
+		drawable.draw(graphics, 0, 0);
 		// RenderSystem.disableAlphaTest();
 	}
 

@@ -73,7 +73,7 @@ public class ContainerLetter extends ContainerItemInventory<ItemInventoryLetter>
 		}
 
 		// Rip open delivered mails
-		if (!player.level.isClientSide) {
+		if (!player.level().isClientSide) {
 			if (inventory.getLetter().isProcessed()) {
 				inventory.onLetterOpened();
 			}
@@ -89,8 +89,7 @@ public class ContainerLetter extends ContainerItemInventory<ItemInventoryLetter>
 
 	@Override
 	public void removed(Player PlayerEntity) {
-
-		if (!PlayerEntity.level.isClientSide) {
+		if (!PlayerEntity.level().isClientSide) {
 			ILetter letter = inventory.getLetter();
 			if (!letter.isProcessed()) {
 				IMailAddress sender = PostManager.postRegistry.getMailAddress(PlayerEntity.getGameProfile());
@@ -145,7 +144,7 @@ public class ContainerLetter extends ContainerItemInventory<ItemInventoryLetter>
 
 		// Update the trading info
 		if (recipient == null || recipient.getType() == EnumAddressee.TRADER) {
-			updateTradeInfo(player.level, recipient);
+			updateTradeInfo(player.level(), recipient);
 		}
 
 		// Update info on client

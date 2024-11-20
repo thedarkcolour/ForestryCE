@@ -33,7 +33,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 
 import forestry.api.ForestryTags;
@@ -42,7 +42,6 @@ import forestry.api.apiculture.genetics.BeeLifeStage;
 import forestry.api.apiculture.genetics.IBee;
 import forestry.api.apiculture.hives.IHiveDrop;
 import forestry.api.apiculture.hives.IHiveTile;
-import forestry.apiculture.MaterialBeehive;
 import forestry.apiculture.features.ApicultureTiles;
 import forestry.apiculture.tiles.TileHive;
 import forestry.core.tiles.TileUtil;
@@ -58,7 +57,7 @@ public class BlockBeeHive extends Block implements EntityBlock {
 	}
 
 	public BlockBeeHive(ResourceLocation speciesId) {
-		super(Properties.of(MaterialBeehive.BEEHIVE_WORLD).sound(SoundType.WOOD).lightLevel(state -> 7).strength(2.5f));
+		super(Properties.of().sound(SoundType.WOOD).lightLevel(state -> 7).strength(2.5f));
 		this.speciesId = speciesId;
 	}
 
@@ -97,8 +96,8 @@ public class BlockBeeHive extends Block implements EntityBlock {
 	}
 
 	@Override
-	public List<ItemStack> getDrops(BlockState state, LootContext.Builder builder) {
-		BlockPos pos = new BlockPos(builder.getParameter(LootContextParams.ORIGIN));
+	public List<ItemStack> getDrops(BlockState state, LootParams.Builder builder) {
+		BlockPos pos = BlockPos.containing(builder.getParameter(LootContextParams.ORIGIN));
 		ItemStack tool = builder.getParameter(LootContextParams.TOOL);
 
 		if (tool.is(ForestryTags.Items.SCOOPS)) {

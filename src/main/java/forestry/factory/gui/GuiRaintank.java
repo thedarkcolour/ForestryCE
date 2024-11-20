@@ -10,10 +10,9 @@
  ******************************************************************************/
 package forestry.factory.gui;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.network.chat.Component;
-
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import forestry.core.config.Constants;
 import forestry.core.gui.GuiForestryTitled;
@@ -31,12 +30,12 @@ public class GuiRaintank extends GuiForestryTitled<ContainerRaintank> {
 	}
 
 	@Override
-	protected void renderBg(PoseStack transform, float partialTicks, int mouseY, int mouseX) {
-		super.renderBg(transform, partialTicks, mouseY, mouseX);
+	protected void renderBg(GuiGraphics graphics, float partialTicks, int mouseY, int mouseX) {
+		super.renderBg(graphics, partialTicks, mouseY, mouseX);
 
 		if (tile.isFilling()) {
 			int progress = tile.getFillProgressScaled(24);
-			blit(transform, leftPos + 80, topPos + 39, 176, 74, progress, 16);
+			graphics.blit(this.textureFile, leftPos + 80, topPos + 39, 176, 74, progress, 16);
 		}
 	}
 

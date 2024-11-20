@@ -38,17 +38,18 @@ public class CommandButterfly {
 	}
 
 	public static class CommandButterflyKill {
-        public static ArgumentBuilder<CommandSourceStack, ?> register() {
-            return Commands.literal("kill").requires(CommandHelpers.ADMIN).executes(CommandButterflyKill::execute);
-        }
+		public static ArgumentBuilder<CommandSourceStack, ?> register() {
+			return Commands.literal("kill").requires(CommandHelpers.ADMIN).executes(CommandButterflyKill::execute);
+		}
 
 		public static int execute(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
 			int killCount = 0;
-			for (Entity butterfly : context.getSource().getPlayerOrException().getLevel().getEntities(LepidopterologyEntities.BUTTERFLY.entityType(), EntitySelector.ENTITY_STILL_ALIVE)) {
+			for (Entity butterfly : context.getSource().getPlayerOrException().serverLevel().getEntities(LepidopterologyEntities.BUTTERFLY.entityType(), EntitySelector.ENTITY_STILL_ALIVE)) {
 				butterfly.remove(Entity.RemovalReason.KILLED);
 				killCount++;
 			}
-			context.getSource().sendSuccess(Component.translatable("for.chat.command.forestry.butterfly.kill.response", killCount), true);
+			int finalKillCount = killCount;
+			context.getSource().sendSuccess(() -> Component.translatable("for.chat.command.forestry.butterfly.kill.response", finalKillCount), true);
 
 			return killCount;
 		}

@@ -3,9 +3,8 @@ package forestry.core.gui.elements;
 import javax.annotation.Nullable;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.item.ItemStack;
-
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import forestry.api.genetics.gatgets.IDatabasePlugin;
 import forestry.api.genetics.gatgets.IDatabaseTab;
@@ -112,7 +111,7 @@ public class GeneticAnalyzerTabs extends ContainerElement {
 		}
 
 		@Override
-		public void drawElement(PoseStack transform, int mouseX, int mouseY) {
+		public void drawElement(GuiGraphics graphics, int mouseX, int mouseY) {
 			if (!isVisible()) {
 				return;
 			}
@@ -121,11 +120,11 @@ public class GeneticAnalyzerTabs extends ContainerElement {
 			if (selected != index) {
 				x += 2;
 			}
-			background.draw(transform, 0, x);
+			background.draw(graphics, 0, x);
 			if (!displayStack.isEmpty()) {
 				//RenderHelper.enableGUIStandardItemLighting(); TODO Gui Light
 				// GlStateManager._enableRescaleNormal();
-				GuiUtil.drawItemStack(transform, Minecraft.getInstance().font, displayStack, x + 9, 5);
+				GuiUtil.drawItemStack(graphics, Minecraft.getInstance().font, displayStack, x + 9, 5);
 				// Lighting.turnOff();
 			}
 		}

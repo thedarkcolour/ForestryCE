@@ -10,6 +10,7 @@
  ******************************************************************************/
 package forestry.core.gui;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -26,7 +27,6 @@ import forestry.core.render.ColourProperties;
 import forestry.core.tiles.EscritoireGame;
 import forestry.core.tiles.EscritoireTextSource;
 import forestry.core.tiles.TileEscritoire;
-import forestry.core.utils.Translator;
 
 public class GuiEscritoire extends GuiForestry<ContainerEscritoire> {
 	private final ItemStack LEVEL_ITEM = new ItemStack(Items.PAPER);
@@ -82,28 +82,30 @@ public class GuiEscritoire extends GuiForestry<ContainerEscritoire> {
 	}
 
 	@Override
-	protected void renderBg(PoseStack transform, float partialTicks, int mouseY, int mouseX) {
-		super.renderBg(transform, partialTicks, mouseY, mouseX);
+	protected void renderBg(GuiGraphics graphics, float partialTicks, int mouseY, int mouseX) {
+		super.renderBg(graphics, partialTicks, mouseY, mouseX);
 
 		for (int i = 0; i <= tile.getGame().getBountyLevel() / 4; i++) {
-			GuiUtil.drawItemStack(transform, this, LEVEL_ITEM, leftPos + 170 + i * 8, topPos + 7);
+			GuiUtil.drawItemStack(graphics, this, LEVEL_ITEM, leftPos + 170 + i * 8, topPos + 7);
 		}
 
-		textLayout.startPage(transform);
+		textLayout.startPage(graphics);
 		{
-			transform.scale(0.5F, 0.5F, 0.5F);
-			transform.translate(leftPos + 170, topPos + 10, 0.0);
+			// todo is this correct?
+			PoseStack stack = graphics.pose();
+			stack.scale(0.5F, 0.5F, 0.5F);
+			stack.translate(leftPos + 170, topPos + 10, 0.0);
 
 			textLayout.newLine();
 			textLayout.newLine();
 			Component attemptNoString = Component.translatable("for.gui.escritoire.attempt.number", EscritoireGame.BOUNTY_MAX - tile.getGame().getBountyLevel())
 					.withStyle(ChatFormatting.UNDERLINE, ChatFormatting.ITALIC);
-			textLayout.drawLine(transform, attemptNoString, 170, ColourProperties.INSTANCE.get("gui.mail.lettertext"));
+			textLayout.drawLine(graphics, attemptNoString, 170, ColourProperties.INSTANCE.get("gui.mail.lettertext"));
 			textLayout.newLine();
 			Component escritoireText = textSource.getText(tile.getGame());
-			textLayout.drawSplitLine(transform, escritoireText, 170, 90, ColourProperties.INSTANCE.get("gui.mail.lettertext"));
+			textLayout.drawSplitLine(graphics, escritoireText, 170, 90, ColourProperties.INSTANCE.get("gui.mail.lettertext"));
 		}
-		textLayout.endPage(transform);
+		textLayout.endPage(graphics);
 	}
 
 	@Override

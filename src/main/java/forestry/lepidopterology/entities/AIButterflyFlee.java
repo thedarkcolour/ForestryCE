@@ -24,7 +24,7 @@ public class AIButterflyFlee extends AIButterflyMovement {
 
 	@Override
 	public boolean canUse() {
-		Player player = entity.level.getNearestPlayer(entity, entity.getButterfly().getGenome().getActiveValue(ButterflyChromosomes.SPECIES).getFlightDistance());
+		Player player = entity.level().getNearestPlayer(entity, entity.getButterfly().getGenome().getActiveValue(ButterflyChromosomes.SPECIES).getFlightDistance());
 
 		if (player == null || player.isShiftKeyDown()) {
 			return false;

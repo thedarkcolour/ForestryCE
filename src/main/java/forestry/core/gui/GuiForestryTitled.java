@@ -11,11 +11,10 @@
 package forestry.core.gui;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.network.chat.Component;
-
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import forestry.core.render.ColourProperties;
 
@@ -30,15 +29,16 @@ public abstract class GuiForestryTitled<C extends AbstractContainerMenu> extends
 	}
 
 	@Override
-	protected void renderBg(PoseStack transform, float partialTicks, int mouseX, int mouseY) {
-		super.renderBg(transform, partialTicks, mouseX, mouseY);
+	protected void renderBg(GuiGraphics graphics, float partialTicks, int mouseX, int mouseY) {
+		super.renderBg(graphics, partialTicks, mouseX, mouseY);
 
 		textLayout.line = 6;
 		if (centeredTitle()) {
-			textLayout.drawCenteredLine(transform, title, 0, ColourProperties.INSTANCE.get("gui.title"));
+			textLayout.drawCenteredLine(graphics, title, 0, ColourProperties.INSTANCE.get("gui.title"));
 		} else {
-			textLayout.drawLine(transform, title.getString(), 8, ColourProperties.INSTANCE.get("gui.title"));
+			textLayout.drawLine(graphics, title.getString(), 8, ColourProperties.INSTANCE.get("gui.title"));
 		}
+		// todo get rid of this and make sure nothing breaks
 		bindTexture(textureFile);
 	}
 

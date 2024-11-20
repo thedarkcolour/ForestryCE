@@ -1,6 +1,14 @@
 package forestry.factory.recipes.jei.moistener;
 
-import com.mojang.blaze3d.vertex.PoseStack;
+import java.util.Collection;
+import java.util.List;
+
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.material.Fluids;
+
+import net.minecraftforge.fluids.FluidStack;
 
 import forestry.api.ForestryConstants;
 import forestry.api.fuels.FuelManager;
@@ -11,6 +19,7 @@ import forestry.core.recipes.jei.ForestryRecipeCategory;
 import forestry.core.recipes.jei.ForestryRecipeType;
 import forestry.factory.blocks.BlockTypeFactoryTesr;
 import forestry.factory.features.FactoryBlocks;
+
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.forge.ForgeTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
@@ -23,16 +32,9 @@ import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.material.Fluids;
-import net.minecraftforge.fluids.FluidStack;
-
-import java.util.Collection;
-import java.util.List;
 
 public class MoistenerRecipeCategory extends ForestryRecipeCategory<IMoistenerRecipe> {
-	private static final ResourceLocation guiTexture = ForestryConstants.forestry(Constants.TEXTURE_PATH_GUI + "/moistener.png");
+	private static final ResourceLocation TEXTURE = ForestryConstants.forestry(Constants.TEXTURE_PATH_GUI + "/moistener.png");
 
 	private final IDrawableAnimated arrow;
 	private final IDrawableAnimated progressBar;
@@ -42,13 +44,13 @@ public class MoistenerRecipeCategory extends ForestryRecipeCategory<IMoistenerRe
 	private final List<ItemStack> fuelProducts;
 
 	public MoistenerRecipeCategory(IGuiHelper guiHelper) {
-		super(guiHelper.createDrawable(guiTexture, 15, 15, 145, 60), "block.forestry.moistener");
+		super(guiHelper.createDrawable(TEXTURE, 15, 15, 145, 60), "block.forestry.moistener");
 
-		IDrawableStatic arrowDrawable = guiHelper.createDrawable(guiTexture, 176, 91, 29, 55);
+		IDrawableStatic arrowDrawable = guiHelper.createDrawable(TEXTURE, 176, 91, 29, 55);
 		this.arrow = guiHelper.createAnimatedDrawable(arrowDrawable, 80, IDrawableAnimated.StartDirection.BOTTOM, false);
-		IDrawableStatic progressBar = guiHelper.createDrawable(guiTexture, 176, 74, 16, 15);
+		IDrawableStatic progressBar = guiHelper.createDrawable(TEXTURE, 176, 74, 16, 15);
 		this.progressBar = guiHelper.createAnimatedDrawable(progressBar, 160, IDrawableAnimated.StartDirection.LEFT, false);
-		this.tankOverlay = guiHelper.createDrawable(guiTexture, 176, 0, 16, 58);
+		this.tankOverlay = guiHelper.createDrawable(TEXTURE, 176, 0, 16, 58);
 		ItemStack moistener = new ItemStack(FactoryBlocks.TESR.get(BlockTypeFactoryTesr.MOISTENER).block());
 		this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, moistener);
 
@@ -97,8 +99,8 @@ public class MoistenerRecipeCategory extends ForestryRecipeCategory<IMoistenerRe
 	}
 
 	@Override
-	public void draw(IMoistenerRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX, double mouseY) {
-		arrow.draw(stack, 78, 2);
-		progressBar.draw(stack, 109, 22);
+	public void draw(IMoistenerRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics graphics, double mouseX, double mouseY) {
+		this.arrow.draw(graphics, 78, 2);
+		this.progressBar.draw(graphics, 109, 22);
 	}
 }

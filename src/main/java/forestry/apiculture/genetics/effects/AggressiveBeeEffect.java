@@ -12,19 +12,16 @@ package forestry.apiculture.genetics.effects;
 
 import java.util.List;
 
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.LivingEntity;
 
 import forestry.api.apiculture.BeeManager;
 import forestry.api.apiculture.IBeeHousing;
 import forestry.api.genetics.IEffectData;
-import forestry.core.utils.DamageSourceForestry;
-
 import forestry.api.genetics.IGenome;
+import forestry.core.damage.CoreDamageTypes;
 
 public class AggressiveBeeEffect extends ThrottledBeeEffect {
-	private static final DamageSource damageSourceBeeAggressive = new DamageSourceForestry("bee.aggressive");
-
 	public AggressiveBeeEffect() {
 		super(true, 40, false, false);
 	}
@@ -42,10 +39,9 @@ public class AggressiveBeeEffect extends ThrottledBeeEffect {
 				continue;
 			}
 
-			entity.hurt(damageSourceBeeAggressive, damage);
+			entity.hurt(new DamageSource(CoreDamageTypes.AGGRESSIVE.getHolder().get()), damage);
 		}
 
 		return storedData;
 	}
-
 }

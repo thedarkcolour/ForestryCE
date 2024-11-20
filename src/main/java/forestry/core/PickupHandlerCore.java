@@ -23,7 +23,7 @@ public class PickupHandlerCore {
 
 		if (!stack.isEmpty()) {
 			IIndividualHandlerItem.ifPresent(stack, individual -> {
-				IBreedingTracker tracker = individual.getType().getBreedingTracker(entity.level, player.getGameProfile());
+				IBreedingTracker tracker = individual.getType().getBreedingTracker(entity.level(), player.getGameProfile());
 				tracker.registerPickup(individual.getSpecies());
 			});
 		}

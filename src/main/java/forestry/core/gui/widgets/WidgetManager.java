@@ -15,17 +15,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-
 import forestry.core.gui.GuiForestry;
 
-@OnlyIn(Dist.CLIENT)
 public class WidgetManager {
-
 	public final GuiForestry gui;
 	public final Minecraft minecraft;
 	protected final List<Widget> widgets = new ArrayList<>();
@@ -62,9 +58,9 @@ public class WidgetManager {
 		return null;
 	}
 
-	public void drawWidgets(PoseStack transform) {
+	public void drawWidgets(GuiGraphics graphics) {
 		for (Widget slot : widgets) {
-			slot.draw(transform, 0, 0);
+			slot.draw(graphics, 0, 0);
 		}
 	}
 
@@ -87,11 +83,5 @@ public class WidgetManager {
 			hasToStop |= slot.handleMouseRelease(mouseX - gui.getGuiLeft(), mouseY - gui.getGuiTop(), eventType);
 		}
 		return hasToStop;
-	}
-
-	public void handleMouseMove(int mouseX, int mouseY, int mouseButton, long time) {
-		for (Widget slot : widgets) {
-			slot.handleMouseMove(mouseX, mouseY, mouseButton, time);
-		}
 	}
 }

@@ -12,7 +12,6 @@ package forestry.factory.tiles;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
-import java.util.List;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -27,7 +26,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Fluids;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -281,7 +279,7 @@ public class TileMoistener extends TileBase implements WorldlyContainer, ILiquid
 			}
 
 			// Wrong item or full
-			if (!slotStack.sameItem(deposit) || slotStack.getCount() >= slotStack.getMaxStackSize()) {
+			if (!ItemStack.isSameItem(slotStack, deposit) || slotStack.getCount() >= slotStack.getMaxStackSize()) {
 				continue;
 			}
 
@@ -435,7 +433,7 @@ public class TileMoistener extends TileBase implements WorldlyContainer, ILiquid
 			}
 			if (FuelManager.moistenerResource.containsKey(inventory.getItem(i))) {
 				MoistenerFuel res = FuelManager.moistenerResource.get(inventory.getItem(i));
-				if (ItemStack.isSame(res.resource(), inventory.getItem(i))) {
+				if (ItemStack.isSameItem(res.resource(), inventory.getItem(i))) {
 					max += 64;
 					avail += inventory.getItem(i).getCount();
 				}

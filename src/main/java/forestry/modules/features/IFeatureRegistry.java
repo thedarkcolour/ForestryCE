@@ -31,6 +31,7 @@ import net.minecraftforge.network.IContainerFactory;
 import forestry.api.core.IBlockSubtype;
 import forestry.api.core.IItemSubtype;
 import forestry.api.storage.EnumBackpackType;
+
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegisterEvent;
 
@@ -88,6 +89,8 @@ public interface IFeatureRegistry {
 	FeatureFluid.Builder fluid(String identifier);
 
 	<R extends Recipe<?>> FeatureRecipeType<R> recipeType(String name, Supplier<RecipeSerializer<? extends R>> serializer);
+
+	FeatureCreativeTab creativeTab(String id, Consumer<CreativeModeTab.Builder> builder);
 
 	void addRegistryListener(ResourceKey<? extends Registry<?>> type, Consumer<RegisterEvent> listener);
 

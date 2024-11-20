@@ -9,6 +9,7 @@ import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraftforge.common.loot.IGlobalLootModifier;
@@ -18,12 +19,12 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * A global loot modifier used by forestry to inject the additional chest loot to the vanilla loot tables.
  */
 public class ConditionLootModifier extends LootModifier {
-
 	public static final Codec<ConditionLootModifier> CODEC = RecordCodecBuilder.create(instance -> instance.group(
 			LOOT_CONDITIONS_CODEC.fieldOf("conditions").forGetter(lm -> lm.conditions),
 			ResourceLocation.CODEC.fieldOf("table").forGetter(lm -> lm.tableLocation),
@@ -32,6 +33,14 @@ public class ConditionLootModifier extends LootModifier {
 
 	private final ResourceLocation tableLocation;
 	private final List<String> extensions;
+
+	/** todo is this still necessary?
+	 * Helper field to prevent an endless method loop caused by forge in {@link LootTable#getRandomItems(LootContext, Consumer)}
+	 * which calls this method again, since it keeps the {@link LootContext#getQueriedLootTableId()} value, which causes
+	 * "getRandomItems" to calling this method again, because the conditions still met even that it is an other loot
+	 * table.
+	 */
+	private boolean operates = false;
 
 	public ConditionLootModifier(ResourceLocation location, List<String> extensions) {
 		super(new LootItemCondition[]{
@@ -53,16 +62,8 @@ public class ConditionLootModifier extends LootModifier {
 		this.extensions = extensions;
 	}
 
-	/**
-	 * Helper field to prevent an endless method loop caused by forge in {@link LootTable#getRandomItems(LootContext)}
-	 * which calls this method again, since it keeps the {@link LootContext#getQueriedLootTableId()} value, which causes
-	 * "getRandomItems" to calling this method again, because the conditions still met even that it is an other loot
-	 * table.
-	 */
-	private boolean operates = false;
-
 	@Override
-	protected @NotNull ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot, LootContext context) {
+	protected ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot, LootContext context) {
 		if (operates) {
 			return generatedLoot;
 		}
@@ -71,10 +72,10 @@ public class ConditionLootModifier extends LootModifier {
 
 		for (String extension : extensions) {
 			ResourceLocation location = ForestryConstants.forestry(tableLocation.getPath() + "/" + extension);
-			LootTable table = context.getLootTable(location);
+			LootTable table = context.getResolver().getLootTable(location);
 
 			if (table != LootTable.EMPTY) {
-				generatedLoot.addAll(table.getRandomItems(context));
+				table.getRandomItems(context, generatedLoot::add);
 			}
 		}
 

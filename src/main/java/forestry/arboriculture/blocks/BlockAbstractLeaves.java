@@ -8,10 +8,8 @@ import java.util.List;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.NonNullList;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.BlockGetter;
@@ -20,8 +18,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
@@ -47,7 +44,7 @@ public abstract class BlockAbstractLeaves extends LeavesBlock implements IColore
 	public static final int FRUIT_COLOR_INDEX = 2;
 
 	public BlockAbstractLeaves() {
-		super(Block.Properties.of(Material.LEAVES)
+		super(Block.Properties.of()
 				.strength(0.2f)
 				.sound(SoundType.GRASS)
 				.randomTicks()
@@ -59,11 +56,6 @@ public abstract class BlockAbstractLeaves extends LeavesBlock implements IColore
 
 	@Nullable
 	protected abstract ITree getTree(BlockGetter world, BlockPos pos);
-
-	@Override
-	public final void fillItemCategory(CreativeModeTab tab, NonNullList<ItemStack> list) {
-		// creative menu shows BlockDecorativeLeaves instead of these
-	}
 
 	@Override
 	public String getDescriptionId() {
@@ -139,10 +131,10 @@ public abstract class BlockAbstractLeaves extends LeavesBlock implements IColore
 		}
 	}
 
-	protected abstract void getLeafDrop(List<ItemStack> drops, Level level, BlockPos pos, @Nullable GameProfile profile, float saplingModifier, int fortune, LootContext.Builder context);
+	protected abstract void getLeafDrop(List<ItemStack> drops, Level level, BlockPos pos, @Nullable GameProfile profile, float saplingModifier, int fortune, LootParams.Builder context);
 
 	@Override
-	public List<ItemStack> getDrops(BlockState state, LootContext.Builder context) {
+	public List<ItemStack> getDrops(BlockState state, LootParams.Builder context) {
 		ArrayList<ItemStack> drops = new ArrayList<>(super.getDrops(state, context));
 		GameProfile profile = null;
 		if (context.getOptionalParameter(LootContextParams.THIS_ENTITY) instanceof Player player) {

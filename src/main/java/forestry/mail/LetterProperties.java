@@ -18,7 +18,6 @@ import forestry.mail.features.MailItems;
 import forestry.mail.items.ItemLetter;
 
 public class LetterProperties {
-
 	public static ItemStack createStampedLetterStack(ILetter letter) {
 		ItemLetter.Size size = getSize(letter);
 		return MailItems.LETTERS.stack(size, ItemLetter.State.STAMPED, 1);
@@ -26,7 +25,7 @@ public class LetterProperties {
 
 	public static ItemStack closeLetter(ItemStack parent, ILetter letter) {
 		Item item = parent.getItem();
-		if (!(item instanceof ItemLetter itemLetter)) {    //TODO can just do == check?
+		if (!(item instanceof ItemLetter itemLetter)) {
 			return parent;
 		}
 		ItemLetter.State state = itemLetter.getState();
@@ -57,7 +56,7 @@ public class LetterProperties {
 
 	public static ItemStack openLetter(ItemStack parent) {
 		Item item = parent.getItem();
-		if (!(item instanceof ItemLetter itemLetter)) {    //TODO can just do == check?
+		if (!(item instanceof ItemLetter itemLetter)) {
 			return parent;
 		}
 

@@ -43,7 +43,7 @@ public record PacketActiveUpdate(BlockPos pos, boolean active) implements IFores
 	}
 
 	public static void handle(PacketActiveUpdate msg, Player player) {
-		BlockEntity tile = TileUtil.getTile(player.level, msg.pos);
+		BlockEntity tile = TileUtil.getTile(player.level(), msg.pos);
 
 		if (tile instanceof IActivatable activatable) {
 			activatable.setActive(msg.active);

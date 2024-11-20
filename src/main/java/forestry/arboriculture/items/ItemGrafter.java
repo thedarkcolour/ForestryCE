@@ -24,28 +24,19 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
 
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-
-import forestry.api.arboriculture.IToolGrafter;
-import forestry.api.core.ItemGroups;
 import forestry.api.ForestryTags;
+import forestry.api.arboriculture.IToolGrafter;
 import forestry.core.items.ItemForestry;
 
 public class ItemGrafter extends ItemForestry implements IToolGrafter {
 	public ItemGrafter(int maxDamage) {
-		super(new Item.Properties()
-				.durability(maxDamage)
-				.tab(ItemGroups.tabArboriculture));
+		super(new Item.Properties().durability(maxDamage));
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
 	public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> tooltip, TooltipFlag advanced) {
 		super.appendHoverText(stack, world, tooltip, advanced);
 		if (!stack.isDamaged()) {
@@ -55,28 +46,22 @@ public class ItemGrafter extends ItemForestry implements IToolGrafter {
 
 	@Override
 	public boolean isCorrectToolForDrops(BlockState state) {
-		Block block = state.getBlock();
-		return block instanceof LeavesBlock ||
-				state.getMaterial() == Material.LEAVES ||
-				state.is(BlockTags.LEAVES) ||
-				super.isCorrectToolForDrops(state);
+		return state.getBlock() instanceof LeavesBlock || state.is(BlockTags.LEAVES) || super.isCorrectToolForDrops(state);
 	}
 
 	@Override
 	public float getDestroySpeed(ItemStack itemstack, BlockState state) {
 		if (state.is(ForestryTags.Blocks.MINEABLE_GRAFTER)) {
-			return 4.0F;
+			return 4.0f;
 		} else {
-			return 1.0F;
+			return 1.0f;
 		}
 	}
 
 	@Override
 	public boolean mineBlock(ItemStack stack, Level world, BlockState state, BlockPos pos, LivingEntity entity) {
 		if (!world.isClientSide && !state.is(BlockTags.FIRE)) {
-			stack.hurtAndBreak(1, entity, (p_220036_0_) -> {
-				p_220036_0_.broadcastBreakEvent(EquipmentSlot.MAINHAND);
-			});
+			stack.hurtAndBreak(1, entity, living -> living.broadcastBreakEvent(EquipmentSlot.MAINHAND));
 		}
 		return state.is(BlockTags.LEAVES);
 	}

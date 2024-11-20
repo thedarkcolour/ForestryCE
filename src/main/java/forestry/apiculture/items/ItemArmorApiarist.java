@@ -21,7 +21,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 
 import forestry.api.ForestryConstants;
-import forestry.api.core.ItemGroups;
 import forestry.apiculture.features.ApicultureItems;
 import forestry.core.config.Constants;
 import forestry.core.features.CoreItems;
@@ -32,16 +31,16 @@ public class ItemArmorApiarist extends ArmorItem {
 	public static final String TEXTURE_APIARIST_ARMOR_SECONDARY = ForestryConstants.MOD_ID + ":" + Constants.TEXTURE_PATH_ITEM + "/apiarist_armor_2.png";
 
 	public static final class ApiaristArmorMaterial implements ArmorMaterial {
-		private static final int[] reductions = new int[]{1, 2, 3, 1};
+		private static final int[] reductions = new int[]{1, 3, 2, 1};
 
 		@Override
-		public int getDurabilityForSlot(EquipmentSlot slotIn) {
+		public int getDurabilityForType(ArmorItem.Type type) {
 			return 5;
 		}
 
 		@Override
-		public int getDefenseForSlot(EquipmentSlot slotIn) {
-			return reductions[slotIn.getIndex()];
+		public int getDefenseForType(ArmorItem.Type type) {
+			return reductions[type.ordinal()];
 		}
 
 		@Override
@@ -75,8 +74,8 @@ public class ItemArmorApiarist extends ArmorItem {
 		}
 	}
 
-	public ItemArmorApiarist(EquipmentSlot equipmentSlotIn) {
-		super(new ApiaristArmorMaterial(), equipmentSlotIn, (new Item.Properties()).tab(ItemGroups.tabApiculture));
+	public ItemArmorApiarist(ArmorItem.Type type) {
+		super(new ApiaristArmorMaterial(), type, new Item.Properties());
 	}
 
 	@Override

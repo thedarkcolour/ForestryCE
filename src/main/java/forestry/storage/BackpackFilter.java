@@ -5,14 +5,16 @@ import javax.annotation.Nullable;
 import forestry.core.utils.TagUtil;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.function.Predicate;
 
-public class BackpackFilter implements Predicate<ItemStack> {
+import net.minecraftforge.registries.ForgeRegistries;
 
+public class BackpackFilter implements Predicate<ItemStack> {
 	private final TagKey<Item> acceptKey;
 	private final TagKey<Item> rejectKey;
 	@Nullable
@@ -40,7 +42,7 @@ public class BackpackFilter implements Predicate<ItemStack> {
 	}
 
 	private static HolderSet<Item> getHolderSet(TagKey<Item> tagKey) {
-		return Registry.ITEM.getTag(tagKey)
+		return BuiltInRegistries.ITEM.getTag(tagKey)
 				.orElseThrow(() -> new IllegalArgumentException("No tag holder set found for tag key: " + tagKey));
 	}
 

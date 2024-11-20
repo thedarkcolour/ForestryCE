@@ -1,6 +1,6 @@
 package forestry.apiculture.features;
 
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -18,7 +18,7 @@ import forestry.modules.features.ModFeatureRegistry;
 public class ApicultureEffects {
 	private static final IFeatureRegistry REGISTRY = ModFeatureRegistry.get(ForestryModuleIds.APICULTURE);
 
-	private static final DeferredRegister<MobEffect> MOB_EFFECTS = REGISTRY.getRegistry(Registry.MOB_EFFECT_REGISTRY);
+	private static final DeferredRegister<MobEffect> MOB_EFFECTS = REGISTRY.getRegistry(Registries.MOB_EFFECT);
 
 	public static final RegistryObject<MobEffect> HAKUNA_MATATA = MOB_EFFECTS.register("hakuna_matata", () -> {
 		return new ForestryMobEffect(MobEffectCategory.BENEFICIAL, 0x069af3)

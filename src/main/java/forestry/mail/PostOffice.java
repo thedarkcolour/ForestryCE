@@ -32,13 +32,10 @@ import forestry.mail.features.MailItems;
 import forestry.mail.items.EnumStampDefinition;
 
 public class PostOffice extends SavedData implements IPostOffice {
-
-	// / CONSTANTS
 	public static final String SAVE_NAME = "forestry_mail";
 	private final int[] collectedPostage = new int[EnumPostage.values().length];
-	private LinkedHashMap<IMailAddress, ITradeStation> activeTradeStations = new LinkedHashMap<>();
+	private final LinkedHashMap<IMailAddress, ITradeStation> activeTradeStations = new LinkedHashMap<>();
 
-	// CONSTRUCTORS
 	public PostOffice() {
 	}
 

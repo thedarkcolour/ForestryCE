@@ -62,10 +62,10 @@ import forestry.apiculture.WorldgenBeekeepingLogic;
 import forestry.apiculture.blocks.BlockBeeHive;
 import forestry.apiculture.features.ApicultureTiles;
 import forestry.apiculture.genetics.effects.ThrottledBeeEffect;
+import forestry.core.damage.CoreDamageTypes;
 import forestry.core.inventory.InventoryAdapter;
 import forestry.core.network.packets.PacketActiveUpdate;
 import forestry.core.tiles.IActivatable;
-import forestry.core.utils.DamageSourceForestry;
 import forestry.core.utils.InventoryUtil;
 import forestry.core.utils.ItemStackUtil;
 import forestry.core.utils.NetworkUtil;
@@ -74,8 +74,6 @@ import forestry.core.utils.SpeciesUtil;
 import org.jetbrains.annotations.ApiStatus;
 
 public class TileHive extends BlockEntity implements IHiveTile, IActivatable, IBeeHousing, ISpectacleBlock {
-	private static final DamageSource damageSourceBeeHive = new DamageSourceForestry("bee.hive");
-
 	private final InventoryAdapter contained = new InventoryAdapter(2, "Contained");
 	private final HiveBeeHousingInventory inventory;
 	private final WorldgenBeekeepingLogic beeLogic;
@@ -216,13 +214,14 @@ public class TileHive extends BlockEntity implements IHiveTile, IActivatable, IB
 	}
 
 	private static void attack(LivingEntity entity, int maxDamage) {
-		double attackAmount = entity.level.random.nextDouble() / 2.0 + 0.5;
+		Level level = entity.level();
+		double attackAmount = level.random.nextDouble() / 2.0 + 0.5;
 		int damage = (int) (attackAmount * maxDamage);
 		if (damage > 0) {
 			// Entities are not attacked if they wear a full set of apiarist's armor.
 			int count = BeeManager.armorApiaristHelper.wearsItems(entity, null, true);
-			if (entity.level.random.nextInt(4) >= count) {
-				entity.hurt(damageSourceBeeHive, damage);
+			if (level.random.nextInt(4) >= count) {
+				entity.hurt(new DamageSource(CoreDamageTypes.HIVE.getHolder().get()), damage);
 			}
 		}
 	}

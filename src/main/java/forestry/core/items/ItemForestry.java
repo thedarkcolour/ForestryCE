@@ -14,29 +14,19 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 
-import forestry.api.core.ItemGroups;
 import forestry.core.utils.ItemTooltipUtil;
 
 public class ItemForestry extends Item {
 	private final int burnTime;
 
 	public ItemForestry() {
-		this(ItemGroups.tabForestry);
-	}
-
-	public ItemForestry(CreativeModeTab group) {
-		this(new Item.Properties(), group);
-	}
-
-	public ItemForestry(Item.Properties properties, CreativeModeTab creativeTab) {
-		this(properties.tab(creativeTab));
+		this(new Properties());
 	}
 
 	public ItemForestry(Item.Properties properties) {

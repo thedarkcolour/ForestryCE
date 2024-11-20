@@ -13,7 +13,7 @@ package forestry.core.gui.ledgers;
 import java.util.List;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.network.chat.Component;
@@ -21,7 +21,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import forestry.api.ForestryConstants;
 import forestry.api.client.ForestrySprites;
@@ -148,11 +147,11 @@ public abstract class Ledger {
 		this.y = y;
 	}
 
-	public final void draw(PoseStack transform) {
-		draw(transform, y, x);
+	public final void draw(GuiGraphics graphics) {
+		draw(graphics, y, x);
 	}
 
-	public abstract void draw(PoseStack transform, int y, int x);
+	public abstract void draw(GuiGraphics graphics, int y, int x);
 
 	public abstract Component getTooltip();
 
@@ -196,7 +195,7 @@ public abstract class Ledger {
 
 	}
 
-	protected void drawBackground(PoseStack transform, int y, int x) {
+	protected void drawBackground(GuiGraphics graphics, int y, int x) {
 		float colorR = (overlayColor >> 16 & 255) / 255.0F;
 		float colorG = (overlayColor >> 8 & 255) / 255.0F;
 		float colorB = (overlayColor & 255) / 255.0F;
@@ -207,63 +206,64 @@ public abstract class Ledger {
 		int height = getHeight();
 		int width = getWidth();
 
-		manager.gui.blit(transform, x, y + 4, 0, 256 - height + 4, 4, height - 4); // left edge
-		manager.gui.blit(transform, x + 4, y, 256 - width + 4, 0, width - 4, 4); // top edge
-		manager.gui.blit(transform, x, y, 0, 0, 4, 4); // top left corner
-
-		manager.gui.blit(transform, x + 4, y + 4, 256 - width + 4, 256 - height + 4, width - 4, height - 4); // body + bottom + right
+		// left edge
+		graphics.blit(this.texture, x, y + 4, 0, 256 - height + 4, 4, height - 4);
+		// top edge
+		graphics.blit(this.texture, x + 4, y, 256 - width + 4, 0, width - 4, 4);
+		// top left corner
+		graphics.blit(this.texture, x, y, 0, 0, 4, 4);
+		// body + bottom + right
+		graphics.blit(this.texture, x + 4, y + 4, 256 - width + 4, 256 - height + 4, width - 4, height - 4);
 
 		RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0F);
 	}
 
-	protected void drawSprite(PoseStack transform, ResourceLocation path, int x, int y) {
-		drawSprite(transform, IForestryClientApi.INSTANCE.getTextureManager().getSprite(path), x, y);
+	protected void drawSprite(GuiGraphics graphics, ResourceLocation path, int x, int y) {
+		drawSprite(graphics, IForestryClientApi.INSTANCE.getTextureManager().getSprite(path), x, y);
 	}
 
-	protected void drawSprite(PoseStack transform, TextureAtlasSprite sprite, int x, int y) {
-		drawSprite(transform, sprite, x, y, ForestrySprites.TEXTURE_ATLAS);
+	protected void drawSprite(GuiGraphics graphics, TextureAtlasSprite sprite, int x, int y) {
+		drawSprite(graphics, sprite, x, y, ForestrySprites.TEXTURE_ATLAS);
 	}
 
-	protected void drawSprite(PoseStack transform, TextureAtlasSprite sprite, int x, int y, ResourceLocation textureMap) {
-		RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0F);
-		RenderSystem.setShaderTexture(0, textureMap);
-		GuiComponent.blit(transform, x, y, manager.gui.getBlitOffset(), 16, 16, sprite);
+	protected void drawSprite(GuiGraphics graphics, TextureAtlasSprite sprite, int x, int y, ResourceLocation textureMap) {
+		graphics.blit(x, y, 0, 16, 16, sprite);
 	}
 
-	protected int drawHeader(PoseStack transform, Component string, int x, int y) {
-		return drawShadowText(transform, string, x, y, fontColorHeader);
+	protected int drawHeader(GuiGraphics graphics, Component string, int x, int y) {
+		return drawShadowText(graphics, string, x, y, fontColorHeader);
 	}
 
-	protected int drawSubheader(PoseStack transform, Component string, int x, int y) {
-		return drawShadowText(transform, string, x, y, fontColorSubheader);
+	protected int drawSubheader(GuiGraphics graphics, Component string, int x, int y) {
+		return drawShadowText(graphics, string, x, y, fontColorSubheader);
 	}
 
-	protected int drawShadowText(PoseStack transform, Component string, int x, int y, int color) {
-		return drawSplitText(transform, string, x, y, maxTextWidth, color, true);
+	protected int drawShadowText(GuiGraphics graphics, Component string, int x, int y, int color) {
+		return drawSplitText(graphics, string, x, y, maxTextWidth, color, true);
 	}
 
-	protected int drawSplitText(PoseStack transform, Component string, int x, int y, int width) {
-		return drawSplitText(transform, string, x, y, width, fontColorText, false);
+	protected int drawSplitText(GuiGraphics graphics, Component string, int x, int y, int width) {
+		return drawSplitText(graphics, string, x, y, width, fontColorText, false);
 	}
 
-	protected int drawSplitText(PoseStack transform, Component string, int x, int y, int width, int color, boolean shadow) {
+	protected int drawSplitText(GuiGraphics graphics, Component string, int x, int y, int width, int color, boolean shadow) {
 		int originalY = y;
-		Minecraft minecraft = Minecraft.getInstance();
-		List<FormattedCharSequence> strings = minecraft.font.split(string, width);
+		Minecraft mc = Minecraft.getInstance();
+		List<FormattedCharSequence> strings = mc.font.split(string, width);
 		for (FormattedCharSequence obj : strings) {
 			if (shadow) {
-				minecraft.font.drawShadow(transform, obj, x, y, color);
+				graphics.drawString(mc.font, obj, x, y, color);
 			} else {
-				minecraft.font.draw(transform, obj, x, y, color);
+				graphics.drawString(mc.font, obj, x, y, color);
 			}
-			y += minecraft.font.lineHeight;
+			y += mc.font.lineHeight;
 		}
 		return y - originalY;
 	}
 
-	protected int drawText(PoseStack transform, String string, int x, int y) {
-		Minecraft minecraft = Minecraft.getInstance();
-		minecraft.font.draw(transform, string, x, y, fontColorText);
-		return minecraft.font.lineHeight;
+	protected int drawText(GuiGraphics graphics, String string, int x, int y) {
+		Minecraft mc = Minecraft.getInstance();
+		graphics.drawString(mc.font, string, x, y, fontColorText);
+		return mc.font.lineHeight;
 	}
 }

@@ -86,7 +86,7 @@ public class ModifyGenomeCommand {
 						newIndividual.analyze();
 					}
 					player.setItemInHand(InteractionHand.MAIN_HAND, newIndividual.createStack(handler.getStage()));
-					source.sendSuccess(Component.literal("Modified genome of bee"), true);
+					source.sendSuccess(() -> Component.literal("Modified genome of bee"), true);
 
 					return 1;
 				} else {

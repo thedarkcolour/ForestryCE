@@ -10,51 +10,53 @@
  ******************************************************************************/
 package forestry.core.gui;
 
-import javax.annotation.Nullable;
 import java.text.NumberFormat;
 import java.util.Collection;
 import java.util.Optional;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.item.ItemStack;
 
-import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import forestry.api.core.tooltips.IToolTipProvider;
 import forestry.api.core.tooltips.ToolTip;
 
+// todo this stuff should probably be yeeted
 public class GuiUtil {
-	public static void drawItemStack(PoseStack transform, GuiForestry<?> gui, ItemStack stack, int xPos, int yPos) {
-		drawItemStack(transform, gui.getFontRenderer(), stack, xPos, yPos);
+	// todo replace with AbstractContainerScreen#renderFloatingItem
+	public static void drawItemStack(GuiGraphics graphics, GuiForestry<?> gui, ItemStack stack, int xPos, int yPos) {
+		drawItemStack(graphics, gui.font(), stack, xPos, yPos);
 	}
 
-	public static void drawItemStack(PoseStack transform, Font font, ItemStack stack, int xPos, int yPos) {
-		PoseStack itemRendererStack = RenderSystem.getModelViewStack();
+	// todo replace with AbstractContainerScreen#renderFloatingItem
+	public static void drawItemStack(GuiGraphics graphics, Font font, ItemStack stack, int xPos, int yPos) {
+		PoseStack itemRendererStack = graphics.pose();
 		itemRendererStack.pushPose();
-		itemRendererStack.mulPoseMatrix(transform.last().pose());
-		ItemRenderer itemRender = Minecraft.getInstance().getItemRenderer();
-		itemRender.renderAndDecorateItem(stack, xPos, yPos);
-		itemRender.renderGuiItemDecorations(font, stack, xPos, yPos, null);
+		graphics.renderItem(stack, xPos, yPos);
+		graphics.renderItemDecorations(font, stack, xPos, yPos, null);
 		itemRendererStack.popPose();
-		RenderSystem.applyModelViewMatrix();
 	}
 
-	public static <S extends Screen & IGuiSizable> void drawToolTips(PoseStack transform, S screen, @Nullable IToolTipProvider provider, ToolTip toolTips, int mouseX, int mouseY) {
+
+	public static void drawToolTips(GuiGraphics graphics, GuiForestry<?> screen, IToolTipProvider provider, ToolTip toolTips, int mouseX, int mouseY) {
 		if (!toolTips.isEmpty()) {
-			transform.pushPose();
+			PoseStack pose = graphics.pose();
+			pose.pushPose();
 			if (provider == null || provider.isRelativeToGui()) {
-				transform.translate(-screen.getGuiLeft(), -screen.getGuiTop(), 0);
+				pose.translate(-screen.getGuiLeft(), -screen.getGuiTop(), 0);
 			}
-			screen.renderTooltip(transform, toolTips.getLines(), Optional.empty(), mouseX, mouseY);
-			transform.popPose();
+			Window window = Minecraft.getInstance().getWindow();    //TODO - more resolution stuff to check
+			graphics.renderTooltip(screen.font(), toolTips.getLines(), Optional.empty(), mouseX, mouseY);
+			//GuiUtils.drawHoveringText(transform, toolTips.getLines(), mouseX, mouseY, window.getGuiScaledWidth(), window.getGuiScaledHeight(), -1, gui.getGameInstance().font);
+			pose.popPose();
 		}
 	}
 
-	public static <S extends Screen & IGuiSizable> void drawToolTips(PoseStack transform, S screen, Collection<?> objects, int mouseX, int mouseY) {
+	public static void drawToolTips(GuiGraphics graphics, GuiForestry<?> gui, Collection<?> objects, int mouseX, int mouseY) {
 		for (Object obj : objects) {
 			if (!(obj instanceof IToolTipProvider provider)) {
 				continue;
@@ -65,8 +67,8 @@ public class GuiUtil {
 			int mX = mouseX;
 			int mY = mouseY;
 			if (provider.isRelativeToGui()) {
-				mX -= screen.getGuiLeft();
-				mY -= screen.getGuiTop();
+				mX -= gui.getGuiLeft();
+				mY -= gui.getGuiTop();
 			}
 			ToolTip tips = provider.getToolTip(mX, mY);
 			if (tips == null) {
@@ -76,7 +78,7 @@ public class GuiUtil {
 			tips.onTick(mouseOver);
 			if (mouseOver && tips.isReady()) {
 				tips.refresh();
-				drawToolTips(transform, screen, provider, tips, mouseX, mouseY);
+				drawToolTips(graphics, gui, provider, tips, mouseX, mouseY);
 			}
 		}
 	}

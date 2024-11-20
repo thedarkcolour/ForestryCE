@@ -40,7 +40,7 @@ public class InventoryFarm extends InventoryPlantation<FarmController> implement
 				continue;
 			}
 
-			if (germling.plantSaplingAt(player, germlingStack, player.level, pos)) {
+			if (germling.plantSaplingAt(player, germlingStack, player.level(), pos)) {
 				germlingsInventory.removeItem(i, 1);
 				return true;
 			}

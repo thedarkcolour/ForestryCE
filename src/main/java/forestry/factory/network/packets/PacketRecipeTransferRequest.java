@@ -31,7 +31,7 @@ public record PacketRecipeTransferRequest(BlockPos pos,
 		BlockPos pos = msg.pos();
 		NonNullList<ItemStack> craftingInventory = msg.craftingInventory();
 
-		BlockEntity tile = TileUtil.getTile(player.level, pos);
+		BlockEntity tile = TileUtil.getTile(player.level(), pos);
 		if (tile instanceof TileCarpenter carpenter) {
 			int index = 0;
 			for (ItemStack stack : craftingInventory) {
@@ -39,7 +39,7 @@ public record PacketRecipeTransferRequest(BlockPos pos,
 				index++;
 			}
 
-			NetworkUtil.sendNetworkPacket(new PacketRecipeTransferUpdate(carpenter.getBlockPos(), craftingInventory), pos, player.level);
+			NetworkUtil.sendNetworkPacket(new PacketRecipeTransferUpdate(carpenter.getBlockPos(), craftingInventory), pos, player.level());
 		} else if (tile instanceof TileFabricator fabricator) {
 			int index = 0;
 			for (ItemStack stack : craftingInventory) {
@@ -47,7 +47,7 @@ public record PacketRecipeTransferRequest(BlockPos pos,
 				index++;
 			}
 
-			NetworkUtil.sendNetworkPacket(new PacketRecipeTransferUpdate(fabricator.getBlockPos(), craftingInventory), pos, player.level);
+			NetworkUtil.sendNetworkPacket(new PacketRecipeTransferUpdate(fabricator.getBlockPos(), craftingInventory), pos, player.level());
 		}
 	}
 

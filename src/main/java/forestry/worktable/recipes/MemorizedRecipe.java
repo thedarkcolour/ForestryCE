@@ -75,15 +75,15 @@ public class MemorizedRecipe implements INbtWritable, INbtReadable, IStreamable 
 		return recipes.size() > 1;
 	}
 
-	public void removeRecipeConflicts(Level level) {
-		CraftingRecipe recipe = getSelectedRecipe(level);
+	public void removeRecipeConflicts() {
+		CraftingRecipe recipe = getSelectedRecipe();
 		recipes.clear();
 		recipes.add(recipe);
 		selectedRecipe = 0;
 	}
 
 	public ItemStack getOutputIcon(Level level) {
-		CraftingRecipe selectedRecipe = getSelectedRecipe(level);
+		CraftingRecipe selectedRecipe = getSelectedRecipe();
 		if (selectedRecipe != null) {
 			ItemStack recipeOutput = selectedRecipe.assemble(craftMatrix, level.registryAccess());
 			if (!recipeOutput.isEmpty()) {
@@ -94,7 +94,7 @@ public class MemorizedRecipe implements INbtWritable, INbtReadable, IStreamable 
 	}
 
 	public ItemStack getCraftingResult(CraftingContainer inventory, Level level) {
-		CraftingRecipe selectedRecipe = getSelectedRecipe(level);
+		CraftingRecipe selectedRecipe = getSelectedRecipe();
 		if (selectedRecipe != null && selectedRecipe.matches(inventory, level)) {
 			ItemStack recipeOutput = selectedRecipe.assemble(inventory, level.registryAccess());
 			if (!recipeOutput.isEmpty()) {
@@ -112,10 +112,10 @@ public class MemorizedRecipe implements INbtWritable, INbtReadable, IStreamable 
 		return hasRecipes() && selectedRecipe >= 0 && recipeIds.size() > selectedRecipe && recipeIds.get(selectedRecipe) != null;
 	}
 
-	public List<CraftingRecipe> getRecipes(@Nullable Level level) {
+	public List<CraftingRecipe> getRecipes() {
 		if (recipes.isEmpty() && !recipeIds.isEmpty()) {
 			for (ResourceLocation key : recipeIds) {
-				Recipe<CraftingContainer> recipe = RecipeUtils.getRecipe(RecipeType.CRAFTING, key, level);
+				Recipe<CraftingContainer> recipe = RecipeUtils.getRecipe(RecipeType.CRAFTING, key);
 				if (recipe instanceof CraftingRecipe) {
 					recipes.add((CraftingRecipe) recipe);
 				}
@@ -128,8 +128,8 @@ public class MemorizedRecipe implements INbtWritable, INbtReadable, IStreamable 
 	}
 
 	@Nullable
-	public CraftingRecipe getSelectedRecipe(@Nullable Level level) {
-		List<CraftingRecipe> recipes = getRecipes(level);
+	public CraftingRecipe getSelectedRecipe() {
+		List<CraftingRecipe> recipes = getRecipes();
 		if (recipes.isEmpty()) {
 			return null;
 		} else {
@@ -137,8 +137,8 @@ public class MemorizedRecipe implements INbtWritable, INbtReadable, IStreamable 
 		}
 	}
 
-	public boolean hasRecipe(@Nullable CraftingRecipe recipe, @Nullable Level level) {
-		return getRecipes(level).contains(recipe);
+	public boolean hasRecipe(@Nullable CraftingRecipe recipe) {
+		return getRecipes().contains(recipe);
 	}
 
 	public void updateLastUse(long lastUsed) {

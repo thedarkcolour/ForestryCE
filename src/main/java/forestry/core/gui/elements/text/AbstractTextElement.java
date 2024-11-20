@@ -4,10 +4,9 @@ import java.awt.Dimension;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
-
-import com.mojang.blaze3d.vertex.PoseStack;
 
 public abstract class AbstractTextElement<T, E extends AbstractTextElement<T, E>> extends LabelElement {
 	/* Constants */
@@ -81,7 +80,7 @@ public abstract class AbstractTextElement<T, E extends AbstractTextElement<T, E>
 	}
 
 	@Override
-	public abstract void drawElement(PoseStack transform, int mouseX, int mouseY);
+	public abstract void drawElement(GuiGraphics graphics, int mouseX, int mouseY);
 
 	protected abstract int calcWidth(Font font);
 

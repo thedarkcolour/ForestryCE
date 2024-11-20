@@ -5,11 +5,11 @@ import java.util.function.BiFunction;
 
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -25,7 +25,6 @@ import forestry.core.tiles.TileApiaristChest;
 import forestry.core.tiles.TileArboristChest;
 import forestry.core.tiles.TileEscritoire;
 import forestry.core.tiles.TileLepidopteristChest;
-import forestry.energy.blocks.EngineBlock;
 import forestry.energy.blocks.EngineBlockType;
 import forestry.energy.features.EnergyBlocks;
 import forestry.energy.tiles.BiogasEngineBlockEntity;
@@ -86,7 +85,7 @@ public class ForestryBewlr extends BlockEntityWithoutLevelRenderer {
 	}
 
 	@Override
-	public void renderByItem(ItemStack stack, ItemTransforms.TransformType transformType, PoseStack poseStack, MultiBufferSource buffers, int light, int overlay) {
+	public void renderByItem(ItemStack stack, ItemDisplayContext displayContext, PoseStack poseStack, MultiBufferSource buffers, int light, int overlay) {
 		Item item = stack.getItem();
 		BlockEntity blockEntity = this.tiles.get(item);
 

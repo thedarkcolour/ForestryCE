@@ -11,13 +11,12 @@
 package forestry.core.gui.widgets;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.ChatFormatting;
-
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -44,10 +43,10 @@ public class SocketWidget extends Widget {
 	}
 
 	@Override
-	public void draw(PoseStack transform, int startX, int startY) {
+	public void draw(GuiGraphics graphics, int startX, int startY) {
 		ItemStack socketStack = tile.getSocket(slot);
 		if (!socketStack.isEmpty()) {
-			GuiUtil.drawItemStack(transform, Minecraft.getInstance().font, socketStack, xPos, yPos);
+			GuiUtil.drawItemStack(graphics, Minecraft.getInstance().font, socketStack, xPos, yPos);
 		}
 	}
 

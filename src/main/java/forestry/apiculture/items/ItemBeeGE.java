@@ -14,9 +14,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -25,7 +23,6 @@ import net.minecraft.world.level.Level;
 import forestry.api.apiculture.genetics.BeeLifeStage;
 import forestry.api.apiculture.genetics.IBee;
 import forestry.api.apiculture.genetics.IBeeSpecies;
-import forestry.api.core.ItemGroups;
 import forestry.api.genetics.ISpeciesType;
 import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.core.genetics.ItemGE;
@@ -34,7 +31,7 @@ import forestry.core.utils.SpeciesUtil;
 
 public class ItemBeeGE extends ItemGE implements IColoredItem {
 	public ItemBeeGE(BeeLifeStage type) {
-		super(type != BeeLifeStage.DRONE ? new Item.Properties().tab(ItemGroups.tabApiculture).stacksTo(1) : new Item.Properties().tab(ItemGroups.tabApiculture), type);
+		super(type != BeeLifeStage.DRONE ? new Item.Properties().stacksTo(1) : new Item.Properties(), type);
 	}
 
 	@Override
@@ -64,13 +61,6 @@ public class ItemBeeGE extends ItemGE implements IColoredItem {
 		}
 
 		super.appendHoverText(stack, level, list, flag);
-	}
-
-	@Override
-	public void fillItemCategory(CreativeModeTab tab, NonNullList<ItemStack> subItems) {
-		if (allowedIn(tab)) {
-			ItemGE.addCreativeItems(this.stage, subItems, true, SpeciesUtil.BEE_TYPE.get());
-		}
 	}
 
 	@Override

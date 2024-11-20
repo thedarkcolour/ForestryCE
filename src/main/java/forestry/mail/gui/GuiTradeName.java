@@ -12,11 +12,10 @@ package forestry.mail.gui;
 
 import org.apache.commons.lang3.StringUtils;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.network.chat.Component;
-
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import org.lwjgl.glfw.GLFW;
 
@@ -37,16 +36,16 @@ public class GuiTradeName extends GuiForestry<ContainerTradeName> {
 		this.imageWidth = 176;
 		this.imageHeight = 90;
 
-		addressNameField = new EditBox(this.minecraft.font, leftPos + 44, topPos + 39, 90, 14, null);
+		addressNameField = new EditBox(this.font, leftPos + 44, topPos + 39, 90, 14, null);
 	}
 
 	@Override
 	public void init() {
 		super.init();
 
-		addressNameField = new EditBox(this.minecraft.font, leftPos + 44, topPos + 39, 90, 14, null);
+		addressNameField = new EditBox(this.font, leftPos + 44, topPos + 39, 90, 14, null);
 		addressNameField.setValue(menu.getAddress().getName());
-		addressNameField.setFocus(true);
+		addressNameField.setFocused(true);
 	}
 
 	@Override
@@ -75,15 +74,15 @@ public class GuiTradeName extends GuiForestry<ContainerTradeName> {
 	}
 
 	@Override
-	protected void renderBg(PoseStack transform, float partialTicks, int var3, int var2) {
-		super.renderBg(transform, partialTicks, var3, var2);
+	protected void renderBg(GuiGraphics graphics, float partialTicks, int var3, int var2) {
+		super.renderBg(graphics, partialTicks, var3, var2);
 
 		Component prompt = Component.translatable("for.gui.mail.nametrader");
-		textLayout.startPage(transform);
+		textLayout.startPage(graphics);
 		textLayout.newLine();
-		textLayout.drawCenteredLine(transform, prompt, 0, ColourProperties.INSTANCE.get("gui.mail.text"));
-		textLayout.endPage(transform);
-		addressNameField.render(transform, var2, var3, partialTicks);    //TODO correct?
+		textLayout.drawCenteredLine(graphics, prompt, 0, ColourProperties.INSTANCE.get("gui.mail.text"));
+		textLayout.endPage(graphics);
+		addressNameField.render(graphics, var2, var3, partialTicks);    //TODO correct?
 	}
 
 	@Override

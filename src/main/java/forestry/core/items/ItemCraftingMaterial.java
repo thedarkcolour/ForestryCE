@@ -12,25 +12,17 @@ package forestry.core.items;
 
 import net.minecraft.world.item.Item;
 
-import forestry.api.core.ItemGroups;
 import forestry.core.items.definitions.EnumCraftingMaterial;
 
-/**
- * An crafting item
- * <p>
- * Defined by {@link EnumCraftingMaterial}.
- */
 public class ItemCraftingMaterial extends ItemForestry {
-
 	private final EnumCraftingMaterial type;
 
 	public ItemCraftingMaterial(EnumCraftingMaterial type) {
-		super((new Item.Properties())
-				.tab(ItemGroups.tabForestry));
+		super(new Item.Properties());
 		this.type = type;
 	}
 
 	public EnumCraftingMaterial getType() {
-		return type;
+		return this.type;
 	}
 }

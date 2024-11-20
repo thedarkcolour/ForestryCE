@@ -3,6 +3,7 @@ package forestry.apiculture.compat;
 import javax.annotation.Nullable;
 import java.util.List;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
@@ -107,18 +108,18 @@ class MutationsRecipeCategory implements IRecipeCategory<MutationRecipe> {
 	}
 
 	@Override
-	public void draw(MutationRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX, double mouseY) {
-		JeiUtil.drawCenteredMulti(stack, recipe.mutation.getFirstParent().getDisplayName(), SPECIES_SLOT_0_X + 9, SPECIES_SLOTS_Y + 22, 0xffffffff);
-		JeiUtil.drawCenteredMulti(stack, recipe.mutation.getSecondParent().getDisplayName(), SPECIES_SLOT_1_X + 9, SPECIES_SLOTS_Y + 22, 0xffffffff);
-		JeiUtil.drawCenteredMulti(stack, recipe.mutation.getResult().getDisplayName(), SPECIES_SLOT_2_X + 9, SPECIES_SLOTS_Y + 22, 0xffffffff);
+	public void draw(MutationRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics graphics, double mouseX, double mouseY) {
+		JeiUtil.drawCenteredMulti(graphics, recipe.mutation.getFirstParent().getDisplayName(), SPECIES_SLOT_0_X + 9, SPECIES_SLOTS_Y + 22, 0xffffffff);
+		JeiUtil.drawCenteredMulti(graphics, recipe.mutation.getSecondParent().getDisplayName(), SPECIES_SLOT_1_X + 9, SPECIES_SLOTS_Y + 22, 0xffffffff);
+		JeiUtil.drawCenteredMulti(graphics, recipe.mutation.getResult().getDisplayName(), SPECIES_SLOT_2_X + 9, SPECIES_SLOTS_Y + 22, 0xffffffff);
 
 		List<Component> conditions = recipe.mutation.getSpecialConditions();
 		String percentageString = JeiUtil.formatPercentage(recipe.mutation.getChance()) + "%";
 
 		if (conditions.isEmpty()) {
-			JeiUtil.drawCenteredMulti(stack, Component.literal(percentageString), 105, 12, 0xffffff);
+			JeiUtil.drawCenteredMulti(graphics, Component.literal(percentageString), 105, 12, 0xffffff);
 		} else {
-			JeiUtil.drawCenteredMulti(stack, Component.literal('[' + percentageString + ']'), 105, 12, 0xffffff);
+			JeiUtil.drawCenteredMulti(graphics, Component.literal('[' + percentageString + ']'), 105, 12, 0xffffff);
 		}
 	}
 

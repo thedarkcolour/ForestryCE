@@ -10,12 +10,11 @@
  ******************************************************************************/
 package forestry.apiculture.gui;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import forestry.apiculture.multiblock.IAlvearyControllerInternal;
 import forestry.apiculture.multiblock.TileAlveary;
@@ -34,18 +33,18 @@ public class GuiAlveary extends GuiAnalyzerProvider<ContainerAlveary> {
 	}
 
 	@Override
-	protected void renderBg(PoseStack transform, float partialTicks, int mouseX, int mouseY) {
-		super.renderBg(transform, partialTicks, mouseX, mouseY);
+	protected void renderBg(GuiGraphics graphics, float partialTicks, int mouseX, int mouseY) {
+		super.renderBg(graphics, partialTicks, mouseX, mouseY);
 
 		IAlvearyControllerInternal alvearyController = tile.getMultiblockLogic().getController();
-		drawHealthMeter(transform, leftPos + 20, topPos + 37, alvearyController.getHealthScaled(46), EnumTankLevel.rateTankLevel(alvearyController.getHealthScaled(100)));
+		drawHealthMeter(graphics, leftPos + 20, topPos + 37, alvearyController.getHealthScaled(46), EnumTankLevel.rateTankLevel(alvearyController.getHealthScaled(100)));
 	}
 
-	private void drawHealthMeter(PoseStack transform, int x, int y, int height, EnumTankLevel rated) {
+	private void drawHealthMeter(GuiGraphics graphics, int x, int y, int height, EnumTankLevel rated) {
 		int i = 176 + rated.getLevelScaled(16);
 		int k = 0;
 
-		this.blit(transform, x, y + 46 - height, i, k + 46 - height, 4, height);
+		graphics.blit(this.textureFile, x, y + 46 - height, i, k + 46 - height, 4, height);
 	}
 
 	@Override
@@ -57,9 +56,9 @@ public class GuiAlveary extends GuiAnalyzerProvider<ContainerAlveary> {
 	}
 
 	@Override
-	protected void drawSelectedSlot(PoseStack transform, int selectedSlot) {
+	protected void drawSelectedSlot(GuiGraphics graphics, int selectedSlot) {
 		Slot slot = menu.getForestrySlot(1 + selectedSlot);
-		SELECTED_COMB_SLOT.draw(transform, topPos + slot.y - 3, leftPos + slot.x - 3);
+		SELECTED_COMB_SLOT.draw(graphics, topPos + slot.y - 3, leftPos + slot.x - 3);
 	}
 
 	@Override

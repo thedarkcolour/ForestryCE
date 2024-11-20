@@ -119,7 +119,7 @@ public class ResurrectionBeeEffect extends ThrottledBeeEffect {
 
 
 		private boolean spawnAndTransform(ItemEntity entity) {
-			T spawnedEntity = EntityUtil.spawnEntity(entity.level, this.risen, entity.getX(), entity.getY(), entity.getZ());
+			T spawnedEntity = EntityUtil.spawnEntity(entity.level(), this.risen, entity.getX(), entity.getY(), entity.getZ());
 			if (spawnedEntity != null) {
 				this.risenTransformer.accept(spawnedEntity);
 				return true;

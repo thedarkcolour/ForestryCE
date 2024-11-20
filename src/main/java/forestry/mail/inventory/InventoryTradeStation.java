@@ -25,7 +25,6 @@ import forestry.core.utils.SlotUtil;
 import forestry.mail.TradeStation;
 
 public class InventoryTradeStation extends InventoryAdapter {
-
 	public InventoryTradeStation() {
 		super(TradeStation.SLOT_SIZE, "INV");
 	}

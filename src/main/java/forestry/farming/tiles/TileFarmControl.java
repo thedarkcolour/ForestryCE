@@ -18,7 +18,7 @@ import net.minecraft.world.level.Level;
 import forestry.api.farming.IFarmListener;
 import forestry.api.farming.IFarmLogic;
 import forestry.api.multiblock.IFarmComponent;
-import forestry.farming.blocks.BlockFarm;
+import forestry.farming.blocks.FarmBlock;
 import forestry.farming.features.FarmingTiles;
 
 public class TileFarmControl extends TileFarm implements IFarmComponent.Listener {
@@ -47,7 +47,7 @@ public class TileFarmControl extends TileFarm implements IFarmComponent.Listener
 				BlockPos pos = tile.getBlockPos();
 				Level world = tile.getWorldObj();
 				BlockState blockState = world.getBlockState(pos.relative(facing));
-				if (!(blockState.getBlock() instanceof BlockFarm) && world.getSignal(pos, facing) > 0) {
+				if (!(blockState.getBlock() instanceof FarmBlock) && world.getSignal(pos, facing) > 0) {
 					return true;
 				}
 			}

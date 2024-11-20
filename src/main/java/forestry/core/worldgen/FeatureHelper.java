@@ -6,18 +6,18 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.Vec3i;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.VineBlock;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.item.context.DirectionalPlaceContext;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.core.Direction;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Vec3i;
-import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.VineBlock;
+import net.minecraft.world.level.block.state.BlockState;
 
 import forestry.api.arboriculture.ITreeGenData;
 import forestry.arboriculture.worldgen.ITreeBlockType;
@@ -59,7 +59,7 @@ public class FeatureHelper {
 	 * Center is the bottom middle of the cylinder
 	 */
 	public static void generateCylinderFromPos(LevelAccessor world, ITreeBlockType block, BlockPos center, float radius, int height, EnumReplaceMode replace, TreeContour contour) {
-		BlockPos start = new BlockPos(center.getX() - radius, center.getY(), center.getZ() - radius);
+		BlockPos start = BlockPos.containing(center.getX() - radius, center.getY(), center.getZ() - radius);
 		for (int x = 0; x < radius * 2 + 1; x++) {
 			for (int y = height - 1; y >= 0; y--) { // generating top-down is faster for lighting calculations
 				for (int z = 0; z < radius * 2 + 1; z++) {
@@ -82,8 +82,8 @@ public class FeatureHelper {
 	}
 
 	public static void generateCircle(LevelAccessor world, RandomSource rand, BlockPos center, float radius, int width, int height, ITreeBlockType block, float chance, EnumReplaceMode replace, TreeContour contour) {
-		Vec3i start = new Vec3i(center.getX() - radius, center.getY(), center.getZ() - radius);
-		Vec3i area = new Vec3i(radius * 2 + 1, height, radius * 2 + 1);
+		BlockPos start = BlockPos.containing(center.getX() - radius, center.getY(), center.getZ() - radius);
+		BlockPos area = BlockPos.containing(radius * 2 + 1, height, radius * 2 + 1);
 
 		BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
 		for (int x = start.getX(); x < start.getX() + area.getX(); x++) {
@@ -131,16 +131,16 @@ public class FeatureHelper {
 	 * Returns a list of trunk top coordinates
 	 */
 	public static Set<BlockPos> generateTreeTrunk(
-		LevelAccessor world,
-		RandomSource rand,
-		ITreeBlockType wood,
-		BlockPos startPos,
-		int height,
-		int girth,
-		int yStart,
-		float vinesChance,
-		@Nullable Direction leanDirection,
-		float leanScale
+			LevelAccessor world,
+			RandomSource rand,
+			ITreeBlockType wood,
+			BlockPos startPos,
+			int height,
+			int girth,
+			int yStart,
+			float vinesChance,
+			@Nullable Direction leanDirection,
+			float leanScale
 	) {
 		Set<BlockPos> treeTops = new HashSet<>();
 
@@ -359,7 +359,7 @@ public class FeatureHelper {
 					BlockPlaceContext context = new DirectionalPlaceContext((Level) world, pos, Direction.DOWN, ItemStack.EMPTY, Direction.UP);
 					return blockState.canBeReplaced(context);
 				}
-				return blockState.getMaterial().isReplaceable();
+				return blockState.canBeReplaced();
 			}
 		};
 

@@ -86,7 +86,7 @@ public class ContainerAnalyzerProviderHelper {
 				}
 
 				if (individual.analyze()) {
-					IBreedingTracker breedingTracker = individual.getType().getBreedingTracker(player.level, player.getGameProfile());
+					IBreedingTracker breedingTracker = individual.getType().getBreedingTracker(player.level(), player.getGameProfile());
 					breedingTracker.registerSpecies(individual.getSpecies());
 					// todo should inactive species count?
 					//breedingTracker.registerSpecies(individual.getGenome().getSecondarySpecies());

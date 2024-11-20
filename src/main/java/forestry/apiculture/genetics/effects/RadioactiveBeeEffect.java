@@ -27,14 +27,12 @@ import forestry.api.genetics.IEffectData;
 import forestry.api.genetics.IGenome;
 import forestry.api.genetics.alleles.BeeChromosomes;
 import forestry.apiculture.blocks.BlockAlveary;
+import forestry.core.damage.CoreDamageTypes;
 import forestry.core.tiles.TileUtil;
 import forestry.core.utils.BlockUtil;
-import forestry.core.utils.DamageSourceForestry;
 import forestry.core.utils.VecUtil;
 
 public class RadioactiveBeeEffect extends ThrottledBeeEffect {
-	private static final DamageSource damageSourceBeeRadioactive = new DamageSourceForestry("bee.radioactive");
-
 	public RadioactiveBeeEffect() {
 		super(true, 40, false, true);
 	}
@@ -58,7 +56,7 @@ public class RadioactiveBeeEffect extends ThrottledBeeEffect {
 				continue;
 			}
 
-			entity.hurt(damageSourceBeeRadioactive, damage);
+			entity.hurt(new DamageSource(CoreDamageTypes.RADIOACTIVE.getHolder().get()), damage);
 		}
 	}
 

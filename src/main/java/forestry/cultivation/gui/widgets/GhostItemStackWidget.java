@@ -3,13 +3,13 @@ package forestry.cultivation.gui.widgets;
 import javax.annotation.Nullable;
 
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import forestry.api.core.tooltips.ToolTip;
 import forestry.api.farming.HorizontalDirection;
@@ -27,9 +27,9 @@ public class GhostItemStackWidget extends ItemStackWidget {
 	}
 
 	@Override
-	public void draw(PoseStack transform, int startX, int startY) {
+	public void draw(GuiGraphics graphics, int startX, int startY) {
 		if (!slot.hasItem()) {
-			super.draw(transform, startX, startY);
+			super.draw(graphics, startX, startY);
 		}
 		// RenderSystem.disableLighting();
 		RenderSystem.disableDepthTest();
@@ -37,14 +37,13 @@ public class GhostItemStackWidget extends ItemStackWidget {
 
 		Component directionString = getDirectionString();
 		if (directionString != null) {
-			Font fontRenderer = manager.minecraft.font;
-			fontRenderer.drawShadow(transform, directionString, xPos + startX + 5, yPos + startY + 4, ColourProperties.INSTANCE.get("gui.screen"));
+			Font font = manager.minecraft.font;
+			graphics.drawString(font, directionString, xPos + startX + 5, yPos + startY + 4, ColourProperties.INSTANCE.get("gui.screen"));
 		}
 
-		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 0.5F);
+		graphics.setColor(1.0f, 1.0f, 1.0f, 0.5f);
 
-		RenderSystem.setShaderTexture(0, manager.gui.textureFile);
-		manager.gui.blit(transform, xPos + startX, yPos + startY, 206, 0, 16, 16);
+		graphics.blit(manager.gui.textureFile, xPos + startX, yPos + startY, 206, 0, 16, 16);
 
 		RenderSystem.disableBlend();
 		RenderSystem.enableDepthTest();

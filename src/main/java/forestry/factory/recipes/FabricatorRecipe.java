@@ -13,15 +13,16 @@ package forestry.factory.recipes;
 import com.google.common.base.Preconditions;
 import com.google.gson.JsonObject;
 
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.ShapedRecipe;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.util.GsonHelper;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 
 import net.minecraftforge.fluids.FluidStack;
@@ -73,8 +74,8 @@ public class FabricatorRecipe implements IFabricatorRecipe {
 	}
 
 	@Override
-	public ItemStack getResultItem() {
-		return this.recipe.getResultItem();
+	public ItemStack getResultItem(RegistryAccess registryAccess) {
+		return this.recipe.getResultItem(registryAccess);
 	}
 
 	@Override

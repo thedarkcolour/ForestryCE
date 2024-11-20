@@ -62,7 +62,6 @@ public class PostRegistry implements IPostRegistry {
 			return cachedPOBoxes.get(address);
 		}
 
-		//TODO  needs getOrCreate
 		POBox pobox = world.getDataStorage().computeIfAbsent(POBox::new, () -> new POBox(address), POBox.SAVE_NAME + address);
 		cachedPOBoxes.put(address, pobox);
 		return pobox;
@@ -112,7 +111,6 @@ public class PostRegistry implements IPostRegistry {
 			return (TradeStation) cachedTradeStations.get(address);
 		}
 
-		//TODO again this should be altered to use getOrCreate. At the moment this may supply bad trade stations with no owner. Not sure how this code will handle that
 		TradeStation trade = world.getDataStorage().computeIfAbsent(TradeStation::new, () -> new TradeStation(null, address), TradeStation.SAVE_NAME + address);
 
 		// Only existing and valid mail orders are returned
@@ -146,6 +144,7 @@ public class PostRegistry implements IPostRegistry {
 			return;
 		}
 
+		// todo no idea what this shit does
 		// Need to be marked as invalid since WorldSavedData seems to do some caching of its own.
 		trade.invalidate();
 		cachedTradeStations.remove(address);

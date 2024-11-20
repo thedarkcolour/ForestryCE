@@ -10,19 +10,12 @@
  ******************************************************************************/
 package forestry.apiculture.particles;
 
-import net.minecraft.client.particle.SpriteSet;
-import net.minecraft.client.particle.ParticleProvider;
-import net.minecraft.client.particle.ParticleRenderType;
-import net.minecraft.client.particle.Particle;
-import net.minecraft.client.particle.TextureSheetParticle;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.particle.ParticleRenderType;
+import net.minecraft.client.particle.TextureSheetParticle;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.Vec3;
 
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-
-@OnlyIn(Dist.CLIENT)
 public class BeeRoundTripParticle extends TextureSheetParticle {
 	private final Vec3 origin;
 	private final BlockPos destination;
@@ -49,9 +42,6 @@ public class BeeRoundTripParticle extends TextureSheetParticle {
 		this.zd *= 0.9D;
 	}
 
-	/**
-	 * Called to update the entity's position/logic.
-	 */
 	@Override
 	public void tick() {
 		this.xo = this.x;
@@ -111,21 +101,5 @@ public class BeeRoundTripParticle extends TextureSheetParticle {
 	@Override
 	public int getLightColor(float p_189214_1_) {
 		return 15728880;
-	}
-
-	@OnlyIn(Dist.CLIENT)
-	public static class Factory implements ParticleProvider<BeeParticleData> {
-		private final SpriteSet spriteSet;
-
-		public Factory(SpriteSet sprite) {
-			this.spriteSet = sprite;
-		}
-
-		@Override
-		public Particle createParticle(BeeParticleData typeIn, ClientLevel worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-			BeeRoundTripParticle particle = new BeeRoundTripParticle(worldIn, x, y, z, typeIn.destination, typeIn.color);
-			particle.pickSprite(spriteSet);
-			return particle;
-		}
 	}
 }

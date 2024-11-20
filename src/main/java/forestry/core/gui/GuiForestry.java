@@ -21,6 +21,7 @@ import java.util.Properties;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.network.chat.Component;
@@ -28,18 +29,12 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
-import net.minecraft.world.item.ItemStack;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.IFluidTank;
-
 import forestry.Forestry;
 import forestry.api.ForestryConstants;
-import forestry.api.client.ForestrySprites;
-import forestry.api.client.IForestryClientApi;
 import forestry.api.climate.IClimateProvider;
 import forestry.api.core.IErrorLogicSource;
 import forestry.api.core.IErrorSource;
@@ -50,7 +45,6 @@ import forestry.core.gui.ledgers.HintLedger;
 import forestry.core.gui.ledgers.LedgerManager;
 import forestry.core.gui.ledgers.OwnerLedger;
 import forestry.core.gui.ledgers.PowerLedger;
-import forestry.core.gui.slots.ISlotTextured;
 import forestry.core.gui.widgets.TankWidget;
 import forestry.core.gui.widgets.Widget;
 import forestry.core.gui.widgets.WidgetManager;
@@ -112,11 +106,11 @@ public abstract class GuiForestry<C extends AbstractContainerMenu> extends Abstr
 	}
 
 	@Override
-	public void render(PoseStack transform, int mouseX, int mouseY, float partialTicks) {
-		window.setMousePosition(mouseX, mouseY);
-		this.renderBackground(transform);
-		super.render(transform, mouseX, mouseY, partialTicks);
-		renderTooltip(transform, mouseX, mouseY);
+	public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
+		this.window.setMousePosition(mouseX, mouseY);
+		renderBackground(graphics);
+		super.render(graphics, mouseX, mouseY, partialTicks);
+		renderTooltip(graphics, mouseX, mouseY);
 	}
 
 	protected abstract void addLedgers();
@@ -166,7 +160,7 @@ public abstract class GuiForestry<C extends AbstractContainerMenu> extends Abstr
 		return ColourProperties.INSTANCE;
 	}
 
-	public Font getFontRenderer() {
+	public Font font() {
 		return font;
 	}
 
@@ -239,13 +233,10 @@ public abstract class GuiForestry<C extends AbstractContainerMenu> extends Abstr
 	}
 
 	@Nullable
-	public FluidStack getFluidStackAtPosition(double mouseX, double mouseY) {
+	public TankWidget getTankAtPosition(double mouseX, double mouseY) {
 		for (Widget widget : widgetManager.getWidgets()) {
 			if (widget instanceof TankWidget tankWidget && widget.isMouseOver(mouseX - leftPos, mouseY - topPos)) {
-				IFluidTank tank = tankWidget.getTank();
-				if (tank != null) {
-					return tank.getFluid();
-				}
+				return tankWidget;
 			}
 		}
 		return null;
@@ -274,35 +265,19 @@ public abstract class GuiForestry<C extends AbstractContainerMenu> extends Abstr
 	}
 
 	@Override
-	public void renderSlot(PoseStack transform, Slot slot) {
-		if (slot instanceof ISlotTextured textured) {
-			ItemStack stack = slot.getItem();
-			if (stack.isEmpty() && slot.isActive()) {
-				ResourceLocation location = textured.getBackgroundTexture();
-				if (location != null) {
-					RenderSystem.setShaderTexture(0, ForestrySprites.TEXTURE_ATLAS);
-					blit(transform, slot.x, slot.y, this.getBlitOffset(), 16, 16, IForestryClientApi.INSTANCE.getTextureManager().getSprite(location));
-				}
-			}
-		}
-		super.renderSlot(transform, slot);
-	}
-
-	@Override
-	protected void renderLabels(PoseStack transform, int mouseX, int mouseY) {
-		ledgerManager.drawTooltips(transform, mouseX, mouseY);
+	protected void renderLabels(GuiGraphics graphics, int mouseX, int mouseY) {
+		ledgerManager.drawTooltips(graphics, mouseX, mouseY);
 
 		if (this.menu.getCarried().isEmpty()) {
-			GuiUtil.drawToolTips(transform, this, widgetManager.getWidgets(), mouseX, mouseY);
-			GuiUtil.drawToolTips(transform, this, this.renderables, mouseX, mouseY);
-			GuiUtil.drawToolTips(transform, this, menu.slots, mouseX, mouseY);
-			window.drawTooltip(transform, mouseX, mouseY);
+			GuiUtil.drawToolTips(graphics, this, widgetManager.getWidgets(), mouseX, mouseY);
+			GuiUtil.drawToolTips(graphics, this, this.renderables, mouseX, mouseY);
+			GuiUtil.drawToolTips(graphics, this, menu.slots, mouseX, mouseY);
+			window.drawTooltip(graphics, mouseX, mouseY);
 		}
 	}
 
-	@Override
-	protected void renderBg(PoseStack transform, float partialTicks, int mouseX, int mouseY) {
-		drawBackground(transform);
+	protected void renderBg(GuiGraphics graphics, float partialTicks, int mouseX, int mouseY) {
+		drawBackground(graphics);
 
 		widgetManager.updateWidgets(mouseX - leftPos, mouseY - topPos);
 
@@ -310,29 +285,26 @@ public abstract class GuiForestry<C extends AbstractContainerMenu> extends Abstr
 		// RenderSystem.disableLighting();
 		// RenderSystem.enableRescaleNormal();
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+		PoseStack transform = graphics.pose();
 		transform.pushPose();
-		{
-			transform.translate(leftPos, topPos, 0.0F);
-			drawWidgets(transform);
-		}
+		transform.translate(leftPos, topPos, 0.0F);
+		drawWidgets(graphics);
 		transform.popPose();
 
 		// RenderSystem.color3f(1.0F, 1.0F, 1.0F);
 
-		window.draw(transform, mouseX, mouseY);
+		window.draw(graphics, mouseX, mouseY);
 
 		bindTexture(textureFile);
 	}
 
-	protected void drawBackground(PoseStack transform) {
-		bindTexture(textureFile);
-
-		blit(transform, leftPos, topPos, 0, 0, imageWidth, imageHeight);
+	protected void drawBackground(GuiGraphics transform) {
+		transform.blit(this.textureFile, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
 	}
 
-	protected void drawWidgets(PoseStack transform) {
-		ledgerManager.drawLedgers(transform);
-		widgetManager.drawWidgets(transform);
+	protected void drawWidgets(GuiGraphics graphics) {
+		ledgerManager.drawLedgers(graphics);
+		widgetManager.drawWidgets(graphics);
 	}
 
 	protected void bindTexture(ResourceLocation texturePath) {

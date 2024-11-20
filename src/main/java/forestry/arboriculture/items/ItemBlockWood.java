@@ -26,7 +26,7 @@ import forestry.core.items.ItemBlockForestry;
 
 public class ItemBlockWood<B extends Block & IWoodTyped> extends ItemBlockForestry<B> {
 	public ItemBlockWood(B block) {
-		super(block, new Item.Properties().tab(ItemGroups.tabArboriculture));
+		super(block, new Item.Properties());
 	}
 
 	@Override

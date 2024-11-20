@@ -28,7 +28,6 @@ import forestry.api.mail.IMailAddress;
 import forestry.core.utils.PlayerUtil;
 
 public class MailAddress implements INbtWritable, IMailAddress {
-
 	private static final GameProfile invalidGameProfile = new GameProfile(new UUID(0, 0), "");
 
 	private final EnumAddressee type;

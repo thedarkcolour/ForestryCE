@@ -22,7 +22,6 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
-import net.minecraft.world.level.material.Material;
 
 import net.minecraftforge.common.IPlantable;
 
@@ -36,7 +35,7 @@ public class BlockBogEarth extends Block {
 	public static final IntegerProperty MATURITY = IntegerProperty.create("maturity", 0, maturityDelimiter);
 
 	public BlockBogEarth() {
-		super(Block.Properties.of(Material.DIRT)
+		super(Block.Properties.of()
 				.randomTicks()
 				.strength(0.5f)
 				.sound(SoundType.GRAVEL));

@@ -26,13 +26,14 @@ public class ForestSpawner implements ITreeSpawner {
 		int x = (int) Math.round(player.getX() + 16 * look.x);
 		int y = (int) Math.round(player.getY());
 		int z = (int) Math.round(player.getZ() + 16 * look.z);
+		ServerLevel level = (ServerLevel) player.level();
 
 		for (int i = 0; i < 16; i++) {
-			int spawnX = x + player.level.random.nextInt(32) - 16;
-			int spawnZ = z + player.level.random.nextInt(32) - 16;
+			int spawnX = x + level.random.nextInt(32) - 16;
+			int spawnZ = z + level.random.nextInt(32) - 16;
 			BlockPos pos = new BlockPos(spawnX, y, spawnZ);
 
-			TreeGenHelper.generateTree(tree.getSpecies(), (ServerLevel) player.level, pos);
+			TreeGenHelper.generateTree(tree.getSpecies(), level, pos);
 		}
 
 		return 1;

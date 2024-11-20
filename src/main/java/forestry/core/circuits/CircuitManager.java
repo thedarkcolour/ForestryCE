@@ -37,7 +37,7 @@ public class CircuitManager implements ICircuitManager {
 	@Override
 	public ICircuit getCircuit(ICircuitLayout layout, ItemStack stack) {
 		for (CircuitHolder holder : this.circuitHolders.get(layout)) {
-			if (holder.stack().sameItem(stack)) {
+			if (ItemStack.isSameItem(holder.stack(), stack)) {
 				return holder.circuit();
 			}
 		}

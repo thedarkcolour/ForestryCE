@@ -1,12 +1,10 @@
 package forestry.core.gui.elements.text;
 
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.util.FormattedCharSequence;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
 class ProcessorText extends AbstractTextElement<FormattedCharSequence, ProcessorText> {
-
 	public ProcessorText(FormattedCharSequence component) {
 		super(component);
 	}
@@ -30,11 +28,7 @@ class ProcessorText extends AbstractTextElement<FormattedCharSequence, Processor
 	}
 
 	@Override
-	public void drawElement(PoseStack transform, int mouseX, int mouseY) {
-		if (shadow) {
-			FONT_RENDERER.drawShadow(transform, text, 0, 0, 0);
-		} else {
-			FONT_RENDERER.draw(transform, text, 0, 0, 0);
-		}
+	public void drawElement(GuiGraphics graphics, int mouseX, int mouseY) {
+		graphics.drawString(FONT_RENDERER, this.text, 0, 0, 0, this.shadow);
 	}
 }

@@ -49,8 +49,8 @@ minecraft {
 
 repositories {
 	maven {
-		name = "JEI"
-		url = "https://dvs1.progwml6.com/files/maven"
+		name = 'jei'
+		url = 'https://maven.blamejared.com/'
 		content { includeGroup "mezz.jei" }
 	}
 	maven {
@@ -127,6 +127,7 @@ jar {
 
 tasks.withType(JavaCompile).configureEach {
 	options.encoding = "UTF-8"
+	options.compilerArgs << "-Xmaxerrs" << "400"
 }
 
 idea {

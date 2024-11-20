@@ -7,6 +7,7 @@ import java.util.List;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -16,8 +17,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Block;
-
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraftforge.common.crafting.IShapedRecipe;
 
@@ -149,20 +148,20 @@ public class JeiUtil {
 	}
 
 	// From JEI Bees
-	public static void drawCenteredMulti(PoseStack stack, Component component, float x, float y, int color) {
+	public static void drawCenteredMulti(GuiGraphics graphics, Component component, float x, float y, int color) {
 		Font font = Minecraft.getInstance().font;
 		String[] split = component.getString().split(" ");
 
 		for (int i = 0; i < split.length; i++) {
 			String line = split[i];
-			drawCentered(stack, font, line, x, y + i * font.lineHeight, color);
+			drawCentered(graphics, font, line, x, y + i * font.lineHeight, color);
 		}
 	}
 
-	private static void drawCentered(PoseStack stack, Font font, String line, float x, float y, int color) {
+	private static void drawCentered(GuiGraphics graphics, Font font, String line, float x, float y, int color) {
 		int width = font.width(line);
 
-		font.draw(stack, line, x - (width / 2f), y, color);
+		graphics.drawString(font, line, x - (width / 2f), y, color, false);
 	}
 	// End of JEI Bees
 

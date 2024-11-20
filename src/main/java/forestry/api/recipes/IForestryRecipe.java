@@ -6,6 +6,7 @@
 package forestry.api.recipes;
 
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
@@ -19,13 +20,13 @@ public interface IForestryRecipe extends Recipe<Container> {
 	// <editor-fold desc="Ignore these methods, we just piggy back off Minecraft's system for recipe sync">
 	@Deprecated
 	@Override
-	default boolean matches(Container inv, Level worldIn) {
+	default boolean matches(Container inv, Level level) {
 		return false;
 	}
 
 	@Deprecated
 	@Override
-	default ItemStack assemble(Container inv) {
+	default ItemStack assemble(Container inv, RegistryAccess lookup) {
 		return ItemStack.EMPTY;
 	}
 

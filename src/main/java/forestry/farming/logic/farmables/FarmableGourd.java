@@ -51,7 +51,7 @@ public class FarmableGourd implements IFarmable {
 
 	@Override
 	public boolean isGermling(ItemStack stack) {
-		return ItemStack.isSame(stack, seed);
+		return ItemStack.isSameItem(stack, seed);
 	}
 
 	@Override

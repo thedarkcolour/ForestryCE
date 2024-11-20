@@ -3,7 +3,7 @@ package forestry.api.core;
 import javax.annotation.Nullable;
 import java.util.Optional;
 
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.item.Item;
@@ -22,7 +22,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
  */
 public record Product(Item item, int count, @Nullable CompoundTag tag, float chance) implements IProduct {
 	public static final Codec<Product> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-			Registry.ITEM.byNameCodec().fieldOf("item").forGetter(Product::item),
+			BuiltInRegistries.ITEM.byNameCodec().fieldOf("item").forGetter(Product::item),
 			Codec.intRange(1, 64).optionalFieldOf("count", 1).forGetter(Product::count),
 			CompoundTag.CODEC.optionalFieldOf("tag").forGetter(product -> Optional.ofNullable(product.tag)),
 			Codec.floatRange(0f, 1f).fieldOf("chance").forGetter(Product::chance)
@@ -48,14 +48,14 @@ public record Product(Item item, int count, @Nullable CompoundTag tag, float cha
 	}
 
 	public static void toNetwork(FriendlyByteBuf buffer, Product product) {
-		buffer.writeId(Registry.ITEM, product.item);
+		buffer.writeId(BuiltInRegistries.ITEM, product.item);
 		buffer.writeByte(product.count);
 		buffer.writeNbt(product.tag);
 		buffer.writeFloat(product.chance);
 	}
 
 	public static Product fromNetwork(FriendlyByteBuf buffer) {
-		Item item = buffer.readById(Registry.ITEM);
+		Item item = buffer.readById(BuiltInRegistries.ITEM);
 		int count = buffer.readByte();
 		CompoundTag tag = buffer.readNbt();
 		float chance = buffer.readFloat();

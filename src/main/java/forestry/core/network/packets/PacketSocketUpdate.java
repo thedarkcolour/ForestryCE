@@ -52,7 +52,7 @@ public record PacketSocketUpdate(BlockPos pos, NonNullList<ItemStack> itemStacks
 	}
 
 	public static void handle(PacketSocketUpdate msg, Player player) {
-		TileUtil.actOnTile(player.level, msg.pos, ISocketable.class, socketable -> {
+		TileUtil.actOnTile(player.level(), msg.pos, ISocketable.class, socketable -> {
 			for (int i = 0; i < msg.itemStacks.size(); i++) {
 				socketable.setSocket(i, msg.itemStacks.get(i));
 			}

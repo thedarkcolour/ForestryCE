@@ -10,9 +10,8 @@
  ******************************************************************************/
 package forestry.core.gui.ledgers;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import forestry.api.client.ForestrySprites;
 import forestry.api.client.IForestryClientApi;
@@ -29,12 +28,12 @@ public class PowerLedger extends Ledger {
 	}
 
 	@Override
-	public void draw(PoseStack transform, int y, int x) {
+	public void draw(GuiGraphics graphics, int y, int x) {
 		// Draw background
-		drawBackground(transform, y, x);
+		drawBackground(graphics, y, x);
 
 		// Draw icon
-		drawSprite(transform, IForestryClientApi.INSTANCE.getTextureManager().getSprite(ForestrySprites.MISC_ENERGY), x + 3, y + 4);
+		drawSprite(graphics, IForestryClientApi.INSTANCE.getTextureManager().getSprite(ForestrySprites.MISC_ENERGY), x + 3, y + 4);
 
 		if (!isFullyOpened()) {
 			return;
@@ -43,16 +42,16 @@ public class PowerLedger extends Ledger {
 		int xHeader = x + 22;
 		int xBody = x + 12;
 
-		drawHeader(transform, Component.translatable("for.gui.energy"), xHeader, y + 8);
+		drawHeader(graphics, Component.translatable("for.gui.energy"), xHeader, y + 8);
 
-		drawSubheader(transform, Component.translatable("for.gui.stored").append(":"), xBody, y + 20);
-		drawText(transform, GuiUtil.formatEnergyValue(energyStorage.getEnergyStored()), xBody, y + 32);
+		drawSubheader(graphics, Component.translatable("for.gui.stored").append(":"), xBody, y + 20);
+		drawText(graphics, GuiUtil.formatEnergyValue(energyStorage.getEnergyStored()), xBody, y + 32);
 
-		drawSubheader(transform, Component.translatable("for.gui.maxenergy").append(":"), xBody, y + 44);
-		drawText(transform, GuiUtil.formatEnergyValue(energyStorage.getMaxEnergyStored()), xBody, y + 56);
+		drawSubheader(graphics, Component.translatable("for.gui.maxenergy").append(":"), xBody, y + 44);
+		drawText(graphics, GuiUtil.formatEnergyValue(energyStorage.getMaxEnergyStored()), xBody, y + 56);
 
-		drawSubheader(transform, Component.translatable("for.gui.maxenergyreceive").append(":"), xBody, y + 68);
-		drawText(transform, GuiUtil.formatEnergyValue(energyStorage.getMaxEnergyReceived()), xBody, y + 80);
+		drawSubheader(graphics, Component.translatable("for.gui.maxenergyreceive").append(":"), xBody, y + 68);
+		drawText(graphics, GuiUtil.formatEnergyValue(energyStorage.getMaxEnergyReceived()), xBody, y + 80);
 	}
 
 	@Override

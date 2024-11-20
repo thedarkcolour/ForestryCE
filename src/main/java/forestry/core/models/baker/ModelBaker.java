@@ -21,7 +21,6 @@ import net.minecraft.client.resources.model.BlockModelRotation;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
-import com.mojang.math.Vector3f;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -29,6 +28,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import forestry.api.ForestryConstants;
 import forestry.core.models.ClientManager;
 import forestry.core.utils.ResourceUtil;
+
+import org.joml.Vector3f;
 
 
 /**

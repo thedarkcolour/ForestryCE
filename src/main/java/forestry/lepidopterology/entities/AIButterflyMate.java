@@ -40,11 +40,11 @@ public class AIButterflyMate extends AIButterflyInteract {
 			return false;
 		}
 
-		if (EntityButterfly.isMaxButterflyCluster(entity.position(), entity.level)) {
+		if (EntityButterfly.isMaxButterflyCluster(entity.position(), entity.level())) {
 			return false;
 		}
 
-		return rest != null && GeneticsUtil.canNurse(entity.getButterfly(), entity.level, rest);
+		return rest != null && GeneticsUtil.canNurse(entity.getButterfly(), entity.level(), rest);
 	}
 
 	@Override
@@ -57,7 +57,7 @@ public class AIButterflyMate extends AIButterflyInteract {
 					entity.cooldownMate = EntityButterfly.COOLDOWNS;
 				}
 			} else if (rest != null) {
-				IButterflyNursery nursery = TreeUtil.getOrCreateNursery(entity.level, rest, false);
+				IButterflyNursery nursery = TreeUtil.getOrCreateNursery(entity.level(), rest, false);
 				if (nursery != null) {
 					if (nursery.canNurse(entity.getButterfly())) {
 						nursery.setCaterpillar(entity.getButterfly().spawnCaterpillar(nursery));
@@ -110,7 +110,7 @@ public class AIButterflyMate extends AIButterflyInteract {
 	@Nullable
 	private EntityButterfly getNearbyMate() {
 		float f = 8.0F;
-		List<EntityButterfly> nextButterflys = entity.level.getEntitiesOfClass(EntityButterfly.class, this.entity.getBoundingBox().expandTowards(f, f, f));
+		List<EntityButterfly> nextButterflys = entity.level().getEntitiesOfClass(EntityButterfly.class, this.entity.getBoundingBox().expandTowards(f, f, f));
 		double d0 = Double.MAX_VALUE;
 		EntityButterfly nextButterfly = null;
 

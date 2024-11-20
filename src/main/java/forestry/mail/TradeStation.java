@@ -11,7 +11,6 @@
 package forestry.mail;
 
 import javax.annotation.Nullable;
-
 import java.util.List;
 
 import net.minecraft.core.Direction;
@@ -40,7 +39,6 @@ import forestry.core.inventory.IInventoryAdapter;
 import forestry.core.inventory.InventoryAdapter;
 import forestry.core.utils.InventoryUtil;
 import forestry.core.utils.ItemStackUtil;
-import forestry.core.utils.Translator;
 import forestry.mail.features.MailItems;
 import forestry.mail.inventory.InventoryTradeStation;
 import forestry.mail.items.EnumStampDefinition;
@@ -323,7 +321,7 @@ public class TradeStation extends SavedData implements ITradeStation, IInventory
 		float orderCount = 0;
 
 		for (ItemStack stack : InventoryUtil.getStacks(inventory, SLOT_SEND_BUFFER, SLOT_SEND_BUFFER_COUNT)) {
-			if (stack != null && stack.sameItem(tradegood) && ItemStack.tagMatches(stack, tradegood)) {
+			if (stack != null && ItemStack.isSameItemSameTags(stack, tradegood)) {
 				orderCount += stack.getCount() / (float) tradegood.getCount();
 				if (orderCount >= max) {
 					return max;
@@ -358,16 +356,13 @@ public class TradeStation extends SavedData implements ITradeStation, IInventory
 	}
 
 	private void removeTradegood(int filled) {
-
 		for (int j = 0; j < filled; j++) {
 			int toRemove = inventory.getItem(SLOT_TRADEGOOD).getCount();
+
 			for (int i = SLOT_SEND_BUFFER; i < SLOT_SEND_BUFFER + SLOT_SEND_BUFFER_COUNT; i++) {
 				ItemStack buffer = inventory.getItem(i);
 
-				if (!buffer.isEmpty() &&
-						buffer.sameItem(inventory.getItem(SLOT_TRADEGOOD)) &&
-						ItemStack.tagMatches(buffer, inventory.getItem(SLOT_TRADEGOOD))) {
-
+				if (!buffer.isEmpty() && ItemStack.isSameItemSameTags(buffer, inventory.getItem(SLOT_TRADEGOOD))) {
 					ItemStack decrease = inventory.removeItem(i, toRemove);
 					toRemove -= decrease.getCount();
 
@@ -381,7 +376,6 @@ public class TradeStation extends SavedData implements ITradeStation, IInventory
 
 	// Checks if this trade station has enough paper.
 	private boolean hasPaper(int amountRequired) {
-
 		int amountFound = 0;
 
 		for (ItemStack stack : InventoryUtil.getStacks(inventory, SLOT_LETTERS_1, SLOT_LETTERS_COUNT)) {
@@ -545,7 +539,7 @@ public class TradeStation extends SavedData implements ITradeStation, IInventory
 					if (pol.isEmpty()) {
 						continue;
 					}
-					if (!pol.sameItem(req)) {
+					if (!ItemStack.isSameItem(pol, req)) {
 						continue;
 					}
 

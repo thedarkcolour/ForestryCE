@@ -29,7 +29,7 @@ import net.minecraft.util.Mth;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 
 import forestry.api.ForestryConstants;
 import forestry.core.blocks.BlockBase;
@@ -115,7 +115,7 @@ public class RenderMachine implements BlockEntityRenderer<TileBase> {
 		RenderUtil.rotateByHorizontalDirection(stack, orientation);
 		// flip the machine on its side
 		stack.translate(0.5, 0.5, 0.5);
-		stack.mulPose(Vector3f.XP.rotation(-Mth.HALF_PI));
+		stack.mulPose(Axis.XP.rotation(-Mth.HALF_PI));
 		stack.translate(-0.5, -0.5, -0.5);
 		// render bases
 		VertexConsumer base = buffers.getBuffer(RenderType.entityCutout(textureBase));
@@ -124,7 +124,7 @@ public class RenderMachine implements BlockEntityRenderer<TileBase> {
 
 		// rotate for the tank "slices"
 		stack.translate(0.5, 0.5, 0.5);
-		stack.mulPose(Vector3f.YP.rotation(-Mth.HALF_PI));
+		stack.mulPose(Axis.YP.rotation(-Mth.HALF_PI));
 		stack.translate(-0.5, -0.5, -0.5);
 		// render the two tank "slices"
 		IRenderableTile tile = ((IRenderableTile) machine);

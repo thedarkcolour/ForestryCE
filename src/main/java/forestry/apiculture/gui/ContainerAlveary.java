@@ -22,7 +22,7 @@ import forestry.core.tiles.TileUtil;
 
 public class ContainerAlveary extends ContainerAnalyzerProvider<TileAlveary> {
 	public static ContainerAlveary fromNetwork(int windowId, Inventory inv, FriendlyByteBuf data) {
-		TileAlveary tile = TileUtil.getTile(inv.player.level, data.readBlockPos(), TileAlveary.class);
+		TileAlveary tile = TileUtil.getTile(inv.player.level(), data.readBlockPos(), TileAlveary.class);
 		return new ContainerAlveary(windowId, inv, tile);
 	}
 

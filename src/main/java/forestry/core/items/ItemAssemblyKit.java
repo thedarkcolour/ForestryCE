@@ -10,25 +10,21 @@
  ******************************************************************************/
 package forestry.core.items;
 
+import java.util.function.Supplier;
+
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.level.Level;
-
-import forestry.api.core.ItemGroups;
-
-import java.util.function.Supplier;
 
 public class ItemAssemblyKit extends ItemForestry {
 	private final Supplier<ItemStack> assembled;
 
 	public ItemAssemblyKit(Supplier<ItemStack> assembled) {
-		super((new Item.Properties())
-				.stacksTo(24)
-				.tab(ItemGroups.tabForestry));
+		super(new Item.Properties().stacksTo(24));
 		this.assembled = assembled;
 	}
 

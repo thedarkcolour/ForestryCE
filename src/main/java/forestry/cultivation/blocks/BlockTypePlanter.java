@@ -1,5 +1,7 @@
 package forestry.cultivation.blocks;
 
+import java.util.List;
+
 import forestry.core.blocks.IBlockTypeCustom;
 import forestry.core.blocks.IMachineProperties;
 import forestry.core.blocks.MachineProperties;
@@ -15,6 +17,8 @@ public enum BlockTypePlanter implements IBlockTypeCustom {
 	FARM_NETHER(CultivationTiles.NETHER, "farm_nether"),
 	FARM_ENDER(CultivationTiles.ENDER, "farm_ender"),
 	PEAT_POG(CultivationTiles.BOG, "peat_bog");
+
+	public static final List<BlockTypePlanter> VALUES = List.of(values());
 
 	private final IMachineProperties<?> machineProperties;
 

@@ -13,6 +13,7 @@ package forestry.core.gui;
 import java.util.List;
 
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.network.chat.Component;
@@ -23,15 +24,15 @@ public class GuiTextBox extends EditBox {
 	private static final int enabledColor = 14737632;
 	private static final int disabledColor = 7368816;
 
-	private final Font fontRenderer;
+	private final Font font;
 	private final int startX, startY, width, height;
 
 	private int lineScroll = 0;
 	private int maxLines = 0;
 
-	public GuiTextBox(Font fontRenderer, int startX, int startY, int width, int height) {
-		super(fontRenderer, startX, startY, width, height, null);
-		this.fontRenderer = fontRenderer;
+	public GuiTextBox(Font font, int startX, int startY, int width, int height) {
+		super(font, startX, startY, width, height, null);
+		this.font = font;
 		this.startX = startX;
 		this.startY = startY;
 		this.width = width;
@@ -55,7 +56,7 @@ public class GuiTextBox extends EditBox {
 	}
 
 	public boolean moreLinesAllowed() {
-		return fontRenderer.split(Component.literal(getCursoredText()), width).size() * fontRenderer.lineHeight < height;
+		return font.split(Component.literal(getCursoredText()), width).size() * font.lineHeight < height;
 	}
 
 	private String getCursoredText() {
@@ -74,8 +75,8 @@ public class GuiTextBox extends EditBox {
 		return text.substring(0, cursorPos) + "_" + text.substring(cursorPos);
 	}
 
-	private void drawScrolledSplitString(PoseStack transform, Component text, int startX, int startY, int width, int textColour) {
-		List<FormattedCharSequence> lines = fontRenderer.split(text, width);
+	private void drawScrolledSplitString(GuiGraphics graphics, Component text, int startX, int startY, int width, int textColour) {
+		List<FormattedCharSequence> lines = this.font.split(text, width);
 		maxLines = lines.size();
 
 		int count = 0;
@@ -85,12 +86,12 @@ public class GuiTextBox extends EditBox {
 			if (count < lineScroll) {
 				count++;
 				continue;
-			} else if (lineY + fontRenderer.lineHeight - startY > height) {
+			} else if (lineY + this.font.lineHeight - startY > height) {
 				break;
 			}
 
-			fontRenderer.draw(transform, line, startX, lineY, textColour);
-			lineY += fontRenderer.lineHeight;
+			graphics.drawString(this.font, line, startX, lineY, textColour);
+			lineY += this.font.lineHeight;
 
 			count++;
 		}

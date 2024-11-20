@@ -230,6 +230,11 @@ public class ModFeatureRegistry {
 		}
 
 		@Override
+		public FeatureCreativeTab creativeTab(String id, Consumer<CreativeModeTab.Builder> builder) {
+			return register(new FeatureCreativeTab(this, moduleId, id, builder));
+		}
+
+		@Override
 		public Collection<IModFeature> getFeatures() {
 			return features;
 		}

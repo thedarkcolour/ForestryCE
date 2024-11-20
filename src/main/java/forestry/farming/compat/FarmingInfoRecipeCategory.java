@@ -7,11 +7,10 @@ import org.apache.commons.lang3.mutable.MutableInt;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import forestry.api.ForestryConstants;
 import forestry.api.circuits.ICircuit;
@@ -100,23 +99,22 @@ public class FarmingInfoRecipeCategory extends ForestryRecipeCategory<FarmingInf
 	}
 
 	@Override
-	public void draw(FarmingInfoRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX, double mouseY) {
-		addition.draw(stack, 37, 64);
-		arrow.draw(stack, 91, 64);
+	public void draw(FarmingInfoRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics graphics, double mouseX, double mouseY) {
+		addition.draw(graphics, 37, 64);
+		arrow.draw(graphics, 91, 64);
 		int recipeWidth = this.getBackground().getWidth();
-		Font fontRenderer = Minecraft.getInstance().font;
+		Font font = Minecraft.getInstance().font;
 		ICircuit circuit = recipe.circuit();
-		float textX = (float) (recipeWidth - fontRenderer.width(circuit.getDisplayName().getString())) / 2;
-		fontRenderer.draw(stack, circuit.getDisplayName(), textX, 3, Color.darkGray.getRGB());
+		int textX = (recipeWidth - font.width(circuit.getDisplayName().getString())) / 2;
+		graphics.drawString(font, circuit.getDisplayName(), textX, 3, Color.darkGray.getRGB());
 
 		Component soilName = Component.translatable("for.jei.farming.soil");
-		fontRenderer.draw(stack, soilName, 18 - (float) (fontRenderer.width(soilName.getString())) / 2, 45, Color.darkGray.getRGB());
+		graphics.drawString(font, soilName, 18 - (font.width(soilName.getString())) / 2, 45, Color.darkGray.getRGB());
 
 		Component germlingsName = Component.translatable("for.jei.farming.germlings");
-		fontRenderer.draw(stack, germlingsName, (float) (recipeWidth - fontRenderer.width(germlingsName.getString())) / 2, 45, Color.darkGray.getRGB());
+		graphics.drawString(font, germlingsName, (recipeWidth - font.width(germlingsName.getString())) / 2, 45, Color.darkGray.getRGB());
 
-		//TODO: draw
 		Component productsName = Component.translatable("for.jei.farming.products");
-		fontRenderer.draw(stack, productsName, 126 - (float) (fontRenderer.width(productsName.getString())) / 2, 45, Color.darkGray.getRGB());
+		graphics.drawString(font, productsName, 126 - (font.width(productsName.getString())) / 2, 45, Color.darkGray.getRGB());
 	}
 }

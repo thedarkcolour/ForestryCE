@@ -1,9 +1,8 @@
 package forestry.energy.screen;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
-
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import forestry.core.config.Constants;
 import forestry.core.gui.widgets.TankWidget;
@@ -21,15 +20,15 @@ public class BiogasEngineScreen extends EngineScreen<BiogasEngineMenu, BiogasEng
 	}
 
 	@Override
-	protected void renderBg(PoseStack transform, float partialTicks, int mouseX, int mouseY) {
-		super.renderBg(transform, partialTicks, mouseX, mouseY);
+	protected void renderBg(GuiGraphics graphics, float partialTicks, int mouseX, int mouseY) {
+		super.renderBg(graphics, partialTicks, mouseX, mouseY);
 
 		int temperature = engine.getOperatingTemperatureScaled(16);
 		if (temperature > 16) {
 			temperature = 16;
 		}
 		if (temperature > 0) {
-			blit(transform, leftPos + 53, topPos + 47 + 16 - temperature, 176, 60 + 16 - temperature, 4, temperature);
+			graphics.blit(this.textureFile, leftPos + 53, topPos + 47 + 16 - temperature, 176, 60 + 16 - temperature, 4, temperature);
 		}
 	}
 }

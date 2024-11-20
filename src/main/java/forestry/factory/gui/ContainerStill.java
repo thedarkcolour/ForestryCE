@@ -10,8 +10,8 @@
  ******************************************************************************/
 package forestry.factory.gui;
 
-import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.player.Inventory;
 
 import forestry.core.gui.ContainerLiquidTanks;
 import forestry.core.gui.slots.SlotEmptyLiquidContainerIn;
@@ -23,10 +23,8 @@ import forestry.factory.inventory.InventoryStill;
 import forestry.factory.tiles.TileStill;
 
 public class ContainerStill extends ContainerLiquidTanks<TileStill> {
-
-	//TODO work out if there is a good way to make this generic
 	public static ContainerStill fromNetwork(int windowId, Inventory inv, FriendlyByteBuf data) {
-		TileStill tile = TileUtil.getTile(inv.player.level, data.readBlockPos(), TileStill.class);
+		TileStill tile = TileUtil.getTile(inv.player.level(), data.readBlockPos(), TileStill.class);
 		return new ContainerStill(windowId, inv, tile);
 	}
 

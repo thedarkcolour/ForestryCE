@@ -15,6 +15,7 @@ import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.util.DefaultRandomPos;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
@@ -56,19 +57,20 @@ public abstract class AIButterflyBase extends Goal {
 		if (dest.y < 1) {
 			return false;
 		}
-		BlockPos pos = new BlockPos(dest);
-		if (!entity.level.hasChunkAt(pos)) {
+		BlockPos pos = BlockPos.containing(dest);
+		Level level = entity.level();
+		if (!level.hasChunkAt(pos)) {
 			return false;
 		}
-		BlockState blockState = entity.level.getBlockState(pos);
-		if (!allowFluids && blockState.getMaterial().isLiquid()) {
+		BlockState blockState = level.getBlockState(pos);
+		if (!allowFluids && blockState.liquid()) {
 			return false;
 		}
 		//		if (!block.isPassable(entity.world, pos)) {
 		if (!blockState.isAir()) {    //TODO
 			return false;
 		}
-		return entity.getButterfly().isAcceptedEnvironment(entity.level, dest.x, dest.y, dest.z);
+		return entity.getButterfly().isAcceptedEnvironment(level, dest.x, dest.y, dest.z);
 	}
 
 }

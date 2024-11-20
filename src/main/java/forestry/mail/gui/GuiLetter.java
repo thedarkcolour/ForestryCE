@@ -15,11 +15,10 @@ import java.util.ArrayList;
 import org.apache.commons.lang3.StringUtils;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
-import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.network.chat.Component;
-
-import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.world.entity.player.Inventory;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -69,8 +68,6 @@ public class GuiLetter extends GuiForestry<ContainerLetter> {
 	public void init() {
 		super.init();
 
-		minecraft.keyboardHandler.setSendRepeatsToGui(true);
-
 		address = new EditBox(this.minecraft.font, leftPos + 46, topPos + 13, 93, 13, null);
 		IMailAddress recipient = menu.getRecipient();
 		if (recipient != null) {
@@ -93,7 +90,7 @@ public class GuiLetter extends GuiForestry<ContainerLetter> {
 		// Set focus or enter text into address
 		if (this.address.isFocused()) {
 			if (key == GLFW.GLFW_KEY_ENTER) {
-				this.address.setFocus(false);
+				this.address.setFocused(false);
 			} else {
 				this.address.keyPressed(key, scanCode, modifiers);
 			}
@@ -105,7 +102,7 @@ public class GuiLetter extends GuiForestry<ContainerLetter> {
 				if (hasShiftDown()) {
 					text.setValue(text.getValue() + "\n");
 				} else {
-					this.text.setFocus(false);
+					this.text.setFocused(false);
 				}
 			} else if (key == GLFW.GLFW_KEY_DOWN) {
 				text.advanceLine();
@@ -131,7 +128,7 @@ public class GuiLetter extends GuiForestry<ContainerLetter> {
 	}
 
 	@Override
-	protected void renderBg(PoseStack transform, float partialTicks, int mouseY, int mouseX) {
+	protected void renderBg(GuiGraphics graphics, float partialTicks, int mouseY, int mouseX) {
 
 		if (!isProcessedLetter && !checkedSessionVars) {
 			checkedSessionVars = true;
@@ -155,23 +152,23 @@ public class GuiLetter extends GuiForestry<ContainerLetter> {
 		}
 		textFocus = text.isFocused();
 
-		super.renderBg(transform, partialTicks, mouseY, mouseX);
+		super.renderBg(graphics, partialTicks, mouseY, mouseX);
 
 		if (this.isProcessedLetter) {
-			minecraft.font.draw(transform, address.getValue(), leftPos + 49, topPos + 16, ColourProperties.INSTANCE.get("gui.mail.lettertext"));
-			minecraft.font.drawWordWrap(Component.literal(text.getValue()), leftPos + 20, topPos + 34, 119, ColourProperties.INSTANCE.get("gui.mail.lettertext"));
+			graphics.drawString(this.font, address.getValue(), leftPos + 49, topPos + 16, ColourProperties.INSTANCE.get("gui.mail.lettertext"));
+			graphics.drawWordWrap(this.font, Component.literal(text.getValue()), leftPos + 20, topPos + 34, 119, ColourProperties.INSTANCE.get("gui.mail.lettertext"));
 		} else {
 			clearTradeInfoWidgets();
-			address.render(transform, mouseX, mouseY, partialTicks);    //TODO correct?
+			address.render(graphics, mouseX, mouseY, partialTicks);    //TODO correct?
 			if (menu.getCarrierType() == EnumAddressee.TRADER) {
-				drawTradePreview(transform, 18, 32);
+				drawTradePreview(graphics, 18, 32);
 			} else {
-				text.render(transform, mouseX, mouseY, partialTicks);
+				text.render(graphics, mouseX, mouseY, partialTicks);
 			}
 		}
 	}
 
-	private void drawTradePreview(PoseStack transform, int x, int y) {
+	private void drawTradePreview(GuiGraphics graphics, int x, int y) {
 
 		Component infoString = null;
 		if (menu.getTradeInfo() == null) {
@@ -183,15 +180,15 @@ public class GuiLetter extends GuiForestry<ContainerLetter> {
 		}
 
 		if (infoString != null) {
-			minecraft.font.drawWordWrap(infoString, leftPos + x, topPos + y, 119, ColourProperties.INSTANCE.get("gui.mail.lettertext"));
+			graphics.drawWordWrap(this.font, infoString, leftPos + x, topPos + y, 119, ColourProperties.INSTANCE.get("gui.mail.lettertext"));
 			return;
 		}
 
-		minecraft.font.draw(transform, Component.translatable("for.gui.mail.pleasesend"), leftPos + x, topPos + y, ColourProperties.INSTANCE.get("gui.mail.lettertext"));
+		graphics.drawString(this.font, Component.translatable("for.gui.mail.pleasesend"), leftPos + x, topPos + y, ColourProperties.INSTANCE.get("gui.mail.lettertext"));
 
 		addTradeInfoWidget(new ItemStackWidget(widgetManager, x, y + 10, menu.getTradeInfo().tradegood()));
 
-		minecraft.font.draw(transform, Component.translatable("for.gui.mail.foreveryattached"), leftPos + x, topPos + y + 28, ColourProperties.INSTANCE.get("gui.mail.lettertext"));
+		graphics.drawString(this.font, Component.translatable("for.gui.mail.foreveryattached"), leftPos + x, topPos + y + 28, ColourProperties.INSTANCE.get("gui.mail.lettertext"));
 
 		for (int i = 0; i < menu.getTradeInfo().required().size(); i++) {
 			addTradeInfoWidget(new ItemStackWidget(widgetManager, x + i * 18, y + 38, menu.getTradeInfo().required().get(i)));
@@ -216,7 +213,6 @@ public class GuiLetter extends GuiForestry<ContainerLetter> {
 		EnumAddressee recipientType = menu.getCarrierType();
 		setRecipient(recipientName, recipientType);
 		setText();
-		minecraft.keyboardHandler.setSendRepeatsToGui(false);
 		super.onClose();
 	}
 

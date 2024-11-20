@@ -28,7 +28,6 @@ import forestry.storage.inventory.ItemInventoryBackpack;
 import forestry.storage.items.ItemBackpack;
 
 public class BackpackResupplyHandler {
-
 	private static NonNullList<ItemStack> getBackpacks(Inventory playerInventory) {
 		NonNullList<ItemStack> backpacks = NonNullList.create();
 		for (ItemStack itemStack : playerInventory.items) {

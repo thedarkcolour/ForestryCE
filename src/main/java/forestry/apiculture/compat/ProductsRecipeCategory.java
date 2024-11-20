@@ -3,6 +3,7 @@ package forestry.apiculture.compat;
 import java.util.Comparator;
 import java.util.LinkedList;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
@@ -120,7 +121,7 @@ class ProductsRecipeCategory implements IRecipeCategory<ProductRecipe> {
 	}
 
 	@Override
-	public void draw(ProductRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX, double mouseY) {
-		JeiUtil.drawCenteredMulti(stack, recipe.species.getDisplayName(), SPECIES_SLOT_X + 9, SPECIES_SLOT_Y + 22, 0xffffff);
+	public void draw(ProductRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics graphics, double mouseX, double mouseY) {
+		JeiUtil.drawCenteredMulti(graphics, recipe.species.getDisplayName(), SPECIES_SLOT_X + 9, SPECIES_SLOT_Y + 22, 0xffffff);
 	}
 }

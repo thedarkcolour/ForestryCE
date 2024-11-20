@@ -120,7 +120,7 @@ public class WorktableTile extends TileBase implements ICrafterWorktable {
 			return false;
 		}
 
-		CraftingRecipe selectedRecipe = currentRecipe.getSelectedRecipe(level);
+		CraftingRecipe selectedRecipe = currentRecipe.getSelectedRecipe();
 		if (selectedRecipe == null) {
 			return false;
 		}
@@ -157,7 +157,7 @@ public class WorktableTile extends TileBase implements ICrafterWorktable {
 
 	@Override
 	public void onCraftingComplete(Player player) {
-		CraftingRecipe selectedRecipe = currentRecipe.getSelectedRecipe(level);
+		CraftingRecipe selectedRecipe = currentRecipe.getSelectedRecipe();
 
 		ForgeHooks.setCraftingPlayer(player);
 		WorktableCraftingContainer craftMatrix = currentRecipe.getCraftMatrix();
@@ -209,7 +209,7 @@ public class WorktableTile extends TileBase implements ICrafterWorktable {
 		MemorizedRecipe recipe = recipes.isEmpty() ? null : new MemorizedRecipe(crafting, recipes);
 
 		if (currentRecipe != null && recipe != null) {
-			if (recipe.hasRecipe(currentRecipe.getSelectedRecipe(level), level)) {
+			if (recipe.hasRecipe(currentRecipe.getSelectedRecipe())) {
 				NonNullList<ItemStack> stacks = InventoryUtil.getStacks(crafting);
 				NonNullList<ItemStack> currentStacks = InventoryUtil.getStacks(currentRecipe.getCraftMatrix());
 

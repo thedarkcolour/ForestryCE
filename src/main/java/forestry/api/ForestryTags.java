@@ -1,6 +1,6 @@
 package forestry.api;
 
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
@@ -46,9 +46,14 @@ public class ForestryTags {
 
 		// Flowers that can grow around hives
 		public static final TagKey<Block> PLANTABLE_FLOWERS = tag("flowers/plantable");
+		// Valid grounds where flowers can be planted around hives
+		public static final TagKey<Block> PLANTABLE_FLOWERS_GROUND = tag("flowers/plantable_ground");
 
 		public static final TagKey<Block> MODEST_BEE_GROUND = tag("hive_grounds/modest");
+		public static final TagKey<Block> ENDED_BEE_GROUND = tag("hive_grounds/ended");
 		public static final TagKey<Block> WINTRY_BEE_GROUND = tag("hive_grounds/wintry");
+		// Blocks where the Alveary Swarmer can spawn hives on top of
+		public static final TagKey<Block> SWARM_BEE_GROUND = tag("hive_grounds/swarm");
 
 		private static TagKey<Block> tag(String name) {
 			return BlockTags.create(ForestryConstants.forestry(name));
@@ -155,7 +160,7 @@ public class ForestryTags {
 		public static final TagKey<Biome> SHATTERED_SAVANNA = tag("special/shattered_savanna");
 
 		private static TagKey<Biome> tag(String path) {
-			return TagKey.create(Registry.BIOME_REGISTRY, ForestryConstants.forestry(path));
+			return TagKey.create(Registries.BIOME, ForestryConstants.forestry(path));
 		}
 	}
 

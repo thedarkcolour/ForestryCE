@@ -45,7 +45,7 @@ public class TreeGrowthHelper {
 					//TODO: Can't be used because the world generation only provides a IWorld and not a World
 					/*BlockItemUseContext context = new DirectionalPlaceContext((World) world, pos, Direction.DOWN, ItemStack.EMPTY, Direction.UP);
 					return blockState.isReplaceable(context);*/
-					if (!blockState.getMaterial().isReplaceable()) {
+					if (!blockState.canBeReplaced()) {
 						return false;
 					}
 				}

@@ -3,10 +3,9 @@ package forestry.factory.recipes.jei.centrifuge;
 import java.util.Comparator;
 import java.util.List;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import forestry.api.ForestryConstants;
 import forestry.api.core.Product;
@@ -32,15 +31,15 @@ import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 
 public class CentrifugeRecipeCategory extends ForestryRecipeCategory<ICentrifugeRecipe> {
-	private static final ResourceLocation guiTexture = ForestryConstants.forestry(Constants.TEXTURE_PATH_GUI + "/centrifugesocket2.png");
+	private static final ResourceLocation TEXTURE = ForestryConstants.forestry(Constants.TEXTURE_PATH_GUI + "/centrifugesocket2.png");
 
 	private final IDrawableAnimated arrow;
 	private final IDrawable icon;
 
 	public CentrifugeRecipeCategory(IGuiHelper guiHelper) {
-		super(guiHelper.createDrawable(guiTexture, 11, 18, 154, 54), "block.forestry.centrifuge");
+		super(guiHelper.createDrawable(TEXTURE, 11, 18, 154, 54), "block.forestry.centrifuge");
 
-		IDrawableStatic arrowDrawable = guiHelper.createDrawable(guiTexture, 176, 0, 4, 17);
+		IDrawableStatic arrowDrawable = guiHelper.createDrawable(TEXTURE, 176, 0, 4, 17);
 		this.arrow = guiHelper.createAnimatedDrawable(arrowDrawable, 80, IDrawableAnimated.StartDirection.BOTTOM, false);
 		ItemStack centrifuge = new ItemStack(FactoryBlocks.TESR.get(BlockTypeFactoryTesr.CENTRIFUGE).block());
 		this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, centrifuge);
@@ -75,8 +74,8 @@ public class CentrifugeRecipeCategory extends ForestryRecipeCategory<ICentrifuge
 	}
 
 	@Override
-	public void draw(ICentrifugeRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack matrixStack, double mouseX, double mouseY) {
-		arrow.draw(matrixStack, 32, 18);
-		arrow.draw(matrixStack, 56, 18);
+	public void draw(ICentrifugeRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics graphics, double mouseX, double mouseY) {
+		this.arrow.draw(graphics, 32, 18);
+		this.arrow.draw(graphics, 56, 18);
 	}
 }

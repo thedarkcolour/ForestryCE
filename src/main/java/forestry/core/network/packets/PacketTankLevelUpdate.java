@@ -45,7 +45,7 @@ public record PacketTankLevelUpdate(BlockPos pos, int tankIndex, FluidStack cont
 	}
 
 	public static void handle(PacketTankLevelUpdate msg, Player player) {
-		TileUtil.actOnTile(player.level, msg.pos, ILiquidTankTile.class, tile -> {
+		TileUtil.actOnTile(player.level(), msg.pos, ILiquidTankTile.class, tile -> {
 			ITankManager tankManager = tile.getTankManager();
 			tankManager.processTankUpdate(msg.tankIndex, msg.contents);
 		});

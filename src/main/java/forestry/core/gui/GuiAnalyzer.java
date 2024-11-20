@@ -10,10 +10,9 @@
  ******************************************************************************/
 package forestry.core.gui;
 
-import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-
-import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.world.entity.player.Inventory;
 
 import forestry.core.config.Constants;
 import forestry.core.gui.widgets.TankWidget;
@@ -32,16 +31,16 @@ public class GuiAnalyzer extends GuiForestryTitled<ContainerAnalyzer> {
 	}
 
 	@Override
-	protected void renderBg(PoseStack transform, float partialTicks, int mouseY, int mouseX) {
-		super.renderBg(transform, partialTicks, mouseY, mouseX);
-		drawAnalyzeMeter(transform, leftPos + 64, topPos + 30, tile.getProgressScaled(46), EnumTankLevel.rateTankLevel(tile.getProgressScaled(100)));
+	protected void renderBg(GuiGraphics graphics, float partialTicks, int mouseY, int mouseX) {
+		super.renderBg(graphics, partialTicks, mouseY, mouseX);
+		drawAnalyzeMeter(graphics, this.leftPos + 64, this.topPos + 30, this.tile.getProgressScaled(46), EnumTankLevel.rateTankLevel(this.tile.getProgressScaled(100)));
 	}
 
-	private void drawAnalyzeMeter(PoseStack transform, int x, int y, int height, EnumTankLevel rated) {
+	private void drawAnalyzeMeter(GuiGraphics graphics, int x, int y, int height, EnumTankLevel rated) {
 		int i = 176 + rated.getLevelScaled(16);
 		int k = 60;
 
-		blit(transform, x, y + 46 - height, i, k + 46 - height, 4, height);
+		graphics.blit(this.textureFile, x, y + 46 - height, i, k + 46 - height, 4, height);
 	}
 
 	@Override

@@ -114,8 +114,7 @@ public enum ForestryFluids {
 			this.bucket = registry
 					.item(() -> new BucketItem(this::getFluid, new Item.Properties()
 									.craftRemainder(Items.BUCKET)
-									.stacksTo(1)
-									.tab(CreativeModeTab.TAB_MISC)),
+									.stacksTo(1)),
 							"bucket_" + name().toLowerCase(Locale.ENGLISH)
 					);
 		} else {

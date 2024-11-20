@@ -12,6 +12,8 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
+import net.minecraft.world.level.block.state.properties.WoodType;
 
 import com.mojang.authlib.GameProfile;
 
@@ -62,21 +64,27 @@ public enum ForestryWoodType implements IWoodType {
 	public static final float DEFAULT_HARDNESS = 2.0f;
 	public static final ForestryWoodType[] VALUES = values();
 
+	// Lowercase name of this enum
+	private final String name;
 	private final float hardness;
 	private final ForestryLeafType leafType;
+	private final WoodType type;
 
 	ForestryWoodType(ForestryLeafType leafType) {
 		this(leafType, DEFAULT_HARDNESS);
 	}
 
 	ForestryWoodType(ForestryLeafType leafType, float hardness) {
+		this.name = name().toLowerCase(Locale.ENGLISH);
 		this.leafType = leafType;
 		this.hardness = hardness;
+
+		this.type = new WoodType(this.name, new BlockSetType(this.name));
 	}
 
 	@Override
 	public float getHardness() {
-		return hardness;
+		return this.hardness;
 	}
 
 	public static ForestryWoodType getRandom(RandomSource random) {
@@ -85,11 +93,15 @@ public enum ForestryWoodType implements IWoodType {
 
 	@Override
 	public String toString() {
-		return super.toString().toLowerCase(Locale.ENGLISH);
+		return this.name;
 	}
 
 	@Override
 	public boolean setDefaultLeaves(LevelAccessor level, BlockPos pos, IGenome genome, RandomSource rand, @Nullable GameProfile owner) {
+		return setDefaultLeavesImpl(level, pos, genome, rand, this.leafType);
+	}
+
+	static boolean setDefaultLeavesImpl(LevelAccessor level, BlockPos pos, IGenome genome, RandomSource rand, ForestryLeafType leafType) {
 		IFruit fruit = genome.getActiveValue(TreeChromosomes.FRUIT);
 		BlockState defaultLeaves;
 		FeatureBlockGroup<? extends Block, ForestryLeafType> leavesGroup;
@@ -98,12 +110,20 @@ public enum ForestryWoodType implements IWoodType {
 		} else {
 			leavesGroup = ArboricultureBlocks.LEAVES_DEFAULT;
 		}
-		defaultLeaves = leavesGroup.get(this.leafType).defaultState();
+		defaultLeaves = leavesGroup.get(leafType).defaultState();
 		return level.setBlock(pos, defaultLeaves, 19);
 	}
 
 	@Override
 	public String getSerializedName() {
 		return toString();
+	}
+
+	public BlockSetType getBlockSetType() {
+		return this.type.setType();
+	}
+
+	public WoodType getWoodType() {
+		return this.type;
 	}
 }

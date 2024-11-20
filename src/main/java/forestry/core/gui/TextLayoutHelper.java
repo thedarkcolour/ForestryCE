@@ -11,6 +11,7 @@
 package forestry.core.gui;
 
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.FormattedCharSequence;
 
@@ -21,8 +22,9 @@ import forestry.core.render.ColourProperties;
 public class TextLayoutHelper {
 	private static final int LINE_HEIGHT = 12;
 
-	private final GuiForestry<?> guiForestry;
+	private final GuiForestry<?> screen;
 	private final int defaultFontColor;
+	private final Font font;
 
 	public int column0;
 	public int column1;
@@ -30,16 +32,17 @@ public class TextLayoutHelper {
 	public int line;
 
 	public TextLayoutHelper(GuiForestry<?> gui, ColourProperties fontColour) {
-		this.guiForestry = gui;
+		this.screen = gui;
+		this.font = gui.font();
 		this.defaultFontColor = fontColour.get("gui.screen");
 	}
 
-	public void startPage(PoseStack matrices) {
+	public void startPage(GuiGraphics matrices) {
 		line = LINE_HEIGHT;
-		matrices.pushPose();
+		matrices.pose().pushPose();
 	}
 
-	public void startPage(PoseStack matrices, int column0, int column1, int column2) {
+	public void startPage(GuiGraphics matrices, int column0, int column1, int column2) {
 		this.column0 = column0;
 		this.column1 = column1;
 		this.column2 = column2;
@@ -63,74 +66,71 @@ public class TextLayoutHelper {
 		line += lineHeight;
 	}
 
-	public void endPage(PoseStack matrices) {
-		matrices.popPose();
+	public void endPage(GuiGraphics graphics) {
+		graphics.pose().popPose();
 	}
 
-	public void drawRow(PoseStack transform, Component text0, Component text1, Component text2, int colour0, int colour1, int colour2) {
-		drawLine(transform, text0, column0, colour0);
-		drawLine(transform, text1, column1, colour1);
-		drawLine(transform, text2, column2, colour2);
+	public void drawRow(GuiGraphics graphics, Component text0, Component text1, Component text2, int colour0, int colour1, int colour2) {
+		drawLine(graphics, text0, column0, colour0);
+		drawLine(graphics, text1, column1, colour1);
+		drawLine(graphics, text2, column2, colour2);
 	}
 
-	public void drawRow(PoseStack transform, Component text0, Component text1, int colour0, int colour1) {
-		drawLine(transform, text0, column0, colour0);
-		drawLine(transform, text1, column1, colour1);
+	public void drawRow(GuiGraphics graphics, Component text0, Component text1, int colour0, int colour1) {
+		drawLine(graphics, text0, column0, colour0);
+		drawLine(graphics, text1, column1, colour1);
 	}
 
-	public void drawLine(PoseStack transform, Component text, int x) {
-		drawLine(transform, text, x, defaultFontColor);
+	public void drawLine(GuiGraphics graphics, Component text, int x) {
+		drawLine(graphics, text, x, defaultFontColor);
 	}
 
-	public void drawCenteredLine(PoseStack transform, Component text, int x, int color) {
-		drawCenteredLine(transform, text, x, guiForestry.getSizeX(), color);
+	public void drawCenteredLine(GuiGraphics graphics, Component text, int x, int color) {
+		drawCenteredLine(graphics, text, x, screen.getSizeX(), color);
 	}
 
-	public void drawCenteredLine(PoseStack transform, Component text, int x, int width, int color) {
-		drawCenteredLine(transform, text, x, 0, width, color);
+	public void drawCenteredLine(GuiGraphics graphics, Component text, int x, int width, int color) {
+		drawCenteredLine(graphics, text, x, 0, width, color);
 	}
 
-	public void drawCenteredLine(PoseStack transform, Component text, int x, int y, int width, int color) {
-		guiForestry.getFontRenderer().draw(transform, text, guiForestry.getGuiLeft() + x + getCenteredOffset(text, width), guiForestry.getGuiTop() + y + line, color);
+	public void drawCenteredLine(GuiGraphics graphics, Component text, int x, int y, int width, int color) {
+		// todo
+		//graphics.drawCenteredString();
+
+		//guiForestry.getFontRenderer().draw(graphics, text, guiForestry.getGuiLeft() + x + getCenteredOffset(text, width), guiForestry.getGuiTop() + y + line, color);
 	}
 
-	public void drawLine(PoseStack transform, String text, int x, int color) {
-		drawLine(transform, text, x, 0, color);
+	public void drawLine(GuiGraphics graphics, String text, int x, int color) {
+		drawLine(graphics, text, x, 0, color);
 	}
 
-	public void drawLine(PoseStack transform, Component text, int x, int color) {
-		drawLine(transform, text, x, 0, color);
+	public void drawLine(GuiGraphics graphics, Component text, int x, int color) {
+		drawLine(graphics, text, x, 0, color);
 	}
 
-	public void drawLine(PoseStack transform, String text, int x, int y, int color) {
-		guiForestry.getFontRenderer().draw(transform, text, guiForestry.getGuiLeft() + x, guiForestry.getGuiTop() + y + line, color);
+	public void drawLine(GuiGraphics graphics, String text, int x, int y, int color) {
+		graphics.drawString(this.font, text, this.screen.getGuiLeft() + x, this.screen.getGuiTop() + y + this.line, color);
 	}
 
-	public void drawLine(PoseStack transform, Component text, int x, int y, int color) {
-		guiForestry.getFontRenderer().draw(transform, text, guiForestry.getGuiLeft() + x, guiForestry.getGuiTop() + y + line, color);
+	public void drawLine(GuiGraphics graphics, Component text, int x, int y, int color) {
+		graphics.drawString(this.font, text, this.screen.getGuiLeft() + x, this.screen.getGuiTop() + y + this.line, color);
 	}
 
-	public void drawSplitLine(PoseStack transform, String text, int x, int maxWidth, int color) {
-		drawSplitLine(transform, Component.literal(text), x, maxWidth, color);
+	public void drawSplitLine(GuiGraphics graphics, String text, int x, int maxWidth, int color) {
+		drawSplitLine(graphics, Component.literal(text), x, maxWidth, color);
 	}
 
-	public void drawSplitLine(PoseStack transform, Component text, int x, int maxWidth, int color) {
+	// todo verify
+	public void drawSplitLine(GuiGraphics graphics, Component text, int x, int maxWidth, int color) {
 		// Modified copy of Font.drawWordWrap that uses PoseStack
-		Font font = guiForestry.getFontRenderer();
-		float xStart = guiForestry.getGuiLeft() + x;
-		float yStart = guiForestry.getGuiTop() + line;
-
-		for (FormattedCharSequence formattedcharsequence : font.split(text, maxWidth)) {
-			font.draw(transform, formattedcharsequence, xStart, yStart, color);
-			yStart += 9;
-		}
+		graphics.drawWordWrap(this.font, text, x, this.line, maxWidth, color);
 	}
 
 	public int getCenteredOffset(Component text) {
-		return getCenteredOffset(text, guiForestry.getSizeX());
+		return getCenteredOffset(text, screen.getSizeX());
 	}
 
 	public int getCenteredOffset(Component text, int xWidth) {
-		return (xWidth - guiForestry.getFontRenderer().width(text)) / 2;
+		return (xWidth - screen.font().width(text)) / 2;
 	}
 }

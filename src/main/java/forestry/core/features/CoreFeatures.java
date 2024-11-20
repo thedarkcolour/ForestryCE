@@ -2,15 +2,16 @@ package forestry.core.features;
 
 import java.util.List;
 
-import net.minecraft.core.Registry;
-import net.minecraft.data.worldgen.features.OreFeatures;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.placement.OrePlacements;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
 import net.minecraft.world.level.levelgen.placement.HeightRangePlacement;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
+import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
 
 import com.mojang.serialization.Codec;
 
@@ -29,20 +30,20 @@ import forestry.modules.features.ModFeatureRegistry;
 public class CoreFeatures {
 	private static final IFeatureRegistry REGISTRY = ModFeatureRegistry.get(ForestryModuleIds.CORE);
 
-	private static final DeferredRegister<ConfiguredFeature<?, ?>> CONFIGURED_FEATURES = REGISTRY.getRegistry(Registry.CONFIGURED_FEATURE_REGISTRY);
-	private static final DeferredRegister<PlacedFeature> PLACED_FEATURES = REGISTRY.getRegistry(Registry.PLACED_FEATURE_REGISTRY);
+	private static final DeferredRegister<ConfiguredFeature<?, ?>> CONFIGURED_FEATURES = REGISTRY.getRegistry(Registries.CONFIGURED_FEATURE);
+	private static final DeferredRegister<PlacedFeature> PLACED_FEATURES = REGISTRY.getRegistry(Registries.PLACED_FEATURE);
 	private static final DeferredRegister<Codec<? extends BiomeModifier>> BIOME_MODIFIERS = REGISTRY.getRegistry(ForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS);
 
 	private static final RegistryObject<ConfiguredFeature<?, ?>> ORE_APATITE = CONFIGURED_FEATURES.register("ore_apatite",
 			() -> new ConfiguredFeature<>(Feature.ORE, new OreConfiguration(List.of(
-					OreConfiguration.target(OreFeatures.STONE_ORE_REPLACEABLES, CoreBlocks.APATITE_ORE.defaultState()),
-					OreConfiguration.target(OreFeatures.DEEPSLATE_ORE_REPLACEABLES, CoreBlocks.DEEPSLATE_APATITE_ORE.defaultState())
+					OreConfiguration.target(new TagMatchTest(BlockTags.STONE_ORE_REPLACEABLES), CoreBlocks.APATITE_ORE.defaultState()),
+					OreConfiguration.target(new TagMatchTest(BlockTags.DEEPSLATE_ORE_REPLACEABLES), CoreBlocks.DEEPSLATE_APATITE_ORE.defaultState())
 			), 9)));
 
 	private static final RegistryObject<ConfiguredFeature<?, ?>> ORE_TIN = CONFIGURED_FEATURES.register("ore_tin",
 			() -> new ConfiguredFeature<>(Feature.ORE, new OreConfiguration(List.of(
-					OreConfiguration.target(OreFeatures.STONE_ORE_REPLACEABLES, CoreBlocks.TIN_ORE.defaultState()),
-					OreConfiguration.target(OreFeatures.DEEPSLATE_ORE_REPLACEABLES, CoreBlocks.DEEPSLATE_TIN_ORE.defaultState())
+					OreConfiguration.target(new TagMatchTest(BlockTags.STONE_ORE_REPLACEABLES), CoreBlocks.TIN_ORE.defaultState()),
+					OreConfiguration.target(new TagMatchTest(BlockTags.DEEPSLATE_ORE_REPLACEABLES), CoreBlocks.DEEPSLATE_TIN_ORE.defaultState())
 			), 9)));
 
 	private static final RegistryObject<PlacedFeature> PLACED_APATITE = PLACED_FEATURES.register("ore_apatite",

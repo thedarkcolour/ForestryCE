@@ -3,9 +3,9 @@ package forestry.core.gui.widgets;
 import javax.annotation.Nullable;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.util.Mth;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import forestry.core.gui.Drawable;
@@ -96,15 +96,15 @@ public class WidgetScrollBar extends Widget {
 	}
 
 	@Override
-	public void draw(PoseStack transform, int startX, int startY) {
+	public void draw(GuiGraphics graphics, int startX, int startY) {
 		if (!isVisible()) {
 			return;
 		}
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 		if (background != null) {
-			background.draw(transform, startY + yPos, startX + xPos);
+			background.draw(graphics, startY + yPos, startX + xPos);
 		}
-		slider.draw(transform, startX, startY);
+		slider.draw(graphics, startX, startY);
 	}
 
 	@Override

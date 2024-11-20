@@ -10,13 +10,10 @@
  ******************************************************************************/
 package forestry.factory.gui;
 
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.ContainerListener;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.inventory.SimpleContainerData;
-
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 import forestry.core.gui.ContainerLiquidTanks;
 import forestry.core.gui.slots.SlotEmptyLiquidContainerIn;
@@ -27,10 +24,9 @@ import forestry.factory.inventory.InventoryRaintank;
 import forestry.factory.tiles.TileRaintank;
 
 public class ContainerRaintank extends ContainerLiquidTanks<TileRaintank> {
-
 	public static ContainerRaintank fromNetwork(int windowId, Inventory inv, FriendlyByteBuf data) {
-		TileRaintank tile = TileUtil.getTile(inv.player.level, data.readBlockPos(), TileRaintank.class);
-		return new ContainerRaintank(windowId, inv, tile);    //TODO nullability.
+		TileRaintank tile = TileUtil.getTile(inv.player.level(), data.readBlockPos(), TileRaintank.class);
+		return new ContainerRaintank(windowId, inv, tile);
 	}
 
 	public ContainerRaintank(int windowId, Inventory player, TileRaintank tile) {
@@ -42,7 +38,6 @@ public class ContainerRaintank extends ContainerLiquidTanks<TileRaintank> {
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
 	public void setData(int messageId, int data) {
 		super.setData(messageId, data);
 

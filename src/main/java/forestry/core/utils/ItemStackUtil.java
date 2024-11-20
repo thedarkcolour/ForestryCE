@@ -26,7 +26,6 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 
 import forestry.api.core.IProduct;
-import forestry.api.core.Product;
 
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
@@ -195,7 +194,7 @@ public abstract class ItemStackUtil {
 		if (base.getTag() == null || base.getTag().isEmpty()) {
 			return true;
 		} else {
-			return ItemStack.tagMatches(base, comparison);
+			return base.getTag().equals(comparison.getTag());
 		}
 	}
 
@@ -212,7 +211,6 @@ public abstract class ItemStackUtil {
 		}
 
 		return isCraftingEquivalent(base, comparison);
-
 	}
 
 	public static boolean isCraftingToolEquivalent(ItemStack base, ItemStack comparison) {

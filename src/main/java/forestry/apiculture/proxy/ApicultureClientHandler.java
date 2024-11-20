@@ -15,6 +15,7 @@ import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
 
 import net.minecraftforge.client.event.ModelEvent;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
@@ -61,9 +62,12 @@ public class ApicultureClientHandler implements IClientModuleHandler {
 	}
 
 	private static void registerParticleFactory(RegisterParticleProvidersEvent event) {
-		event.register(ApicultureParticles.BEE_EXPLORER_PARTICLE.get(), BeeExploreParticle.Factory::new);
-		event.register(ApicultureParticles.BEE_ROUND_TRIP_PARTICLE.get(), BeeRoundTripParticle.Factory::new);
-		event.register(ApicultureParticles.BEE_TARGET_ENTITY_PARTICLE.get(), BeeTargetEntityParticle.Factory::new);
+		event.registerSprite(ApicultureParticles.BEE_EXPLORER_PARTICLE.get(), (data, level, x, y, z, xSpeed, ySpeed, zSpeed) -> new BeeExploreParticle(level, x, y, z, data.destination, data.color));
+		event.registerSprite(ApicultureParticles.BEE_ROUND_TRIP_PARTICLE.get(), (data, level, x, y, z, xSpeed, ySpeed, zSpeed) -> new BeeRoundTripParticle(level, x, y, z, data.destination, data.color));
+		event.registerSprite(ApicultureParticles.BEE_TARGET_ENTITY_PARTICLE.get(), (data, level, x, y, z, xSpeed, ySpeed, zSpeed) -> {
+			Entity entity = level.getEntity(data.entity);
+			return entity == null ? null : new BeeTargetEntityParticle(level, x, y, z, entity, data.color);
+		});
 	}
 
 	private static void handleSprites(TextureStitchEvent.Post event) {

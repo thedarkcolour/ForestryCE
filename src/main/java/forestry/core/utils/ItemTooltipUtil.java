@@ -37,7 +37,6 @@ public class ItemTooltipUtil {
 		}
 	}
 
-	@OnlyIn(Dist.CLIENT)
 	public static void addShiftInformation(ItemStack stack, @Nullable BlockGetter world, List<Component> tooltip, TooltipFlag flag) {
 		tooltip.add(Component.translatable("for.gui.tooltip.tmi", "< %s >").withStyle(ChatFormatting.ITALIC, ChatFormatting.GRAY));
 	}

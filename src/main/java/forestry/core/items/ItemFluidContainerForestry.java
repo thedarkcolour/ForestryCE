@@ -12,7 +12,6 @@ package forestry.core.items;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
@@ -24,30 +23,21 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodData;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.material.FlowingFluid;
-import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fluids.FluidActionResult;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import net.minecraftforge.items.ItemHandlerHelper;
-import net.minecraftforge.registries.ForgeRegistries;
 
-import forestry.api.core.ItemGroups;
 import forestry.core.config.Constants;
 import forestry.core.fluids.ForestryFluids;
 import forestry.core.items.definitions.DrinkProperties;
@@ -62,30 +52,8 @@ public class ItemFluidContainerForestry extends ItemForestry implements IColored
 	private final EnumContainerType type;
 
 	public ItemFluidContainerForestry(EnumContainerType type) {
-		super(new Item.Properties().tab(ItemGroups.tabStorage));
+		super(new Item.Properties());
 		this.type = type;
-	}
-
-	@OnlyIn(Dist.CLIENT)
-	@Override
-	public void fillItemCategory(CreativeModeTab tab, NonNullList<ItemStack> subItems) {
-		if (this.allowedIn(tab)) {
-			// empty
-			subItems.add(new ItemStack(this));
-
-			// filled
-			for (Fluid fluid : ForgeRegistries.FLUIDS.getValues()) {
-				if (fluid instanceof FlowingFluid && ((FlowingFluid) fluid).getSource() != fluid) {
-					continue;
-				}
-				ItemStack itemStack = new ItemStack(this);
-				IFluidHandlerItem fluidHandler = new FluidHandlerItemForestry(itemStack, type);
-				if (fluidHandler.fill(new FluidStack(fluid, FluidType.BUCKET_VOLUME), IFluidHandler.FluidAction.EXECUTE) == FluidType.BUCKET_VOLUME) {
-					ItemStack filled = fluidHandler.getContainer();
-					subItems.add(filled);
-				}
-			}
-		}
 	}
 
 	public EnumContainerType getType() {

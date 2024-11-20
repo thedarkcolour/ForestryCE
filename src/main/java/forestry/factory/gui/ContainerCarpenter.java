@@ -10,11 +10,11 @@
  ******************************************************************************/
 package forestry.factory.gui;
 
-import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.Container;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.network.FriendlyByteBuf;
 
 import forestry.core.gui.ContainerLiquidTanks;
 import forestry.core.gui.IContainerCrafting;
@@ -30,10 +30,11 @@ import forestry.factory.inventory.InventoryCarpenter;
 import forestry.factory.tiles.TileCarpenter;
 
 public class ContainerCarpenter extends ContainerLiquidTanks<TileCarpenter> implements IContainerCrafting {
+	private ItemStack oldCraftPreview = ItemStack.EMPTY;
 
 	public static ContainerCarpenter fromNetwork(int windowId, Inventory inv, FriendlyByteBuf data) {
-		TileCarpenter tile = TileUtil.getTile(inv.player.level, data.readBlockPos(), TileCarpenter.class);
-		return new ContainerCarpenter(windowId, inv, tile);    //TODO nullability.
+		TileCarpenter tile = TileUtil.getTile(inv.player.level(), data.readBlockPos(), TileCarpenter.class);
+		return new ContainerCarpenter(windowId, inv, tile);
 	}
 
 	public ContainerCarpenter(int windowId, Inventory inventoryplayer, TileCarpenter tile) {
@@ -47,11 +48,11 @@ public class ContainerCarpenter extends ContainerLiquidTanks<TileCarpenter> impl
 		}
 
 		// Liquid Input
-		this.addSlot(new SlotLiquidIn(tile, InventoryCarpenter.SLOT_CAN_INPUT, 120, 20));
+		addSlot(new SlotLiquidIn(tile, InventoryCarpenter.SLOT_CAN_INPUT, 120, 20));
 		// Boxes
-		this.addSlot(new SlotFiltered(tile, InventoryCarpenter.SLOT_BOX, 83, 20));
+		addSlot(new SlotFiltered(tile, InventoryCarpenter.SLOT_BOX, 83, 20));
 		// Product
-		this.addSlot(new SlotOutput(tile, InventoryCarpenter.SLOT_PRODUCT, 120, 56));
+		addSlot(new SlotOutput(tile, InventoryCarpenter.SLOT_PRODUCT, 120, 56));
 
 		// Craft Preview display
 		addSlot(new SlotLocked(tile.getCraftPreviewInventory(), 0, 80, 51));
@@ -66,10 +67,8 @@ public class ContainerCarpenter extends ContainerLiquidTanks<TileCarpenter> impl
 
 	@Override
 	public void onCraftMatrixChanged(Container iinventory, int slot) {
-		tile.checkRecipe();
+		this.tile.checkRecipe(this.tile.getLevel().registryAccess());
 	}
-
-	private ItemStack oldCraftPreview = ItemStack.EMPTY;
 
 	@Override
 	public void broadcastChanges() {
@@ -89,5 +88,4 @@ public class ContainerCarpenter extends ContainerLiquidTanks<TileCarpenter> impl
 	public TileCarpenter getCarpenter() {
 		return tile;
 	}
-
 }

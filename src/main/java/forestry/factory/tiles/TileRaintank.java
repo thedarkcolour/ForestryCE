@@ -11,7 +11,6 @@
 package forestry.factory.tiles;
 
 import javax.annotation.Nullable;
-import java.util.List;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -109,7 +108,7 @@ public class TileRaintank extends TileBase implements WorldlyContainer, ILiquidT
 			IErrorLogic errorLogic = getErrorLogic();
 
 			Biome biome = level.getBiome(pos).value();
-			errorLogic.setCondition(!(biome.getPrecipitation() == Biome.Precipitation.RAIN), ForestryError.NO_RAIN_BIOME);
+			errorLogic.setCondition(!(biome.getPrecipitationAt(pos) == Biome.Precipitation.RAIN), ForestryError.NO_RAIN_BIOME);
 
 			BlockPos posAbove = pos.above();
 			boolean hasSky = level.canSeeSkyFromBelowWater(posAbove);

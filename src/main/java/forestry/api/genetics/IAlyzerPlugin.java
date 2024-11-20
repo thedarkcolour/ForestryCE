@@ -8,20 +8,19 @@ package forestry.api.genetics;
 import java.util.List;
 import java.util.Map;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.world.item.ItemStack;
-
-import com.mojang.blaze3d.vertex.PoseStack;
 
 /**
  * Used to display information in the Portable Analyzer.
  */
 public interface IAlyzerPlugin {
-	void drawAnalyticsPage1(PoseStack transform, Screen gui, ItemStack stack);
+	void drawAnalyticsPage1(GuiGraphics graphics, Screen gui, ItemStack stack);
 
-	void drawAnalyticsPage2(PoseStack transform, Screen gui, ItemStack stack);
+	void drawAnalyticsPage2(GuiGraphics graphics, Screen gui, ItemStack stack);
 
-	void drawAnalyticsPage3(PoseStack transform, Screen gui, ItemStack stack);
+	void drawAnalyticsPage3(GuiGraphics graphics, Screen gui, ItemStack stack);
 
 	/**
 	 * The hints that will be shown in the alyzer gui.

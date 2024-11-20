@@ -46,7 +46,6 @@ import forestry.core.tiles.ILiquidTankTile;
 import forestry.core.tiles.TilePowered;
 import forestry.core.utils.PlayerUtil;
 import forestry.cultivation.IFarmHousingInternal;
-import forestry.cultivation.blocks.BlockPlanter;
 import forestry.cultivation.blocks.BlockTypePlanter;
 import forestry.cultivation.gui.ContainerPlanter;
 import forestry.cultivation.inventory.InventoryPlanter;
@@ -61,7 +60,7 @@ public abstract class TilePlanter extends TilePowered implements IFarmHousingInt
 	private final OwnerHandler ownerHandler = new OwnerHandler();
 	private final FarmManager manager;
 
-	private BlockPlanter.Mode mode;
+	private boolean manual;
 	private final IFarmType properties;
 	@Nullable
 	private IFarmLogic logic;
@@ -74,7 +73,7 @@ public abstract class TilePlanter extends TilePowered implements IFarmHousingInt
 		super(type, pos, state, 150, 1500);
 
 		this.properties = Preconditions.checkNotNull(IForestryApi.INSTANCE.getFarmingManager().getFarmType(farmTypeId));
-		this.mode = BlockPlanter.Mode.MANAGED;
+		this.manual = false;
 		this.inventory = new InventoryPlanter(this);
 		setInternalInventory(inventory);
 		this.manager = new FarmManager(this);
@@ -82,15 +81,15 @@ public abstract class TilePlanter extends TilePowered implements IFarmHousingInt
 		setTicksPerWorkCycle(2);
 	}
 
-	public void setManual(BlockPlanter.Mode mode) {
-		this.mode = mode;
-		this.logic = this.properties.getLogic(this.mode == BlockPlanter.Mode.MANUAL);
+	public void setManual(boolean manual) {
+		this.manual = manual;
+		this.logic = this.properties.getLogic(manual);
 	}
 
 	@Override
 	public Component getDisplayName() {
 		String name = getBlockType(BlockTypePlanter.ARBORETUM).getSerializedName();
-		return Component.translatable("block.forestry.planter." + (mode.getSerializedName()), Component.translatable("block.forestry." + name));
+		return Component.translatable("block.forestry.planter." + (manual ? "manual" : "managed"), Component.translatable("block.forestry." + name));
 	}
 
 	@Override
@@ -119,7 +118,7 @@ public abstract class TilePlanter extends TilePowered implements IFarmHousingInt
 		super.saveAdditional(data);
 		manager.write(data);
 		ownerHandler.write(data);
-		data.putInt("mode", mode.ordinal());
+		data.putBoolean("manual", this.manual);
 	}
 
 	@Override
@@ -127,7 +126,7 @@ public abstract class TilePlanter extends TilePowered implements IFarmHousingInt
 		super.load(data);
 		manager.read(data);
 		ownerHandler.read(data);
-		setManual(BlockPlanter.Mode.values()[data.getInt("mode")]);
+		setManual(data.getBoolean("manual"));
 	}
 
 	@Override
@@ -233,7 +232,7 @@ public abstract class TilePlanter extends TilePowered implements IFarmHousingInt
 
 	@Override
 	public boolean canPlantSoil(boolean manual) {
-		return mode == BlockPlanter.Mode.MANAGED;
+		return !this.manual;
 	}
 
 	@Override

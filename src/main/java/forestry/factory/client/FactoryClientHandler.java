@@ -7,7 +7,6 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 import forestry.api.client.IClientModuleHandler;
-import forestry.apiculture.particles.BeeRoundTripParticle;
 import forestry.factory.features.FactoryMenuTypes;
 import forestry.factory.gui.GuiBottler;
 import forestry.factory.gui.GuiCarpenter;

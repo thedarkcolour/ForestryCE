@@ -8,14 +8,6 @@ import forestry.api.core.ItemGroups;
 public class ItemProperties extends Item.Properties {
 	public int burnTime = -1;
 
-	public ItemProperties(CreativeModeTab group) {
-		tab(group);
-	}
-
-	public ItemProperties() {
-		this(ItemGroups.tabForestry);
-	}
-
 	public ItemProperties burnTime(int burnTime) {
 		this.burnTime = burnTime;
 		return this;

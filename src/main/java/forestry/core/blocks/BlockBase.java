@@ -33,7 +33,6 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -74,14 +73,6 @@ public class BlockBase<P extends Enum<P> & IBlockType> extends BlockForestry imp
 		this.blockType = blockType;
 
 		blockType.getMachineProperties().setBlock(this);
-	}
-
-	public BlockBase(P blockType, Material material) {
-		this(blockType, Block.Properties.of(material));
-	}
-
-	public BlockBase(P blockType) {
-		this(blockType, Material.METAL);
 	}
 
 	@Override
@@ -129,7 +120,7 @@ public class BlockBase<P extends Enum<P> & IBlockType> extends BlockForestry imp
 			return InteractionResult.PASS;
 		}
 		if (TileUtil.isUsableByPlayer(playerIn, tile)) {
-			if (!playerIn.isShiftKeyDown()) { //isSneaking
+			if (!playerIn.isShiftKeyDown()) {
 				if (FluidUtil.interactWithFluidHandler(playerIn, hand, worldIn, pos, hit.getDirection())) {
 					return InteractionResult.sidedSuccess(worldIn.isClientSide);
 				}

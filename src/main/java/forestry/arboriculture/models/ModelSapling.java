@@ -1,12 +1,9 @@
 package forestry.arboriculture.models;
 
 import javax.annotation.Nullable;
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import java.util.function.Function;
 
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -17,9 +14,8 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.BlockModelRotation;
 import net.minecraft.client.resources.model.Material;
-import net.minecraft.client.resources.model.ModelBakery;
+import net.minecraft.client.resources.model.ModelBaker;
 import net.minecraft.client.resources.model.ModelState;
-import net.minecraft.client.resources.model.UnbakedModel;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
@@ -45,7 +41,7 @@ import forestry.core.utils.SpeciesUtil;
 
 public class ModelSapling implements IUnbakedGeometry<ModelSapling> {
 	@Override
-	public BakedModel bake(IGeometryBakingContext context, ModelBakery bakery, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ItemOverrides overrides, ResourceLocation modelLocation) {
+	public BakedModel bake(IGeometryBakingContext context, ModelBaker baker, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ItemOverrides overrides, ResourceLocation modelLocation) {
 		IdentityHashMap<ITreeSpecies, BakedModel> itemModels = new IdentityHashMap<>();
 		IdentityHashMap<ITreeSpecies, BakedModel> blockModels = new IdentityHashMap<>();
 
@@ -55,36 +51,17 @@ public class ModelSapling implements IUnbakedGeometry<ModelSapling> {
 			ResourceLocation blockModelLocation = pair.getFirst();
 			ResourceLocation itemModelLocation = pair.getSecond();
 
-			BakedModel blockModel = bakery.bake(blockModelLocation, BlockModelRotation.X0_Y0, spriteGetter);
+			BakedModel blockModel = baker.bake(blockModelLocation, BlockModelRotation.X0_Y0, spriteGetter);
 			if (blockModel != null) {
 				blockModels.put(species, blockModel);
 			}
-			BakedModel itemModel = bakery.bake(itemModelLocation, BlockModelRotation.X0_Y0, spriteGetter);
+			BakedModel itemModel = baker.bake(itemModelLocation, BlockModelRotation.X0_Y0, spriteGetter);
 			if (itemModel != null) {
 				itemModels.put(species, itemModel);
 			}
 		}
 
 		return new Baked(itemModels, blockModels);
-	}
-
-	@Override
-	public Collection<Material> getMaterials(IGeometryBakingContext context, Function<ResourceLocation, UnbakedModel> modelGetter, Set<Pair<String, String>> missingTextureErrors) {
-		ITreeClientManager manager = IForestryClientApi.INSTANCE.getTreeManager();
-		HashSet<ResourceLocation> locations = new HashSet<>();
-
-		for (Pair<ResourceLocation, ResourceLocation> pair : manager.getAllSaplingModels()) {
-			locations.add(pair.getFirst());
-			locations.add(pair.getSecond());
-		}
-
-		HashSet<Material> materials = new HashSet<>();
-
-		for (ResourceLocation location : locations) {
-			materials.addAll(modelGetter.apply(location).getMaterials(modelGetter, missingTextureErrors));
-		}
-
-		return materials;
 	}
 
 	public static class Baked implements BakedModel {

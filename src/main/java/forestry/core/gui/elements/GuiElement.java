@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.function.Supplier;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -26,7 +26,7 @@ import forestry.api.core.tooltips.ToolTip;
 import forestry.core.gui.elements.layouts.ContainerElement;
 
 @OnlyIn(Dist.CLIENT)
-public abstract class GuiElement extends GuiComponent {
+public abstract class GuiElement {
 	public static final int UNKNOWN_HEIGHT = -1;
 	public static final int UNKNOWN_WIDTH = -1;
 	public static final Dimension UNKNOWN_SIZE = new Dimension(-1, -1);
@@ -109,12 +109,13 @@ public abstract class GuiElement extends GuiComponent {
 		return parent == null ? getY() : getY() + parent.getAbsoluteY();
 	}
 
-	public final void draw(PoseStack transform, int mouseX, int mouseY) {
+	public final void draw(GuiGraphics graphics, int mouseX, int mouseY) {
 		if (!isVisible()) {
 			return;
 		}
-		transform.pushPose();
-		transform.translate(getX(), getY(), 0.0F);
+		PoseStack stack = graphics.pose();
+		stack.pushPose();
+		stack.translate(getX(), getY(), 0.0F);
 		if (isCropped()) {
 			GL11.glEnable(GL11.GL_SCISSOR_TEST);
 			Minecraft mc = Minecraft.getInstance();
@@ -128,16 +129,16 @@ public abstract class GuiElement extends GuiComponent {
 			GL11.glScissor((int) ((posX + cropX) * scaleWidth), (int) (window.getScreenHeight() - ((posY + cropY + cropHeight) * scaleHeight)), (int) (cropWidth * scaleWidth), (int) (cropHeight * scaleHeight));
 		}
 
-		drawElement(transform, mouseX, mouseY);
+		drawElement(graphics, mouseX, mouseY);
 
 		if (isCropped()) {
 			GL11.glDisable(GL11.GL_SCISSOR_TEST);
 		}
 
-		transform.popPose();
+		stack.popPose();
 	}
 
-	protected void drawElement(PoseStack transform, int mouseX, int mouseY) {
+	protected void drawElement(GuiGraphics graphics, int mouseX, int mouseY) {
 		//Default-Implementation
 	}
 

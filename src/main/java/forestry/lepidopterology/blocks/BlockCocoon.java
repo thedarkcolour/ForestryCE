@@ -42,7 +42,7 @@ public class BlockCocoon extends Block implements EntityBlock {
 	public static final IntegerProperty AGE = IntegerProperty.create("age", 0, 2);
 
 	public BlockCocoon() {
-		super(Block.Properties.of(MaterialCocoon.INSTANCE).randomTicks().sound(SoundType.GRAVEL));
+		super(Block.Properties.of().randomTicks().sound(SoundType.GRAVEL));
 		registerDefaultState(getStateDefinition().any().setValue(AGE, 0));
 	}
 

@@ -4,7 +4,7 @@ import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.client.renderer.item.ItemPropertyFunction;
 import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 
@@ -37,11 +37,11 @@ public class StorageClientHandler implements IClientModuleHandler {
 
 		IFeatureRegistry registry = ModFeatureRegistry.get(ForestryModuleIds.STORAGE);
 
-		registry.addRegistryListener(Registry.ITEM_REGISTRY, event -> {
+		registry.addRegistryListener(Registries.ITEM, event -> {
 			@SuppressWarnings("deprecation")
 			ItemPropertyFunction itemPropertyFunction = (stack, clientLevel, holder, idk) -> ItemBackpack.getMode(stack).ordinal();
 
-			for (RegistryObject<Item> entry : registry.getRegistry(Registry.ITEM_REGISTRY).getEntries()) {
+			for (RegistryObject<Item> entry : registry.getRegistry(Registries.ITEM).getEntries()) {
 				if (entry.get() instanceof ItemBackpack) {
 					ItemProperties.register(entry.get(), new ResourceLocation("mode"), itemPropertyFunction);
 				}

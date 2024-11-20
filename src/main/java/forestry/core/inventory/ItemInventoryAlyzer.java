@@ -99,7 +99,7 @@ public class ItemInventoryAlyzer extends ItemInventory implements IErrorSource {
 				}
 
 				if (individual.analyze()) {
-					IBreedingTracker breedingTracker = individual.getType().getBreedingTracker(player.level, player.getGameProfile());
+					IBreedingTracker breedingTracker = individual.getType().getBreedingTracker(player.level(), player.getGameProfile());
 					breedingTracker.registerSpecies(individual.getSpecies());
 					breedingTracker.registerSpecies(individual.getInactiveSpecies());
 

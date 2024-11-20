@@ -10,10 +10,9 @@
  ******************************************************************************/
 package forestry.factory.gui;
 
-import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-
-import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.world.entity.player.Inventory;
 
 import forestry.core.config.Constants;
 import forestry.core.gui.GuiForestryTitled;
@@ -32,12 +31,12 @@ public class GuiSqueezer extends GuiForestryTitled<ContainerSqueezer> {
 	}
 
 	@Override
-	protected void drawWidgets(PoseStack transform) {
+	protected void drawWidgets(GuiGraphics graphics) {
 		//TODO: Make this more consistent
 		int progress = tile.getProgressScaled(43);
-		blit(transform, 75, 41, 176, 60, progress, 18);
+		graphics.blit(this.textureFile, 75, 41, 176, 60, progress, 18);
 
-		super.drawWidgets(transform);
+		super.drawWidgets(graphics);
 	}
 
 	@Override

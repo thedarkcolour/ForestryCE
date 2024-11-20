@@ -12,19 +12,13 @@ package forestry.arboriculture.client;
 
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.world.inventory.InventoryMenu;
 
 import net.minecraftforge.client.event.ModelEvent;
-import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
-import forestry.api.arboriculture.genetics.IFruit;
 import forestry.api.client.IClientModuleHandler;
-import forestry.api.client.IForestryClientApi;
-import forestry.api.client.arboriculture.ILeafSprite;
-import forestry.api.genetics.alleles.TreeChromosomes;
 import forestry.arboriculture.blocks.BlockDecorativeLeaves;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.models.ModelDecorativeLeaves;
@@ -38,11 +32,10 @@ public class ArboricultureClientHandler implements IClientModuleHandler {
 	@Override
 	public void registerEvents(IEventBus modBus) {
 		modBus.addListener(ArboricultureClientHandler::registerModelLoaders);
-		modBus.addListener(ArboricultureClientHandler::registerSprites);
 		modBus.addListener(ArboricultureClientHandler::onClientSetup);
 	}
 
-	@SuppressWarnings("removal")
+	@SuppressWarnings("deprecation")
 	private static void onClientSetup(FMLClientSetupEvent event) {
 		event.enqueueWork(() -> {
 			ClientManager clientManager = ClientManager.INSTANCE;
@@ -61,21 +54,6 @@ public class ArboricultureClientHandler implements IClientModuleHandler {
 
 			ArboricultureBlocks.PODS.getBlocks().forEach(block -> ItemBlockRenderTypes.setRenderLayer(block, RenderType.cutoutMipped()));
 		});
-	}
-
-	private static void registerSprites(TextureStitchEvent.Pre event) {
-		if (event.getAtlas().location() == InventoryMenu.BLOCK_ATLAS) {
-			// todo move into IClientRegistration
-			for (IFruit fruit : TreeChromosomes.FRUIT.values()) {
-				fruit.registerSprites(event);
-			}
-			for (ILeafSprite sprite : IForestryClientApi.INSTANCE.getTreeManager().getAllLeafSprites()) {
-				event.addSprite(sprite.get(true, true));
-				event.addSprite(sprite.get(true, false));
-				event.addSprite(sprite.get(false, true));
-				event.addSprite(sprite.get(false, false));
-			}
-		}
 	}
 
 	private static void registerModelLoaders(ModelEvent.RegisterGeometryLoaders event) {

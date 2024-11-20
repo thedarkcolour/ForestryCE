@@ -11,12 +11,11 @@
 package forestry.factory.blocks;
 
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.material.Material;
 
 import forestry.core.blocks.BlockBase;
 
 public class BlockFactoryPlain extends BlockBase<BlockTypeFactoryPlain> {
 	public BlockFactoryPlain(BlockTypeFactoryPlain type) {
-		super(type, Block.Properties.of(Material.METAL));
+		super(type, Block.Properties.of());
 	}
 }

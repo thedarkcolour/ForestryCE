@@ -70,7 +70,7 @@ public final class FarmType implements IFarmType {
 	@Override
 	public boolean isAcceptedResource(ItemStack stack) {
 		for (Soil soil : this.soils) {
-			if (soil.resource().sameItem(stack)) {
+			if (ItemStack.isSameItem(soil.resource(), stack)) {
 				return true;
 			}
 		}

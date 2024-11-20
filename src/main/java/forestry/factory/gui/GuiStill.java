@@ -10,10 +10,9 @@
  ******************************************************************************/
 package forestry.factory.gui;
 
-import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-
-import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.world.entity.player.Inventory;
 
 import forestry.core.config.Constants;
 import forestry.core.gui.GuiForestryTitled;
@@ -31,14 +30,14 @@ public class GuiStill extends GuiForestryTitled<ContainerStill> {
 	}
 
 	@Override
-	protected void renderBg(PoseStack transform, float partialTicks, int mouseY, int mouseX) {
-		super.renderBg(transform, partialTicks, mouseY, mouseX);
+	protected void renderBg(GuiGraphics graphics, float partialTicks, int mouseY, int mouseX) {
+		super.renderBg(graphics, partialTicks, mouseY, mouseX);
 
-		blit(transform, leftPos + 81, topPos + 57, 176, 60, 14, 14);
+		graphics.blit(this.textureFile, leftPos + 81, topPos + 57, 176, 60, 14, 14);
 
 		if (tile.getWorkCounter() > 0) {
 			int massRemaining = tile.getProgressScaled(16);
-			blit(transform, leftPos + 84, topPos + 17 + massRemaining, 176, 74 + massRemaining, 4, 17 - massRemaining);
+			graphics.blit(this.textureFile, leftPos + 84, topPos + 17 + massRemaining, 176, 74 + massRemaining, 4, 17 - massRemaining);
 		}
 	}
 

@@ -28,7 +28,6 @@ import forestry.core.inventory.InventoryAdapter;
 import forestry.core.utils.InventoryUtil;
 
 public class POBox extends SavedData implements Container {
-
 	public static final String SAVE_NAME = "pobox_";
 	public static final short SLOT_SIZE = 84;
 

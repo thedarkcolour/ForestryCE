@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.player.Inventory;
@@ -23,7 +24,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import forestry.api.core.ToleranceType;
 import forestry.api.genetics.IBreedingTracker;
@@ -72,45 +72,45 @@ public class GuiAlyzer extends GuiForestry<ContainerAlyzer> {
 		}
 	}
 
-	public final void drawLine(PoseStack transform, String text, int x, IIndividual individual, IChromosome<?> chromosome, boolean inactive) {
+	public final void drawLine(GuiGraphics graphics, String text, int x, IIndividual individual, IChromosome<?> chromosome, boolean inactive) {
 		if (!inactive) {
-			textLayout.drawLine(transform, text, x, getColorCoding(individual.getGenome().getActiveAllele(chromosome).dominant()));
+			textLayout.drawLine(graphics, text, x, getColorCoding(individual.getGenome().getActiveAllele(chromosome).dominant()));
 		} else {
-			textLayout.drawLine(transform, text, x, getColorCoding(individual.getGenome().getInactiveAllele(chromosome).dominant()));
+			textLayout.drawLine(graphics, text, x, getColorCoding(individual.getGenome().getInactiveAllele(chromosome).dominant()));
 		}
 	}
 
-	public final void drawSplitLine(PoseStack transform, Component component, int x, int maxWidth, IIndividual individual, IChromosome<?> chromosome, boolean inactive) {
+	public final void drawSplitLine(GuiGraphics graphics, Component component, int x, int maxWidth, IIndividual individual, IChromosome<?> chromosome, boolean inactive) {
 		if (!inactive) {
-			textLayout.drawSplitLine(transform, component, x, maxWidth, getColorCoding(individual.getGenome().getActiveAllele(chromosome).dominant()));
+			textLayout.drawSplitLine(graphics, component, x, maxWidth, getColorCoding(individual.getGenome().getActiveAllele(chromosome).dominant()));
 		} else {
-			textLayout.drawSplitLine(transform, component, x, maxWidth, getColorCoding(individual.getGenome().getInactiveAllele(chromosome).dominant()));
+			textLayout.drawSplitLine(graphics, component, x, maxWidth, getColorCoding(individual.getGenome().getInactiveAllele(chromosome).dominant()));
 		}
 	}
 
-	public final void drawRow(PoseStack transform, Component text0, Component text1, Component text2, IIndividual individual, IChromosome<?> chromosome) {
-		textLayout.drawRow(transform, text0, text1, text2, ColourProperties.INSTANCE.get("gui.screen"), getColorCoding(individual.getGenome().getActiveAllele(chromosome).dominant()),
+	public final void drawRow(GuiGraphics graphics, Component text0, Component text1, Component text2, IIndividual individual, IChromosome<?> chromosome) {
+		textLayout.drawRow(graphics, text0, text1, text2, ColourProperties.INSTANCE.get("gui.screen"), getColorCoding(individual.getGenome().getActiveAllele(chromosome).dominant()),
 				getColorCoding(individual.getGenome().getInactiveAllele(chromosome).dominant()));
 	}
 
-	public final void drawChromosomeRow(PoseStack transform, Component chromosomeName, IIndividual individual, IChromosome<?> chromosome) {
+	public final void drawChromosomeRow(GuiGraphics graphics, Component chromosomeName, IIndividual individual, IChromosome<?> chromosome) {
 		IAllele active = individual.getGenome().getActiveAllele(chromosome);
 		MutableComponent activeName = chromosome.getDisplayName(active.cast());
 		IAllele inactive = individual.getGenome().getInactiveAllele(chromosome);
 		MutableComponent inactiveName = chromosome.getDisplayName(inactive.cast());
-		textLayout.drawRow(transform, chromosomeName, activeName, inactiveName, ColourProperties.INSTANCE.get("gui.screen"), getColorCoding(active.dominant()), getColorCoding(inactive.dominant()));
+		textLayout.drawRow(graphics, chromosomeName, activeName, inactiveName, ColourProperties.INSTANCE.get("gui.screen"), getColorCoding(active.dominant()), getColorCoding(inactive.dominant()));
 	}
 
-	public final void drawHaploidChromosomeRow(PoseStack transform, Component chromosomeName, IIndividual individual, IChromosome<?> chromosome) {
+	public final void drawHaploidChromosomeRow(GuiGraphics graphics, Component chromosomeName, IIndividual individual, IChromosome<?> chromosome) {
 		IAllele active = individual.getGenome().getActiveAllele(chromosome);
 		MutableComponent activeName = chromosome.getDisplayName(active.cast());
-		textLayout.drawRow(transform, chromosomeName, activeName, ColourProperties.INSTANCE.get("gui.screen"), getColorCoding(active.dominant()));
+		textLayout.drawRow(graphics, chromosomeName, activeName, ColourProperties.INSTANCE.get("gui.screen"), getColorCoding(active.dominant()));
 	}
 
-	public <S extends ISpecies<?>> void drawSpeciesRow(PoseStack transform, Component text0, IIndividual individual, IRegistryChromosome<S> chromosome) {
+	public <S extends ISpecies<?>> void drawSpeciesRow(GuiGraphics graphics, Component text0, IIndividual individual, IRegistryChromosome<S> chromosome) {
 		AllelePair<IValueAllele<S>> species = individual.getGenome().getAllelePair(chromosome);
 
-		textLayout.drawLine(transform, text0, textLayout.column0);
+		textLayout.drawLine(graphics, text0, textLayout.column0);
 		int columnwidth = textLayout.column2 - textLayout.column1 - 2;
 
 		IValueAllele<S> activeSpecies = species.active();
@@ -119,41 +119,41 @@ public class GuiAlyzer extends GuiForestry<ContainerAlyzer> {
 		Map<ISpecies<?>, ItemStack> iconStacks = activeSpecies.value().getType().getAlyzerPlugin().getIconStacks();
 
 		// todo fix Icon Stacks being empty for butterflies
-		GuiUtil.drawItemStack(transform, this, iconStacks.get(activeSpecies.value()), leftPos + textLayout.column1 + columnwidth - 20, topPos + 10);
-		GuiUtil.drawItemStack(transform, this, iconStacks.get(inactiveSpecies.value()), leftPos + textLayout.column2 + columnwidth - 20, topPos + 10);
+		GuiUtil.drawItemStack(graphics, this, iconStacks.get(activeSpecies.value()), leftPos + textLayout.column1 + columnwidth - 20, topPos + 10);
+		GuiUtil.drawItemStack(graphics, this, iconStacks.get(inactiveSpecies.value()), leftPos + textLayout.column2 + columnwidth - 20, topPos + 10);
 
 		Component primaryName = chromosome.getDisplayName(activeSpecies);
 		Component secondaryName = chromosome.getDisplayName(inactiveSpecies);
 
-		drawSplitLine(transform, primaryName, textLayout.column1, columnwidth, individual, chromosome, false);
-		drawSplitLine(transform, secondaryName, textLayout.column2, columnwidth, individual, chromosome, true);
+		drawSplitLine(graphics, primaryName, textLayout.column1, columnwidth, individual, chromosome, false);
+		drawSplitLine(graphics, secondaryName, textLayout.column2, columnwidth, individual, chromosome, true);
 
 		textLayout.newLine();
 	}
 
-	public <S extends ISpecies<?>> void drawHaploidSpeciesRow(PoseStack transform, Component text0, IIndividual individual, IRegistryChromosome<S> chromosome) {
+	public <S extends ISpecies<?>> void drawHaploidSpeciesRow(GuiGraphics graphics, Component text0, IIndividual individual, IRegistryChromosome<S> chromosome) {
 		AllelePair<IValueAllele<S>> species = individual.getGenome().getAllelePair(chromosome);
 
-		textLayout.drawLine(transform, text0, textLayout.column0);
+		textLayout.drawLine(graphics, text0, textLayout.column0);
 		int columnwidth = textLayout.column2 - textLayout.column1 - 2;
 
 		IValueAllele<S> activeSpecies = species.active();
 		Map<ISpecies<?>, ItemStack> iconStacks = activeSpecies.value().getType().getAlyzerPlugin().getIconStacks();
 		// todo fix Icon Stacks being empty for butterflies
-		GuiUtil.drawItemStack(transform, this, iconStacks.get(activeSpecies.value()), leftPos + textLayout.column1 + columnwidth - 20, topPos + 10);
+		GuiUtil.drawItemStack(graphics, this, iconStacks.get(activeSpecies.value()), leftPos + textLayout.column1 + columnwidth - 20, topPos + 10);
 		Component primaryName = chromosome.getDisplayName(activeSpecies);
-		drawSplitLine(transform, primaryName, textLayout.column1, columnwidth, individual, chromosome, false);
+		drawSplitLine(graphics, primaryName, textLayout.column1, columnwidth, individual, chromosome, false);
 		textLayout.newLine();
 	}
 
 	@Override
-	protected void renderBg(PoseStack transform, float partialTicks, int mouseX, int mouseY) {
-		super.renderBg(transform, partialTicks, mouseX, mouseY);
+	protected void renderBg(GuiGraphics graphics, float partialTicks, int mouseX, int mouseY) {
+		super.renderBg(graphics, partialTicks, mouseX, mouseY);
 		widgetManager.clear();
 
 		int specimenSlot = getSpecimenSlot();
 		if (specimenSlot < ItemInventoryAlyzer.SLOT_ANALYZE_1) {
-			drawAnalyticsOverview(transform);
+			drawAnalyticsOverview(graphics);
 			return;
 		}
 
@@ -164,14 +164,14 @@ public class GuiAlyzer extends GuiForestry<ContainerAlyzer> {
 
 			switch (specimenSlot) {
 				case ItemInventoryAlyzer.SLOT_ANALYZE_1 ->
-						type.getAlyzerPlugin().drawAnalyticsPage1(transform, this, stackInSlot);
+						type.getAlyzerPlugin().drawAnalyticsPage1(graphics, this, stackInSlot);
 				case ItemInventoryAlyzer.SLOT_ANALYZE_2 ->
-						type.getAlyzerPlugin().drawAnalyticsPage2(transform, this, stackInSlot);
+						type.getAlyzerPlugin().drawAnalyticsPage2(graphics, this, stackInSlot);
 				case ItemInventoryAlyzer.SLOT_ANALYZE_3 ->
-						type.getAlyzerPlugin().drawAnalyticsPage3(transform, this, stackInSlot);
-				case ItemInventoryAlyzer.SLOT_ANALYZE_4 -> drawAnalyticsPageMutations(transform, individual);
-				case ItemInventoryAlyzer.SLOT_ANALYZE_5 -> drawAnalyticsPageClassification(transform, individual);
-				default -> drawAnalyticsOverview(transform);
+						type.getAlyzerPlugin().drawAnalyticsPage3(graphics, this, stackInSlot);
+				case ItemInventoryAlyzer.SLOT_ANALYZE_4 -> drawAnalyticsPageMutations(graphics, individual);
+				case ItemInventoryAlyzer.SLOT_ANALYZE_5 -> drawAnalyticsPageClassification(graphics, individual);
+				default -> drawAnalyticsOverview(graphics);
 			}
 		});
 	}
@@ -187,38 +187,37 @@ public class GuiAlyzer extends GuiForestry<ContainerAlyzer> {
 		return -1;
 	}
 
-	public void drawAnalyticsOverview(PoseStack transform) {
-		textLayout.startPage(transform);
+	public void drawAnalyticsOverview(GuiGraphics graphics) {
+		textLayout.startPage(graphics);
 
 		textLayout.newLine();
 		Component title = Component.translatable("for.gui.portablealyzer");
-		textLayout.drawCenteredLine(transform, title, 8, 208, ColourProperties.INSTANCE.get("gui.screen"));
+		textLayout.drawCenteredLine(graphics, title, 8, 208, ColourProperties.INSTANCE.get("gui.screen"));
 		textLayout.newLine();
 
-		getFontRenderer().drawWordWrap(Component.translatable("for.gui.portablealyzer.help"), leftPos + COLUMN_0 + 4, topPos + 42, 200, ColourProperties.INSTANCE.get("gui.screen"));
+		graphics.drawWordWrap(this.font, Component.translatable("for.gui.portablealyzer.help"), leftPos + COLUMN_0 + 4, topPos + 42, 200, ColourProperties.INSTANCE.get("gui.screen"));
 		textLayout.newLine();
 		textLayout.newLine();
 		textLayout.newLine();
 		textLayout.newLine();
 
-		textLayout.drawLine(transform, Component.translatable("for.gui.alyzer.overview").append(":"), COLUMN_0 + 4);
+		textLayout.drawLine(graphics, Component.translatable("for.gui.alyzer.overview").append(":"), COLUMN_0 + 4);
 		textLayout.newLine();
-		textLayout.drawLine(transform, Component.literal("I  : ").append(Component.translatable("for.gui.general")), COLUMN_0 + 4);
+		textLayout.drawLine(graphics, Component.literal("I  : ").append(Component.translatable("for.gui.general")), COLUMN_0 + 4);
 		textLayout.newLine();
-		textLayout.drawLine(transform, Component.literal("II : ").append(Component.translatable("for.gui.environment")), COLUMN_0 + 4);
+		textLayout.drawLine(graphics, Component.literal("II : ").append(Component.translatable("for.gui.environment")), COLUMN_0 + 4);
 		textLayout.newLine();
-		textLayout.drawLine(transform, Component.literal("III: ").append(Component.translatable("for.gui.produce")), COLUMN_0 + 4);
+		textLayout.drawLine(graphics, Component.literal("III: ").append(Component.translatable("for.gui.produce")), COLUMN_0 + 4);
 		textLayout.newLine();
-		textLayout.drawLine(transform, Component.literal("IV : ").append(Component.translatable("for.gui.evolution")), COLUMN_0 + 4);
+		textLayout.drawLine(graphics, Component.literal("IV : ").append(Component.translatable("for.gui.evolution")), COLUMN_0 + 4);
 
-		textLayout.endPage(transform);
+		textLayout.endPage(graphics);
 	}
 
-	public final void drawAnalyticsPageClassification(PoseStack transform, IIndividual individual) {
+	public void drawAnalyticsPageClassification(GuiGraphics graphics, IIndividual individual) {
+		textLayout.startPage(graphics);
 
-		textLayout.startPage(transform);
-
-		textLayout.drawLine(transform, Component.translatable("for.gui.alyzer.classification").append(":"), 12);
+		textLayout.drawLine(graphics, Component.translatable("for.gui.alyzer.classification").append(":"), 12);
 		textLayout.newLine();
 
 		ArrayDeque<ITaxon> hierarchy = new ArrayDeque<>();
@@ -242,8 +241,8 @@ public class GuiAlyzer extends GuiForestry<ContainerAlyzer> {
 			}
 
 			String name = Character.toUpperCase(group.name().charAt(0)) + group.name().substring(1);
-			textLayout.drawLine(transform, name, x, group.rank().getColour());
-			textLayout.drawLine(transform, group.rank().name(), 170, group.rank().getColour());
+			textLayout.drawLine(graphics, name, x, group.rank().getColour());
+			textLayout.drawLine(graphics, group.rank().name(), 170, group.rank().getColour());
 			textLayout.newLineCompressed();
 			x += 12;
 		}
@@ -254,32 +253,32 @@ public class GuiAlyzer extends GuiForestry<ContainerAlyzer> {
 			binomial = Character.toUpperCase(species.getGenusName().charAt(0)) + ". " + species.getSpeciesName();
 		}
 
-		textLayout.drawLine(transform, binomial, x, 0xebae85);
-		textLayout.drawLine(transform, "SPECIES", 170, 0xebae85);
+		textLayout.drawLine(graphics, binomial, x, 0xebae85);
+		textLayout.drawLine(graphics, "SPECIES", 170, 0xebae85);
 
 		textLayout.newLine();
-		textLayout.drawLine(transform, Component.translatable("for.gui.alyzer.authority").append(": ").append(species.getAuthority()), 12);
+		textLayout.drawLine(graphics, Component.translatable("for.gui.alyzer.authority").append(": ").append(species.getAuthority()), 12);
 
 		textLayout.newLine();
 		String description = species.getDescriptionTranslationKey();
 		if (Translator.canTranslateToLocal(description)) {
 			description = Component.translatable(description).getString();
 			String[] tokens = description.split("\\|");
-			textLayout.drawSplitLine(transform, tokens[0], 12, 200, 0x666666);
+			textLayout.drawSplitLine(graphics, tokens[0], 12, 200, 0x666666);
 			if (tokens.length > 1) {
 				String signature = "- " + tokens[1];
-				getFontRenderer().drawShadow(transform, signature, leftPos + 210 - getFontRenderer().width(signature), topPos + 145 - 14, 0x99cc32);
+				graphics.drawString(this.font, signature, leftPos + 210 - font().width(signature), topPos + 145 - 14, 0x99cc32, true);
 			}
 		} else {
-			textLayout.drawSplitLine(transform, Component.translatable("for.gui.alyzer.nodescription"), 12, 200, 0x666666);
+			textLayout.drawSplitLine(graphics, Component.translatable("for.gui.alyzer.nodescription"), 12, 200, 0x666666);
 		}
 
-		textLayout.endPage(transform);
+		textLayout.endPage(graphics);
 	}
 
-	public <I extends IIndividual> void drawAnalyticsPageMutations(PoseStack transform, I individual) {
-		textLayout.startPage(transform, COLUMN_0, COLUMN_1, COLUMN_2);
-		textLayout.drawLine(transform, Component.translatable("for.gui.beealyzer.mutations").append(":"), COLUMN_0);
+	public <I extends IIndividual> void drawAnalyticsPageMutations(GuiGraphics graphics, I individual) {
+		textLayout.startPage(graphics, COLUMN_0, COLUMN_1, COLUMN_2);
+		textLayout.drawLine(graphics, Component.translatable("for.gui.beealyzer.mutations").append(":"), COLUMN_0);
 		textLayout.newLine();
 
 		ISpeciesType<?, ?> speciesRoot = individual.getType();
@@ -289,19 +288,19 @@ public class GuiAlyzer extends GuiForestry<ContainerAlyzer> {
 		int x = 0;
 
 		Player player = Minecraft.getInstance().player;
-		IBreedingTracker breedingTracker = speciesRoot.getBreedingTracker(player.level, player.getGameProfile());
+		IBreedingTracker breedingTracker = speciesRoot.getBreedingTracker(player.level(), player.getGameProfile());
 
 		IMutationManager<?> mutations = species.getType().getMutations();
 		for (IMutation<?> mutation : mutations.getMutationsFrom(species.cast())) {
 			if (breedingTracker.isDiscovered(mutation)) {
-				drawMutationInfo(transform, mutation, species, COLUMN_0 + x, breedingTracker);
+				drawMutationInfo(graphics, mutation, species, COLUMN_0 + x, breedingTracker);
 			} else {
 				// Do not display secret undiscovered mutations.
 				if (mutation.isSecret()) {
 					continue;
 				}
 
-				drawUnknownMutation(transform, mutation, COLUMN_0 + x, breedingTracker);
+				drawUnknownMutation(graphics, mutation, COLUMN_0 + x, breedingTracker);
 			}
 
 			x += columnWidth;
@@ -311,37 +310,33 @@ public class GuiAlyzer extends GuiForestry<ContainerAlyzer> {
 			}
 		}
 
-		textLayout.endPage(transform);
+		textLayout.endPage(graphics);
 	}
 
-	public void drawMutationInfo(PoseStack transform, IMutation<?> combination, ISpecies<?> species, int x, IBreedingTracker breedingTracker) {
+	public void drawMutationInfo(GuiGraphics graphics, IMutation<?> combination, ISpecies<?> species, int x, IBreedingTracker breedingTracker) {
 		Map<ISpecies<?>, ItemStack> iconStacks = combination.getType().getAlyzerPlugin().getIconStacks();
 
 		ItemStack partnerBee = iconStacks.get(combination.getPartner(species));
 		widgetManager.add(new ItemStackWidget(widgetManager, x, textLayout.getLineY(), partnerBee));
 
-		drawProbabilityArrow(transform, combination, leftPos + x + 18, topPos + textLayout.getLineY() + 4, breedingTracker);
+		drawProbabilityArrow(graphics, combination, leftPos + x + 18, topPos + textLayout.getLineY() + 4, breedingTracker);
 
 		ISpecies<?> result = combination.getResult();
 		ItemStack resultBee = iconStacks.get(result);
 		widgetManager.add(new ItemStackWidget(widgetManager, x + 33, textLayout.getLineY(), resultBee));
 	}
 
-	private void drawUnknownMutation(PoseStack transform, IMutation<?> combination, int x, IBreedingTracker breedingTracker) {
-
-		drawQuestionMark(transform, leftPos + x, topPos + textLayout.getLineY());
-
-		drawProbabilityArrow(transform, combination, leftPos + x + 18, topPos + textLayout.getLineY() + 4, breedingTracker);
-
-		drawQuestionMark(transform, leftPos + x + 32, topPos + textLayout.getLineY());
+	private void drawUnknownMutation(GuiGraphics graphics, IMutation<?> combination, int x, IBreedingTracker breedingTracker) {
+		drawQuestionMark(graphics, leftPos + x, topPos + textLayout.getLineY());
+		drawProbabilityArrow(graphics, combination, leftPos + x + 18, topPos + textLayout.getLineY() + 4, breedingTracker);
+		drawQuestionMark(graphics, leftPos + x + 32, topPos + textLayout.getLineY());
 	}
 
-	private void drawQuestionMark(PoseStack transform, int x, int y) {
-		bindTexture(textureFile);
-		blit(transform, x, y, 78, 240, 16, 16);
+	private void drawQuestionMark(GuiGraphics graphics, int x, int y) {
+		graphics.blit(this.textureFile, x, y, 78, 240, 16, 16);
 	}
 
-	private void drawProbabilityArrow(PoseStack transform, IMutation<?> combination, int x, int y, IBreedingTracker breedingTracker) {
+	private void drawProbabilityArrow(GuiGraphics graphics, IMutation<?> combination, int x, int y, IBreedingTracker breedingTracker) {
 		float chance = combination.getChance();
 		int line = 247;
 		int column = switch (EnumMutateChance.rateChance(chance)) {
@@ -354,17 +349,16 @@ public class GuiAlyzer extends GuiForestry<ContainerAlyzer> {
 		};
 
 		// Probability arrow
-		bindTexture(textureFile);
-		blit(transform, x, y, column, line, 15, 9);
+		graphics.blit(this.textureFile, x, y, column, line, 15, 9);
 
 		boolean researched = breedingTracker.isResearched(combination);
 		if (researched) {
-			getFontRenderer().draw(transform, "+", x + 9, y + 1, 0);
+			graphics.drawString(this.font, "+", x + 9, y + 1, 0);
 			RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
 		}
 	}
 
-	public void drawToleranceInfo(PoseStack transform, IValueChromosome<ToleranceType> chromosome, IValueAllele<ToleranceType> toleranceAllele, int x) {
+	public void drawToleranceInfo(GuiGraphics graphics, IValueChromosome<ToleranceType> chromosome, IValueAllele<ToleranceType> toleranceAllele, int x) {
 		int textColor = getColorCoding(toleranceAllele.dominant());
 		ToleranceType tolerance = toleranceAllele.value();
 		Component text = Component.literal("(").append(chromosome.getDisplayName(toleranceAllele)).append(")");
@@ -374,56 +368,51 @@ public class GuiAlyzer extends GuiForestry<ContainerAlyzer> {
 
 		switch (tolerance) {
 			case BOTH_1, BOTH_2, BOTH_3, BOTH_4, BOTH_5 -> {
-				drawBothSymbol(transform, x - 2, textLayout.getLineY() - 1);
-				textLayout.drawLine(transform, text, x + 14, textColor);
+				drawBothSymbol(graphics, x - 2, textLayout.getLineY() - 1);
+				textLayout.drawLine(graphics, text, x + 14, textColor);
 			}
 			case DOWN_1, DOWN_2, DOWN_3, DOWN_4, DOWN_5 -> {
-				drawDownSymbol(transform, x - 2, textLayout.getLineY() - 1);
-				textLayout.drawLine(transform, text, x + 14, textColor);
+				drawDownSymbol(graphics, x - 2, textLayout.getLineY() - 1);
+				textLayout.drawLine(graphics, text, x + 14, textColor);
 			}
 			case UP_1, UP_2, UP_3, UP_4, UP_5 -> {
-				drawUpSymbol(transform, x - 2, textLayout.getLineY() - 1);
-				textLayout.drawLine(transform, text, x + 14, textColor);
+				drawUpSymbol(graphics, x - 2, textLayout.getLineY() - 1);
+				textLayout.drawLine(graphics, text, x + 14, textColor);
 			}
 			default -> {
-				drawNoneSymbol(transform, x - 2, textLayout.getLineY() - 1);
-				textLayout.drawLine(transform, "(0)", x + 14, textColor);
+				drawNoneSymbol(graphics, x - 2, textLayout.getLineY() - 1);
+				textLayout.drawLine(graphics, "(0)", x + 14, textColor);
 			}
 		}
 	}
 
-	private void drawDownSymbol(PoseStack transform, int x, int y) {
-		bindTexture(textureFile);
-		blit(transform, leftPos + x, topPos + y, 0, 247, 15, 9);
+	private void drawDownSymbol(GuiGraphics graphics, int x, int y) {
+		graphics.blit(this.textureFile, leftPos + x, topPos + y, 0, 247, 15, 9);
 	}
 
-	private void drawUpSymbol(PoseStack transform, int x, int y) {
-		bindTexture(textureFile);
-		blit(transform, leftPos + x, topPos + y, 15, 247, 15, 9);
+	private void drawUpSymbol(GuiGraphics graphics, int x, int y) {
+		graphics.blit(this.textureFile, leftPos + x, topPos + y, 15, 247, 15, 9);
 	}
 
-	private void drawBothSymbol(PoseStack transform, int x, int y) {
-		bindTexture(textureFile);
-		blit(transform, leftPos + x, topPos + y, 30, 247, 15, 9);
+	private void drawBothSymbol(GuiGraphics graphics, int x, int y) {
+		graphics.blit(this.textureFile, leftPos + x, topPos + y, 30, 247, 15, 9);
 	}
 
-	private void drawNoneSymbol(PoseStack transform, int x, int y) {
-		bindTexture(textureFile);
-		blit(transform, leftPos + x, topPos + y, 45, 247, 15, 9);
+	private void drawNoneSymbol(GuiGraphics graphics, int x, int y) {
+		graphics.blit(this.textureFile, leftPos + x, topPos + y, 45, 247, 15, 9);
 	}
 
-	public void drawFertilityInfo(PoseStack transform, int fertility, int x, int textColor, int texOffset) {
-		// Enable correct lighting.
+	public void drawFertilityInfo(GuiGraphics graphics, int fertility, int x, int textColor, int texOffset) {
+		// Enable correct lighting. todo is this necessary anymore?
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 
 		String fertilityString = fertility + " x";
 
-		int stringWidth = getFontRenderer().width(fertilityString);
+		int stringWidth = font().width(fertilityString);
 
-		bindTexture(textureFile);
-		blit(transform, leftPos + x + stringWidth + 2, topPos + textLayout.getLineY() - 1, 60, 240 + texOffset, 12, 8);
+		graphics.blit(this.textureFile, this.leftPos + x + stringWidth + 2, this.topPos + this.textLayout.getLineY() - 1, 60, 240 + texOffset, 12, 8);
 
-		textLayout.drawLine(transform, fertilityString, x, textColor);
+		this.textLayout.drawLine(graphics, fertilityString, x, textColor);
 	}
 
 	public WidgetManager getWidgetManager() {

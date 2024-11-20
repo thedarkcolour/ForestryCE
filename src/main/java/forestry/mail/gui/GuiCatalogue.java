@@ -10,21 +10,21 @@
  ******************************************************************************/
 package forestry.mail.gui;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.Component;
-import net.minecraft.ChatFormatting;
-
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import forestry.api.mail.EnumAddressee;
 import forestry.api.mail.ITradeStationInfo;
@@ -37,83 +37,76 @@ import forestry.core.render.ColourProperties;
 import forestry.core.utils.NetworkUtil;
 
 public class GuiCatalogue extends GuiForestry<ContainerCatalogue> {
+	private static final String BOLD_UNDERLINE = ChatFormatting.BOLD.toString() + ChatFormatting.UNDERLINE;
 
-	private static final String boldUnderline = ChatFormatting.BOLD.toString() + ChatFormatting.UNDERLINE;
-
+	@Nullable
 	private Button buttonFilter;
+	@Nullable
 	private Button buttonUse;
 
 	private final List<ItemStackWidget> tradeInfoWidgets = new ArrayList<>();
 
 	public GuiCatalogue(ContainerCatalogue container, Inventory inv, Component title) {
 		super(new ResourceLocation("textures/gui/book.png"), container, inv, title);
+
 		this.imageWidth = 192;
 		this.imageHeight = 192;
-
-		buttonFilter = new Button(width / 2 - 44, topPos + 150, 42, 20, Component.translatable("for.gui.mail.filter.all"), b -> actionPerformed(4));
-		buttonUse = new Button(width / 2, topPos + 150, 42, 20, Component.translatable("for.gui.mail.address.copy"), b -> actionPerformed(5));
 	}
 
 	@Override
 	public void init() {
 		super.init();
 
-		renderables.clear();
+		this.renderables.clear();
 
-		Minecraft.getInstance().keyboardHandler.setSendRepeatsToGui(true);
+		addRenderableWidget(new Button.Builder(Component.literal(">"), b -> actionPerformed(2)).pos(width / 2 + 44, topPos + 150).size(12, 20).build());
+		addRenderableWidget(new Button.Builder(Component.literal("<"), b -> actionPerformed(3)).pos(width / 2 - 58, topPos + 150).size(12, 20).build());
 
-		addRenderableWidget(new Button(width / 2 + 44, topPos + 150, 12, 20, Component.literal(">"), b -> actionPerformed(2)));
-		addRenderableWidget(new Button(width / 2 - 58, topPos + 150, 12, 20, Component.literal("<"), b -> actionPerformed(3)));
+		this.buttonFilter = new Button.Builder(Component.translatable("for.gui.mail.filter.all"), b -> actionPerformed(4)).pos(width / 2 - 44, topPos + 150).size(42, 20).build();
+		addRenderableWidget(this.buttonFilter);
 
-		//TODO but these are set in the constructor??
-		buttonFilter = new Button(width / 2 - 44, topPos + 150, 42, 20, Component.translatable("for.gui.mail.filter.all"), b -> actionPerformed(4));
-		addRenderableWidget(buttonFilter);
-
-		buttonUse = new Button(width / 2, topPos + 150, 42, 20, Component.translatable("for.gui.mail.address.copy"), b -> actionPerformed(5));
-		addRenderableWidget(buttonUse);
+		this.buttonUse = new Button.Builder(Component.translatable("for.gui.mail.address.copy"), b -> actionPerformed(5)).pos(width / 2, topPos + 150).size(42, 20).build();
+		addRenderableWidget(this.buttonUse);
 	}
 
 	@Override
-	public void removed() {
-		Minecraft.getInstance().keyboardHandler.setSendRepeatsToGui(false);
-		super.removed();
-	}
+	protected void renderBg(GuiGraphics graphics, float partialTicks, int mouseY, int mouseX) {
+		super.renderBg(graphics, partialTicks, mouseY, mouseX);
 
-	@Override
-	protected void renderBg(PoseStack transform, float partialTicks, int mouseY, int mouseX) {
-		super.renderBg(transform, partialTicks, mouseY, mouseX);
-
-		Minecraft.getInstance().font.draw(transform, String.format("%s / %s", menu.getPageNumber(), menu.getPageCount()), leftPos + imageWidth - 72, topPos + 12, ColourProperties.INSTANCE.get("gui.book"));
+		graphics.drawString(this.font, String.format("%s / %s", menu.getPageNumber(), menu.getPageCount()), leftPos + imageWidth - 72, topPos + 12, ColourProperties.INSTANCE.get("gui.book"));
 
 		clearTradeInfoWidgets();
 
 		ITradeStationInfo tradeInfo = menu.getTradeInfo();
 
-		if (tradeInfo != null) {
-			drawTradePreview(transform, tradeInfo, leftPos + 38, topPos + 30);
-			buttonUse.visible = tradeInfo.state().isOk();
-		} else {
-			drawNoTrade(leftPos + 38, topPos + 30);
-			buttonUse.visible = false;
+		if (this.buttonUse != null) {
+			if (tradeInfo != null) {
+				drawTradePreview(graphics, tradeInfo, leftPos + 38, topPos + 30);
+				this.buttonUse.visible = tradeInfo.state().isOk();
+			} else {
+				drawNoTrade(graphics, leftPos + 38, topPos + 30);
+				this.buttonUse.visible = false;
+			}
 		}
 
-		buttonFilter.setMessage(Component.translatable("for.gui.mail.filter." + menu.getFilterIdent()));
+		if (this.buttonFilter != null) {
+			this.buttonFilter.setMessage(Component.translatable("for.gui.mail.filter." + menu.getFilterIdent()));
+		}
 	}
 
-	private void drawNoTrade(int x, int y) {
-		Minecraft.getInstance().font.drawWordWrap(Component.translatable("for.gui.mail.notrades"), x, y + 18, 119, ColourProperties.INSTANCE.get("gui.book"));
+	private void drawNoTrade(GuiGraphics graphics, int x, int y) {
+		graphics.drawWordWrap(this.font, Component.translatable("for.gui.mail.notrades"), x, y + 18, 119, ColourProperties.INSTANCE.get("gui.book"));
 	}
 
-	private void drawTradePreview(PoseStack transform, ITradeStationInfo tradeInfo, int x, int y) {
+	private void drawTradePreview(GuiGraphics graphics, ITradeStationInfo tradeInfo, int x, int y) {
+		Font font = this.font;
+		graphics.drawString(font, BOLD_UNDERLINE + tradeInfo.address().getName(), x, y, ColourProperties.INSTANCE.get("gui.book"));
 
-		Font fontRenderer = Minecraft.getInstance().font;
-		fontRenderer.draw(transform, boldUnderline + tradeInfo.address().getName(), x, y, ColourProperties.INSTANCE.get("gui.book"));
-
-		fontRenderer.draw(transform, Component.translatable("for.gui.mail.willtrade", tradeInfo.owner().getName()), x, y + 18, ColourProperties.INSTANCE.get("gui.book"));
+		graphics.drawString(font, Component.translatable("for.gui.mail.willtrade", tradeInfo.owner().getName()), x, y + 18, ColourProperties.INSTANCE.get("gui.book"));
 
 		addTradeInfoWidget(new ItemStackWidget(widgetManager, x - leftPos, y - topPos + 28, tradeInfo.tradegood()));
 
-		fontRenderer.draw(transform, Component.translatable("for.gui.mail.tradefor"), x, y + 46, ColourProperties.INSTANCE.get("gui.book"));
+		graphics.drawString(font, Component.translatable("for.gui.mail.tradefor"), x, y + 46, ColourProperties.INSTANCE.get("gui.book"));
 
 		for (int i = 0; i < tradeInfo.required().size(); i++) {
 			ItemStack itemStack = tradeInfo.required().get(i);
@@ -122,9 +115,9 @@ public class GuiCatalogue extends GuiForestry<ContainerCatalogue> {
 
 		//TODO: Fix later
 		if (tradeInfo.state().isOk()) {
-			fontRenderer.drawWordWrap(((MutableComponent) tradeInfo.state().getDescription()).withStyle(ChatFormatting.DARK_GREEN), x, y + 82, 119, ColourProperties.INSTANCE.get("gui.book"));
+			graphics.drawWordWrap(font, ((MutableComponent) tradeInfo.state().getDescription()).withStyle(ChatFormatting.DARK_GREEN), x, y + 82, 119, ColourProperties.INSTANCE.get("gui.book"));
 		} else {
-			fontRenderer.drawWordWrap(((MutableComponent) tradeInfo.state().getDescription()).withStyle(ChatFormatting.DARK_RED), x, y + 82, 119, ColourProperties.INSTANCE.get("gui.book"));
+			graphics.drawWordWrap(font, ((MutableComponent) tradeInfo.state().getDescription()).withStyle(ChatFormatting.DARK_RED), x, y + 82, 119, ColourProperties.INSTANCE.get("gui.book"));
 		}
 	}
 
@@ -163,6 +156,5 @@ public class GuiCatalogue extends GuiForestry<ContainerCatalogue> {
 
 	@Override
 	protected void addLedgers() {
-
 	}
 }

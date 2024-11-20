@@ -10,10 +10,10 @@
  ******************************************************************************/
 package forestry.factory.gui;
 
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.Container;
-import net.minecraft.world.inventory.ContainerListener;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.Container;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.ContainerListener;
 import net.minecraft.world.inventory.SimpleContainerData;
 
 import net.minecraftforge.api.distmarker.Dist;
@@ -29,10 +29,9 @@ import forestry.factory.features.FactoryMenuTypes;
 import forestry.factory.tiles.TileMoistener;
 
 public class ContainerMoistener extends ContainerLiquidTanks<TileMoistener> implements ISlotChangeWatcher {
-
 	public static ContainerMoistener fromNetwork(int windowId, Inventory inv, FriendlyByteBuf data) {
-		TileMoistener tile = TileUtil.getTile(inv.player.level, data.readBlockPos(), TileMoistener.class);
-		return new ContainerMoistener(windowId, inv, tile);    //TODO nullability.
+		TileMoistener tile = TileUtil.getTile(inv.player.level(), data.readBlockPos(), TileMoistener.class);
+		return new ContainerMoistener(windowId, inv, tile);
 	}
 
 	public ContainerMoistener(int windowId, Inventory player, TileMoistener tile) {

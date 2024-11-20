@@ -6,14 +6,13 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.material.Fluid;
 
-import net.minecraftforge.common.MinecraftForge;
-
 import forestry.core.genetics.root.ClientBreedingHandler;
 import forestry.core.genetics.root.ServerBreedingHandler;
-import forestry.factory.recipes.ClientCraftingHelper;
 
 // Rule of thumb for safely calling client code: client classes must be in the body of a static method
 // in another class (like this one), guarded by an if statement checking FMLEnvironment.dist == Dist.CLIENT
@@ -22,10 +21,6 @@ import forestry.factory.recipes.ClientCraftingHelper;
 public class ClientsideCode {
 	public static ServerBreedingHandler newBreedingHandler() {
 		return new ClientBreedingHandler();
-	}
-
-	public static RecipeManager craftingHelperAdjust() {
-		return ClientCraftingHelper.adjustClient();
 	}
 
 	@Nullable
@@ -38,10 +33,14 @@ public class ClientsideCode {
 	}
 
 	public static Registry<Fluid> getFluidRegistry() {
-		return Minecraft.getInstance().level.registryAccess().registryOrThrow(Registry.FLUID_REGISTRY);
+		return Minecraft.getInstance().level.registryAccess().registryOrThrow(Registries.FLUID);
 	}
 
 	public static void markForUpdate(BlockPos pos) {
 		Minecraft.getInstance().levelRenderer.setBlocksDirty(pos.getX(), pos.getY(), pos.getZ(), pos.getX(), pos.getY(), pos.getZ());
+	}
+
+	public static RegistryAccess getRegistryAccess() {
+		return Minecraft.getInstance().level.registryAccess();
 	}
 }

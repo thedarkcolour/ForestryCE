@@ -18,13 +18,10 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.math.*;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.ItemOverrides;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
@@ -32,11 +29,14 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 
-import com.mojang.blaze3d.vertex.VertexFormatElement;
+import com.mojang.math.Transformation;
 
 import net.minecraftforge.client.model.BakedModelWrapper;
 import net.minecraftforge.client.model.data.ModelData;
+import net.minecraftforge.common.util.TransformationHelper;
+
 import org.jetbrains.annotations.NotNull;
+import org.joml.Vector3f;
 
 // for those wondering TRSR stands for Translation Rotation Scale Rotation
 public class TRSRBakedModel extends BakedModelWrapper<BakedModel> {
@@ -57,7 +57,7 @@ public class TRSRBakedModel extends BakedModelWrapper<BakedModel> {
 		this(original, new Transformation(new Vector3f(x, y, z),
 				null,
 				new Vector3f(scaleX, scaleY, scaleZ),
-				new Quaternion(rotX, rotY, rotZ, false)));
+				TransformationHelper.quatFromXYZ(rotX, rotY, rotZ, false)));
 	}
 
 	public TRSRBakedModel(BakedModel original, Transformation transform) {
@@ -77,7 +77,7 @@ public class TRSRBakedModel extends BakedModelWrapper<BakedModel> {
 		this.faceOffset = 4 + Direction.NORTH.get2DDataValue() - facing.get2DDataValue();
 
 		double r = Math.PI * (360 - facing.getOpposite().get2DDataValue() * 90) / 180d;
-		this.transformation = new Transformation(null, null, null, new Quaternion(0, (float) r, 0, false)).blockCenterToCorner();
+		this.transformation = new Transformation(null, null, null, TransformationHelper.quatFromXYZ(0, (float) r, 0, false)).blockCenterToCorner();
 	}
 
 	@Override

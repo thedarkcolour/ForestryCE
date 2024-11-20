@@ -8,13 +8,12 @@ import java.util.Collection;
 import java.util.List;
 import java.util.function.Consumer;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
-
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -166,11 +165,11 @@ public class ContainerElement extends GuiElement {
 	}
 
 	@Override
-	protected void drawElement(PoseStack transform, int mouseX, int mouseY) {
+	protected void drawElement(GuiGraphics graphics, int mouseX, int mouseY) {
 		doLayout();
 		int mX = mouseX - getX();
 		int mY = mouseY - getY();
-		elements.forEach(element -> element.draw(transform, mX, mY));
+		elements.forEach(element -> element.draw(graphics, mX, mY));
 	}
 
 	@Override

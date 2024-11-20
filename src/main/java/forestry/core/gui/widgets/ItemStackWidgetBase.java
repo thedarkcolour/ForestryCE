@@ -10,9 +10,8 @@
  ******************************************************************************/
 package forestry.core.gui.widgets;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.item.ItemStack;
-
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -29,11 +28,11 @@ public abstract class ItemStackWidgetBase extends Widget {
 	protected abstract ItemStack getItemStack();
 
 	@Override
-	public void draw(PoseStack transform, int startX, int startY) {
+	public void draw(GuiGraphics graphics, int startX, int startY) {
 		ItemStack itemStack = getItemStack();
 		if (!itemStack.isEmpty()) {
 			//RenderHelper.enableGUIStandardItemLighting(); TODO Gui Light
-			GuiUtil.drawItemStack(transform, manager.gui, itemStack, xPos + startX, yPos + startY);
+			GuiUtil.drawItemStack(graphics, manager.gui, itemStack, xPos + startX, yPos + startY);
 			// Lighting.turnOff();
 		}
 	}

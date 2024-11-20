@@ -5,7 +5,6 @@ import com.google.common.collect.ImmutableMap;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashSet;
-import java.util.Optional;
 import java.util.Set;
 import java.util.function.BiFunction;
 
@@ -111,7 +110,7 @@ public abstract class FeatureGroup<B extends FeatureGroup.Builder<S, ? extends F
 		}
 
 		protected String getIdentifier(IFeatureSubtype type) {
-			return identifierType.apply(identifier, type.getSerializedName());
+			return this.identifierType.apply(identifier, type.getSerializedName());
 		}
 
 		public abstract G create();
@@ -130,7 +129,7 @@ public abstract class FeatureGroup<B extends FeatureGroup.Builder<S, ? extends F
 				return feature + '_' + type;
 			}
 		},
-		AFFIX {
+		SUFFIX {
 			@Override
 			public String apply(String feature, String type) {
 				return type + '_' + feature;

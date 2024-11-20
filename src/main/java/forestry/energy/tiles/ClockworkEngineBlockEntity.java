@@ -14,6 +14,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -22,8 +23,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.util.FakePlayer;
 
 import forestry.core.config.Constants;
+import forestry.core.damage.CoreDamageTypes;
 import forestry.core.tiles.TemperatureState;
-import forestry.core.utils.DamageSourceForestry;
 import forestry.energy.features.EnergyTiles;
 
 import org.jetbrains.annotations.Nullable;
@@ -37,8 +38,6 @@ public class ClockworkEngineBlockEntity extends EngineBlockEntity {
 	private static final int ENGINE_CLOCKWORK_HEAT_MAX = 300000;
 	private static final int ENGINE_CLOCKWORK_ENERGY_PER_CYCLE = 2;
 	private static final float ENGINE_CLOCKWORK_WIND_MAX = 8f;
-
-	private static final DamageSourceForestry damageSourceEngineClockwork = new DamageSourceForestry("engine.clockwork");
 
 	private float tension = 0.0f;
 	private short delay = 0;
@@ -63,7 +62,7 @@ public class ClockworkEngineBlockEntity extends EngineBlockEntity {
 
 		player.causeFoodExhaustion(WIND_EXHAUSTION);
 		if (tension > ENGINE_CLOCKWORK_WIND_MAX + 0.1 * WIND_TENSION_BASE) {
-			player.hurt(damageSourceEngineClockwork, 6);
+			player.hurt(new DamageSource(CoreDamageTypes.CLOCKWORK.getHolder().get()), 6);
 		}
 		tension = Math.min(tension, ENGINE_CLOCKWORK_WIND_MAX + WIND_TENSION_BASE);
 		delay = WIND_DELAY;

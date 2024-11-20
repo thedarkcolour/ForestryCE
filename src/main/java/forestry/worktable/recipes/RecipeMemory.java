@@ -51,7 +51,7 @@ public class RecipeMemory implements INbtWritable, IStreamable {
 	}
 
 	public void memorizeRecipe(long worldTime, MemorizedRecipe recipe, Level world) {
-		CraftingRecipe selectedRecipe = recipe.getSelectedRecipe(world);
+		CraftingRecipe selectedRecipe = recipe.getSelectedRecipe();
 		if (selectedRecipe == null) {
 			return;
 		}
@@ -60,11 +60,11 @@ public class RecipeMemory implements INbtWritable, IStreamable {
 		recipe.updateLastUse(lastUpdate);
 
 		if (recipe.hasRecipeConflict()) {
-			recipe.removeRecipeConflicts(world);
+			recipe.removeRecipeConflicts();
 		}
 
 		// update existing matching recipes
-		MemorizedRecipe memory = getExistingMemorizedRecipe(selectedRecipe, world);
+		MemorizedRecipe memory = getExistingMemorizedRecipe(selectedRecipe);
 		if (memory != null) {
 			updateExistingRecipe(memory, recipe);
 			return;
@@ -135,10 +135,10 @@ public class RecipeMemory implements INbtWritable, IStreamable {
 	}
 
 	@Nullable
-	private MemorizedRecipe getExistingMemorizedRecipe(@Nullable CraftingRecipe recipe, Level world) {
+	private MemorizedRecipe getExistingMemorizedRecipe(@Nullable CraftingRecipe recipe) {
 		if (recipe != null) {
 			for (MemorizedRecipe memorizedRecipe : memorizedRecipes) {
-				if (memorizedRecipe.hasRecipe(recipe, world)) {
+				if (memorizedRecipe.hasRecipe(recipe)) {
 					return memorizedRecipe;
 				}
 			}

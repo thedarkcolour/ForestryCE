@@ -20,9 +20,7 @@ import forestry.storage.gui.ContainerNaturalistBackpack;
 import forestry.storage.items.ItemBackpack;
 
 public class PickupHandlerStorage {
-
 	public static boolean onItemPickup(Player player, ItemEntity entityitem) {
-
 		ItemStack itemstack = entityitem.getItem();
 		if (itemstack.isEmpty()) {
 			return false;
@@ -59,7 +57,6 @@ public class PickupHandlerStorage {
 	 * constantly by picked up items.
 	 */
 	private static void topOffPlayerInventory(Player player, ItemStack itemstack) {
-
 		// Add to player inventory first, if there is an incomplete stack in
 		// there.
 		for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
@@ -74,7 +71,7 @@ public class PickupHandlerStorage {
 				continue;
 			}
 
-			if (inventoryStack.sameItem(itemstack) && ItemStack.tagMatches(inventoryStack, itemstack)) {
+			if (ItemStack.isSameItemSameTags(inventoryStack, itemstack)) {
 				int space = inventoryStack.getMaxStackSize() - inventoryStack.getCount();
 
 				if (space > itemstack.getCount()) {

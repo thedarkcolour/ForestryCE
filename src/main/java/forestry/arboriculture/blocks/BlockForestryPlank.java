@@ -6,7 +6,6 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
 
 import forestry.api.arboriculture.IWoodType;
 import forestry.api.arboriculture.WoodBlockKind;
@@ -14,9 +13,7 @@ import forestry.arboriculture.IWoodTyped;
 
 public class BlockForestryPlank extends Block implements IWoodTyped {
 	public static Properties createWoodProperties(IWoodType woodType) {
-		return Block.Properties.of(Material.WOOD)
-				.strength(woodType.getHardness(), woodType.getHardness() * 1.5F)
-				.sound(SoundType.WOOD);
+		return Block.Properties.of().strength(woodType.getHardness(), woodType.getHardness() * 1.5F).sound(SoundType.WOOD);
 	}
 
 	private final boolean fireproof;

@@ -12,21 +12,17 @@ package forestry.core.utils;
 
 import javax.annotation.Nullable;
 import java.util.UUID;
-import java.util.function.Consumer;
 
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.level.Level;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 
 import com.mojang.authlib.GameProfile;
 
 import net.minecraftforge.common.util.FakePlayerFactory;
 
 public abstract class PlayerUtil {
-
 	//TODO: use null everywhere instead of an emptyUUID
 	private static final UUID emptyUUID = new UUID(0, 0);
 
@@ -46,28 +42,6 @@ public abstract class PlayerUtil {
 		} else {
 			return profile.getName();
 		}
-	}
-
-	public static boolean actOnServer(Player player, Consumer<ServerPlayer> action) {
-		if (player.level.isClientSide || !(player instanceof ServerPlayer)) {
-			return false;
-		}
-		action.accept(asServer(player));
-		return true;
-	}
-
-	public static LocalPlayer asClient(Player player) {
-		if (!(player instanceof LocalPlayer)) {
-			throw new IllegalStateException("Failed to cast player to its client version.");
-		}
-		return (LocalPlayer) player;
-	}
-
-	public static ServerPlayer asServer(Player player) {
-		if (!(player instanceof ServerPlayer)) {
-			throw new IllegalStateException("Failed to cast player to its server version.");
-		}
-		return (ServerPlayer) player;
 	}
 
 	/**

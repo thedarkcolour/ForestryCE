@@ -45,6 +45,6 @@ public record PacketErrorUpdate(BlockPos pos, short[] errorStates) implements IF
 	}
 
 	public static void handle(PacketErrorUpdate msg, Player player) {
-		TileUtil.actOnTile(player.level, msg.pos, IErrorLogicSource.class, errorSourceTile -> errorSourceTile.getErrorLogic().fromArray(msg.errorStates));
+		TileUtil.actOnTile(player.level(), msg.pos, IErrorLogicSource.class, errorSourceTile -> errorSourceTile.getErrorLogic().fromArray(msg.errorStates));
 	}
 }

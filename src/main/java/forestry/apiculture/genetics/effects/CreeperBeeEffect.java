@@ -12,19 +12,17 @@ package forestry.apiculture.genetics.effects;
 
 import java.util.List;
 
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.Explosion;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 
 import forestry.api.apiculture.BeeManager;
 import forestry.api.apiculture.IBeeHousing;
 import forestry.api.genetics.IEffectData;
-import forestry.core.genetics.EffectData;
-
 import forestry.api.genetics.IGenome;
+import forestry.core.genetics.EffectData;
 
 public class CreeperBeeEffect extends ThrottledBeeEffect {
 	private static final int explosionChance = 50;
@@ -99,7 +97,7 @@ public class CreeperBeeEffect extends ThrottledBeeEffect {
 		}
 
 		//TODO - check explosion mode right
-		world.explode(null, pos.getX(), pos.getY(), pos.getZ(), storedData.getInteger(indexExplosionForce), false, Explosion.BlockInteraction.NONE);
+		world.explode(null, pos.getX(), pos.getY(), pos.getZ(), storedData.getInteger(indexExplosionForce), false, Level.ExplosionInteraction.NONE);
 	}
 
 }

@@ -15,15 +15,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.UseAnim;
 
-import forestry.api.core.ItemGroups;
-
 public class ItemForestryFood extends Item {
-
 	private boolean isDrink = false;
-
-	public ItemForestryFood(int heal) {
-		this(heal, 0.6f);
-	}
 
 	public ItemForestryFood(Item.Properties properties) {
 		super(properties);
@@ -34,12 +27,7 @@ public class ItemForestryFood extends Item {
 	}
 
 	public ItemForestryFood(int heal, float saturation, Item.Properties properties) {
-		super(properties
-				.tab(ItemGroups.tabForestry)
-			.food((new FoodProperties.Builder())
-					.nutrition(heal)
-					.saturationMod(saturation)
-				.build()));
+		super(properties.food(new FoodProperties.Builder().nutrition(heal).saturationMod(saturation).build()));
 	}
 
 	@Override
@@ -55,5 +43,4 @@ public class ItemForestryFood extends Item {
 		isDrink = true;
 		return this;
 	}
-
 }

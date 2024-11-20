@@ -6,7 +6,6 @@ import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.core.BlockPos;
 
 import net.minecraftforge.api.distmarker.Dist;
@@ -19,7 +18,7 @@ public class BlockHoneyComb extends Block implements IColoredBlock {
 	public final EnumHoneyComb type;
 
 	public BlockHoneyComb(EnumHoneyComb type) {
-		super(Block.Properties.of(Material.WOOL).sound(SoundType.CORAL_BLOCK).strength(1F));
+		super(Block.Properties.of().sound(SoundType.CORAL_BLOCK).strength(1F));
 		this.type = type;
 	}
 

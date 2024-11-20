@@ -31,7 +31,7 @@ import net.minecraft.world.level.block.LevelEvent;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.Vec3;
 
@@ -89,22 +89,21 @@ public abstract class BlockUtil {
 
 	public static boolean isReplaceableBlock(BlockState blockState, Level world, BlockPos pos) {
 		Block block = blockState.getBlock();
-		return world.getBlockState(pos).getMaterial().isReplaceable() && true;//!(block instanceof BlockStaticLiquid);
+		return world.getBlockState(pos).canBeReplaced() && true;//!(block instanceof BlockStaticLiquid);
 	}
 
 	/* CHUNKS */
 
 	public static boolean canReplace(BlockState blockState, LevelAccessor world, BlockPos pos) {
-		return world.getBlockState(pos).getMaterial().isReplaceable() && !blockState.getMaterial().isLiquid();
+		return world.getBlockState(pos).canBeReplaced() && !blockState.liquid();
 	}
 
-	public static boolean canPlaceTree(BlockState blockState, LevelAccessor world, BlockPos pos) {
+	public static boolean canPlaceTree(BlockState state, LevelAccessor world, BlockPos pos) {
 		BlockPos downPos = pos.below();
-		BlockState state = world.getBlockState(downPos);
-		return !(world.getBlockState(pos).getMaterial().isReplaceable() &&
-				blockState.getMaterial().isLiquid()) &&
-				!state.is(BlockTags.LEAVES) &&
-				!state.is(BlockTags.LOGS);
+		BlockState belowState = world.getBlockState(downPos);
+		return !(world.getBlockState(pos).canBeReplaced() && state.liquid()) &&
+				!belowState.is(BlockTags.LEAVES) &&
+				!belowState.is(BlockTags.LOGS);
 	}
 
 	public static BlockPos getNextReplaceableUpPos(Level world, BlockPos pos) {
@@ -169,8 +168,8 @@ public abstract class BlockUtil {
 		level.playSound(null, pos, soundType.getPlaceSound(), SoundSource.BLOCKS, (soundType.volume + 1.0f) / 2.0f, soundType.pitch * 0.8f);
 	}
 
-	public static BlockPos getPos(LootContext.Builder context) {
+	public static BlockPos getPos(LootParams.Builder context) {
 		Vec3 origin = context.getOptionalParameter(LootContextParams.ORIGIN);
-		return origin != null ? new BlockPos(origin) : BlockPos.ZERO;
+		return origin != null ? BlockPos.containing(origin) : BlockPos.ZERO;
 	}
 }

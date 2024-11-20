@@ -1,7 +1,5 @@
 package forestry.arboriculture.charcoal.jei;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
 import forestry.api.ForestryConstants;
 import forestry.api.arboriculture.ICharcoalPileWall;
 import forestry.arboriculture.features.CharcoalBlocks;
@@ -18,6 +16,8 @@ import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
+
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -54,11 +54,11 @@ public class CharcoalPileWallCategory extends ForestryRecipeCategory<ICharcoalPi
 	}
 
 	@Override
-	public void draw(ICharcoalPileWall recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX, double mouseY) {
-		flame.draw(stack, 52, 0);
-		flameAnimated.draw(stack, 52, 0);
-		arrow.draw(stack, 50, 16);
-		arrowAnimated.draw(stack, 50, 16);
+	public void draw(ICharcoalPileWall recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics graphics, double mouseX, double mouseY) {
+		this.flame.draw(graphics, 52, 0);
+		this.flameAnimated.draw(graphics, 52, 0);
+		this.arrow.draw(graphics, 50, 16);
+		this.arrowAnimated.draw(graphics, 50, 16);
 	}
 
 	@Override

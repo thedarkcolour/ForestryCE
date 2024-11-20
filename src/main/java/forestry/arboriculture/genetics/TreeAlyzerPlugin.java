@@ -13,11 +13,10 @@ package forestry.arboriculture.genetics;
 import java.util.List;
 import java.util.Map;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
-
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.arboriculture.genetics.ITree;
@@ -47,7 +46,7 @@ public enum TreeAlyzerPlugin implements IAlyzerPlugin {
 	}
 
 	@Override
-	public void drawAnalyticsPage1(PoseStack transform, Screen gui, ItemStack stack) {
+	public void drawAnalyticsPage1(GuiGraphics graphics, Screen gui, ItemStack stack) {
 		if (gui instanceof GuiAlyzer guiAlyzer) {
 			IIndividualHandlerItem.ifPresent(stack, (individual, type) -> {
 				if (individual instanceof ITree tree) {
@@ -55,47 +54,47 @@ public enum TreeAlyzerPlugin implements IAlyzerPlugin {
 
 					TextLayoutHelper textLayout = guiAlyzer.getTextLayout();
 
-					textLayout.startPage(transform, GuiAlyzer.COLUMN_0, GuiAlyzer.COLUMN_1, GuiAlyzer.COLUMN_2);
+					textLayout.startPage(graphics, GuiAlyzer.COLUMN_0, GuiAlyzer.COLUMN_1, GuiAlyzer.COLUMN_2);
 
-					textLayout.drawLine(transform, Component.translatable("for.gui.active"), GuiAlyzer.COLUMN_1);
-					textLayout.drawLine(transform, Component.translatable("for.gui.inactive"), GuiAlyzer.COLUMN_2);
+					textLayout.drawLine(graphics, Component.translatable("for.gui.active"), GuiAlyzer.COLUMN_1);
+					textLayout.drawLine(graphics, Component.translatable("for.gui.inactive"), GuiAlyzer.COLUMN_2);
 
 					textLayout.newLine();
 					textLayout.newLine();
 
-					guiAlyzer.drawSpeciesRow(transform, Component.translatable("for.gui.species"), tree, TreeChromosomes.SPECIES);
+					guiAlyzer.drawSpeciesRow(graphics, Component.translatable("for.gui.species"), tree, TreeChromosomes.SPECIES);
 					textLayout.newLine();
 
-					guiAlyzer.drawChromosomeRow(transform, Component.translatable("for.gui.saplings"), tree, TreeChromosomes.SAPLINGS);
+					guiAlyzer.drawChromosomeRow(graphics, Component.translatable("for.gui.saplings"), tree, TreeChromosomes.SAPLINGS);
 					textLayout.newLineCompressed();
-					guiAlyzer.drawChromosomeRow(transform, Component.translatable("for.gui.maturity"), tree, TreeChromosomes.MATURATION);
+					guiAlyzer.drawChromosomeRow(graphics, Component.translatable("for.gui.maturity"), tree, TreeChromosomes.MATURATION);
 					textLayout.newLineCompressed();
-					guiAlyzer.drawChromosomeRow(transform, Component.translatable("for.gui.height"), tree, TreeChromosomes.HEIGHT);
+					guiAlyzer.drawChromosomeRow(graphics, Component.translatable("for.gui.height"), tree, TreeChromosomes.HEIGHT);
 					textLayout.newLineCompressed();
 
 					int activeGirth = genome.getActiveValue(TreeChromosomes.GIRTH);
 					int inactiveGirth = genome.getInactiveValue(TreeChromosomes.GIRTH);
-					textLayout.drawLine(transform, Component.translatable("for.gui.girth"), GuiAlyzer.COLUMN_0);
-					guiAlyzer.drawLine(transform, String.format("%sx%s", activeGirth, activeGirth), GuiAlyzer.COLUMN_1, tree, TreeChromosomes.GIRTH, false);
-					guiAlyzer.drawLine(transform, String.format("%sx%s", inactiveGirth, inactiveGirth), GuiAlyzer.COLUMN_2, tree, TreeChromosomes.GIRTH, true);
+					textLayout.drawLine(graphics, Component.translatable("for.gui.girth"), GuiAlyzer.COLUMN_0);
+					guiAlyzer.drawLine(graphics, String.format("%sx%s", activeGirth, activeGirth), GuiAlyzer.COLUMN_1, tree, TreeChromosomes.GIRTH, false);
+					guiAlyzer.drawLine(graphics, String.format("%sx%s", inactiveGirth, inactiveGirth), GuiAlyzer.COLUMN_2, tree, TreeChromosomes.GIRTH, true);
 
 					textLayout.newLineCompressed();
 
-					guiAlyzer.drawChromosomeRow(transform, Component.translatable("for.gui.yield"), tree, TreeChromosomes.YIELD);
+					guiAlyzer.drawChromosomeRow(graphics, Component.translatable("for.gui.yield"), tree, TreeChromosomes.YIELD);
 					textLayout.newLineCompressed();
-					guiAlyzer.drawChromosomeRow(transform, Component.translatable("for.gui.sappiness"), tree, TreeChromosomes.SAPPINESS);
+					guiAlyzer.drawChromosomeRow(graphics, Component.translatable("for.gui.sappiness"), tree, TreeChromosomes.SAPPINESS);
 					textLayout.newLineCompressed();
 
-					guiAlyzer.drawChromosomeRow(transform, Component.translatable("for.gui.effect"), tree, TreeChromosomes.EFFECT);
+					guiAlyzer.drawChromosomeRow(graphics, Component.translatable("for.gui.effect"), tree, TreeChromosomes.EFFECT);
 
-					textLayout.endPage(transform);
+					textLayout.endPage(graphics);
 				}
 			});
 		}
 	}
 
 	@Override
-	public void drawAnalyticsPage2(PoseStack transform, Screen gui, ItemStack stack) {
+	public void drawAnalyticsPage2(GuiGraphics graphics, Screen gui, ItemStack stack) {
 		if (gui instanceof GuiAlyzer guiAlyzer) {
 			IIndividualHandlerItem.ifPresent(stack, individual -> {
 				if (individual instanceof ITree tree) {
@@ -107,13 +106,13 @@ public enum TreeAlyzerPlugin implements IAlyzerPlugin {
 
 					TextLayoutHelper textLayout = guiAlyzer.getTextLayout();
 
-					textLayout.startPage(transform, GuiAlyzer.COLUMN_0, GuiAlyzer.COLUMN_1, GuiAlyzer.COLUMN_2);
+					textLayout.startPage(graphics, GuiAlyzer.COLUMN_0, GuiAlyzer.COLUMN_1, GuiAlyzer.COLUMN_2);
 
 					int speciesDominance0 = guiAlyzer.getColorCoding(primary.isDominant());
 					int speciesDominance1 = guiAlyzer.getColorCoding(secondary.isDominant());
 
-					textLayout.drawLine(transform, Component.translatable("for.gui.active"), GuiAlyzer.COLUMN_1);
-					textLayout.drawLine(transform, Component.translatable("for.gui.inactive"), GuiAlyzer.COLUMN_2);
+					textLayout.drawLine(graphics, Component.translatable("for.gui.active"), GuiAlyzer.COLUMN_1);
+					textLayout.drawLine(graphics, Component.translatable("for.gui.inactive"), GuiAlyzer.COLUMN_2);
 
 					textLayout.newLine();
 					textLayout.newLine();
@@ -124,9 +123,9 @@ public enum TreeAlyzerPlugin implements IAlyzerPlugin {
 					Component fireproofActive = genome.getActiveValue(TreeChromosomes.FIREPROOF) ? yes : no;
 					Component fireproofInactive = genome.getInactiveValue(TreeChromosomes.FIREPROOF) ? yes : no;
 
-					guiAlyzer.drawRow(transform, Component.translatable("for.gui.fireproof"), fireproofActive, fireproofInactive, tree, TreeChromosomes.FIREPROOF);
+					guiAlyzer.drawRow(graphics, Component.translatable("for.gui.fireproof"), fireproofActive, fireproofInactive, tree, TreeChromosomes.FIREPROOF);
 					textLayout.newLine();
-					guiAlyzer.drawRow(transform, Component.translatable("for.gui.fruits"), activeFruit, inactiveFruit, tree, TreeChromosomes.FRUIT);
+					guiAlyzer.drawRow(graphics, Component.translatable("for.gui.fruits"), activeFruit, inactiveFruit, tree, TreeChromosomes.FRUIT);
 
 					textLayout.newLine();
 /*
@@ -188,23 +187,23 @@ public enum TreeAlyzerPlugin implements IAlyzerPlugin {
 						textLayout.drawLine(transform, secondaryFamily.getName(), GuiAlyzer.COLUMN_2, fruitDominance1);
 					}*/
 
-					textLayout.endPage(transform);
+					textLayout.endPage(graphics);
 				}
 			});
 		}
 	}
 
 	@Override
-	public void drawAnalyticsPage3(PoseStack transform, Screen gui, ItemStack stack) {
+	public void drawAnalyticsPage3(GuiGraphics graphics, Screen gui, ItemStack stack) {
 		if (gui instanceof GuiAlyzer guiAlyzer) {
 			IIndividualHandlerItem.ifPresent(stack, individual -> {
 				if (individual instanceof ITree tree) {
 					TextLayoutHelper textLayout = guiAlyzer.getTextLayout();
 					WidgetManager widgetManager = guiAlyzer.getWidgetManager();
 
-					textLayout.startPage(transform, GuiAlyzer.COLUMN_0, GuiAlyzer.COLUMN_1, GuiAlyzer.COLUMN_2);
+					textLayout.startPage(graphics, GuiAlyzer.COLUMN_0, GuiAlyzer.COLUMN_1, GuiAlyzer.COLUMN_2);
 
-					textLayout.drawLine(transform, Component.translatable("for.gui.beealyzer.produce").append(":"), GuiAlyzer.COLUMN_0);
+					textLayout.drawLine(graphics, Component.translatable("for.gui.beealyzer.produce").append(":"), GuiAlyzer.COLUMN_0);
 					textLayout.newLine();
 
 					int x = GuiAlyzer.COLUMN_0;
@@ -222,7 +221,7 @@ public enum TreeAlyzerPlugin implements IAlyzerPlugin {
 					textLayout.newLine();
 					textLayout.newLine();
 
-					textLayout.drawLine(transform, Component.translatable("for.gui.beealyzer.specialty").append(":"), GuiAlyzer.COLUMN_0);
+					textLayout.drawLine(graphics, Component.translatable("for.gui.beealyzer.specialty").append(":"), GuiAlyzer.COLUMN_0);
 					textLayout.newLine();
 
 					x = GuiAlyzer.COLUMN_0;
@@ -235,7 +234,7 @@ public enum TreeAlyzerPlugin implements IAlyzerPlugin {
 						}
 					}
 
-					textLayout.endPage(transform);
+					textLayout.endPage(graphics);
 				}
 			});
 		}

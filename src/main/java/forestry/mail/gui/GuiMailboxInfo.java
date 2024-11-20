@@ -14,14 +14,13 @@ import javax.annotation.Nullable;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.player.Player;
 
 import com.mojang.blaze3d.platform.Window;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -32,22 +31,22 @@ import forestry.core.config.ForestryConfig;
 import forestry.core.utils.SoundUtil;
 import forestry.mail.POBoxInfo;
 
-public class GuiMailboxInfo extends GuiComponent {
+public class GuiMailboxInfo {
 	public static final GuiMailboxInfo INSTANCE = new GuiMailboxInfo();
 	private static final int WIDTH = 98;
 	private static final int HEIGHT = 17;
 
-	private final Font fontRenderer;
+	private final Font font;
 	@Nullable
 	private POBoxInfo poInfo;
 	// TODO: this texture is a terrible waste of space in graphics memory, find a better way to do it.
 	private static final ResourceLocation ALERT_TEXTURE = ForestryConstants.forestry(Constants.TEXTURE_PATH_GUI + "/mailalert.png");
 
 	private GuiMailboxInfo() {
-		fontRenderer = Minecraft.getInstance().font;
+		font = Minecraft.getInstance().font;
 	}
 
-	public void render(PoseStack transform) {
+	public void render(GuiGraphics graphics) {
 		if (poInfo == null || !(boolean) ForestryConfig.CLIENT.mailAlertsEnabled.get() || !poInfo.hasMail()) {
 			return;
 		}
@@ -64,18 +63,14 @@ public class GuiMailboxInfo extends GuiComponent {
 			y = win.getGuiScaledHeight() - HEIGHT;
 		}
 
-		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-		// RenderSystem.disableLighting();
-		RenderSystem.setShaderTexture(0, ALERT_TEXTURE);
+		graphics.blit(ALERT_TEXTURE, x, y, 0, 0, WIDTH, HEIGHT);
 
-		this.blit(transform, x, y, 0, 0, WIDTH, HEIGHT);
-
-		fontRenderer.draw(transform, Integer.toString(poInfo.playerLetters()), x + 27 + getCenteredOffset(Integer.toString(poInfo.playerLetters()), 22), y + 5, 0xffffff);
-		fontRenderer.draw(transform, Integer.toString(poInfo.tradeLetters()), x + 75 + getCenteredOffset(Integer.toString(poInfo.tradeLetters()), 22), y + 5, 0xffffff);
+		graphics.drawString(this.font, Integer.toString(poInfo.playerLetters()), x + 27 + getCenteredOffset(Integer.toString(poInfo.playerLetters()), 22), y + 5, 0xffffff);
+		graphics.drawString(this.font, Integer.toString(poInfo.tradeLetters()), x + 75 + getCenteredOffset(Integer.toString(poInfo.tradeLetters()), 22), y + 5, 0xffffff);
 	}
 
 	protected int getCenteredOffset(String string, int xWidth) {
-		return (xWidth - fontRenderer.width(string)) / 2;
+		return (xWidth - font.width(string)) / 2;
 	}
 
 	public boolean hasPOBoxInfo() {
@@ -95,7 +90,7 @@ public class GuiMailboxInfo extends GuiComponent {
 		}
 
 		if (playJingle) {
-			SoundUtil.playSoundEvent(SoundEvents.PLAYER_LEVELUP);
+			SoundUtil.playSoundEvent(Holder.direct(SoundEvents.PLAYER_LEVELUP));
 		}
 
 		this.poInfo = info;

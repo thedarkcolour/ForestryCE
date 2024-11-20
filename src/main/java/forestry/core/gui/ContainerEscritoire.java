@@ -44,7 +44,7 @@ public class ContainerEscritoire extends ContainerTile<TileEscritoire> implement
 	}
 
 	public static ContainerEscritoire fromNetwork(int windowId, Inventory playerInv, FriendlyByteBuf extraData) {
-		TileEscritoire tile = TileUtil.getTile(playerInv.player.level, extraData.readBlockPos(), TileEscritoire.class);
+		TileEscritoire tile = TileUtil.getTile(playerInv.player.level(), extraData.readBlockPos(), TileEscritoire.class);
 		return new ContainerEscritoire(windowId, playerInv, tile);
 	}
 

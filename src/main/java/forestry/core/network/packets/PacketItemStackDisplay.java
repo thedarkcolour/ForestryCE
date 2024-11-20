@@ -43,6 +43,6 @@ public record PacketItemStackDisplay(BlockPos pos, ItemStack itemStack) implemen
 	}
 
 	public static void handle(PacketItemStackDisplay msg, Player player) {
-		TileUtil.actOnTile(player.level, msg.pos, IItemStackDisplay.class, tile -> tile.handleItemStackForDisplay(msg.itemStack));
+		TileUtil.actOnTile(player.level(), msg.pos, IItemStackDisplay.class, tile -> tile.handleItemStackForDisplay(msg.itemStack));
 	}
 }

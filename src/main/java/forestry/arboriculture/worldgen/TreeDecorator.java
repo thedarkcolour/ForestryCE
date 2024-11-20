@@ -19,6 +19,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
@@ -86,7 +87,7 @@ public class TreeDecorator extends Feature<NoneFeatureConfiguration> {
 		// correctly dedupe ITree instances with map instead of using set
 		IdentityHashMap<ITreeSpecies, ITree> treeInstances = new IdentityHashMap<>(allSpecies.size());
 
-		level.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).holders().forEach(biome -> {
+		level.registryAccess().registryOrThrow(Registries.BIOME).holders().forEach(biome -> {
 			List<ITree> trees = BIOME_CACHE.computeIfAbsent(biome.key(), k -> new ArrayList<>());
 			TemperatureType temperature = manager.getTemperature(biome);
 			HumidityType humidity = manager.getHumidity(biome);

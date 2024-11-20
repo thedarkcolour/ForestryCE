@@ -7,10 +7,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.level.material.Fluid;
 
@@ -108,6 +108,6 @@ public class FabricatorRecipeCategory extends ForestryRecipeCategory<IFabricator
 		//		.addIngredients(plan);
 
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 119, 37)
-				.addItemStack(craftingGridRecipe.getResultItem());
+				.addItemStack(craftingGridRecipe.getResultItem(RecipeUtils.getRegistryAccess()));
 	}
 }

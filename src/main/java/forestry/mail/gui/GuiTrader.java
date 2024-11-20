@@ -10,10 +10,9 @@
  ******************************************************************************/
 package forestry.mail.gui;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
-
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import forestry.core.config.Constants;
 import forestry.core.gui.GuiForestry;
@@ -31,24 +30,24 @@ public class GuiTrader extends GuiForestry<ContainerTrader> {
 	}
 
 	@Override
-	protected void renderLabels(PoseStack transform, int mouseX, int mouseY) {
+	protected void renderLabels(GuiGraphics graphics, int mouseX, int mouseY) {
 		Component name = tile.getTitle();
-		this.minecraft.font.draw(transform, name, textLayout.getCenteredOffset(name), 6, ColourProperties.INSTANCE.get("gui.mail.text"));
+		graphics.drawString(this.font, name, textLayout.getCenteredOffset(name), 6, ColourProperties.INSTANCE.get("gui.mail.text"));
 
 		Component receive = Component.translatable("for.gui.mail.receive");
-		this.minecraft.font.draw(transform, receive, textLayout.getCenteredOffset(receive, 70) + 51, 45, ColourProperties.INSTANCE.get("gui.mail.text"));
+		graphics.drawString(this.font, receive, textLayout.getCenteredOffset(receive, 70) + 51, 45, ColourProperties.INSTANCE.get("gui.mail.text"));
 
 		Component send = Component.translatable("for.gui.mail.send");
-		this.minecraft.font.draw(transform, send, textLayout.getCenteredOffset(send, 70) + 51, 99, ColourProperties.INSTANCE.get("gui.mail.text"));
+		graphics.drawString(this.font, send, textLayout.getCenteredOffset(send, 70) + 51, 99, ColourProperties.INSTANCE.get("gui.mail.text"));
 
-		super.renderLabels(transform, mouseX, mouseY);
+		super.renderLabels(graphics, mouseX, mouseY);
 	}
 
 	@Override
-	protected void renderBg(PoseStack transform, float partialTicks, int mouseY, int mouseX) {
-		super.renderBg(transform, partialTicks, mouseY, mouseX);
+	protected void renderBg(GuiGraphics graphics, float partialTicks, int mouseY, int mouseX) {
+		super.renderBg(graphics, partialTicks, mouseY, mouseX);
 
-		this.minecraft.font.draw(transform, menu.getAddress().getName(), leftPos + 19, topPos + 22, ColourProperties.INSTANCE.get("gui.mail.text"));
+		graphics.drawString(this.font, menu.getAddress().getName(), leftPos + 19, topPos + 22, ColourProperties.INSTANCE.get("gui.mail.text"));
 	}
 
 	@Override

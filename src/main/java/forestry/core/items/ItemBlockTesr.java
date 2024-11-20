@@ -7,7 +7,6 @@ import net.minecraft.world.level.block.Block;
 
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 
-import forestry.api.core.ItemGroups;
 import forestry.core.client.CoreClientHandler;
 
 public class ItemBlockTesr<B extends Block> extends ItemBlockForestry<B> {
@@ -16,7 +15,7 @@ public class ItemBlockTesr<B extends Block> extends ItemBlockForestry<B> {
 	}
 
 	public ItemBlockTesr(B block) {
-		super(block, new Properties().tab(ItemGroups.tabForestry));
+		super(block, new Properties());
 	}
 
 	@Override

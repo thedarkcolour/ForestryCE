@@ -22,8 +22,8 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
+import net.minecraft.util.Unit;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.chunk.LevelChunk;
@@ -39,7 +39,6 @@ import net.minecraftforge.client.event.ModelEvent;
 import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
-import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 
@@ -110,7 +109,6 @@ public class CoreClientHandler implements IClientModuleHandler {
 		modBus.addListener(CoreClientHandler::bakeModels);
 		modBus.addListener(CoreClientHandler::setupLayers);
 		modBus.addListener(CoreClientHandler::clientSetupRenderers);
-		modBus.addListener(CoreClientHandler::handleTextureRemap);
 		modBus.addListener(CoreClientHandler::registerReloadListeners);
 		modBus.addListener(CoreClientHandler::registerBlockColors);
 		modBus.addListener(CoreClientHandler::registerItemColors);
@@ -178,18 +176,16 @@ public class CoreClientHandler implements IClientModuleHandler {
 		event.registerBlockEntityRenderer(FactoryTiles.RAINMAKER.tileType(), ctx -> new RenderMill(ctx, Constants.TEXTURE_PATH_BLOCK + "/rainmaker_"));
 	}
 
-	private static void handleTextureRemap(TextureStitchEvent.Pre event) {
-		if (event.getAtlas().location() == InventoryMenu.BLOCK_ATLAS) {
-			ModelBlockCached.clear();
-		}
-	}
-
 	private static void registerReloadListeners(RegisterClientReloadListenersEvent event) {
 		event.registerReloadListener(((ForestryTextureManager) IForestryClientApi.INSTANCE.getTextureManager()).getSpriteUploader());
 		event.registerReloadListener(ColourProperties.INSTANCE);
 		event.registerReloadListener(GuiElementFactory.INSTANCE);
 
 		((ForestryTextureManager) IForestryClientApi.INSTANCE.getTextureManager()).init();
+
+		event.registerReloadListener((prepBarrier, resourceManager, prepProfiler, reloadProfiler, backgroundExecutor, gameExecutor) -> {
+			return prepBarrier.wait(Unit.INSTANCE).thenRunAsync(ModelBlockCached::clear, gameExecutor);
+		});
 	}
 
 	private static void registerBlockColors(RegisterColorHandlersEvent.Block event) {

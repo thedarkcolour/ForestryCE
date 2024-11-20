@@ -14,6 +14,7 @@ import javax.annotation.Nullable;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.Container;
@@ -114,7 +115,7 @@ public class TileCarpenter extends TilePowered implements WorldlyContainer, ILiq
 		tankManager.readData(data);
 	}
 
-	public void checkRecipe() {
+	public void checkRecipe(RegistryAccess registryAccess) {
 		if (level.isClientSide) {
 			return;
 		}
@@ -128,7 +129,7 @@ public class TileCarpenter extends TilePowered implements WorldlyContainer, ILiq
 				setTicksPerWorkCycle(recipeTime * TICKS_PER_RECIPE_TIME);
 				setEnergyPerWorkCycle(recipeTime * ENERGY_PER_RECIPE_TIME);
 
-				ItemStack craftingResult = currentRecipe.getResultItem();
+				ItemStack craftingResult = currentRecipe.getResultItem(registryAccess);
 				craftPreviewInventory.setItem(0, craftingResult);
 			} else {
 				craftPreviewInventory.setItem(0, ItemStack.EMPTY);
@@ -155,7 +156,7 @@ public class TileCarpenter extends TilePowered implements WorldlyContainer, ILiq
 		}
 
 		if (currentRecipe != null) {
-			ItemStack pendingProduct = currentRecipe.getResultItem();
+			ItemStack pendingProduct = currentRecipe.getResultItem(this.level.registryAccess());
 			InventoryUtil.tryAddStack(this, pendingProduct, InventoryCarpenter.SLOT_PRODUCT, InventoryCarpenter.SLOT_PRODUCT_COUNT, true);
 		}
 		return true;
@@ -203,7 +204,7 @@ public class TileCarpenter extends TilePowered implements WorldlyContainer, ILiq
 	@Override
 	public boolean hasWork() {
 		if (updateOnInterval(20)) {
-			checkRecipe();
+			checkRecipe(this.level.registryAccess());
 		}
 
 		boolean hasRecipe = currentRecipe != null;
@@ -215,7 +216,7 @@ public class TileCarpenter extends TilePowered implements WorldlyContainer, ILiq
 			hasLiquidResources = removeLiquidResources(false);
 			hasItemResources = removeItemResources(false);
 
-			ItemStack pendingProduct = currentRecipe.getResultItem();
+			ItemStack pendingProduct = currentRecipe.getResultItem(this.level.registryAccess());
 			canAdd = InventoryUtil.tryAddStack(this, pendingProduct, InventoryCarpenter.SLOT_PRODUCT, InventoryCarpenter.SLOT_PRODUCT_COUNT, true, false);
 		}
 

@@ -9,8 +9,11 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.Registry;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.Container;
@@ -56,13 +59,18 @@ public class RecipeUtils {
 		return server == null ? (FMLEnvironment.dist == Dist.CLIENT ? ClientsideCode.getRecipeManager() : null) : server.getRecipeManager();
 	}
 
+	public static RegistryAccess getRegistryAccess() {
+		MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
+		return server == null ? (FMLEnvironment.dist == Dist.CLIENT ? ClientsideCode.getRegistryAccess() : null) : server.registryAccess();
+	}
+
 	public static Registry<Fluid> getFluidRegistry() {
 		MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
-		return server == null ? (FMLEnvironment.dist == Dist.CLIENT ? ClientsideCode.getFluidRegistry() : null) : server.registryAccess().registryOrThrow(Registry.FLUID_REGISTRY);
+		return server == null ? (FMLEnvironment.dist == Dist.CLIENT ? ClientsideCode.getFluidRegistry() : null) : server.registryAccess().registryOrThrow(Registries.FLUID);
 	}
 
 	@Nullable
-	public static <C extends Container, T extends Recipe<C>> Recipe<C> getRecipe(RecipeType<T> recipeType, ResourceLocation name, @Nullable Level world) {
+	public static <C extends Container, T extends Recipe<C>> Recipe<C> getRecipe(RecipeType<T> recipeType, ResourceLocation name) {
 		RecipeManager manager = getRecipeManager();
 		if (manager == null) {
 			return null;
@@ -89,7 +97,7 @@ public class RecipeUtils {
 			return null;
 		}
 
-		ItemStack expectedOutput = recipe.assemble(originalMatrix);
+		ItemStack expectedOutput = recipe.assemble(originalMatrix, level.registryAccess());
 		if (expectedOutput.isEmpty()) {
 			return null;
 		}
@@ -111,7 +119,7 @@ public class RecipeUtils {
 		}
 
 		if (recipe.matches(usedMatrix, level)) {
-			ItemStack output = recipe.assemble(usedMatrix);
+			ItemStack output = recipe.assemble(usedMatrix, level.registryAccess());
 			if (ItemStack.matches(output, expectedOutput)) {
 				return usedMatrix;
 			}
@@ -129,7 +137,7 @@ public class RecipeUtils {
 				originalMatrix.setItem(slot, singleStockStack);
 
 				if (recipe.matches(originalMatrix, level)) {
-					ItemStack output = recipe.assemble(originalMatrix);
+					ItemStack output = recipe.assemble(originalMatrix, level.registryAccess());
 					if (ItemStack.matches(output, expectedOutput)) {
 						originalMatrix.setItem(slot, originalStack);
 						return stockStack.split(1);
@@ -182,7 +190,7 @@ public class RecipeUtils {
 		if (!FluidHelper.isDrainableFilledContainer(stack)) {
 			return null;
 		}
-		return getMatchingRecipe(manager, FactoryRecipeTypes.SQUEEZER_CONTAINER, recipe -> recipe.getEmptyContainer().sameItem(stack));
+		return getMatchingRecipe(manager, FactoryRecipeTypes.SQUEEZER_CONTAINER, recipe -> ItemStack.isSameItem(recipe.getEmptyContainer(), stack));
 	}
 
 	@Nullable
@@ -241,9 +249,9 @@ public class RecipeUtils {
 				.collect(Collectors.toSet());
 	}
 
-	public static <R extends Recipe<C>, C extends Container> R getRecipeByOutput(FeatureRecipeType<R> recipeType, ItemStack output) {
+	public static <R extends Recipe<C>, C extends Container> R getRecipeByOutput(FeatureRecipeType<R> recipeType, RegistryAccess registryAccess, ItemStack output) {
 		return getRecipes(getRecipeManager(), recipeType)
-				.filter(recipe -> recipe.getResultItem().sameItem(output))
+				.filter(recipe -> ItemStack.isSameItem(recipe.getResultItem(registryAccess), output))
 				.findFirst()
 				.orElseThrow(() -> new IllegalStateException("Couldn't find a recipe with output: " + output));
 	}

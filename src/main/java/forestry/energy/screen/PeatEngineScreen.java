@@ -1,9 +1,8 @@
 package forestry.energy.screen;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
-
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import forestry.core.config.Constants;
 import forestry.energy.menu.PeatEngineMenu;
@@ -15,12 +14,12 @@ public class PeatEngineScreen extends EngineScreen<PeatEngineMenu, PeatEngineBlo
 	}
 
 	@Override
-	protected void renderBg(PoseStack transform, float partialTicks, int mouseX, int mouseY) {
-		super.renderBg(transform, partialTicks, mouseX, mouseY);
+	protected void renderBg(GuiGraphics graphics, float partialTicks, int mouseX, int mouseY) {
+		super.renderBg(graphics, partialTicks, mouseX, mouseY);
 
 		if (engine.isBurning()) {
 			int progress = engine.getBurnTimeRemainingScaled(12);
-			blit(transform, leftPos + 45, topPos + 27 + 12 - progress, 176, 12 - progress, 14, progress + 2);
+			graphics.blit(this.textureFile, leftPos + 45, topPos + 27 + 12 - progress, 176, 12 - progress, 14, progress + 2);
 		}
 	}
 }

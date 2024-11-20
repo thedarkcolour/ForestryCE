@@ -1,5 +1,10 @@
 package forestry.cultivation.features;
 
+import java.util.List;
+
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+
 import forestry.api.modules.ForestryModuleIds;
 import forestry.cultivation.blocks.BlockTypePlanter;
 import forestry.cultivation.tiles.TileArboretum;
@@ -18,11 +23,15 @@ import forestry.modules.features.ModFeatureRegistry;
 public class CultivationTiles {
 	private static final IFeatureRegistry REGISTRY = ModFeatureRegistry.get(ForestryModuleIds.CULTIVATION);
 
-	public static final FeatureTileType<TileArboretum> ARBORETUM = REGISTRY.tile(TileArboretum::new, "arboretum", () -> CultivationBlocks.PLANTER.getRowBlocks(BlockTypePlanter.ARBORETUM));
-	public static final FeatureTileType<TileBog> BOG = REGISTRY.tile(TileBog::new, "bog", () -> CultivationBlocks.PLANTER.getRowBlocks(BlockTypePlanter.PEAT_POG));
-	public static final FeatureTileType<TileFarmCrops> CROPS = REGISTRY.tile(TileFarmCrops::new, "crops", () -> CultivationBlocks.PLANTER.getRowBlocks(BlockTypePlanter.FARM_CROPS));
-	public static final FeatureTileType<TileFarmEnder> ENDER = REGISTRY.tile(TileFarmEnder::new, "ender", () -> CultivationBlocks.PLANTER.getRowBlocks(BlockTypePlanter.FARM_ENDER));
-	public static final FeatureTileType<TileFarmGourd> GOURD = REGISTRY.tile(TileFarmGourd::new, "gourd", () -> CultivationBlocks.PLANTER.getRowBlocks(BlockTypePlanter.FARM_GOURD));
-	public static final FeatureTileType<TileFarmMushroom> MUSHROOM = REGISTRY.tile(TileFarmMushroom::new, "mushroom", () -> CultivationBlocks.PLANTER.getRowBlocks(BlockTypePlanter.FARM_MUSHROOM));
-	public static final FeatureTileType<TileFarmNether> NETHER = REGISTRY.tile(TileFarmNether::new, "nether", () -> CultivationBlocks.PLANTER.getRowBlocks(BlockTypePlanter.FARM_NETHER));
+	public static final FeatureTileType<TileArboretum> ARBORETUM = createTile("arboretum", BlockTypePlanter.ARBORETUM, TileArboretum::new);
+	public static final FeatureTileType<TileBog> BOG = createTile("bog", BlockTypePlanter.PEAT_POG, TileBog::new);
+	public static final FeatureTileType<TileFarmCrops> CROPS = createTile("crops", BlockTypePlanter.FARM_CROPS, TileFarmCrops::new);
+	public static final FeatureTileType<TileFarmEnder> ENDER = createTile("ender", BlockTypePlanter.FARM_ENDER, TileFarmEnder::new);
+	public static final FeatureTileType<TileFarmGourd> GOURD = createTile("gourd", BlockTypePlanter.FARM_GOURD, TileFarmGourd::new);
+	public static final FeatureTileType<TileFarmMushroom> MUSHROOM = createTile("mushroom", BlockTypePlanter.FARM_MUSHROOM, TileFarmMushroom::new);
+	public static final FeatureTileType<TileFarmNether> NETHER = createTile("nether", BlockTypePlanter.FARM_NETHER, TileFarmNether::new);
+
+	private static <T extends BlockEntity> FeatureTileType<T> createTile(String id, BlockTypePlanter type, BlockEntityType.BlockEntitySupplier<T> supplier) {
+		return REGISTRY.tile(supplier, id, () -> List.of(CultivationBlocks.MANAGED_PLANTER.get(type).block(), CultivationBlocks.MANUAL_PLANTER.get(BlockTypePlanter.ARBORETUM).block()));
+	}
 }

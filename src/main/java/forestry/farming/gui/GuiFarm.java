@@ -10,13 +10,11 @@
  ******************************************************************************/
 package forestry.farming.gui;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.Direction;
-import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Inventory;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
-import forestry.api.farming.HorizontalDirection;
 import forestry.core.config.Constants;
 import forestry.core.gui.GuiForestryTitled;
 import forestry.core.gui.widgets.SocketWidget;
@@ -57,13 +55,14 @@ public class GuiFarm extends GuiForestryTitled<ContainerFarm> {
 	}
 
 	@Override
-	protected void renderBg(PoseStack transform, float partialTicks, int mouseY, int mouseX) {
-		super.renderBg(transform, partialTicks, mouseY, mouseX);
+	protected void renderBg(GuiGraphics graphics, float partialTicks, int mouseY, int mouseX) {
+		super.renderBg(graphics, partialTicks, mouseY, mouseX);
 
 		// Fuel remaining
 		int fertilizerRemain = tile.getMultiblockLogic().getController().getStoredFertilizerScaled(16);
 		if (fertilizerRemain > 0) {
-			blit(transform, leftPos + 81, topPos + 94 + 17 - fertilizerRemain, imageWidth, 17 - fertilizerRemain, 4, fertilizerRemain);
+			// todo not sure if the textureFile is the correct sprite to draw
+			graphics.blit(this.textureFile, leftPos + 81, topPos + 94 + 17 - fertilizerRemain, imageWidth, 17 - fertilizerRemain, 4, fertilizerRemain);
 		}
 	}
 }

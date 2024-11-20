@@ -27,7 +27,6 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -40,7 +39,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.items.IItemHandler;
 
-import forestry.api.core.ItemGroups;
 import forestry.api.storage.BackpackStowEvent;
 import forestry.api.storage.EnumBackpackType;
 import forestry.api.storage.IBackpackDefinition;
@@ -64,13 +62,7 @@ public class ItemBackpack extends ItemWithGui implements IColoredItem {
 	private final EnumBackpackType type;
 
 	public ItemBackpack(IBackpackDefinition definition, EnumBackpackType type) {
-		this(definition, type, ItemGroups.tabStorage);
-	}
-
-	public ItemBackpack(IBackpackDefinition definition, EnumBackpackType type, CreativeModeTab tab) {
-		super((new Item.Properties()).tab(tab));
-		Preconditions.checkNotNull(definition, "Backpack must have a backpack definition.");
-		Preconditions.checkNotNull(type, "Backpack must have a backpack type.");
+		super(new Item.Properties());
 
 		this.definition = definition;
 		this.type = type;

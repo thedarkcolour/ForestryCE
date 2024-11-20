@@ -13,6 +13,7 @@ package forestry.factory.recipes;
 import com.google.common.base.Preconditions;
 import com.google.gson.JsonObject;
 
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
@@ -26,7 +27,6 @@ import forestry.api.recipes.IStillRecipe;
 import forestry.factory.features.FactoryRecipeTypes;
 
 public class StillRecipe implements IStillRecipe {
-
 	private final ResourceLocation id;
 	private final int timePerUnit;
 	private final FluidStack input;
@@ -64,7 +64,7 @@ public class StillRecipe implements IStillRecipe {
 	}
 
 	@Override
-	public ItemStack getResultItem() {
+	public ItemStack getResultItem(RegistryAccess registryAccess) {
 		return ItemStack.EMPTY;
 	}
 

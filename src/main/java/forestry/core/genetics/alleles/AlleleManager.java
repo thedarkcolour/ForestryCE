@@ -30,7 +30,6 @@ import forestry.api.genetics.alleles.IRegistryAlleleValue;
 import forestry.api.genetics.alleles.IRegistryChromosome;
 import forestry.api.genetics.alleles.IValueAllele;
 import forestry.api.genetics.alleles.IValueChromosome;
-import forestry.core.utils.SpeciesUtil;
 
 import it.unimi.dsi.fastutil.floats.Float2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
@@ -67,7 +66,7 @@ public class AlleleManager implements IAlleleManager {
 			if (allele != null) {
 				return DataResult.success(allele);
 			} else {
-				return DataResult.error("Unknown allele: " + id);
+				return DataResult.error(() -> "Unknown allele: " + id);
 			}
 		}, allele -> DataResult.success(allele.alleleId()));
 
@@ -76,7 +75,7 @@ public class AlleleManager implements IAlleleManager {
 			if (chromosome != null) {
 				return DataResult.success(chromosome);
 			} else {
-				return DataResult.error("Unknown chromosome: " + id);
+				return DataResult.error(() -> "Unknown chromosome: " + id);
 			}
 		}, chromosome -> DataResult.success(chromosome.id()));
 	}

@@ -79,7 +79,7 @@ public class Butterfly extends IndividualLiving<IButterflySpecies, IButterfly, I
 			return false;
 		}
 
-		BlockPos pos = new BlockPos(x, y, z);
+		BlockPos pos = BlockPos.containing(x, y, z);
 		Holder<Biome> biome = level.getBiome(pos);
 		IButterflySpecies species = getGenome().getActiveValue(ButterflyChromosomes.SPECIES);
 		return (species.getSpawnBiomes() == null || biome.is(species.getSpawnBiomes())) && isAcceptedEnvironment(level, pos);
@@ -141,7 +141,7 @@ public class Butterfly extends IndividualLiving<IButterflySpecies, IButterfly, I
 		PathfinderMob creature = entity.getEntity();
 		float metabolism = (float) getGenome().getActiveValue(ButterflyChromosomes.METABOLISM) / 10;
 		List<IProduct> products = species.getButterflyLoot();
-		RandomSource rand = creature.level.random;
+		RandomSource rand = creature.level().random;
 
 		for (IProduct product : products) {
 			if (rand.nextFloat() < product.chance() * metabolism) {

@@ -13,11 +13,9 @@ package forestry.arboriculture.items;
 import javax.annotation.Nullable;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.NonNullList;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -32,7 +30,6 @@ import net.minecraft.world.phys.HitResult;
 import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.arboriculture.genetics.ITree;
 import forestry.api.arboriculture.genetics.TreeLifeStage;
-import forestry.api.core.ItemGroups;
 import forestry.api.genetics.IIndividual;
 import forestry.api.genetics.ISpeciesType;
 import forestry.api.genetics.alleles.TreeChromosomes;
@@ -47,7 +44,7 @@ import forestry.core.utils.TreeUtil;
 
 public class ItemGermlingGE extends ItemGE implements IVariableFermentable, IColoredItem {
 	public ItemGermlingGE(TreeLifeStage type) {
-		super(new Item.Properties().tab(ItemGroups.tabArboriculture), type);
+		super(new Item.Properties(), type);
 	}
 
 	@Override
@@ -58,13 +55,6 @@ public class ItemGermlingGE extends ItemGE implements IVariableFermentable, ICol
 	@Override
 	protected ISpeciesType<?, ?> getType() {
 		return SpeciesUtil.TREE_TYPE.get();
-	}
-
-	@Override
-	public void fillItemCategory(CreativeModeTab tab, NonNullList<ItemStack> subItems) {
-		if (allowedIn(tab)) {
-			addCreativeItems(this.stage, subItems, true, SpeciesUtil.TREE_TYPE.get());
-		}
 	}
 
 	@Override

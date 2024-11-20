@@ -37,7 +37,7 @@ public abstract class AIButterflyInteract extends AIButterflyBase {
 		}
 		Vec3 pos = entity.position();
 		rest = new BlockPos((int) pos.x, (int) Math.floor(pos.y) - 1, (int) pos.z);
-		if (entity.level.isEmptyBlock(rest)) {
+		if (entity.level().isEmptyBlock(rest)) {
 			return false;
 		}
 

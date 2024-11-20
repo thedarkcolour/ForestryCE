@@ -10,10 +10,10 @@
  ******************************************************************************/
 package forestry.mail.gui;
 
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.network.FriendlyByteBuf;
 
 import forestry.api.mail.IMailAddress;
 import forestry.core.gui.ContainerTile;
@@ -22,10 +22,9 @@ import forestry.mail.features.MailMenuTypes;
 import forestry.mail.tiles.TileTrader;
 
 public class ContainerTradeName extends ContainerTile<TileTrader> {
-
 	public static ContainerTradeName fromNetwork(int windowId, Inventory inv, FriendlyByteBuf data) {
-		TileTrader tile = TileUtil.getTile(inv.player.level, data.readBlockPos(), TileTrader.class);
-		return new ContainerTradeName(windowId, inv, tile);    //TODO nullability.
+		TileTrader tile = TileUtil.getTile(inv.player.level(), data.readBlockPos(), TileTrader.class);
+		return new ContainerTradeName(windowId, inv, tile);
 	}
 
 	public ContainerTradeName(int windowId, Inventory inv, TileTrader tile) {

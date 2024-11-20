@@ -7,7 +7,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DropExperienceBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.material.Material;
 
 import forestry.api.modules.ForestryModuleIds;
 import forestry.apiculture.blocks.NaturalistChestBlockType;
@@ -32,7 +31,7 @@ public class CoreBlocks {
 
 	public static final FeatureBlockGroup<BlockCore, BlockTypeCoreTesr> BASE = REGISTRY.blockGroup(BlockCore::new, BlockTypeCoreTesr.values()).item(ItemBlockTesr::new).create();
 	public static final FeatureBlock<BlockBogEarth, ItemBlockForestry<?>> BOG_EARTH = REGISTRY.block(BlockBogEarth::new, ItemBlockForestry::new, "bog_earth");
-	public static final FeatureBlock<Block, ItemBlockForestry<?>> PEAT = REGISTRY.block(() -> new Block(Block.Properties.of(Material.DIRT)
+	public static final FeatureBlock<Block, ItemBlockForestry<?>> PEAT = REGISTRY.block(() -> new Block(Block.Properties.of()
 			.strength(0.5f)
 			.sound(SoundType.GRAVEL)), "peat");
 	public static final FeatureBlock<BlockHumus, ItemBlockForestry<?>> HUMUS = REGISTRY.block(BlockHumus::new, ItemBlockForestry::new, "humus");
@@ -44,6 +43,6 @@ public class CoreBlocks {
 	public static final FeatureBlock<Block, BlockItem> RAW_TIN_BLOCK = REGISTRY.block(() -> new DropExperienceBlock(BlockBehaviour.Properties.copy(Blocks.RAW_COPPER_BLOCK)), ItemBlockForestry::new, "raw_tin_block");
 
 	public static final FeatureBlockGroup<BlockTesr<NaturalistChestBlockType>, NaturalistChestBlockType> NATURALIST_CHEST = REGISTRY.blockGroup(type -> {
-		return new BlockTesr<>(type, Block.Properties.of(Material.WOOD).sound(SoundType.WOOD));
+		return new BlockTesr<>(type, Block.Properties.of().sound(SoundType.WOOD));
 	}, NaturalistChestBlockType.values()).item(ItemBlockTesr::new).create();
 }

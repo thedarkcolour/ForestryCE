@@ -36,7 +36,6 @@ import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import forestry.apiculture.MaterialBeehive;
 import forestry.apiculture.multiblock.IAlvearyControllerInternal;
 import forestry.apiculture.multiblock.TileAlveary;
 import forestry.apiculture.multiblock.TileAlvearyFan;
@@ -79,10 +78,7 @@ public class BlockAlveary extends BlockStructure implements EntityBlock {
 	private final BlockAlvearyType type;
 
 	public BlockAlveary(BlockAlvearyType type) {
-		super(Block.Properties.of(MaterialBeehive.BEEHIVE_ALVEARY)
-				.strength(1f)
-				.sound(SoundType.WOOD)
-		);
+		super(Block.Properties.of().strength(1f).sound(SoundType.WOOD));
 		this.type = type;
 		BlockState defaultState = this.getStateDefinition().any();
 		if (type == BlockAlvearyType.PLAIN) {

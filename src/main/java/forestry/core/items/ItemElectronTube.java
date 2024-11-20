@@ -16,9 +16,7 @@ import java.util.List;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
@@ -54,16 +52,6 @@ public class ItemElectronTube extends ItemOverlay {
 			list.add(Component.literal("<")
 					.append(Component.translatable("for.gui.noeffect")
 							.append(">").withStyle(ChatFormatting.GRAY)));
-		}
-	}
-
-	@Override
-	public void fillItemCategory(CreativeModeTab tab, NonNullList<ItemStack> items) {
-		if (this.allowedIn(tab)) {
-			ItemStack stack = new ItemStack(this);
-			if (!getCircuits(stack).isEmpty()) {
-				items.add(stack);
-			}
 		}
 	}
 

@@ -22,7 +22,7 @@ import forestry.api.client.ITextureManager;
 import forestry.api.core.IError;
 
 public class ForestryTextureManager implements ITextureManager {
-	private final ForestryAtlasHolder uploader = new ForestryAtlasHolder(Minecraft.getInstance().textureManager, ForestrySprites.TEXTURE_ATLAS, "gui");
+	private final ForestryAtlasHolder uploader = new ForestryAtlasHolder(Minecraft.getInstance().textureManager, ForestrySprites.TEXTURE_ATLAS);
 
 	public ForestryAtlasHolder getSpriteUploader() {
 		return this.uploader;

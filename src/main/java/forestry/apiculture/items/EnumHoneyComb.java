@@ -28,11 +28,7 @@ public enum EnumHoneyComb implements StringRepresentable, IItemSubtype, IBlockSu
 	SILKY(new Color(0x508907), new Color(0xddff00)),
 	PARCHED(new Color(0xdcbe13), new Color(0xffff00)),
 	MYSTERIOUS(new Color(0x161616), new Color(0xe099ff)),
-	IRRADIATED(new Color(0xeafff3), new Color(0xeeff00), true),
 	POWDERY(new Color(0x676767), new Color(0xffffff)),
-	REDDENED(new Color(0x4b0000), new Color(0x6200e7), true),
-	DARKENED(new Color(0x353535), new Color(0x33ebcb), true),
-	OMEGA(new Color(0x191919), new Color(0x6dcff6), true),
 	WHEATEN(new Color(0xfeff8f), new Color(0xffffff)),
 	MOSSY(new Color(0x2a3313), new Color(0x7e9939)),
 	MELLOW(new Color(0x886000), new Color(0xfff960)),
@@ -55,11 +51,6 @@ public enum EnumHoneyComb implements StringRepresentable, IItemSubtype, IBlockSu
 		this.name = toString().toLowerCase(Locale.ENGLISH);
 		this.primaryColor = primary.getRGB();
 		this.secondaryColor = secondary.getRGB();
-	}
-
-	// todo remove unused combs in 1.20
-	public boolean isUnused() {
-		return this.unused;
 	}
 
 	@Override

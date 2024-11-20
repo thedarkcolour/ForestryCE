@@ -94,7 +94,7 @@ public class ForestryClimateManager implements IClimateManager {
 				this.temperatures.put(holder.key(), TemperatureType.getFromValue(holder.value().getBaseTemperature()));
 			}
 			if (!hasHumidityTag) {
-				this.humidities.put(holder.key(), HumidityType.getFromValue(holder.value().getDownfall()));
+				this.humidities.put(holder.key(), HumidityType.getFromValue(holder.value().getModifiedClimateSettings().downfall()));
 			}
 		});
 	}

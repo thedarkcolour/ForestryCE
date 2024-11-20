@@ -25,6 +25,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 
+// todo this code is stupid and bloated. next time it breaks, simplify it and remove the silly API for it
 public class BackpackInterface implements IBackpackInterface {
 	@Override
 	public Item createBackpack(IBackpackDefinition definition, EnumBackpackType type) {

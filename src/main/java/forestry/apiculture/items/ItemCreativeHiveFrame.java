@@ -3,10 +3,7 @@ package forestry.apiculture.items;
 import java.util.List;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.NonNullList;
-import net.minecraft.nbt.ByteTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
@@ -18,7 +15,6 @@ import forestry.api.apiculture.IBeeModifier;
 import forestry.api.apiculture.genetics.IBee;
 import forestry.api.apiculture.genetics.IBeeSpecies;
 import forestry.api.apiculture.hives.IHiveFrame;
-import forestry.api.core.ItemGroups;
 import forestry.api.genetics.IGenome;
 import forestry.api.genetics.IMutation;
 import forestry.core.items.ItemForestry;
@@ -30,17 +26,7 @@ public class ItemCreativeHiveFrame extends ItemForestry implements IHiveFrame {
 	public static final String NBT_FORCE_MUTATIONS = "force_mutations";
 
 	public ItemCreativeHiveFrame() {
-		super(new Item.Properties().tab(ItemGroups.tabApiculture).rarity(Rarity.EPIC));
-	}
-
-	@Override
-	public void fillItemCategory(CreativeModeTab category, NonNullList<ItemStack> items) {
-		if (allowedIn(category)) {
-			items.add(new ItemStack(this));
-			ItemStack forceMutations = new ItemStack(this);
-			forceMutations.addTagElement(NBT_FORCE_MUTATIONS, ByteTag.valueOf((byte) 1));
-			items.add(forceMutations);
-		}
+		super(new Item.Properties().rarity(Rarity.EPIC));
 	}
 
 	@Override

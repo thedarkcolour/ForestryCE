@@ -44,7 +44,7 @@ public class InventoryRainmaker extends InventoryAdapterTile<TileMillRainmaker> 
 	public void setItem(int slotIndex, ItemStack itemStack) {
 		if (slotIndex == SLOT_SUBSTRATE) {
 			RainSubstrate substrate = FuelManager.rainSubstrate.get(itemStack);
-			if (substrate != null && substrate.item().sameItem(itemStack)) {
+			if (substrate != null && ItemStack.isSameItem(substrate.item(), itemStack)) {
 				tile.addCharge(substrate);
 			}
 		}

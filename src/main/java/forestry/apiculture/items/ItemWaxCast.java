@@ -17,13 +17,10 @@ import forestry.api.core.ItemGroups;
 import forestry.core.items.ItemForestry;
 import forestry.core.items.definitions.ICraftingPlan;
 
+// todo figure out what this is supposed to be used for
 public class ItemWaxCast extends ItemForestry implements ICraftingPlan {
-
 	public ItemWaxCast() {
-		super((new Item.Properties())
-				.tab(ItemGroups.tabApiculture)
-				.durability(16)
-			.setNoRepair());
+		super(new Item.Properties().durability(16).setNoRepair());
 	}
 
 	@Override
@@ -35,5 +32,4 @@ public class ItemWaxCast extends ItemForestry implements ICraftingPlan {
 			return plan;
 		}
 	}
-
 }

@@ -10,10 +10,9 @@
  ******************************************************************************/
 package forestry.factory.gui;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.network.chat.Component;
-
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import forestry.core.config.Constants;
 import forestry.core.gui.GuiForestryTitled;
@@ -32,17 +31,17 @@ public class GuiFabricator extends GuiForestryTitled<ContainerFabricator> {
 	}
 
 	@Override
-	protected void renderBg(PoseStack transform, float partialTicks, int mouseY, int mouseX) {
-		super.renderBg(transform, partialTicks, mouseY, mouseX);
+	protected void renderBg(GuiGraphics graphics, float partialTicks, int mouseY, int mouseX) {
+		super.renderBg(graphics, partialTicks, mouseY, mouseX);
 
 		int heatScaled = tile.getHeatScaled(52);
 		if (heatScaled > 0) {
-			blit(transform, leftPos + 55, topPos + 17 + 52 - heatScaled, 192, 52 - heatScaled, 4, heatScaled);
+			graphics.blit(this.textureFile, leftPos + 55, topPos + 17 + 52 - heatScaled, 192, 52 - heatScaled, 4, heatScaled);
 		}
 
 		int meltingPointScaled = tile.getMeltingPointScaled(52);
 		if (meltingPointScaled > 0) {
-			blit(transform, leftPos + 52, topPos + 15 + 52 - meltingPointScaled, 196, 0, 10, 5);
+			graphics.blit(this.textureFile, leftPos + 52, topPos + 15 + 52 - meltingPointScaled, 196, 0, 10, 5);
 		}
 	}
 

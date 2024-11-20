@@ -17,7 +17,7 @@ import forestry.api.core.IBlockSubtype;
 public enum EnumResourceType implements IBlockSubtype {
 	APATITE,
 	TIN,
-	BRONZE();
+	BRONZE;
 
 	@Override
 	public String getSerializedName() {

@@ -10,8 +10,8 @@
  ******************************************************************************/
 package forestry.factory.gui;
 
-import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.entity.player.Inventory;
 
 import forestry.core.gui.ContainerLiquidTanksSocketed;
 import forestry.core.gui.slots.SlotFiltered;
@@ -23,10 +23,9 @@ import forestry.factory.inventory.InventorySqueezer;
 import forestry.factory.tiles.TileSqueezer;
 
 public class ContainerSqueezer extends ContainerLiquidTanksSocketed<TileSqueezer> {
-
 	public static ContainerSqueezer fromNetwork(int windowId, Inventory inv, FriendlyByteBuf data) {
-		TileSqueezer tile = TileUtil.getTile(inv.player.level, data.readBlockPos(), TileSqueezer.class);
-		return new ContainerSqueezer(windowId, inv, tile);    //TODO nullability.
+		TileSqueezer tile = TileUtil.getTile(inv.player.level(), data.readBlockPos(), TileSqueezer.class);
+		return new ContainerSqueezer(windowId, inv, tile);
 	}
 
 	public ContainerSqueezer(int windowId, Inventory player, TileSqueezer tile) {
@@ -40,11 +39,11 @@ public class ContainerSqueezer extends ContainerLiquidTanksSocketed<TileSqueezer
 		}
 
 		// Remnants slot
-		this.addSlot(new SlotOutput(this.tile, InventorySqueezer.SLOT_REMNANT, 97, 60));
+		addSlot(new SlotOutput(this.tile, InventorySqueezer.SLOT_REMNANT, 97, 60));
 
 		// Can slot
-		this.addSlot(new SlotLiquidIn(this.tile, InventorySqueezer.SLOT_CAN_INPUT, 147, 24));
+		addSlot(new SlotLiquidIn(this.tile, InventorySqueezer.SLOT_CAN_INPUT, 147, 24));
 		// Output slot
-		this.addSlot(new SlotOutput(this.tile, InventorySqueezer.SLOT_CAN_OUTPUT, 147, 60));
+		addSlot(new SlotOutput(this.tile, InventorySqueezer.SLOT_CAN_OUTPUT, 147, 60));
 	}
 }

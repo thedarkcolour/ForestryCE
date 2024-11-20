@@ -10,10 +10,9 @@
  ******************************************************************************/
 package forestry.factory.gui;
 
-import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-
-import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.world.entity.player.Inventory;
 
 import forestry.core.config.Constants;
 import forestry.core.gui.GuiForestryTitled;
@@ -30,19 +29,19 @@ public class GuiMoistener extends GuiForestryTitled<ContainerMoistener> {
 	}
 
 	@Override
-	protected void renderBg(PoseStack transform, float partialTicks, int mouseY, int mouseX) {
-		super.renderBg(transform, partialTicks, mouseY, mouseX);
+	protected void renderBg(GuiGraphics graphics, float partialTicks, int mouseY, int mouseX) {
+		super.renderBg(graphics, partialTicks, mouseY, mouseX);
 
 		// Mycelium production progress
 		if (tile.isProducing()) {
 			int i1 = tile.getProductionProgressScaled(16);
-			blit(transform, leftPos + 124, topPos + 36, 176, 74, 16 - i1, 16);
+			graphics.blit(this.textureFile, leftPos + 124, topPos + 36, 176, 74, 16 - i1, 16);
 		}
 
 		// Resource consumption progress
 		if (tile.isWorking()) {
 			int i1 = tile.getConsumptionProgressScaled(54);
-			blit(transform, leftPos + 93, topPos + 18 + i1, 176, 92 + i1, 29, 54 - i1);
+			graphics.blit(this.textureFile, leftPos + 93, topPos + 18 + i1, 176, 92 + i1, 29, 54 - i1);
 		}
 	}
 

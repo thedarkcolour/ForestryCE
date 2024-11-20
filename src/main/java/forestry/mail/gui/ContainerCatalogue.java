@@ -18,13 +18,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ContainerListener;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerListener;
+import net.minecraft.world.item.ItemStack;
 
 import forestry.api.mail.EnumAddressee;
 import forestry.api.mail.EnumTradeStationState;
@@ -39,10 +40,7 @@ import forestry.core.utils.NetworkUtil;
 import forestry.mail.features.MailMenuTypes;
 import forestry.mail.network.packets.PacketLetterInfoResponseTrader;
 
-import net.minecraft.world.item.ItemStack;
-
 public class ContainerCatalogue extends AbstractContainerMenu implements IGuiSelectable, ILetterInfoReceiver {
-
 	private final Player player;
 	private final List<ITradeStation> stations = new ArrayList<>();
 
@@ -79,7 +77,7 @@ public class ContainerCatalogue extends AbstractContainerMenu implements IGuiSel
 		super(MailMenuTypes.CATALOGUE.menuType(), windowId);
 		this.player = inv.player;
 
-		if (!player.level.isClientSide) {
+		if (!player.level().isClientSide) {
 			rebuildStationsList();
 		}
 	}
@@ -98,14 +96,14 @@ public class ContainerCatalogue extends AbstractContainerMenu implements IGuiSel
 
 	private void rebuildStationsList() {
 		// todo check that Nedelosk did not create a bug with this
-		if (!player.level.isClientSide) {
+		if (!player.level().isClientSide) {
 			return;
 		}
 
 		stations.clear();
 
-		IPostOffice postOffice = PostManager.postRegistry.getPostOffice((ServerLevel) player.level);
-		Map<IMailAddress, ITradeStation> tradeStations = postOffice.getActiveTradeStations(player.level);
+		IPostOffice postOffice = PostManager.postRegistry.getPostOffice((ServerLevel) player.level());
+		Map<IMailAddress, ITradeStation> tradeStations = postOffice.getActiveTradeStations(player.level());
 
 		for (ITradeStation station : tradeStations.values()) {
 			ITradeStationInfo info = station.getTradeInfo();
@@ -142,7 +140,7 @@ public class ContainerCatalogue extends AbstractContainerMenu implements IGuiSel
 	/* Managing Trade info */
 	private void updateTradeInfo() {
 		// Updating is done by the server.
-		if (player.level.isClientSide) {
+		if (player.level().isClientSide) {
 			return;
 		}
 
@@ -213,7 +211,7 @@ public class ContainerCatalogue extends AbstractContainerMenu implements IGuiSel
 
 	// todo
 	@Override
-	public ItemStack quickMoveStack(Player p_38941_, int p_38942_) {
+	public ItemStack quickMoveStack(Player player, int index) {
 		return ItemStack.EMPTY;
 	}
 }

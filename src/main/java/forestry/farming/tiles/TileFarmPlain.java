@@ -10,14 +10,12 @@
  ******************************************************************************/
 package forestry.farming.tiles;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.core.BlockPos;
 
 import forestry.api.multiblock.IMultiblockController;
-import forestry.farming.blocks.BlockFarm;
-import forestry.farming.blocks.BlockFarm.State;
-import forestry.farming.blocks.EnumFarmMaterial;
+import forestry.farming.blocks.FarmBlock;
 import forestry.farming.features.FarmingTiles;
 
 public class TileFarmPlain extends TileFarm {
@@ -32,13 +30,8 @@ public class TileFarmPlain extends TileFarm {
 		// set band block meta
 		int bandY = maxCoord.getY() - 1;
 		if (getBlockPos().getY() == bandY) {
-			EnumFarmMaterial material = EnumFarmMaterial.STONE_BRICK;
 			BlockState state = getBlockState();
-			Block block = state.getBlock();
-			if (block instanceof BlockFarm) {
-				material = ((BlockFarm) block).getFarmMaterial();
-			}
-			this.level.setBlock(getBlockPos(), state.setValue(BlockFarm.STATE, BlockFarm.State.BAND), Block.UPDATE_CLIENTS);
+			this.level.setBlock(this.worldPosition, state.setValue(FarmBlock.BAND, true), Block.UPDATE_CLIENTS);
 		}
 	}
 
@@ -47,12 +40,7 @@ public class TileFarmPlain extends TileFarm {
 		super.onMachineBroken();
 
 		// set band block meta back to normal
-		EnumFarmMaterial material = EnumFarmMaterial.STONE_BRICK;
 		BlockState state = getBlockState();
-		Block block = state.getBlock();
-		if (block instanceof BlockFarm) {
-			material = ((BlockFarm) block).getFarmMaterial();
-		}
-		this.level.setBlock(getBlockPos(), state.setValue(BlockFarm.STATE, State.PLAIN), Block.UPDATE_CLIENTS);
+		this.level.setBlock(this.worldPosition, state.setValue(FarmBlock.BAND, false), Block.UPDATE_CLIENTS);
 	}
 }

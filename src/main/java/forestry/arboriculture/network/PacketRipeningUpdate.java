@@ -41,6 +41,6 @@ public record PacketRipeningUpdate(BlockPos pos, int value) implements IForestry
 	}
 
 	public static void handle(PacketRipeningUpdate msg, Player player) {
-		TileUtil.actOnTile(player.level, msg.pos, IRipeningPacketReceiver.class, tile -> tile.fromRipeningPacket(msg.value));
+		TileUtil.actOnTile(player.level(), msg.pos, IRipeningPacketReceiver.class, tile -> tile.fromRipeningPacket(msg.value));
 	}
 }

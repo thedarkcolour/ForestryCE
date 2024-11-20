@@ -18,7 +18,7 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 
-//TODO - sort out setParticleTextureIndex
+// todo what is this used for?
 public class ColoredDripParticle extends TextureSheetParticle {
 	private final Fluid type;
 
@@ -48,14 +48,14 @@ public class ColoredDripParticle extends TextureSheetParticle {
 		this.zo = this.z;
 		this.preMoveUpdate();
 		if (!this.removed) {
-			this.yd -= (double) this.gravity;
+			this.yd -= this.gravity;
 			this.move(this.xd, this.yd, this.zd);
 			this.postMoveUpdate();
 			if (!this.removed) {
-				this.xd *= (double) 0.98F;
-				this.yd *= (double) 0.98F;
-				this.zd *= (double) 0.98F;
-				BlockPos blockpos = new BlockPos(this.x, this.y, this.z);
+				this.xd *= 0.98F;
+				this.yd *= 0.98F;
+				this.zd *= 0.98F;
+				BlockPos blockpos = BlockPos.containing(this.x, this.y, this.z);
 				FluidState fluidstate = this.level.getFluidState(blockpos);
 				if (fluidstate.getType() == this.type && this.y < (double) ((float) blockpos.getY() + fluidstate.getHeight(this.level, blockpos))) {
 					this.remove();

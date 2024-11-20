@@ -3,13 +3,9 @@ package forestry.core.gui;
 import com.google.common.base.Preconditions;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.ItemStack;
-
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -52,13 +48,12 @@ public class GuiWindow extends Screen implements IGuiSizable {
 	}
 
 	@Override
-	public void render(PoseStack transform, int mouseX, int mouseY, float partialTicks) {
-		window.setMousePosition(mouseX, mouseY);
-		super.render(transform, mouseX, mouseY, partialTicks);
-		window.draw(transform, mouseX, mouseY);
+	public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
+		this.window.setMousePosition(mouseX, mouseY);
+		super.render(graphics, mouseX, mouseY, partialTicks);
+		this.window.draw(graphics, mouseX, mouseY);
 	}
 
-	//TODO check right method
 	@Override
 	public void init() {
 		super.init();

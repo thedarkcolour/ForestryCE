@@ -12,6 +12,8 @@ package forestry.core.gui.widgets;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.client.gui.GuiGraphics;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import forestry.api.core.tooltips.IToolTipProvider;
@@ -49,7 +51,7 @@ public abstract class Widget implements IToolTipProvider {
 		return yPos;
 	}
 
-	public abstract void draw(PoseStack transform, int startX, int startY);
+	public abstract void draw(GuiGraphics graphics, int startX, int startY);
 
 	public void update(int mouseX, int mouseY) {
 	}
