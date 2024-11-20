@@ -12,7 +12,6 @@ package forestry.apiculture.genetics.effects;
 
 import java.util.List;
 
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 
 import forestry.api.apiculture.BeeManager;
@@ -39,7 +38,7 @@ public class AggressiveBeeEffect extends ThrottledBeeEffect {
 				continue;
 			}
 
-			entity.hurt(new DamageSource(CoreDamageTypes.AGGRESSIVE.getHolder().get()), damage);
+			entity.hurt(CoreDamageTypes.source(housing.getWorldObj(), CoreDamageTypes.AGGRESSIVE), damage);
 		}
 
 		return storedData;

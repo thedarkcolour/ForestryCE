@@ -14,7 +14,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -62,7 +61,7 @@ public class ClockworkEngineBlockEntity extends EngineBlockEntity {
 
 		player.causeFoodExhaustion(WIND_EXHAUSTION);
 		if (tension > ENGINE_CLOCKWORK_WIND_MAX + 0.1 * WIND_TENSION_BASE) {
-			player.hurt(new DamageSource(CoreDamageTypes.CLOCKWORK.getHolder().get()), 6);
+			player.hurt(CoreDamageTypes.source(this.level, CoreDamageTypes.CLOCKWORK), 6);
 		}
 		tension = Math.min(tension, ENGINE_CLOCKWORK_WIND_MAX + WIND_TENSION_BASE);
 		delay = WIND_DELAY;

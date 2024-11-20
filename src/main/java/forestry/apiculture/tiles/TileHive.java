@@ -22,7 +22,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.Difficulty;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.EnderMan;
@@ -221,7 +220,7 @@ public class TileHive extends BlockEntity implements IHiveTile, IActivatable, IB
 			// Entities are not attacked if they wear a full set of apiarist's armor.
 			int count = BeeManager.armorApiaristHelper.wearsItems(entity, null, true);
 			if (level.random.nextInt(4) >= count) {
-				entity.hurt(new DamageSource(CoreDamageTypes.HIVE.getHolder().get()), damage);
+				entity.hurt(CoreDamageTypes.source(level, CoreDamageTypes.HIVE), damage);
 			}
 		}
 	}

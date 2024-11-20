@@ -9,7 +9,6 @@ import net.minecraft.data.PackOutput;
 
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.data.event.GatherDataEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import net.minecraftforge.fml.common.Mod;
@@ -43,6 +42,7 @@ public class Data {
 		dataHelper.createTags(Registries.FLUID, ForestryFluidTagsProvider::addTags);
 		dataHelper.createTags(Registries.POINT_OF_INTEREST_TYPE, ForestryPoiTypeTagProvider::addTags);
 		dataHelper.createRecipes(ForestryRecipeProvider::addRecipes);
+		dataHelper.createDamageTypes(ForestryDamageTypesProvider::addTypes);
 
 		generator.addProvider(event.includeServer(), new ForestryAdvancementProvider(output, lookup, existingFileHelper));
 		generator.addProvider(event.includeServer(), new ForestryLootTableProvider(output));

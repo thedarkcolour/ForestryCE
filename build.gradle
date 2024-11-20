@@ -81,7 +81,7 @@ dependencies {
 	compileOnly fg.deobf("vazkii.patchouli:Patchouli:$patchouliVersion-FORGE:api")
 	runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:$patchouliVersion-FORGE")
 	// ModKit DEV ONLY
-	implementation fg.deobf('com.github.thedarkcolour:ModKit:eac91c7b53')
+	implementation fg.deobf('com.github.thedarkcolour:ModKit:4dced2993f')
 
 	//runtimeOnly fg.deobf("curse.maven:spit-it-out-857141:4888738")
 	//runtimeOnly fg.deobf("curse.maven:cyanide-541676:4126944")

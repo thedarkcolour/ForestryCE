@@ -12,7 +12,6 @@ package forestry.apiculture.genetics.effects;
 
 import java.util.List;
 
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.player.Player;
 
 import forestry.api.apiculture.BeeManager;
@@ -39,7 +38,7 @@ public class MisanthropeBeeEffect extends ThrottledBeeEffect {
 				continue;
 			}
 
-			player.hurt(new DamageSource(CoreDamageTypes.MISANTHROPE.getHolder().get()), damage);
+			player.hurt(CoreDamageTypes.source(housing.getWorldObj(), CoreDamageTypes.MISANTHROPE), damage);
 		}
 
 		return storedData;

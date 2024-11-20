@@ -12,7 +12,6 @@ package forestry.apiculture.genetics.effects;
 
 import java.util.List;
 
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.monster.Monster;
 
 import forestry.api.apiculture.IBeeHousing;
@@ -29,7 +28,7 @@ public class HeroicBeeEffect extends ThrottledBeeEffect {
 	public IEffectData doEffectThrottled(IGenome genome, IEffectData storedData, IBeeHousing housing) {
 		List<Monster> mobs = ThrottledBeeEffect.getEntitiesInRange(genome, housing, Monster.class);
 		for (Monster mob : mobs) {
-			mob.hurt(new DamageSource(CoreDamageTypes.HEROIC.getHolder().get()), 2);
+			mob.hurt(CoreDamageTypes.source(housing.getWorldObj(), CoreDamageTypes.HEROIC), 2);
 		}
 
 		return storedData;
