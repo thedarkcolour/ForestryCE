@@ -1,29 +1,21 @@
 package forestry.core.data;
 
-import javax.annotation.Nullable;
-
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.tags.BlockTagsProvider;
-import net.minecraft.data.tags.ItemTagsProvider;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 
 import net.minecraftforge.common.Tags;
-import net.minecraftforge.common.data.ExistingFileHelper;
 
-import forestry.api.ForestryConstants;
 import forestry.api.ForestryTags;
 import forestry.core.features.CoreItems;
 
-public class ForestryBackpackTagProvider extends ItemTagsProvider {
-	public ForestryBackpackTagProvider(DataGenerator generator, BlockTagsProvider blockTagsProvider, @Nullable ExistingFileHelper existingFileHelper) {
-		super(generator, blockTagsProvider, ForestryConstants.MOD_ID, existingFileHelper);
-	}
+import thedarkcolour.modkit.data.MKTagsProvider;
 
-	@Override
-	protected void addTags() {
-		tag(ForestryTags.Items.MINER_ALLOW).addTags(
+public class ForestryBackpackTagProvider {
+	public static void addTags(MKTagsProvider<Item> tags, HolderLookup.Provider lookup) {
+		tags.tag(ForestryTags.Items.MINER_ALLOW).addTags(
 				Tags.Items.OBSIDIAN,
 				Tags.Items.ORES,
 				Tags.Items.DUSTS,
@@ -33,15 +25,15 @@ public class ForestryBackpackTagProvider extends ItemTagsProvider {
 				Tags.Items.RAW_MATERIALS,
 				ItemTags.COALS
 		);
-		tag(ForestryTags.Items.MINER_ALLOW).add(
+		tags.tag(ForestryTags.Items.MINER_ALLOW).add(
 				CoreItems.BRONZE_PICKAXE.item(),
 				CoreItems.KIT_PICKAXE.item(),
 				CoreItems.BROKEN_BRONZE_PICKAXE.item()
 		);
-		tag(ForestryTags.Items.MINER_REJECT);
+		tags.tag(ForestryTags.Items.MINER_REJECT);
 
-		copy(BlockTags.DIRT, ForestryTags.Items.DIGGER_ALLOW);
-		tag(ForestryTags.Items.DIGGER_ALLOW).addTags(
+		tags.copy(BlockTags.DIRT, ForestryTags.Items.DIGGER_ALLOW);
+		tags.tag(ForestryTags.Items.DIGGER_ALLOW).addTags(
 				Tags.Items.COBBLESTONE,
 				Tags.Items.GRAVEL,
 				Tags.Items.NETHERRACK,
@@ -49,7 +41,7 @@ public class ForestryBackpackTagProvider extends ItemTagsProvider {
 				Tags.Items.SANDSTONE,
 				Tags.Items.SAND
 		);
-		tag(ForestryTags.Items.DIGGER_ALLOW).add(
+		tags.tag(ForestryTags.Items.DIGGER_ALLOW).add(
 				Items.FLINT,
 				Items.CLAY_BALL,
 				Items.SNOWBALL,
@@ -60,9 +52,9 @@ public class ForestryBackpackTagProvider extends ItemTagsProvider {
 				CoreItems.KIT_PICKAXE.item(),
 				CoreItems.BROKEN_BRONZE_PICKAXE.item()
 		);
-		tag(ForestryTags.Items.DIGGER_REJECT);
+		tags.tag(ForestryTags.Items.DIGGER_REJECT);
 
-		tag(ForestryTags.Items.FORESTER_ALLOW).addTags(
+		tags.tag(ForestryTags.Items.FORESTER_ALLOW).addTags(
 				ItemTags.LOGS,
 				ItemTags.SAPLINGS,
 				Tags.Items.CROPS,
@@ -70,7 +62,7 @@ public class ForestryBackpackTagProvider extends ItemTagsProvider {
 				ItemTags.FLOWERS,
 				ItemTags.SAPLINGS
 		);
-		tag(ForestryTags.Items.FORESTER_ALLOW).add(
+		tags.tag(ForestryTags.Items.FORESTER_ALLOW).add(
 				Items.STICK,
 				Items.VINE,
 				Items.SUGAR_CANE,
@@ -87,9 +79,9 @@ public class ForestryBackpackTagProvider extends ItemTagsProvider {
 				Items.CHORUS_PLANT,
 				Items.APPLE
 		);
-		tag(ForestryTags.Items.FORESTER_REJECT);
+		tags.tag(ForestryTags.Items.FORESTER_REJECT);
 
-		tag(ForestryTags.Items.HUNTER_ALLOW).addTags(
+		tags.tag(ForestryTags.Items.HUNTER_ALLOW).addTags(
 				Tags.Items.BONES,
 				Tags.Items.EGGS,
 				Tags.Items.ENDER_PEARLS,
@@ -100,7 +92,7 @@ public class ForestryBackpackTagProvider extends ItemTagsProvider {
 				Tags.Items.SLIMEBALLS,
 				Tags.Items.STRING
 		);
-		tag(ForestryTags.Items.HUNTER_ALLOW).add(
+		tags.tag(ForestryTags.Items.HUNTER_ALLOW).add(
 				Items.BLAZE_POWDER,
 				Items.BLAZE_ROD,
 				Items.ROTTEN_FLESH,
@@ -140,10 +132,10 @@ public class ForestryBackpackTagProvider extends ItemTagsProvider {
 				Items.GOLDEN_HORSE_ARMOR,
 				Items.IRON_HORSE_ARMOR
 		);
-		tag(ForestryTags.Items.HUNTER_REJECT);
+		tags.tag(ForestryTags.Items.HUNTER_REJECT);
 
-		copy(BlockTags.FENCE_GATES, ForestryTags.Items.BUILDER_ALLOW);
-		tag(ForestryTags.Items.BUILDER_ALLOW).addTags(
+		tags.copy(BlockTags.FENCE_GATES, ForestryTags.Items.BUILDER_ALLOW);
+		tags.tag(ForestryTags.Items.BUILDER_ALLOW).addTags(
 				// TODO:
 				//  "block[A-Z].*",
 				//  "stainedClay[A-Z].*"
@@ -161,7 +153,7 @@ public class ForestryBackpackTagProvider extends ItemTagsProvider {
 				Tags.Items.CHESTS,
 				ItemTags.WOODEN_DOORS
 		);
-		tag(ForestryTags.Items.BUILDER_ALLOW).add(
+		tags.tag(ForestryTags.Items.BUILDER_ALLOW).add(
 				Items.TORCH,
 				Items.CRAFTING_TABLE,
 				Items.REDSTONE_TORCH,
@@ -215,9 +207,9 @@ public class ForestryBackpackTagProvider extends ItemTagsProvider {
 				Items.OAK_DOOR,
 				Items.SPRUCE_DOOR
 		);
-		tag(ForestryTags.Items.BUILDER_REJECT);
+		tags.tag(ForestryTags.Items.BUILDER_REJECT);
 
-		tag(ForestryTags.Items.ADVENTURER_ALLOW);
-		tag(ForestryTags.Items.ADVENTURER_REJECT);
+		tags.tag(ForestryTags.Items.ADVENTURER_ALLOW);
+		tags.tag(ForestryTags.Items.ADVENTURER_REJECT);
 	}
 }

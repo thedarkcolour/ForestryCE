@@ -1,6 +1,11 @@
 package forestry.core.data;
 
+import java.util.concurrent.CompletableFuture;
+
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
 
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.data.event.GatherDataEvent;
@@ -9,6 +14,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import net.minecraftforge.fml.common.Mod;
 
+import forestry.api.ForestryConstants;
 import forestry.api.IForestryApi;
 import forestry.apiimpl.plugin.PluginManager;
 import forestry.core.data.models.ForestryBlockStateProvider;
@@ -16,34 +22,39 @@ import forestry.core.data.models.ForestryItemModelProvider;
 import forestry.core.data.models.ForestryWoodModelProvider;
 import forestry.modules.ForestryModuleManager;
 
+import thedarkcolour.modkit.data.DataHelper;
+
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class Data {
 	@SubscribeEvent
 	public static void gatherData(GatherDataEvent event) {
+		preDataGen();
+
 		DataGenerator generator = event.getGenerator();
+		PackOutput output = generator.getPackOutput();
 		ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
+		DataHelper dataHelper = new DataHelper(ForestryConstants.MOD_ID, event);
+		CompletableFuture<HolderLookup.Provider> lookup = event.getLookupProvider();
 
-		ForestryBlockTagsProvider blockTagsProvider = new ForestryBlockTagsProvider(generator, existingFileHelper);
-		generator.addProvider(event.includeServer(), blockTagsProvider);
-		generator.addProvider(event.includeServer(), new ForestryAdvancementProvider(generator));
-		generator.addProvider(event.includeServer(), new ForestryItemTagsProvider(generator, blockTagsProvider, existingFileHelper));
-		generator.addProvider(event.includeServer(), new ForestryBackpackTagProvider(generator, blockTagsProvider, existingFileHelper));
-		generator.addProvider(event.includeServer(), new ForestryBiomeTagsProvider(generator, existingFileHelper));
-		generator.addProvider(event.includeServer(), new ForestryFluidTagsProvider(generator, existingFileHelper));
-		generator.addProvider(event.includeServer(), new ForestryPoiTypeTagProvider(generator, existingFileHelper));
-		generator.addProvider(event.includeServer(), new ForestryLootTableProvider(generator));
-		generator.addProvider(event.includeServer(), new ForestryRecipeProvider(generator));
-		generator.addProvider(event.includeServer(), new ForestryMachineRecipeProvider(generator));
-		generator.addProvider(event.includeServer(), new ForestryLootModifierProvider(generator));
+		dataHelper.createTags(Registries.BLOCK, ForestryBlockTagsProvider::addTags);
+		dataHelper.createTags(Registries.ITEM, ForestryItemTagsProvider::addTags);
+		dataHelper.createTags(Registries.ITEM, ForestryBackpackTagProvider::addTags);
+		dataHelper.createTags(Registries.BIOME, ForestryBiomeTagsProvider::addTags);
+		dataHelper.createTags(Registries.FLUID, ForestryFluidTagsProvider::addTags);
+		dataHelper.createTags(Registries.POINT_OF_INTEREST_TYPE, ForestryPoiTypeTagProvider::addTags);
+		dataHelper.createRecipes(ForestryRecipeProvider::addRecipes);
 
-		generator.addProvider(event.includeClient(), new ForestryBlockStateProvider(generator, existingFileHelper));
-		generator.addProvider(event.includeClient(), new ForestryWoodModelProvider(generator, existingFileHelper));
-		generator.addProvider(event.includeClient(), new ForestryItemModelProvider(generator, existingFileHelper));
+		generator.addProvider(event.includeServer(), new ForestryAdvancementProvider(output, lookup, existingFileHelper));
+		generator.addProvider(event.includeServer(), new ForestryLootTableProvider(output));
+		generator.addProvider(event.includeServer(), new ForestryLootModifierProvider(output));
+		generator.addProvider(event.includeClient(), new ForestryBlockStateProvider(output, existingFileHelper));
+		generator.addProvider(event.includeClient(), new ForestryWoodModelProvider(output, existingFileHelper));
+		generator.addProvider(event.includeClient(), new ForestryItemModelProvider(output, existingFileHelper));
+		generator.addProvider(event.includeClient(), new ForestryAtlasProvider(output, existingFileHelper));
 	}
 
 	// Hack fix to make API work in data generation environment
-	@SubscribeEvent(priority = EventPriority.HIGHEST)
-	public static void setupDataGenApi(GatherDataEvent event) {
+	public static void preDataGen() {
 		((ForestryModuleManager) IForestryApi.INSTANCE.getModuleManager()).setupApi();
 
 		PluginManager.registerClient();

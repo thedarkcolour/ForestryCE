@@ -1,6 +1,6 @@
 package forestry.core.data.models;
 
-import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SlabBlock;
@@ -21,8 +21,8 @@ import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.modules.features.FeatureBlockGroup;
 
 public class ForestryWoodModelProvider extends ForestryBlockStateProvider {
-	public ForestryWoodModelProvider(DataGenerator gen, ExistingFileHelper exFileHelper) {
-		super(gen, exFileHelper);
+	public ForestryWoodModelProvider(PackOutput output, ExistingFileHelper exFileHelper) {
+		super(output, exFileHelper);
 	}
 
 	@Override

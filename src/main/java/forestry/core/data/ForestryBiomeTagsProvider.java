@@ -1,36 +1,28 @@
 package forestry.core.data;
 
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.tags.BiomeTagsProvider;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.tags.BiomeTags;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
 
-import net.minecraftforge.common.data.ExistingFileHelper;
-
-import forestry.api.ForestryConstants;
 import forestry.api.ForestryTags;
 
-import org.jetbrains.annotations.Nullable;
+import thedarkcolour.modkit.data.MKTagsProvider;
 
-public class ForestryBiomeTagsProvider extends BiomeTagsProvider {
-	public ForestryBiomeTagsProvider(DataGenerator generator, @Nullable ExistingFileHelper helper) {
-		super(generator, ForestryConstants.MOD_ID, helper);
-	}
-
-	@Override
-	protected void addTags() {
+public class ForestryBiomeTagsProvider {
+	public static void addTags(MKTagsProvider<Biome> tags, HolderLookup.Provider lookup) {
 		// Climates
-		tag(ForestryTags.Biomes.COLD_TEMPERATURE)
+		tags.tag(ForestryTags.Biomes.COLD_TEMPERATURE)
 				.addTag(BiomeTags.IS_END);
-		tag(ForestryTags.Biomes.WARM_TEMPERATURE)
+		tags.tag(ForestryTags.Biomes.WARM_TEMPERATURE)
 				.add(Biomes.WOODED_BADLANDS)
 				.add(Biomes.SAVANNA)
 				.add(Biomes.SAVANNA_PLATEAU)
 				.add(Biomes.WINDSWEPT_SAVANNA);
-		tag(ForestryTags.Biomes.HELLISH_TEMPERATURE)
+		tags.tag(ForestryTags.Biomes.HELLISH_TEMPERATURE)
 				.addTag(BiomeTags.IS_NETHER);
-		tag(ForestryTags.Biomes.ARID_HUMIDITY)
+		tags.tag(ForestryTags.Biomes.ARID_HUMIDITY)
 				.addTag(BiomeTags.IS_END);
-		tag(ForestryTags.Biomes.SHATTERED_SAVANNA).add(Biomes.WINDSWEPT_SAVANNA);
+		tags.tag(ForestryTags.Biomes.SHATTERED_SAVANNA).add(Biomes.WINDSWEPT_SAVANNA);
 	}
 }

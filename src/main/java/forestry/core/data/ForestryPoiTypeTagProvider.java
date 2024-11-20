@@ -1,24 +1,16 @@
 package forestry.core.data;
 
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.tags.PoiTypeTagsProvider;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.tags.PoiTypeTags;
+import net.minecraft.world.entity.ai.village.poi.PoiType;
 
-import net.minecraftforge.common.data.ExistingFileHelper;
-
-import forestry.api.ForestryConstants;
 import forestry.apiculture.villagers.ApicultureVillagers;
 import forestry.arboriculture.villagers.ArboricultureVillagers;
 
-import org.jetbrains.annotations.Nullable;
+import thedarkcolour.modkit.data.MKTagsProvider;
 
-public class ForestryPoiTypeTagProvider extends PoiTypeTagsProvider {
-	public ForestryPoiTypeTagProvider(DataGenerator generator, @Nullable ExistingFileHelper helper) {
-		super(generator, ForestryConstants.MOD_ID, helper);
-	}
-
-	@Override
-	protected void addTags() {
-		tag(PoiTypeTags.ACQUIRABLE_JOB_SITE).add(ArboricultureVillagers.POI_TREE_CHEST.get(), ApicultureVillagers.POI_APIARY.get());
+public class ForestryPoiTypeTagProvider {
+	protected static void addTags(MKTagsProvider<PoiType> tags, HolderLookup.Provider lookup) {
+		tags.tag(PoiTypeTags.ACQUIRABLE_JOB_SITE).add(ArboricultureVillagers.POI_TREE_CHEST.get(), ApicultureVillagers.POI_APIARY.get());
 	}
 }

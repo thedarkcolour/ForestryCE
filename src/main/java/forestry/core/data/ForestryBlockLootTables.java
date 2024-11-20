@@ -1,15 +1,13 @@
 package forestry.core.data;
 
-import com.google.common.collect.Sets;
-
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.BiConsumer;
 import java.util.function.Function;
 
-import net.minecraft.core.Registry;
-import net.minecraft.data.loot.BlockLoot;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.data.loot.BlockLootSubProvider;
+import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantments;
@@ -45,15 +43,21 @@ import forestry.core.utils.SpeciesUtil;
 import forestry.lepidopterology.features.LepidopterologyBlocks;
 import forestry.modules.features.FeatureBlock;
 import forestry.modules.features.FeatureBlockGroup;
-import forestry.modules.features.ModFeatureRegistry;
+
+import thedarkcolour.modkit.MKUtils;
 
 /**
  * Data generator class that generates the block drop loot tables for forestry blocks.
  */
-public class ForestryBlockLootTables extends BlockLoot {
+public class ForestryBlockLootTables extends BlockLootSubProvider {
+	private final ArrayList<Block> added = new ArrayList<>();
+
+	protected ForestryBlockLootTables() {
+		super(Set.of(), FeatureFlags.DEFAULT_FLAGS);
+	}
 
 	@Override
-	public void accept(BiConsumer<ResourceLocation, LootTable.Builder> consumer) {
+	protected void generate() {
 		for (BlockDecorativeLeaves leaves : ArboricultureBlocks.LEAVES_DECORATIVE.getBlocks()) {
 			add(leaves, block -> droppingWithChances(block, leaves.getType(), NORMAL_LEAVES_SAPLING_CHANCES));
 		}
@@ -67,7 +71,7 @@ public class ForestryBlockLootTables extends BlockLoot {
 			add(fruitLeavesBlock, (block) -> droppingWithChances(defaultLeavesBlock, entry.getKey(), NORMAL_LEAVES_SAPLING_CHANCES));
 		}
 		for (BlockForestryDoor door : ArboricultureBlocks.DOORS.getBlocks()) {
-			add(door, BlockLoot.createDoorTable(door));
+			add(door, createDoorTable(door));
 		}
 		registerLootTable(CharcoalBlocks.ASH, (block) -> LootTable.lootTable().setParamSet(LootContextParamSets.BLOCK)
 				.withPool(LootPool.lootPool().add(LootItem.lootTableItem(CoreItems.ASH)).apply(SetItemCountFunction.setCount(BinomialDistributionGenerator.binomial(2, 1.0f / 3.0f))))
@@ -82,46 +86,26 @@ public class ForestryBlockLootTables extends BlockLoot {
 		registerEmptyTables(LepidopterologyBlocks.COCOON);
 		registerEmptyTables(LepidopterologyBlocks.COCOON_SOLID);
 
-		registerLootTable(CoreBlocks.APATITE_ORE, ForestryBlockLootTables::createApatiteOreDrops);
-		registerLootTable(CoreBlocks.DEEPSLATE_APATITE_ORE, ForestryBlockLootTables::createApatiteOreDrops);
+		registerLootTable(CoreBlocks.APATITE_ORE, this::createApatiteOreDrops);
+		registerLootTable(CoreBlocks.DEEPSLATE_APATITE_ORE, this::createApatiteOreDrops);
 
 		registerLootTable(CoreBlocks.TIN_ORE, block -> createOreDrop(block, CoreItems.RAW_TIN.item()));
 		registerLootTable(CoreBlocks.DEEPSLATE_TIN_ORE, block -> createOreDrop(block, CoreItems.RAW_TIN.item()));
 
 		dropSelf(CoreBlocks.RAW_TIN_BLOCK.block());
 
-		Set<ResourceLocation> visited = Sets.newHashSet();
-		ModFeatureRegistry forestryRegistry = ModFeatureRegistry.getRegistries().get(ForestryConstants.MOD_ID);
-
-		// i hate this system
-		forestryRegistry.getModules().values().stream().flatMap(module -> module.getFeatures(Registry.BLOCK_REGISTRY).stream()).forEach(feature -> {
-			if (feature instanceof FeatureBlock<?, ?> blockFeature) {
-				Block block = blockFeature.block();
-				ResourceLocation resourcelocation = block.getLootTable();
-				if (resourcelocation != BuiltInLootTables.EMPTY && visited.add(resourcelocation)) {
-					LootTable.Builder builder = this.map.remove(resourcelocation);
-
-					if (builder == null) {
-						builder = createSingleItemTable(block);
-					}
-
-					consumer.accept(resourcelocation, builder);
-				}
-			} else {
-				throw new IllegalStateException("Found feature in BLOCK_REGISTRY that is not FeatureBlock.");
+		MKUtils.forModRegistry(Registries.BLOCK, ForestryConstants.MOD_ID, (id, block) -> {
+			if (block.getLootTable() != BuiltInLootTables.EMPTY) {
+				dropSelf(block);
 			}
 		});
-
-		if (!this.map.isEmpty()) {
-			throw new IllegalStateException("Created block loot tables for non-blocks: " + this.map.keySet());
-		}
 	}
 
-	private static LootTable.Builder createApatiteOreDrops(Block block) {
+	private LootTable.Builder createApatiteOreDrops(Block block) {
 		return createSilkTouchDispatchTable(block, applyExplosionDecay(block, LootItem.lootTableItem(CoreItems.APATITE.item()).apply(SetItemCountFunction.setCount(UniformGenerator.between(2.0F, 7.0F))).apply(ApplyBonusCount.addUniformBonusCount(Enchantments.BLOCK_FORTUNE, 2))));
 	}
 
-	public static LootTable.Builder droppingWithChances(Block block, ForestryLeafType definition, float... chances) {
+	public LootTable.Builder droppingWithChances(Block block, ForestryLeafType definition, float... chances) {
 		return createSilkTouchOrShearsDispatchTable(block,
 				applyExplosionCondition(block, LootItem.lootTableItem(ArboricultureItems.SAPLING)
 						.apply(OrganismFunction.fromId(SpeciesUtil.TREE_TYPE.get().id(), definition.getSpeciesId())))
@@ -148,5 +132,16 @@ public class ForestryBlockLootTables extends BlockLoot {
 		for (Block block : blocks) {
 			add(block, noDrop());
 		}
+	}
+
+	@Override
+	protected void add(Block block, LootTable.Builder builder) {
+		super.add(block, builder);
+		this.added.add(block);
+	}
+
+	@Override
+	protected Iterable<Block> getKnownBlocks() {
+		return this.added;
 	}
 }

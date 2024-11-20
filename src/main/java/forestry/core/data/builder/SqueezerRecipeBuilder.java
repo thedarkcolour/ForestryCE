@@ -4,25 +4,23 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import javax.annotation.Nullable;
+import java.util.List;
 import java.util.function.Consumer;
 
 import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 
 import net.minecraftforge.fluids.FluidStack;
 
-import forestry.api.recipes.ISqueezerRecipe;
 import forestry.factory.features.FactoryRecipeTypes;
 import forestry.factory.recipes.RecipeSerializers;
 
 public class SqueezerRecipeBuilder {
-
 	private int processingTime;
-	private NonNullList<Ingredient> resources;
+	private List<Ingredient> resources;
 	private FluidStack fluidOutput;
 	private ItemStack remnants = ItemStack.EMPTY;
 	private float remnantsChance;
@@ -32,7 +30,7 @@ public class SqueezerRecipeBuilder {
 		return this;
 	}
 
-	public SqueezerRecipeBuilder setResources(NonNullList<Ingredient> resources) {
+	public SqueezerRecipeBuilder setResources(List<Ingredient> resources) {
 		this.resources = resources;
 		return this;
 	}
@@ -59,12 +57,12 @@ public class SqueezerRecipeBuilder {
 	private static class Result implements FinishedRecipe {
 		private final ResourceLocation id;
 		private final int processingTime;
-		private final NonNullList<Ingredient> resources;
+		private final List<Ingredient> resources;
 		private final FluidStack fluidOutput;
 		private final ItemStack remnants;
 		private final float remnantsChance;
 
-		public Result(ResourceLocation id, int processingTime, NonNullList<Ingredient> resources, FluidStack fluidOutput, ItemStack remnants, float remnantsChance) {
+		public Result(ResourceLocation id, int processingTime, List<Ingredient> resources, FluidStack fluidOutput, ItemStack remnants, float remnantsChance) {
 			this.id = id;
 			this.processingTime = processingTime;
 			this.resources = resources;

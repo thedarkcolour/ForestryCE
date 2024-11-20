@@ -63,6 +63,11 @@ repositories {
 			includeGroup "curse.maven"
 		}
 	}
+	maven {
+		name = 'ModKit'
+		url 'https://jitpack.io'
+		content { includeGroup 'com.github.thedarkcolour' }
+	}
 }
 
 dependencies {
@@ -75,6 +80,8 @@ dependencies {
 	// PATCHOULI REQUIRED
 	compileOnly fg.deobf("vazkii.patchouli:Patchouli:$patchouliVersion-FORGE:api")
 	runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:$patchouliVersion-FORGE")
+	// ModKit DEV ONLY
+	implementation fg.deobf('com.github.thedarkcolour:ModKit:eac91c7b53')
 
 	//runtimeOnly fg.deobf("curse.maven:spit-it-out-857141:4888738")
 	//runtimeOnly fg.deobf("curse.maven:cyanide-541676:4126944")

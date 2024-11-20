@@ -1,6 +1,6 @@
 package forestry.core.data.models;
 
-import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
@@ -19,23 +19,22 @@ import forestry.core.features.CoreBlocks;
 import forestry.core.features.CoreItems;
 import forestry.core.fluids.ForestryFluids;
 import forestry.core.utils.ModUtil;
-import forestry.cultivation.blocks.BlockPlanter;
 import forestry.cultivation.blocks.BlockTypePlanter;
 import forestry.cultivation.features.CultivationBlocks;
-import forestry.farming.blocks.BlockFarm;
 import forestry.farming.blocks.EnumFarmBlockType;
 import forestry.farming.blocks.EnumFarmMaterial;
+import forestry.farming.blocks.FarmBlock;
 import forestry.farming.features.FarmingBlocks;
 
 public class ForestryBlockStateProvider extends BlockStateProvider {
-	public ForestryBlockStateProvider(DataGenerator gen, ExistingFileHelper exFileHelper) {
-		super(gen, ForestryConstants.MOD_ID, exFileHelper);
+	public ForestryBlockStateProvider(PackOutput output, ExistingFileHelper exFileHelper) {
+		super(output, ForestryConstants.MOD_ID, exFileHelper);
 	}
 
 	@Override
 	protected void registerStatesAndModels() {
 		// Farm blocks
-		for (BlockFarm block : FarmingBlocks.FARM.getBlocks()) {
+		for (FarmBlock block : FarmingBlocks.FARM.getBlocks()) {
 			if (block.getType() == EnumFarmBlockType.PLAIN) {
 				plainFarm(block);
 			} else {
@@ -47,8 +46,8 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 
 		for (BlockTypePlanter farmType : BlockTypePlanter.values()) {
 			ModelFile file = models().getExistingFile(modBlock(farmType.getSerializedName()));
-			horizontalBlock(CultivationBlocks.PLANTER.get(farmType, BlockPlanter.Mode.MANUAL).block(), file);
-			horizontalBlock(CultivationBlocks.PLANTER.get(farmType, BlockPlanter.Mode.MANAGED).block(), file);
+			horizontalBlock(CultivationBlocks.MANAGED_PLANTER.get(farmType).block(), file);
+			horizontalBlock(CultivationBlocks.MANUAL_PLANTER.get(farmType).block(), file);
 		}
 
 		// Resources
@@ -97,21 +96,13 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 			generic3d(decorativeBlock, defaultBlock);
 		}
 		getVariantBuilder(ArboricultureBlocks.LEAVES.block()).partialState().modelForState().modelFile(particleOnly(ArboricultureBlocks.LEAVES.getName(), blockTexture(Blocks.OAK_LEAVES))).addModel();
-
-		// Cocoons
-		/*for (FeatureBlock<BlockCocoon, BlockItem> cocoon : List.of(LepidopterologyBlocks.COCOON, LepidopterologyBlocks.COCOON)) {
-			getVariantBuilder(cocoon.block())
-					.partialState().with(BlockCocoon.AGE, 0).modelForState().modelFile(models().getExistingFile(modBlock("cocoon_early"))).addModel()
-					.partialState().with(BlockCocoon.AGE, 1).modelForState().modelFile(models().getExistingFile(modBlock("cocoon_middle"))).addModel()
-					.partialState().with(BlockCocoon.AGE, 2).modelForState().modelFile(models().getExistingFile(modBlock("cocoon_late"))).addModel();
-		}*/
 	}
 
 	private ModelFile particleOnly(String path, ResourceLocation particleTexture) {
 		return models().getBuilder(path).texture("particle", particleTexture);
 	}
 
-	private void singleFarm(BlockFarm block) {
+	private void singleFarm(FarmBlock block) {
 		EnumFarmMaterial material = block.getFarmMaterial();
 		Block base = material.getBase();
 		ResourceLocation texture = modLoc("block/farm/" + block.getType().getSerializedName());
@@ -119,15 +110,15 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 		getVariantBuilder(block).partialState().modelForState().modelFile(farmPillar(path(block), base, texture, texture)).addModel();
 	}
 
-	private void plainFarm(BlockFarm block) {
+	private void plainFarm(FarmBlock block) {
 		EnumFarmMaterial material = block.getFarmMaterial();
 		Block base = material.getBase();
 
 		// todo need to use reverse texture
 		getVariantBuilder(block)
-				.partialState().with(BlockFarm.STATE, BlockFarm.State.PLAIN)
+				.partialState().with(FarmBlock.BAND, false)
 				.modelForState().modelFile(farmPillar(path(block), base, modLoc("block/farm/top"), modLoc("block/farm/plain"))).addModel()
-				.partialState().with(BlockFarm.STATE, BlockFarm.State.BAND)
+				.partialState().with(FarmBlock.BAND, true)
 				.modelForState().modelFile(farmPillar(path(block) + "_band", base, modLoc("block/farm/top"), modLoc("block/farm/band"))).addModel();
 	}
 

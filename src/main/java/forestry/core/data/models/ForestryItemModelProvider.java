@@ -1,9 +1,9 @@
 package forestry.core.data.models;
 
-import com.google.common.collect.Table;
+import java.util.Map;
 
-import net.minecraft.core.Registry;
-import net.minecraft.data.DataGenerator;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.BucketItem;
@@ -36,8 +36,8 @@ import forestry.storage.items.ItemCrated;
 import static forestry.core.data.models.ForestryBlockStateProvider.file;
 
 public class ForestryItemModelProvider extends ItemModelProvider {
-	public ForestryItemModelProvider(DataGenerator generator, ExistingFileHelper existingFileHelper) {
-		super(generator, ForestryConstants.MOD_ID, existingFileHelper);
+	public ForestryItemModelProvider(PackOutput output, ExistingFileHelper existingFileHelper) {
+		super(output, ForestryConstants.MOD_ID, existingFileHelper);
 	}
 
 	@Override
@@ -81,9 +81,9 @@ public class ForestryItemModelProvider extends ItemModelProvider {
 		filledCrateModel(CrateItems.CRATED_GRASS_BLOCK.getName(), mcLoc("block/grass_block_top"));
 		filledCrateModel(CrateItems.CRATED_PROPOLIS.getName(), modLoc("item/propolis.0"));
 
-		for (Table.Cell<BlockTypePlanter, BlockPlanter.Mode, FeatureBlock<BlockPlanter, BlockItem>> cell : CultivationBlocks.PLANTER.getFeatureByTypes().cellSet()) {
+		for (Map.Entry<BlockTypePlanter, FeatureBlock<BlockPlanter, BlockItem>> cell : CultivationBlocks.MANAGED_PLANTER.getFeatureByType().entrySet()) {
 			Block block = cell.getValue().block();
-			withExistingParent(ForestryBlockStateProvider.path(block), ForestryConstants.forestry("block/" + cell.getRowKey().getSerializedName()));
+			withExistingParent(ForestryBlockStateProvider.path(block), ForestryConstants.forestry("block/" + cell.getKey().getSerializedName()));
 		}
 
 		// Buckets
@@ -99,7 +99,7 @@ public class ForestryItemModelProvider extends ItemModelProvider {
 		}
 
 		// Backpacks
-		for (RegistryObject<Item> object : ModFeatureRegistry.get(ForestryModuleIds.STORAGE).getRegistry(Registry.ITEM_REGISTRY).getEntries()) {
+		for (RegistryObject<Item> object : ModFeatureRegistry.get(ForestryModuleIds.STORAGE).getRegistry(Registries.ITEM).getEntries()) {
 			if (object.get() instanceof ItemBackpack) {
 				String path = object.getId().getPath();
 				boolean woven = path.endsWith("woven");

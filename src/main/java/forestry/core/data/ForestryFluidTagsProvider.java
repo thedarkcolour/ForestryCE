@@ -1,29 +1,15 @@
 package forestry.core.data;
 
-import javax.annotation.Nullable;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.world.level.material.Fluid;
 
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.tags.FluidTagsProvider;
-
-import net.minecraftforge.common.data.ExistingFileHelper;
-
-import forestry.api.ForestryConstants;
 import forestry.api.ForestryTags;
 import forestry.core.fluids.ForestryFluids;
 
-public class ForestryFluidTagsProvider extends FluidTagsProvider {
-	public ForestryFluidTagsProvider(DataGenerator generator, @Nullable ExistingFileHelper fileHelper) {
-		super(generator, ForestryConstants.MOD_ID, fileHelper);
-	}
+import thedarkcolour.modkit.data.MKTagsProvider;
 
-	@Override
-	protected void addTags() {
-		tag(ForestryTags.Fluids.HONEY).add(ForestryFluids.HONEY.getFluid(), ForestryFluids.HONEY.getFlowing());
-	}
-
-
-	@Override
-	public String getName() {
-		return "Forestry Fluid Tags";
+public class ForestryFluidTagsProvider {
+	public static void addTags(MKTagsProvider<Fluid> tags, HolderLookup.Provider lookup) {
+		tags.tag(ForestryTags.Fluids.HONEY).add(ForestryFluids.HONEY.getFluid(), ForestryFluids.HONEY.getFlowing());
 	}
 }
