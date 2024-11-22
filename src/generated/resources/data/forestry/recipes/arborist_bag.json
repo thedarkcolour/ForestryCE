@@ -1,17 +1,18 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "equipment",
   "key": {
     "#": {
       "tag": "minecraft:wool"
     },
     "V": {
-      "item": "forestry:tree_chest"
+      "tag": "forge:rods/wooden"
     },
     "X": {
       "tag": "forge:string"
     },
     "Y": {
-      "tag": "forge:chests/wooden"
+      "item": "forestry:tree_chest"
     }
   },
   "pattern": [
@@ -21,5 +22,6 @@
   ],
   "result": {
     "item": "forestry:arborist_bag"
-  }
+  },
+  "show_notification": true
 }

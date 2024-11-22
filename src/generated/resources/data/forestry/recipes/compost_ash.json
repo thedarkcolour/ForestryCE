@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "#": {
       "item": "minecraft:dirt"
@@ -15,5 +16,6 @@
   ],
   "result": {
     "item": "forestry:fertilizer_bio"
-  }
+  },
+  "show_notification": true
 }

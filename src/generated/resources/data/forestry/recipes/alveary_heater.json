@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "building",
   "group": "alveary",
   "key": {
     "#": {
@@ -22,5 +23,6 @@
   ],
   "result": {
     "item": "forestry:alveary_heater"
-  }
+  },
+  "show_notification": true
 }

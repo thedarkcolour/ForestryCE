@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "#": {
       "item": "minecraft:chiseled_quartz_block"
@@ -17,5 +18,6 @@
   ],
   "result": {
     "item": "forestry:farm_valve_quartz_chiseled"
-  }
+  },
+  "show_notification": true
 }

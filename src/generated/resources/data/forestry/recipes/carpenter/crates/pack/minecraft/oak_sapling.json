@@ -9,6 +9,7 @@
   },
   "recipe": {
     "type": "minecraft:crafting_shaped",
+    "category": "misc",
     "key": {
       "#": {
         "item": "minecraft:oak_sapling"
@@ -21,7 +22,8 @@
     ],
     "result": {
       "item": "forestry:crated_oak_sapling"
-    }
+    },
+    "show_notification": true
   },
   "time": 5
 }

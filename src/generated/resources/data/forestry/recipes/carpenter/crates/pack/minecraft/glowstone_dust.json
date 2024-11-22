@@ -9,6 +9,7 @@
   },
   "recipe": {
     "type": "minecraft:crafting_shaped",
+    "category": "misc",
     "key": {
       "#": {
         "tag": "forge:dusts/glowstone"
@@ -21,7 +22,8 @@
     ],
     "result": {
       "item": "forestry:crated_glowstone"
-    }
+    },
+    "show_notification": true
   },
   "time": 5
 }

@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "B": {
       "tag": "forge:gears/bronze"
@@ -33,5 +34,6 @@
   "result": {
     "count": 2,
     "item": "forestry:genetic_filter"
-  }
+  },
+  "show_notification": true
 }

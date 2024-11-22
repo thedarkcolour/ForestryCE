@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "C": {
       "item": "forestry:impregnated_casing"
@@ -18,5 +19,6 @@
   ],
   "result": {
     "item": "forestry:apiary"
-  }
+  },
+  "show_notification": true
 }

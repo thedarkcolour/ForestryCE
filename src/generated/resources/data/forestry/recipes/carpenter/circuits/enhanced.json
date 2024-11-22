@@ -7,6 +7,7 @@
   },
   "recipe": {
     "type": "minecraft:crafting_shaped",
+    "category": "misc",
     "key": {
       "#": {
         "tag": "forge:ingots/bronze"
@@ -22,7 +23,8 @@
     ],
     "result": {
       "item": "forestry:circuit_board_enhanced"
-    }
+    },
+    "show_notification": true
   },
   "result": {
     "Count": 1,

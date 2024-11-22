@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "building",
   "group": "alveary",
   "key": {
     "I": {
@@ -19,5 +20,6 @@
   ],
   "result": {
     "item": "forestry:alveary_sieve"
-  }
+  },
+  "show_notification": true
 }

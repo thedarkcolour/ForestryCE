@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "D": {
       "item": "minecraft:piston"
@@ -21,5 +22,6 @@
   ],
   "result": {
     "item": "forestry:engine_peat"
-  }
+  },
+  "show_notification": true
 }

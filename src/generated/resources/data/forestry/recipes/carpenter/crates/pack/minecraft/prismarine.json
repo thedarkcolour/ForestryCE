@@ -9,6 +9,7 @@
   },
   "recipe": {
     "type": "minecraft:crafting_shaped",
+    "category": "misc",
     "key": {
       "#": {
         "item": "minecraft:prismarine"
@@ -21,7 +22,8 @@
     ],
     "result": {
       "item": "forestry:crated_prismarine"
-    }
+    },
+    "show_notification": true
   },
   "time": 5
 }

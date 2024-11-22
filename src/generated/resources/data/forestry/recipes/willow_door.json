@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "redstone",
   "group": "wooden_door",
   "key": {
     "#": [
@@ -17,7 +18,7 @@
     "##"
   ],
   "result": {
-    "count": 3,
     "item": "forestry:willow_door"
-  }
+  },
+  "show_notification": true
 }

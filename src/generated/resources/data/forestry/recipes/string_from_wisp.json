@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "#": {
       "item": "forestry:silk_wisp"
@@ -12,5 +13,6 @@
   ],
   "result": {
     "item": "minecraft:string"
-  }
+  },
+  "show_notification": true
 }

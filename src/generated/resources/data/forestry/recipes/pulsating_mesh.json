@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "#": {
       "item": "forestry:propolis_pulsating"
@@ -12,5 +13,6 @@
   ],
   "result": {
     "item": "forestry:pulsating_mesh"
-  }
+  },
+  "show_notification": true
 }

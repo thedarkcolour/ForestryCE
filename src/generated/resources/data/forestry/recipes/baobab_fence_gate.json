@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "building",
   "group": "wooden_fence_gate",
   "key": {
     "#": {
@@ -15,5 +16,6 @@
   ],
   "result": {
     "item": "forestry:baobab_fence_gate"
-  }
+  },
+  "show_notification": true
 }

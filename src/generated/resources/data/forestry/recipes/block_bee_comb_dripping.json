@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "building",
   "group": "combs",
   "key": {
     "#": {
@@ -12,5 +13,6 @@
   ],
   "result": {
     "item": "forestry:block_bee_comb_dripping"
-  }
+  },
+  "show_notification": true
 }

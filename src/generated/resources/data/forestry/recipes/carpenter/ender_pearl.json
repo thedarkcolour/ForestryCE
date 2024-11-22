@@ -3,6 +3,7 @@
   "box": [],
   "recipe": {
     "type": "minecraft:crafting_shaped",
+    "category": "misc",
     "key": {
       "#": {
         "item": "forestry:pulsating_mesh"
@@ -15,7 +16,8 @@
     ],
     "result": {
       "item": "minecraft:ender_pearl"
-    }
+    },
+    "show_notification": true
   },
   "time": 100
 }

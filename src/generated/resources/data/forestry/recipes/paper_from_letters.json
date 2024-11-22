@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "#": [
       {
@@ -23,5 +24,6 @@
   ],
   "result": {
     "item": "minecraft:paper"
-  }
+  },
+  "show_notification": true
 }

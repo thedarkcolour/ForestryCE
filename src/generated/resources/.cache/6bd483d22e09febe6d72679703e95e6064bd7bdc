@@ -1,0 +1,7 @@
+// 1.20.1	2024-11-21T17:52:29.5745199	damage_type generator for forestry
+cc54f81c46640ec5dbe091e74982d81b90bfc501 data/forestry/damage_type/aggressive.json
+e8fda71d775d5e73dfb952180f4cdfed84e28b92 data/forestry/damage_type/clockwork.json
+7123e4b4112a4e24c218c6c66a559e012ad2660b data/forestry/damage_type/heroic.json
+925cc76040e4a67f1eda9ebf313ef50c0d4d3147 data/forestry/damage_type/hive.json
+e81e2dc21d34f1d44bd9f331eab95caf360b6641 data/forestry/damage_type/misanthrope.json
+1608369970dbe7cac2b74b3dae3f57ca01f6b1e0 data/forestry/damage_type/radioactive.json

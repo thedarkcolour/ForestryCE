@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "group": "wooden_door",
+  "key": {
+    "#": [
+      {
+        "item": "minecraft:spruce_planks"
+      },
+      {
+        "item": "forestry:spruce_fireproof_planks"
+      }
+    ]
+  },
+  "pattern": [
+    "##",
+    "##",
+    "##"
+  ],
+  "result": {
+    "item": "minecraft:spruce_door"
+  },
+  "show_notification": true
+}

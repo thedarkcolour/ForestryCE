@@ -3,59 +3,19 @@
   "pools": [
     {
       "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
       "entries": [
         {
-          "type": "minecraft:alternatives",
-          "children": [
-            {
-              "type": "minecraft:item",
-              "conditions": [
-                {
-                  "condition": "minecraft:match_tool",
-                  "predicate": {
-                    "enchantments": [
-                      {
-                        "enchantment": "minecraft:silk_touch",
-                        "levels": {
-                          "min": 1
-                        }
-                      }
-                    ]
-                  }
-                }
-              ],
-              "name": "forestry:deepslate_apatite_ore"
-            },
-            {
-              "type": "minecraft:item",
-              "functions": [
-                {
-                  "add": false,
-                  "count": {
-                    "type": "minecraft:uniform",
-                    "max": 7.0,
-                    "min": 2.0
-                  },
-                  "function": "minecraft:set_count"
-                },
-                {
-                  "enchantment": "minecraft:fortune",
-                  "formula": "minecraft:uniform_bonus_count",
-                  "function": "minecraft:apply_bonus",
-                  "parameters": {
-                    "bonusMultiplier": 2
-                  }
-                },
-                {
-                  "function": "minecraft:explosion_decay"
-                }
-              ],
-              "name": "forestry:apatite"
-            }
-          ]
+          "type": "minecraft:item",
+          "name": "forestry:deepslate_apatite_ore"
         }
       ],
       "rolls": 1.0
     }
-  ]
+  ],
+  "random_sequence": "forestry:blocks/deepslate_apatite_ore"
 }

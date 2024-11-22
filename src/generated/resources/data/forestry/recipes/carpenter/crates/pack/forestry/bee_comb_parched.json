@@ -9,6 +9,7 @@
   },
   "recipe": {
     "type": "minecraft:crafting_shaped",
+    "category": "misc",
     "key": {
       "#": {
         "item": "forestry:bee_comb_parched"
@@ -21,7 +22,8 @@
     ],
     "result": {
       "item": "forestry:crated_bee_comb_parched"
-    }
+    },
+    "show_notification": true
   },
   "time": 5
 }

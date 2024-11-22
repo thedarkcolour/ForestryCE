@@ -9,6 +9,7 @@
   },
   "recipe": {
     "type": "minecraft:crafting_shaped",
+    "category": "misc",
     "key": {
       "#": {
         "tag": "forge:crops/nether_wart"
@@ -21,7 +22,8 @@
     ],
     "result": {
       "item": "forestry:crated_nether_wart"
-    }
+    },
+    "show_notification": true
   },
   "time": 5
 }

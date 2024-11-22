@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "C": {
       "item": "minecraft:clock"
@@ -24,5 +25,6 @@
   ],
   "result": {
     "item": "forestry:engine_clockwork"
-  }
+  },
+  "show_notification": true
 }

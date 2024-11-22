@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:blasting",
+  "category": "misc",
+  "cookingtime": 100,
+  "experience": 0.5,
+  "ingredient": [
+    {
+      "item": "forestry:tin_ore"
+    },
+    {
+      "item": "forestry:deepslate_tin_ore"
+    },
+    {
+      "item": "forestry:raw_tin"
+    }
+  ],
+  "result": "forestry:ingot_tin"
+}

@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "#": {
       "tag": "forge:ingots/bronze"
@@ -12,5 +13,6 @@
   ],
   "result": {
     "item": "forestry:sturdy_machine"
-  }
+  },
+  "show_notification": true
 }

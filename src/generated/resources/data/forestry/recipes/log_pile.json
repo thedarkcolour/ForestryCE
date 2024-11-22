@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "L": {
+      "tag": "minecraft:logs"
+    }
+  },
+  "pattern": [
+    " L ",
+    "L L",
+    " L "
+  ],
+  "result": {
+    "item": "forestry:log_pile"
+  },
+  "show_notification": true
+}

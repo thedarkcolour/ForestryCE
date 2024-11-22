@@ -1,8 +1,9 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "building",
   "key": {
     "#": {
-      "tag": "forge:ingots/tin"
+      "item": "forestry:ingot_tin"
     }
   },
   "pattern": [
@@ -12,5 +13,6 @@
   ],
   "result": {
     "item": "forestry:resource_storage_tin"
-  }
+  },
+  "show_notification": true
 }

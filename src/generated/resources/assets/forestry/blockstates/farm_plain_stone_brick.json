@@ -1,10 +1,10 @@
 {
   "variants": {
-    "state=band": {
-      "model": "forestry:block/farm_plain_stone_brick_band"
-    },
-    "state=plain": {
+    "band=false": {
       "model": "forestry:block/farm_plain_stone_brick"
+    },
+    "band=true": {
+      "model": "forestry:block/farm_plain_stone_brick_band"
     }
   }
 }

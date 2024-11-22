@@ -7,6 +7,7 @@
   "plan": [],
   "recipe": {
     "type": "minecraft:crafting_shaped",
+    "category": "building",
     "key": {
       "#": {
         "item": "forestry:refractory_wax"
@@ -23,6 +24,7 @@
     "result": {
       "count": 5,
       "item": "forestry:ipe_fireproof_planks"
-    }
+    },
+    "show_notification": true
   }
 }

@@ -1,62 +1,21 @@
 {
-  "type": "forge:conditional",
-  "recipes": [
-    {
-      "conditions": [
-        {
-          "type": "forge:not",
-          "value": {
-            "type": "forge:tag_empty",
-            "tag": "forge:gears/stone"
-          }
-        }
-      ],
-      "recipe": {
-        "type": "minecraft:crafting_shaped",
-        "key": {
-          "#": {
-            "item": "minecraft:copper_ingot"
-          },
-          "X": {
-            "tag": "forge:gears/stone"
-          }
-        },
-        "pattern": [
-          " # ",
-          "#X#",
-          " # "
-        ],
-        "result": {
-          "item": "forestry:gear_copper"
-        }
-      }
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "tag": "forge:ingots/copper"
     },
-    {
-      "conditions": [
-        {
-          "type": "forge:tag_empty",
-          "tag": "forge:gears/stone"
-        }
-      ],
-      "recipe": {
-        "type": "minecraft:crafting_shaped",
-        "key": {
-          "#": {
-            "item": "minecraft:copper_ingot"
-          },
-          "X": {
-            "item": "minecraft:copper_ingot"
-          }
-        },
-        "pattern": [
-          " # ",
-          "#X#",
-          " # "
-        ],
-        "result": {
-          "item": "forestry:gear_copper"
-        }
-      }
+    "X": {
+      "tag": "forge:nuggets/iron"
     }
-  ]
+  },
+  "pattern": [
+    " # ",
+    "#X#",
+    " # "
+  ],
+  "result": {
+    "item": "forestry:gear_copper"
+  },
+  "show_notification": true
 }

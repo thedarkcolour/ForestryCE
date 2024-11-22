@@ -7,6 +7,7 @@
   },
   "recipe": {
     "type": "minecraft:crafting_shaped",
+    "category": "equipment",
     "key": {
       "#": {
         "tag": "forge:ingots/iron"
@@ -22,7 +23,8 @@
     ],
     "result": {
       "item": "forestry:soldering_iron"
-    }
+    },
+    "show_notification": true
   },
   "time": 40
 }

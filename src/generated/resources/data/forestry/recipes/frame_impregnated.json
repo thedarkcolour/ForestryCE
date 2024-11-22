@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "#": {
       "item": "forestry:impregnated_stick"
@@ -15,5 +16,6 @@
   ],
   "result": {
     "item": "forestry:frame_impregnated"
-  }
+  },
+  "show_notification": true
 }

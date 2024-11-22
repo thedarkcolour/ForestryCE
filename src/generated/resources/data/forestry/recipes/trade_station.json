@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "#": {
       "item": "forestry:electron_tube_bronze"
@@ -27,5 +28,6 @@
   ],
   "result": {
     "item": "forestry:trade_station"
-  }
+  },
+  "show_notification": true
 }

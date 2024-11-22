@@ -11,10 +11,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "minecraft:dirt"
+          "name": "forestry:humus"
         }
       ],
       "rolls": 1.0
     }
-  ]
+  ],
+  "random_sequence": "forestry:blocks/humus"
 }

@@ -5,6 +5,7 @@
   },
   "recipe": {
     "type": "minecraft:crafting_shaped",
+    "category": "equipment",
     "key": {
       "#": {
         "tag": "forge:ingots/bronze"
@@ -20,7 +21,8 @@
     ],
     "result": {
       "item": "forestry:kit_pickaxe"
-    }
+    },
+    "show_notification": true
   },
   "time": 20
 }

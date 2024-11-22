@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "#": {
       "tag": "forge:ingots/tin"
@@ -18,5 +19,6 @@
   ],
   "result": {
     "item": "forestry:mailbox"
-  }
+  },
+  "show_notification": true
 }

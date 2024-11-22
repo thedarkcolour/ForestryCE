@@ -7,6 +7,7 @@
   },
   "recipe": {
     "type": "minecraft:crafting_shaped",
+    "category": "equipment",
     "key": {
       "T": {
         "item": "forestry:digger_bag"
@@ -25,7 +26,8 @@
     ],
     "result": {
       "item": "forestry:digger_bag_woven"
-    }
+    },
+    "show_notification": true
   },
   "time": 200
 }

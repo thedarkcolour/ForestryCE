@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "building",
   "key": {
     "#": {
       "item": "minecraft:dirt"
@@ -16,5 +17,6 @@
   "result": {
     "count": 8,
     "item": "forestry:humus"
-  }
+  },
+  "show_notification": true
 }

@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "building",
   "key": {
     "#": {
       "item": "forestry:raw_tin"
@@ -12,5 +13,6 @@
   ],
   "result": {
     "item": "forestry:raw_tin_block"
-  }
+  },
+  "show_notification": true
 }

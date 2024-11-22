@@ -7,6 +7,7 @@
   },
   "recipe": {
     "type": "minecraft:crafting_shaped",
+    "category": "misc",
     "key": {
       "#": {
         "item": "forestry:wood_pulp"
@@ -18,7 +19,8 @@
     ],
     "result": {
       "item": "forestry:letter_empty_fresh"
-    }
+    },
+    "show_notification": true
   },
   "time": 10
 }

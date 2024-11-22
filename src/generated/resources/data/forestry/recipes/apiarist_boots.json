@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "equipment",
   "group": "apiarist_armour",
   "key": {
     "#": {
@@ -12,5 +13,6 @@
   ],
   "result": {
     "item": "forestry:apiarist_boots"
-  }
+  },
+  "show_notification": true
 }

@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "equipment",
   "key": {
     "#": {
       "tag": "minecraft:wool"
@@ -21,5 +22,6 @@
   ],
   "result": {
     "item": "forestry:digger_bag"
-  }
+  },
+  "show_notification": true
 }

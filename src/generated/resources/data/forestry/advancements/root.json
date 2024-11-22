@@ -50,27 +50,7 @@
           },
           {
             "items": [
-              "forestry:bee_comb_irradiated"
-            ]
-          },
-          {
-            "items": [
               "forestry:bee_comb_powdery"
-            ]
-          },
-          {
-            "items": [
-              "forestry:bee_comb_reddened"
-            ]
-          },
-          {
-            "items": [
-              "forestry:bee_comb_darkened"
-            ]
-          },
-          {
-            "items": [
-              "forestry:bee_comb_omega"
             ]
           },
           {
@@ -107,7 +87,8 @@
     "frame": "task",
     "hidden": false,
     "icon": {
-      "item": "forestry:bee_queen_ge"
+      "item": "forestry:bee_queen_ge",
+      "nbt": "{ForgeCaps:{Parent:{analyzed:0b,genome:{\"forestry:bee_effect\":{active:\"forestry:bee_effect_none\",inactive:\"forestry:bee_effect_none\"},\"forestry:bee_species\":{active:\"forestry:bee_industrious\",inactive:\"forestry:bee_industrious\"},\"forestry:cave_dwelling\":{active:\"forestry:falsed\",inactive:\"forestry:falsed\"},\"forestry:fertility\":{active:\"forestry:2id\",inactive:\"forestry:2id\"},\"forestry:flower_type\":{active:\"forestry:flower_type_vanilla\",inactive:\"forestry:flower_type_vanilla\"},\"forestry:humidity_tolerance\":{active:\"forestry:tolerance_none\",inactive:\"forestry:tolerance_none\"},\"forestry:lifespan\":{active:\"forestry:40i\",inactive:\"forestry:40i\"},\"forestry:never_sleeps\":{active:\"forestry:falsed\",inactive:\"forestry:falsed\"},\"forestry:pollination\":{active:\"forestry:25i\",inactive:\"forestry:25i\"},\"forestry:speed\":{active:\"forestry:0.6fd\",inactive:\"forestry:0.6fd\"},\"forestry:temperature_tolerance\":{active:\"forestry:tolerance_none\",inactive:\"forestry:tolerance_none\"},\"forestry:territory\":{active:\"forestry:9_6_9\",inactive:\"forestry:9_6_9\"},\"forestry:tolerates_rain\":{active:\"forestry:falsed\",inactive:\"forestry:falsed\"}},health:40,max_heath:40,pristine:1b}}}"
     },
     "show_toast": false,
     "title": {
@@ -123,5 +104,6 @@
     "loot": [
       "forestry:grant_guide"
     ]
-  }
+  },
+  "sends_telemetry_event": true
 }

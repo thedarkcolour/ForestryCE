@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "#": {
       "item": "forestry:honey_drop_honey"
@@ -15,5 +16,6 @@
   ],
   "result": {
     "item": "forestry:honeyed_slice"
-  }
+  },
+  "show_notification": true
 }

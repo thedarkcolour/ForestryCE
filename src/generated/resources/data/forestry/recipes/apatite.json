@@ -1,12 +1,15 @@
 {
-  "type": "minecraft:crafting_shapeless",
-  "ingredients": [
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 0.5,
+  "ingredient": [
     {
-      "tag": "forge:storage_blocks/apatite"
+      "item": "forestry:apatite_ore"
+    },
+    {
+      "item": "forestry:deepslate_apatite_ore"
     }
   ],
-  "result": {
-    "count": 9,
-    "item": "forestry:apatite"
-  }
+  "result": "forestry:apatite"
 }

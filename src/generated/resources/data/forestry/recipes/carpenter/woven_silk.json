@@ -7,6 +7,7 @@
   },
   "recipe": {
     "type": "minecraft:crafting_shaped",
+    "category": "misc",
     "key": {
       "X": {
         "item": "forestry:silk_wisp"
@@ -19,7 +20,8 @@
     ],
     "result": {
       "item": "forestry:woven_silk"
-    }
+    },
+    "show_notification": true
   },
   "time": 10
 }

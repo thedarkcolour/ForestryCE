@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "#": {
       "tag": "forge:ingots/tin"
@@ -12,5 +13,6 @@
   "result": {
     "count": 12,
     "item": "forestry:can"
-  }
+  },
+  "show_notification": true
 }

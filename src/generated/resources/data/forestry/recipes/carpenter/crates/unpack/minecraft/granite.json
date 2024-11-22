@@ -3,6 +3,7 @@
   "box": [],
   "recipe": {
     "type": "minecraft:crafting_shapeless",
+    "category": "misc",
     "ingredients": [
       {
         "item": "forestry:crated_granite"

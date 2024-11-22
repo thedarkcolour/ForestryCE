@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "group": "wooden_door",
+  "key": {
+    "#": [
+      {
+        "item": "minecraft:dark_oak_planks"
+      },
+      {
+        "item": "forestry:dark_oak_fireproof_planks"
+      }
+    ]
+  },
+  "pattern": [
+    "##",
+    "##",
+    "##"
+  ],
+  "result": {
+    "item": "minecraft:dark_oak_door"
+  },
+  "show_notification": true
+}

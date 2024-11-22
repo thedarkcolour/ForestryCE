@@ -7,6 +7,7 @@
   },
   "recipe": {
     "type": "minecraft:crafting_shaped",
+    "category": "misc",
     "key": {
       "#": {
         "item": "minecraft:dirt"
@@ -23,7 +24,8 @@
     "result": {
       "count": 9,
       "item": "forestry:humus"
-    }
+    },
+    "show_notification": true
   },
   "time": 5
 }

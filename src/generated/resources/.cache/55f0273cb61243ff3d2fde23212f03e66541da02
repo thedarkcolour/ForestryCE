@@ -1,6 +1,0 @@
-// 1.19.2	2024-09-06T10:16:42.117409199	Tags for minecraft:worldgen/biome
-2848fd21678020e480817af24906cc7471b13118 data/forestry/tags/worldgen/biome/humidity/arid.json
-3589bb8f8e711112317247a4999588e18ac59e7e data/forestry/tags/worldgen/biome/special/shattered_savanna.json
-2848fd21678020e480817af24906cc7471b13118 data/forestry/tags/worldgen/biome/temperature/cold.json
-a24545b58f3f91c6c033586e2b2ae12f1e8131b1 data/forestry/tags/worldgen/biome/temperature/hellish.json
-996fc965de0088cc6a3ba3b45ed2c813ba8adbf9 data/forestry/tags/worldgen/biome/temperature/warm.json

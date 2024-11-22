@@ -7,6 +7,7 @@
   },
   "recipe": {
     "type": "minecraft:crafting_shaped",
+    "category": "misc",
     "key": {
       "#": {
         "tag": "minecraft:planks"
@@ -28,7 +29,8 @@
     ],
     "result": {
       "item": "forestry:scented_paneling"
-    }
+    },
+    "show_notification": true
   },
   "time": 50
 }

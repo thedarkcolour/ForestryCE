@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "building",
   "key": {
     "#": {
       "item": "minecraft:charcoal"
@@ -12,5 +13,6 @@
   ],
   "result": {
     "item": "forestry:charcoal"
-  }
+  },
+  "show_notification": true
 }

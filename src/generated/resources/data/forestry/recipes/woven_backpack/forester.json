@@ -7,6 +7,7 @@
   },
   "recipe": {
     "type": "minecraft:crafting_shaped",
+    "category": "equipment",
     "key": {
       "T": {
         "item": "forestry:forester_bag"
@@ -25,7 +26,8 @@
     ],
     "result": {
       "item": "forestry:forester_bag_woven"
-    }
+    },
+    "show_notification": true
   },
   "time": 200
 }

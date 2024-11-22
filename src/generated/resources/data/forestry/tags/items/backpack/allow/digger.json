@@ -1,12 +1,12 @@
 {
   "values": [
-    "forestry:humus",
     "#forge:cobblestone",
     "#forge:gravel",
     "#forge:netherrack",
     "#forge:stone",
     "#forge:sandstone",
     "#forge:sand",
+    "#minecraft:dirt",
     "minecraft:flint",
     "minecraft:clay_ball",
     "minecraft:snowball",

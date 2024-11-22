@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "building",
   "group": "wooden_fence",
   "key": {
     "#": {
@@ -16,5 +17,6 @@
   "result": {
     "count": 3,
     "item": "forestry:mahogany_fireproof_fence"
-  }
+  },
+  "show_notification": true
 }

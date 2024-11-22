@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "group": "wooden_door",
+  "key": {
+    "#": [
+      {
+        "item": "minecraft:jungle_planks"
+      },
+      {
+        "item": "forestry:jungle_fireproof_planks"
+      }
+    ]
+  },
+  "pattern": [
+    "##",
+    "##",
+    "##"
+  ],
+  "result": {
+    "item": "minecraft:jungle_door"
+  },
+  "show_notification": true
+}

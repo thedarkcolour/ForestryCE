@@ -7,6 +7,7 @@
   "plan": [],
   "recipe": {
     "type": "minecraft:crafting_shaped",
+    "category": "misc",
     "key": {
       "#": {
         "tag": "forge:dusts/redstone"
@@ -23,6 +24,7 @@
     "result": {
       "count": 4,
       "item": "forestry:electron_tube_blaze"
-    }
+    },
+    "show_notification": true
   }
 }

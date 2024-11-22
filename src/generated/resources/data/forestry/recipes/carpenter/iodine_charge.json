@@ -7,6 +7,7 @@
   },
   "recipe": {
     "type": "minecraft:crafting_shaped",
+    "category": "misc",
     "key": {
       "#": {
         "item": "forestry:pollen_cluster_normal"
@@ -28,7 +29,8 @@
     ],
     "result": {
       "item": "forestry:iodine_capsule"
-    }
+    },
+    "show_notification": true
   },
   "time": 5
 }

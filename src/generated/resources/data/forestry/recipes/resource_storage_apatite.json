@@ -1,8 +1,9 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "building",
   "key": {
     "#": {
-      "tag": "forge:gems/apatite"
+      "item": "forestry:apatite"
     }
   },
   "pattern": [
@@ -12,5 +13,6 @@
   ],
   "result": {
     "item": "forestry:resource_storage_apatite"
-  }
+  },
+  "show_notification": true
 }

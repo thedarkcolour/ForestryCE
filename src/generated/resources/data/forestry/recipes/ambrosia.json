@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "#": {
       "item": "forestry:honeydew"
@@ -18,5 +19,6 @@
   ],
   "result": {
     "item": "forestry:ambrosia"
-  }
+  },
+  "show_notification": true
 }

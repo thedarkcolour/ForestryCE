@@ -7,6 +7,7 @@
   },
   "recipe": {
     "type": "minecraft:crafting_shaped",
+    "category": "misc",
     "key": {
       "X": {
         "tag": "forge:gems/diamond"
@@ -22,7 +23,8 @@
     ],
     "result": {
       "item": "forestry:hardened_machine"
-    }
+    },
+    "show_notification": true
   },
   "time": 75
 }

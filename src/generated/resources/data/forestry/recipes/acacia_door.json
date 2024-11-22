@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "group": "wooden_door",
+  "key": {
+    "#": [
+      {
+        "item": "minecraft:acacia_planks"
+      },
+      {
+        "item": "forestry:acacia_fireproof_planks"
+      }
+    ]
+  },
+  "pattern": [
+    "##",
+    "##",
+    "##"
+  ],
+  "result": {
+    "item": "minecraft:acacia_door"
+  },
+  "show_notification": true
+}

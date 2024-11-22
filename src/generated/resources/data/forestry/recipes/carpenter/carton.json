@@ -7,6 +7,7 @@
   },
   "recipe": {
     "type": "minecraft:crafting_shaped",
+    "category": "misc",
     "key": {
       "#": {
         "item": "forestry:wood_pulp"
@@ -20,7 +21,8 @@
     "result": {
       "count": 2,
       "item": "forestry:carton"
-    }
+    },
+    "show_notification": true
   },
   "time": 5
 }

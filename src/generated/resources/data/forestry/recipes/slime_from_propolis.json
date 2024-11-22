@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "#": {
       "item": "forestry:propolis_normal"
@@ -15,5 +16,6 @@
   ],
   "result": {
     "item": "minecraft:slime_ball"
-  }
+  },
+  "show_notification": true
 }

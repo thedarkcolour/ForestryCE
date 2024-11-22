@@ -16,5 +16,6 @@
       ],
       "rolls": 1.0
     }
-  ]
+  ],
+  "random_sequence": "forestry:blocks/dark_oak_fireproof_wood"
 }

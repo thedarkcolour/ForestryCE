@@ -1,8 +1,9 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "building",
   "key": {
     "#": {
-      "tag": "forge:ingots/bronze"
+      "item": "forestry:ingot_bronze"
     }
   },
   "pattern": [
@@ -12,5 +13,6 @@
   ],
   "result": {
     "item": "forestry:resource_storage_bronze"
-  }
+  },
+  "show_notification": true
 }

@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "#": {
       "item": "minecraft:quartz_pillar"
@@ -14,5 +15,6 @@
   ],
   "result": {
     "item": "forestry:farm_gearbox_quartz_lines"
-  }
+  },
+  "show_notification": true
 }

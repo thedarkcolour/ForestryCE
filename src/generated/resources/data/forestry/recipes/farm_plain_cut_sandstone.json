@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "#": {
       "item": "minecraft:cut_sandstone"
@@ -20,5 +21,6 @@
   ],
   "result": {
     "item": "forestry:farm_plain_cut_sandstone"
-  }
+  },
+  "show_notification": true
 }

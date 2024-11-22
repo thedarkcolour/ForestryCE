@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "#": {
       "item": "forestry:silk_wisp"
@@ -13,5 +14,6 @@
   "result": {
     "count": 4,
     "item": "minecraft:cobweb"
-  }
+  },
+  "show_notification": true
 }

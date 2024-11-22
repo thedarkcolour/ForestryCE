@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "#": {
       "tag": "forge:dusts/ash"
@@ -18,5 +19,6 @@
   ],
   "result": {
     "item": "forestry:bituminous_peat"
-  }
+  },
+  "show_notification": true
 }

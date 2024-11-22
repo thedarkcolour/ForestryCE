@@ -7,6 +7,7 @@
   },
   "recipe": {
     "type": "minecraft:crafting_shaped",
+    "category": "misc",
     "key": {
       "#": {
         "tag": "minecraft:logs"
@@ -20,7 +21,8 @@
     "result": {
       "count": 24,
       "item": "forestry:crate"
-    }
+    },
+    "show_notification": true
   },
   "time": 20
 }

@@ -11,19 +11,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "conditions": [
-            {
-              "block": "forestry:acacia_desert_door",
-              "condition": "minecraft:block_state_property",
-              "properties": {
-                "half": "lower"
-              }
-            }
-          ],
           "name": "forestry:acacia_desert_door"
         }
       ],
       "rolls": 1.0
     }
-  ]
+  ],
+  "random_sequence": "forestry:blocks/acacia_desert_door"
 }

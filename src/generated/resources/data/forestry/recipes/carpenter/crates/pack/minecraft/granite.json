@@ -9,6 +9,7 @@
   },
   "recipe": {
     "type": "minecraft:crafting_shaped",
+    "category": "misc",
     "key": {
       "#": {
         "item": "minecraft:granite"
@@ -21,7 +22,8 @@
     ],
     "result": {
       "item": "forestry:crated_granite"
-    }
+    },
+    "show_notification": true
   },
   "time": 5
 }

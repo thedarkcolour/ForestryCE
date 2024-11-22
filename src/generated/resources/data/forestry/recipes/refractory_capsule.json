@@ -1,5 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
+  "category": "misc",
   "key": {
     "#": {
       "item": "forestry:refractory_wax"
@@ -12,5 +13,6 @@
   "result": {
     "count": 4,
     "item": "forestry:refractory"
-  }
+  },
+  "show_notification": true
 }
