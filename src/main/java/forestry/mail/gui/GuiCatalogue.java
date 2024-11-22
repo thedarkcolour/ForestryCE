@@ -49,9 +49,6 @@ public class GuiCatalogue extends GuiForestry<ContainerCatalogue> {
 		super(new ResourceLocation("textures/gui/book.png"), container, inv, title);
 		this.imageWidth = 192;
 		this.imageHeight = 192;
-
-		buttonFilter = new Button(width / 2 - 44, topPos + 150, 42, 20, Component.translatable("for.gui.mail.filter.all"), b -> actionPerformed(4));
-		buttonUse = new Button(width / 2, topPos + 150, 42, 20, Component.translatable("for.gui.mail.address.copy"), b -> actionPerformed(5));
 	}
 
 	@Override
@@ -65,7 +62,6 @@ public class GuiCatalogue extends GuiForestry<ContainerCatalogue> {
 		addRenderableWidget(new Button(width / 2 + 44, topPos + 150, 12, 20, Component.literal(">"), b -> actionPerformed(2)));
 		addRenderableWidget(new Button(width / 2 - 58, topPos + 150, 12, 20, Component.literal("<"), b -> actionPerformed(3)));
 
-		//TODO but these are set in the constructor??
 		buttonFilter = new Button(width / 2 - 44, topPos + 150, 42, 20, Component.translatable("for.gui.mail.filter.all"), b -> actionPerformed(4));
 		addRenderableWidget(buttonFilter);
 
