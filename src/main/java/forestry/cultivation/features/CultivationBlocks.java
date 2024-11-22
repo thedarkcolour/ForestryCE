@@ -14,6 +14,6 @@ import forestry.modules.features.ModFeatureRegistry;
 public class CultivationBlocks {
 	private static final IFeatureRegistry REGISTRY = ModFeatureRegistry.get(ForestryModuleIds.CULTIVATION);
 
-	public static final FeatureBlockGroup<BlockPlanter, BlockTypePlanter> MANAGED_PLANTER = REGISTRY.blockGroup(type -> new BlockPlanter(type, false), BlockTypePlanter.values()).item(ItemBlockPlanter::new).identifier("managed", FeatureGroup.IdentifierType.SUFFIX).create();
-	public static final FeatureBlockGroup<BlockPlanter, BlockTypePlanter> MANUAL_PLANTER = REGISTRY.blockGroup(type -> new BlockPlanter(type, true), BlockTypePlanter.values()).item(ItemBlockPlanter::new).identifier("manual", FeatureGroup.IdentifierType.SUFFIX).create();
+	public static final FeatureBlockGroup<BlockPlanter, BlockTypePlanter> MANAGED_PLANTER = REGISTRY.blockGroup(type -> new BlockPlanter(type, false), BlockTypePlanter.VALUES).item(ItemBlockPlanter::new).identifier("managed", FeatureGroup.IdentifierType.SUFFIX).create();
+	public static final FeatureBlockGroup<BlockPlanter, BlockTypePlanter> MANUAL_PLANTER = REGISTRY.blockGroup(type -> new BlockPlanter(type, true), BlockTypePlanter.VALUES).item(ItemBlockPlanter::new).identifier("manual", FeatureGroup.IdentifierType.SUFFIX).create();
 }

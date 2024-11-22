@@ -36,8 +36,10 @@ public class Data {
 		CompletableFuture<HolderLookup.Provider> lookup = event.getLookupProvider();
 
 		dataHelper.createTags(Registries.BLOCK, ForestryBlockTagsProvider::addTags);
-		dataHelper.createTags(Registries.ITEM, ForestryItemTagsProvider::addTags);
-		dataHelper.createTags(Registries.ITEM, ForestryBackpackTagProvider::addTags);
+		dataHelper.createTags(Registries.ITEM, (tags, l) -> {
+			ForestryItemTagsProvider.addTags(tags);
+			ForestryBackpackTagProvider.addTags(tags);
+		});
 		dataHelper.createTags(Registries.BIOME, ForestryBiomeTagsProvider::addTags);
 		dataHelper.createTags(Registries.FLUID, ForestryFluidTagsProvider::addTags);
 		dataHelper.createTags(Registries.POINT_OF_INTEREST_TYPE, ForestryPoiTypeTagProvider::addTags);
@@ -51,6 +53,7 @@ public class Data {
 		generator.addProvider(event.includeClient(), new ForestryWoodModelProvider(output, existingFileHelper));
 		generator.addProvider(event.includeClient(), new ForestryItemModelProvider(output, existingFileHelper));
 		generator.addProvider(event.includeClient(), new ForestryAtlasProvider(output, existingFileHelper));
+		generator.addProvider(event.includeServer(), new ForestryFeaturesProvider(output, lookup));
 	}
 
 	// Hack fix to make API work in data generation environment

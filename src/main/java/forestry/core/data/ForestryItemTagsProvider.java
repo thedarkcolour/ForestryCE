@@ -1,6 +1,5 @@
 package forestry.core.data;
 
-import net.minecraft.core.HolderLookup;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
@@ -20,7 +19,7 @@ import forestry.mail.features.MailItems;
 import thedarkcolour.modkit.data.MKTagsProvider;
 
 public class ForestryItemTagsProvider {
-	public static void addTags(MKTagsProvider<Item> tags, HolderLookup.Provider lookup) {
+	public static void addTags(MKTagsProvider<Item> tags) {
 		// Copy block tags
 		tags.copy(ForestryTags.Blocks.CHARCOAL_BLOCK, ForestryTags.Items.CHARCOAL_BLOCK);
 		tags.copy(Tags.Blocks.CHESTS, Tags.Items.CHESTS);

@@ -1,7 +1,5 @@
 package forestry.core.data;
 
-import net.minecraft.core.HolderLookup;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
@@ -14,7 +12,7 @@ import forestry.core.features.CoreItems;
 import thedarkcolour.modkit.data.MKTagsProvider;
 
 public class ForestryBackpackTagProvider {
-	public static void addTags(MKTagsProvider<Item> tags, HolderLookup.Provider lookup) {
+	public static void addTags(MKTagsProvider<Item> tags) {
 		tags.tag(ForestryTags.Items.MINER_ALLOW).addTags(
 				Tags.Items.OBSIDIAN,
 				Tags.Items.ORES,
@@ -32,14 +30,14 @@ public class ForestryBackpackTagProvider {
 		);
 		tags.tag(ForestryTags.Items.MINER_REJECT);
 
-		tags.copy(BlockTags.DIRT, ForestryTags.Items.DIGGER_ALLOW);
 		tags.tag(ForestryTags.Items.DIGGER_ALLOW).addTags(
 				Tags.Items.COBBLESTONE,
 				Tags.Items.GRAVEL,
 				Tags.Items.NETHERRACK,
 				Tags.Items.STONE,
 				Tags.Items.SANDSTONE,
-				Tags.Items.SAND
+				Tags.Items.SAND,
+				ItemTags.DIRT
 		);
 		tags.tag(ForestryTags.Items.DIGGER_ALLOW).add(
 				Items.FLINT,
@@ -134,11 +132,7 @@ public class ForestryBackpackTagProvider {
 		);
 		tags.tag(ForestryTags.Items.HUNTER_REJECT);
 
-		tags.copy(BlockTags.FENCE_GATES, ForestryTags.Items.BUILDER_ALLOW);
 		tags.tag(ForestryTags.Items.BUILDER_ALLOW).addTags(
-				// TODO:
-				//  "block[A-Z].*",
-				//  "stainedClay[A-Z].*"
 				Tags.Items.GLASS_PANES,
 				ItemTags.WOODEN_SLABS,
 				Tags.Items.STAINED_GLASS,
@@ -151,7 +145,10 @@ public class ForestryBackpackTagProvider {
 				ItemTags.WOODEN_TRAPDOORS,
 				Tags.Items.GLASS,
 				Tags.Items.CHESTS,
-				ItemTags.WOODEN_DOORS
+				ItemTags.WOODEN_DOORS,
+				ItemTags.FENCE_GATES,
+				ItemTags.FENCES,
+				ItemTags.TERRACOTTA
 		);
 		tags.tag(ForestryTags.Items.BUILDER_ALLOW).add(
 				Items.TORCH,

@@ -9,7 +9,6 @@ import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
-import net.minecraft.data.recipes.SpecialRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
@@ -104,6 +103,7 @@ import forestry.worktable.features.WorktableBlocks;
 
 import it.unimi.dsi.fastutil.objects.ObjectIntPair;
 import thedarkcolour.modkit.data.MKRecipeProvider;
+import static thedarkcolour.modkit.data.MKRecipeProvider.ingredient;
 import static thedarkcolour.modkit.data.MKRecipeProvider.path;
 
 // todo split into smaller classes so that my computer doesn't die
@@ -579,9 +579,8 @@ public class ForestryRecipeProvider {
 	}
 
 	private static void registerCoreRecipes(MKRecipeProvider recipes) {
-		recipes.oreSmelting(Ingredient.of(ForestryTags.Items.ORES_APATITE), CoreItems.APATITE, 0.5f, 200);
-		recipes.oreSmelting(Ingredient.of(ForestryTags.Items.ORES_TIN), CoreItems.INGOT_TIN, 0.5f, 200);
-		recipes.oreSmelting(Ingredient.of(ForestryTags.Items.RAW_MATERIALS_TIN), CoreItems.INGOT_TIN, 0.5f, 200);
+		recipes.oreSmelting(ingredient(CoreBlocks.APATITE_ORE.get(), CoreBlocks.DEEPSLATE_APATITE_ORE.get()), CoreItems.APATITE, 0.5f, 200);
+		recipes.oreSmelting(ingredient(CoreBlocks.TIN_ORE.get(), CoreBlocks.DEEPSLATE_TIN_ORE.get(), CoreItems.RAW_TIN), CoreItems.INGOT_TIN, 0.5f, 200);
 		recipes.smelting(Ingredient.of(CoreItems.PEAT.item()), CoreItems.ASH, 0.0f, 200);
 		recipes.storage3x3(CoreBlocks.RAW_TIN_BLOCK, CoreItems.RAW_TIN);
 

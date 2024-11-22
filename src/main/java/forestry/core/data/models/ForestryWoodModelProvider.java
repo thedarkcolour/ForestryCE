@@ -20,6 +20,8 @@ import forestry.arboriculture.blocks.BlockForestryStairs;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.modules.features.FeatureBlockGroup;
 
+import org.jetbrains.annotations.NotNull;
+
 public class ForestryWoodModelProvider extends ForestryBlockStateProvider {
 	public ForestryWoodModelProvider(PackOutput output, ExistingFileHelper exFileHelper) {
 		super(output, exFileHelper);
@@ -175,5 +177,10 @@ public class ForestryWoodModelProvider extends ForestryBlockStateProvider {
 		axisBlock(fireproofWood, woodModel, woodModel);
 		generic3d(wood);
 		generic3d(fireproofWood, wood);
+	}
+
+	@Override
+	public @NotNull String getName() {
+		return "Wood Block States: Forestry";
 	}
 }
