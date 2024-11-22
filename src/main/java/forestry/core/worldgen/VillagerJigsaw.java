@@ -1,5 +1,6 @@
 package forestry.core.worldgen;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.core.Registry;
@@ -24,28 +25,6 @@ public class VillagerJigsaw {
 		addVillagerHouse(pools, processors, "savanna", 15);
 		addVillagerHouse(pools, processors, "desert", 15);
 		addVillagerHouse(pools, processors, "taiga", 15);
-
-		// Adds our piece to all village houses pool
-		// Note, the resourcelocation is getting the pool files from the data folder. Not assets folder.
-		//addBuildingToPool(pools, processors,
-		//		new ResourceLocation("minecraft:village/plains/houses"),
-		//		"modid:structure_nbt_resourcelocation", 5);
-
-		//addBuildingToPool(pools, processors,
-		//		new ResourceLocation("minecraft:village/snowy/houses"),
-		//		"modid:structure_nbt_resourcelocation", 5);
-
-		//addBuildingToPool(pools, processors,
-		//		new ResourceLocation("minecraft:village/savanna/houses"),
-		//		"modid:structure_nbt_resourcelocation", 5);
-
-		//addBuildingToPool(pools, processors,
-		//		new ResourceLocation("minecraft:village/taiga/houses"),
-		//		"modid:structure_nbt_resourcelocation", 5);
-
-		//addBuildingToPool(pools, processors,
-		//		new ResourceLocation("minecraft:village/desert/houses"),
-		//		"modid:structure_nbt_resourcelocation", 5);
 	}
 
 	private static void addVillagerHouse(Registry<StructureTemplatePool> pools, Registry<StructureProcessorList> processors, String biome, int weight) {
@@ -55,30 +34,31 @@ public class VillagerJigsaw {
 	public static void addToJigsawPattern(Registry<StructureTemplatePool> pools, ResourceLocation pool, StructurePoolElement newPiece, int weight) {
 		StructureTemplatePool oldPool = pools.get(pool);
 		if (oldPool != null) {
-			oldPool.rawTemplates.add(Pair.of(newPiece, weight));
 			List<StructurePoolElement> jigsawPieces = oldPool.templates;
 
 			for (int i = 0; i < weight; ++i) {
 				jigsawPieces.add(newPiece);
 			}
+
+			List<Pair<StructurePoolElement, Integer>> listOfPieceEntries = new ArrayList<>(oldPool.rawTemplates);
+			listOfPieceEntries.add(new Pair<>(newPiece, weight));
+			oldPool.rawTemplates = listOfPieceEntries;
 		}
 	}
-
-	/*private static void addBuildingToPool(Registry<StructureTemplatePool> templatePoolRegistry, Registry<StructureProcessorList> processorListRegistry, ResourceLocation poolRL, String nbtPieceRL, int weight) {
+/*
+	private static void addVillagerHouse(Registry<StructureTemplatePool> pools, Registry<StructureProcessorList> processors, String biome, int weight) {
 		// Grabs the processor list we want to use along with our piece.
 		// This is a requirement as using the ProcessorLists.EMPTY field will cause the game to throw errors.
 		// The reason why is the empty processor list in the world's registry is not the same instance as in that field once the world is started up.
-		Holder<StructureProcessorList> emptyProcessorList = processorListRegistry.getHolderOrThrow(EMPTY_PROCESSOR_LIST_KEY);
+		Holder<StructureProcessorList> emptyProcessorList = processors.getHolderOrThrow(EMPTY_PROCESSOR_LIST_KEY);
 
 		// Grab the pool we want to add to
-		StructureTemplatePool pool = templatePoolRegistry.get(poolRL);
-		if (pool == null) {
-			return;
-		}
+		StructureTemplatePool pool = pools.get(new ResourceLocation("village/" + biome + "/houses"));
+		if (pool == null) return;
 
 		// Grabs the nbt piece and creates a SinglePoolElement of it that we can add to a structure's pool.
 		// Use .legacy( for villages/outposts and .single( for everything else
-		SinglePoolElement piece = SinglePoolElement.legacy(nbtPieceRL, emptyProcessorList).apply(StructureTemplatePool.Projection.RIGID);
+		ApiaristPoolElement piece = new ApiaristPoolElement(Either.left(ForestryConstants.forestry("village/apiarist_house_" + biome + "_1")), emptyProcessorList);
 
 		// Use AccessTransformer or Accessor Mixin to make StructureTemplatePool's templates field public for us to see.
 		// Weight is handled by how many times the entry appears in this list.

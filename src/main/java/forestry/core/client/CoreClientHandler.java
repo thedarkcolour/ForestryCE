@@ -140,7 +140,7 @@ public class CoreClientHandler implements IClientModuleHandler {
 		PluginManager.registerClient();
 	}
 
-	private static void bakeModels(ModelEvent.BakingCompleted event) {
+	private static void bakeModels(ModelEvent.ModifyBakingResult event) {
 		ClientManager.INSTANCE.onBakeModels(event);
 	}
 

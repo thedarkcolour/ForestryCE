@@ -95,7 +95,7 @@ public enum ClientManager {
 		customModels.add(new ModelEntry(new ModelResourceLocation(ModUtil.getRegistryName(item), "inventory"), model));
 	}
 
-	public void onBakeModels(ModelEvent.BakingCompleted event) {
+	public void onBakeModels(ModelEvent.ModifyBakingResult event) {
 		//register custom models
 		Map<ResourceLocation, BakedModel> registry = event.getModels();
 		for (final BlockModelEntry entry : customBlockModels) {
