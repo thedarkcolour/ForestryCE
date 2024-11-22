@@ -65,8 +65,11 @@ public class GuiCatalogue extends GuiForestry<ContainerCatalogue> {
 		this.buttonFilter = new Button.Builder(Component.translatable("for.gui.mail.filter.all"), b -> actionPerformed(4)).pos(width / 2 - 44, topPos + 150).size(42, 20).build();
 		addRenderableWidget(this.buttonFilter);
 
-		this.buttonUse = new Button.Builder(Component.translatable("for.gui.mail.address.copy"), b -> actionPerformed(5)).pos(width / 2, topPos + 150).size(42, 20).build();
-		addRenderableWidget(this.buttonUse);
+		buttonFilter = new Button(width / 2 - 44, topPos + 150, 42, 20, Component.translatable("for.gui.mail.filter.all"), b -> actionPerformed(4));
+		addRenderableWidget(buttonFilter);
+
+		buttonUse = new Button(width / 2, topPos + 150, 42, 20, Component.translatable("for.gui.mail.address.copy"), b -> actionPerformed(5));
+		addRenderableWidget(buttonUse);
 	}
 
 	@Override

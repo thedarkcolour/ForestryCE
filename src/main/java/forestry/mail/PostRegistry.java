@@ -62,9 +62,7 @@ public class PostRegistry implements IPostRegistry {
 			return cachedPOBoxes.get(address);
 		}
 
-		POBox pobox = world.getDataStorage().computeIfAbsent(POBox::new, () -> new POBox(address), POBox.SAVE_NAME + address);
-		cachedPOBoxes.put(address, pobox);
-		return pobox;
+		return world.getDataStorage().get(POBox::new, POBox.SAVE_NAME + address);
 	}
 
 	public static POBox getOrCreatePOBox(ServerLevel world, IMailAddress add) {
@@ -105,18 +103,22 @@ public class PostRegistry implements IPostRegistry {
 		return getTradeStation(world, address) == null;
 	}
 
+	private void registerTradeStation(ServerLevel level, IMailAddress address, ITradeStation station) {
+		cachedTradeStations.put(address, station);
+		getPostOffice(level).registerTradeStation(station);
+	}
+
 	@Override
 	public TradeStation getTradeStation(ServerLevel world, IMailAddress address) {
 		if (cachedTradeStations.containsKey(address)) {
 			return (TradeStation) cachedTradeStations.get(address);
 		}
 
-		TradeStation trade = world.getDataStorage().computeIfAbsent(TradeStation::new, () -> new TradeStation(null, address), TradeStation.SAVE_NAME + address);
+		TradeStation trade = world.getDataStorage().get(TradeStation::new, TradeStation.SAVE_NAME + address);
 
 		// Only existing and valid mail orders are returned
-		if (trade.isValid()) {
-			cachedTradeStations.put(address, trade);
-			getPostOffice(world).registerTradeStation(trade);
+		if (trade != null && trade.isValid()) {
+			registerTradeStation(world, address, trade);
 			return trade;
 		}
 
@@ -130,8 +132,7 @@ public class PostRegistry implements IPostRegistry {
 		if (trade == null) {
 			trade = world.getDataStorage().computeIfAbsent(TradeStation::new, () -> new TradeStation(owner, address), TradeStation.SAVE_NAME + address);
 			trade.setDirty();
-			cachedTradeStations.put(address, trade);
-			getPostOffice(world).registerTradeStation(trade);
+			registerTradeStation(world, address, trade);
 		}
 
 		return trade;
@@ -143,8 +144,7 @@ public class PostRegistry implements IPostRegistry {
 		if (trade == null) {
 			return;
 		}
-
-		// todo no idea what this shit does
+		// TODO: Clean this up or migrate to save in a single file, as deleting seems not possible for now
 		// Need to be marked as invalid since WorldSavedData seems to do some caching of its own.
 		trade.invalidate();
 		cachedTradeStations.remove(address);
