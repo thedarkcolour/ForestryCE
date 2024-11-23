@@ -464,6 +464,24 @@ public class TradeStation extends SavedData implements ITradeStation, IInventory
 			}
 		}
 
+		// if there isn't a single larger stamp we will just combine smaller ones, starting with the higher values
+		// this is totally disregarding whether there's a better solution or not, but I won't implement a knapsack solver here
+		if (postageRemaining > 0) {
+			postageRemaining = postageRequired;
+			stamps = new int[EnumPostage.values().length];
+			for (int i = stamps.length - 1; i >= 0; i--) {
+				EnumPostage postValue = EnumPostage.values()[i];
+				int num = virtual ? 99 : getNumStamps(postValue);
+
+				int reqNum = Math.min((int) Math.ceil((double) postageRemaining / postValue.getValue()), num);
+				stamps[i] = reqNum;
+				postageRemaining -= reqNum * postValue.getValue();
+				if (postageRemaining <= 0) {
+					return stamps;
+				}
+			}
+		}
+
 		return stamps;
 	}
 
