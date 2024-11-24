@@ -59,8 +59,8 @@ public abstract class GuiForestry<C extends AbstractContainerMenu> extends Abstr
 	public final ResourceLocation textureFile;
 	protected final WidgetManager widgetManager;
 	protected final LedgerManager ledgerManager;
-	protected final TextLayoutHelper textLayout;
 	protected final WindowGui<?> window;
+	protected TextLayoutHelper textLayout;
 
 	protected GuiForestry(String texture, C menu, Inventory inv, Component title) {
 		this(ForestryConstants.forestry(texture), menu, inv, title);
@@ -74,8 +74,6 @@ public abstract class GuiForestry<C extends AbstractContainerMenu> extends Abstr
 		this.window = new WindowGui<>(imageWidth, imageHeight, this);
 
 		this.textureFile = texture;
-
-		this.textLayout = new TextLayoutHelper(this, ColourProperties.INSTANCE);
 	}
 
 	/* LEDGERS */
@@ -88,6 +86,7 @@ public abstract class GuiForestry<C extends AbstractContainerMenu> extends Abstr
 		this.ledgerManager.setMaxWidth(maxLedgerWidth);
 		this.ledgerManager.clear();
 
+		this.textLayout = new TextLayoutHelper(this, ColourProperties.INSTANCE);
 		this.window.init(leftPos, topPos);
 
 		addLedgers();
