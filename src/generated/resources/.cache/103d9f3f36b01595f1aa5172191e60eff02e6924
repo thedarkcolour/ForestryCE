@@ -1,5 +1,9 @@
-// 1.20.1	2024-11-21T17:52:29.5822659	Registries
+// 1.20.1	2024-11-24T15:20:19.5166837	Registries
+f2c7b18bd3bbf9fca1dbb52963b543588d8bfbe3 data/forestry/worldgen/configured_feature/hive.json
 729236b70dd4117bfdbe2cf5d4fa8d379d3594cb data/forestry/worldgen/configured_feature/ore_apatite.json
 a860368083b812fdc89c83056a04ffeca1cc6c0a data/forestry/worldgen/configured_feature/ore_tin.json
+ef53608f8b5c1497953593a4ff34f4c9437d471c data/forestry/worldgen/configured_feature/tree.json
+dc996b859c09e468a901a8c51dee1430e974574c data/forestry/worldgen/placed_feature/hive.json
 5d4e8981b4dfebb6587462e072643dd7fbdc0093 data/forestry/worldgen/placed_feature/ore_apatite.json
 b88f4336d0973b97e4343eb83835b3d83035c171 data/forestry/worldgen/placed_feature/ore_tin.json
+0357a299ceafccfae2385877548d66c34d76a99e data/forestry/worldgen/placed_feature/tree.json
