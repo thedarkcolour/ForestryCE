@@ -1807,7 +1807,7 @@
   "_comment": "###################",
   "_comment": "ПОЧТА",
   "_comment": "###################",
-  "for.chat.mail.already_mailed": "Не удалось переслать письмо.",
+  "for.chat.mail.already.mailed": "Не удалось переслать письмо.",
   "for.chat.command.forestry.mail.desc": "- %1$s : Команды почтовой системы",
   "for.chat.command.forestry.mail.help": "Различные команды, относящиеся к почтовой системе",
   "for.chat.command.forestry.mail.format": "Формат: /%1$s <подкоманда>",

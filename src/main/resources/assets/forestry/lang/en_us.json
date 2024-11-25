@@ -1790,7 +1790,7 @@
   "_comment": "###################",
   "_comment": "MAIL",
   "_comment": "###################",
-  "for.chat.mail.already_mailed": "Cannot resend letter.",
+  "for.chat.mail.already.mailed": "Cannot resend letter.",
   "for.chat.command.forestry.mail.desc": "- %1$s : Mail System Commands",
   "for.chat.command.forestry.mail.help": "Various commands related to the mail system",
   "for.chat.command.forestry.mail.format": "Format: /%1$s <sub-command>",

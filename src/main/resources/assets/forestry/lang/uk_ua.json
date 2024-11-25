@@ -1067,7 +1067,7 @@
   "item.for.lepidopterist_bag.name": "Рюкзак лепидоптеролога",
   "item.for.moth.name": "Мотылёк",
   "tile.for.butterfly_chest.name": "Сундук лепидоптеролога",
-  "for.chat.mail.already_mailed": "Не удалось переслать письмо.",
+  "for.chat.mail.already.mailed": "Не удалось переслать письмо.",
   "for.chat.command.forestry.mail.desc": "- %s : Команды почтовой системы",
   "for.chat.command.forestry.mail.help": "Различные команды, относящиеся к почтовой системе",
   "for.chat.command.forestry.mail.format": "Формат: /%s <подкоманда>",

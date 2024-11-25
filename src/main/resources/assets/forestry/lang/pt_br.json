@@ -1065,7 +1065,7 @@
   "item.for.lepidopterist_bag.name": "Mochila do Heteropterologista",
   "item.for.moth.name": "Mariposa",
   "tile.for.butterfly_chest.name": "Baú do Heteropterologista",
-  "for.chat.mail.already_mailed": "Não é possível reenviar a carta.",
+  "for.chat.mail.already.mailed": "Não é possível reenviar a carta.",
   "for.chat.command.forestry.mail.desc": "- %s : Comandos do Sistema de Correio",
   "for.chat.command.forestry.mail.help": "Vários comandos relacionados ao sistema de correio",
   "for.chat.command.forestry.mail.format": "Formato: /%s <sub-command>",

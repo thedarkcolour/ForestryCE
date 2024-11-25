@@ -1643,7 +1643,7 @@
   "item.forestry.lepidopterist_bag": "Lepidopterist's Backpack",
   "item.forestry.moth": "Moth",
   "block.forestry.butterfly_chest": "Lepidopterist's Chest",
-  "for.chat.mail.already_mailed": "信件无法重发。",
+  "for.chat.mail.already.mailed": "信件无法重发。",
   "for.chat.command.forestry.mail.desc": "- %s ：邮件系统命令",
   "for.chat.command.forestry.mail.help": "与邮件系统相关的各种命令。",
   "for.chat.command.forestry.mail.format": "格式： /%s <sub-command>",
