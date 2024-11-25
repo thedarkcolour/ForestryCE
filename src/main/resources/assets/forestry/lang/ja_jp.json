@@ -1215,7 +1215,7 @@
   "item.for.lepidopterist_bag.name": "鱗翅類研究家のバックパック",
   "item.for.moth.name": "蛾",
   "tile.for.butterfly_chest.name": "鱗翅類研究家のチェスト",
-  "for.chat.mail.already_mailed": "手紙の再発送はできません。",
+  "for.chat.mail.already.mailed": "手紙の再発送はできません。",
   "for.chat.command.forestry.mail.desc": "- %s : 郵便システムコマンド",
   "for.chat.command.forestry.mail.help": "郵便システムに関する各種コマンド",
   "for.chat.command.forestry.mail.format": "書式: /%s <サブコマンド>",

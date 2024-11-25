@@ -1154,7 +1154,7 @@
   "item.for.lepidopterist_bag.name": "Sac à dos de lépidoptériste",
   "item.for.moth.name": "Papillon de nuit",
   "tile.for.butterfly_chest.name": "Coffre de lépidoptériste",
-  "for.chat.mail.already_mailed": "Vous ne pouvez pas renvoyer la lettre.",
+  "for.chat.mail.already.mailed": "Vous ne pouvez pas renvoyer la lettre.",
   "for.chat.command.forestry.mail.desc": "- %s : Commandes du système de courrier",
   "for.chat.command.forestry.mail.help": "Diverses commandes relatives au système de courrier",
   "for.chat.command.forestry.mail.format": "Format: /%s <sous-commande>",

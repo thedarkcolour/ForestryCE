@@ -1307,7 +1307,7 @@
   "item.for.lepidopterist_bag.name": "Rucksack des Lepidopterologen",
   "item.for.moth.name": "Motte",
   "tile.for.butterfly_chest.name": "Truhe des Lepidopterologen",
-  "for.chat.mail.already_mailed": "Man kann den Brief nicht nochmal versenden.",
+  "for.chat.mail.already.mailed": "Man kann den Brief nicht nochmal versenden.",
   "for.chat.command.forestry.mail.desc": "- %s : Postsystembefehle",
   "for.chat.command.forestry.mail.help": "Verschiedene Befehle bezüglich des Postsystems",
   "for.chat.command.forestry.mail.format": "Format: /%s <Sub-Befehl>",
