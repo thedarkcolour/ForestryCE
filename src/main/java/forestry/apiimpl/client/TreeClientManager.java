@@ -32,6 +32,7 @@ public class TreeClientManager implements ITreeClientManager {
 		return this.sprites.get(species);
 	}
 
+	// todo should these be sorted?
 	@Override
 	public Collection<ILeafSprite> getAllLeafSprites() {
 		// remove duplicates

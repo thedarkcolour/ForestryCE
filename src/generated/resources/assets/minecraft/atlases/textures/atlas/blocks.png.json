@@ -2,86 +2,6 @@
   "sources": [
     {
       "type": "minecraft:single",
-      "resource": "forestry:block/leaves/jungle_pollinated"
-    },
-    {
-      "type": "minecraft:single",
-      "resource": "forestry:block/leaves/jungle_pollinated_fast"
-    },
-    {
-      "type": "minecraft:single",
-      "resource": "forestry:block/leaves/jungle"
-    },
-    {
-      "type": "minecraft:single",
-      "resource": "forestry:block/leaves/jungle_fast"
-    },
-    {
-      "type": "minecraft:single",
-      "resource": "forestry:block/leaves/mangrove_pollinated"
-    },
-    {
-      "type": "minecraft:single",
-      "resource": "forestry:block/leaves/mangrove_pollinated_fast"
-    },
-    {
-      "type": "minecraft:single",
-      "resource": "forestry:block/leaves/mangrove"
-    },
-    {
-      "type": "minecraft:single",
-      "resource": "forestry:block/leaves/mangrove_fast"
-    },
-    {
-      "type": "minecraft:single",
-      "resource": "forestry:block/leaves/spruce_pollinated"
-    },
-    {
-      "type": "minecraft:single",
-      "resource": "forestry:block/leaves/spruce_pollinated_fast"
-    },
-    {
-      "type": "minecraft:single",
-      "resource": "forestry:block/leaves/spruce"
-    },
-    {
-      "type": "minecraft:single",
-      "resource": "forestry:block/leaves/spruce_fast"
-    },
-    {
-      "type": "minecraft:single",
-      "resource": "forestry:block/leaves/oak_pollinated"
-    },
-    {
-      "type": "minecraft:single",
-      "resource": "forestry:block/leaves/oak_pollinated_fast"
-    },
-    {
-      "type": "minecraft:single",
-      "resource": "forestry:block/leaves/oak"
-    },
-    {
-      "type": "minecraft:single",
-      "resource": "forestry:block/leaves/oak_fast"
-    },
-    {
-      "type": "minecraft:single",
-      "resource": "forestry:block/leaves/willow_pollinated"
-    },
-    {
-      "type": "minecraft:single",
-      "resource": "forestry:block/leaves/willow_pollinated_fast"
-    },
-    {
-      "type": "minecraft:single",
-      "resource": "forestry:block/leaves/willow"
-    },
-    {
-      "type": "minecraft:single",
-      "resource": "forestry:block/leaves/willow_fast"
-    },
-    {
-      "type": "minecraft:single",
       "resource": "forestry:block/leaves/acacia_pollinated"
     },
     {
@@ -114,6 +34,38 @@
     },
     {
       "type": "minecraft:single",
+      "resource": "forestry:block/leaves/jungle_pollinated"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "forestry:block/leaves/jungle_pollinated_fast"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "forestry:block/leaves/jungle"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "forestry:block/leaves/jungle_fast"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "forestry:block/leaves/mangrove_pollinated"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "forestry:block/leaves/mangrove_pollinated_fast"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "forestry:block/leaves/mangrove"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "forestry:block/leaves/mangrove_fast"
+    },
+    {
+      "type": "minecraft:single",
       "resource": "forestry:block/leaves/maple_pollinated"
     },
     {
@@ -130,6 +82,22 @@
     },
     {
       "type": "minecraft:single",
+      "resource": "forestry:block/leaves/oak_pollinated"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "forestry:block/leaves/oak_pollinated_fast"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "forestry:block/leaves/oak"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "forestry:block/leaves/oak_fast"
+    },
+    {
+      "type": "minecraft:single",
       "resource": "forestry:block/leaves/palm_pollinated"
     },
     {
@@ -143,6 +111,38 @@
     {
       "type": "minecraft:single",
       "resource": "forestry:block/leaves/palm_fast"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "forestry:block/leaves/spruce_pollinated"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "forestry:block/leaves/spruce_pollinated_fast"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "forestry:block/leaves/spruce"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "forestry:block/leaves/spruce_fast"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "forestry:block/leaves/willow_pollinated"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "forestry:block/leaves/willow_pollinated_fast"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "forestry:block/leaves/willow"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "forestry:block/leaves/willow_fast"
     },
     {
       "type": "minecraft:single",

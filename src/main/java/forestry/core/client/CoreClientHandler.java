@@ -11,6 +11,7 @@
 package forestry.core.client;
 
 import java.awt.Color;
+import java.util.Map;
 import java.util.OptionalDouble;
 
 import net.minecraft.client.Minecraft;
@@ -22,6 +23,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Unit;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ChunkPos;
@@ -33,6 +35,7 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat;
+import com.mojang.datafixers.util.Pair;
 
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.ModelEvent;
@@ -44,8 +47,12 @@ import net.minecraftforge.eventbus.api.IEventBus;
 
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
+import forestry.api.apiculture.genetics.BeeLifeStage;
+import forestry.api.apiculture.genetics.IBeeSpecies;
 import forestry.api.client.IClientModuleHandler;
 import forestry.api.client.IForestryClientApi;
+import forestry.api.client.apiculture.IBeeClientManager;
+import forestry.api.client.arboriculture.ITreeClientManager;
 import forestry.api.core.ISpectacleBlock;
 import forestry.apiculture.features.ApicultureBlocks;
 import forestry.apiculture.features.ApicultureItems;
@@ -81,6 +88,7 @@ import forestry.core.render.RenderMill;
 import forestry.core.render.RenderNaturalistChest;
 import forestry.core.utils.GeneticsUtil;
 import forestry.core.utils.RenderUtil;
+import forestry.core.utils.SpeciesUtil;
 import forestry.energy.features.EnergyTiles;
 import forestry.factory.features.FactoryTiles;
 import forestry.lepidopterology.features.LepidopterologyItems;
@@ -106,6 +114,7 @@ public class CoreClientHandler implements IClientModuleHandler {
 	public void registerEvents(IEventBus modBus) {
 		modBus.addListener(CoreClientHandler::onClientSetup);
 		modBus.addListener(CoreClientHandler::registerModelLoaders);
+		modBus.addListener(CoreClientHandler::additionalBakedModels);
 		modBus.addListener(CoreClientHandler::bakeModels);
 		modBus.addListener(CoreClientHandler::setupLayers);
 		modBus.addListener(CoreClientHandler::clientSetupRenderers);
@@ -138,6 +147,25 @@ public class CoreClientHandler implements IClientModuleHandler {
 		event.register("fluid_container", FluidContainerModel.Loader.INSTANCE);
 
 		PluginManager.registerClient();
+	}
+
+	private static void additionalBakedModels(ModelEvent.RegisterAdditional event) {
+		IBeeClientManager beeManager = IForestryClientApi.INSTANCE.getBeeManager();
+
+		for (BeeLifeStage stage : BeeLifeStage.values()) {
+			Map<IBeeSpecies, ResourceLocation> models = beeManager.getBeeModels(stage);
+
+			for (IBeeSpecies species : SpeciesUtil.getAllBeeSpecies()) {
+				event.register(models.get(species));
+			}
+		}
+
+		ITreeClientManager treeManager = IForestryClientApi.INSTANCE.getTreeManager();
+
+		for (Pair<ResourceLocation, ResourceLocation> pair : treeManager.getAllSaplingModels()) {
+			event.register(pair.getFirst());
+			event.register(pair.getSecond());
+		}
 	}
 
 	private static void bakeModels(ModelEvent.ModifyBakingResult event) {

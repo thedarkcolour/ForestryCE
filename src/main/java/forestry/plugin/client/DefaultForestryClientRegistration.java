@@ -5,7 +5,6 @@ import java.util.function.Consumer;
 import net.minecraft.resources.ResourceLocation;
 
 import forestry.api.ForestryConstants;
-import forestry.api.apiculture.ForestryBeeSpecies;
 import forestry.api.apiculture.genetics.BeeLifeStage;
 import forestry.api.arboriculture.ForestryTreeSpecies;
 import forestry.api.client.arboriculture.ForestryLeafSprites;
