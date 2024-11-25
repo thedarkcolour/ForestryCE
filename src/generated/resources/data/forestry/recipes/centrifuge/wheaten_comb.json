@@ -6,7 +6,7 @@
   "products": [
     {
       "chance": 0.2,
-      "item": "forestry:honey_drop_honey"
+      "item": "forestry:honey_drop"
     },
     {
       "chance": 0.2,

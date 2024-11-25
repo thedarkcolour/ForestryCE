@@ -17,7 +17,6 @@ import forestry.api.plugin.ISpeciesTypeBuilder;
 import forestry.api.plugin.ISpeciesTypeFactory;
 import forestry.apiculture.features.ApicultureItems;
 import forestry.apiculture.items.EnumHoneyComb;
-import forestry.apiculture.items.EnumHoneyDrop;
 import forestry.core.genetics.Karyotype;
 
 import it.unimi.dsi.fastutil.objects.Reference2FloatMap;
@@ -38,7 +37,7 @@ public class SpeciesTypeBuilder implements ISpeciesTypeBuilder {
 
 		// The default research materials across all species in Forestry
 		this.researchMaterials = map -> {
-			map.put(ApicultureItems.HONEY_DROPS.item(EnumHoneyDrop.HONEY), 0.5f);
+			map.put(ApicultureItems.HONEY_DROP.item(), 0.5f);
 			map.put(ApicultureItems.HONEYDEW.item(), 0.7f);
 			map.put(ApicultureItems.BEE_COMBS.item(EnumHoneyComb.HONEY), 0.4f);
 		};

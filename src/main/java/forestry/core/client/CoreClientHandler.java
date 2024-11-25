@@ -212,7 +212,7 @@ public class CoreClientHandler implements IClientModuleHandler {
 				ApicultureItems.BEE_PRINCESS.item(),
 				ApicultureItems.BEE_LARVAE.item()
 		);
-		event.register(ClientManager.FORESTRY_ITEM_COLOR, ApicultureItems.HONEY_DROPS.itemArray());
+		event.register(ClientManager.FORESTRY_ITEM_COLOR, ApicultureItems.HONEY_DROP.item());
 		event.register(ClientManager.FORESTRY_ITEM_COLOR, ApicultureItems.PROPOLIS.itemArray());
 		event.register(ClientManager.FORESTRY_ITEM_COLOR, ApicultureItems.POLLEN_CLUSTER.itemArray());
 		event.register(ClientManager.FORESTRY_ITEM_COLOR, ApicultureItems.BEE_COMBS.itemArray());

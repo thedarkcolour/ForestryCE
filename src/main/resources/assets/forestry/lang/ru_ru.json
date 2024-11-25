@@ -488,7 +488,7 @@
   "item.forestry.portable_alyzer.tooltip": "Переносной генетический анализатор для пчёл, деревьев и бабочек.",
   "item.forestry.portable_alyzer.charges": "%s заряды",
   "item.forestry.honey_drop_charged": "Заряженная капля",
-  "item.forestry.honey_drop_honey": "Капля мёда",
+  "item.forestry.honey_drop": "Капля мёда",
   "item.forestry.honey_drop_omega": "Омега-капля",
   "item.forestry.honeyed_slice": "Бутерброд с мёдом",
   "item.forestry.honey_pot": "Горшочек мёда",

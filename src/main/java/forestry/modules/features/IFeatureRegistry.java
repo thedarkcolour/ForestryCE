@@ -61,6 +61,10 @@ public interface IFeatureRegistry {
 
 	<I extends Item> FeatureItem<I> item(Supplier<I> constructor, String identifier);
 
+	default FeatureItem<Item> item(String identifier) {
+		return item(() -> new Item(new Item.Properties()), identifier);
+	}
+
 	FeatureItem<Item> backpack(IBackpackDefinition definition, EnumBackpackType type, String identifier);
 
 	FeatureItem<Item> naturalistBackpack(IBackpackDefinition definition, ResourceLocation speciesTypeId, CreativeModeTab tab, String identifier);

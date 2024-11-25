@@ -11,7 +11,7 @@
   },
   "resources": [
     {
-      "item": "forestry:honey_drop_honey"
+      "item": "forestry:honey_drop"
     }
   ],
   "time": 10

@@ -1,12 +1,12 @@
 package forestry.apiculture.features;
 
 import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.Item;
 
 import forestry.api.apiculture.genetics.BeeLifeStage;
 import forestry.api.core.ItemGroups;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.apiculture.items.EnumHoneyComb;
-import forestry.apiculture.items.EnumHoneyDrop;
 import forestry.apiculture.items.EnumPollenCluster;
 import forestry.apiculture.items.EnumPropolis;
 import forestry.apiculture.items.ItemAmbrosia;
@@ -45,12 +45,12 @@ public class ApicultureItems {
 	public static final FeatureItem<ItemHiveFrame> FRAME_PROVEN = REGISTRY.item(() -> new ItemHiveFrame(720, 0.3f), "frame_proven");
 	public static final FeatureItem<ItemCreativeHiveFrame> FRAME_CREATIVE = REGISTRY.item(ItemCreativeHiveFrame::new, "frame_creative");
 
-	// / BEE RESOURCES
-	public static final FeatureItemGroup<ItemOverlay, EnumHoneyDrop> HONEY_DROPS = REGISTRY.itemGroup((type) -> new ItemOverlay(ItemGroups.tabApiculture, type), "honey_drop", EnumHoneyDrop.values());
+	// BEE RESOURCES
+	public static final FeatureItem<Item> HONEY_DROP = REGISTRY.item("honey_drop");
+	public static final FeatureItem<Item> HONEYDEW = REGISTRY.item("honeydew");
 	public static final FeatureItemGroup<ItemPropolis, EnumPropolis> PROPOLIS = REGISTRY.itemGroup(ItemPropolis::new, "propolis", EnumPropolis.values());
-	public static final FeatureItem<ItemForestry> HONEYDEW = REGISTRY.item(ItemForestry::new, "honeydew");
 
-	public static final FeatureItem<ItemForestry> ROYAL_JELLY = REGISTRY.item(ItemForestry::new, "royal_jelly");
+	public static final FeatureItem<Item> ROYAL_JELLY = REGISTRY.item("royal_jelly");
 
 	public static final FeatureItem<ItemWaxCast> WAX_CAST = REGISTRY.item(ItemWaxCast::new, "wax_cast");
 	public static final FeatureItemGroup<ItemPollenCluster, EnumPollenCluster> POLLEN_CLUSTER = REGISTRY.itemGroup(ItemPollenCluster::new, "pollen_cluster", EnumPollenCluster.values());

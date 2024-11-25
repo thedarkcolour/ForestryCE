@@ -10,7 +10,7 @@
     },
     {
       "chance": 0.4,
-      "item": "forestry:honey_drop_honey"
+      "item": "forestry:honey_drop"
     }
   ],
   "time": 20

@@ -45,6 +45,7 @@ public class Data {
 		dataHelper.createTags(Registries.POINT_OF_INTEREST_TYPE, ForestryPoiTypeTagProvider::addTags);
 		dataHelper.createRecipes(ForestryRecipeProvider::addRecipes);
 		dataHelper.createDamageTypes(ForestryDamageTypesProvider::addTypes);
+		dataHelper.createItemModels(false, false, false, ForestryItemModels::addModels);
 
 		generator.addProvider(event.includeServer(), new ForestryAdvancementProvider(output, lookup, existingFileHelper));
 		generator.addProvider(event.includeServer(), new ForestryLootTableProvider(output));

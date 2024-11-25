@@ -1,7 +1,6 @@
 {
   "values": [
-    "forestry:honey_drop_honey",
-    "forestry:honey_drop_charged",
-    "forestry:honey_drop_omega"
+    "forestry:honey_drop",
+    "forestry:honeydew"
   ]
 }

@@ -481,7 +481,7 @@
   "item.forestry.portable_alyzer.tooltip": "可随时随地分析蜜蜂、树苗和蝴蝶的基因数据。",
   "item.forestry.portable_alyzer.charges": "能量：%s",
   "item.forestry.honey_drop_charged": "带电蜂蜜滴",
-  "item.forestry.honey_drop_honey": "蜂蜜滴",
+  "item.forestry.honey_drop": "蜂蜜滴",
   "item.forestry.honey_drop_omega": "终结蜂蜜滴",
   "item.forestry.honeyed_slice": "蜂蜜面包",
   "item.forestry.honey_pot": "蜜罐",

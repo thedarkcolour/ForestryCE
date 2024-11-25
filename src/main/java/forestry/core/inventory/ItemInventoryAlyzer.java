@@ -16,6 +16,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
+import forestry.api.ForestryTags;
 import forestry.api.core.ForestryError;
 import forestry.api.core.IError;
 import forestry.api.core.IErrorSource;
@@ -38,12 +39,12 @@ public class ItemInventoryAlyzer extends ItemInventory implements IErrorSource {
 		super(player, 7, itemstack);
 	}
 
-	public static boolean isAlyzingFuel(ItemStack itemstack) {
-		if (itemstack.isEmpty()) {
+	public static boolean isAlyzingFuel(ItemStack stack) {
+		if (stack.isEmpty()) {
 			return false;
 		}
 
-		return ApicultureItems.HONEY_DROPS.itemEqual(itemstack) || ApicultureItems.HONEYDEW.itemEqual(itemstack);
+		return stack.is(ForestryTags.Items.DROP_HONEY);
 	}
 
 	@Override

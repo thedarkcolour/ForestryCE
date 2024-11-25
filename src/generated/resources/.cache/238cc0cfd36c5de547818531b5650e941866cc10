@@ -1,4 +1,4 @@
-// 1.20.1	2024-11-21T17:52:29.5576656	Tags for minecraft:item mod id forestry
+// 1.20.1	2024-11-25T11:58:03.5193305	Tags for minecraft:item mod id forestry
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forestry/tags/items/backpack/allow/adventurer.json
 426fdc880d77e5feaa70125d93a57b7ce21dbc2b data/forestry/tags/items/backpack/allow/builder.json
 603f16d567f393f72e982cc81a735eb8a2928fff data/forestry/tags/items/backpack/allow/digger.json
@@ -14,9 +14,9 @@ cc64626d7c935e9f9d2e41ea8652523ad6b0c5e9 data/forestry/tags/items/backpack/allow
 2e4f59b07943e7356cf4cf347a87058a964d48da data/forestry/tags/items/bees.json
 a5bf4aa6f99bb4493f6fbdfe528f5c984cee54df data/forestry/tags/items/combs.json
 9f5d66e4017fbcabe22c6702e93310cf271fe042 data/forestry/tags/items/crafting_tables.json
-ce1f7b72ce898ae6a000ae70dc79151602ad453c data/forestry/tags/items/drop_honey.json
+0065fbab36f74fb846e11c84e9d0bfd535b7c25e data/forestry/tags/items/drop_honey.json
 c6ef65383ced49aaf1b8ea0350192aed4c882ee5 data/forestry/tags/items/forestry_fruits.json
-965c11d8202565995d18ff684e26d4a52ed05bb5 data/forestry/tags/items/propolis.json
+794cdff7b3d1a97e7cec2815b209d867bf747502 data/forestry/tags/items/propolis.json
 cf0c5a0245a3eeb822d88e53776905fa468d455c data/forestry/tags/items/scoops.json
 c0020e6f377758179d2d7f23812e757851ba1ff2 data/forestry/tags/items/stamps.json
 a5bf4aa6f99bb4493f6fbdfe528f5c984cee54df data/forestry/tags/items/village_combs.json

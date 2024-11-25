@@ -24,12 +24,10 @@ public enum EnumElectronTube implements ItemOverlay.IOverlayInfo {
 	DIAMOND(new Color(0x8CF5E3)),
 	OBSIDIAN(new Color(0x866bc0)),
 	BLAZE(new Color(0xd96600), new Color(0xFFF87E)),
-	RUBBER(new Color(0x444444)),
 	EMERALD(new Color(0x00CC41)),
 	APATITE(new Color(0x579CD9)),
 	LAPIS(new Color(0x1c57c6)),
-	ENDER(new Color(0x33adad), new Color(0x255661)),
-	ORCHID(new Color(0x820208), new Color(0xc64f3f));
+	ENDER(new Color(0x33adad), new Color(0x255661));
 
 	private final String uid;
 	private final int primaryColor;

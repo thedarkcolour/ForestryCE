@@ -45,7 +45,6 @@ import forestry.apiculture.blocks.NaturalistChestBlockType;
 import forestry.apiculture.features.ApicultureBlocks;
 import forestry.apiculture.features.ApicultureItems;
 import forestry.apiculture.items.EnumHoneyComb;
-import forestry.apiculture.items.EnumHoneyDrop;
 import forestry.apiculture.items.EnumPollenCluster;
 import forestry.apiculture.items.EnumPropolis;
 import forestry.arboriculture.ForestryWoodType;
@@ -127,7 +126,7 @@ public class ForestryRecipeProvider {
 
 	public static void addRecipes(Consumer<FinishedRecipe> consumer, MKRecipeProvider recipes) {
 		// Vanilla recipe types
-		registerArboricultureRecipes(consumer, recipes);
+		registerArboricultureRecipes(recipes);
 		registerApicultureRecipes(recipes);
 		registerFoodRecipes(recipes);
 		registerBackpackRecipes(recipes);
@@ -137,8 +136,8 @@ public class ForestryRecipeProvider {
 		registerFactoryRecipes(recipes);
 		registerFarmingRecipes(recipes);
 		registerFluidsRecipes(recipes);
-		registerLepidopterologyRecipes(recipes, consumer);
-		registerMailRecipes(recipes, consumer);
+		registerLepidopterologyRecipes(recipes);
+		registerMailRecipes(recipes);
 		registerSortingRecipes(recipes);
 		registerWorktableRecipes(recipes);
 		registerEnergyRecipes(recipes);
@@ -351,7 +350,7 @@ public class ForestryRecipeProvider {
 		});
 
 		recipes.shapedCrafting("glistering_melon_slice", RecipeCategory.MISC, Items.GLISTERING_MELON_SLICE, recipe -> {
-			recipe.define('#', ApicultureItems.HONEY_DROPS.get(EnumHoneyDrop.HONEY));
+			recipe.define('#', ApicultureItems.HONEY_DROP);
 			recipe.define('X', ApicultureItems.HONEYDEW);
 			recipe.define('Y', Items.MELON_SLICE);
 			recipe.pattern("#X#");
@@ -384,8 +383,8 @@ public class ForestryRecipeProvider {
 		}
 	}
 
-	private static void registerArboricultureRecipes(Consumer<FinishedRecipe> helper, MKRecipeProvider recipes) {
-		registerWoodRecipes(helper, recipes);
+	private static void registerArboricultureRecipes(MKRecipeProvider recipes) {
+		registerWoodRecipes(recipes);
 
 		recipes.shapedCrafting(RecipeCategory.TOOLS, ArboricultureItems.GRAFTER, recipe -> {
 			recipe.define('B', ForestryTags.Items.INGOTS_BRONZE);
@@ -404,7 +403,7 @@ public class ForestryRecipeProvider {
 		});
 	}
 
-	private static void registerWoodRecipes(Consumer<FinishedRecipe> helper, MKRecipeProvider recipes) {
+	private static void registerWoodRecipes(MKRecipeProvider recipes) {
 		IWoodAccess woodAccess = WoodAccess.INSTANCE;
 		List<IWoodType> woodTypes = woodAccess.getRegisteredWoodTypes();
 
@@ -448,7 +447,7 @@ public class ForestryRecipeProvider {
 
 	private static void registerFoodRecipes(MKRecipeProvider recipes) {
 		ItemLike waxCapsule = FluidsItems.CONTAINERS.get(EnumContainerType.CAPSULE);
-		ItemLike honeyDrop = ApicultureItems.HONEY_DROPS.get(EnumHoneyDrop.HONEY);
+		ItemLike honeyDrop = ApicultureItems.HONEY_DROP;
 
 		recipes.shapedCrafting(RecipeCategory.FOOD, ApicultureItems.AMBROSIA, recipe -> {
 			recipe.define('#', ApicultureItems.HONEYDEW);
@@ -743,7 +742,7 @@ public class ForestryRecipeProvider {
 		});
 
 		// Books
-		recipes.shapelessCrafting("foresters_manual_honeydrop", RecipeCategory.MISC, CoreItems.FORESTERS_MANUAL, 1, Items.BOOK, ApicultureItems.HONEY_DROPS.get(EnumHoneyDrop.HONEY));
+		recipes.shapelessCrafting("foresters_manual_honeydrop", RecipeCategory.MISC, CoreItems.FORESTERS_MANUAL, 1, Items.BOOK, ApicultureItems.HONEY_DROP);
 		recipes.shapelessCrafting("foresters_manual_sapling", RecipeCategory.MISC, CoreItems.FORESTERS_MANUAL, 1, Items.BOOK, ItemTags.SAPLINGS);
 		recipes.shapelessCrafting("foresters_manual_butterfly", RecipeCategory.MISC, CoreItems.FORESTERS_MANUAL, 1, Items.BOOK, LepidopterologyItems.BUTTERFLY_GE);
 	}
@@ -951,7 +950,7 @@ public class ForestryRecipeProvider {
 		}
 	}
 
-	private static void registerLepidopterologyRecipes(MKRecipeProvider recipes, Consumer<FinishedRecipe> consumer) {
+	private static void registerLepidopterologyRecipes(MKRecipeProvider recipes) {
 		recipes.shapedCrafting(RecipeCategory.MISC, CoreBlocks.NATURALIST_CHEST.get(NaturalistChestBlockType.LEPIDOPTERIST_CHEST), recipe -> {
 			recipe.define('#', Tags.Items.GLASS);
 			recipe.define('X', LepidopterologyItems.BUTTERFLY_GE);
@@ -963,7 +962,7 @@ public class ForestryRecipeProvider {
 		recipes.special("butterfly_mating", LepidopterologyRecipes.MATING_SERIALIZER);
 	}
 
-	private static void registerMailRecipes(MKRecipeProvider recipes, Consumer<FinishedRecipe> helper) {
+	private static void registerMailRecipes(MKRecipeProvider recipes) {
 		recipes.shapelessCrafting(RecipeCategory.MISC, MailItems.CATALOGUE, 1, Items.BOOK, ForestryTags.Items.STAMPS);
 		Ingredient sealant = Ingredient.merge(List.of(Ingredient.of(ForestryTags.Items.PROPOLIS), Ingredient.of(Tags.Items.SLIMEBALLS)));
 		recipes.shapelessCrafting(RecipeCategory.MISC, MailItems.LETTERS.get(ItemLetter.Size.EMPTY, ItemLetter.State.FRESH), 1, Items.PAPER, sealant);
@@ -1152,7 +1151,7 @@ public class ForestryRecipeProvider {
 						.define('#', ApicultureItems.POLLEN_CLUSTER.get(EnumPollenCluster.NORMAL))
 						.define('X', Items.GUNPOWDER)
 						.define('Y', FluidsItems.CONTAINERS.get(EnumContainerType.CAN))
-						.define('Z', ApicultureItems.HONEY_DROPS.get(EnumHoneyDrop.HONEY)))
+						.define('Z', ApicultureItems.HONEY_DROP))
 				.build(consumer, id("carpenter", "iodine_charge"));
 		new CarpenterRecipeBuilder()
 				.setLiquid(new FluidStack(Fluids.WATER, 1000))
@@ -1474,7 +1473,7 @@ public class ForestryRecipeProvider {
 				.product(0.15F, CoreItems.CRAFTING_MATERIALS.stack(EnumCraftingMaterial.SILK_WISP))
 				.build(consumer, id("centrifuge", "string"));
 
-		ItemStack honeyDrop = ApicultureItems.HONEY_DROPS.stack(EnumHoneyDrop.HONEY, 1);
+		ItemStack honeyDrop = ApicultureItems.HONEY_DROP.stack();
 
 		new CentrifugeRecipeBuilder()
 				.setProcessingTime(20)
@@ -1656,16 +1655,6 @@ public class ForestryRecipeProvider {
 						.define('#', Items.ENDER_EYE)
 						.define('X', Items.END_STONE))
 				.build(consumer, id("fabricator", "electron_tubes", "ender"));
-		new FabricatorRecipeBuilder()
-				.setPlan(Ingredient.EMPTY)
-				.setMolten(liquidGlass)
-				.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CoreItems.ELECTRON_TUBES.get(EnumElectronTube.ORCHID), 4)
-						.pattern(" X ")
-						.pattern("#X#")
-						.pattern("XXX")
-						.define('#', Items.REPEATER)
-						.define('X', Items.REDSTONE_ORE))
-				.build(consumer, id("fabricator", "electron_tubes", "orchid"));
 		new FabricatorRecipeBuilder()
 				.setPlan(Ingredient.EMPTY)
 				.setMolten(liquidGlass)
@@ -1932,7 +1921,7 @@ public class ForestryRecipeProvider {
 
 		new SqueezerRecipeBuilder()
 				.setProcessingTime(10)
-				.setResources(NonNullList.withSize(1, Ingredient.of(ApicultureItems.HONEY_DROPS.get(EnumHoneyDrop.HONEY))))
+				.setResources(NonNullList.withSize(1, Ingredient.of(ApicultureItems.HONEY_DROP)))
 				.setFluidOutput(honeyDropFluid)
 				.setRemnants(ApicultureItems.PROPOLIS.stack(EnumPropolis.NORMAL, 1))
 				.setRemnantsChance(5 / 100f)

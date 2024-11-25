@@ -16,9 +16,7 @@ import java.util.Locale;
 import forestry.core.items.ItemOverlay;
 
 public enum EnumHoneyDrop implements ItemOverlay.IOverlayInfo {
-	HONEY(new Color(0xecb42d), new Color(0xe8c814)),
-	CHARGED(new Color(0x800505), new Color(0x9c0707)),
-	OMEGA(new Color(0x191919), new Color(0x4a8ca7));
+	HONEY(new Color(0xecb42d), new Color(0xe8c814));
 
 	private final String name;
 	private final int primaryColor;
