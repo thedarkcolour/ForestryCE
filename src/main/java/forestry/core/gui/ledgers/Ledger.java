@@ -251,11 +251,7 @@ public abstract class Ledger {
 		Minecraft mc = Minecraft.getInstance();
 		List<FormattedCharSequence> strings = mc.font.split(string, width);
 		for (FormattedCharSequence obj : strings) {
-			if (shadow) {
-				graphics.drawString(mc.font, obj, x, y, color);
-			} else {
-				graphics.drawString(mc.font, obj, x, y, color);
-			}
+			graphics.drawString(mc.font, obj, x, y, color, shadow);
 			y += mc.font.lineHeight;
 		}
 		return y - originalY;
@@ -263,7 +259,7 @@ public abstract class Ledger {
 
 	protected int drawText(GuiGraphics graphics, String string, int x, int y) {
 		Minecraft mc = Minecraft.getInstance();
-		graphics.drawString(mc.font, string, x, y, fontColorText);
+		graphics.drawString(mc.font, string, x, y, fontColorText, false);
 		return mc.font.lineHeight;
 	}
 }

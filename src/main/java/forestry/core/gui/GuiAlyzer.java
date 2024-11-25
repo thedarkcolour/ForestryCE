@@ -267,7 +267,7 @@ public class GuiAlyzer extends GuiForestry<ContainerAlyzer> {
 			textLayout.drawSplitLine(graphics, tokens[0], 12, 200, 0x666666);
 			if (tokens.length > 1) {
 				String signature = "- " + tokens[1];
-				graphics.drawString(this.font, signature, leftPos + 210 - font().width(signature), topPos + 145 - 14, 0x99cc32, true);
+				graphics.drawString(this.font, signature, this.leftPos + 210 - font().width(signature), topPos + 145 - 14, 0x99cc32, true);
 			}
 		} else {
 			textLayout.drawSplitLine(graphics, Component.translatable("for.gui.alyzer.nodescription"), 12, 200, 0x666666);

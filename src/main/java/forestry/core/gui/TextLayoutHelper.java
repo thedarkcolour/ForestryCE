@@ -13,9 +13,6 @@ package forestry.core.gui;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-import net.minecraft.util.FormattedCharSequence;
-
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import forestry.core.render.ColourProperties;
 
@@ -94,10 +91,7 @@ public class TextLayoutHelper {
 	}
 
 	public void drawCenteredLine(GuiGraphics graphics, Component text, int x, int y, int width, int color) {
-		// todo
-		//graphics.drawCenteredString();
-
-		//guiForestry.getFontRenderer().draw(graphics, text, guiForestry.getGuiLeft() + x + getCenteredOffset(text, width), guiForestry.getGuiTop() + y + line, color);
+		graphics.drawString(this.font, text, this.screen.getGuiLeft() + x + getCenteredOffset(text, width), this.screen.getGuiTop() + y + this.line, color, false);
 	}
 
 	public void drawLine(GuiGraphics graphics, String text, int x, int color) {
@@ -109,28 +103,26 @@ public class TextLayoutHelper {
 	}
 
 	public void drawLine(GuiGraphics graphics, String text, int x, int y, int color) {
-		graphics.drawString(this.font, text, this.screen.getGuiLeft() + x, this.screen.getGuiTop() + y + this.line, color);
+		graphics.drawString(this.font, text, this.screen.getGuiLeft() + x, this.screen.getGuiTop() + y + this.line, color, false);
 	}
 
 	public void drawLine(GuiGraphics graphics, Component text, int x, int y, int color) {
-		graphics.drawString(this.font, text, this.screen.getGuiLeft() + x, this.screen.getGuiTop() + y + this.line, color);
+		graphics.drawString(this.font, text, this.screen.getGuiLeft() + x, this.screen.getGuiTop() + y + this.line, color, false);
 	}
 
 	public void drawSplitLine(GuiGraphics graphics, String text, int x, int maxWidth, int color) {
 		drawSplitLine(graphics, Component.literal(text), x, maxWidth, color);
 	}
 
-	// todo verify
 	public void drawSplitLine(GuiGraphics graphics, Component text, int x, int maxWidth, int color) {
-		// Modified copy of Font.drawWordWrap that uses PoseStack
-		graphics.drawWordWrap(this.font, text, x, this.line, maxWidth, color);
+		graphics.drawWordWrap(this.font, text, this.screen.getGuiLeft() + x, this.screen.getGuiTop() + this.line, maxWidth, color);
 	}
 
 	public int getCenteredOffset(Component text) {
-		return getCenteredOffset(text, screen.getSizeX());
+		return getCenteredOffset(text, this.screen.getSizeX());
 	}
 
 	public int getCenteredOffset(Component text, int xWidth) {
-		return (xWidth - screen.font().width(text)) / 2;
+		return (xWidth - this.screen.font().width(text)) / 2;
 	}
 }
