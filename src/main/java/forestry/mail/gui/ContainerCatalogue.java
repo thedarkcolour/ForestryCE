@@ -201,9 +201,8 @@ public class ContainerCatalogue extends AbstractContainerMenu implements IGuiSel
 		needsSync = true;
 	}
 
-	// todo
 	@Override
-	public ItemStack quickMoveStack(Player p_38941_, int p_38942_) {
+	public ItemStack quickMoveStack(Player player, int slot) {
 		return ItemStack.EMPTY;
 	}
 }
