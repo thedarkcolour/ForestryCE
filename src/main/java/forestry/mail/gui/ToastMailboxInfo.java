@@ -44,8 +44,8 @@ public class ToastMailboxInfo implements Toast {
         if (!poBox.hasMail()) {
             icons.add(Icons.PLAYER_LETTER);
         } else {
-            if (poBox.tradeLetters() > 0) {
-                icons.add(Icons.TRADE_LETTER);
+            if (poBox.playerLetters() > 0) {
+                icons.add(Icons.PLAYER_LETTER);
             }
             if (poBox.tradeLetters() > 0) {
                 icons.add(Icons.TRADE_LETTER);
