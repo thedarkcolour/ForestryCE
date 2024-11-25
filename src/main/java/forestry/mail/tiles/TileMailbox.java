@@ -10,6 +10,7 @@
  ******************************************************************************/
 package forestry.mail.tiles;
 
+import forestry.mail.MailAddress;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.player.Inventory;
@@ -70,7 +71,7 @@ public class TileMailbox extends TileBase {
 			return getInternalInventory();
 		}
 
-		IMailAddress address = PostManager.postRegistry.getMailAddress(playerProfile);
+		IMailAddress address = new MailAddress(playerProfile);
 		return PostRegistry.getOrCreatePOBox((ServerLevel) world, address);
 	}
 

@@ -14,7 +14,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.ChatFormatting;
+import forestry.mail.carriers.PostalCarriers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -26,7 +26,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 
-import forestry.api.mail.EnumAddressee;
 import forestry.api.mail.ITradeStationInfo;
 import forestry.core.config.SessionVars;
 import forestry.core.gui.GuiForestry;
@@ -150,7 +149,7 @@ public class GuiCatalogue extends GuiForestry<ContainerCatalogue> {
 				ITradeStationInfo info = menu.getTradeInfo();
 				if (info != null) {
 					SessionVars.setStringVar("mail.letter.recipient", info.address().getName());
-					SessionVars.setStringVar("mail.letter.addressee", EnumAddressee.TRADER.toString());
+					SessionVars.setStringVar("mail.letter.carrier", PostalCarriers.TRADER.getKey().location().toString());
 				}
 				player.closeContainer();
 			}

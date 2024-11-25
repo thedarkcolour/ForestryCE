@@ -12,6 +12,9 @@ package forestry.mail.gui;
 
 import java.util.ArrayList;
 
+import forestry.api.mail.IPostalCarrier;
+import forestry.mail.carriers.PostalCarriers;
+import net.minecraft.resources.ResourceLocation;
 import org.apache.commons.lang3.StringUtils;
 
 import net.minecraft.client.Minecraft;
@@ -25,7 +28,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 import org.lwjgl.glfw.GLFW;
 
-import forestry.api.mail.EnumAddressee;
 import forestry.api.mail.IMailAddress;
 import forestry.core.config.Constants;
 import forestry.core.config.SessionVars;
@@ -134,16 +136,16 @@ public class GuiLetter extends GuiForestry<ContainerLetter> {
 			checkedSessionVars = true;
 			setFromSessionVars();
 			String recipient = this.address.getValue();
-			EnumAddressee recipientType = menu.getCarrierType();
-			setRecipient(recipient, recipientType);
+			IPostalCarrier carrier = menu.getCarrier();
+			setRecipient(recipient, carrier);
 		}
 
 		// Check for focus changes
 		if (addressFocus != address.isFocused()) {
 			String recipient = this.address.getValue();
+			IPostalCarrier carrier = menu.getCarrier();
 			if (StringUtils.isNotBlank(recipient)) {
-				EnumAddressee recipientType = menu.getCarrierType();
-				setRecipient(recipient, recipientType);
+				setRecipient(recipient, carrier);
 			}
 		}
 		addressFocus = address.isFocused();
@@ -159,9 +161,9 @@ public class GuiLetter extends GuiForestry<ContainerLetter> {
 			graphics.drawWordWrap(this.font, Component.literal(text.getValue()), leftPos + 20, topPos + 34, 119, ColourProperties.INSTANCE.get("gui.mail.lettertext"));
 		} else {
 			clearTradeInfoWidgets();
-			address.render(graphics, mouseX, mouseY, partialTicks);    //TODO correct?
-			if (menu.getCarrierType() == EnumAddressee.TRADER) {
-				drawTradePreview(graphics, 18, 32);
+			address.render(transform, mouseX, mouseY, partialTicks);    //TODO correct?
+			if (menu.getCarrier().equals(PostalCarriers.TRADER.get())) {
+				drawTradePreview(transform, 18, 32);
 			} else {
 				text.render(graphics, mouseX, mouseY, partialTicks);
 			}
@@ -210,8 +212,8 @@ public class GuiLetter extends GuiForestry<ContainerLetter> {
 	@Override
 	public void onClose() {
 		String recipientName = this.address.getValue();
-		EnumAddressee recipientType = menu.getCarrierType();
-		setRecipient(recipientName, recipientType);
+		IPostalCarrier carrier = menu.getCarrier();
+		setRecipient(recipientName, carrier);
 		setText();
 		super.onClose();
 	}
@@ -222,25 +224,26 @@ public class GuiLetter extends GuiForestry<ContainerLetter> {
 		}
 
 		String recipient = SessionVars.getStringVar("mail.letter.recipient");
-		String typeName = SessionVars.getStringVar("mail.letter.addressee");
+		String typeName = SessionVars.getStringVar("mail.letter.carrier");
+		ResourceLocation carrierId = ResourceLocation.tryParse(typeName);
+		IPostalCarrier carrier = PostalCarriers.REGISTRY.get().getValue(carrierId);
 
-		if (StringUtils.isNotBlank(recipient) && StringUtils.isNotBlank(typeName)) {
+		if (StringUtils.isNotBlank(recipient) && carrier != null) {
 			address.setValue(recipient);
 
-			EnumAddressee type = EnumAddressee.fromString(typeName);
-			menu.setCarrierType(type);
+			menu.setCarrier(carrier);
 		}
 
 		SessionVars.clearStringVar("mail.letter.recipient");
-		SessionVars.clearStringVar("mail.letter.addressee");
+		SessionVars.clearStringVar("mail.letter.carrier");
 	}
 
-	private void setRecipient(String recipientName, EnumAddressee type) {
+	private void setRecipient(String recipientName, IPostalCarrier carrier) {
 		if (this.isProcessedLetter || StringUtils.isBlank(recipientName)) {
 			return;
 		}
 
-		PacketLetterInfoRequest packet = new PacketLetterInfoRequest(recipientName, type);
+		PacketLetterInfoRequest packet = new PacketLetterInfoRequest(recipientName, carrier);
 		NetworkUtil.sendToServer(packet);
 	}
 

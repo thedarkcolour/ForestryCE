@@ -13,6 +13,7 @@ package forestry.mail;
 import javax.annotation.Nullable;
 import java.util.List;
 
+import forestry.mail.carriers.PostalCarriers;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
@@ -26,7 +27,6 @@ import net.minecraft.world.level.saveddata.SavedData;
 
 import com.mojang.authlib.GameProfile;
 
-import forestry.api.mail.EnumAddressee;
 import forestry.api.mail.EnumPostage;
 import forestry.api.mail.EnumTradeStationState;
 import forestry.api.mail.ILetter;
@@ -69,7 +69,7 @@ public class TradeStation extends SavedData implements ITradeStation, IInventory
 	private final InventoryAdapter inventory = new InventoryTradeStation();
 
 	public TradeStation(@Nullable GameProfile owner, IMailAddress address) {
-		if (address.getType() != EnumAddressee.TRADER) {
+		if (!address.getCarrier().equals(PostalCarriers.TRADER.get())) {
 			throw new IllegalArgumentException("TradeStation address must be a trader");
 		}
 
@@ -92,7 +92,7 @@ public class TradeStation extends SavedData implements ITradeStation, IInventory
 	}
 
 	@Override
-	public IMailAddress getAddress() {
+	public @Nullable IMailAddress getAddress() {
 		return this.address;
 	}
 
@@ -130,7 +130,7 @@ public class TradeStation extends SavedData implements ITradeStation, IInventory
 	/* INVALIDATING */
 	@Override
 	public boolean isValid() {
-		return !this.isInvalid;
+		return !this.isInvalid || this.address == null;
 	}
 
 	@Override

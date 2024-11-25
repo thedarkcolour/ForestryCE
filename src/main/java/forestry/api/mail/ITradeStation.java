@@ -6,9 +6,11 @@
 package forestry.api.mail;
 
 import net.minecraft.world.Container;
+import javax.annotation.Nullable;
 
 public interface ITradeStation extends ILetterHandler, Container {
 
+	@Nullable
 	IMailAddress getAddress();
 
 	boolean isValid();

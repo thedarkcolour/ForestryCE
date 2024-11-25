@@ -8,50 +8,38 @@
  * Various Contributors including, but not limited to:
  * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
  ******************************************************************************/
-package forestry.mail;
+package forestry.mail.carriers;
 
+import forestry.api.ForestryConstants;
+import forestry.api.client.IForestryClientApi;
+import forestry.api.mail.*;
+import forestry.core.utils.NetworkUtil;
+import forestry.core.utils.PlayerUtil;
+import forestry.mail.EnumDeliveryState;
+import forestry.mail.MailAddress;
+import forestry.mail.POBox;
+import forestry.mail.PostRegistry;
+import forestry.mail.network.packets.PacketPOBoxInfoResponse;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import forestry.api.ForestryConstants;
-import forestry.api.client.IForestryClientApi;
-import forestry.api.mail.EnumAddressee;
-import forestry.api.mail.IMailAddress;
-import forestry.api.mail.IPostOffice;
-import forestry.api.mail.IPostalCarrier;
-import forestry.api.mail.IPostalState;
-import forestry.api.mail.ITradeStation;
-import forestry.api.mail.PostManager;
-import forestry.core.utils.NetworkUtil;
-import forestry.core.utils.PlayerUtil;
-import forestry.mail.network.packets.PacketPOBoxInfoResponse;
-
-public class PostalCarrier implements IPostalCarrier {
+public class CarrierPlayer implements IPostalCarrier {
 	private final ResourceLocation iconID;
-	private final EnumAddressee type;
 
-	public PostalCarrier(EnumAddressee type) {
-		this.iconID = ForestryConstants.forestry("mail/carrier." + type);
-		this.type = type;
+	public CarrierPlayer() {
+		this.iconID = ForestryConstants.forestry("mail/carrier.player");
 	}
 
 	@Override
-	public EnumAddressee getType() {
-		return type;
-	}
-
-	// todo this is unused, delete?
-	@Override
-	public String getName() {
-		return Component.translatable("for.gui.addressee." + type).getString();
+	public String getDescriptionId() {
+		return "for.gui.addressee.player";
 	}
 
 	@Override
@@ -62,25 +50,7 @@ public class PostalCarrier implements IPostalCarrier {
 
 	@Override
 	public IPostalState deliverLetter(ServerLevel world, IPostOffice office, IMailAddress recipient, ItemStack letterStack, boolean doDeliver) {
-		if (type == EnumAddressee.TRADER) {
-			return handleTradeLetter(world, recipient, letterStack, doDeliver);
-		} else {
-			return storeInPOBox(world, recipient, letterStack);
-		}
-	}
-
-	private static IPostalState handleTradeLetter(ServerLevel world, IMailAddress recipient, ItemStack letterStack, boolean doLodge) {
-		ITradeStation trade = PostManager.postRegistry.getTradeStation(world, recipient);
-		if (trade == null) {
-			return EnumDeliveryState.NO_MAILBOX;
-		}
-
-		return trade.handleLetter(world, recipient, letterStack, doLodge);
-	}
-
-	private static EnumDeliveryState storeInPOBox(ServerLevel world, IMailAddress recipient, ItemStack letterStack) {
-
-		POBox pobox = PostRegistry.getPOBox(world, recipient);
+		POBox pobox = PostRegistry.getOrCreatePOBox(world, recipient);
 		if (pobox == null) {
 			return EnumDeliveryState.NO_MAILBOX;
 		}
@@ -97,4 +67,13 @@ public class PostalCarrier implements IPostalCarrier {
 		return EnumDeliveryState.OK;
 	}
 
+	@Override
+	public IMailAddress getRecipient(MinecraftServer minecraftServer, String recipientName) {
+		return minecraftServer.getProfileCache().get(recipientName).map(MailAddress::new).orElse(null);
+	}
+
+	@Override
+	public String toString() {
+		return "player";
+	}
 }

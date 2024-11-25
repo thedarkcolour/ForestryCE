@@ -12,10 +12,10 @@ package forestry.mail.gui;
 
 import javax.annotation.Nullable;
 
-import forestry.api.mail.EnumAddressee;
 import forestry.api.mail.IMailAddress;
+import forestry.api.mail.IPostalCarrier;
 import forestry.api.mail.ITradeStationInfo;
 
 public interface ILetterInfoReceiver {
-	void handleLetterInfoUpdate(EnumAddressee type, @Nullable IMailAddress address, @Nullable ITradeStationInfo tradeInfo);
+	void handleLetterInfoUpdate(IPostalCarrier carrier, @Nullable IMailAddress address, @Nullable ITradeStationInfo tradeInfo);
 }

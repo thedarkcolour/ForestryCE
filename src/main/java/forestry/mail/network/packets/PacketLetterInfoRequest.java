@@ -10,17 +10,17 @@
  ******************************************************************************/
 package forestry.mail.network.packets;
 
+import forestry.api.mail.IPostalCarrier;
+import forestry.mail.carriers.PostalCarriers;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 
-import forestry.api.mail.EnumAddressee;
 import forestry.api.modules.IForestryPacketServer;
 import forestry.core.network.PacketIdServer;
-import forestry.core.utils.NetworkUtil;
 import forestry.mail.gui.ContainerLetter;
 
-public record PacketLetterInfoRequest(String recipientName, EnumAddressee addressType) implements IForestryPacketServer {
+public record PacketLetterInfoRequest(String recipientName, IPostalCarrier addressType) implements IForestryPacketServer {
 	public static void handle(PacketLetterInfoRequest msg, ServerPlayer player) {
 		if (player.containerMenu instanceof ContainerLetter containerLetter) {
 			containerLetter.handleRequestLetterInfo(player, msg.recipientName(), msg.addressType());
@@ -35,10 +35,10 @@ public record PacketLetterInfoRequest(String recipientName, EnumAddressee addres
 	@Override
 	public void write(FriendlyByteBuf buffer) {
 		buffer.writeUtf(recipientName);
-		NetworkUtil.writeEnum(buffer, addressType);
+		buffer.writeUtf(PostalCarriers.REGISTRY.get().getKey(addressType).toString());
 	}
 
 	public static PacketLetterInfoRequest decode(FriendlyByteBuf buffer) {
-		return new PacketLetterInfoRequest(buffer.readUtf(), buffer.readEnum(EnumAddressee.class));
+		return new PacketLetterInfoRequest(buffer.readUtf(), PostalCarriers.REGISTRY.get().getValue(ResourceLocation.tryParse(buffer.readUtf())));
 	}
 }
