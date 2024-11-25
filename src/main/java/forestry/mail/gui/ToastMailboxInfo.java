@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import forestry.api.ForestryConstants;
 import forestry.core.config.Constants;
+import forestry.core.config.ForestryConfig;
 import forestry.mail.POBoxInfo;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.toasts.Toast;
@@ -31,6 +32,10 @@ public class ToastMailboxInfo implements Toast {
 
     @Override
     public Visibility render(PoseStack poseStack, ToastComponent toastComponent, long timeSinceLastVisible) {
+        if (!ForestryConfig.CLIENT.mailAlertsEnabled.get()) {
+            return Visibility.HIDE;
+        }
+
         RenderSystem.setShaderTexture(0, BACKGROUND_SPRITE);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         toastComponent.blit(poseStack, 0, 0, 0, 0, this.width(), this.height());

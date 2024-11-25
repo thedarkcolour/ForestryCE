@@ -10,6 +10,7 @@
  ******************************************************************************/
 package forestry.mail.network.packets;
 
+import forestry.core.config.ForestryConfig;
 import forestry.mail.gui.ToastMailboxInfo;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
@@ -42,7 +43,7 @@ public record PacketPOBoxInfoResponse(int playerLetters, int tradeLetters) imple
 
 	public static void handle(PacketPOBoxInfoResponse msg, Player player) {
 		POBoxInfo poBox = new POBoxInfo(msg.playerLetters, msg.tradeLetters);
-		if (player.equals(Minecraft.getInstance().player)) {
+		if (player.equals(Minecraft.getInstance().player) && ForestryConfig.CLIENT.mailAlertsEnabled.get()) {
 			ToastMailboxInfo.addOrUpdate(Minecraft.getInstance().getToasts(), poBox);
 		}
 	}
