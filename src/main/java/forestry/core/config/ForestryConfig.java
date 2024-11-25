@@ -27,8 +27,6 @@ public class ForestryConfig {
 		public final ForgeConfigSpec.BooleanValue enableHints;
 		// Mail
 		public final ForgeConfigSpec.BooleanValue mailAlertsEnabled;
-		public final ForgeConfigSpec.BooleanValue mailAlertsOnRight;
-		public final ForgeConfigSpec.BooleanValue mailAlertsOnBottom;
 		// JEI Bees
 		public final ForgeConfigSpec.BooleanValue showRequirements;
 		public final ForgeConfigSpec.BooleanValue showSecretMutations;
@@ -42,17 +40,9 @@ public class ForestryConfig {
 					.comment("Whether the \"Did you know?\" ledgers are shown in Forestry menus.")
 					.define("enable_hints", true);
 
-			builder.push("mail");
 			this.mailAlertsEnabled = builder
 					.comment("Whether alerts are enabled for Forestry's mail system.")
 					.define("mail_alerts_enable", true);
-			this.mailAlertsOnRight = builder
-					.comment("Whether mail alerts are shown on the right of the screen instead of the left.")
-					.define("mail_alerts_on_right", false);
-			this.mailAlertsOnBottom = builder
-					.comment("Whether mail alerts are shown on the bottom of the screen instead of the top.")
-					.define("mail_alerts_on_bottom", false);
-			builder.pop();
 
 			builder.push("jei_bees");
 			this.showRequirements = builder
