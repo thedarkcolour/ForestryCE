@@ -11,10 +11,10 @@
 package forestry.mail;
 
 import javax.annotation.Nullable;
-import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 
+import forestry.mail.carriers.PostalCarriers;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -25,12 +25,10 @@ import net.minecraft.world.level.Level;
 import com.mojang.authlib.GameProfile;
 
 import forestry.Forestry;
-import forestry.api.mail.EnumAddressee;
 import forestry.api.mail.ILetter;
 import forestry.api.mail.IMailAddress;
 import forestry.api.mail.IPostOffice;
 import forestry.api.mail.IPostRegistry;
-import forestry.api.mail.IPostalCarrier;
 import forestry.api.mail.ITradeStation;
 import forestry.api.mail.PostManager;
 import forestry.core.utils.NetworkUtil;
@@ -44,7 +42,6 @@ public class PostRegistry implements IPostRegistry {
 	public static final Map<IMailAddress, POBox> cachedPOBoxes = new HashMap<>();
 	public static final Map<IMailAddress, ITradeStation> cachedTradeStations = new HashMap<>();
 
-	private final Map<EnumAddressee, IPostalCarrier> carriers = new EnumMap<>(EnumAddressee.class);
 
 	/**
 	 * @param world   the Minecraft world the PO box will be in
@@ -53,7 +50,7 @@ public class PostRegistry implements IPostRegistry {
 	 */
 	@Override
 	public boolean isValidPOBox(Level world, IMailAddress address) {
-		return address.getType() == EnumAddressee.PLAYER && address.getName().matches("^[a-zA-Z0-9]+$");
+		return address.getCarrier().equals(PostalCarriers.PLAYER.get()) && address.getName().matches("^[a-zA-Z0-9]+$");
 	}
 
 	@Nullable
@@ -90,7 +87,7 @@ public class PostRegistry implements IPostRegistry {
 	 */
 	@Override
 	public boolean isValidTradeAddress(Level world, IMailAddress address) {
-		return address.getType() == EnumAddressee.TRADER && address.getName().matches("^[a-zA-Z0-9]+$");
+		return address.getCarrier().equals(PostalCarriers.TRADER.get()) && address.getName().matches("^[a-zA-Z0-9]+$");
 	}
 
 	/**
@@ -168,33 +165,6 @@ public class PostRegistry implements IPostRegistry {
 
 		cachedPostOffice = office;
 		return office;
-	}
-
-
-	@Override
-	public IMailAddress getMailAddress(GameProfile gameProfile) {
-		return new MailAddress(gameProfile);
-	}
-
-	@Override
-	public IMailAddress getMailAddress(String traderName) {
-		return new MailAddress(traderName);
-	}
-
-	/* CARRIER */
-	@Override
-	public Map<EnumAddressee, IPostalCarrier> getRegisteredCarriers() {
-		return carriers;
-	}
-
-	@Override
-	public void registerCarrier(IPostalCarrier carrier) {
-		carriers.put(carrier.getType(), carrier);
-	}
-
-	@Override
-	public IPostalCarrier getCarrier(EnumAddressee type) {
-		return carriers.get(type);
 	}
 
 	/* LETTERS */

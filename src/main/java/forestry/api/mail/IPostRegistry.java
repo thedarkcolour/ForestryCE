@@ -19,11 +19,6 @@ public interface IPostRegistry {
 	/* POST OFFICE */
 	IPostOffice getPostOffice(ServerLevel world);
 
-	/* MAIL ADDRESSES */
-	IMailAddress getMailAddress(GameProfile gameProfile);
-
-	IMailAddress getMailAddress(String traderName);
-
 	/* LETTERS */
 	boolean isLetter(ItemStack itemstack);
 
@@ -33,20 +28,6 @@ public interface IPostRegistry {
 	ILetter getLetter(ItemStack itemstack);
 
 	ItemStack createLetterStack(ILetter letter);
-
-	/* CARRIERS */
-
-	/**
-	 * Registers a new {@link IPostalCarrier}. See {@link IPostalCarrier} for details.
-	 *
-	 * @param carrier {@link IPostalCarrier} to register.
-	 */
-	void registerCarrier(IPostalCarrier carrier);
-
-	@Nullable
-	IPostalCarrier getCarrier(EnumAddressee uid);
-
-	Map<EnumAddressee, IPostalCarrier> getRegisteredCarriers();
 
 	/* TRADE STATIONS */
 	void deleteTradeStation(ServerLevel world, IMailAddress address);

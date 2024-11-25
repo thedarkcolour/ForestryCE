@@ -6,6 +6,7 @@
 package forestry.api.mail;
 
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.server.level.ServerLevel;
 
@@ -24,14 +25,9 @@ import forestry.api.client.ITextureManager;
 public interface IPostalCarrier {
 
 	/**
-	 * @return An EnumAddressee identifying the type of carrier
+	 * @return The translation key for the human-readable name for this carrier.
 	 */
-	EnumAddressee getType();
-
-	/**
-	 * @return A human-readable name for this carrier.
-	 */
-	String getName();
+	String getDescriptionId();
 
 	/**
 	 * Sprite registered to the Gui Texture Map at {@link ITextureManager}.
@@ -52,4 +48,5 @@ public interface IPostalCarrier {
 	 */
 	IPostalState deliverLetter(ServerLevel world, IPostOffice office, IMailAddress recipient, ItemStack letterstack, boolean doDeliver);
 
+	IMailAddress getRecipient(MinecraftServer minecraftServer, String recipientName);
 }

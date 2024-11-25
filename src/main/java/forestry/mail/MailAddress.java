@@ -15,6 +15,9 @@ import com.google.common.base.Preconditions;
 import java.util.Locale;
 import java.util.UUID;
 
+import forestry.api.mail.IPostalCarrier;
+import forestry.mail.carriers.PostalCarriers;
+import net.minecraft.resources.ResourceLocation;
 import org.apache.commons.lang3.StringUtils;
 
 import net.minecraft.nbt.CompoundTag;
@@ -23,26 +26,20 @@ import net.minecraft.nbt.NbtUtils;
 import com.mojang.authlib.GameProfile;
 
 import forestry.api.core.INbtWritable;
-import forestry.api.mail.EnumAddressee;
 import forestry.api.mail.IMailAddress;
 import forestry.core.utils.PlayerUtil;
 
-public class MailAddress implements INbtWritable, IMailAddress {
+public class MailAddress implements IMailAddress {
 
 	private static final GameProfile invalidGameProfile = new GameProfile(new UUID(0, 0), "");
+	public static final MailAddress INVALID = new MailAddress(invalidGameProfile);
 
-	private final EnumAddressee type;
+	private final IPostalCarrier carrier;
 	private final GameProfile gameProfile; // gameProfile is a fake GameProfile for traders, and real for players
 
-	public MailAddress() {
-		this.type = EnumAddressee.PLAYER;
-		this.gameProfile = invalidGameProfile;
-	}
-
 	public MailAddress(GameProfile gameProfile) {
-		Preconditions.checkNotNull(gameProfile, "gameProfile must not be null");
 
-		this.type = EnumAddressee.PLAYER;
+		this.carrier = PostalCarriers.PLAYER.get();
 		this.gameProfile = gameProfile;
 	}
 
@@ -50,20 +47,19 @@ public class MailAddress implements INbtWritable, IMailAddress {
 		Preconditions.checkNotNull(name, "name must not be null");
 		Preconditions.checkArgument(StringUtils.isNotBlank(name), "name must not be blank");
 
-		this.type = EnumAddressee.TRADER;
+		this.carrier = PostalCarriers.TRADER.get();
 		this.gameProfile = new GameProfile(null, name);
 	}
 
 	public MailAddress(CompoundTag nbt) {
-		EnumAddressee type = null;
+		IPostalCarrier carrier = null;
 		GameProfile gameProfile = invalidGameProfile;
-		if (nbt.contains("TP")) {
-			String typeName = nbt.getString("TP");
-			type = EnumAddressee.fromString(typeName);
+		if (nbt.contains("carrier")) {
+			carrier = PostalCarriers.REGISTRY.get().getValue(ResourceLocation.tryParse(nbt.getString("carrier")));
 		}
 
-		if (type == null) {
-			type = EnumAddressee.PLAYER;
+		if (carrier == null) {
+			carrier = PostalCarriers.PLAYER.get();
 			gameProfile = invalidGameProfile;
 		} else if (nbt.contains("profile")) {
 			CompoundTag profileTag = nbt.getCompound("profile");
@@ -73,13 +69,13 @@ public class MailAddress implements INbtWritable, IMailAddress {
 			}
 		}
 
-		this.type = type;
+		this.carrier = carrier;
 		this.gameProfile = gameProfile;
 	}
 
 	@Override
-	public EnumAddressee getType() {
-		return type;
+	public IPostalCarrier getCarrier() {
+		return carrier;
 	}
 
 	@Override
@@ -94,7 +90,7 @@ public class MailAddress implements INbtWritable, IMailAddress {
 
 	@Override
 	public GameProfile getPlayerProfile() {
-		if (this.type != EnumAddressee.PLAYER) {
+		if (!this.carrier.equals(PostalCarriers.PLAYER.get())) {
 			return invalidGameProfile;
 		}
 		return gameProfile;
@@ -117,16 +113,16 @@ public class MailAddress implements INbtWritable, IMailAddress {
 	@Override
 	public String toString() {
 		String name = getName().toLowerCase(Locale.ENGLISH);
-		if (getType() == EnumAddressee.PLAYER) {
-			return type + "-" + name + '-' + gameProfile.getId();
+		if (getCarrier().equals(PostalCarriers.PLAYER.get())) {
+			return carrier + "-" + name + '-' + gameProfile.getId();
 		} else {
-			return type + "-" + name;
+			return carrier + "-" + name;
 		}
 	}
 
 	@Override
 	public CompoundTag write(CompoundTag compoundNBT) {
-		compoundNBT.putString("TP", type.toString());
+		compoundNBT.putString("carrier", PostalCarriers.REGISTRY.get().getKey(carrier).toString());
 
 		if (gameProfile != invalidGameProfile) {
 			CompoundTag profileNbt = new CompoundTag();
@@ -135,4 +131,6 @@ public class MailAddress implements INbtWritable, IMailAddress {
 		}
 		return compoundNBT;
 	}
+
+
 }

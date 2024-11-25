@@ -14,13 +14,13 @@ import com.google.common.base.Preconditions;
 
 import javax.annotation.Nullable;
 
+import forestry.mail.carriers.PostalCarriers;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.saveddata.SavedData;
 
-import forestry.api.mail.EnumAddressee;
 import forestry.api.mail.ILetter;
 import forestry.api.mail.IMailAddress;
 import forestry.api.mail.PostManager;
@@ -37,7 +37,7 @@ public class POBox extends SavedData implements Container {
 	private final InventoryAdapter letters = new InventoryAdapter(SLOT_SIZE, "Letters").disableAutomation();
 
 	public POBox(IMailAddress address) {
-		if (address.getType() != EnumAddressee.PLAYER) {
+		if (!address.getCarrier().equals(PostalCarriers.PLAYER.get())) {
 			throw new IllegalArgumentException("POBox address must be a player");
 		}
 
@@ -89,7 +89,7 @@ public class POBox extends SavedData implements Container {
 			CompoundTag tagCompound = letters.getItem(i).getTag();
 			if (tagCompound != null) {
 				ILetter letter = new Letter(tagCompound);
-				if (letter.getSender().getType() == EnumAddressee.PLAYER) {
+				if (letter.getSender().getCarrier().equals(PostalCarriers.PLAYER.get())) {
 					playerLetters++;
 				} else {
 					tradeLetters++;

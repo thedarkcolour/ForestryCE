@@ -18,21 +18,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import forestry.api.mail.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ContainerListener;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerLevel;
 
-import forestry.api.mail.EnumAddressee;
-import forestry.api.mail.EnumTradeStationState;
-import forestry.api.mail.IMailAddress;
-import forestry.api.mail.IPostOffice;
-import forestry.api.mail.IPostalState;
-import forestry.api.mail.ITradeStation;
-import forestry.api.mail.ITradeStationInfo;
 import forestry.api.mail.PostManager;
 import forestry.core.gui.IGuiSelectable;
 import forestry.core.utils.NetworkUtil;
@@ -161,7 +154,7 @@ public class ContainerCatalogue extends AbstractContainerMenu implements IGuiSel
 	}
 
 	@Override
-	public void handleLetterInfoUpdate(EnumAddressee type, @Nullable IMailAddress address, @Nullable ITradeStationInfo tradeInfo) {
+	public void handleLetterInfoUpdate(IPostalCarrier carrier, @Nullable IMailAddress address, @Nullable ITradeStationInfo tradeInfo) {
 		setTradeInfo(tradeInfo);
 	}
 

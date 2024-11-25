@@ -1,14 +1,14 @@
 package forestry.mail.network.packets;
 
+import forestry.mail.MailAddress;
+import forestry.mail.carriers.PostalCarriers;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 
 import com.mojang.authlib.GameProfile;
 
-import forestry.api.mail.EnumAddressee;
 import forestry.api.mail.IMailAddress;
-import forestry.api.mail.PostManager;
 import forestry.api.modules.IForestryPacketClient;
 import forestry.core.network.PacketIdClient;
 import forestry.mail.gui.ILetterInfoReceiver;
@@ -27,12 +27,12 @@ public record PacketLetterInfoResponsePlayer(IMailAddress address) implements IF
 	}
 
 	public static PacketLetterInfoResponsePlayer decode(FriendlyByteBuf buffer) {
-		return new PacketLetterInfoResponsePlayer(PostManager.postRegistry.getMailAddress(new GameProfile(buffer.readUUID(), buffer.readUtf())));
+		return new PacketLetterInfoResponsePlayer(new MailAddress(new GameProfile(buffer.readUUID(), buffer.readUtf())));
 	}
 
 	public static void handle(PacketLetterInfoResponsePlayer msg, Player player) {
 		if (player.containerMenu instanceof ILetterInfoReceiver receiver) {
-			receiver.handleLetterInfoUpdate(EnumAddressee.PLAYER, msg.address, null);
+			receiver.handleLetterInfoUpdate(PostalCarriers.PLAYER.get(), msg.address, null);
 		}
 	}
 }

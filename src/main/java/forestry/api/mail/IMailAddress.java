@@ -11,7 +11,7 @@ import forestry.api.core.INbtWritable;
 
 public interface IMailAddress extends INbtWritable {
 
-	EnumAddressee getType();
+	IPostalCarrier getCarrier();
 
 	String getName();
 

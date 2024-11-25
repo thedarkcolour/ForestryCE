@@ -12,6 +12,7 @@ package forestry.mail;
 
 import java.util.function.Consumer;
 
+import forestry.mail.carriers.PostalCarriers;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.resources.ResourceLocation;
 
@@ -22,12 +23,10 @@ import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 
 import forestry.api.client.IClientModuleHandler;
-import forestry.api.mail.EnumAddressee;
 import forestry.api.mail.PostManager;
 import forestry.api.modules.ForestryModule;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.api.modules.IPacketRegistry;
-import forestry.core.config.ForestryConfig;
 import forestry.core.network.PacketIdClient;
 import forestry.core.network.PacketIdServer;
 import forestry.mail.client.MailClientHandler;
@@ -53,6 +52,7 @@ public class ModuleMail extends BlankForestryModule {
 		MinecraftForge.EVENT_BUS.addListener(ModuleMail::onWorldLoad);
 
 		MinecraftForge.EVENT_BUS.register(new EventHandlerMailAlert());
+		PostalCarriers.register(modBus);
 	}
 
 	private static void onWorldLoad(LevelEvent.Load event) {
@@ -64,8 +64,6 @@ public class ModuleMail extends BlankForestryModule {
 	@Override
 	public void setupApi() {
 		PostManager.postRegistry = new PostRegistry();
-		PostManager.postRegistry.registerCarrier(new PostalCarrier(EnumAddressee.PLAYER));
-		PostManager.postRegistry.registerCarrier(new PostalCarrier(EnumAddressee.TRADER));
 	}
 
 	@Override

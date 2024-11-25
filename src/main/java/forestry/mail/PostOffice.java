@@ -162,11 +162,9 @@ public class PostOffice extends SavedData implements IPostOffice {
 		IPostalState state = EnumDeliveryState.NOT_MAILABLE;
 		IMailAddress address = letter.getRecipient();
 		if (address != null) {
-			IPostalCarrier carrier = PostManager.postRegistry.getCarrier(address.getType());
-			if (carrier != null) {
-				state = carrier.deliverLetter(world, this, address, itemstack, doLodge);
-			}
-		}
+			IPostalCarrier carrier = address.getCarrier();
+            state = carrier.deliverLetter(world, this, address, itemstack, doLodge);
+        }
 
 		if (!state.isOk()) {
 			return state;

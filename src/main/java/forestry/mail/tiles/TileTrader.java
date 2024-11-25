@@ -54,7 +54,7 @@ public class TileTrader extends TileBase implements IOwnedTile {
 
 	public TileTrader(BlockPos pos, BlockState state) {
 		super(MailTiles.TRADER.tileType(), pos, state);
-		address = new MailAddress();
+		address = MailAddress.INVALID;
 		setInternalInventory(new InventoryTradeStation());
 	}
 
@@ -109,7 +109,7 @@ public class TileTrader extends TileBase implements IOwnedTile {
 		ownerHandler.readData(data);
 		String addressName = data.readUtf();
 		if (!addressName.isEmpty()) {
-			address = PostManager.postRegistry.getMailAddress(addressName);
+			address = new MailAddress(addressName);
 		}
 	}
 
@@ -251,28 +251,20 @@ public class TileTrader extends TileBase implements IOwnedTile {
 	}
 
 	public void handleSetAddressRequest(String addressName) {
-		IMailAddress address = PostManager.postRegistry.getMailAddress(addressName);
-		setAddress(address);
+		IMailAddress address = new MailAddress(addressName);
+		boolean updated = setAddress(address);
 
-		IMailAddress newAddress = getAddress();
-		String newAddressName = newAddress.getName();
-		if (newAddressName.equals(addressName)) {
-			PacketTraderAddressResponse packetResponse = new PacketTraderAddressResponse(worldPosition, addressName);
+		if (updated) {
+			PacketTraderAddressResponse packetResponse = new PacketTraderAddressResponse(worldPosition, address);
 			NetworkUtil.sendNetworkPacket(packetResponse, worldPosition, level);
 		}
 	}
 
-	@OnlyIn(Dist.CLIENT)
-	public void handleSetAddressResponse(String addressName) {
-		IMailAddress address = PostManager.postRegistry.getMailAddress(addressName);
-		setAddress(address);
-	}
-
-	private void setAddress(IMailAddress address) {
+	public boolean setAddress(IMailAddress address) {
 		Preconditions.checkNotNull(address, "address must not be null");
 
 		if (this.address.isValid() && this.address.equals(address)) {
-			return;
+			return false;
 		}
 
 		if (!level.isClientSide) {
@@ -288,10 +280,13 @@ public class TileTrader extends TileBase implements IOwnedTile {
 			if (hasValidTradeAddress & hasUniqueTradeAddress) {
 				this.address = address;
 				PostManager.postRegistry.getOrCreateTradeStation(world, getOwnerHandler().getOwner(), address);
+				return true;
 			}
 		} else {
 			this.address = address;
+			return true;
 		}
+		return false;
 	}
 
 	@Override
