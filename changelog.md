@@ -1,3 +1,7 @@
+## Forestry 1.0.15
+- Fix inconsistent ordering of life stages in API
+- 
+
 ## Forestry 1.0.14
 - Add Falkory's textures (#33)
 - Allow Cocoa plantations to automatically replant, thanks to ACGaming
