@@ -2217,5 +2217,7 @@
   "forestry.date.month.9": "Sep. %s",
   "forestry.date.month.10": "Oct. %s",
   "forestry.date.month.11": "Nov. %s",
-  "forestry.date.month.12": "Dec. %s"
+  "forestry.date.month.12": "Dec. %s",
+  "for.gui.mail.toast.title": "You've got Mail!",
+  "for.gui.mail.toast.message": "%1$d unopened letters"
 }

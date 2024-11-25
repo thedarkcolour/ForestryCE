@@ -10,44 +10,27 @@
  ******************************************************************************/
 package forestry.mail;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import forestry.api.mail.IMailAddress;
-import forestry.api.mail.PostManager;
-import forestry.core.config.ForestryConfig;
 import forestry.core.utils.NetworkUtil;
-import forestry.mail.gui.GuiMailboxInfo;
 import forestry.mail.network.packets.PacketPOBoxInfoResponse;
 
 // todo this shouldn't be a separate class
 public class EventHandlerMailAlert {
 	@SubscribeEvent
-	@OnlyIn(Dist.CLIENT)
-	public void onRenderTick(TickEvent.RenderTickEvent event) {
-		if (event.phase == TickEvent.Phase.END && Minecraft.getInstance().level != null && GuiMailboxInfo.INSTANCE.hasPOBoxInfo()) {
-			if (ForestryConfig.CLIENT.mailAlertsEnabled.get()) {
-				//TODO: Test / Find a valid matrix stack
-				GuiMailboxInfo.INSTANCE.render(new PoseStack());
-			}
-		}
-	}
-
-	@SubscribeEvent
 	public void handlePlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
 		Player player = event.getEntity();
+		if (player.level.isClientSide) {
+			return;
+		}
 
-		IMailAddress address = PostManager.postRegistry.getMailAddress(player.getGameProfile());
+		IMailAddress address = new MailAddress(player.getGameProfile());
 		POBox pobox = PostRegistry.getOrCreatePOBox((ServerLevel) player.level, address);
 		PacketPOBoxInfoResponse packet = new PacketPOBoxInfoResponse(pobox.getPOBoxInfo());
 		NetworkUtil.sendToPlayer(packet, (ServerPlayer) player);

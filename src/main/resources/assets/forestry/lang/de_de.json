@@ -1563,5 +1563,7 @@
   "for.jei.farming.products": "Produkte",
   "for.jei.charcoal.pile.name": "Holzkohlehaufen",
   "for.jei.chance": "Chance: %s",
-  "for.jei.fortune": "Die Menge an diesem Item wird durch die Verzauberung \"Glück\" beeinflusst."
+  "for.jei.fortune": "Die Menge an diesem Item wird durch die Verzauberung \"Glück\" beeinflusst.",
+  "for.gui.mail.toast.title": "Du hast Post!",
+  "for.gui.mail.toast.message": "%1$d ungeöffnete Briefe"
 }
