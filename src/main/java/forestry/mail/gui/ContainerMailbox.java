@@ -67,7 +67,7 @@ public class ContainerMailbox extends ContainerTile<TileMailbox> {
 		if (SlotUtil.isSlotInRange(slotId, SLOT_LETTERS, SLOT_LETTERS_COUNT)) {
 			if (!player.level.isClientSide && mailInventory != null) {
 				POBoxInfo info = mailInventory.getPOBoxInfo();
-				NetworkUtil.sendToPlayer(new PacketPOBoxInfoResponse(info), (ServerPlayer) player);
+				NetworkUtil.sendToPlayer(new PacketPOBoxInfoResponse(info, true), (ServerPlayer) player);
 			}
 		}
 	}

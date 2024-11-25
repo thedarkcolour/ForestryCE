@@ -21,9 +21,9 @@ import forestry.api.modules.IForestryPacketClient;
 import forestry.core.network.PacketIdClient;
 import forestry.mail.POBoxInfo;
 
-public record PacketPOBoxInfoResponse(int playerLetters, int tradeLetters) implements IForestryPacketClient {
-	public PacketPOBoxInfoResponse(POBoxInfo info) {
-		this(info.playerLetters(), info.tradeLetters());
+public record PacketPOBoxInfoResponse(int playerLetters, int tradeLetters, boolean silent) implements IForestryPacketClient {
+	public PacketPOBoxInfoResponse(POBoxInfo info, boolean silent) {
+		this(info.playerLetters(), info.tradeLetters(), silent);
 	}
 
 	@Override
@@ -35,16 +35,17 @@ public record PacketPOBoxInfoResponse(int playerLetters, int tradeLetters) imple
 	public void write(FriendlyByteBuf buffer) {
 		buffer.writeInt(playerLetters);
 		buffer.writeInt(tradeLetters);
+		buffer.writeBoolean(silent);
 	}
 
 	public static PacketPOBoxInfoResponse decode(FriendlyByteBuf buffer) {
-		return new PacketPOBoxInfoResponse(buffer.readInt(), buffer.readInt());
+		return new PacketPOBoxInfoResponse(buffer.readInt(), buffer.readInt(), buffer.readBoolean());
 	}
 
 	public static void handle(PacketPOBoxInfoResponse msg, Player player) {
 		POBoxInfo poBox = new POBoxInfo(msg.playerLetters, msg.tradeLetters);
 		if (player.equals(Minecraft.getInstance().player) && ForestryConfig.CLIENT.mailAlertsEnabled.get()) {
-			ToastMailboxInfo.addOrUpdate(Minecraft.getInstance().getToasts(), poBox);
+			ToastMailboxInfo.addOrUpdate(Minecraft.getInstance().getToasts(), poBox, msg.silent);
 		}
 	}
 }

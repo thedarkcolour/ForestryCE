@@ -64,9 +64,9 @@ public class ToastMailboxInfo implements Toast {
         return timeSinceLastVisible >= DISPLAY_TIME || !poBox.hasMail() ? Visibility.HIDE : Visibility.SHOW;
     }
 
-    public static void addOrUpdate(ToastComponent toastGui, POBoxInfo poBox) {
+    public static void addOrUpdate(ToastComponent toastGui, POBoxInfo poBox, boolean modifiedThroughPlayer) {
         ToastMailboxInfo toast = toastGui.getToast(ToastMailboxInfo.class, NO_TOKEN);
-        if (toast == null) {
+        if (toast == null && !modifiedThroughPlayer) {
             toastGui.addToast(new ToastMailboxInfo(poBox));
         } else {
             toast.poBox = poBox;
