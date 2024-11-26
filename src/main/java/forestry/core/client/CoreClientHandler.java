@@ -209,8 +209,6 @@ public class CoreClientHandler implements IClientModuleHandler {
 		event.registerReloadListener(ColourProperties.INSTANCE);
 		event.registerReloadListener(GuiElementFactory.INSTANCE);
 
-		((ForestryTextureManager) IForestryClientApi.INSTANCE.getTextureManager()).init();
-
 		event.registerReloadListener((prepBarrier, resourceManager, prepProfiler, reloadProfiler, backgroundExecutor, gameExecutor) -> {
 			return prepBarrier.wait(Unit.INSTANCE).thenRunAsync(ModelBlockCached::clear, gameExecutor);
 		});
