@@ -15,12 +15,14 @@ import java.util.Locale;
 import forestry.api.core.IItemSubtype;
 
 public enum EnumContainerType implements IItemSubtype {
-	CAN, CAPSULE, REFRACTORY;
+	CAN,
+	CAPSULE,
+	REFRACTORY;
 
 	private final String name;
 
 	EnumContainerType() {
-		this.name = name().toLowerCase(Locale.ENGLISH).replace('_', '.');
+		this.name = name().toLowerCase(Locale.ENGLISH);
 	}
 
 	@Override

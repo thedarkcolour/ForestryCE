@@ -561,6 +561,8 @@
   "itemGroup.forestry": "Forestry",
   "itemGroup.lepidopterology": "Forestry Lepidopterology",
   "itemGroup.storage": "Forestry Storage",
+  "itemGroup.agriculture": "Forestry Agriculture",
+  "itemGroup.mail": "Forestry Mail",
   "block.forestry.analyzer": "Analyzer",
   "block.forestry.escritoire": "Escritoire",
   "block.forestry.database": "Database",

@@ -14,6 +14,7 @@ import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.features.ArboricultureItems;
 import forestry.core.features.CoreItems;
 import forestry.core.items.ItemFruit;
+import forestry.core.items.definitions.EnumCraftingMaterial;
 import forestry.mail.features.MailItems;
 
 import thedarkcolour.modkit.data.MKTagsProvider;
@@ -110,7 +111,7 @@ public class ForestryItemTagsProvider {
 		tags.tag(ForestryTags.Items.PAPAYA).add(CoreItems.FRUITS.item(ItemFruit.EnumFruit.PAPAYA));
 
 		tags.tag(ForestryTags.Items.DUSTS_ASH).add(CoreItems.ASH.item());
-		tags.tag(ForestryTags.Items.SAWDUST).add(CoreItems.WOOD_PULP.item());
+		tags.tag(ForestryTags.Items.SAWDUST).add(CoreItems.CRAFTING_MATERIALS.item(EnumCraftingMaterial.WOOD_PULP));
 
 		tags.tag(ForestryTags.Items.CRAFTING_TABLES)
 				.addOptionalTag(new ResourceLocation("c", "player_workstations/crafting_tables"))

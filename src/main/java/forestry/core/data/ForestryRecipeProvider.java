@@ -301,7 +301,7 @@ public class ForestryRecipeProvider {
 		});
 
 		recipes.shapedCrafting(RecipeCategory.MISC, ApicultureItems.FRAME_IMPREGNATED, recipe -> {
-			recipe.define('#', CoreItems.STICK_IMPREGNATED);
+			recipe.define('#', CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.IMPREGNATED_STICK));
 			recipe.define('S', Tags.Items.STRING);
 			recipe.pattern("###");
 			recipe.pattern("#S#");
@@ -358,7 +358,7 @@ public class ForestryRecipeProvider {
 			recipe.pattern("#X#");
 		});
 
-		ItemLike beesWax = CoreItems.BEESWAX;
+		ItemLike beesWax = CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.BEESWAX);
 		recipes.shapedCrafting("torch_from_wax", RecipeCategory.MISC, Items.TORCH, 3, recipe -> {
 			recipe.define('#', beesWax);
 			recipe.define('Y', Tags.Items.RODS_WOODEN);
@@ -730,13 +730,13 @@ public class ForestryRecipeProvider {
 		});
 
 		recipes.shapedCrafting("capsule", RecipeCategory.MISC, FluidsItems.CONTAINERS.get(EnumContainerType.CAPSULE), 4, recipe -> {
-			recipe.define('#', CoreItems.BEESWAX);
+			recipe.define('#', CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.BEESWAX));
 			recipe.pattern(" # ");
 			recipe.pattern("# #");
 		});
 
 		recipes.shapedCrafting("refractory_capsule", RecipeCategory.MISC, FluidsItems.CONTAINERS.get(EnumContainerType.REFRACTORY), 4, recipe -> {
-			recipe.define('#', CoreItems.REFRACTORY_WAX);
+			recipe.define('#', CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.REFRACTORY_WAX));
 			recipe.pattern(" # ");
 			recipe.pattern("# #");
 		});
@@ -1098,7 +1098,7 @@ public class ForestryRecipeProvider {
 				.setPackagingTime(50)
 				.setLiquid(ForestryFluids.SEED_OIL.getFluid(100))
 				.setBox(Ingredient.EMPTY)
-				.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CoreItems.STICK_IMPREGNATED, 2)
+				.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CoreItems.CRAFTING_MATERIALS.item(EnumCraftingMaterial.IMPREGNATED_STICK), 2)
 						.pattern("#")
 						.pattern("#")
 						.define('#', ItemTags.LOGS))
@@ -1106,7 +1106,7 @@ public class ForestryRecipeProvider {
 		new CarpenterRecipeBuilder()
 				.setLiquid(new FluidStack(Fluids.WATER, 250))
 				.setBox(Ingredient.EMPTY)
-				.recipe(ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, CoreItems.WOOD_PULP, 4)
+				.recipe(ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, CoreItems.CRAFTING_MATERIALS.item(EnumCraftingMaterial.WOOD_PULP), 4)
 						.requires(ItemTags.LOGS))
 				.build(consumer, id("carpenter", "wood_pulp"));
 		new CarpenterRecipeBuilder()
@@ -1156,7 +1156,7 @@ public class ForestryRecipeProvider {
 		new CarpenterRecipeBuilder()
 				.setLiquid(new FluidStack(Fluids.WATER, 1000))
 				.setBox(Ingredient.EMPTY)
-				.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.DISSIPATION_CHARGE))
+				.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CoreItems.DISSIPATION_CHARGE)
 						.pattern("Z#Z")
 						.pattern("#Y#")
 						.pattern("X#X")
@@ -1205,7 +1205,7 @@ public class ForestryRecipeProvider {
 						.pattern("WPW")
 						.define('#', ItemTags.PLANKS)
 						.define('J', ApicultureItems.ROYAL_JELLY)
-						.define('W', CoreItems.BEESWAX)
+						.define('W', CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.BEESWAX))
 						.define('P', ApicultureItems.POLLEN_CLUSTER.get(EnumPollenCluster.NORMAL)))
 				.build(consumer, id("carpenter", "scented_paneling"));
 		new CarpenterRecipeBuilder()
@@ -1258,7 +1258,7 @@ public class ForestryRecipeProvider {
 				.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Items.PAPER)
 						.pattern("#")
 						.pattern("#")
-						.define('#', CoreItems.WOOD_PULP))
+						.define('#', CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.WOOD_PULP)))
 				.build(consumer, id("carpenter", "paper"));
 		new CarpenterRecipeBuilder()
 				.setLiquid(new FluidStack(Fluids.WATER, 1000))
@@ -1267,7 +1267,7 @@ public class ForestryRecipeProvider {
 						.pattern(" # ")
 						.pattern("# #")
 						.pattern(" # ")
-						.define('#', CoreItems.WOOD_PULP))
+						.define('#', CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.WOOD_PULP)))
 				.build(consumer, id("carpenter", "carton"));
 
 		ItemStack basic = ItemCircuitBoard.createCircuitboard(EnumCircuitBoardType.BASIC, null, new ICircuit[]{});
@@ -1340,7 +1340,7 @@ public class ForestryRecipeProvider {
 		crate(consumer, CrateItems.CRATED_APATITE.get(), Ingredient.of(ForestryTags.Items.GEMS_APATITE));
 		crate(consumer, CrateItems.CRATED_FERTILIZER_COMPOUND.get(), Ingredient.of(CoreItems.FERTILIZER_COMPOUND));
 		crate(consumer, CrateItems.CRATED_MULCH.get(), Ingredient.of(CoreItems.MULCH));
-		crate(consumer, CrateItems.CRATED_PHOSPHOR.get(), Ingredient.of(CoreItems.PHOSPHOR));
+		crate(consumer, CrateItems.CRATED_PHOSPHOR.get(), Ingredient.of(CoreItems.CRAFTING_MATERIALS.item(EnumCraftingMaterial.PHOSPHOR)));
 		crate(consumer, CrateItems.CRATED_ASH.get(), Ingredient.of(CoreItems.ASH));
 		crate(consumer, CrateItems.CRATED_TIN.get(), Ingredient.of(ForestryTags.Items.INGOTS_TIN));
 		crate(consumer, CrateItems.CRATED_COPPER.get(), Ingredient.of(Items.COPPER_INGOT));
@@ -1399,8 +1399,8 @@ public class ForestryRecipeProvider {
 		crate(consumer, CrateItems.CRATED_ACACIA_SAPLING.get(), Ingredient.of(Items.ACACIA_SAPLING));
 		crate(consumer, CrateItems.CRATED_DARK_OAK_SAPLING.get(), Ingredient.of(Items.DARK_OAK_SAPLING));
 
-		crate(consumer, CrateItems.CRATED_BEESWAX.get(), Ingredient.of(CoreItems.BEESWAX));
-		crate(consumer, CrateItems.CRATED_REFRACTORY_WAX.get(), Ingredient.of(CoreItems.REFRACTORY_WAX));
+		crate(consumer, CrateItems.CRATED_BEESWAX.get(), Ingredient.of(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.BEESWAX)));
+		crate(consumer, CrateItems.CRATED_REFRACTORY_WAX.get(), Ingredient.of(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.REFRACTORY_WAX)));
 
 		crate(consumer, CrateItems.CRATED_POLLEN_CLUSTER_NORMAL.get(), Ingredient.of(ApicultureItems.POLLEN_CLUSTER.get(EnumPollenCluster.NORMAL)));
 		crate(consumer, CrateItems.CRATED_POLLEN_CLUSTER_CRYSTALLINE.get(), Ingredient.of(ApicultureItems.POLLEN_CLUSTER.get(EnumPollenCluster.CRYSTALLINE)));
@@ -1419,7 +1419,7 @@ public class ForestryRecipeProvider {
 				.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, MailItems.LETTERS.get(ItemLetter.Size.EMPTY, ItemLetter.State.FRESH).item())
 						.pattern("###")
 						.pattern("###")
-						.define('#', CoreItems.WOOD_PULP))
+						.define('#', CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.WOOD_PULP)))
 				.build(consumer, id("carpenter", "letter_pulp"));
 
 		wovenBackpack(consumer, "miner", BackpackItems.MINER_BACKPACK, BackpackItems.MINER_BACKPACK_T_2);
@@ -1478,20 +1478,20 @@ public class ForestryRecipeProvider {
 		new CentrifugeRecipeBuilder()
 				.setProcessingTime(20)
 				.setInput(Ingredient.of(ApicultureItems.BEE_COMBS.get(EnumHoneyComb.HONEY)))
-				.product(1.0f, CoreItems.BEESWAX.stack())
+				.product(1.0f, CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.BEESWAX).stack())
 				.product(0.9F, honeyDrop)
 				.build(consumer, id("centrifuge", "honey_comb"));
 		new CentrifugeRecipeBuilder()
 				.setProcessingTime(20)
 				.setInput(Ingredient.of(ApicultureItems.BEE_COMBS.get(EnumHoneyComb.COCOA)))
-				.product(1.0f, CoreItems.BEESWAX.stack())
+				.product(1.0f, CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.BEESWAX).stack())
 				.product(0.5f, new ItemStack(Items.COCOA_BEANS))
 				.build(consumer, id("centrifuge", "cocoa_comb"));
 		new CentrifugeRecipeBuilder()
 				.setProcessingTime(20)
 				.setInput(Ingredient.of(ApicultureItems.BEE_COMBS.get(EnumHoneyComb.SIMMERING)))
-				.product(1.0f, CoreItems.REFRACTORY_WAX.stack())
-				.product(0.7f, CoreItems.PHOSPHOR.stack(2))
+				.product(1.0f, CoreItems.CRAFTING_MATERIALS.stack(EnumCraftingMaterial.REFRACTORY_WAX))
+				.product(0.7f, CoreItems.CRAFTING_MATERIALS.stack(EnumCraftingMaterial.PHOSPHOR, 2))
 				.build(consumer, id("centrifuge", "simmering_comb"));
 		new CentrifugeRecipeBuilder()
 				.setProcessingTime(20)
@@ -1508,7 +1508,7 @@ public class ForestryRecipeProvider {
 		new CentrifugeRecipeBuilder()
 				.setProcessingTime(20)
 				.setInput(Ingredient.of(ApicultureItems.BEE_COMBS.get(EnumHoneyComb.FROZEN)))
-				.product(0.8f, CoreItems.BEESWAX.stack())
+				.product(0.8f, CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.BEESWAX).stack())
 				.product(0.7f, honeyDrop)
 				.product(0.4f, new ItemStack(Items.SNOWBALL))
 				.product(0.2f, ApicultureItems.POLLEN_CLUSTER.stack(EnumPollenCluster.CRYSTALLINE, 1))
@@ -1522,7 +1522,7 @@ public class ForestryRecipeProvider {
 		new CentrifugeRecipeBuilder()
 				.setProcessingTime(20)
 				.setInput(Ingredient.of(ApicultureItems.BEE_COMBS.get(EnumHoneyComb.PARCHED)))
-				.product(1.0f, CoreItems.BEESWAX.stack())
+				.product(1.0f, CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.BEESWAX).stack())
 				.product(0.9f, honeyDrop)
 				.build(consumer, id("centrifuge", "parched_comb"));
 		new CentrifugeRecipeBuilder()
@@ -1535,20 +1535,20 @@ public class ForestryRecipeProvider {
 				.setProcessingTime(20)
 				.setInput(Ingredient.of(ApicultureItems.BEE_COMBS.get(EnumHoneyComb.POWDERY)))
 				.product(0.2f, honeyDrop)
-				.product(0.2f, CoreItems.BEESWAX.stack())
+				.product(0.2f, CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.BEESWAX).stack())
 				.product(0.9f, new ItemStack(Items.GUNPOWDER))
 				.build(consumer, id("centrifuge", "powdery_comb"));
 		new CentrifugeRecipeBuilder()
 				.setProcessingTime(20)
 				.setInput(Ingredient.of(ApicultureItems.BEE_COMBS.get(EnumHoneyComb.WHEATEN)))
 				.product(0.2f, honeyDrop)
-				.product(0.2f, CoreItems.BEESWAX.stack())
+				.product(0.2f, CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.BEESWAX).stack())
 				.product(0.8f, new ItemStack(Items.WHEAT))
 				.build(consumer, id("centrifuge", "wheaten_comb"));
 		new CentrifugeRecipeBuilder()
 				.setProcessingTime(20)
 				.setInput(Ingredient.of(ApicultureItems.BEE_COMBS.get(EnumHoneyComb.MOSSY)))
-				.product(1.0f, CoreItems.BEESWAX.stack())
+				.product(1.0f, CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.BEESWAX).stack())
 				.product(0.9f, honeyDrop)
 				.build(consumer, id("centrifuge", "mossy_comb"));
 		new CentrifugeRecipeBuilder()
@@ -1561,7 +1561,7 @@ public class ForestryRecipeProvider {
 				.setProcessingTime(20)
 				.setInput(Ingredient.of(ApicultureItems.BEE_COMBS.get(EnumHoneyComb.MELLOW)))
 				.product(0.6f, ApicultureItems.HONEYDEW.stack())
-				.product(0.2f, CoreItems.BEESWAX.stack())
+				.product(0.2f, CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.BEESWAX).stack())
 				.product(0.3f, new ItemStack(Items.QUARTZ))
 				.build(consumer, id("centrifuge", "mellow_comb"));
 		new CentrifugeRecipeBuilder()
@@ -1730,7 +1730,7 @@ public class ForestryRecipeProvider {
 								.pattern(" # ")
 								.pattern("#X#")
 								.pattern(" # ")
-								.define('#', CoreItems.REFRACTORY_WAX)
+								.define('#', CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.REFRACTORY_WAX))
 								.define('X', TreeManager.woodAccess.getBlock(type, woodKind, false).getBlock()))
 						.build(consumer, id("fabricator", "fireproof", woodKind.getSerializedName(), type.toString()));
 			} catch (IllegalStateException ignored) {
@@ -1744,7 +1744,7 @@ public class ForestryRecipeProvider {
 						.pattern("X#X")
 						.pattern("#X#")
 						.pattern("X#X")
-						.define('#', CoreItems.REFRACTORY_WAX)
+						.define('#', CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.REFRACTORY_WAX))
 						.define('X', TreeManager.woodAccess.getBlock(type, WoodBlockKind.PLANKS, false).getBlock()))
 				.build(consumer, id("fabricator", "fireproof", "planks", type.toString()));
 	}
@@ -1905,13 +1905,13 @@ public class ForestryRecipeProvider {
 		new SqueezerContainerRecipeBuilder()
 				.setProcessingTime(10)
 				.setEmptyContainer(FluidsItems.CONTAINERS.stack(EnumContainerType.CAPSULE))
-				.setRemnants(CoreItems.BEESWAX.stack())
+				.setRemnants(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.BEESWAX).stack())
 				.setRemnantsChance(0.10f)
 				.build(consumer, id("squeezer", "container", "capsule"));
 		new SqueezerContainerRecipeBuilder()
 				.setProcessingTime(10)
 				.setEmptyContainer(FluidsItems.CONTAINERS.stack(EnumContainerType.REFRACTORY))
-				.setRemnants(CoreItems.REFRACTORY_WAX.stack())
+				.setRemnants(CoreItems.CRAFTING_MATERIALS.stack(EnumCraftingMaterial.REFRACTORY_WAX))
 				.setRemnantsChance(0.10f)
 				.build(consumer, id("squeezer", "container", "refractory"));
 	}
@@ -1934,8 +1934,8 @@ public class ForestryRecipeProvider {
 		new SqueezerRecipeBuilder()
 				.setProcessingTime(10)
 				.setResources(Util.make(NonNullList.create(), (ingredients) -> {
-					ingredients.add(Ingredient.of(CoreItems.PHOSPHOR));
-					ingredients.add(Ingredient.of(CoreItems.PHOSPHOR));
+					ingredients.add(Ingredient.of(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.PHOSPHOR)));
+					ingredients.add(Ingredient.of(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.PHOSPHOR)));
 					ingredients.add(Ingredient.of(Items.SAND, Items.RED_SAND));
 				}))
 				.setFluidOutput(new FluidStack(Fluids.LAVA, 2000))
@@ -1943,8 +1943,8 @@ public class ForestryRecipeProvider {
 		new SqueezerRecipeBuilder()
 				.setProcessingTime(10)
 				.setResources(Util.make(NonNullList.create(), (ingredients) -> {
-					ingredients.add(Ingredient.of(CoreItems.PHOSPHOR));
-					ingredients.add(Ingredient.of(CoreItems.PHOSPHOR));
+					ingredients.add(Ingredient.of(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.PHOSPHOR)));
+					ingredients.add(Ingredient.of(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.PHOSPHOR)));
 					ingredients.add(Ingredient.of(Items.DIRT, Items.COBBLESTONE));
 				}))
 				.setFluidOutput(new FluidStack(Fluids.LAVA, 1600))

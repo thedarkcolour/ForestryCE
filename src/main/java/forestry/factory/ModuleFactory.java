@@ -17,8 +17,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidType;
 
 import forestry.api.client.IClientModuleHandler;
 import forestry.api.fuels.FermenterFuel;
@@ -28,11 +26,8 @@ import forestry.api.fuels.RainSubstrate;
 import forestry.api.modules.ForestryModule;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.api.modules.IPacketRegistry;
-import forestry.core.config.Constants;
 import forestry.core.config.Preference;
 import forestry.core.features.CoreItems;
-import forestry.core.fluids.ForestryFluids;
-import forestry.core.items.definitions.EnumCraftingMaterial;
 import forestry.core.network.PacketIdClient;
 import forestry.core.network.PacketIdServer;
 import forestry.core.utils.datastructures.ItemStackMap;
@@ -85,7 +80,7 @@ public class ModuleFactory extends BlankForestryModule {
 
 		// Set rain substrates
 		ItemStack iodineCharge = CoreItems.IODINE_CHARGE.stack();
-		ItemStack dissipationCharge = CoreItems.CRAFTING_MATERIALS.stack(EnumCraftingMaterial.DISSIPATION_CHARGE, 1);
+		ItemStack dissipationCharge = CoreItems.DISSIPATION_CHARGE.stack();
 		FuelManager.rainSubstrate.put(iodineCharge, new RainSubstrate(iodineCharge, 10000, 0.01f));
 		FuelManager.rainSubstrate.put(dissipationCharge, new RainSubstrate(dissipationCharge, 0.075f));
 	}

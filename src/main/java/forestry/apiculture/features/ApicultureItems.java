@@ -4,7 +4,6 @@ import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 
 import forestry.api.apiculture.genetics.BeeLifeStage;
-import forestry.api.core.ItemGroups;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.apiculture.items.EnumHoneyComb;
 import forestry.apiculture.items.EnumPollenCluster;
@@ -20,9 +19,7 @@ import forestry.apiculture.items.ItemPropolis;
 import forestry.apiculture.items.ItemScoop;
 import forestry.apiculture.items.ItemSmoker;
 import forestry.apiculture.items.ItemWaxCast;
-import forestry.core.items.ItemForestry;
 import forestry.core.items.ItemForestryFood;
-import forestry.core.items.ItemOverlay;
 import forestry.modules.features.FeatureItem;
 import forestry.modules.features.FeatureItemGroup;
 import forestry.modules.features.FeatureProvider;

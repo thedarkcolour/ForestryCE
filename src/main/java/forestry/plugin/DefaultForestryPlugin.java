@@ -124,7 +124,7 @@ public class DefaultForestryPlugin implements IForestryPlugin {
 					karyotype.set(BeeChromosomes.POLLINATION, ForestryAlleles.POLLINATION_SLOWEST)
 							.addAlleles(ForestryAlleles.DEFAULT_POLLINATIONS);
 				})
-				.addStages(BeeLifeStage.DRONE, BeeLifeStage.QUEEN, BeeLifeStage.PRINCESS, BeeLifeStage.LARVAE)
+				.addStages(BeeLifeStage.DRONE, BeeLifeStage.PRINCESS, BeeLifeStage.QUEEN, BeeLifeStage.LARVAE)
 				.setDefaultStage(BeeLifeStage.DRONE);
 
 		// Tree type

@@ -18,8 +18,8 @@ import forestry.core.blocks.MachineProperties;
 import forestry.modules.features.FeatureTileType;
 
 public enum BlockTypeApiculture implements IBlockType {
-	APIARY(ApicultureTiles.APIARY, "apiary"),
-	BEE_HOUSE(ApicultureTiles.BEE_HOUSE, "bee_house");
+	BEE_HOUSE(ApicultureTiles.BEE_HOUSE, "bee_house"),
+	APIARY(ApicultureTiles.APIARY, "apiary");
 
 	private final IMachineProperties<?> machineProperties;
 

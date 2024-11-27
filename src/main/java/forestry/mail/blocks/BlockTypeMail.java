@@ -25,7 +25,7 @@ import forestry.modules.features.FeatureTileType;
 public enum BlockTypeMail implements IBlockType {
 	MAILBOX(MailTiles.MAILBOX, "mailbox", null),
 	TRADE_STATION(MailTiles.TRADER, "trade_station", TileTrader::serverTick),
-	PHILATELIST(MailTiles.STAMP_COLLECTOR, "stamp_collector", TileStampCollector::serverTick);
+	STAMP_COLLETOR(MailTiles.STAMP_COLLECTOR, "stamp_collector", TileStampCollector::serverTick);
 
 	private final IMachineProperties<?> machineProperties;
 

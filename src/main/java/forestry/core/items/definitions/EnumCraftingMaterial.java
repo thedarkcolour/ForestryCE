@@ -7,13 +7,15 @@ import forestry.api.core.IItemSubtype;
 public enum EnumCraftingMaterial implements IItemSubtype {
 	PULSATING_DUST,
 	PULSATING_MESH,
+	WOOD_PULP,
+	BEESWAX,
+	REFRACTORY_WAX,
 	SILK_WISP,
 	WOVEN_SILK,
-	DISSIPATION_CHARGE,
 	ICE_SHARD,
+	PHOSPHOR,
+	IMPREGNATED_STICK,
 	SCENTED_PANELING;
-
-	public static final EnumCraftingMaterial[] VALUES = values();
 
 	private final String name;
 

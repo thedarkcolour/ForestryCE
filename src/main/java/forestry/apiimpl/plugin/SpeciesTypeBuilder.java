@@ -4,8 +4,9 @@ import com.google.common.base.Preconditions;
 
 import javax.annotation.Nullable;
 import java.util.Arrays;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Consumer;
 
 import net.minecraft.world.item.Item;
@@ -23,7 +24,7 @@ import it.unimi.dsi.fastutil.objects.Reference2FloatMap;
 
 public class SpeciesTypeBuilder implements ISpeciesTypeBuilder {
 	private final ISpeciesTypeFactory typeFactory;
-	private final HashSet<ILifeStage> stages;
+	private final Set<ILifeStage> stages;
 
 	@Nullable
 	private ILifeStage defaultStage = null;
@@ -33,7 +34,7 @@ public class SpeciesTypeBuilder implements ISpeciesTypeBuilder {
 
 	public SpeciesTypeBuilder(ISpeciesTypeFactory typeFactory) {
 		this.typeFactory = typeFactory;
-		this.stages = new HashSet<>();
+		this.stages = new LinkedHashSet<>();
 
 		// The default research materials across all species in Forestry
 		this.researchMaterials = map -> {

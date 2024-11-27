@@ -12,23 +12,18 @@ package forestry.core.fluids;
 
 import javax.annotation.Nullable;
 import java.awt.Color;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.function.UnaryOperator;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BucketItem;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 
-import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.fluids.FluidStack;
 
 import forestry.api.ForestryConstants;
@@ -101,7 +96,6 @@ public enum ForestryFluids {
 
 	private final ResourceLocation tag;
 	private final FeatureFluid feature;
-	@Nullable
 	private final FeatureItem<BucketItem> bucket;
 
 	ForestryFluids(UnaryOperator<FeatureFluid.Builder> properties) {
@@ -110,21 +104,13 @@ public enum ForestryFluids {
 						.fluid(name().toLowerCase(Locale.ENGLISH)))
 				.bucket(this::getBucket)
 				.create();
-		if (hasBucket()) {
-			this.bucket = registry
-					.item(() -> new BucketItem(this::getFluid, new Item.Properties()
-									.craftRemainder(Items.BUCKET)
-									.stacksTo(1)),
-							"bucket_" + name().toLowerCase(Locale.ENGLISH)
-					);
-		} else {
-			this.bucket = null;
-		}
+		this.bucket = registry
+				.item(() -> new BucketItem(this::getFluid, new Item.Properties()
+								.craftRemainder(Items.BUCKET)
+								.stacksTo(1)),
+						"bucket_" + name().toLowerCase(Locale.ENGLISH)
+				);
 		this.tag = ForestryConstants.forestry(feature.getName());
-	}
-
-	protected boolean hasBucket() {
-		return true;
 	}
 
 	public int getTemperature() {
@@ -139,14 +125,8 @@ public enum ForestryFluids {
 		return feature;
 	}
 
-	@Nullable
-	public FeatureItem<BucketItem> getBucketFeature() {
-		return bucket;
-	}
-
-	@Nullable
 	public BucketItem getBucket() {
-		return bucket != null ? bucket.item() : null;
+		return bucket.item();
 	}
 
 	public final Fluid getFluid() {
@@ -193,13 +173,6 @@ public enum ForestryFluids {
 		}
 
 		return null;
-	}
-
-	/**
-	 * Add non-forestry containers for this fluid.
-	 */
-	public List<ItemStack> getOtherContainers() {
-		return Collections.emptyList();
 	}
 
 	/**

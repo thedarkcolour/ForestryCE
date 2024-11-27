@@ -57,6 +57,7 @@ import forestry.core.climate.ForestryClimateManager;
 import forestry.core.commands.DiagnosticsCommand;
 import forestry.core.commands.DumpCommand;
 import forestry.core.features.CoreItems;
+import forestry.core.items.definitions.EnumCraftingMaterial;
 import forestry.core.loot.ConditionLootModifier;
 import forestry.core.network.PacketIdClient;
 import forestry.core.network.PacketIdServer;
@@ -130,7 +131,7 @@ public class ModuleCore extends BlankForestryModule {
 		composts.put(CoreItems.DECAYING_WHEAT.item(), 0.65f);
 		composts.put(CoreItems.MULCH.item(), 0.65f);
 		composts.put(CoreItems.ASH.item(), 0.65f);
-		composts.put(CoreItems.WOOD_PULP.item(), 0.65f);
+		composts.put(CoreItems.CRAFTING_MATERIALS.item(EnumCraftingMaterial.WOOD_PULP), 0.65f);
 		composts.put(CoreItems.PEAT.item(), 0.75f);
 		composts.put(CoreItems.COMPOST.item(), 1f);
 		for (ItemPollenCluster pollen : ApicultureItems.POLLEN_CLUSTER.getItems()) {

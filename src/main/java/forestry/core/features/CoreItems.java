@@ -5,7 +5,6 @@ import net.minecraft.world.item.PickaxeItem;
 import net.minecraft.world.item.ShovelItem;
 
 import forestry.api.modules.ForestryModuleIds;
-import forestry.apiculture.items.ItemBeesWax;
 import forestry.core.circuits.EnumCircuitBoardType;
 import forestry.core.circuits.ItemCircuitBoard;
 import forestry.core.genetics.ItemResearchNote;
@@ -99,13 +98,9 @@ public class CoreItems {
 
 	/* Rainmaker */
 	public static final FeatureItem<ItemForestry> IODINE_CHARGE = REGISTRY.item(ItemForestry::new, "iodine_capsule");
-	public static final FeatureItem<ItemForestry> PHOSPHOR = REGISTRY.item(ItemForestry::new, "phosphor");
+	public static final FeatureItem<ItemForestry> DISSIPATION_CHARGE = REGISTRY.item(ItemForestry::new, "dissipation_charge");
 
 	/* Misc */
-	public static final FeatureItemGroup<ItemCraftingMaterial, EnumCraftingMaterial> CRAFTING_MATERIALS = REGISTRY.itemGroup(ItemCraftingMaterial::new, EnumCraftingMaterial.VALUES).create();
-	public static final FeatureItem<ItemForestry> STICK_IMPREGNATED = REGISTRY.item(ItemForestry::new, "impregnated_stick");
-	public static final FeatureItem<ItemForestry> WOOD_PULP = REGISTRY.item(ItemForestry::new, "wood_pulp");
-	public static final FeatureItem<ItemForestry> BEESWAX = REGISTRY.item(ItemBeesWax::new, "beeswax");
-	public static final FeatureItem<ItemForestry> REFRACTORY_WAX = REGISTRY.item(ItemForestry::new, "refractory_wax");
+	public static final FeatureItemGroup<ItemCraftingMaterial, EnumCraftingMaterial> CRAFTING_MATERIALS = REGISTRY.itemGroup(ItemCraftingMaterial::new, EnumCraftingMaterial.values()).create();
 	public static final FeatureItemGroup<ItemFruit, ItemFruit.EnumFruit> FRUITS = REGISTRY.itemGroup(ItemFruit::new, "fruit", ItemFruit.EnumFruit.values());
 }

@@ -14,6 +14,7 @@ import forestry.apiculture.items.EnumPollenCluster;
 import forestry.apiculture.items.EnumPropolis;
 import forestry.core.features.CoreBlocks;
 import forestry.core.features.CoreItems;
+import forestry.core.items.definitions.EnumCraftingMaterial;
 import forestry.modules.features.FeatureItem;
 import forestry.modules.features.FeatureItemGroup;
 import forestry.modules.features.FeatureProvider;
@@ -34,7 +35,7 @@ public class CrateItems {
 	public static final FeatureItem<ItemCrated> CRATED_APATITE = register(CoreItems.APATITE, "crated_apatite");
 	public static final FeatureItem<ItemCrated> CRATED_FERTILIZER_COMPOUND = register(CoreItems.FERTILIZER_COMPOUND, "crated_fertilizer_compound");
 	public static final FeatureItem<ItemCrated> CRATED_MULCH = register(CoreItems.MULCH, "crated_mulch");
-	public static final FeatureItem<ItemCrated> CRATED_PHOSPHOR = register(CoreItems.PHOSPHOR, "crated_phosphor");
+	public static final FeatureItem<ItemCrated> CRATED_PHOSPHOR = register(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.PHOSPHOR), "crated_phosphor");
 	public static final FeatureItem<ItemCrated> CRATED_ASH = register(CoreItems.ASH, "crated_ash");
 	public static final FeatureItem<ItemCrated> CRATED_TIN = register(CoreItems.INGOT_TIN, "crated_tin");
 	public static final FeatureItem<ItemCrated> CRATED_COPPER = register(Items.COPPER_INGOT, "crated_copper");
@@ -93,8 +94,8 @@ public class CrateItems {
 	public static final FeatureItem<ItemCrated> CRATED_ACACIA_SAPLING = register(Items.ACACIA_SAPLING, "crated_acacia_sapling");
 	public static final FeatureItem<ItemCrated> CRATED_DARK_OAK_SAPLING = register(Items.DARK_OAK_SAPLING, "crated_dark_oak_sapling");
 
-	public static final FeatureItem<ItemCrated> CRATED_BEESWAX = register(CoreItems.BEESWAX, "crated_beeswax");
-	public static final FeatureItem<ItemCrated> CRATED_REFRACTORY_WAX = register(CoreItems.REFRACTORY_WAX, "crated_refractory_wax");
+	public static final FeatureItem<ItemCrated> CRATED_BEESWAX = register(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.BEESWAX), "crated_beeswax");
+	public static final FeatureItem<ItemCrated> CRATED_REFRACTORY_WAX = register(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.REFRACTORY_WAX), "crated_refractory_wax");
 
 	// Apiculture
 	public static final FeatureItem<ItemCrated> CRATED_POLLEN_CLUSTER_NORMAL = register(ApicultureItems.POLLEN_CLUSTER.get(EnumPollenCluster.NORMAL), "crated_pollen_cluster_normal");

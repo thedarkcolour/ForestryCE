@@ -19,7 +19,6 @@ public class ForestryModuleIds {
 	public static final ResourceLocation LEPIDOPTEROLOGY = ForestryConstants.forestry("lepidopterology");
 	public static final ResourceLocation MAIL = ForestryConstants.forestry("mail");
 	public static final ResourceLocation STORAGE = ForestryConstants.forestry("storage");
-	public static final ResourceLocation DATABASE = ForestryConstants.forestry("database");
 	public static final ResourceLocation SORTING = ForestryConstants.forestry("sorting");
 	public static final ResourceLocation CULTIVATION = ForestryConstants.forestry("cultivation");
 	public static final ResourceLocation WORKTABLE = ForestryConstants.forestry("worktable");
