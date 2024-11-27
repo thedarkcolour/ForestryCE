@@ -298,7 +298,6 @@ public class CoreClientHandler implements IClientModuleHandler {
 
 					Vec3 cameraPos = event.getCamera().getPosition();
 
-					RENDER_TYPE_LINES_XRAY.clearRenderState();
 					RENDER_TYPE_LINES_XRAY.setupRenderState();
 
 					MultiBufferSource.BufferSource buffers = minecraft.renderBuffers().bufferSource();
@@ -338,6 +337,7 @@ public class CoreClientHandler implements IClientModuleHandler {
 					}
 
 					buffers.endBatch();
+					RENDER_TYPE_LINES_XRAY.clearRenderState();
 				}
 			}
 		}
