@@ -23,7 +23,7 @@ public class GuiToggleButton extends Button {
 		int x = getX(), y = getY();
 
 		this.isHovered = mX >= x && mY >= y && mX < x + this.width && mY < y + this.height;
-		int hoverState = RenderUtil.getTextureY(this);
+		int hoverState = RenderUtil.getYImage(this);
 		Drawable drawable = textures[hoverState];
 		drawable.draw(graphics, y, x);
 	}

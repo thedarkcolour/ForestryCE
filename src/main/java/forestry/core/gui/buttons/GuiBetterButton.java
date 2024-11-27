@@ -45,7 +45,7 @@ public class GuiBetterButton extends Button {
 		graphics.setColor(1.0F, 1.0F, 1.0F, this.alpha);
 		RenderSystem.enableBlend();
 		RenderSystem.enableDepthTest();
-		graphics.blit(TEXTURE, getX(), getY(), xOffset, yOffset + RenderUtil.getTextureY(this) * h, w, h);
+		graphics.blit(TEXTURE, getX(), getY(), xOffset, yOffset + RenderUtil.getYImage(this) * h, w, h);
 		graphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
 		int i = getFGColor();
 		this.renderString(graphics, minecraft.font, i | Mth.ceil(this.alpha * 255.0F) << 24);

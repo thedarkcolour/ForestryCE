@@ -7,7 +7,6 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemDisplayContext;
@@ -18,13 +17,9 @@ import net.minecraft.world.level.material.Fluid;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.fluids.FluidType;
 
-import net.minecraftforge.fml.loading.FMLEnvironment;
-
-import forestry.core.ClientsideCode;
 import forestry.core.fluids.ForestryFluids;
 
 public class RenderUtil {
@@ -72,7 +67,7 @@ public class RenderUtil {
 	}
 
 	// VANILLA COPY
-	public static int getTextureY(Button button) {
+	public static int getYImage(Button button) {
 		int i = 1;
 		if (!button.active) {
 			i = 0;
@@ -80,6 +75,6 @@ public class RenderUtil {
 			i = 2;
 		}
 
-		return 46 + i * 20;
+		return i;
 	}
 }

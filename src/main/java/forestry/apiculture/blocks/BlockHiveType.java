@@ -8,7 +8,6 @@ import forestry.api.ForestryConstants;
 import forestry.api.apiculture.ForestryBeeSpecies;
 import forestry.api.core.IBlockSubtype;
 
-/* Forestry Hive Names */
 public enum BlockHiveType implements IBlockSubtype {
 	FOREST(ForestryBeeSpecies.FOREST),
 	MEADOWS(ForestryBeeSpecies.MEADOWS),
@@ -19,8 +18,6 @@ public enum BlockHiveType implements IBlockSubtype {
 	SWAMP(ForestryBeeSpecies.MARSHY),
 	SAVANNA(ForestryBeeSpecies.SAVANNA),
 	SWARM(ForestryConstants.forestry("none"));
-
-	public static final BlockHiveType[] VALUES = values();
 
 	private final ResourceLocation speciesUid;
 
@@ -35,9 +32,5 @@ public enum BlockHiveType implements IBlockSubtype {
 	@Override
 	public String getSerializedName() {
 		return name().toLowerCase(Locale.ENGLISH);
-	}
-
-	public int getMeta() {
-		return ordinal();
 	}
 }
