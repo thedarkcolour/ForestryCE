@@ -86,32 +86,33 @@ public class GuiLetter extends GuiForestry<ContainerLetter> {
 
 	@Override
 	public boolean keyPressed(int key, int scanCode, int modifiers) {
-
-		// Set focus or enter text into address
-		if (this.address.isFocused()) {
-			if (key == GLFW.GLFW_KEY_ENTER) {
-				this.address.setFocused(false);
-			} else {
-				this.address.keyPressed(key, scanCode, modifiers);
-			}
-			return true;
-		}
-
-		if (this.text.isFocused()) {
-			if (key == GLFW.GLFW_KEY_ENTER) {
-				if (hasShiftDown()) {
-					text.setValue(text.getValue() + "\n");
-				} else {
-					this.text.setFocused(false);
+		if (key != GLFW.GLFW_KEY_ESCAPE && key != GLFW.GLFW_KEY_TAB) {
+			// Set focus or enter text into address
+			if (this.address.isFocused()) {
+				if (key == GLFW.GLFW_KEY_ENTER) {
+					this.address.setFocused(false);
+				}/* else {
+					this.address.keyPressed(key, scanCode, modifiers);
 				}
-			} else if (key == GLFW.GLFW_KEY_DOWN) {
-				text.advanceLine();
-			} else if (key == GLFW.GLFW_KEY_UP) {
-				text.regressLine();
-			} else if (text.moreLinesAllowed() || key == GLFW.GLFW_KEY_DELETE || key == GLFW.GLFW_KEY_BACKSLASH) {
-				this.text.keyPressed(key, scanCode, modifiers);
+				return true;*/
 			}
-			return true;
+
+			if (this.text.isFocused()) {
+				if (key == GLFW.GLFW_KEY_ENTER) {
+					if (hasShiftDown()) {
+						this.text.setValue(text.getValue() + "\n");
+					} else {
+						this.text.setFocused(false);
+					}
+				} else if (key == GLFW.GLFW_KEY_DOWN) {
+					text.advanceLine();
+				} else if (key == GLFW.GLFW_KEY_UP) {
+					text.regressLine();
+				}/* else if (text.moreLinesAllowed() || key == GLFW.GLFW_KEY_DELETE || key == GLFW.GLFW_KEY_BACKSLASH) {
+					this.text.keyPressed(key, scanCode, modifiers);
+				}
+				return true;*/
+			}
 		}
 
 		return super.keyPressed(key, scanCode, modifiers);
@@ -129,7 +130,6 @@ public class GuiLetter extends GuiForestry<ContainerLetter> {
 
 	@Override
 	protected void renderBg(GuiGraphics graphics, float partialTicks, int mouseY, int mouseX) {
-
 		if (!isProcessedLetter && !checkedSessionVars) {
 			checkedSessionVars = true;
 			setFromSessionVars();
@@ -159,7 +159,7 @@ public class GuiLetter extends GuiForestry<ContainerLetter> {
 			graphics.drawWordWrap(this.font, Component.literal(text.getValue()), leftPos + 20, topPos + 34, 119, ColourProperties.INSTANCE.get("gui.mail.lettertext"));
 		} else {
 			clearTradeInfoWidgets();
-			address.render(graphics, mouseX, mouseY, partialTicks);    //TODO correct?
+			address.render(graphics, mouseX, mouseY, partialTicks);
 			if (menu.getCarrierType() == EnumAddressee.TRADER) {
 				drawTradePreview(graphics, 18, 32);
 			} else {
@@ -169,7 +169,6 @@ public class GuiLetter extends GuiForestry<ContainerLetter> {
 	}
 
 	private void drawTradePreview(GuiGraphics graphics, int x, int y) {
-
 		Component infoString = null;
 		if (menu.getTradeInfo() == null) {
 			infoString = Component.translatable("for.gui.mail.no.trader");

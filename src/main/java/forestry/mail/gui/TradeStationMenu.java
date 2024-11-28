@@ -21,15 +21,15 @@ import forestry.core.gui.slots.SlotOutput;
 import forestry.core.tiles.TileUtil;
 import forestry.mail.TradeStation;
 import forestry.mail.features.MailMenuTypes;
-import forestry.mail.tiles.TileTrader;
+import forestry.mail.tiles.TradeStationBlockEntity;
 
-public class ContainerTrader extends ContainerTile<TileTrader> {
-	public static ContainerTrader fromNetwork(int windowId, Inventory inv, FriendlyByteBuf data) {
-		TileTrader tile = TileUtil.getTile(inv.player.level(), data.readBlockPos(), TileTrader.class);
-		return new ContainerTrader(windowId, inv, tile);
+public class TradeStationMenu extends ContainerTile<TradeStationBlockEntity> {
+	public static TradeStationMenu fromNetwork(int windowId, Inventory inv, FriendlyByteBuf data) {
+		TradeStationBlockEntity tile = TileUtil.getTile(inv.player.level(), data.readBlockPos(), TradeStationBlockEntity.class);
+		return new TradeStationMenu(windowId, inv, tile);
 	}
 
-	public ContainerTrader(int windowId, Inventory inv, TileTrader tile) {
+	public TradeStationMenu(int windowId, Inventory inv, TradeStationBlockEntity tile) {
 		super(windowId, MailMenuTypes.TRADER.menuType(), inv, tile, 33, 138);
 
 		// Trade good

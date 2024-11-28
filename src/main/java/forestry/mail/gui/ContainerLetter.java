@@ -92,7 +92,7 @@ public class ContainerLetter extends ContainerItemInventory<ItemInventoryLetter>
 		if (!PlayerEntity.level().isClientSide) {
 			ILetter letter = inventory.getLetter();
 			if (!letter.isProcessed()) {
-				IMailAddress sender = PostManager.postRegistry.getMailAddress(PlayerEntity.getGameProfile());
+				IMailAddress sender = PostManager.postRegistry.createMailAddress(PlayerEntity.getGameProfile());
 				letter.setSender(sender);
 			}
 		}
@@ -160,8 +160,8 @@ public class ContainerLetter extends ContainerItemInventory<ItemInventoryLetter>
 	@Nullable
 	private static IMailAddress getRecipient(MinecraftServer minecraftServer, String recipientName, EnumAddressee type) {
 		return switch (type) {
-			case PLAYER -> minecraftServer.getProfileCache().get(recipientName).map(PostManager.postRegistry::getMailAddress).orElse(null);
-			case TRADER -> PostManager.postRegistry.getMailAddress(recipientName);
+			case PLAYER -> minecraftServer.getProfileCache().get(recipientName).map(PostManager.postRegistry::createMailAddress).orElse(null);
+			case TRADER -> PostManager.postRegistry.createMailAddress(recipientName);
 		};
 	}
 

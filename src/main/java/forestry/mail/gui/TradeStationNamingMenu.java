@@ -14,21 +14,25 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
 
 import forestry.api.mail.IMailAddress;
 import forestry.core.gui.ContainerTile;
 import forestry.core.tiles.TileUtil;
 import forestry.mail.features.MailMenuTypes;
-import forestry.mail.tiles.TileTrader;
+import forestry.mail.tiles.TradeStationBlockEntity;
 
-public class ContainerTradeName extends ContainerTile<TileTrader> {
-	public static ContainerTradeName fromNetwork(int windowId, Inventory inv, FriendlyByteBuf data) {
-		TileTrader tile = TileUtil.getTile(inv.player.level(), data.readBlockPos(), TileTrader.class);
-		return new ContainerTradeName(windowId, inv, tile);
+public class TradeStationNamingMenu extends ContainerTile<TradeStationBlockEntity> {
+	private final Player player;
+
+	public static TradeStationNamingMenu fromNetwork(int windowId, Inventory inv, FriendlyByteBuf data) {
+		TradeStationBlockEntity tile = TileUtil.getTile(inv.player.level(), data.readBlockPos(), TradeStationBlockEntity.class);
+		return new TradeStationNamingMenu(windowId, inv.player, tile);
 	}
 
-	public ContainerTradeName(int windowId, Inventory inv, TileTrader tile) {
+	public TradeStationNamingMenu(int windowId, Player player, TradeStationBlockEntity tile) {
 		super(windowId, MailMenuTypes.TRADE_NAME.menuType(), tile);
+		this.player = player;
 	}
 
 	public IMailAddress getAddress() {
@@ -40,10 +44,8 @@ public class ContainerTradeName extends ContainerTile<TileTrader> {
 		super.broadcastChanges();
 
 		if (tile.isLinked()) {
-			for (Object crafter : containerListeners) {
-				if (crafter instanceof ServerPlayer player) {
-					tile.openGui(player, InteractionHand.MAIN_HAND, tile.getBlockPos());
-				}
+			if (this.player instanceof ServerPlayer player) {
+				tile.openGui(player, InteractionHand.MAIN_HAND, tile.getBlockPos());
 			}
 		}
 	}

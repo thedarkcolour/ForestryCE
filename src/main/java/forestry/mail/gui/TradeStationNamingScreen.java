@@ -14,51 +14,56 @@ import org.apache.commons.lang3.StringUtils;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
-import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Inventory;
 
 import org.lwjgl.glfw.GLFW;
 
+import forestry.api.mail.PostManager;
 import forestry.core.config.Constants;
 import forestry.core.gui.GuiForestry;
 import forestry.core.render.ColourProperties;
 import forestry.core.utils.NetworkUtil;
 import forestry.mail.network.packets.PacketTraderAddressRequest;
-import forestry.mail.tiles.TileTrader;
+import forestry.mail.tiles.TradeStationBlockEntity;
 
-public class GuiTradeName extends GuiForestry<ContainerTradeName> {
-	private final TileTrader tile;
+// Sets the name of a trade station when it's first placed down
+public class TradeStationNamingScreen extends GuiForestry<TradeStationNamingMenu> {
+	private final TradeStationBlockEntity tile;
 	private EditBox addressNameField;
 
-	public GuiTradeName(ContainerTradeName container, Inventory inv, Component title) {
+	public TradeStationNamingScreen(TradeStationNamingMenu container, Inventory inv, Component title) {
 		super(Constants.TEXTURE_PATH_GUI + "/tradername.png", container, inv, title);
 		this.tile = container.getTile();
 		this.imageWidth = 176;
 		this.imageHeight = 90;
 
-		addressNameField = new EditBox(this.font, leftPos + 44, topPos + 39, 90, 14, null);
+		this.addressNameField = new EditBox(this.font, leftPos + 44, topPos + 39, 90, 14, null);
+		this.addressNameField.setFilter(name -> PostManager.postRegistry.isValidTradeAddress(PostManager.postRegistry.createMailAddress(name)));
+
 	}
 
 	@Override
 	public void init() {
 		super.init();
 
-		addressNameField = new EditBox(this.font, leftPos + 44, topPos + 39, 90, 14, null);
-		addressNameField.setValue(menu.getAddress().getName());
-		addressNameField.setFocused(true);
+		this.addressNameField = new EditBox(this.font, leftPos + 44, topPos + 39, 90, 14, null);
+		this.addressNameField.setValue(menu.getAddress().getName());
+		addWidget(this.addressNameField);
+
+		setFocused(this.addressNameField);
 	}
 
 	@Override
 	public boolean keyPressed(int key, int scanCode, int modifiers) {
-
 		// Set focus or enter text into address
-		if (addressNameField.isFocused()) {
-			if (scanCode == GLFW.GLFW_KEY_ENTER) {
+		if (this.addressNameField.isFocused()) {
+			if (key == GLFW.GLFW_KEY_ENTER) {
 				setAddress();
-			} else {
-				addressNameField.keyPressed(key, scanCode, modifiers);
+				return true;
+			} else if (this.minecraft.options.keyInventory.matches(key, scanCode)) {
+				return true;
 			}
-			return true;
 		}
 
 		return super.keyPressed(key, scanCode, modifiers);
@@ -66,11 +71,10 @@ public class GuiTradeName extends GuiForestry<ContainerTradeName> {
 
 	@Override
 	public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
-		if (super.mouseClicked(mouseX, mouseY, mouseButton)) {
-			return false;    //TODO this return value
+		if (addressNameField.mouseClicked(mouseX, mouseY, mouseButton)) {
+			return true;
 		}
-		addressNameField.mouseClicked(mouseX, mouseY, mouseButton);
-		return true;
+		return super.mouseClicked(mouseX, mouseY, mouseButton);
 	}
 
 	@Override

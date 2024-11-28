@@ -20,7 +20,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 
 import com.mojang.authlib.GameProfile;
 
@@ -46,13 +45,8 @@ public class PostRegistry implements IPostRegistry {
 
 	private final Map<EnumAddressee, IPostalCarrier> carriers = new EnumMap<>(EnumAddressee.class);
 
-	/**
-	 * @param world   the Minecraft world the PO box will be in
-	 * @param address the potential address of the PO box
-	 * @return true if the passed address is valid for PO Boxes.
-	 */
 	@Override
-	public boolean isValidPOBox(Level world, IMailAddress address) {
+	public boolean isValidPOBox(IMailAddress address) {
 		return address.getType() == EnumAddressee.PLAYER && address.getName().matches("^[a-zA-Z0-9]+$");
 	}
 
@@ -85,21 +79,11 @@ public class PostRegistry implements IPostRegistry {
 		return pobox;
 	}
 
-	/**
-	 * @param world   the Minecraft world the Trader will be in
-	 * @param address the potential address of the Trader
-	 * @return true if the passed address can be an address for a trade station
-	 */
 	@Override
-	public boolean isValidTradeAddress(Level world, IMailAddress address) {
+	public boolean isValidTradeAddress(IMailAddress address) {
 		return address.getType() == EnumAddressee.TRADER && address.getName().matches("^[a-zA-Z0-9]+$");
 	}
 
-	/**
-	 * @param world   the Minecraft world the Trader will be in
-	 * @param address the potential address of the Trader
-	 * @return true if the trade address has not yet been used before.
-	 */
 	@Override
 	public boolean isAvailableTradeAddress(ServerLevel world, IMailAddress address) {
 		return getTradeStation(world, address) == null;
@@ -157,27 +141,26 @@ public class PostRegistry implements IPostRegistry {
 	}
 
 	@Override
-	public IPostOffice getPostOffice(ServerLevel world) {
+	public IPostOffice getPostOffice(ServerLevel level) {
 		if (cachedPostOffice != null) {
 			return cachedPostOffice;
 		}
 
-		PostOffice office = world.getDataStorage().computeIfAbsent(PostOffice::new, PostOffice::new, PostOffice.SAVE_NAME);
+		PostOffice office = level.getDataStorage().computeIfAbsent(PostOffice::new, PostOffice::new, PostOffice.SAVE_NAME);
 
-		office.setWorld(world);
+		office.setWorld(level);
 
 		cachedPostOffice = office;
 		return office;
 	}
 
-
 	@Override
-	public IMailAddress getMailAddress(GameProfile gameProfile) {
+	public IMailAddress createMailAddress(GameProfile gameProfile) {
 		return new MailAddress(gameProfile);
 	}
 
 	@Override
-	public IMailAddress getMailAddress(String traderName) {
+	public IMailAddress createMailAddress(String traderName) {
 		return new MailAddress(traderName);
 	}
 

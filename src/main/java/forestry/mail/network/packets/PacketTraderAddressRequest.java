@@ -18,15 +18,15 @@ import net.minecraft.server.level.ServerPlayer;
 import forestry.api.modules.IForestryPacketServer;
 import forestry.core.network.PacketIdServer;
 import forestry.core.tiles.TileUtil;
-import forestry.mail.tiles.TileTrader;
+import forestry.mail.tiles.TradeStationBlockEntity;
 
 public record PacketTraderAddressRequest(BlockPos pos, String addressName) implements IForestryPacketServer {
-	public PacketTraderAddressRequest(TileTrader tile, String addressName) {
+	public PacketTraderAddressRequest(TradeStationBlockEntity tile, String addressName) {
 		this(tile.getBlockPos(), addressName);
 	}
 
 	public static void handle(PacketTraderAddressRequest msg, ServerPlayer player) {
-		TileUtil.actOnTile(player.level(), msg.pos(), TileTrader.class, tile -> tile.handleSetAddressRequest(msg.addressName()));
+		TileUtil.actOnTile(player.level(), msg.pos(), TradeStationBlockEntity.class, tile -> tile.handleSetAddressRequest(msg.addressName()));
 	}
 
 	@Override

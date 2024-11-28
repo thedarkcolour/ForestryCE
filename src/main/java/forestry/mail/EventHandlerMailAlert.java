@@ -11,12 +11,9 @@
 package forestry.mail;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
-
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -48,7 +45,7 @@ public class EventHandlerMailAlert {
 	public void handlePlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
 		Player player = event.getEntity();
 
-		IMailAddress address = PostManager.postRegistry.getMailAddress(player.getGameProfile());
+		IMailAddress address = PostManager.postRegistry.createMailAddress(player.getGameProfile());
 		POBox pobox = PostRegistry.getOrCreatePOBox((ServerLevel) player.level(), address);
 		PacketPOBoxInfoResponse packet = new PacketPOBoxInfoResponse(pobox.getPOBoxInfo());
 		NetworkUtil.sendToPlayer(packet, (ServerPlayer) player);

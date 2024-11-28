@@ -19,12 +19,12 @@ import forestry.core.tiles.IForestryTicker;
 import forestry.core.tiles.TileForestry;
 import forestry.mail.features.MailTiles;
 import forestry.mail.tiles.TileStampCollector;
-import forestry.mail.tiles.TileTrader;
+import forestry.mail.tiles.TradeStationBlockEntity;
 import forestry.modules.features.FeatureTileType;
 
 public enum BlockTypeMail implements IBlockType {
 	MAILBOX(MailTiles.MAILBOX, "mailbox", null),
-	TRADE_STATION(MailTiles.TRADER, "trade_station", TileTrader::serverTick),
+	TRADE_STATION(MailTiles.TRADER, "trade_station", TradeStationBlockEntity::serverTick),
 	STAMP_COLLETOR(MailTiles.STAMP_COLLECTOR, "stamp_collector", TileStampCollector::serverTick);
 
 	private final IMachineProperties<?> machineProperties;

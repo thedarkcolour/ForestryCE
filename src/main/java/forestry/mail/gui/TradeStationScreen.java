@@ -17,21 +17,21 @@ import net.minecraft.world.entity.player.Inventory;
 import forestry.core.config.Constants;
 import forestry.core.gui.GuiForestry;
 import forestry.core.render.ColourProperties;
-import forestry.mail.tiles.TileTrader;
+import forestry.mail.tiles.TradeStationBlockEntity;
 
-public class GuiTrader extends GuiForestry<ContainerTrader> {
-	private final TileTrader tile;
+public class TradeStationScreen extends GuiForestry<TradeStationMenu> {
+	private final TradeStationBlockEntity station;
 
-	public GuiTrader(ContainerTrader container, Inventory inv, Component title) {
-		super(Constants.TEXTURE_PATH_GUI + "/mailtrader2.png", container, inv, title);
-		this.tile = container.getTile();
+	public TradeStationScreen(TradeStationMenu menu, Inventory inv, Component title) {
+		super(Constants.TEXTURE_PATH_GUI + "/mailtrader2.png", menu, inv, title);
+		this.station = menu.getTile();
 		this.imageWidth = 226;
 		this.imageHeight = 220;
 	}
 
 	@Override
 	protected void renderLabels(GuiGraphics graphics, int mouseX, int mouseY) {
-		Component name = tile.getTitle();
+		Component name = station.getTitle();
 		graphics.drawString(this.font, name, textLayout.getCenteredOffset(name), 6, ColourProperties.INSTANCE.get("gui.mail.text"));
 
 		Component receive = Component.translatable("for.gui.mail.receive");
@@ -44,16 +44,16 @@ public class GuiTrader extends GuiForestry<ContainerTrader> {
 	}
 
 	@Override
-	protected void renderBg(GuiGraphics graphics, float partialTicks, int mouseY, int mouseX) {
-		super.renderBg(graphics, partialTicks, mouseY, mouseX);
+	protected void renderBg(GuiGraphics graphics, float partialTicks, int mouseX, int mouseY) {
+		super.renderBg(graphics, partialTicks, mouseX, mouseY);
 
 		graphics.drawString(this.font, menu.getAddress().getName(), leftPos + 19, topPos + 22, ColourProperties.INSTANCE.get("gui.mail.text"));
 	}
 
 	@Override
 	protected void addLedgers() {
-		addErrorLedger(tile);
+		addErrorLedger(station);
 		addHintLedger("trade.station");
-		addOwnerLedger(tile);
+		addOwnerLedger(station);
 	}
 }

@@ -12,8 +12,8 @@ import forestry.mail.gui.GuiCatalogue;
 import forestry.mail.gui.GuiLetter;
 import forestry.mail.gui.GuiMailbox;
 import forestry.mail.gui.GuiStampCollector;
-import forestry.mail.gui.GuiTradeName;
-import forestry.mail.gui.GuiTrader;
+import forestry.mail.gui.TradeStationNamingScreen;
+import forestry.mail.gui.TradeStationScreen;
 
 public class MailClientHandler implements IClientModuleHandler {
 	@Override
@@ -27,8 +27,8 @@ public class MailClientHandler implements IClientModuleHandler {
 			MenuScreens.register(MailMenuTypes.LETTER.menuType(), GuiLetter::new);
 			MenuScreens.register(MailMenuTypes.MAILBOX.menuType(), GuiMailbox::new);
 			MenuScreens.register(MailMenuTypes.STAMP_COLLECTOR.menuType(), GuiStampCollector::new);
-			MenuScreens.register(MailMenuTypes.TRADE_NAME.menuType(), GuiTradeName::new);
-			MenuScreens.register(MailMenuTypes.TRADER.menuType(), GuiTrader::new);
+			MenuScreens.register(MailMenuTypes.TRADE_NAME.menuType(), TradeStationNamingScreen::new);
+			MenuScreens.register(MailMenuTypes.TRADER.menuType(), TradeStationScreen::new);
 		});
 	}
 }

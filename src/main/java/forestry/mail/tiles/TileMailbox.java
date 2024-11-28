@@ -70,7 +70,7 @@ public class TileMailbox extends TileBase {
 			return getInternalInventory();
 		}
 
-		IMailAddress address = PostManager.postRegistry.getMailAddress(playerProfile);
+		IMailAddress address = PostManager.postRegistry.createMailAddress(playerProfile);
 		return PostRegistry.getOrCreatePOBox((ServerLevel) world, address);
 	}
 

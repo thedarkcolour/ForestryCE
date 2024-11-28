@@ -48,7 +48,7 @@ public record PacketLetterInfoResponseTrader(@Nullable ITradeStationInfo info) i
 
 	public static PacketLetterInfoResponseTrader decode(FriendlyByteBuf buffer) {
 		if (buffer.readBoolean()) {
-			IMailAddress address = PostManager.postRegistry.getMailAddress(buffer.readUtf());
+			IMailAddress address = PostManager.postRegistry.createMailAddress(buffer.readUtf());
 			GameProfile owner = new GameProfile(buffer.readUUID(), buffer.readUtf());
 			ItemStack tradegood = buffer.readItem();
 			NonNullList<ItemStack> required = NetworkUtil.readItemStacks(buffer);

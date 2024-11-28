@@ -43,16 +43,16 @@ import forestry.core.utils.NetworkUtil;
 import forestry.mail.MailAddress;
 import forestry.mail.TradeStation;
 import forestry.mail.features.MailTiles;
-import forestry.mail.gui.ContainerTradeName;
-import forestry.mail.gui.ContainerTrader;
+import forestry.mail.gui.TradeStationNamingMenu;
+import forestry.mail.gui.TradeStationMenu;
 import forestry.mail.inventory.InventoryTradeStation;
 import forestry.mail.network.packets.PacketTraderAddressResponse;
 
-public class TileTrader extends TileBase implements IOwnedTile {
+public class TradeStationBlockEntity extends TileBase implements IOwnedTile {
 	private final OwnerHandler ownerHandler = new OwnerHandler();
 	private IMailAddress address;
 
-	public TileTrader(BlockPos pos, BlockState state) {
+	public TradeStationBlockEntity(BlockPos pos, BlockState state) {
 		super(MailTiles.TRADER.tileType(), pos, state);
 		address = new MailAddress();
 		setInternalInventory(new InventoryTradeStation());
@@ -109,7 +109,7 @@ public class TileTrader extends TileBase implements IOwnedTile {
 		ownerHandler.readData(data);
 		String addressName = data.readUtf();
 		if (!addressName.isEmpty()) {
-			address = PostManager.postRegistry.getMailAddress(addressName);
+			address = PostManager.postRegistry.createMailAddress(addressName);
 		}
 	}
 
@@ -251,7 +251,7 @@ public class TileTrader extends TileBase implements IOwnedTile {
 	}
 
 	public void handleSetAddressRequest(String addressName) {
-		IMailAddress address = PostManager.postRegistry.getMailAddress(addressName);
+		IMailAddress address = PostManager.postRegistry.createMailAddress(addressName);
 		setAddress(address);
 
 		IMailAddress newAddress = getAddress();
@@ -264,7 +264,7 @@ public class TileTrader extends TileBase implements IOwnedTile {
 
 	@OnlyIn(Dist.CLIENT)
 	public void handleSetAddressResponse(String addressName) {
-		IMailAddress address = PostManager.postRegistry.getMailAddress(addressName);
+		IMailAddress address = PostManager.postRegistry.createMailAddress(addressName);
 		setAddress(address);
 	}
 
@@ -279,7 +279,7 @@ public class TileTrader extends TileBase implements IOwnedTile {
 			ServerLevel world = (ServerLevel) this.level;
 			IErrorLogic errorLogic = getErrorLogic();
 
-			boolean hasValidTradeAddress = PostManager.postRegistry.isValidTradeAddress(world, address);
+			boolean hasValidTradeAddress = PostManager.postRegistry.isValidTradeAddress(address);
 			errorLogic.setCondition(!hasValidTradeAddress, ForestryError.NOT_ALPHANUMERIC);
 
 			boolean hasUniqueTradeAddress = PostManager.postRegistry.isAvailableTradeAddress(world, address);
@@ -307,9 +307,9 @@ public class TileTrader extends TileBase implements IOwnedTile {
 	@Override
 	public AbstractContainerMenu createMenu(int windowId, Inventory inv, Player player) {
 		if (isLinked()) {    //TODO does this sync over?
-			return new ContainerTrader(windowId, inv, this);
+			return new TradeStationMenu(windowId, inv, this);
 		} else {
-			return new ContainerTradeName(windowId, inv, this);
+			return new TradeStationNamingMenu(windowId, player, this);
 		}
 	}
 }

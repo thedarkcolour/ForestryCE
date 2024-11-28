@@ -27,7 +27,7 @@ public record PacketLetterInfoResponsePlayer(IMailAddress address) implements IF
 	}
 
 	public static PacketLetterInfoResponsePlayer decode(FriendlyByteBuf buffer) {
-		return new PacketLetterInfoResponsePlayer(PostManager.postRegistry.getMailAddress(new GameProfile(buffer.readUUID(), buffer.readUtf())));
+		return new PacketLetterInfoResponsePlayer(PostManager.postRegistry.createMailAddress(new GameProfile(buffer.readUUID(), buffer.readUtf())));
 	}
 
 	public static void handle(PacketLetterInfoResponsePlayer msg, Player player) {

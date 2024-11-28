@@ -18,7 +18,7 @@ import net.minecraft.world.entity.player.Player;
 import forestry.api.modules.IForestryPacketClient;
 import forestry.core.network.PacketIdClient;
 import forestry.core.tiles.TileUtil;
-import forestry.mail.tiles.TileTrader;
+import forestry.mail.tiles.TradeStationBlockEntity;
 
 public record PacketTraderAddressResponse(BlockPos pos, String addressName) implements IForestryPacketClient {
 	@Override
@@ -37,6 +37,6 @@ public record PacketTraderAddressResponse(BlockPos pos, String addressName) impl
 	}
 
 	public static void handle(PacketTraderAddressResponse msg, Player player) {
-		TileUtil.actOnTile(player.level(), msg.pos, TileTrader.class, tile -> tile.handleSetAddressResponse(msg.addressName));
+		TileUtil.actOnTile(player.level(), msg.pos, TradeStationBlockEntity.class, tile -> tile.handleSetAddressResponse(msg.addressName));
 	}
 }
