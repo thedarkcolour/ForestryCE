@@ -1,6 +1,7 @@
 package forestry.core.data;
 
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
@@ -50,7 +51,7 @@ import thedarkcolour.modkit.MKUtils;
  * Data generator class that generates the block drop loot tables for forestry blocks.
  */
 public class ForestryBlockLootTables extends BlockLootSubProvider {
-	private final ArrayList<Block> added = new ArrayList<>();
+	private final LinkedHashSet<Block> added = new LinkedHashSet<>();
 
 	protected ForestryBlockLootTables() {
 		super(Set.of(), FeatureFlags.DEFAULT_FLAGS);
@@ -58,6 +59,12 @@ public class ForestryBlockLootTables extends BlockLootSubProvider {
 
 	@Override
 	protected void generate() {
+		MKUtils.forModRegistry(Registries.BLOCK, ForestryConstants.MOD_ID, (id, block) -> {
+			if (block.getLootTable() != BuiltInLootTables.EMPTY) {
+				dropSelf(block);
+			}
+		});
+
 		for (BlockDecorativeLeaves leaves : ArboricultureBlocks.LEAVES_DECORATIVE.getBlocks()) {
 			add(leaves, block -> droppingWithChances(block, leaves.getType(), NORMAL_LEAVES_SAPLING_CHANCES));
 		}
@@ -93,12 +100,6 @@ public class ForestryBlockLootTables extends BlockLootSubProvider {
 		registerLootTable(CoreBlocks.DEEPSLATE_TIN_ORE, block -> createOreDrop(block, CoreItems.RAW_TIN.item()));
 
 		dropSelf(CoreBlocks.RAW_TIN_BLOCK.block());
-
-		MKUtils.forModRegistry(Registries.BLOCK, ForestryConstants.MOD_ID, (id, block) -> {
-			if (block.getLootTable() != BuiltInLootTables.EMPTY) {
-				dropSelf(block);
-			}
-		});
 	}
 
 	private LootTable.Builder createApatiteOreDrops(Block block) {

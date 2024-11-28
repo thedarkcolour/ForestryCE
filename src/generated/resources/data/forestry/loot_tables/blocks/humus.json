@@ -11,7 +11,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "forestry:humus"
+          "name": "minecraft:dirt"
         }
       ],
       "rolls": 1.0

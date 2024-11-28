@@ -3,15 +3,27 @@
   "pools": [
     {
       "bonus_rolls": 0.0,
-      "conditions": [
-        {
-          "condition": "minecraft:survives_explosion"
-        }
-      ],
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "minecraft:air"
+          "name": "minecraft:dirt"
+        }
+      ],
+      "rolls": 1.0
+    },
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "forestry:peat"
+        }
+      ],
+      "functions": [
+        {
+          "add": false,
+          "count": 2.0,
+          "function": "minecraft:set_count"
         }
       ],
       "rolls": 1.0
