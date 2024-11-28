@@ -1,3 +1,5 @@
 {
-  "type": "forestry:forestry"
+  "type": "forestry:forestry",
+  "hive": "forestry:hive",
+  "tree": "forestry:tree"
 }

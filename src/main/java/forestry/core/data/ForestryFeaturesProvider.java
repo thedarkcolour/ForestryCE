@@ -62,7 +62,7 @@ public class ForestryFeaturesProvider extends DatapackBuiltinEntriesProvider {
 				VerticalAnchor.bottom(), VerticalAnchor.absolute(64)
 		))));
 
-		context.register(ApicultureFeatures.PLACEED_HIVE, new PlacedFeature(holders.getOrThrow(ApicultureFeatures.CONFIGURED_HIVE), List.of()));
+		context.register(ApicultureFeatures.PLACED_HIVE, new PlacedFeature(holders.getOrThrow(ApicultureFeatures.CONFIGURED_HIVE), List.of()));
 
 		context.register(ArboricultureFeatures.PLACED_TREE, new PlacedFeature(holders.getOrThrow(ArboricultureFeatures.CONFIGURED_TREE), List.of()));
 	}
