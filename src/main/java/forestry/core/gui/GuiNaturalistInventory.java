@@ -74,7 +74,7 @@ public class GuiNaturalistInventory<C extends AbstractContainerMenu & INaturalis
 		super.renderBg(graphics, partialTicks, j, i);
 		timer.onDraw();
 		Component header = Component.translatable("for.gui.page").append(" " + (pageCurrent + 1) + "/" + pageMax);
-		graphics.drawString(this.font, header, leftPos + 95 + textLayout.getCenteredOffset(header, 98), topPos + 10, ColourProperties.INSTANCE.get("gui.title"));
+		graphics.drawString(this.font, header, leftPos + 95 + textLayout.getCenteredOffset(header, 98), topPos + 10, ColourProperties.INSTANCE.get("gui.title"), false);
 
 		IIndividual individual = getHoveredIndividual();
 		if (individual == null) {
@@ -82,7 +82,6 @@ public class GuiNaturalistInventory<C extends AbstractContainerMenu & INaturalis
 		}
 
 		if (individual != null) {
-			//RenderHelper.enableGUIStandardItemLighting(); TODO Gui Light
 			textLayout.startPage(graphics);
 
 			IGenome genome = individual.getGenome();

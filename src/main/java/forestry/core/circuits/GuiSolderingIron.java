@@ -46,7 +46,7 @@ public class GuiSolderingIron extends GuiForestry<ContainerSolderingIron> {
 
 		ICircuitLayout layout = menu.getLayout();
 		Component title = layout.getName();
-		graphics.drawString(this.font, title, leftPos + 8 + textLayout.getCenteredOffset(title, 138), topPos + 16, ColourProperties.INSTANCE.get("gui.screen"));
+		graphics.drawString(this.font, title, leftPos + 8 + textLayout.getCenteredOffset(title, 138), topPos + 16, ColourProperties.INSTANCE.get("gui.screen"), false);
 
 		for (int i = 0; i < 4; i++) {
 			Component description;
@@ -59,14 +59,14 @@ public class GuiSolderingIron extends GuiForestry<ContainerSolderingIron> {
 			}
 
 			int row = i * 20;
-			graphics.drawString(this.font, description, leftPos + 32, topPos + 36 + row, ColourProperties.INSTANCE.get("gui.screen"));
+			graphics.drawString(this.font, description, leftPos + 32, topPos + 36 + row, ColourProperties.INSTANCE.get("gui.screen"), false);
 
 			if (tube.isEmpty()) {
 				if (ForestryCircuitSocketTypes.FARM == layout.getSocketType()) {
 					Direction farmDirection = HorizontalDirection.VALUES.get(i);
 					String farmDirectionString = farmDirection.toString().toLowerCase(Locale.ENGLISH);
 					Component localizedDirection = Component.translatable("for.gui.solder." + farmDirectionString);
-					graphics.drawString(this.font, localizedDirection, leftPos + 17, topPos + 36 + row, ColourProperties.INSTANCE.get("gui.screen"));
+					graphics.drawString(this.font, localizedDirection, leftPos + 17, topPos + 36 + row, ColourProperties.INSTANCE.get("gui.screen"), false);
 				}
 			}
 		}
