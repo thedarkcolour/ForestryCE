@@ -1,4 +1,4 @@
-// 1.20.1	2024-11-27T15:15:46.0337416	Recipes
+// 1.20.1	2024-11-27T23:22:49.1707871	Recipes
 6867bbb8c2b291d6e111aae900a9ce8be0cf8ebe data/forestry/advancements/recipes/building_blocks/acacia_desert_fence.json
 92d402b3f91419af71a9913fbddab9c5e9183779 data/forestry/advancements/recipes/building_blocks/acacia_desert_fence_gate.json
 756f6f4fa8d9fdc7fe1895f6bd02cb5e107c6acf data/forestry/advancements/recipes/building_blocks/acacia_desert_fireproof_fence.json
@@ -535,7 +535,6 @@ ebd29408d952358e6e1c603788ddc05ca798a10b data/forestry/advancements/recipes/misc
 a9e00759c5781bddbcc9865e989ed29a48dbc743 data/forestry/advancements/recipes/misc/torch_from_wax.json
 7599e4e0a0891ceb576b72d164f65c2edba5cce3 data/forestry/advancements/recipes/misc/trade_station.json
 af3c6a072d8de507e7c833fd99e1cef8d00e89e9 data/forestry/advancements/recipes/misc/tree_chest.json
-6b296b5b162d0c570d06e0e760bb7e224af2b155 data/forestry/advancements/recipes/misc/wax_cast.json
 764836c3dc1d393b1b30a0d7422c5e63bee9f764 data/forestry/advancements/recipes/misc/worktable.json
 2b064fd63296209084353a8dcb40ba4df313898c data/forestry/advancements/recipes/redstone/acacia_desert_door.json
 b3e725cc1f2a8fd11bc2e3b979cc8a2a795738c9 data/forestry/advancements/recipes/redstone/acacia_door.json
@@ -1518,7 +1517,6 @@ c055a15ac320dd92ca3d36a6b53bec8d12a45ed9 data/forestry/recipes/walnut_fireproof_
 3ca46ca09a402cd95107c1730b6105f99176fd3f data/forestry/recipes/walnut_slab.json
 e770441c7a109f21991b8b896d74e84113a507b5 data/forestry/recipes/walnut_stairs.json
 d1aacef70e9f0c015ed49f5b65617302dab4d6f8 data/forestry/recipes/walnut_wood.json
-997158b27369fad8daf50d005d7bba138c4080bf data/forestry/recipes/wax_cast.json
 5ff3cced5fb0acc0e45af9d23092e11e510641d8 data/forestry/recipes/wenge_door.json
 1eb911b474b61074d343c038d81fe31a909a42ca data/forestry/recipes/wenge_fence.json
 3066e060d3009011f82cdf2c5aa01b9d6f91356e data/forestry/recipes/wenge_fence_gate.json

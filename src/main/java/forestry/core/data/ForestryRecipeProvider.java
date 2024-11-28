@@ -366,13 +366,6 @@ public class ForestryRecipeProvider {
 			recipe.pattern(" # ");
 			recipe.pattern(" Y ");
 		});
-
-		recipes.shapedCrafting(RecipeCategory.MISC, ApicultureItems.WAX_CAST, recipe -> {
-			recipe.define('#', beesWax);
-			recipe.pattern("###");
-			recipe.pattern("# #");
-			recipe.pattern("###");
-		});
 	}
 
 	private static void registerCombRecipes(MKRecipeProvider recipes) {
