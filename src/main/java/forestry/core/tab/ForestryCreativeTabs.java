@@ -36,7 +36,9 @@ import forestry.apiculture.features.ApicultureBlocks;
 import forestry.apiculture.features.ApicultureItems;
 import forestry.apiculture.items.ItemCreativeHiveFrame;
 import forestry.arboriculture.WoodAccess;
+import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.features.ArboricultureItems;
+import forestry.arboriculture.features.CharcoalBlocks;
 import forestry.core.blocks.BlockTypeCoreTesr;
 import forestry.core.features.CoreBlocks;
 import forestry.core.features.CoreItems;
@@ -47,6 +49,7 @@ import forestry.core.items.definitions.FluidHandlerItemForestry;
 import forestry.core.utils.SpeciesUtil;
 import forestry.cultivation.blocks.BlockTypePlanter;
 import forestry.cultivation.features.CultivationBlocks;
+import forestry.energy.features.EnergyBlocks;
 import forestry.factory.blocks.BlockTypeFactoryPlain;
 import forestry.factory.blocks.BlockTypeFactoryTesr;
 import forestry.factory.features.FactoryBlocks;
@@ -62,9 +65,11 @@ import forestry.modules.features.FeatureItem;
 import forestry.modules.features.FeatureProvider;
 import forestry.modules.features.IFeatureRegistry;
 import forestry.modules.features.ModFeatureRegistry;
+import forestry.sorting.features.SortingBlocks;
 import forestry.storage.features.BackpackItems;
 import forestry.storage.features.CrateItems;
 import forestry.storage.items.ItemCrated;
+import forestry.worktable.features.WorktableBlocks;
 
 @FeatureProvider
 public class ForestryCreativeTabs {
@@ -79,23 +84,26 @@ public class ForestryCreativeTabs {
 	public static final FeatureCreativeTab APICULTURE = REGISTRY.creativeTab("apiculture", tab -> {
 		tab.icon(() -> SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.FOREST, BeeLifeStage.QUEEN));
 		tab.displayItems(ForestryCreativeTabs::addApicultureItems);
-		tab.withTabsBefore(ForestryCreativeTabs.FORESTRY.getKey(), ForestryCreativeTabs.STORAGE.getKey());
-		tab.withTabsAfter(ForestryCreativeTabs.ARBORICULTURE.getKey(), ForestryCreativeTabs.LEPIDOPTEROLOGY.getKey());
+		tab.withTabsBefore(ForestryCreativeTabs.FORESTRY.getKey());
+		tab.withTabsAfter(ForestryCreativeTabs.ARBORICULTURE.getKey());
 	});
 	public static final FeatureCreativeTab ARBORICULTURE = REGISTRY.creativeTab("arboriculture", tab -> {
 		tab.icon(() -> SpeciesUtil.TREE_TYPE.get().createStack(ForestryTreeSpecies.OAK, TreeLifeStage.SAPLING));
-		tab.withTabsBefore(ForestryCreativeTabs.FORESTRY.getKey(), ForestryCreativeTabs.STORAGE.getKey(), ForestryCreativeTabs.APICULTURE.getKey());
+		tab.withTabsBefore(ForestryCreativeTabs.APICULTURE.getKey());
 		tab.withTabsAfter(ForestryCreativeTabs.LEPIDOPTEROLOGY.getKey());
 		tab.displayItems(ForestryCreativeTabs::addArboricultureItems);
 	});
 	public static final FeatureCreativeTab LEPIDOPTEROLOGY = REGISTRY.creativeTab("lepidopterology", tab -> {
 		tab.icon(() -> SpeciesUtil.BUTTERFLY_TYPE.get().createStack(ForestryButterflySpecies.MONARCH, ButterflyLifeStage.BUTTERFLY));
 		tab.displayItems(ForestryCreativeTabs::addLepidopterologyItems);
-		tab.withTabsBefore(ForestryCreativeTabs.FORESTRY.getKey(), ForestryCreativeTabs.STORAGE.getKey(), ForestryCreativeTabs.APICULTURE.getKey(), ForestryCreativeTabs.ARBORICULTURE.getKey());
+		tab.withTabsBefore(ForestryCreativeTabs.ARBORICULTURE.getKey());
+		tab.withTabsAfter(ForestryCreativeTabs.AGRICULTURE.getKey());
 	});
 	public static final FeatureCreativeTab AGRICULTURE = REGISTRY.creativeTab("agriculture", tab -> {
 		tab.icon(() -> CultivationBlocks.MANAGED_PLANTER.stack(BlockTypePlanter.ARBORETUM));
 		tab.displayItems(ForestryCreativeTabs::addAgricultureItems);
+		tab.withTabsBefore(ForestryCreativeTabs.LEPIDOPTEROLOGY.getKey());
+		tab.withTabsAfter(ForestryCreativeTabs.STORAGE.getKey());
 	});
 	public static final FeatureCreativeTab STORAGE = REGISTRY.creativeTab("storage", tab -> {
 		tab.icon(BackpackItems.MINER_BACKPACK::stack);
@@ -112,22 +120,33 @@ public class ForestryCreativeTabs {
 	private static void addForestryItems(CreativeModeTab.ItemDisplayParameters params, CreativeModeTab.Output items) {
 		// Genetics tools
 		addGeneticBasics(items);
-		// todo forester's manual
+		items.accept(CoreItems.FORESTERS_MANUAL);
 		items.accept(ApicultureItems.SCOOP);
 		items.accept(ApicultureItems.SMOKER);
 		items.accept(ArboricultureItems.GRAFTER);
 		items.accept(ArboricultureItems.GRAFTER_PROVEN);
 		items.accept(CoreItems.SPECTACLES);
+		items.accept(SortingBlocks.FILTER);
 
-		// Machine tools
-		items.accept(CoreItems.WRENCH);
-		items.accept(CoreItems.PIPETTE);
-		items.accept(CoreItems.SOLDERING_IRON);
 		// Storages
 		items.accept(BackpackItems.APIARIST_BACKPACK);
 		items.accept(BackpackItems.ARBORIST_BACKPACK);
 		items.accept(BackpackItems.LEPIDOPTERIST_BACKPACK);
 		CoreBlocks.NATURALIST_CHEST.getItems().forEach(items::accept);
+
+		// Machine tools
+		items.accept(CoreItems.WRENCH);
+		items.accept(CoreItems.PIPETTE);
+		items.accept(CoreItems.SOLDERING_IRON);
+		items.accept(WorktableBlocks.WORKTABLE);
+		// Engines
+		EnergyBlocks.ENGINES.getItems().forEach(items::accept);
+		// Machines
+		FactoryBlocks.TESR.getItems().forEach(items::accept);
+		// Circuit boards
+		items.accept(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.FABRICATOR));
+		CoreItems.CIRCUITBOARDS.getItems().forEach(items::accept);
+		CoreItems.ELECTRON_TUBES.getItems().forEach(items::accept);
 
 		// Ores
 		items.accept(CoreBlocks.APATITE_ORE);
@@ -144,15 +163,16 @@ public class ForestryCreativeTabs {
 		// Block forms
 		items.accept(CoreBlocks.RAW_TIN_BLOCK);
 		CoreBlocks.RESOURCE_STORAGE.getItems().forEach(items::accept);
+		items.accept(CharcoalBlocks.CHARCOAL);
 		// Gears
 		items.accept(CoreItems.GEAR_COPPER);
 		items.accept(CoreItems.GEAR_TIN);
 		items.accept(CoreItems.GEAR_BRONZE);
-
-		// Circuit boards
-		items.accept(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.FABRICATOR));
-		CoreItems.CIRCUITBOARDS.getItems().forEach(items::accept);
-		CoreItems.ELECTRON_TUBES.getItems().forEach(items::accept);
+		// Casings
+		items.accept(CoreItems.STURDY_CASING);
+		items.accept(CoreItems.HARDENED_CASING);
+		items.accept(CoreItems.IMPREGNATED_CASING);
+		items.accept(CoreItems.FLEXIBLE_CASING);
 
 		items.accept(CoreItems.FERTILIZER_COMPOUND);
 		items.accept(CoreItems.CARTON);
@@ -160,10 +180,6 @@ public class ForestryCreativeTabs {
 		items.accept(CoreItems.BRONZE_SHOVEL);
 		items.accept(CoreItems.KIT_PICKAXE);
 		items.accept(CoreItems.KIT_SHOVEL);
-		items.accept(CoreItems.STURDY_CASING);
-		items.accept(CoreItems.HARDENED_CASING);
-		items.accept(CoreItems.IMPREGNATED_CASING);
-		items.accept(CoreItems.FLEXIBLE_CASING);
 		items.accept(CoreItems.GEAR_TIN);
 		items.accept(CoreItems.GEAR_COPPER);
 		items.accept(CoreItems.GEAR_BRONZE);
@@ -241,6 +257,9 @@ public class ForestryCreativeTabs {
 		items.accept(ArboricultureItems.GRAFTER);
 		items.accept(ArboricultureItems.GRAFTER_PROVEN);
 
+		// Fruits
+		CoreItems.FRUITS.getItems().forEach(items::accept);
+
 		// Blocks
 		items.accept(CharcoalBlocks.LOG_PILE);
 		items.accept(CharcoalBlocks.DECORATIVE_LOG_PILE);
@@ -261,6 +280,8 @@ public class ForestryCreativeTabs {
 				items.accept(species.createStack(stage));
 			}
 		}
+
+		ArboricultureBlocks.LEAVES_DECORATIVE.getItems().forEach(items::accept);
 	}
 
 	private static void addLepidopterologyItems(CreativeModeTab.ItemDisplayParameters params, CreativeModeTab.Output items) {
@@ -291,6 +312,8 @@ public class ForestryCreativeTabs {
 		CoreItems.CIRCUITBOARDS.getItems().forEach(items::accept);
 		CoreItems.ELECTRON_TUBES.getItems().forEach(items::accept);
 
+		// Engines
+		EnergyBlocks.ENGINES.getItems().forEach(items::accept);
 		// Machines
 		items.accept(FactoryBlocks.TESR.get(BlockTypeFactoryTesr.CARPENTER));
 		items.accept(FactoryBlocks.TESR.get(BlockTypeFactoryTesr.CENTRIFUGE));
@@ -307,6 +330,8 @@ public class ForestryCreativeTabs {
 
 		// Misc items
 		items.accept(CoreItems.PEAT);
+		items.accept(CoreItems.BITUMINOUS_PEAT);
+		items.accept(CoreBlocks.HUMUS);
 		items.accept(CoreBlocks.BOG_EARTH);
 		items.accept(CoreItems.COMPOST);
 		items.accept(CoreItems.MOULDY_WHEAT);
@@ -358,6 +383,7 @@ public class ForestryCreativeTabs {
 		items.accept(CoreBlocks.NATURALIST_CHEST.get(NaturalistChestBlockType.APIARIST_CHEST));
 		items.accept(CoreBlocks.NATURALIST_CHEST.get(NaturalistChestBlockType.ARBORIST_CHEST));
 		items.accept(CoreBlocks.NATURALIST_CHEST.get(NaturalistChestBlockType.LEPIDOPTERIST_CHEST));
+		items.accept(SortingBlocks.FILTER);
 
 		// Empty containers
 		items.accept(CoreItems.CARTON);
