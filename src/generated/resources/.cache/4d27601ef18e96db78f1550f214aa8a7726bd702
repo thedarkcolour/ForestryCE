@@ -1,8 +1,9 @@
-// 1.20.1	2024-11-21T17:52:29.5576656	Item Models: forestry
+// 1.20.1	2024-11-27T15:50:01.8167478	Item Models: forestry
 3c1431dcb893b5f5648a30b08115a67d8f3227b9 assets/forestry/models/item/adventurer_bag.json
 994d21141a5584825744129df0166a56876860ad assets/forestry/models/item/adventurer_bag_woven.json
 3c1431dcb893b5f5648a30b08115a67d8f3227b9 assets/forestry/models/item/apiarist_bag.json
 b58ed81496fd3f1c01d06ae7c4b3cb1edcfc877d assets/forestry/models/item/arboretum_managed.json
+b58ed81496fd3f1c01d06ae7c4b3cb1edcfc877d assets/forestry/models/item/arboretum_manual.json
 3c1431dcb893b5f5648a30b08115a67d8f3227b9 assets/forestry/models/item/arborist_bag.json
 327ba5dd15f54c895af33c627024c1e38cd72081 assets/forestry/models/item/bucket_biomass.json
 de7994ae9b08486b6ee10cdc983d820f4af8a2ba assets/forestry/models/item/bucket_bio_ethanol.json
@@ -98,10 +99,15 @@ b3872cfd4532636291087c492f417023e59d43e2 assets/forestry/models/item/crated_sand
 3c1431dcb893b5f5648a30b08115a67d8f3227b9 assets/forestry/models/item/digger_bag.json
 994d21141a5584825744129df0166a56876860ad assets/forestry/models/item/digger_bag_woven.json
 7b0b204564a5cebeef0690196f2fb8d4523cdb98 assets/forestry/models/item/farm_crops_managed.json
+7b0b204564a5cebeef0690196f2fb8d4523cdb98 assets/forestry/models/item/farm_crops_manual.json
 4fce79d304faa64983b18ed5bf35c5802351e22b assets/forestry/models/item/farm_ender_managed.json
+4fce79d304faa64983b18ed5bf35c5802351e22b assets/forestry/models/item/farm_ender_manual.json
 544928de564e3236b994372b87d70bde07a6b289 assets/forestry/models/item/farm_gourd_managed.json
+544928de564e3236b994372b87d70bde07a6b289 assets/forestry/models/item/farm_gourd_manual.json
 452285f3bb785b028577a1b06e590a2db5ca1335 assets/forestry/models/item/farm_mushroom_managed.json
+452285f3bb785b028577a1b06e590a2db5ca1335 assets/forestry/models/item/farm_mushroom_manual.json
 61f7407ee29072d5966d7990733c190754d95469 assets/forestry/models/item/farm_nether_managed.json
+61f7407ee29072d5966d7990733c190754d95469 assets/forestry/models/item/farm_nether_manual.json
 3c1431dcb893b5f5648a30b08115a67d8f3227b9 assets/forestry/models/item/forester_bag.json
 994d21141a5584825744129df0166a56876860ad assets/forestry/models/item/forester_bag_woven.json
 6015012e71c2b48a20ab7121ace5967ebedf6cb5 assets/forestry/models/item/frame_creative.json
@@ -111,4 +117,5 @@ b3872cfd4532636291087c492f417023e59d43e2 assets/forestry/models/item/crated_sand
 3c1431dcb893b5f5648a30b08115a67d8f3227b9 assets/forestry/models/item/miner_bag.json
 994d21141a5584825744129df0166a56876860ad assets/forestry/models/item/miner_bag_woven.json
 daa1f902575c22188eae34810459d047faa4ea78 assets/forestry/models/item/peat_bog_managed.json
+daa1f902575c22188eae34810459d047faa4ea78 assets/forestry/models/item/peat_bog_manual.json
 36f966247214dd2840b25610fba7b60aff6ff49a assets/forestry/models/item/serum_ge.json

@@ -1,5 +1,5 @@
 {
-  "parent": "forestry:block/wood_pile",
+  "parent": "forestry:block/log_pile",
   "display": {
     "thirdperson": {
       "rotation": [

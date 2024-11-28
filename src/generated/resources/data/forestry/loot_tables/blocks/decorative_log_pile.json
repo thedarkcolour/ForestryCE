@@ -11,11 +11,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "forestry:wood_pile_decorative"
+          "name": "forestry:decorative_log_pile"
         }
       ],
       "rolls": 1.0
     }
   ],
-  "random_sequence": "forestry:blocks/wood_pile_decorative"
+  "random_sequence": "forestry:blocks/decorative_log_pile"
 }

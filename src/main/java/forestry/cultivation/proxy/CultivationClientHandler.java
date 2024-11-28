@@ -32,6 +32,7 @@ public class CultivationClientHandler implements IClientModuleHandler {
 	public static void onClientSetup(FMLClientSetupEvent event) {
 		event.enqueueWork(() -> {
 			CultivationBlocks.MANAGED_PLANTER.getBlocks().forEach(block -> ItemBlockRenderTypes.setRenderLayer(block, RenderType.cutoutMipped()));
+			CultivationBlocks.MANUAL_PLANTER.getBlocks().forEach(block -> ItemBlockRenderTypes.setRenderLayer(block, RenderType.cutoutMipped()));
 			MenuScreens.register(CultivationMenuTypes.PLANTER.menuType(), GuiPlanter::new);
 		});
 	}

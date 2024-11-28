@@ -1,14 +1,14 @@
 {
     "variants": {
       "axis=y": {
-        "model": "forestry:block/wood_pile"
+        "model": "forestry:block/log_pile"
       },
       "axis=z": {
-        "model": "forestry:block/wood_pile",
+        "model": "forestry:block/log_pile",
         "x": 90
       },
       "axis=x": {
-        "model": "forestry:block/wood_pile",
+        "model": "forestry:block/log_pile",
         "x": 90,
         "y": 90
       }

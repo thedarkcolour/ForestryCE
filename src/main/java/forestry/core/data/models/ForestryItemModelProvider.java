@@ -1,5 +1,7 @@
 package forestry.core.data.models;
 
+import com.google.common.collect.Iterables;
+
 import java.util.Map;
 
 import net.minecraft.core.registries.Registries;
@@ -81,7 +83,7 @@ public class ForestryItemModelProvider extends ItemModelProvider {
 		filledCrateModel(CrateItems.CRATED_GRASS_BLOCK.getName(), mcLoc("block/grass_block_top"));
 		filledCrateModel(CrateItems.CRATED_PROPOLIS.getName(), modLoc("item/propolis.0"));
 
-		for (Map.Entry<BlockTypePlanter, FeatureBlock<BlockPlanter, BlockItem>> cell : CultivationBlocks.MANAGED_PLANTER.getFeatureByType().entrySet()) {
+		for (Map.Entry<BlockTypePlanter, FeatureBlock<BlockPlanter, BlockItem>> cell : Iterables.concat(CultivationBlocks.MANAGED_PLANTER.getFeatureByType().entrySet(), CultivationBlocks.MANUAL_PLANTER.getFeatureByType().entrySet())) {
 			Block block = cell.getValue().block();
 			withExistingParent(ForestryBlockStateProvider.path(block), ForestryConstants.forestry("block/" + cell.getKey().getSerializedName()));
 		}

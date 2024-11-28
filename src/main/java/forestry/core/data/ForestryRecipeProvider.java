@@ -565,16 +565,16 @@ public class ForestryRecipeProvider {
 		// todo custom IDs
 		recipes.shapelessCrafting("charcoal_from_block", RecipeCategory.MISC, Items.CHARCOAL, 9, ForestryTags.Items.CHARCOAL_BLOCK);
 
-		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CharcoalBlocks.WOOD_PILE.block(), recipe -> {
+		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CharcoalBlocks.LOG_PILE.block(), recipe -> {
 			recipe.define('L', ItemTags.LOGS);
 			recipe.pattern(" L ");
 			recipe.pattern("L L");
 			recipe.pattern(" L ");
 		});
 
-		recipes.shapelessCrafting(RecipeCategory.BUILDING_BLOCKS, CharcoalBlocks.WOOD_PILE_DECORATIVE.block(), 1, CharcoalBlocks.WOOD_PILE.block());
+		recipes.shapelessCrafting(RecipeCategory.BUILDING_BLOCKS, CharcoalBlocks.DECORATIVE_LOG_PILE.block(), 1, CharcoalBlocks.LOG_PILE.block());
 
-		recipes.shapelessCrafting("wood_pile_from_decorative", RecipeCategory.BUILDING_BLOCKS, CharcoalBlocks.WOOD_PILE.block(), 1, CharcoalBlocks.WOOD_PILE_DECORATIVE.block());
+		recipes.shapelessCrafting("wood_pile_from_decorative", RecipeCategory.BUILDING_BLOCKS, CharcoalBlocks.LOG_PILE.block(), 1, CharcoalBlocks.DECORATIVE_LOG_PILE.block());
 	}
 
 	private static void registerCoreRecipes(MKRecipeProvider recipes) {

@@ -42,7 +42,7 @@ public final class ForestryBlockTagsProvider {
 
 		tags.tag(BlockTags.MINEABLE_WITH_AXE)
 				.add(CoreBlocks.NATURALIST_CHEST.blockArray())
-				.add(CharcoalBlocks.WOOD_PILE.block())
+				.add(CharcoalBlocks.LOG_PILE.block())
 				.add(WorktableBlocks.WORKTABLE.block());
 
 		tags.tag(BlockTags.MINEABLE_WITH_PICKAXE)

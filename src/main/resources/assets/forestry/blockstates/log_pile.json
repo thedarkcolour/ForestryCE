@@ -1,7 +1,7 @@
 {
     "variants": {
       "": {
-        "model": "forestry:block/wood_pile"
+        "model": "forestry:block/log_pile"
       }
 	}
 }

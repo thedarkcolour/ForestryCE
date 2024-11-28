@@ -15,7 +15,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "forestry:wood_pile_decorative"
+        "recipe": "forestry:decorative_log_pile"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -28,7 +28,7 @@
   ],
   "rewards": {
     "recipes": [
-      "forestry:wood_pile_decorative"
+      "forestry:decorative_log_pile"
     ]
   },
   "sends_telemetry_event": true

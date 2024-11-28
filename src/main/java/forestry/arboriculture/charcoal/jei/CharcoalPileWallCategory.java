@@ -40,7 +40,7 @@ public class CharcoalPileWallCategory extends ForestryRecipeCategory<ICharcoalPi
 		IDrawableStatic flameAnimated = helper.createDrawable(resourceLocation, 14, 0, 14, 14);
 		this.flameAnimated = helper.createAnimatedDrawable(flameAnimated, 260, StartDirection.TOP, true);
 		this.slot = helper.getSlotDrawable();
-		this.icon = helper.createDrawableIngredient(VanillaTypes.ITEM_STACK, CharcoalBlocks.WOOD_PILE.stack());
+		this.icon = helper.createDrawableIngredient(VanillaTypes.ITEM_STACK, CharcoalBlocks.LOG_PILE.stack());
 	}
 
 	@Override
@@ -69,7 +69,7 @@ public class CharcoalPileWallCategory extends ForestryRecipeCategory<ICharcoalPi
 
 		builder.addSlot(RecipeIngredientRole.INPUT, 21, 17)
 				.setBackground(slot, -1, -1)
-				.addItemStack(CharcoalBlocks.WOOD_PILE.stack());
+				.addItemStack(CharcoalBlocks.LOG_PILE.stack());
 
 		int amount = 9 + recipe.getCharcoalAmount();
 

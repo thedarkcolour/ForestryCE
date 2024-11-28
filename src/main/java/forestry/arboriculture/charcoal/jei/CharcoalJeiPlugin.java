@@ -44,6 +44,6 @@ public class CharcoalJeiPlugin implements IModPlugin {
 
 	@Override
 	public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
-		registration.addRecipeCatalyst(CharcoalBlocks.WOOD_PILE.stack(), RECIPE_TYPE);
+		registration.addRecipeCatalyst(CharcoalBlocks.LOG_PILE.stack(), RECIPE_TYPE);
 	}
 }

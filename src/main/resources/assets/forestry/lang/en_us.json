@@ -1523,7 +1523,7 @@
   "for.trees.grammar.pile.type": "Wood Pile",
   "for.trees.grammar.pile": "%1$s %2$s",
   "block.forestry.log_pile": "Log Pile",
-  "block.forestry.log_pile_decorative": "Decorative Log Pile",
+  "block.forestry.decorative_log_pile": "Decorative Log Pile",
   "block.forestry.loam": "Loam",
   "block.forestry.ash_block": "Ash Block",
   "block.forestry.charcoal": "Block of Charcoal",
