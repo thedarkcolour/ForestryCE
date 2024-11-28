@@ -59,8 +59,8 @@ public class StorageClientHandler implements IClientModuleHandler {
 
 	private static void onModelBake(ModelEvent.BakingCompleted event) {
 		FilledCrateModel.cachedBaseModel = null;
-		FilledCrateModel.transforms = null;
-		FilledCrateModel.particle = null;
+		FilledCrateModel.cachedTransforms = null;
+		FilledCrateModel.cachedQuads = null;
 	}
 
 	private static void onClientSetup(FMLClientSetupEvent event) {

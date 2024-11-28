@@ -27,7 +27,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 
 import com.mojang.datafixers.util.Either;
@@ -45,9 +44,9 @@ public class FilledCrateModel implements IUnbakedGeometry<FilledCrateModel> {
 	@Nullable
 	public static BakedModel cachedBaseModel = null;
 	@Nullable
-	public static ItemTransforms transforms = null;
+	public static ItemTransforms cachedTransforms = null;
 	@Nullable
-	public static TextureAtlasSprite particle = null;
+	public static List<BakedQuad> cachedQuads;
 
 	private final BlockModel contents;
 
@@ -60,9 +59,11 @@ public class FilledCrateModel implements IUnbakedGeometry<FilledCrateModel> {
 	public BakedModel bake(IGeometryBakingContext context, ModelBaker bakery, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ItemOverrides overrides, ResourceLocation modelLocation) {
 		if (cachedBaseModel == null) {
 			cachedBaseModel = bakery.getModel(Loader.FILLED_CRATE_LOCATION).bake(bakery, spriteGetter, modelState, modelLocation);
+			cachedTransforms = cachedBaseModel.getTransforms();
+			cachedQuads = cachedBaseModel.getQuads(null, null, RandomSource.create());
 		}
 
-		return new Baked(contents.bake(bakery, spriteGetter, modelState, modelLocation), cachedBaseModel);
+		return new Baked(contents.bake(bakery, spriteGetter, modelState, modelLocation), cachedQuads, cachedTransforms);
 	}
 
 	public static class Loader implements IGeometryLoader<FilledCrateModel> {
@@ -107,17 +108,20 @@ public class FilledCrateModel implements IUnbakedGeometry<FilledCrateModel> {
 		private final ItemTransforms transforms;
 		private final TextureAtlasSprite particle;
 		private final List<BakedQuad> quads;
-		private final List<BakedModel> passes;
 
-		private Baked(BakedModel bakedContents, BakedModel baseModel) {
-			this.quads = List.copyOf(bakedContents.getQuads(null, null, RandomSource.create()));
-			this.transforms = baseModel.getTransforms();
+		private Baked(BakedModel bakedContents, List<BakedQuad> baseQuads, ItemTransforms transforms) {
+			RandomSource random = RandomSource.create();
+			List<BakedQuad> contentsQuads = bakedContents.getQuads(null, null, random);
+			this.quads = new ArrayList<>(baseQuads.size() + contentsQuads.size());
+			this.quads.addAll(baseQuads);
+			this.quads.addAll(contentsQuads);
+
+			this.transforms = transforms;
 			this.particle = bakedContents.getParticleIcon();
-			this.passes = List.of(baseModel, this);
 		}
 
 		@Override
-		public List<BakedQuad> getQuads(@org.jetbrains.annotations.Nullable BlockState p_235039_, @org.jetbrains.annotations.Nullable Direction p_235040_, RandomSource p_235041_) {
+		public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction cullFace, RandomSource rand) {
 			return quads;
 		}
 
@@ -143,7 +147,7 @@ public class FilledCrateModel implements IUnbakedGeometry<FilledCrateModel> {
 
 		@Override
 		public TextureAtlasSprite getParticleIcon() {
-			return particle;
+			return this.particle;
 		}
 
 		@Override
@@ -153,12 +157,7 @@ public class FilledCrateModel implements IUnbakedGeometry<FilledCrateModel> {
 
 		@Override
 		public ItemTransforms getTransforms() {
-			return transforms;
-		}
-
-		@Override
-		public List<BakedModel> getRenderPasses(ItemStack itemStack, boolean fabulous) {
-			return passes;
+			return this.transforms;
 		}
 	}
 }
