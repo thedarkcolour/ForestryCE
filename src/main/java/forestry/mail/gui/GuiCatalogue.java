@@ -73,7 +73,7 @@ public class GuiCatalogue extends GuiForestry<ContainerCatalogue> {
 	protected void renderBg(GuiGraphics graphics, float partialTicks, int mouseY, int mouseX) {
 		super.renderBg(graphics, partialTicks, mouseY, mouseX);
 
-		graphics.drawString(this.font, String.format("%s / %s", menu.getPageNumber(), menu.getPageCount()), leftPos + imageWidth - 72, topPos + 12, ColourProperties.INSTANCE.get("gui.book"));
+		graphics.drawString(this.font, String.format("%s / %s", menu.getPageNumber(), menu.getPageCount()), leftPos + imageWidth - 72, topPos + 12, ColourProperties.INSTANCE.get("gui.book"), false);
 
 		clearTradeInfoWidgets();
 
@@ -100,13 +100,13 @@ public class GuiCatalogue extends GuiForestry<ContainerCatalogue> {
 
 	private void drawTradePreview(GuiGraphics graphics, ITradeStationInfo tradeInfo, int x, int y) {
 		Font font = this.font;
-		graphics.drawString(font, BOLD_UNDERLINE + tradeInfo.address().getName(), x, y, ColourProperties.INSTANCE.get("gui.book"));
+		graphics.drawString(font, BOLD_UNDERLINE + tradeInfo.address().getName(), x, y, ColourProperties.INSTANCE.get("gui.book"), false);
 
-		graphics.drawString(font, Component.translatable("for.gui.mail.willtrade", tradeInfo.owner().getName()), x, y + 18, ColourProperties.INSTANCE.get("gui.book"));
+		graphics.drawString(font, Component.translatable("for.gui.mail.willtrade", tradeInfo.owner().getName()), x, y + 18, ColourProperties.INSTANCE.get("gui.book"), false);
 
 		addTradeInfoWidget(new ItemStackWidget(widgetManager, x - leftPos, y - topPos + 28, tradeInfo.tradegood()));
 
-		graphics.drawString(font, Component.translatable("for.gui.mail.tradefor"), x, y + 46, ColourProperties.INSTANCE.get("gui.book"));
+		graphics.drawString(font, Component.translatable("for.gui.mail.tradefor"), x, y + 46, ColourProperties.INSTANCE.get("gui.book"), false);
 
 		for (int i = 0; i < tradeInfo.required().size(); i++) {
 			ItemStack itemStack = tradeInfo.required().get(i);

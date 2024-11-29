@@ -1,5 +1,6 @@
 {
   "dont_generate_book": true,
+  "use_resource_pack": true,
   "custom_book_item": "forestry:foresters_manual",
   "advancements_tab": "forestry:root",
   "name": "item.forestry.foresters_manual",
