@@ -8,7 +8,6 @@ import java.util.Set;
 import net.minecraft.resources.ResourceLocation;
 
 import forestry.api.arboriculture.ForestryTreeSpecies;
-import forestry.api.client.arboriculture.ILeafSprite;
 import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.arboriculture.genetics.IFruit;
 import forestry.api.arboriculture.genetics.ITree;
@@ -31,7 +30,7 @@ public final class ForestryLeafType implements IBlockSubtype {
 	public static final ForestryLeafType LIME = new ForestryLeafType(ForestryTreeSpecies.LIME);
 	public static final ForestryLeafType WALNUT = new ForestryLeafType(ForestryTreeSpecies.WALNUT);
 	public static final ForestryLeafType CHESTNUT = new ForestryLeafType(ForestryTreeSpecies.CHESTNUT);
-	public static final ForestryLeafType CHERRY = new ForestryLeafType(ForestryTreeSpecies.CHERRY);
+	public static final ForestryLeafType BUSH_CHERRY = new ForestryLeafType(ForestryTreeSpecies.BUSH_CHERRY);
 	public static final ForestryLeafType LEMON = new ForestryLeafType(ForestryTreeSpecies.LEMON);
 	public static final ForestryLeafType PLUM = new ForestryLeafType(ForestryTreeSpecies.PLUM);
 	public static final ForestryLeafType MAPLE = new ForestryLeafType(ForestryTreeSpecies.MAPLE);
@@ -103,7 +102,7 @@ public final class ForestryLeafType implements IBlockSubtype {
 	// Default values used by Forestry to make its leaf blocks (includes all the fields)
 	@ApiStatus.Internal
 	public static List<ForestryLeafType> values() {
-		return Arrays.asList(OAK, DARK_OAK, BIRCH, LIME, WALNUT, CHESTNUT, CHERRY, LEMON, PLUM, MAPLE, SPRUCE, LARCH, PINE, SEQUOIA, GIANT_SEQUOIA, JUNGLE, TEAK, IPE, KAPOK, EBONY, ZEBRAWOOD, MAHOGANY, ACACIA_VANILLA, DESERT_ACACIA, PADAUK, BALSA, COCOBOLO, WENGE, BAOBAB, MAHOE, WILLOW, SIPIRI, PAPAYA, DATE, POPLAR);
+		return Arrays.asList(OAK, DARK_OAK, BIRCH, LIME, WALNUT, CHESTNUT, BUSH_CHERRY, LEMON, PLUM, MAPLE, SPRUCE, LARCH, PINE, SEQUOIA, GIANT_SEQUOIA, JUNGLE, TEAK, IPE, KAPOK, EBONY, ZEBRAWOOD, MAHOGANY, ACACIA_VANILLA, DESERT_ACACIA, PADAUK, BALSA, COCOBOLO, WENGE, BAOBAB, MAHOE, WILLOW, SIPIRI, PAPAYA, DATE, POPLAR);
 	}
 
 	@Override

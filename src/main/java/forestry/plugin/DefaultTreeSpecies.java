@@ -20,7 +20,8 @@ import forestry.arboriculture.worldgen.FeatureAcaciaVanilla;
 import forestry.arboriculture.worldgen.FeatureBalsa;
 import forestry.arboriculture.worldgen.FeatureBaobab;
 import forestry.arboriculture.worldgen.FeatureBirch;
-import forestry.arboriculture.worldgen.FeatureCherry;
+import forestry.arboriculture.worldgen.FeatureBushCherry;
+import forestry.arboriculture.worldgen.FeatureCherryVanilla;
 import forestry.arboriculture.worldgen.FeatureChestnut;
 import forestry.arboriculture.worldgen.FeatureCocobolo;
 import forestry.arboriculture.worldgen.FeatureDarkOak;
@@ -129,7 +130,7 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.GIRTH, ForestryAlleles.GIRTH_2);
 				})
 				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.LIME, ForestryTreeSpecies.CHERRY, 10);
+					mutations.add(ForestryTreeSpecies.LIME, ForestryTreeSpecies.BUSH_CHERRY, 10);
 				});
 
 		// Chestnut (Spanish Chestnut)
@@ -147,19 +148,19 @@ public class DefaultTreeSpecies {
 				})
 				.addMutations(mutations -> {
 					mutations.add(ForestryTreeSpecies.WALNUT, ForestryTreeSpecies.LIME, 10);
-					mutations.add(ForestryTreeSpecies.WALNUT, ForestryTreeSpecies.CHERRY, 10);
+					mutations.add(ForestryTreeSpecies.WALNUT, ForestryTreeSpecies.BUSH_CHERRY, 10);
 				});
 
-		// Cherry (East Asian Cherry) TODO This should be replaced by Vanilla cherry tree in 1.20
+		// Cherry (East Asian Cherry)
 		// The real life version of this tree doesn't actually produce fruit.
-		arboriculture.registerSpecies(ForestryTreeSpecies.CHERRY, GENUS_PRUNUS, SPECIES_CHERRY, true, new Color(0xe691da), ForestryWoodType.CHERRY)
-				.setTreeFeature(FeatureCherry::new)
-				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.CHERRY))
+		arboriculture.registerSpecies(ForestryTreeSpecies.BUSH_CHERRY, GENUS_PRUNUS, SPECIES_BUSH_CHERRY, true, new Color(0xe691da), ForestryWoodType.CHERRY)
+				.setTreeFeature(FeatureBushCherry::new)
+				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.BUSH_CHERRY))
 				//.addVanillaStates(Blocks.CHERRY_LEAVES.getStateDefinition().getPossibleStates())
 				//.addVanillaItems(Items.CHERRY_SAPLING)
 				// todo remove these two lines in 1.20
-				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.CHERRY).block().getStateDefinition().getPossibleStates())
-				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.get(ForestryLeafType.CHERRY).block().getStateDefinition().getPossibleStates())
+				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.BUSH_CHERRY).block().getStateDefinition().getPossibleStates())
+				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.get(ForestryLeafType.BUSH_CHERRY).block().getStateDefinition().getPossibleStates())
 				.setGenome(genome -> {
 					genome.set(TreeChromosomes.FRUIT, ForestryAlleles.FRUIT_CHERRY);
 					genome.set(TreeChromosomes.SAPLINGS, ForestryAlleles.SAPLINGS_LOW);
@@ -172,6 +173,10 @@ public class DefaultTreeSpecies {
 					mutations.add(ForestryTreeSpecies.LIME, ForestryTreeSpecies.BIRCH, 10);
 				})
 				.setRarity(0.0015f);
+
+		// Bush Cherry (Chinese Bush Cherry)
+		arboriculture.registerSpecies(ForestryTreeSpecies.CHERRY_VANILLA, GENUS_PRUNUS, SPECIES_CHERRY_VANILLA)
+				.setTreeFeature(FeatureCherryVanilla::new);
 
 		// Lemon
 		arboriculture.registerSpecies(ForestryTreeSpecies.LEMON, GENUS_CITRUS, SPECIES_LEMON, true, new Color(0x88af54), ForestryWoodType.CITRUS)
@@ -187,7 +192,7 @@ public class DefaultTreeSpecies {
 
 				})
 				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.LIME, ForestryTreeSpecies.CHERRY, 5);
+					mutations.add(ForestryTreeSpecies.LIME, ForestryTreeSpecies.BUSH_CHERRY, 5);
 				});
 
 		// Plum (Common Plum)
@@ -205,7 +210,7 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_SMALLEST);
 				})
 				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.LEMON, ForestryTreeSpecies.CHERRY, 5);
+					mutations.add(ForestryTreeSpecies.LEMON, ForestryTreeSpecies.BUSH_CHERRY, 5);
 				})
 				.setRarity(0.005f);
 
@@ -611,7 +616,7 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_AVERAGE);
 				})
 				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.JUNGLE, ForestryTreeSpecies.CHERRY, 5);
+					mutations.add(ForestryTreeSpecies.JUNGLE, ForestryTreeSpecies.BUSH_CHERRY, 5);
 				})
 				.setRarity(0.005f);
 

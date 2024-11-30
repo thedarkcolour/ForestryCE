@@ -131,7 +131,7 @@ public class FeatureHelper {
 	 * Returns a list of trunk top coordinates
 	 */
 	public static Set<BlockPos> generateTreeTrunk(
-			LevelAccessor world,
+			LevelAccessor level,
 			RandomSource rand,
 			ITreeBlockType wood,
 			BlockPos startPos,
@@ -175,14 +175,14 @@ public class FeatureHelper {
 							if (leanDirection != null) {
 								wood.setDirection(leanDirection);
 							}
-							addBlock(world, startPos.offset(x + xOffset, y - 1, z + zOffset), wood, EnumReplaceMode.ALL);
+							addBlock(level, startPos.offset(x + xOffset, y - 1, z + zOffset), wood, EnumReplaceMode.ALL);
 							wood.setDirection(Direction.UP);
 						}
 					}
 
 					BlockPos pos = startPos.offset(x + xOffset, y, z + zOffset);
-					addBlock(world, pos, wood, EnumReplaceMode.ALL);
-					addVines(world, rand, pos, vinesChance);
+					addBlock(level, pos, wood, EnumReplaceMode.ALL);
+					addVines(level, rand, pos, vinesChance);
 
 					if (y + 1 == height) {
 						treeTops.add(pos);

@@ -12,13 +12,20 @@ public class ForestryTreeSpecies {
 	public static final ResourceLocation OAK = forestry("tree_oak");
 	public static final ResourceLocation DARK_OAK = forestry("tree_dark_oak");
 	public static final ResourceLocation BIRCH = forestry("tree_birch");
+	/**
+	 * The species for the Acacia trees added by Vanilla Minecraft.
+	 */
 	public static final ResourceLocation ACACIA_VANILLA = forestry("tree_acacia");
 	public static final ResourceLocation SPRUCE = forestry("tree_spruce");
 	public static final ResourceLocation JUNGLE = forestry("tree_jungle");
+	/**
+	 * The species for the Cherry Blossom trees added by Vanilla Minecraft.
+	 */
+	public static final ResourceLocation CHERRY_VANILLA = forestry("tree_cherry");
 	public static final ResourceLocation LIME = forestry("tree_lime");
 	public static final ResourceLocation WALNUT = forestry("tree_walnut");
 	public static final ResourceLocation CHESTNUT = forestry("tree_chestnut");
-	public static final ResourceLocation CHERRY = forestry("tree_cherry");
+	public static final ResourceLocation BUSH_CHERRY = forestry("tree_bush_cherry");
 	public static final ResourceLocation LEMON = forestry("tree_lemon");
 	public static final ResourceLocation PLUM = forestry("tree_plum");
 	public static final ResourceLocation MAPLE = forestry("tree_maple");

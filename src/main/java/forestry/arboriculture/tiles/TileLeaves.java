@@ -258,7 +258,7 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 	private int determineFruitColour() {
 		ITree tree = getTree();
 		if (tree == null) {
-			tree = SpeciesUtil.getTreeSpecies(ForestryTreeSpecies.CHERRY).createIndividual();
+			tree = SpeciesUtil.getTreeSpecies(ForestryTreeSpecies.BUSH_CHERRY).createIndividual();
 		}
 		IGenome genome = tree.getGenome();
 		IFruit fruit = genome.getActiveValue(TreeChromosomes.FRUIT);

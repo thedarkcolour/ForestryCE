@@ -22,7 +22,6 @@ import forestry.api.arboriculture.ITreeGenData;
 import forestry.core.worldgen.FeatureHelper;
 
 public class FeatureAcacia extends FeatureTree {
-
 	public FeatureAcacia(ITreeGenData tree) {
 		super(tree, 5, 2);
 	}

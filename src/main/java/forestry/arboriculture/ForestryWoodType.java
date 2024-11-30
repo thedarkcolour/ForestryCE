@@ -44,7 +44,7 @@ public enum ForestryWoodType implements IWoodType {
 	WILLOW(ForestryLeafType.WILLOW),
 	WALNUT(ForestryLeafType.WALNUT),
 	GREENHEART(ForestryLeafType.SIPIRI, 7.5f),
-	CHERRY(ForestryLeafType.CHERRY),
+	CHERRY(ForestryLeafType.BUSH_CHERRY),
 
 	MAHOE(ForestryLeafType.MAHOE),
 	POPLAR(ForestryLeafType.POPLAR),

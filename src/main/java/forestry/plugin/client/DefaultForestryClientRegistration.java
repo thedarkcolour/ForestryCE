@@ -47,7 +47,7 @@ public class DefaultForestryClientRegistration implements Consumer<IClientRegist
 		client.setLeafSprite(ForestryTreeSpecies.LIME, ForestryLeafSprites.BIRCH);
 		client.setLeafSprite(ForestryTreeSpecies.WALNUT, ForestryLeafSprites.ACACIA);
 		client.setLeafSprite(ForestryTreeSpecies.CHESTNUT, ForestryLeafSprites.BIRCH);
-		client.setLeafSprite(ForestryTreeSpecies.CHERRY, ForestryLeafSprites.BIRCH);
+		client.setLeafSprite(ForestryTreeSpecies.BUSH_CHERRY, ForestryLeafSprites.BIRCH);
 		client.setLeafSprite(ForestryTreeSpecies.LEMON, ForestryLeafSprites.OAK);
 		client.setLeafSprite(ForestryTreeSpecies.PLUM, ForestryLeafSprites.OAK);
 		client.setLeafSprite(ForestryTreeSpecies.MAPLE, ForestryLeafSprites.MAPLE);

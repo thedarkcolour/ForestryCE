@@ -20,9 +20,9 @@ import net.minecraft.world.level.LevelAccessor;
 import forestry.api.arboriculture.ITreeGenData;
 import forestry.core.worldgen.FeatureHelper;
 
-public class FeatureCherry extends FeatureTree {
+public class FeatureBushCherry extends FeatureTree {
 
-	public FeatureCherry(ITreeGenData tree) {
+	public FeatureBushCherry(ITreeGenData tree) {
 		super(tree, 4, 4);
 	}
 
