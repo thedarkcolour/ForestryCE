@@ -24,7 +24,7 @@ public class FeaturePlum extends FeatureTree {
 	}
 
 	@Override
-	protected void generateLeaves(LevelAccessor world, RandomSource rand, TreeBlockTypeLeaf leaf, TreeContour contour, BlockPos startPos) {
+	protected void generateLeaves(LevelAccessor level, RandomSource rand, TreeBlockTypeLeaf leaf, TreeContour contour, BlockPos startPos) {
 		int yCenter = height - girth;
 		yCenter = yCenter > 2 ? yCenter : 3;
 
@@ -32,6 +32,6 @@ public class FeaturePlum extends FeatureTree {
 		if (radius > 4) {
 			radius = 4;
 		}
-		FeatureHelper.generateSphereFromTreeStartPos(world, startPos.offset(0, yCenter, 0), girth, radius, leaf, FeatureHelper.EnumReplaceMode.AIR, contour);
+		FeatureHelper.generateSphereFromTreeStartPos(level, startPos.offset(0, yCenter, 0), girth, radius, leaf, FeatureHelper.EnumReplaceMode.AIR, contour);
 	}
 }

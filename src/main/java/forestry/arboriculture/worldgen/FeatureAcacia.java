@@ -27,14 +27,14 @@ public class FeatureAcacia extends FeatureTree {
 	}
 
 	@Override
-	public Set<BlockPos> generateTrunk(LevelAccessor world, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
+	public Set<BlockPos> generateTrunk(LevelAccessor level, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
 		Direction leanDirection = FeatureHelper.DirectionHelper.getRandom(rand);
 		float leanAmount = height / 4.0f;
 
-		Set<BlockPos> treeTops = FeatureHelper.generateTreeTrunk(world, rand, wood, startPos, height, girth, 0, 0, leanDirection, leanAmount);
+		Set<BlockPos> treeTops = FeatureHelper.generateTreeTrunk(level, rand, wood, startPos, height, girth, 0, 0, leanDirection, leanAmount);
 		if (height > 5 && rand.nextBoolean()) {
 			Direction branchDirection = FeatureHelper.DirectionHelper.getRandomOther(rand, leanDirection);
-			Set<BlockPos> treeTops2 = FeatureHelper.generateTreeTrunk(world, rand, wood, startPos, Math.round(height * 0.66f), girth, 0, 0, branchDirection, leanAmount);
+			Set<BlockPos> treeTops2 = FeatureHelper.generateTreeTrunk(level, rand, wood, startPos, Math.round(height * 0.66f), girth, 0, 0, branchDirection, leanAmount);
 			treeTops.addAll(treeTops2);
 		}
 
@@ -53,14 +53,14 @@ public class FeatureAcacia extends FeatureTree {
 			float canopyWidth = rand.nextBoolean() ? 3.0f : 2.5f;
 			int radius = Math.round(canopyMultiplier * canopyWidth - 4);
 			BlockPos pos = new BlockPos(xOffset, startPos.getY() + yOffset - canopyThickness, zOffset);
-			branchEnds.addAll(FeatureHelper.generateBranches(world, rand, wood, pos, girth, 0.0f, 0.1f, radius, 2, 1.0f));
+			branchEnds.addAll(FeatureHelper.generateBranches(level, rand, wood, pos, girth, 0.0f, 0.1f, radius, 2, 1.0f));
 		}
 
 		return branchEnds;
 	}
 
 	@Override
-	protected void generateLeaves(LevelAccessor world, RandomSource rand, TreeBlockTypeLeaf leaf, TreeContour contour, BlockPos startPos) {
+	protected void generateLeaves(LevelAccessor level, RandomSource rand, TreeBlockTypeLeaf leaf, TreeContour contour, BlockPos startPos) {
 		for (BlockPos branchEnd : contour.getBranchEnds()) {
 			int leafSpawn = branchEnd.getY() - startPos.getY();
 			int canopyThickness = Math.max(1, Math.round(leafSpawn / 10.0f));
@@ -68,7 +68,7 @@ public class FeatureAcacia extends FeatureTree {
 			float canopyWidth = rand.nextBoolean() ? 1.0f : 1.5f;
 			BlockPos center = new BlockPos(branchEnd.getX(), leafSpawn - canopyThickness + 1 + startPos.getY(), branchEnd.getZ());
 			float radius = Math.max(1, canopyMultiplier * canopyWidth + girth);
-			FeatureHelper.generateCylinderFromPos(world, leaf, center, radius, canopyThickness, FeatureHelper.EnumReplaceMode.AIR, contour);
+			FeatureHelper.generateCylinderFromPos(level, leaf, center, radius, canopyThickness, FeatureHelper.EnumReplaceMode.AIR, contour);
 		}
 	}
 }

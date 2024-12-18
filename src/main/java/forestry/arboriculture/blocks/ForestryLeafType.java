@@ -30,6 +30,7 @@ public final class ForestryLeafType implements IBlockSubtype {
 	public static final ForestryLeafType LIME = new ForestryLeafType(ForestryTreeSpecies.LIME);
 	public static final ForestryLeafType WALNUT = new ForestryLeafType(ForestryTreeSpecies.WALNUT);
 	public static final ForestryLeafType CHESTNUT = new ForestryLeafType(ForestryTreeSpecies.CHESTNUT);
+	public static final ForestryLeafType CHERRY_VANILLA = new ForestryLeafType(ForestryTreeSpecies.CHERRY_VANILLA);
 	public static final ForestryLeafType BUSH_CHERRY = new ForestryLeafType(ForestryTreeSpecies.BUSH_CHERRY);
 	public static final ForestryLeafType LEMON = new ForestryLeafType(ForestryTreeSpecies.LEMON);
 	public static final ForestryLeafType PLUM = new ForestryLeafType(ForestryTreeSpecies.PLUM);

@@ -175,7 +175,7 @@ public class DefaultTreeSpecies {
 				.setRarity(0.0015f);
 
 		// Bush Cherry (Chinese Bush Cherry)
-		arboriculture.registerSpecies(ForestryTreeSpecies.CHERRY_VANILLA, GENUS_PRUNUS, SPECIES_CHERRY_VANILLA)
+		arboriculture.registerSpecies(ForestryTreeSpecies.CHERRY_VANILLA, GENUS_PRUNUS, SPECIES_CHERRY_VANILLA, true, new Color(), VanillaWoodType.CHERRY)
 				.setTreeFeature(FeatureCherryVanilla::new);
 
 		// Lemon

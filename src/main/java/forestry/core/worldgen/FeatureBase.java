@@ -31,5 +31,5 @@ public abstract class FeatureBase extends Feature<NoneFeatureConfiguration> {
 
 	public abstract IGenome getDefaultGenome();
 
-	public abstract boolean place(IGenome genome, LevelAccessor world, RandomSource rand, BlockPos pos, boolean forced);
+	public abstract boolean place(IGenome genome, LevelAccessor level, RandomSource rand, BlockPos pos, boolean forced);
 }

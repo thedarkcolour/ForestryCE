@@ -1,8 +1,6 @@
 package forestry.arboriculture.worldgen;
 
 import javax.annotation.Nullable;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -11,19 +9,16 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 
 /**
- * Helper class for storing data that is relevant to generating trees
+ * A tree contour holds branch end positions and leaf positions.
  */
-public interface TreeContour {
+public sealed interface TreeContour {
 	TreeContour EMPTY = new Empty();
 
-	default void addLeaf(BlockPos pos) {
-	}
+	void addLeaf(BlockPos pos);
 
-	default Collection<BlockPos> getBranchEnds() {
-		return Collections.emptyList();
-	}
+	List<BlockPos> getBranchEnds();
 
-	class Impl implements TreeContour {
+	final class Impl implements TreeContour {
 		public final Set<BlockPos> leavePositions;
 		public final List<BlockPos> branchEnds;
 
@@ -53,8 +48,17 @@ public interface TreeContour {
 		}
 	}
 
-	class Empty implements TreeContour {
+	final class Empty implements TreeContour {
 		private Empty() {
+		}
+
+		@Override
+		public void addLeaf(BlockPos pos) {
+		}
+
+		@Override
+		public List<BlockPos> getBranchEnds() {
+			return List.of();
 		}
 	}
 }

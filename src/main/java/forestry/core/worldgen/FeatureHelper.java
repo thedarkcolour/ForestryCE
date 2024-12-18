@@ -24,8 +24,6 @@ import forestry.arboriculture.worldgen.ITreeBlockType;
 import forestry.arboriculture.worldgen.TreeBlockType;
 import forestry.arboriculture.worldgen.TreeContour;
 import forestry.core.utils.VecUtil;
-//import forestry.arboriculture.worldgen.ITreeBlockType;
-//import forestry.arboriculture.worldgen.TreeBlockType;
 
 
 public class FeatureHelper {

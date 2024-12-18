@@ -38,36 +38,36 @@ public abstract class FeatureTree extends FeatureArboriculture {
 	}
 
 	@Override
-	public Set<BlockPos> generateTrunk(LevelAccessor world, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
-		FeatureHelper.generateTreeTrunk(world, rand, wood, startPos, height, girth, 0, 0, null, 0);
+	public Set<BlockPos> generateTrunk(LevelAccessor level, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
+		FeatureHelper.generateTreeTrunk(level, rand, wood, startPos, height, girth, 0, 0, null, 0);
 		return Set.of();
 	}
 
 	@Override
-	protected void generateLeaves(LevelAccessor world, RandomSource rand, TreeBlockTypeLeaf leaf, TreeContour contour, BlockPos startPos) {
+	protected void generateLeaves(LevelAccessor level, RandomSource rand, TreeBlockTypeLeaf leaf, TreeContour contour, BlockPos startPos) {
 		int leafHeight = height + 1;
-		FeatureHelper.generateCylinderFromTreeStartPos(world, leaf, startPos.offset(0, leafHeight--, 0), girth, girth, 1, FeatureHelper.EnumReplaceMode.AIR, contour);
-		FeatureHelper.generateCylinderFromTreeStartPos(world, leaf, startPos.offset(0, leafHeight--, 0), girth, 0.5f + girth, 1, FeatureHelper.EnumReplaceMode.AIR, contour);
-		FeatureHelper.generateCylinderFromTreeStartPos(world, leaf, startPos.offset(0, leafHeight--, 0), girth, 1.9f + girth, 1, FeatureHelper.EnumReplaceMode.AIR, contour);
-		FeatureHelper.generateCylinderFromTreeStartPos(world, leaf, startPos.offset(0, leafHeight, 0), girth, 1.9f + girth, 1, FeatureHelper.EnumReplaceMode.AIR, contour);
+		FeatureHelper.generateCylinderFromTreeStartPos(level, leaf, startPos.offset(0, leafHeight--, 0), girth, girth, 1, FeatureHelper.EnumReplaceMode.AIR, contour);
+		FeatureHelper.generateCylinderFromTreeStartPos(level, leaf, startPos.offset(0, leafHeight--, 0), girth, 0.5f + girth, 1, FeatureHelper.EnumReplaceMode.AIR, contour);
+		FeatureHelper.generateCylinderFromTreeStartPos(level, leaf, startPos.offset(0, leafHeight--, 0), girth, 1.9f + girth, 1, FeatureHelper.EnumReplaceMode.AIR, contour);
+		FeatureHelper.generateCylinderFromTreeStartPos(level, leaf, startPos.offset(0, leafHeight, 0), girth, 1.9f + girth, 1, FeatureHelper.EnumReplaceMode.AIR, contour);
 	}
 
 	@Override
-	protected void generateExtras(LevelAccessor world, RandomSource rand, BlockPos startPos) {
+	protected void generateExtras(LevelAccessor level, RandomSource rand, BlockPos startPos) {
 		if (hasPods()) {
-			FeatureHelper.generatePods(tree, world, rand, startPos, height, minPodHeight, girth, FeatureHelper.EnumReplaceMode.AIR);
+			FeatureHelper.generatePods(tree, level, rand, startPos, height, minPodHeight, girth, FeatureHelper.EnumReplaceMode.AIR);
 		}
 	}
 
 	@Override
 	@Nullable
-	public BlockPos getValidGrowthPos(LevelAccessor world, BlockPos pos) {
-		return tree.getGrowthPos(tree.getDefaultGenome(), world, pos, girth, height);
+	public BlockPos getValidGrowthPos(LevelAccessor level, BlockPos pos) {
+		return this.tree.getGrowthPos(this.tree.getDefaultGenome(), level, pos, this.girth, this.height);
 	}
 
 	@Override
-	public final void preGenerate(IGenome genome, LevelAccessor world, RandomSource rand, BlockPos startPos) {
-		this.height = determineHeight(world, rand, this.baseHeight, this.heightVariation);
+	public final void preGenerate(IGenome genome, LevelAccessor level, RandomSource rand, BlockPos startPos) {
+		this.height = determineHeight(level, rand, this.baseHeight, this.heightVariation);
 		this.girth = this.tree.getGirth(genome);
 	}
 
@@ -77,10 +77,10 @@ public abstract class FeatureTree extends FeatureArboriculture {
 		return determined < min ? min : Math.min(determined, max);
 	}
 
-	private int determineHeight(LevelAccessor world, RandomSource rand, int required, int variation) {
+	private int determineHeight(LevelAccessor world, RandomSource rand, int baseHeight, int heightVariation) {
 		//ITreeModifier treeModifier = SpeciesUtil.TREE_TYPE.get().getTreekeepingMode(world);
-		int baseHeight = required + rand.nextInt(variation);
-		int height = Math.round(baseHeight * tree.getHeightModifier(tree.getDefaultGenome()));/* * treeModifier.getHeightModifier(tree.getGenome(), 1f)*/
-		return height < minHeight ? minHeight : Math.min(height, maxHeight);
+		int height = baseHeight + rand.nextInt(heightVariation);
+		int adjustedHeight = Math.round(height * tree.getHeightModifier(tree.getDefaultGenome()));/* * treeModifier.getHeightModifier(tree.getGenome(), 1f)*/
+		return adjustedHeight < minHeight ? minHeight : Math.min(adjustedHeight, maxHeight);
 	}
 }

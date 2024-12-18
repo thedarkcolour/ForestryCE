@@ -11,18 +11,12 @@ import java.util.Random;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
 
 import com.mojang.authlib.GameProfile;
 
 import forestry.api.arboriculture.IWoodType;
-import forestry.api.arboriculture.genetics.IFruit;
 import forestry.api.genetics.IGenome;
-import forestry.api.genetics.alleles.TreeChromosomes;
 import forestry.arboriculture.blocks.ForestryLeafType;
-import forestry.arboriculture.features.ArboricultureBlocks;
-import forestry.modules.features.FeatureBlockGroup;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -32,7 +26,8 @@ public enum VanillaWoodType implements IWoodType {
 	BIRCH(ForestryLeafType.BIRCH),
 	JUNGLE(ForestryLeafType.JUNGLE),
 	ACACIA(ForestryLeafType.ACACIA_VANILLA),
-	DARK_OAK(ForestryLeafType.DARK_OAK);
+	DARK_OAK(ForestryLeafType.DARK_OAK),
+	CHERRY(ForestryLeafType.CHERRY_VANILLA);
 
 	public static final VanillaWoodType[] VALUES = values();
 

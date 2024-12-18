@@ -26,19 +26,19 @@ public class FeaturePapaya extends FeatureTree {
 	}
 
 	@Override
-	public Set<BlockPos> generateTrunk(LevelAccessor world, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
-		FeatureHelper.generateTreeTrunk(world, rand, wood, startPos, height, girth, 0, 0, null, 0);
-		return FeatureHelper.generateBranches(world, rand, wood, startPos.offset(0, height - 1, 0), girth, 0.15f, 0.25f, height / 4, 1, 0.25f);
+	public Set<BlockPos> generateTrunk(LevelAccessor level, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
+		FeatureHelper.generateTreeTrunk(level, rand, wood, startPos, height, girth, 0, 0, null, 0);
+		return FeatureHelper.generateBranches(level, rand, wood, startPos.offset(0, height - 1, 0), girth, 0.15f, 0.25f, height / 4, 1, 0.25f);
 	}
 
 	@Override
-	protected void generateLeaves(LevelAccessor world, RandomSource rand, TreeBlockTypeLeaf leaf, TreeContour contour, BlockPos startPos) {
+	protected void generateLeaves(LevelAccessor level, RandomSource rand, TreeBlockTypeLeaf leaf, TreeContour contour, BlockPos startPos) {
 		for (BlockPos branchEnd : contour.getBranchEnds()) {
-			FeatureHelper.generateCylinderFromPos(world, leaf, branchEnd, 1 + girth, 1, FeatureHelper.EnumReplaceMode.AIR, contour);
+			FeatureHelper.generateCylinderFromPos(level, leaf, branchEnd, 1 + girth, 1, FeatureHelper.EnumReplaceMode.AIR, contour);
 		}
 
 		int yCenter = height - girth;
 		yCenter = yCenter > 3 ? yCenter : 4;
-		FeatureHelper.generateSphereFromTreeStartPos(world, startPos.offset(0, yCenter, 0), girth, Math.round((2 + rand.nextInt(girth)) * (height / 8.0f)), leaf, FeatureHelper.EnumReplaceMode.AIR, contour);
+		FeatureHelper.generateSphereFromTreeStartPos(level, startPos.offset(0, yCenter, 0), girth, Math.round((2 + rand.nextInt(girth)) * (height / 8.0f)), leaf, FeatureHelper.EnumReplaceMode.AIR, contour);
 	}
 }

@@ -25,23 +25,23 @@ public class FeatureBalsa extends FeatureTree {
 	}
 
 	@Override
-	protected void generateLeaves(LevelAccessor world, RandomSource rand, TreeBlockTypeLeaf leaf, TreeContour contour, BlockPos startPos) {
+	protected void generateLeaves(LevelAccessor level, RandomSource rand, TreeBlockTypeLeaf leaf, TreeContour contour, BlockPos startPos) {
 		BlockPos topPos = startPos.offset(0, height + 1, 0);
 		BlockPos.MutableBlockPos leafCenter = new BlockPos.MutableBlockPos();
 		float leafRadius = (girth - 1.0f) / 2.0f;
 
-		FeatureHelper.addBlock(world, leafCenter.set(topPos), leaf, FeatureHelper.EnumReplaceMode.AIR, contour);
+		FeatureHelper.addBlock(level, leafCenter.set(topPos), leaf, FeatureHelper.EnumReplaceMode.AIR, contour);
 		leafCenter.move(Direction.DOWN);
-		FeatureHelper.generateCylinderFromPos(world, leaf, leafCenter, leafRadius + girth, 1, FeatureHelper.EnumReplaceMode.SOFT, contour);
+		FeatureHelper.generateCylinderFromPos(level, leaf, leafCenter, leafRadius + girth, 1, FeatureHelper.EnumReplaceMode.SOFT, contour);
 		leafCenter.move(Direction.DOWN);
 
 		if (height > 10) {
-			FeatureHelper.generateCylinderFromPos(world, leaf, leafCenter, leafRadius + girth, 1, FeatureHelper.EnumReplaceMode.SOFT, contour);
+			FeatureHelper.generateCylinderFromPos(level, leaf, leafCenter, leafRadius + girth, 1, FeatureHelper.EnumReplaceMode.SOFT, contour);
 			leafCenter.move(Direction.DOWN);
 		}
 
 		while (leafCenter.getY() > topPos.getY() - 6) {
-			FeatureHelper.generateCylinderFromPos(world, leaf, leafCenter, leafRadius + girth, 1, FeatureHelper.EnumReplaceMode.SOFT, contour);
+			FeatureHelper.generateCylinderFromPos(level, leaf, leafCenter, leafRadius + girth, 1, FeatureHelper.EnumReplaceMode.SOFT, contour);
 			leafCenter.move(Direction.DOWN);
 		}
 	}

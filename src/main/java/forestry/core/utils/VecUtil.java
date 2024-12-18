@@ -24,6 +24,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.Heightmap;
 
 public final class VecUtil {
+	/**
+	 * Sorts positions by height in descending order
+	 */
 	public static final Comparator<BlockPos> TOP_DOWN_COMPARATOR = (a, b) -> Integer.compare(b.getY(), a.getY());
 
 	public static BlockPos getRandomPositionInArea(RandomSource random, Vec3i area) {
