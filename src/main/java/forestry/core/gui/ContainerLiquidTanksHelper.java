@@ -65,8 +65,8 @@ public class ContainerLiquidTanksHelper<T extends BlockEntity & ILiquidTankTile>
 		LazyOptional<IFluidHandlerItem> fluidCap = FluidUtil.getFluidHandler(itemstack);
 		fluidCap.ifPresent(fluidHandlerItem -> {
 			if (pipette.canPipette(itemstack) && liquidAmount > 0) {
-				if (tank instanceof StandardTank) {
-					FluidStack fillAmount = ((StandardTank) tank).drainInternal(FluidType.BUCKET_VOLUME, IFluidHandler.FluidAction.SIMULATE);
+				if (tank instanceof StandardTank standard) {
+					FluidStack fillAmount = standard.drainInternal(FluidType.BUCKET_VOLUME, IFluidHandler.FluidAction.SIMULATE);
 					int filled = fluidHandlerItem.fill(fillAmount, IFluidHandler.FluidAction.EXECUTE);
 					tank.drain(filled, IFluidHandler.FluidAction.EXECUTE);
 					player.inventoryMenu.setCarried(fluidHandlerItem.getContainer());

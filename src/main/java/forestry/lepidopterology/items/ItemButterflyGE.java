@@ -10,8 +10,6 @@
  ******************************************************************************/
 package forestry.lepidopterology.items;
 
-import java.util.List;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Mth;
@@ -24,7 +22,6 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
-import forestry.Forestry;
 import forestry.api.genetics.ISpeciesType;
 import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.api.lepidopterology.IButterflyNursery;
@@ -42,7 +39,6 @@ import forestry.lepidopterology.features.LepidopterologyEntities;
 
 public class ItemButterflyGE extends ItemGE implements IColoredItem {
 	public static final String NBT_AGE = "Age";
-	public static final int MAX_AGE = 3;
 
 	public ItemButterflyGE(ButterflyLifeStage stage) {
 		super(new Properties(), stage);
@@ -56,35 +52,6 @@ public class ItemButterflyGE extends ItemGE implements IColoredItem {
 	@Override
 	protected ISpeciesType<?, ?> getType() {
 		return SpeciesUtil.BUTTERFLY_TYPE.get();
-	}
-
-	// todo fix
-	public void addCreativeItems(List<ItemStack> subItems, boolean hideSecrets) {
-		if (this.stage == ButterflyLifeStage.COCOON) {
-			for (int age = 0; age < MAX_AGE; age++) {
-				for (IButterflySpecies species : SpeciesUtil.getAllButterflySpecies()) {
-					// Don't show secret butterflies unless ordered to.
-					if (hideSecrets && species.isSecret() && !Forestry.DEBUG) {
-						continue;
-					}
-
-					ItemStack butterfly = species.createStack(this.stage);
-
-					ItemButterflyGE.setAge(butterfly, age);
-
-					subItems.add(butterfly);
-				}
-			}
-		} else {
-			for (IButterflySpecies species : SpeciesUtil.BUTTERFLY_TYPE.get().getAllSpecies()) {
-				// Don't show secret butterflies unless ordered to.
-				if (hideSecrets && species.isSecret() && !Forestry.DEBUG) {
-					continue;
-				}
-
-				subItems.add(species.createStack(this.stage));
-			}
-		}
 	}
 
 	@Override
@@ -164,20 +131,6 @@ public class ItemButterflyGE extends ItemGE implements IColoredItem {
 		} else {
 			return InteractionResult.PASS;
 		}
-	}
-
-	public static void setAge(ItemStack cocoon, int age) {
-		if (cocoon.isEmpty()) {
-			return;
-		}
-		if (SpeciesUtil.BUTTERFLY_TYPE.get().getLifeStage(cocoon) != ButterflyLifeStage.COCOON) {
-			return;
-		}
-		CompoundTag tagCompound = cocoon.getTag();
-		if (tagCompound == null) {
-			cocoon.setTag(tagCompound = new CompoundTag());
-		}
-		tagCompound.putInt(NBT_AGE, age);
 	}
 
 	public static int getAge(ItemStack cocoon) {

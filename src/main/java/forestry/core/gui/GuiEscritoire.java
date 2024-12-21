@@ -91,7 +91,6 @@ public class GuiEscritoire extends GuiForestry<ContainerEscritoire> {
 
 		textLayout.startPage(graphics);
 		{
-			// todo is this correct?
 			PoseStack stack = graphics.pose();
 			stack.scale(0.5F, 0.5F, 0.5F);
 			stack.translate(leftPos + 170, topPos + 10, 0.0);

@@ -8,7 +8,6 @@ import net.minecraft.world.item.ItemStack;
 import forestry.api.genetics.IIndividual;
 import forestry.api.genetics.gatgets.IDatabaseTab;
 
-//TODO: Rework the database and the analyser
 public abstract class DatabaseTab<I extends IIndividual> implements IDatabaseTab<I> {
 	private final Supplier<ItemStack> stackSupplier;
 	private final String name;

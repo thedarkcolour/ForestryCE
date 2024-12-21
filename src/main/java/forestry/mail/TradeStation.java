@@ -177,10 +177,8 @@ public class TradeStation extends SavedData implements ITradeStation, IInventory
 	}
 
 	/* ILETTERHANDLER */
-	//TODO this method is long. Shorten it.
 	@Override
 	public IPostalState handleLetter(ServerLevel world, IMailAddress recipient, ItemStack letterstack, boolean doLodge) {
-
 		boolean sendOwnerNotice = doLodge && owner != null;
 
 		ILetter letter = PostManager.postRegistry.getLetter(letterstack);
@@ -602,12 +600,6 @@ public class TradeStation extends SavedData implements ITradeStation, IInventory
 		return inventory.removeItemNoUpdate(index);
 	}
 
-	//tODO
-	//	@Override
-	//	public String getName() {
-	//		return inventory.getName();
-	//	}
-
 	@Override
 	public int getMaxStackSize() {
 		return inventory.getMaxStackSize();
@@ -615,7 +607,6 @@ public class TradeStation extends SavedData implements ITradeStation, IInventory
 
 	@Override
 	public void setChanged() {
-
 	}
 
 	@Override

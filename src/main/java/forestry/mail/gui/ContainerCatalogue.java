@@ -199,17 +199,15 @@ public class ContainerCatalogue extends AbstractContainerMenu implements IGuiSel
 
 	@Override
 	public void handleSelectionRequest(ServerPlayer player, int primary, int secondary) {
-
 		switch (primary) {
 			case 0 -> nextPage();
 			case 1 -> previousPage();
 			case 2 -> cycleFilter();
 		}
 
-		needsSync = true;
+		this.needsSync = true;
 	}
 
-	// todo
 	@Override
 	public ItemStack quickMoveStack(Player player, int index) {
 		return ItemStack.EMPTY;

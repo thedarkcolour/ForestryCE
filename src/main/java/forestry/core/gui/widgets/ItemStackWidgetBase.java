@@ -31,9 +31,7 @@ public abstract class ItemStackWidgetBase extends Widget {
 	public void draw(GuiGraphics graphics, int startX, int startY) {
 		ItemStack itemStack = getItemStack();
 		if (!itemStack.isEmpty()) {
-			//RenderHelper.enableGUIStandardItemLighting(); TODO Gui Light
 			GuiUtil.drawItemStack(graphics, manager.gui, itemStack, xPos + startX, yPos + startY);
-			// Lighting.turnOff();
 		}
 	}
 

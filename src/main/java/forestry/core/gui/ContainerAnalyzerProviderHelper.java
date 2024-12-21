@@ -70,7 +70,6 @@ public class ContainerAnalyzerProviderHelper {
 			return;
 		}
 
-		// TODO... how do I convert to a genetic specimen?
 		ItemStack convertedSpecimen = GeneticsUtil.convertToGeneticEquivalent(specimen);
 		if (!ItemStack.matches(specimen, convertedSpecimen)) {
 			specimenSlot.set(convertedSpecimen);
@@ -88,8 +87,6 @@ public class ContainerAnalyzerProviderHelper {
 				if (individual.analyze()) {
 					IBreedingTracker breedingTracker = individual.getType().getBreedingTracker(player.level(), player.getGameProfile());
 					breedingTracker.registerSpecies(individual.getSpecies());
-					// todo should inactive species count?
-					//breedingTracker.registerSpecies(individual.getGenome().getSecondarySpecies());
 
 					individual.saveToStack(finalSpecimen);
 

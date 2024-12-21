@@ -403,8 +403,8 @@ public class GuiAlyzer extends GuiForestry<ContainerAlyzer> {
 	}
 
 	public void drawFertilityInfo(GuiGraphics graphics, int fertility, int x, int textColor, int texOffset) {
-		// Enable correct lighting. todo is this necessary anymore?
-		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+		// Enable correct lighting.
+		graphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
 
 		String fertilityString = fertility + " x";
 

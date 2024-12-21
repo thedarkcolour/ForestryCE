@@ -280,17 +280,12 @@ public abstract class GuiForestry<C extends AbstractContainerMenu> extends Abstr
 
 		widgetManager.updateWidgets(mouseX - leftPos, mouseY - topPos);
 
-		//RenderHelper.enableGUIStandardItemLighting(); //TODO: Is there an replacement ?
-		// RenderSystem.disableLighting();
-		// RenderSystem.enableRescaleNormal();
-		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+		graphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
 		PoseStack transform = graphics.pose();
 		transform.pushPose();
 		transform.translate(leftPos, topPos, 0.0F);
 		drawWidgets(graphics);
 		transform.popPose();
-
-		// RenderSystem.color3f(1.0F, 1.0F, 1.0F);
 
 		window.draw(graphics, mouseX, mouseY);
 

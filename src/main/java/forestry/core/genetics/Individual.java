@@ -118,7 +118,6 @@ public abstract class Individual<S extends ISpecies<I>, I extends IIndividual, T
 
 	@OverridingMethodsMustInvokeSuper
 	protected void copyPropertiesTo(I other) {
-		// todo should i copy the mate? should i copy analyzed?
 	}
 
 	@Override

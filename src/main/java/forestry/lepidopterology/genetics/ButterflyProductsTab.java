@@ -38,7 +38,6 @@ public class ButterflyProductsTab implements IDatabaseTab<IButterfly> {
 			groupHelper.finish();
 		}
 
-		// todo there is some repeated code here somewhere
 		Collection<IProduct> cocoonLoot = individual.getGenome().getActiveValue(ButterflyChromosomes.COCOON).getProducts();
 		if (!cocoonLoot.isEmpty()) {
 			container.translated("for.gui.loot.cocoon").setAlign(Alignment.TOP_CENTER);
