@@ -1,3 +1,15 @@
+## Forestry 2.0.0
+- Ported to Forge 1.20.1.
+- Reorganized creative tabs.
+- Renamed Forestry's Cherry species to Hill Cherry.
+- Added Vanilla's Cherry trees to Forestry under the Cherry Blossom species.
+- Fixed non-default height allele being ignored by saplings.
+- Fixed rainmaker JEI recipe category icon being a rain tank instead of a rainmaker.
+- Updated Ebony log texture.
+- Updated Savanna hive texture.
+- Removed the unused Wax Cast item that used to be for making Stained Glass.
+- A bunch of other things!
+
 ## Forestry 1.0.14
 - Add Falkory's textures (#33)
 - Allow Cocoa plantations to automatically replant, thanks to ACGaming

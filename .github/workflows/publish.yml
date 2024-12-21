@@ -2,7 +2,7 @@ name: Release for 1.20.1
 
 on:
   push:
-    branches: [ 'dev/1.19.x' ]
+    branches: [ '1.20.1' ]
   workflow_dispatch:
 
 jobs:

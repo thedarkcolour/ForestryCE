@@ -225,7 +225,7 @@ if (System.getenv("CURSEFORGE_TOKEN")) {
 			changelogType = "markdown"
 			changelog = getChangelog(version)
 
-			releaseType = "release"
+			releaseType = "alpha"
 
 			addGameVersion(project.minecraftVersion)
 			addGameVersion("Forge")
@@ -247,6 +247,7 @@ modrinth {
     projectId = project.modrinthId
 	versionName = "Forestry: Community Edition $version"
 	versionNumber = version.toString()
+	versionType = "alpha"
 	gameVersions = [minecraftVersion]
 	loaders = ["forge"]
 	changelog = getChangelog(project.version)
@@ -280,11 +281,11 @@ static def getChangelog(Object version) {
 		def versionString = chunk.substring(0, lineTerminatorIndex)
 
 		if (versionString == version) {
-			return "## Ex Deorum $version\n" + chunk.substring(lineTerminatorIndex + 1)
+			return "## Forestry $version\n" + chunk.substring(lineTerminatorIndex + 1)
 		}
 	}
 
 	// Fallback in case this fails
-	return "Ex Deorum Update ${version}"
+	return "Forestry Update ${version}"
 }
 
