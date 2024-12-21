@@ -67,7 +67,7 @@ public abstract class FeatureTree extends FeatureArboriculture {
 
 	@Override
 	public final void preGenerate(IGenome genome, LevelAccessor level, RandomSource rand, BlockPos startPos) {
-		this.height = determineHeight(level, rand, this.baseHeight, this.heightVariation);
+		this.height = determineHeight(level, rand, genome, this.baseHeight, this.heightVariation);
 		this.girth = this.tree.getGirth(genome);
 	}
 
@@ -77,10 +77,10 @@ public abstract class FeatureTree extends FeatureArboriculture {
 		return determined < min ? min : Math.min(determined, max);
 	}
 
-	protected int determineHeight(LevelAccessor world, RandomSource rand, int baseHeight, int heightVariation) {
+	protected int determineHeight(LevelAccessor world, RandomSource rand, IGenome genome, int baseHeight, int heightVariation) {
 		//ITreeModifier treeModifier = SpeciesUtil.TREE_TYPE.get().getTreekeepingMode(world);
 		int height = baseHeight + rand.nextInt(heightVariation);
-		int adjustedHeight = Math.round(height * tree.getHeightModifier(tree.getDefaultGenome()));/* * treeModifier.getHeightModifier(tree.getGenome(), 1f)*/
+		int adjustedHeight = Math.round(height * tree.getHeightModifier(genome));/* * treeModifier.getHeightModifier(tree.getGenome(), 1f)*/
 		return adjustedHeight < minHeight ? minHeight : Math.min(adjustedHeight, maxHeight);
 	}
 }
