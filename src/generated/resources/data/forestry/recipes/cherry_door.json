@@ -5,7 +5,7 @@
   "key": {
     "#": [
       {
-        "item": "forestry:cherry_planks"
+        "item": "minecraft:cherry_planks"
       },
       {
         "item": "forestry:cherry_fireproof_planks"
@@ -18,7 +18,7 @@
     "##"
   ],
   "result": {
-    "item": "forestry:cherry_door"
+    "item": "minecraft:cherry_door"
   },
   "show_notification": true
 }

@@ -213,7 +213,7 @@ public class ForestryTaxa {
 	public static final String SPECIES_WALNUT = "regia";
 	public static final String SPECIES_CHESTNUT = "sativa";
 	public static final String SPECIES_CHERRY_VANILLA = "serrulata";
-	public static final String SPECIES_BUSH_CHERRY = "glandulosa";
+	public static final String SPECIES_HILL_CHERRY = "glandulosa";
 	public static final String SPECIES_LEMON = "limon";
 	public static final String SPECIES_PLUM = "domestica";
 	public static final String SPECIES_MAPLE = "saccharum";

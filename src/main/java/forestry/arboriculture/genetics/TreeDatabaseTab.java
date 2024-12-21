@@ -87,6 +87,6 @@ public class TreeDatabaseTab implements IDatabaseTab<ITree> {
 
 	@Override
 	public ItemStack getIconStack() {
-		return SpeciesUtil.getTreeSpecies(ForestryTreeSpecies.BUSH_CHERRY).createStack(mode == DatabaseMode.ACTIVE ? TreeLifeStage.SAPLING : TreeLifeStage.POLLEN);
+		return SpeciesUtil.getTreeSpecies(ForestryTreeSpecies.HILL_CHERRY).createStack(mode == DatabaseMode.ACTIVE ? TreeLifeStage.SAPLING : TreeLifeStage.POLLEN);
 	}
 }

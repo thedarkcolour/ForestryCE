@@ -1,4 +1,4 @@
-// 1.20.1	2024-11-25T11:58:03.5193305	Tags for minecraft:item mod id forestry
+// 1.20.1	2024-12-20T17:33:23.6821195	Tags for minecraft:item mod id forestry
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forestry/tags/items/backpack/allow/adventurer.json
 426fdc880d77e5feaa70125d93a57b7ce21dbc2b data/forestry/tags/items/backpack/allow/builder.json
 603f16d567f393f72e982cc81a735eb8a2928fff data/forestry/tags/items/backpack/allow/digger.json
@@ -22,9 +22,9 @@ c0020e6f377758179d2d7f23812e757851ba1ff2 data/forestry/tags/items/stamps.json
 a5bf4aa6f99bb4493f6fbdfe528f5c984cee54df data/forestry/tags/items/village_combs.json
 e736c96d74e1d9b8799f108ba1e8b1e2173926fb data/forge/tags/items/chests.json
 997ede0ad811c9479aabe6bd63d0a5b90a75c3e6 data/forge/tags/items/dusts/ash.json
-b3b37726f52692c7053e546168191082359f6c77 data/forge/tags/items/fences.json
-37bfc4c26e38ed60d0e9af3a8e15ae7dc9d70e3c data/forge/tags/items/fence_gates.json
-37bfc4c26e38ed60d0e9af3a8e15ae7dc9d70e3c data/forge/tags/items/fence_gates/wooden.json
+ce6210a1da642c35100b944ac690d4e987fbd2fe data/forge/tags/items/fences.json
+ee1e6658ba85691c68370f191c913c187944b6b2 data/forge/tags/items/fence_gates.json
+ee1e6658ba85691c68370f191c913c187944b6b2 data/forge/tags/items/fence_gates/wooden.json
 7f5a98d8fa19572ce1d617975f4c7d0449b04380 data/forge/tags/items/fruits.json
 364116e996f1a0fd286e6ea38477fb15cccf46bb data/forge/tags/items/fruits/cherry.json
 3c22c5eb89477aab32b100953d3e3684a5c1e20a data/forge/tags/items/fruits/chestnut.json
@@ -55,17 +55,17 @@ c74d64c654da6d15a76cd4167268fc9965ef23ca data/forge/tags/items/storage_blocks/ch
 8b3a8ecaabc2db91e27ad34b051647d52a0ad47e data/forge/tags/items/storage_blocks/raw_tin.json
 ed974f25f4057a6e2a627a4ee061decd56b7d274 data/forge/tags/items/storage_blocks/tin.json
 fd7f5b8d14cefaa9260c3a25ed12037ccad07bac data/minecraft/tags/items/dirt.json
-1c73627824305ef04df56af5a2c80fdc257c3e52 data/minecraft/tags/items/doors.json
-b3b37726f52692c7053e546168191082359f6c77 data/minecraft/tags/items/fences.json
-bbe1430a0619185d0d2b50c983367107b995ff90 data/minecraft/tags/items/leaves.json
-95b94a7e6c2e79d85952f7a84a004438ddc9c2a0 data/minecraft/tags/items/logs.json
-2407a8e7c8d88e86aa22c91d50c112fa61fa9259 data/minecraft/tags/items/logs_that_burn.json
-4318338018f638bfa4efc857f5f31fa57a8a8aea data/minecraft/tags/items/non_flammable_wood.json
-87a0632a7087374d0960d4bdfbe60cdeffefab9e data/minecraft/tags/items/planks.json
+535a46aff3a61f198d4837345f5a5f16d84d4e1d data/minecraft/tags/items/doors.json
+ce6210a1da642c35100b944ac690d4e987fbd2fe data/minecraft/tags/items/fences.json
+67f7f6abdeb398ab237a01d47b715b183d6acb10 data/minecraft/tags/items/leaves.json
+f25713378d5233ec3586471b2e89663eb0149d1d data/minecraft/tags/items/logs.json
+4c9c3770f37424e1a7b788e1cefd14c740a72e2e data/minecraft/tags/items/logs_that_burn.json
+3c0b1e5ef2b01f9e75a9497af287ccb6034e5ea2 data/minecraft/tags/items/non_flammable_wood.json
+b8d8845e32db9a28a151672112321b3b2ef862c6 data/minecraft/tags/items/planks.json
 08e1c8fddff888b2e2b86f112d281dcdcd9c970e data/minecraft/tags/items/saplings.json
-bab5ad5e39671a96e1fd38e0ba27dc770eb25980 data/minecraft/tags/items/slabs.json
-521f83a142f080598bb9e30522fe953b094e67a0 data/minecraft/tags/items/stairs.json
-1c73627824305ef04df56af5a2c80fdc257c3e52 data/minecraft/tags/items/wooden_doors.json
-b3b37726f52692c7053e546168191082359f6c77 data/minecraft/tags/items/wooden_fences.json
-bab5ad5e39671a96e1fd38e0ba27dc770eb25980 data/minecraft/tags/items/wooden_slabs.json
-521f83a142f080598bb9e30522fe953b094e67a0 data/minecraft/tags/items/wooden_stairs.json
+7490f2ef65e294f43406b0accf0563e09ef6a664 data/minecraft/tags/items/slabs.json
+aa896dcb75240a90479818bdceee0539fdb24ada data/minecraft/tags/items/stairs.json
+535a46aff3a61f198d4837345f5a5f16d84d4e1d data/minecraft/tags/items/wooden_doors.json
+ce6210a1da642c35100b944ac690d4e987fbd2fe data/minecraft/tags/items/wooden_fences.json
+7490f2ef65e294f43406b0accf0563e09ef6a664 data/minecraft/tags/items/wooden_slabs.json
+aa896dcb75240a90479818bdceee0539fdb24ada data/minecraft/tags/items/wooden_stairs.json

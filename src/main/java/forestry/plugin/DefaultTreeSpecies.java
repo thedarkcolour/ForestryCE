@@ -128,7 +128,7 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.GIRTH, ForestryAlleles.GIRTH_2);
 				})
 				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.LIME, ForestryTreeSpecies.BUSH_CHERRY, 10);
+					mutations.add(ForestryTreeSpecies.LIME, ForestryTreeSpecies.HILL_CHERRY, 10);
 				});
 
 		// Chestnut (Spanish Chestnut)
@@ -146,19 +146,16 @@ public class DefaultTreeSpecies {
 				})
 				.addMutations(mutations -> {
 					mutations.add(ForestryTreeSpecies.WALNUT, ForestryTreeSpecies.LIME, 10);
-					mutations.add(ForestryTreeSpecies.WALNUT, ForestryTreeSpecies.BUSH_CHERRY, 10);
+					mutations.add(ForestryTreeSpecies.WALNUT, ForestryTreeSpecies.HILL_CHERRY, 10);
 				});
 
 		// Hill Cherry (East Asian Cherry)
 		// The real life version of this tree doesn't actually produce fruit.
-		arboriculture.registerSpecies(ForestryTreeSpecies.BUSH_CHERRY, GENUS_PRUNUS, SPECIES_BUSH_CHERRY, true, new Color(0xe691da), ForestryWoodType.BUSH_CHERRY)
+		arboriculture.registerSpecies(ForestryTreeSpecies.HILL_CHERRY, GENUS_PRUNUS, SPECIES_HILL_CHERRY, true, new Color(0xe691da), ForestryWoodType.HILL_CHERRY)
 				.setTreeFeature(FeatureBushCherry::new)
-				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.BUSH_CHERRY))
-				//.addVanillaStates(Blocks.CHERRY_LEAVES.getStateDefinition().getPossibleStates())
-				//.addVanillaItems(Items.CHERRY_SAPLING)
-				// todo remove these two lines in 1.20
-				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.BUSH_CHERRY).block().getStateDefinition().getPossibleStates())
-				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.get(ForestryLeafType.BUSH_CHERRY).block().getStateDefinition().getPossibleStates())
+				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.HILL_CHERRY))
+				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.HILL_CHERRY).block().getStateDefinition().getPossibleStates())
+				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.get(ForestryLeafType.HILL_CHERRY).block().getStateDefinition().getPossibleStates())
 				.setGenome(genome -> {
 					genome.set(TreeChromosomes.FRUIT, ForestryAlleles.FRUIT_CHERRY);
 					genome.set(TreeChromosomes.SAPLINGS, ForestryAlleles.SAPLINGS_LOW);
@@ -202,7 +199,7 @@ public class DefaultTreeSpecies {
 
 				})
 				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.LIME, ForestryTreeSpecies.BUSH_CHERRY, 5);
+					mutations.add(ForestryTreeSpecies.LIME, ForestryTreeSpecies.HILL_CHERRY, 5);
 				});
 
 		// Plum (Common Plum)
@@ -220,7 +217,7 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_SMALLEST);
 				})
 				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.LEMON, ForestryTreeSpecies.BUSH_CHERRY, 5);
+					mutations.add(ForestryTreeSpecies.LEMON, ForestryTreeSpecies.HILL_CHERRY, 5);
 				})
 				.setRarity(0.005f);
 
@@ -626,7 +623,7 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_AVERAGE);
 				})
 				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.JUNGLE, ForestryTreeSpecies.BUSH_CHERRY, 5);
+					mutations.add(ForestryTreeSpecies.JUNGLE, ForestryTreeSpecies.HILL_CHERRY, 5);
 				})
 				.setRarity(0.005f);
 

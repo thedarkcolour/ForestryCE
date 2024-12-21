@@ -15,7 +15,7 @@
     "forestry:willow_fence",
     "forestry:walnut_fence",
     "forestry:greenheart_fence",
-    "forestry:cherry_fence",
+    "forestry:hill_cherry_fence",
     "forestry:mahoe_fence",
     "forestry:poplar_fence",
     "forestry:palm_fence",
@@ -44,7 +44,7 @@
     "forestry:willow_fireproof_fence",
     "forestry:walnut_fireproof_fence",
     "forestry:greenheart_fireproof_fence",
-    "forestry:cherry_fireproof_fence",
+    "forestry:hill_cherry_fireproof_fence",
     "forestry:mahoe_fireproof_fence",
     "forestry:poplar_fireproof_fence",
     "forestry:palm_fireproof_fence",
@@ -63,6 +63,7 @@
     "forestry:birch_fireproof_fence",
     "forestry:jungle_fireproof_fence",
     "forestry:acacia_fireproof_fence",
-    "forestry:dark_oak_fireproof_fence"
+    "forestry:dark_oak_fireproof_fence",
+    "forestry:cherry_fireproof_fence"
   ]
 }

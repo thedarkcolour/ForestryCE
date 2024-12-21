@@ -190,7 +190,7 @@ public class LootTableHelper {
 						.setRolls(ConstantValue.exactly(3))
 						.add(LootItem.lootTableItem(ArboricultureItems.GRAFTER.item()))
 						.add(saplingLoot(ForestryTreeSpecies.LIME).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 3))))
-						.add(saplingLoot(ForestryTreeSpecies.BUSH_CHERRY).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 3))))
+						.add(saplingLoot(ForestryTreeSpecies.HILL_CHERRY).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 3))))
 						.add(saplingLoot(ForestryTreeSpecies.LARCH).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 3))))
 						.add(saplingLoot(ForestryTreeSpecies.TEAK))
 						.add(saplingLoot(ForestryTreeSpecies.PADAUK))

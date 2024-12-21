@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "forestry:block/hill_cherry_log_top",
+    "side": "forestry:block/hill_cherry_log"
+  }
+}

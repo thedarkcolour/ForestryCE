@@ -15,7 +15,7 @@
     "forestry:willow_stairs",
     "forestry:walnut_stairs",
     "forestry:greenheart_stairs",
-    "forestry:cherry_stairs",
+    "forestry:hill_cherry_stairs",
     "forestry:mahoe_stairs",
     "forestry:poplar_stairs",
     "forestry:palm_stairs",
@@ -44,7 +44,7 @@
     "forestry:willow_fireproof_stairs",
     "forestry:walnut_fireproof_stairs",
     "forestry:greenheart_fireproof_stairs",
-    "forestry:cherry_fireproof_stairs",
+    "forestry:hill_cherry_fireproof_stairs",
     "forestry:mahoe_fireproof_stairs",
     "forestry:poplar_fireproof_stairs",
     "forestry:palm_fireproof_stairs",
@@ -63,6 +63,7 @@
     "forestry:birch_fireproof_stairs",
     "forestry:jungle_fireproof_stairs",
     "forestry:acacia_fireproof_stairs",
-    "forestry:dark_oak_fireproof_stairs"
+    "forestry:dark_oak_fireproof_stairs",
+    "forestry:cherry_fireproof_stairs"
   ]
 }

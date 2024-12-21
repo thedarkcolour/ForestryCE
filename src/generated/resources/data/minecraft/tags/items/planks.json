@@ -15,7 +15,7 @@
     "forestry:willow_planks",
     "forestry:walnut_planks",
     "forestry:greenheart_planks",
-    "forestry:cherry_planks",
+    "forestry:hill_cherry_planks",
     "forestry:mahoe_planks",
     "forestry:poplar_planks",
     "forestry:palm_planks",
@@ -44,7 +44,7 @@
     "forestry:willow_fireproof_planks",
     "forestry:walnut_fireproof_planks",
     "forestry:greenheart_fireproof_planks",
-    "forestry:cherry_fireproof_planks",
+    "forestry:hill_cherry_fireproof_planks",
     "forestry:mahoe_fireproof_planks",
     "forestry:poplar_fireproof_planks",
     "forestry:palm_fireproof_planks",
@@ -63,6 +63,7 @@
     "forestry:birch_fireproof_planks",
     "forestry:jungle_fireproof_planks",
     "forestry:acacia_fireproof_planks",
-    "forestry:dark_oak_fireproof_planks"
+    "forestry:dark_oak_fireproof_planks",
+    "forestry:cherry_fireproof_planks"
   ]
 }

@@ -15,7 +15,7 @@
     "forestry:willow_log",
     "forestry:walnut_log",
     "forestry:greenheart_log",
-    "forestry:cherry_log",
+    "forestry:hill_cherry_log",
     "forestry:mahoe_log",
     "forestry:poplar_log",
     "forestry:palm_log",
@@ -44,7 +44,7 @@
     "forestry:willow_fireproof_log",
     "forestry:walnut_fireproof_log",
     "forestry:greenheart_fireproof_log",
-    "forestry:cherry_fireproof_log",
+    "forestry:hill_cherry_fireproof_log",
     "forestry:mahoe_fireproof_log",
     "forestry:poplar_fireproof_log",
     "forestry:palm_fireproof_log",
@@ -63,6 +63,7 @@
     "forestry:birch_fireproof_log",
     "forestry:jungle_fireproof_log",
     "forestry:acacia_fireproof_log",
-    "forestry:dark_oak_fireproof_log"
+    "forestry:dark_oak_fireproof_log",
+    "forestry:cherry_fireproof_log"
   ]
 }

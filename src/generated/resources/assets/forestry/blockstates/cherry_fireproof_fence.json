@@ -2,12 +2,12 @@
   "multipart": [
     {
       "apply": {
-        "model": "forestry:block/cherry_fence_post"
+        "model": "minecraft:block/cherry_fence_post"
       }
     },
     {
       "apply": {
-        "model": "forestry:block/cherry_fence_side",
+        "model": "minecraft:block/cherry_fence_side",
         "uvlock": true
       },
       "when": {
@@ -16,7 +16,7 @@
     },
     {
       "apply": {
-        "model": "forestry:block/cherry_fence_side",
+        "model": "minecraft:block/cherry_fence_side",
         "uvlock": true,
         "y": 180
       },
@@ -26,7 +26,7 @@
     },
     {
       "apply": {
-        "model": "forestry:block/cherry_fence_side",
+        "model": "minecraft:block/cherry_fence_side",
         "uvlock": true,
         "y": 270
       },
@@ -36,7 +36,7 @@
     },
     {
       "apply": {
-        "model": "forestry:block/cherry_fence_side",
+        "model": "minecraft:block/cherry_fence_side",
         "uvlock": true,
         "y": 90
       },

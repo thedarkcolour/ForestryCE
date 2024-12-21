@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "forestry:block/cherry_planks"
+      "model": "minecraft:block/cherry_planks"
     }
   }
 }

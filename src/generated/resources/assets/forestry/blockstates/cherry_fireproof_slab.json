@@ -1,13 +1,13 @@
 {
   "variants": {
     "type=bottom": {
-      "model": "forestry:block/cherry_slab"
+      "model": "minecraft:block/cherry_slab"
     },
     "type=double": {
-      "model": "forestry:block/cherry_planks"
+      "model": "minecraft:block/cherry_planks"
     },
     "type=top": {
-      "model": "forestry:block/cherry_slab_top"
+      "model": "minecraft:block/cherry_slab_top"
     }
   }
 }

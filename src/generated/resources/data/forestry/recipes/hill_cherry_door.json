@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "group": "wooden_door",
+  "key": {
+    "#": [
+      {
+        "item": "forestry:hill_cherry_planks"
+      },
+      {
+        "item": "forestry:hill_cherry_fireproof_planks"
+      }
+    ]
+  },
+  "pattern": [
+    "##",
+    "##",
+    "##"
+  ],
+  "result": {
+    "item": "forestry:hill_cherry_door"
+  },
+  "show_notification": true
+}

@@ -15,7 +15,7 @@
     "forestry:willow_slab",
     "forestry:walnut_slab",
     "forestry:greenheart_slab",
-    "forestry:cherry_slab",
+    "forestry:hill_cherry_slab",
     "forestry:mahoe_slab",
     "forestry:poplar_slab",
     "forestry:palm_slab",
@@ -44,7 +44,7 @@
     "forestry:willow_fireproof_slab",
     "forestry:walnut_fireproof_slab",
     "forestry:greenheart_fireproof_slab",
-    "forestry:cherry_fireproof_slab",
+    "forestry:hill_cherry_fireproof_slab",
     "forestry:mahoe_fireproof_slab",
     "forestry:poplar_fireproof_slab",
     "forestry:palm_fireproof_slab",
@@ -63,6 +63,7 @@
     "forestry:birch_fireproof_slab",
     "forestry:jungle_fireproof_slab",
     "forestry:acacia_fireproof_slab",
-    "forestry:dark_oak_fireproof_slab"
+    "forestry:dark_oak_fireproof_slab",
+    "forestry:cherry_fireproof_slab"
   ]
 }

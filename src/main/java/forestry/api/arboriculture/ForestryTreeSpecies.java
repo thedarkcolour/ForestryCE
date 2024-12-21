@@ -25,7 +25,7 @@ public class ForestryTreeSpecies {
 	public static final ResourceLocation LIME = forestry("tree_lime");
 	public static final ResourceLocation WALNUT = forestry("tree_walnut");
 	public static final ResourceLocation CHESTNUT = forestry("tree_chestnut");
-	public static final ResourceLocation BUSH_CHERRY = forestry("tree_bush_cherry");
+	public static final ResourceLocation HILL_CHERRY = forestry("tree_hill_cherry");
 	public static final ResourceLocation LEMON = forestry("tree_lemon");
 	public static final ResourceLocation PLUM = forestry("tree_plum");
 	public static final ResourceLocation MAPLE = forestry("tree_maple");

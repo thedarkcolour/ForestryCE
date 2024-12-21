@@ -1,0 +1,6 @@
+{
+  "parent": "block/cross",
+  "textures": {
+    "cross": "forestry:block/germlings/sapling.tree_hill_cherry"
+  }
+}
