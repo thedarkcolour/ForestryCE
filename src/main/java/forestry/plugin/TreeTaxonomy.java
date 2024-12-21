@@ -21,7 +21,7 @@ public class TreeTaxonomy {
 				});
 				klass.defineSubTaxon(ForestryTaxa.ORDER_LAMIALES, order -> {
 					order.defineSubTaxon(ForestryTaxa.FAMILY_BIGNONIACEAE, family -> {
-						family.defineSubTaxon(ForestryTaxa.GENUS_TABEBUIA);
+						family.defineSubTaxon(ForestryTaxa.GENUS_HANDROANTHUS);
 					});
 					order.defineSubTaxon(ForestryTaxa.FAMILY_LAMIACEAE, family -> {
 						family.defineSubTaxon(ForestryTaxa.GENUS_TECTONA);

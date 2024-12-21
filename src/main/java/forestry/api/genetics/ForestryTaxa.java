@@ -102,7 +102,7 @@ public class ForestryTaxa {
 	public static final String GENUS_DALBERGIA = "dalbergia";
 	public static final String GENUS_MILLETTIA = "millettia";
 	public static final String GENUS_PTEROCARPUS = "pterocarpus";
-	public static final String GENUS_TABEBUIA = "tabebuia";
+	public static final String GENUS_HANDROANTHUS = "handroanthus";
 	public static final String GENUS_TECTONA = "tectona";
 	public static final String GENUS_PHOENIX = "phoenix";
 	public static final String GENUS_BETULA = "betula";
@@ -224,7 +224,7 @@ public class ForestryTaxa {
 	public static final String SPECIES_GIANT_SEQUOIA = "giganteum";
 	public static final String SPECIES_JUNGLE = "tectona";
 	public static final String SPECIES_TEAK = "grandis";
-	public static final String SPECIES_IPE = "serratifolia";
+	public static final String SPECIES_IPE = "serratifolius";
 	public static final String SPECIES_KAPOK = "pentandra";
 	public static final String SPECIES_EBONY = "pentamera";
 	public static final String SPECIES_ZEBRAWOOD = "graveolens";
@@ -246,7 +246,7 @@ public class ForestryTaxa {
 	public static final String SPECIES_CABBAGE_WHITE = "rapae";
 	public static final String SPECIES_BRIMSTONE = "rhamni";
 	public static final String SPECIES_AURORA = "cardamines";
-	public static final String SPECIES_POSTILLION = "croceus";
+	public static final String SPECIES_CLOUDED_YELLOW = "croceus";
 	public static final String SPECIES_PALAENO_SULPHUR = "palaeno";
 	public static final String SPECIES_RESEDA = "edusa";
 	public static final String SPECIES_SPRING_AZURE = "argiolus";

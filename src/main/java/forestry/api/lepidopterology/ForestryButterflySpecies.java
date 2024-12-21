@@ -12,7 +12,7 @@ public class ForestryButterflySpecies {
 	public static final ResourceLocation CABBAGE_WHITE = forestry("butterfly_cabbage_white");
 	public static final ResourceLocation BRIMSTONE = forestry("butterfly_brimstone");
 	public static final ResourceLocation AURORA = forestry("butterfly_aurora");
-	public static final ResourceLocation POSTILLION = forestry("butterfly_postillion");
+	public static final ResourceLocation CLOUDED_YELLOW = forestry("butterfly_clouded_yellow");
 	public static final ResourceLocation PALAENO_SULPHUR = forestry("butterfly_palaeno_sulphur");
 	public static final ResourceLocation RESEDA = forestry("butterfly_reseda");
 	public static final ResourceLocation SPRING_AZURE = forestry("butterfly_spring_azure");

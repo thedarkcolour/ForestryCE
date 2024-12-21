@@ -28,9 +28,8 @@ public class DefaultButterflySpecies {
 					genome.set(ButterflyChromosomes.SIZE, ForestryAlleles.SIZE_SMALLER);
 				});
 
-		// Postillon* (todo rename to Clouded Yellow)
-		// The original name was "postillion" but this is a typo/UKism. Even then, the Postillon name is very uncommon.
-		butterflies.registerSpecies(ForestryButterflySpecies.POSTILLION, GENUS_COLIAS, SPECIES_POSTILLION, true, new Color(0xd77e04), 0.5f)
+		// Clouded Yellow
+		butterflies.registerSpecies(ForestryButterflySpecies.CLOUDED_YELLOW, GENUS_COLIAS, SPECIES_CLOUDED_YELLOW, true, new Color(0xd77e04), 0.5f)
 				.setGenome(genome -> {
 					genome.set(ButterflyChromosomes.SPEED, ForestryAlleles.SPEED_SLOW);
 				});
@@ -48,7 +47,6 @@ public class DefaultButterflySpecies {
 				});
 
 		// Spring Azure
-		// Todo change the species name, it should be "ladon", otherwise change name to Holly Blue
 		butterflies.registerSpecies(ForestryButterflySpecies.SPRING_AZURE, GENUS_CELASTRINA, SPECIES_SPRING_AZURE, true, new Color(0xb8cae2), 0.3f)
 				.setGenome(genome -> {
 					genome.set(ButterflyChromosomes.SIZE, ForestryAlleles.SIZE_SMALLER);
@@ -271,7 +269,7 @@ public class DefaultButterflySpecies {
 					genome.set(ButterflyChromosomes.COCOON, ForestryAlleles.COCOON_SILK);
 				})
 				.addMutations(mutations -> {
-					mutations.add(ForestryButterflySpecies.LATTICED_HEATH, ForestryButterflySpecies.BRIMSTONE, 7);
+					mutations.add(ForestryButterflySpecies.LATTICED_HEATH, ForestryButterflySpecies.BRIMSTONE, 0.07f);
 				})
 				.setAuthority("Nedelosk");
 	}

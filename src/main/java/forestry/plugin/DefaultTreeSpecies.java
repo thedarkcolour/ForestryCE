@@ -356,8 +356,8 @@ public class DefaultTreeSpecies {
 				})
 				.setRarity(0.0025f);
 
-		// Ipe (Yellow Ipe) TODO: Should be Handroanthus serratifolius
-		arboriculture.registerSpecies(ForestryTreeSpecies.IPE, GENUS_TABEBUIA, SPECIES_IPE, true, new Color(0xfdd207), ForestryWoodType.IPE)
+		// Ipe (Yellow Ipe)
+		arboriculture.registerSpecies(ForestryTreeSpecies.IPE, GENUS_HANDROANTHUS, SPECIES_IPE, true, new Color(0xfdd207), ForestryWoodType.IPE)
 				.setTreeFeature(FeatureIpe::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.IPE))
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.IPE).block().getStateDefinition().getPossibleStates())
