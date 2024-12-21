@@ -11,8 +11,9 @@
 package forestry.arboriculture.tiles;
 
 import javax.annotation.Nullable;
+import java.util.IdentityHashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Objects;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -38,6 +39,7 @@ import forestry.api.arboriculture.ILeafTickHandler;
 import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.arboriculture.genetics.IFruit;
 import forestry.api.arboriculture.genetics.ITree;
+import forestry.api.arboriculture.genetics.ITreeEffect;
 import forestry.api.client.IForestryClientApi;
 import forestry.api.climate.IBiomeProvider;
 import forestry.api.core.HumidityType;
@@ -47,8 +49,12 @@ import forestry.api.genetics.IEffectData;
 import forestry.api.genetics.IFruitBearer;
 import forestry.api.genetics.IGenome;
 import forestry.api.genetics.IIndividual;
+import forestry.api.genetics.alleles.AllelePair;
 import forestry.api.genetics.alleles.ButterflyChromosomes;
 import forestry.api.genetics.alleles.ForestryAlleles;
+import forestry.api.genetics.alleles.IAllele;
+import forestry.api.genetics.alleles.IChromosome;
+import forestry.api.genetics.alleles.IValueAllele;
 import forestry.api.genetics.alleles.TreeChromosomes;
 import forestry.api.lepidopterology.IButterflyNursery;
 import forestry.api.lepidopterology.genetics.IButterfly;
@@ -258,7 +264,7 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 	private int determineFruitColour() {
 		ITree tree = getTree();
 		if (tree == null) {
-			tree = SpeciesUtil.getTreeSpecies(ForestryTreeSpecies.BUSH_CHERRY).createIndividual();
+			tree = SpeciesUtil.getTreeSpecies(ForestryTreeSpecies.HILL_CHERRY).createIndividual();
 		}
 		IGenome genome = tree.getGenome();
 		IFruit fruit = genome.getActiveValue(TreeChromosomes.FRUIT);
@@ -305,32 +311,54 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 		setChanged();
 	}
 
-	private static final short hasFruitFlag = 1;
-	private static final short isPollinatedFlag = 1 << 1;
+	// Flags for network data
+	private static final short FLAG_HAS_FRUIT = 1;
+	private static final short FLAG_IS_POLLINATED = 1 << 1;
+	private static final short FLAG_HAS_ACTIVE_EFFECT = 1 << 2;
+	private static final short FLAG_HAS_INACTIVE_EFFECT = 1 << 3;
 
 	@Override
 	public void writeData(FriendlyByteBuf data) {
 		super.writeData(data);
 
 		byte leafState = 0;
+		IGenome genome = getTree().getGenome();
+		AllelePair<IValueAllele<ITreeEffect>> effects = genome.getAllelePair(TreeChromosomes.EFFECT);
+		boolean hasActiveEffect = effects.active() != ForestryAlleles.TREE_EFFECT_NONE;
+		boolean hasInactiveEffect = effects.inactive() != ForestryAlleles.TREE_EFFECT_NONE;
 		boolean hasFruit = hasFruit();
 
 		if (isPollinated()) {
-			leafState |= isPollinatedFlag;
+			leafState |= FLAG_IS_POLLINATED;
 		}
 
 		if (hasFruit) {
-			leafState |= hasFruitFlag;
+			leafState |= FLAG_HAS_FRUIT;
+		}
+
+		if (hasActiveEffect) {
+			leafState |= FLAG_HAS_ACTIVE_EFFECT;
+		}
+		if (hasInactiveEffect) {
+			leafState |= FLAG_HAS_INACTIVE_EFFECT;
 		}
 
 		data.writeByte(leafState);
 
 		if (hasFruit) {
-			String fruitAlleleUID = getTree().getGenome().getActiveAllele(TreeChromosomes.FRUIT).alleleId().toString();
+			String fruitAlleleUID = genome.getActiveAllele(TreeChromosomes.FRUIT).alleleId().toString();
 			int colourFruits = getFruitColour();
 
 			data.writeUtf(fruitAlleleUID);
 			data.writeInt(colourFruits);
+		}
+
+		// todo come up with a way to send numeric IDs instead of string IDs
+		if (hasActiveEffect) {
+			data.writeUtf(effects.active().alleleId().toString());
+		}
+		if (hasInactiveEffect) {
+			data.writeUtf(effects.inactive().alleleId().toString());
 		}
 	}
 
@@ -341,8 +369,11 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 			speciesId = data.readResourceLocation(); // this is called instead of super.readData, be careful!
 		}
 		byte leafState = data.readByte();
-		isFruitLeaf = (leafState & hasFruitFlag) > 0;
-		isPollinatedState = (leafState & isPollinatedFlag) > 0;
+
+		this.isPollinatedState = (leafState & FLAG_IS_POLLINATED) != 0;
+		this.isFruitLeaf = (leafState & FLAG_HAS_FRUIT) != 0;
+		boolean hasActiveEffect = (leafState & FLAG_HAS_ACTIVE_EFFECT) != 0;
+		boolean hasInactiveEffect = (leafState & FLAG_HAS_INACTIVE_EFFECT) != 0;
 		ResourceLocation fruitId = null;
 
 		if (isFruitLeaf) {
@@ -350,14 +381,29 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 			colourFruits = data.readInt();
 		}
 
+		ResourceLocation activeEffectAlleleId = hasActiveEffect ? data.readResourceLocation() : null;
+		ResourceLocation inactiveEffectAlleleId = hasInactiveEffect ? data.readResourceLocation() : null;
+
 		ITreeSpecies treeTemplate = SpeciesUtil.TREE_TYPE.get().getSpeciesSafe(speciesId);
 		if (treeTemplate != null) {
-			ITree tree;
+			IdentityHashMap<IChromosome<?>, AllelePair<?>> alleles = new IdentityHashMap<>(2);
+
+			// Fruit (used as both active and inactive)
 			if (fruitId != null) {
-				tree = treeTemplate.createIndividual(Map.of(TreeChromosomes.FRUIT, ForestryAlleles.REGISTRY.getAllele(fruitId)));
-			} else {
-				tree = treeTemplate.createIndividual();
+				alleles.put(TreeChromosomes.FRUIT, AllelePair.both(Objects.requireNonNull(ForestryAlleles.REGISTRY.getAllele(fruitId))));
 			}
+
+			// Effect (active and inactive are separate since they can stack)
+			IAllele activeEffectAllele = ForestryAlleles.REGISTRY.getAllele(activeEffectAlleleId);
+			IAllele inactiveEffectAllele = ForestryAlleles.REGISTRY.getAllele(inactiveEffectAlleleId);
+			if (activeEffectAllele != null || inactiveEffectAllele != null) {
+				alleles.put(TreeChromosomes.EFFECT, new AllelePair<>(
+						activeEffectAllele != null ? activeEffectAllele : ForestryAlleles.TREE_EFFECT_NONE,
+						inactiveEffectAllele != null ? inactiveEffectAllele : ForestryAlleles.TREE_EFFECT_NONE
+				));
+			}
+
+			ITree tree = treeTemplate.createIndividualFromPairs(alleles);
 			if (isPollinatedState) {
 				tree.setMate(tree.getGenome());
 			}

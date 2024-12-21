@@ -8,6 +8,7 @@ import java.util.List;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -31,6 +32,7 @@ import com.mojang.authlib.GameProfile;
 import forestry.api.arboriculture.ForestryTreeSpecies;
 import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.arboriculture.genetics.ITree;
+import forestry.api.genetics.IGenome;
 import forestry.api.genetics.alleles.TreeChromosomes;
 import forestry.core.blocks.IColoredBlock;
 import forestry.core.utils.BlockUtil;
@@ -144,5 +146,17 @@ public abstract class BlockAbstractLeaves extends LeavesBlock implements IColore
 		BlockPos pos = BlockUtil.getPos(context);
 		getLeafDrop(drops, context.getLevel(), pos, profile, 1f, tool != null ? tool.getEnchantmentLevel(Enchantments.BLOCK_FORTUNE) : 0, context);
 		return drops;
+	}
+
+	@Override
+	public void animateTick(BlockState pState, Level level, BlockPos pos, RandomSource rand) {
+		super.animateTick(pState, level, pos, rand);
+
+		ITree tree = getTree(level, pos);
+
+		if (tree != null) {
+			IGenome genome = tree.getGenome();
+			genome.getActiveValue(TreeChromosomes.EFFECT).doAnimationEffect(genome, level, pos, rand);
+		}
 	}
 }

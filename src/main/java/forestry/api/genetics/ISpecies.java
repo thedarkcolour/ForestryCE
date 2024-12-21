@@ -8,6 +8,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
+import forestry.api.genetics.alleles.AllelePair;
 import forestry.api.genetics.alleles.IAllele;
 import forestry.api.genetics.alleles.IChromosome;
 import forestry.api.genetics.alleles.IKaryotype;
@@ -89,6 +90,8 @@ public interface ISpecies<I extends IIndividual> extends IRegistryAlleleValue {
 	 * @return An individual along with any specified alleles.
 	 */
 	I createIndividual(Map<IChromosome<?>, IAllele> alleles);
+
+	I createIndividualFromPairs(Map<IChromosome<?>, AllelePair<?>> allelePairs);
 
 	/**
 	 * Creates an individual of this species using the specified genome.

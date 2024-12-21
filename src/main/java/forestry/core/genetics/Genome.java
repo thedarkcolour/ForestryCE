@@ -69,7 +69,7 @@ public final class Genome implements IGenome {
 	}
 
 	@Override
-	public IGenome copyWith(Map<IChromosome<?>, IAllele> alleles) {
+	public IGenome copyWithPairs(Map<IChromosome<?>, AllelePair<?>> alleles) {
 		if (alleles.isEmpty()) {
 			return this;
 		} else {
@@ -81,14 +81,14 @@ public final class Genome implements IGenome {
 			for (Map.Entry<IChromosome<?>, AllelePair<?>> entry : this.chromosomes.entrySet()) {
 				IChromosome<?> chromosome = entry.getKey();
 				AllelePair<?> pair = entry.getValue();
-				IAllele allele = alleles.get(chromosome);
+				AllelePair<?> allele = alleles.get(chromosome);
 
-				if (allele == null || allele.equals(pair.active())) {
+				if (allele == null || allele.equals(pair)) {
 					// copy default allele if missing or equal
 					builder.setUnchecked(chromosome, pair);
 				} else {
 					// mark not default when there are non-default alleles
-					builder.setUnchecked(chromosome, new AllelePair<>(allele, allele));
+					builder.setUnchecked(chromosome, allele);
 					isDefault = false;
 				}
 			}

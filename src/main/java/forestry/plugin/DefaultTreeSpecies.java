@@ -173,6 +173,7 @@ public class DefaultTreeSpecies {
 				.setRarity(0.0015f);
 
 		// Cherry Blossom (East Asian Cherry)
+		// In real life, this is the same species as Hill Cherry. For the sake of keeping old content, we'll pretend they're different.
 		arboriculture.registerSpecies(ForestryTreeSpecies.CHERRY_VANILLA, GENUS_PRUNUS, SPECIES_CHERRY_VANILLA, true, new Color(0xf7b9dc), VanillaWoodType.CHERRY)
 				.setTreeFeature(FeatureCherryVanilla::new)
 				.setDecorativeLeaves(new ItemStack(Items.CHERRY_LEAVES))
@@ -184,6 +185,7 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.SAPLINGS, ForestryAlleles.SAPLINGS_AVERAGE);
 					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_FASTER);
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_AVERAGE);
+					genome.set(TreeChromosomes.EFFECT, ForestryAlleles.TREE_EFFECT_BLOSSOMING);
 				});
 
 		// Lemon

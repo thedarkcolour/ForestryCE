@@ -11,6 +11,7 @@
 package forestry.arboriculture.genetics;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 
 import forestry.api.arboriculture.genetics.ITreeEffect;
@@ -42,5 +43,9 @@ public class DummyTreeEffect implements ITreeEffect {
 	@Override
 	public IEffectData doEffect(IGenome genome, IEffectData storedData, Level level, BlockPos pos) {
 		return storedData;
+	}
+
+	@Override
+	public void doAnimationEffect(IGenome genome, Level level, BlockPos pos, RandomSource rand) {
 	}
 }

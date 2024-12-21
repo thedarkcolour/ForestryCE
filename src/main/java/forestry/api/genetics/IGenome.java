@@ -3,6 +3,7 @@ package forestry.api.genetics;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
+import java.util.IdentityHashMap;
 import java.util.Map;
 
 import net.minecraft.network.chat.MutableComponent;
@@ -53,7 +54,26 @@ public interface IGenome {
 	 * @param alleles Map of alleles that should be in the copy.
 	 * @return A copy of this genome with alleles from the given map. If result is equal to this, then just returns this.
 	 */
-	IGenome copyWith(Map<IChromosome<?>, IAllele> alleles);
+	default IGenome copyWith(Map<IChromosome<?>, IAllele> alleles) {
+		IdentityHashMap<IChromosome<?>, AllelePair<?>> pairMap = new IdentityHashMap<>(alleles.size());
+
+		for (Map.Entry<IChromosome<?>, IAllele> entry : alleles.entrySet()) {
+			IChromosome<?> chromosome = entry.getKey();
+			IAllele allele = entry.getValue();
+			pairMap.put(chromosome, new AllelePair<>(allele, allele));
+		}
+
+		return copyWithPairs(pairMap);
+	}
+
+	/**
+	 * Copies this genome, setting active and inactive alleles using the given map.
+	 * If the resulting genome is the same as this genome, then no copy is made.
+	 *
+	 * @param allelePairs Map of allele pairs that should be in the copy.
+	 * @return The new genome.
+	 */
+	IGenome copyWithPairs(Map<IChromosome<?>, AllelePair<?>> allelePairs);
 
 	/**
 	 * @return {@code true} if this genome has the same karyotype and alleles as the other genome.

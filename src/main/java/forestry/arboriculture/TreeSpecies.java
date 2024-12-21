@@ -6,6 +6,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.Item;
@@ -146,8 +147,21 @@ public class TreeSpecies extends Species<ITreeSpeciesType, ITree> implements ITr
 			tooltip.add(Component.translatable("for.gui.fireresist").withStyle(ChatFormatting.RED));
 		}
 
+		MutableComponent fruitAndEffect = null;
 		if (genome.getActiveAllele(TreeChromosomes.FRUIT) != ForestryAlleles.FRUIT_NONE) {
-			tooltip.add(Component.literal("F: ").append(genome.getActiveName(TreeChromosomes.FRUIT)).withStyle(ChatFormatting.GREEN));
+			fruitAndEffect = Component.literal("F: ").append(genome.getActiveName(TreeChromosomes.FRUIT)).withStyle(ChatFormatting.GREEN);
+		}
+		if (genome.getActiveAllele(TreeChromosomes.EFFECT) != ForestryAlleles.TREE_EFFECT_NONE) {
+			MutableComponent effect = Component.literal("E: ").append(genome.getActiveName(TreeChromosomes.EFFECT)).withStyle(ChatFormatting.DARK_AQUA);
+
+			if (fruitAndEffect != null) {
+				fruitAndEffect.append(Component.literal(", ")).append(effect);
+			} else {
+				fruitAndEffect = effect;
+			}
+		}
+		if (fruitAndEffect != null) {
+			tooltip.add(fruitAndEffect);
 		}
 	}
 

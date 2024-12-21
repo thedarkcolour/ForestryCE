@@ -217,6 +217,7 @@ public class ForestryAlleles {
 
 	// Tree Effect
 	public static final IValueAllele<ITreeEffect> TREE_EFFECT_NONE = REGISTRY.registryAllele(ForestryConstants.forestry("tree_effect_none"), TreeChromosomes.EFFECT);
+	public static final IValueAllele<ITreeEffect> TREE_EFFECT_BLOSSOMING = REGISTRY.registryAllele(ForestryConstants.forestry("tree_effect_blossoming"), TreeChromosomes.EFFECT);
 
 	// Maturation
 	public static final IIntegerAllele MATURATION_SLOWEST = REGISTRY.intAllele(10, true);

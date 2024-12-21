@@ -928,6 +928,7 @@
   "allele.forestry.metabolism.8i": "Faster",
   "allele.forestry.metabolism.10i": "Fastest",
   "allele.forestry.tree_effect.tree_effect_none": "None",
+  "allele.forestry.tree_effect.tree_effect_blossoming": "Blossoming",
   "allele.forestry.butterfly_effect.butterfly_effect_none": "None",
   "allele.forestry.cocoon.cocoon_default": "Normal",
   "allele.forestry.cocoon.cocoon_silk": "Silk",

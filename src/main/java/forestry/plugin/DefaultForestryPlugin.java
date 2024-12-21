@@ -73,6 +73,7 @@ import forestry.arboriculture.DummyFruit;
 import forestry.arboriculture.PodFruit;
 import forestry.arboriculture.RipeningFruit;
 import forestry.arboriculture.blocks.ForestryPodType;
+import forestry.arboriculture.genetics.BlossomingTreeEffect;
 import forestry.arboriculture.genetics.DummyTreeEffect;
 import forestry.arboriculture.genetics.TreePollenType;
 import forestry.arboriculture.genetics.TreeSpeciesType;
@@ -320,6 +321,7 @@ public class DefaultForestryPlugin implements IForestryPlugin {
 		arboriculture.registerFruit(ForestryFruits.PLUM, new RipeningFruit(true, 10, plums, 0x663446, 0xeeff1a, List.of(Product.of(CoreItems.FRUITS.item(ItemFruit.EnumFruit.PLUM)))));
 
 		arboriculture.registerTreeEffect(ForestryAlleles.TREE_EFFECT_NONE.alleleId(), new DummyTreeEffect(false));
+		arboriculture.registerTreeEffect(ForestryAlleles.TREE_EFFECT_BLOSSOMING.alleleId(), new BlossomingTreeEffect());
 	}
 
 	@Override

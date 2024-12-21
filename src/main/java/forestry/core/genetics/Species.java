@@ -137,6 +137,11 @@ public abstract class Species<T extends ISpeciesType<? extends ISpecies<I>, I>, 
 		return createIndividual(this.defaultGenome.copyWith(alleles));
 	}
 
+	@Override
+	public I createIndividualFromPairs(Map<IChromosome<?>, AllelePair<?>> allelePairs) {
+		return createIndividual(this.defaultGenome.copyWithPairs(allelePairs));
+	}
+
 	protected static void addUnknownGenomeTooltip(List<Component> tooltip) {
 		tooltip.add(Component.literal("<").append(Component.translatable("for.gui.unknown")).append(">").withStyle(ChatFormatting.GRAY));
 	}
