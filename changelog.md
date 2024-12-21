@@ -1,3 +1,6 @@
+## Forestry 2.0.1
+- Fixed crash with Alveary controller (#129)
+
 ## Forestry 2.0.0
 - Ported to Forge 1.20.1.
 - Reorganized creative tabs.
