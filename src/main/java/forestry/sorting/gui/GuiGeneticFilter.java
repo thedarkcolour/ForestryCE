@@ -110,7 +110,7 @@ public class GuiGeneticFilter extends GuiForestryTitled<ContainerGeneticFilter> 
 
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 		if (searchField != null) {
-			this.searchField.render(graphics, mouseX, mouseY, partialTicks);    //TODO correct?
+			this.searchField.render(graphics, mouseX, mouseY, partialTicks);
 		}
 	}
 
@@ -155,11 +155,6 @@ public class GuiGeneticFilter extends GuiForestryTitled<ContainerGeneticFilter> 
 	protected void addLedgers() {
 		addHintLedger("filter");
 	}
-
-	//TODO not sure about this
-	//	public IFilterContainer getContainer() {
-	//		return tile;
-	//	}
 
 	public IFilterLogic getLogic() {
 		return tile.getLogic();

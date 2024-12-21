@@ -153,8 +153,7 @@ public class DefaultFarms {
 		//arboreal.addWindfallFarmable(Items.AZALEA, FarmableSapling::new, builder -> builder.addWindfall(Items.STICK));
 		//arboreal.addWindfallFarmable(Items.FLOWERING_AZALEA, FarmableSapling::new, builder -> builder.addWindfall(List.of(Items.STICK, Items.AZALEA)));
 		arboreal.addWindfallFarmable(Items.MANGROVE_PROPAGULE, FarmableMangroveTree::new, builder -> builder.addWindfall(List.of(Items.STICK, Items.MOSS_CARPET)));
-		// todo 1.20.1
-		//arboreal.addWindfallFarmable(Items.CHERRY_SAPLING, FarmableSapling::new, builder -> builder.addWindfall(Items.STICK));
+		arboreal.addWindfallFarmable(Items.CHERRY_SAPLING, FarmableSapling::new, builder -> builder.addWindfall(Items.STICK));
 		arboreal.addFarmable(new FarmableGE());
 	}
 

@@ -56,7 +56,6 @@ public class BlockAlveary extends BlockStructure implements EntityBlock {
 	public static final EnumProperty<State> STATE = EnumProperty.create("state", State.class);
 	private static final EnumProperty<AlvearyPlainType> PLAIN_TYPE = EnumProperty.create("type", AlvearyPlainType.class);
 
-	// TODO change this to boolean in 1.20.1
 	public enum State implements StringRepresentable {
 		ON, OFF;
 

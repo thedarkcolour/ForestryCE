@@ -20,7 +20,6 @@ import forestry.core.gui.slots.SlotFilteredInventory;
 import forestry.storage.features.BackpackMenuTypes;
 import forestry.storage.inventory.ItemInventoryBackpack;
 
-//TODO it may be simpler to split this up into two containerTypes. One for normal size and one for t2
 public class ContainerBackpack extends ContainerItemInventory<ItemInventoryBackpack> {
 	public enum Size {
 		DEFAULT(3, 5, 44, 19),
