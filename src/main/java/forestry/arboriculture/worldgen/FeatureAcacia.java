@@ -13,8 +13,8 @@ package forestry.arboriculture.worldgen;
 import java.util.HashSet;
 import java.util.Set;
 
-import net.minecraft.core.Direction;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 

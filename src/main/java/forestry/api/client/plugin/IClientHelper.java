@@ -11,7 +11,6 @@ import it.unimi.dsi.fastutil.ints.Int2IntFunction;
 
 /**
  * Contains methods for creating instances of client-only objects using Forestry's built-in implementations.
- * @since 1.0.5
  */
 public interface IClientHelper {
 	/**
@@ -38,7 +37,13 @@ public interface IClientHelper {
 	ILeafTint createBiomeTint(Int2IntFunction mapper);
 
 	/**
-	 * Creates a leaf sprite given a namespace and name.
+	 * Creates a leaf sprite given a namespace and name. The sprites used are located at:
+	 * <ul>
+	 *     <li>Normal: &lt;NAMESPACE&gt;/textures/blocks/leaves/&lt;PATH&gt;.png</li>
+	 *     <li>Fast graphics: &lt;NAMESPACE&gt;/textures/blocks/leaves/&lt;PATH&gt;_fast.png</li>
+	 *     <li>Pollinated: &lt;NAMESPACE&gt;/textures/blocks/leaves/&lt;PATH&gt;_pollinated.png</li>
+	 *     <li>Pollinated with fast graphics: &lt;NAMESPACE&gt;/textures/blocks/leaves/&lt;PATH&gt;_pollinated_fast.png</li>
+	 * </ul>
 	 *
 	 * @param id The name and namespace used to generate texture paths for normal, pollinated, fast normal, and fast
 	 *           pollinated textures.

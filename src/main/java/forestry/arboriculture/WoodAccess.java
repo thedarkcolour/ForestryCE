@@ -55,6 +55,7 @@ public enum WoodAccess implements IWoodAccess {
 		register(VanillaWoodType.JUNGLE, WoodBlockKind.LOG, false, Blocks.JUNGLE_LOG.defaultBlockState(), () -> Items.JUNGLE_LOG);
 		register(VanillaWoodType.ACACIA, WoodBlockKind.LOG, false, Blocks.ACACIA_LOG.defaultBlockState(), () -> Items.ACACIA_LOG);
 		register(VanillaWoodType.DARK_OAK, WoodBlockKind.LOG, false, Blocks.DARK_OAK_LOG.defaultBlockState(), () -> Items.DARK_OAK_LOG);
+		register(VanillaWoodType.CHERRY, WoodBlockKind.LOG, false, Blocks.CHERRY_LOG.defaultBlockState(), () -> Items.CHERRY_LOG);
 
 		register(VanillaWoodType.OAK, WoodBlockKind.STRIPPED_LOG, false, Blocks.STRIPPED_OAK_LOG.defaultBlockState(), () -> Items.STRIPPED_OAK_LOG);
 		register(VanillaWoodType.SPRUCE, WoodBlockKind.STRIPPED_LOG, false, Blocks.STRIPPED_SPRUCE_LOG.defaultBlockState(), () -> Items.STRIPPED_SPRUCE_LOG);
@@ -62,6 +63,7 @@ public enum WoodAccess implements IWoodAccess {
 		register(VanillaWoodType.JUNGLE, WoodBlockKind.STRIPPED_LOG, false, Blocks.STRIPPED_JUNGLE_LOG.defaultBlockState(), () -> Items.STRIPPED_JUNGLE_LOG);
 		register(VanillaWoodType.ACACIA, WoodBlockKind.STRIPPED_LOG, false, Blocks.STRIPPED_ACACIA_LOG.defaultBlockState(), () -> Items.STRIPPED_ACACIA_LOG);
 		register(VanillaWoodType.DARK_OAK, WoodBlockKind.STRIPPED_LOG, false, Blocks.STRIPPED_DARK_OAK_LOG.defaultBlockState(), () -> Items.STRIPPED_DARK_OAK_LOG);
+		register(VanillaWoodType.CHERRY, WoodBlockKind.STRIPPED_LOG, false, Blocks.STRIPPED_CHERRY_LOG.defaultBlockState(), () -> Items.STRIPPED_CHERRY_LOG);
 
 		register(VanillaWoodType.OAK, WoodBlockKind.WOOD, false, Blocks.OAK_WOOD.defaultBlockState(), () -> Items.OAK_WOOD);
 		register(VanillaWoodType.SPRUCE, WoodBlockKind.WOOD, false, Blocks.SPRUCE_WOOD.defaultBlockState(), () -> Items.SPRUCE_WOOD);
@@ -69,6 +71,7 @@ public enum WoodAccess implements IWoodAccess {
 		register(VanillaWoodType.JUNGLE, WoodBlockKind.WOOD, false, Blocks.JUNGLE_WOOD.defaultBlockState(), () -> Items.JUNGLE_WOOD);
 		register(VanillaWoodType.ACACIA, WoodBlockKind.WOOD, false, Blocks.ACACIA_WOOD.defaultBlockState(), () -> Items.ACACIA_WOOD);
 		register(VanillaWoodType.DARK_OAK, WoodBlockKind.WOOD, false, Blocks.DARK_OAK_WOOD.defaultBlockState(), () -> Items.DARK_OAK_WOOD);
+		register(VanillaWoodType.CHERRY, WoodBlockKind.WOOD, false, Blocks.CHERRY_WOOD.defaultBlockState(), () -> Items.CHERRY_WOOD);
 
 		register(VanillaWoodType.OAK, WoodBlockKind.STRIPPED_WOOD, false, Blocks.STRIPPED_OAK_WOOD.defaultBlockState(), () -> Items.STRIPPED_OAK_WOOD);
 		register(VanillaWoodType.SPRUCE, WoodBlockKind.STRIPPED_WOOD, false, Blocks.STRIPPED_SPRUCE_WOOD.defaultBlockState(), () -> Items.STRIPPED_SPRUCE_WOOD);
@@ -76,6 +79,7 @@ public enum WoodAccess implements IWoodAccess {
 		register(VanillaWoodType.JUNGLE, WoodBlockKind.STRIPPED_WOOD, false, Blocks.STRIPPED_JUNGLE_WOOD.defaultBlockState(), () -> Items.STRIPPED_JUNGLE_WOOD);
 		register(VanillaWoodType.ACACIA, WoodBlockKind.STRIPPED_WOOD, false, Blocks.STRIPPED_ACACIA_WOOD.defaultBlockState(), () -> Items.STRIPPED_ACACIA_WOOD);
 		register(VanillaWoodType.DARK_OAK, WoodBlockKind.STRIPPED_WOOD, false, Blocks.STRIPPED_DARK_OAK_WOOD.defaultBlockState(), () -> Items.STRIPPED_DARK_OAK_WOOD);
+		register(VanillaWoodType.CHERRY, WoodBlockKind.STRIPPED_WOOD, false, Blocks.STRIPPED_CHERRY_WOOD.defaultBlockState(), () -> Items.STRIPPED_CHERRY_WOOD);
 
 		register(VanillaWoodType.OAK, WoodBlockKind.PLANKS, false, Blocks.OAK_PLANKS.defaultBlockState(), () -> Items.OAK_PLANKS);
 		register(VanillaWoodType.SPRUCE, WoodBlockKind.PLANKS, false, Blocks.SPRUCE_PLANKS.defaultBlockState(), () -> Items.SPRUCE_PLANKS);
@@ -83,6 +87,7 @@ public enum WoodAccess implements IWoodAccess {
 		register(VanillaWoodType.JUNGLE, WoodBlockKind.PLANKS, false, Blocks.JUNGLE_PLANKS.defaultBlockState(), () -> Items.JUNGLE_PLANKS);
 		register(VanillaWoodType.ACACIA, WoodBlockKind.PLANKS, false, Blocks.ACACIA_PLANKS.defaultBlockState(), () -> Items.ACACIA_PLANKS);
 		register(VanillaWoodType.DARK_OAK, WoodBlockKind.PLANKS, false, Blocks.DARK_OAK_PLANKS.defaultBlockState(), () -> Items.DARK_OAK_PLANKS);
+		register(VanillaWoodType.CHERRY, WoodBlockKind.PLANKS, false, Blocks.CHERRY_PLANKS.defaultBlockState(), () -> Items.CHERRY_PLANKS);
 
 		register(VanillaWoodType.OAK, WoodBlockKind.SLAB, false, Blocks.OAK_SLAB.defaultBlockState(), () -> Items.OAK_SLAB);
 		register(VanillaWoodType.SPRUCE, WoodBlockKind.SLAB, false, Blocks.SPRUCE_SLAB.defaultBlockState(), () -> Items.SPRUCE_SLAB);
@@ -90,6 +95,7 @@ public enum WoodAccess implements IWoodAccess {
 		register(VanillaWoodType.JUNGLE, WoodBlockKind.SLAB, false, Blocks.JUNGLE_SLAB.defaultBlockState(), () -> Items.JUNGLE_SLAB);
 		register(VanillaWoodType.ACACIA, WoodBlockKind.SLAB, false, Blocks.ACACIA_SLAB.defaultBlockState(), () -> Items.ACACIA_SLAB);
 		register(VanillaWoodType.DARK_OAK, WoodBlockKind.SLAB, false, Blocks.DARK_OAK_SLAB.defaultBlockState(), () -> Items.DARK_OAK_SLAB);
+		register(VanillaWoodType.CHERRY, WoodBlockKind.SLAB, false, Blocks.CHERRY_SLAB.defaultBlockState(), () -> Items.CHERRY_SLAB);
 
 		register(VanillaWoodType.OAK, WoodBlockKind.FENCE, false, Blocks.OAK_FENCE.defaultBlockState(), () -> Items.OAK_FENCE);
 		register(VanillaWoodType.SPRUCE, WoodBlockKind.FENCE, false, Blocks.SPRUCE_FENCE.defaultBlockState(), () -> Items.SPRUCE_FENCE);
@@ -97,6 +103,7 @@ public enum WoodAccess implements IWoodAccess {
 		register(VanillaWoodType.JUNGLE, WoodBlockKind.FENCE, false, Blocks.JUNGLE_FENCE.defaultBlockState(), () -> Items.JUNGLE_FENCE);
 		register(VanillaWoodType.ACACIA, WoodBlockKind.FENCE, false, Blocks.ACACIA_FENCE.defaultBlockState(), () -> Items.ACACIA_FENCE);
 		register(VanillaWoodType.DARK_OAK, WoodBlockKind.FENCE, false, Blocks.DARK_OAK_FENCE.defaultBlockState(), () -> Items.DARK_OAK_FENCE);
+		register(VanillaWoodType.CHERRY, WoodBlockKind.FENCE, false, Blocks.CHERRY_FENCE.defaultBlockState(), () -> Items.CHERRY_FENCE);
 
 		register(VanillaWoodType.OAK, WoodBlockKind.FENCE_GATE, false, Blocks.OAK_FENCE_GATE.defaultBlockState(), () -> Items.OAK_FENCE_GATE);
 		register(VanillaWoodType.SPRUCE, WoodBlockKind.FENCE_GATE, false, Blocks.SPRUCE_FENCE_GATE.defaultBlockState(), () -> Items.SPRUCE_FENCE_GATE);
@@ -104,6 +111,7 @@ public enum WoodAccess implements IWoodAccess {
 		register(VanillaWoodType.JUNGLE, WoodBlockKind.FENCE_GATE, false, Blocks.JUNGLE_FENCE_GATE.defaultBlockState(), () -> Items.JUNGLE_FENCE_GATE);
 		register(VanillaWoodType.ACACIA, WoodBlockKind.FENCE_GATE, false, Blocks.ACACIA_FENCE_GATE.defaultBlockState(), () -> Items.ACACIA_FENCE_GATE);
 		register(VanillaWoodType.DARK_OAK, WoodBlockKind.FENCE_GATE, false, Blocks.DARK_OAK_FENCE_GATE.defaultBlockState(), () -> Items.DARK_OAK_FENCE_GATE);
+		register(VanillaWoodType.CHERRY, WoodBlockKind.FENCE_GATE, false, Blocks.CHERRY_FENCE_GATE.defaultBlockState(), () -> Items.CHERRY_FENCE_GATE);
 
 		register(VanillaWoodType.OAK, WoodBlockKind.STAIRS, false, Blocks.OAK_STAIRS.defaultBlockState(), () -> Items.OAK_STAIRS);
 		register(VanillaWoodType.SPRUCE, WoodBlockKind.STAIRS, false, Blocks.SPRUCE_STAIRS.defaultBlockState(), () -> Items.SPRUCE_STAIRS);
@@ -111,6 +119,7 @@ public enum WoodAccess implements IWoodAccess {
 		register(VanillaWoodType.JUNGLE, WoodBlockKind.STAIRS, false, Blocks.JUNGLE_STAIRS.defaultBlockState(), () -> Items.JUNGLE_STAIRS);
 		register(VanillaWoodType.ACACIA, WoodBlockKind.STAIRS, false, Blocks.ACACIA_STAIRS.defaultBlockState(), () -> Items.ACACIA_STAIRS);
 		register(VanillaWoodType.DARK_OAK, WoodBlockKind.STAIRS, false, Blocks.DARK_OAK_STAIRS.defaultBlockState(), () -> Items.DARK_OAK_STAIRS);
+		register(VanillaWoodType.CHERRY, WoodBlockKind.STAIRS, false, Blocks.CHERRY_STAIRS.defaultBlockState(), () -> Items.CHERRY_STAIRS);
 
 		register(VanillaWoodType.OAK, WoodBlockKind.DOOR, false, Blocks.OAK_DOOR.defaultBlockState(), () -> Items.OAK_DOOR);
 		register(VanillaWoodType.SPRUCE, WoodBlockKind.DOOR, false, Blocks.SPRUCE_DOOR.defaultBlockState(), () -> Items.SPRUCE_DOOR);
@@ -118,6 +127,7 @@ public enum WoodAccess implements IWoodAccess {
 		register(VanillaWoodType.JUNGLE, WoodBlockKind.DOOR, false, Blocks.JUNGLE_DOOR.defaultBlockState(), () -> Items.JUNGLE_DOOR);
 		register(VanillaWoodType.ACACIA, WoodBlockKind.DOOR, false, Blocks.ACACIA_DOOR.defaultBlockState(), () -> Items.ACACIA_DOOR);
 		register(VanillaWoodType.DARK_OAK, WoodBlockKind.DOOR, false, Blocks.DARK_OAK_DOOR.defaultBlockState(), () -> Items.DARK_OAK_DOOR);
+		register(VanillaWoodType.CHERRY, WoodBlockKind.DOOR, false, Blocks.CHERRY_DOOR.defaultBlockState(), () -> Items.CHERRY_DOOR);
 	}
 
 	/**

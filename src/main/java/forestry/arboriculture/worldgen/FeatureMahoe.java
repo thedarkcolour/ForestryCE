@@ -21,14 +21,12 @@ import forestry.api.arboriculture.ITreeGenData;
 import forestry.core.worldgen.FeatureHelper;
 
 public class FeatureMahoe extends FeatureTree {
-
 	public FeatureMahoe(ITreeGenData tree) {
 		super(tree, 6, 3);
 	}
 
 	@Override
 	public Set<BlockPos> generateTrunk(LevelAccessor level, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
-
 		Set<BlockPos> branchCoords = new HashSet<>(FeatureHelper.generateTreeTrunk(level, rand, wood, startPos, height, girth, 0, 0, null, 0));
 
 		for (int yBranch = 2; yBranch < height - 1; yBranch++) {

@@ -20,7 +20,6 @@ import forestry.api.arboriculture.ITreeGenData;
 import forestry.core.worldgen.FeatureHelper;
 
 public class FeatureBaobab extends FeatureTree {
-
 	public FeatureBaobab(ITreeGenData tree) {
 		super(tree, 6, 6);
 	}

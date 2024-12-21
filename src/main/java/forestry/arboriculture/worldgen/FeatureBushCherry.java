@@ -21,7 +21,6 @@ import forestry.api.arboriculture.ITreeGenData;
 import forestry.core.worldgen.FeatureHelper;
 
 public class FeatureBushCherry extends FeatureTree {
-
 	public FeatureBushCherry(ITreeGenData tree) {
 		super(tree, 4, 4);
 	}

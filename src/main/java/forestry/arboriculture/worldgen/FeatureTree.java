@@ -77,7 +77,7 @@ public abstract class FeatureTree extends FeatureArboriculture {
 		return determined < min ? min : Math.min(determined, max);
 	}
 
-	private int determineHeight(LevelAccessor world, RandomSource rand, int baseHeight, int heightVariation) {
+	protected int determineHeight(LevelAccessor world, RandomSource rand, int baseHeight, int heightVariation) {
 		//ITreeModifier treeModifier = SpeciesUtil.TREE_TYPE.get().getTreekeepingMode(world);
 		int height = baseHeight + rand.nextInt(heightVariation);
 		int adjustedHeight = Math.round(height * tree.getHeightModifier(tree.getDefaultGenome()));/* * treeModifier.getHeightModifier(tree.getGenome(), 1f)*/

@@ -20,7 +20,6 @@ import forestry.api.arboriculture.ITreeGenData;
 import forestry.core.worldgen.FeatureHelper;
 
 public class FeatureZebrawood extends FeatureTree {
-
 	public FeatureZebrawood(ITreeGenData tree) {
 		super(tree, 8, 8);
 	}
@@ -62,5 +61,4 @@ public class FeatureZebrawood extends FeatureTree {
 			FeatureHelper.generateSphere(level, startPos.offset(x_off, h, y_off), 1 + rand.nextInt(1), leaf, FeatureHelper.EnumReplaceMode.AIR, contour);
 		}
 	}
-
 }

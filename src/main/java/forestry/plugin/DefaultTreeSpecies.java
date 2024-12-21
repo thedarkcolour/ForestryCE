@@ -2,6 +2,7 @@ package forestry.plugin;
 
 import java.awt.Color;
 
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 
@@ -16,15 +17,12 @@ import forestry.arboriculture.VanillaWoodType;
 import forestry.arboriculture.blocks.ForestryLeafType;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.worldgen.FeatureAcacia;
-import forestry.arboriculture.worldgen.FeatureAcaciaVanilla;
 import forestry.arboriculture.worldgen.FeatureBalsa;
 import forestry.arboriculture.worldgen.FeatureBaobab;
-import forestry.arboriculture.worldgen.FeatureBirch;
 import forestry.arboriculture.worldgen.FeatureBushCherry;
 import forestry.arboriculture.worldgen.FeatureCherryVanilla;
 import forestry.arboriculture.worldgen.FeatureChestnut;
 import forestry.arboriculture.worldgen.FeatureCocobolo;
-import forestry.arboriculture.worldgen.FeatureDarkOak;
 import forestry.arboriculture.worldgen.FeatureDate;
 import forestry.arboriculture.worldgen.FeatureEbony;
 import forestry.arboriculture.worldgen.FeatureGiganteum;
@@ -37,7 +35,6 @@ import forestry.arboriculture.worldgen.FeatureLemon;
 import forestry.arboriculture.worldgen.FeatureMahoe;
 import forestry.arboriculture.worldgen.FeatureMahogany;
 import forestry.arboriculture.worldgen.FeatureMaple;
-import forestry.arboriculture.worldgen.FeatureOak;
 import forestry.arboriculture.worldgen.FeaturePadauk;
 import forestry.arboriculture.worldgen.FeaturePapaya;
 import forestry.arboriculture.worldgen.FeaturePine;
@@ -47,6 +44,7 @@ import forestry.arboriculture.worldgen.FeatureSequoia;
 import forestry.arboriculture.worldgen.FeatureSilverLime;
 import forestry.arboriculture.worldgen.FeatureSpruce;
 import forestry.arboriculture.worldgen.FeatureTeak;
+import forestry.arboriculture.worldgen.FeatureTreeVanilla;
 import forestry.arboriculture.worldgen.FeatureWalnut;
 import forestry.arboriculture.worldgen.FeatureWenge;
 import forestry.arboriculture.worldgen.FeatureWillow;
@@ -59,7 +57,7 @@ public class DefaultTreeSpecies {
 	public static void register(IArboricultureRegistration arboriculture) {
 		// Oak (English Oak)
 		arboriculture.registerSpecies(ForestryTreeSpecies.OAK, GENUS_QUERCUS, SPECIES_OAK, false, new Color(4764952), VanillaWoodType.OAK)
-				.setTreeFeature(FeatureOak::new)
+				.setTreeFeature(FeatureTreeVanilla::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.OAK))
 				.addVanillaStates(Blocks.OAK_LEAVES.getStateDefinition().getPossibleStates())
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.OAK).block().getStateDefinition().getPossibleStates())
@@ -73,7 +71,7 @@ public class DefaultTreeSpecies {
 
 		// Dark Oak (Black Oak)
 		arboriculture.registerSpecies(ForestryTreeSpecies.DARK_OAK, GENUS_QUERCUS, SPECIES_DARK_OAK, false, new Color(4764952), VanillaWoodType.DARK_OAK)
-				.setTreeFeature(FeatureDarkOak::new)
+				.setTreeFeature(FeatureTreeVanilla::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.DARK_OAK))
 				.addVanillaStates(Blocks.DARK_OAK_LEAVES.getStateDefinition().getPossibleStates())
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.DARK_OAK).block().getStateDefinition().getPossibleStates())
@@ -88,7 +86,7 @@ public class DefaultTreeSpecies {
 
 		// Birch (Silver Birch)
 		arboriculture.registerSpecies(ForestryTreeSpecies.BIRCH, GENUS_BETULA, SPECIES_BIRCH, false, new Color(8431445), VanillaWoodType.BIRCH)
-				.setTreeFeature(FeatureBirch::new)
+				.setTreeFeature(FeatureTreeVanilla::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.BIRCH))
 				.addVanillaStates(Blocks.BIRCH_LEAVES.getStateDefinition().getPossibleStates())
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.BIRCH).block().getStateDefinition().getPossibleStates())
@@ -151,9 +149,9 @@ public class DefaultTreeSpecies {
 					mutations.add(ForestryTreeSpecies.WALNUT, ForestryTreeSpecies.BUSH_CHERRY, 10);
 				});
 
-		// Cherry (East Asian Cherry)
+		// Hill Cherry (East Asian Cherry)
 		// The real life version of this tree doesn't actually produce fruit.
-		arboriculture.registerSpecies(ForestryTreeSpecies.BUSH_CHERRY, GENUS_PRUNUS, SPECIES_BUSH_CHERRY, true, new Color(0xe691da), ForestryWoodType.CHERRY)
+		arboriculture.registerSpecies(ForestryTreeSpecies.BUSH_CHERRY, GENUS_PRUNUS, SPECIES_BUSH_CHERRY, true, new Color(0xe691da), ForestryWoodType.BUSH_CHERRY)
 				.setTreeFeature(FeatureBushCherry::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.BUSH_CHERRY))
 				//.addVanillaStates(Blocks.CHERRY_LEAVES.getStateDefinition().getPossibleStates())
@@ -174,9 +172,19 @@ public class DefaultTreeSpecies {
 				})
 				.setRarity(0.0015f);
 
-		// Bush Cherry (Chinese Bush Cherry)
-		arboriculture.registerSpecies(ForestryTreeSpecies.CHERRY_VANILLA, GENUS_PRUNUS, SPECIES_CHERRY_VANILLA, true, new Color(), VanillaWoodType.CHERRY)
-				.setTreeFeature(FeatureCherryVanilla::new);
+		// Cherry Blossom (East Asian Cherry)
+		arboriculture.registerSpecies(ForestryTreeSpecies.CHERRY_VANILLA, GENUS_PRUNUS, SPECIES_CHERRY_VANILLA, true, new Color(0xf7b9dc), VanillaWoodType.CHERRY)
+				.setTreeFeature(FeatureCherryVanilla::new)
+				.setDecorativeLeaves(new ItemStack(Items.CHERRY_LEAVES))
+				.addVanillaStates(Blocks.CHERRY_LEAVES.getStateDefinition().getPossibleStates())
+				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.CHERRY_VANILLA).block().getStateDefinition().getPossibleStates())
+				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.get(ForestryLeafType.CHERRY_VANILLA).block().getStateDefinition().getPossibleStates())
+				.addVanillaSapling(Items.CHERRY_SAPLING)
+				.setGenome(genome -> {
+					genome.set(TreeChromosomes.SAPLINGS, ForestryAlleles.SAPLINGS_AVERAGE);
+					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_FASTER);
+					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_AVERAGE);
+				});
 
 		// Lemon
 		arboriculture.registerSpecies(ForestryTreeSpecies.LEMON, GENUS_CITRUS, SPECIES_LEMON, true, new Color(0x88af54), ForestryWoodType.CITRUS)
@@ -433,7 +441,7 @@ public class DefaultTreeSpecies {
 
 		// Vanilla Acacia TODO should probably switch with desert acacia since aneura are from Australia
 		arboriculture.registerSpecies(ForestryTreeSpecies.ACACIA_VANILLA, GENUS_ACACIA, SPECIES_ACACIA, true, new Color(0x616101), VanillaWoodType.ACACIA)
-				.setTreeFeature(FeatureAcaciaVanilla::new)
+				.setTreeFeature(FeatureTreeVanilla::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.ACACIA_VANILLA))
 				.addVanillaStates(Blocks.ACACIA_LEAVES.getStateDefinition().getPossibleStates())
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.ACACIA_VANILLA).block().getStateDefinition().getPossibleStates())

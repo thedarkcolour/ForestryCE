@@ -10,6 +10,7 @@ import forestry.api.arboriculture.ForestryTreeSpecies;
 import forestry.api.client.arboriculture.ForestryLeafSprites;
 import forestry.api.client.plugin.IClientRegistration;
 import forestry.arboriculture.client.BiomeLeafTint;
+import forestry.arboriculture.client.FixedLeafTint;
 
 public class DefaultForestryClientRegistration implements Consumer<IClientRegistration> {
 	@Override
@@ -34,6 +35,7 @@ public class DefaultForestryClientRegistration implements Consumer<IClientRegist
 		registerSapling(client, "minecraft", ForestryTreeSpecies.ACACIA_VANILLA);
 		registerSapling(client, "minecraft", ForestryTreeSpecies.SPRUCE);
 		registerSapling(client, "minecraft", ForestryTreeSpecies.JUNGLE);
+		registerSapling(client, "minecraft", ForestryTreeSpecies.CHERRY_VANILLA);
 
 		// Vanilla leaf sprites
 		client.setLeafSprite(ForestryTreeSpecies.OAK, ForestryLeafSprites.OAK);
@@ -42,6 +44,7 @@ public class DefaultForestryClientRegistration implements Consumer<IClientRegist
 		client.setLeafSprite(ForestryTreeSpecies.ACACIA_VANILLA, ForestryLeafSprites.ACACIA);
 		client.setLeafSprite(ForestryTreeSpecies.SPRUCE, ForestryLeafSprites.SPRUCE);
 		client.setLeafSprite(ForestryTreeSpecies.JUNGLE, ForestryLeafSprites.JUNGLE);
+		client.setLeafSprite(ForestryTreeSpecies.CHERRY_VANILLA, ForestryLeafSprites.CHERRY);
 
 		// Forestry leaf sprites
 		client.setLeafSprite(ForestryTreeSpecies.LIME, ForestryLeafSprites.BIRCH);
@@ -79,6 +82,7 @@ public class DefaultForestryClientRegistration implements Consumer<IClientRegist
 		client.setLeafTint(ForestryTreeSpecies.DARK_OAK, BiomeLeafTint.DEFAULT);
 		client.setLeafTint(ForestryTreeSpecies.JUNGLE, BiomeLeafTint.DEFAULT);
 		client.setLeafTint(ForestryTreeSpecies.ACACIA_VANILLA, BiomeLeafTint.DEFAULT);
+		client.setLeafTint(ForestryTreeSpecies.CHERRY_VANILLA, FixedLeafTint.NONE);
 	}
 
 	private static void registerSapling(IClientRegistration registration, String modId, ResourceLocation speciesId) {

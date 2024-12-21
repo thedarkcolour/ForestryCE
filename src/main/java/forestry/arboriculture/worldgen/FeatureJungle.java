@@ -20,11 +20,7 @@ import net.minecraft.world.level.LevelAccessor;
 import forestry.api.arboriculture.ITreeGenData;
 import forestry.core.worldgen.FeatureHelper;
 
-/**
- * This is a dummy and needs to be replaced with something proper.
- */
 public class FeatureJungle extends FeatureTreeVanilla {
-
 	public FeatureJungle(ITreeGenData tree) {
 		super(tree);
 	}

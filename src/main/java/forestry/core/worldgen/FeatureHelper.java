@@ -25,9 +25,7 @@ import forestry.arboriculture.worldgen.TreeBlockType;
 import forestry.arboriculture.worldgen.TreeContour;
 import forestry.core.utils.VecUtil;
 
-
 public class FeatureHelper {
-
 	public static boolean addBlock(LevelAccessor world, BlockPos pos, ITreeBlockType type, EnumReplaceMode replaceMode) {
 		return addBlock(world, pos, type, replaceMode, TreeContour.EMPTY);
 	}
@@ -111,10 +109,10 @@ public class FeatureHelper {
 		Vec3i start = new Vec3i(center.getX() - radius, center.getY() - radius, center.getZ() - radius);
 		Vec3i area = new Vec3i(radius * 2 + 1, radius * 2 + 1, radius * 2 + 1);
 		BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
+
 		for (int x = start.getX(); x < start.getX() + area.getX(); x++) {
 			for (int y = start.getY() + area.getY() - 1; y >= start.getY(); y--) { // generating top-down is faster for lighting calculations
 				for (int z = start.getZ(); z < start.getZ() + area.getZ(); z++) {
-					//center.getDistance(x, y, z) <= radius + 0.01
 					if (center.closerThan(mutablePos.set(x, y, z), radius + 0.01)) {
 						if (addBlock(world, mutablePos, block, replace)) {
 							contour.addLeaf(mutablePos);
@@ -220,7 +218,7 @@ public class FeatureHelper {
 			for (int x = 0; x < girth; x++) {
 				for (int z = 0; z < girth; z++) {
 
-					if (x > 0 && x < girth && z > 0 && z < girth) {
+					if (x > 0 && z > 0) {
 						continue;
 					}
 

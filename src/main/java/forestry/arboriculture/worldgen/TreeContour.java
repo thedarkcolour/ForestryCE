@@ -18,6 +18,8 @@ public sealed interface TreeContour {
 
 	List<BlockPos> getBranchEnds();
 
+	boolean hasLeaf(BlockPos pos);
+
 	final class Impl implements TreeContour {
 		public final Set<BlockPos> leavePositions;
 		public final List<BlockPos> branchEnds;
@@ -43,6 +45,11 @@ public sealed interface TreeContour {
 		}
 
 		@Override
+		public boolean hasLeaf(BlockPos pos) {
+			return this.leavePositions.contains(pos);
+		}
+
+		@Override
 		public List<BlockPos> getBranchEnds() {
 			return branchEnds;
 		}
@@ -54,6 +61,11 @@ public sealed interface TreeContour {
 
 		@Override
 		public void addLeaf(BlockPos pos) {
+		}
+
+		@Override
+		public boolean hasLeaf(BlockPos pos) {
+			return false;
 		}
 
 		@Override
