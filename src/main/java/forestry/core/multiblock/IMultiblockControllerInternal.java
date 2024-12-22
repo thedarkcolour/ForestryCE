@@ -118,7 +118,7 @@ public interface IMultiblockControllerInternal extends IMultiblockController, IN
 	/**
 	 * @return True if this controller has no associated blocks, false otherwise
 	 */
-	boolean isEmpty();
+	boolean hasNoParts();
 
 	/**
 	 * Tests whether this multiblock should consume the other multiblock

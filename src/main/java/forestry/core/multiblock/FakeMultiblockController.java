@@ -80,7 +80,7 @@ public interface FakeMultiblockController extends IMultiblockControllerInternal,
 	}
 
 	@Override
-	default boolean isEmpty() {
+	default boolean hasNoParts() {
 		return true;
 	}
 

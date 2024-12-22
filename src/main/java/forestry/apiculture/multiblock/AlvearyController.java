@@ -415,10 +415,4 @@ public class AlvearyController extends RectangularMultiblockControllerBase imple
 		this.temperatureSteps = data.readByte();
 		this.humiditySteps = data.readByte();
 	}
-
-	// REQUIRED TO AVOID AbstractMethodError crash (issue #129)
-	@Override
-	public boolean isEmpty() {
-		return super.isEmpty();
-	}
 }

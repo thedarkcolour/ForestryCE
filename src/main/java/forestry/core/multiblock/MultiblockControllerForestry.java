@@ -155,27 +155,10 @@ public abstract class MultiblockControllerForestry extends MultiblockControllerB
 		getInternalInventory().stopOpen(player);
 	}
 
-	//TODO inventory title
-	//	@Override
-	//	public String getName() {
-	//		return getInternalInventory().getName();
-	//	}
-	//
-	//	@Override
-	//	public ITextComponent getDisplayName() {
-	//		return getInternalInventory().getDisplayName();
-	//	}
-
 	@Override
 	public final boolean stillValid(Player player) {
 		return getInternalInventory().stillValid(player);
 	}
-
-	//TODO inventory title
-	//	@Override
-	//	public boolean hasCustomName() {
-	//		return getInternalInventory().hasCustomName();
-	//	}
 
 	@Override
 	public final boolean canPlaceItem(int slotIndex, ItemStack itemStack) {
@@ -197,24 +180,13 @@ public abstract class MultiblockControllerForestry extends MultiblockControllerB
 		return getInternalInventory().canTakeItemThroughFace(slotIndex, itemStack, side);
 	}
 
-	//TODO inventory field
-	//	@Override
-	//	public int getField(int id) {
-	//		return getInternalInventory().getField(id);
-	//	}
-	//
-	//	@Override
-	//	public int getFieldCount() {
-	//		return getInternalInventory().getFieldCount();
-	//	}
-	//
-	//	@Override
-	//	public void setField(int id, int value) {
-	//		getInternalInventory().setField(id, value);
-	//	}
-
 	@Override
 	public void clearContent() {
 		getInternalInventory().clearContent();
+	}
+
+	@Override
+	public boolean isEmpty() {
+		return getInternalInventory().isEmpty();
 	}
 }

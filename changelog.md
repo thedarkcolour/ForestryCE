@@ -1,3 +1,6 @@
+## Forestry 2.0.3
+- Fixed AbstractMethodError with farm and alveary (#131, #132)
+
 ## Forestry 2.0.2
 - Fixed error when joining server (#130)
 

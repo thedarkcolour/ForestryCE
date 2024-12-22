@@ -75,7 +75,7 @@ public class MultiblockWorldRegistry {
 		if (!controllers.isEmpty()) {
 			for (IMultiblockControllerInternal controller : controllers) {
 				if (controller.getWorldObj() == world && controller.getWorldObj().isClientSide == world.isClientSide) {
-					if (controller.isEmpty()) {
+					if (controller.hasNoParts()) {
 						// This happens on the server when the user breaks the last block. It's fine.
 						// Mark 'er dead and move on.
 						deadControllers.add(controller);
@@ -224,7 +224,7 @@ public class MultiblockWorldRegistry {
 				// they are no longer connected to this machine.
 				Set<IMultiblockComponent> newlyDetachedParts = controller.checkForDisconnections();
 
-				if (!controller.isEmpty()) {
+				if (!controller.hasNoParts()) {
 					controller.recalculateMinMaxCoords();
 					controller.checkIfMachineIsWhole();
 				} else {
@@ -245,7 +245,7 @@ public class MultiblockWorldRegistry {
 			for (IMultiblockControllerInternal controller : deadControllers) {
 				// Go through any controllers which have marked themselves as potentially dead.
 				// Validate that they are empty/dead, then unregister them.
-				if (!controller.isEmpty()) {
+				if (!controller.hasNoParts()) {
 					Forestry.LOGGER.error("Found a non-empty controller. Forcing it to shed its blocks and die. This should never happen!");
 					detachedParts.addAll(controller.detachAllBlocks());
 				}

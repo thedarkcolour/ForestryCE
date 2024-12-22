@@ -604,7 +604,7 @@ public abstract class MultiblockControllerBase implements IMultiblockControllerI
 	}
 
 	@Override
-	public boolean isEmpty() {
+	public boolean hasNoParts() {
 		return connectedParts.isEmpty();
 	}
 
@@ -694,7 +694,7 @@ public abstract class MultiblockControllerBase implements IMultiblockControllerI
 			return Collections.emptySet();
 		}
 
-		if (this.isEmpty()) {
+		if (hasNoParts()) {
 			MultiblockRegistry.addDeadController(level, this);
 			return Collections.emptySet();
 		}
@@ -744,7 +744,7 @@ public abstract class MultiblockControllerBase implements IMultiblockControllerI
 		connectedParts.removeAll(deadParts);
 		deadParts.clear();
 
-		if (referencePart == null || isEmpty()) {
+		if (referencePart == null || hasNoParts()) {
 			// There are no valid parts remaining. The entire multiblock was unloaded during a chunk unload. Halt.
 			shouldCheckForDisconnections = false;
 			MultiblockRegistry.addDeadController(level, this);
