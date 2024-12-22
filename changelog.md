@@ -1,3 +1,6 @@
+## Forestry 2.0.2
+- Fixed error when joining server (#130)
+
 ## Forestry 2.0.1
 - Fixed crash with Alveary controller (#129)
 

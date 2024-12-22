@@ -132,7 +132,7 @@ public class CarpenterRecipe implements ICarpenterRecipe {
 			FluidStack liquid = buffer.readBoolean() ? FluidStack.readFromPacket(buffer) : FluidStack.EMPTY;
 			Ingredient box = Ingredient.fromNetwork(buffer);
 			CraftingRecipe internal = (CraftingRecipe) ClientboundUpdateRecipesPacket.fromNetwork(buffer);
-			ItemStack result = buffer.readItem();
+			ItemStack result = buffer.readBoolean() ? buffer.readItem() : null;
 
 			return new CarpenterRecipe(recipeId, packagingTime, liquid, box, internal, result);
 		}
@@ -150,7 +150,12 @@ public class CarpenterRecipe implements ICarpenterRecipe {
 
 			recipe.box.toNetwork(buffer);
 			ClientboundUpdateRecipesPacket.toNetwork(buffer, recipe.recipe);
-			buffer.writeItem(recipe.result);
+
+			boolean hasResult = recipe.result != null;
+			buffer.writeBoolean(hasResult);
+			if (hasResult) {
+				buffer.writeItem(recipe.result);
+			}
 		}
 	}
 }
