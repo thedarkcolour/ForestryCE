@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "thedarkcolour.forestry"
-version = "2.0.1"
+version = "2.0.2"
 archivesBaseName = "forestry-$minecraftVersion"
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
@@ -225,7 +225,7 @@ if (System.getenv("CURSEFORGE_TOKEN")) {
 			changelogType = "markdown"
 			changelog = getChangelog(version)
 
-			releaseType = "alpha"
+			releaseType = "beta"
 
 			addGameVersion(project.minecraftVersion)
 			addGameVersion("Forge")
@@ -247,7 +247,7 @@ modrinth {
     projectId = project.modrinthId
 	versionName = "Forestry: Community Edition $version"
 	versionNumber = version.toString()
-	versionType = "alpha"
+	versionType = "beta"
 	gameVersions = [minecraftVersion]
 	loaders = ["forge"]
 	changelog = getChangelog(project.version)
