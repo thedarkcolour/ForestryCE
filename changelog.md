@@ -1,5 +1,6 @@
 ## Forestry 2.0.4
 - Fixed locked slots not displaying properly in the Escritoire
+- Fixed incorrect species count in Naturalist chest (#136)
 
 ## Forestry 2.0.3
 - Fixed AbstractMethodError with farm and alveary (#131, #132)

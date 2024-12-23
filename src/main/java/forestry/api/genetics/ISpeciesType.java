@@ -86,7 +86,7 @@ public interface ISpeciesType<S extends ISpecies<I>, I extends IIndividual> exte
 	ImmutableSet<ResourceLocation> getAllSpeciesIds();
 
 	/**
-	 * @return The number of NON-SECRET species of this type.
+	 * @return The number of species of this type, <i>including secret species.</i>
 	 * @throws IllegalStateException If not all species have been registered yet.
 	 */
 	int getSpeciesCount();

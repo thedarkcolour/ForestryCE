@@ -94,13 +94,7 @@ public abstract class SpeciesType<S extends ISpecies<I>, I extends IIndividual> 
 	@OverridingMethodsMustInvokeSuper
 	@Override
 	public void onSpeciesRegistered(ImmutableMap<ResourceLocation, S> allSpecies, IMutationManager<S> mutations) {
-		this.speciesCount = 0;
-
-		for (S species : allSpecies.values()) {
-			if (!species.isSecret()) {
-				this.speciesCount++;
-			}
-		}
+		this.speciesCount = allSpecies.size();
 
 		// Note for subclasses: you must call this super method or set the allSpecies yourself. same goes for mutations
 		this.allSpecies = allSpecies;
