@@ -6,6 +6,7 @@ import forestry.api.ForestryConstants;
 
 /**
  * All sprites loaded by forestry for use in the {@link ITextureManager}.
+ * SLOT_* sprites are also available on the block atlas.
  */
 public class ForestrySprites {
 	/**

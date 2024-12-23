@@ -14,6 +14,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 
+import forestry.api.client.ForestrySprites;
 import forestry.core.features.CoreMenuTypes;
 import forestry.core.gui.slots.SlotFiltered;
 import forestry.core.gui.slots.SlotOutput;
@@ -33,7 +34,7 @@ public class ContainerEscritoire extends ContainerTile<TileEscritoire> implement
 		addSlot(new SlotFiltered(this.tile, InventoryEscritoire.SLOT_ANALYZE, 97, 67).setPickupWatcher(this.tile).setStackLimit(1));
 
 		for (int i = 0; i < InventoryEscritoire.SLOTS_INPUT_COUNT; i++) {
-			addSlot(new SlotFiltered(this.tile, InventoryEscritoire.SLOT_INPUT_1 + i, 17, 49 + i * 18).setBlockedTexture("slots/blocked_2"));
+			addSlot(new SlotFiltered(this.tile, InventoryEscritoire.SLOT_INPUT_1 + i, 17, 49 + i * 18).setBlockedSprite(ForestrySprites.SLOT_BLOCKED_2));
 		}
 
 		for (int i = 0; i < 3; i++) {

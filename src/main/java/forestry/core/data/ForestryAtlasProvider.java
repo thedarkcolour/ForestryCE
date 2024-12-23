@@ -1,11 +1,7 @@
 package forestry.core.data;
 
-import java.util.Optional;
-
 import net.minecraft.client.renderer.texture.atlas.sources.DirectoryLister;
-import net.minecraft.client.renderer.texture.atlas.sources.SingleFile;
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.ResourceLocation;
 
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.common.data.SpriteSourceProvider;
@@ -23,9 +19,10 @@ public class ForestryAtlasProvider extends SpriteSourceProvider {
 		SourceList icons = atlas(ForestrySpriteUploader.ATLAS_PATH);
 
 		icons.addSource(new DirectoryLister("forestry/atlas/gui", ""));
-	}
 
-	private static void add(SourceList sources, ResourceLocation sprite) {
-		sources.addSource(new SingleFile(sprite, Optional.empty()));
+		// A bit redundant but fixes the issue
+		SourceList blocks = atlas(BLOCKS_ATLAS);
+
+		blocks.addSource(new DirectoryLister("forestry/atlas/gui/slots", "slots/"));
 	}
 }
