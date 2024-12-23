@@ -79,7 +79,7 @@ public class CarpenterRecipe implements ICarpenterRecipe {
 
 	@Override
 	public ItemStack getResultItem(RegistryAccess registryAccess) {
-		return this.result != null ? this.result : this.recipe.getResultItem(RecipeUtils.getRegistryAccess());
+		return this.result != null ? this.result : this.recipe.getResultItem(registryAccess);
 	}
 
 	@Override

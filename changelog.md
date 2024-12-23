@@ -1,3 +1,6 @@
+## Forestry 2.0.5
+- Fixed KubeJS server event error (#138)
+
 ## Forestry 2.0.4
 - Fixed locked slots not displaying properly in the Escritoire
 - Fixed incorrect species count in Naturalist chest (#136)
