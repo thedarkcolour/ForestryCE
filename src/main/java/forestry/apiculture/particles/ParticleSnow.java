@@ -15,16 +15,15 @@ import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.TextureSheetParticle;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 
-// todo check if this is broken
 public class ParticleSnow extends TextureSheetParticle {
-	public static final TextureAtlasSprite[] sprites = new TextureAtlasSprite[3];
+	public static final TextureAtlasSprite[] SPRITES = new TextureAtlasSprite[3];
 
-	public ParticleSnow(ClientLevel world, double x, double y, double z) {
-		super(world, x, y, z, 0.0D, 0.0D, 0.0D);
+	public ParticleSnow(ClientLevel level, double x, double y, double z) {
+		super(level, x, y, z, 0, 0, 0);
 
-		this.setSprite(sprites[random.nextInt(sprites.length)]);
+		this.setSprite(SPRITES[this.random.nextInt(SPRITES.length)]);
 		this.quadSize *= 0.5F;
-		this.lifetime = (int) (40.0D / (Math.random() * 0.8D + 0.2D));
+		this.lifetime = (int) (40 / (this.random.nextDouble() * 0.8D + 0.2D));
 
 		this.xd *= 0.01D;
 		this.yd *= -0.4D;

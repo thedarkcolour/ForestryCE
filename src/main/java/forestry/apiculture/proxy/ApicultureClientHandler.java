@@ -73,8 +73,8 @@ public class ApicultureClientHandler implements IClientModuleHandler {
 	private static void handleSprites(TextureStitchEvent.Post event) {
 		TextureAtlas map = event.getAtlas();
 		if (map.location().equals(TextureAtlas.LOCATION_PARTICLES)) {
-			for (int i = 0; i < ParticleSnow.sprites.length; i++) {
-				ParticleSnow.sprites[i] = map.getSprite(new ResourceLocation("forestry:particle/snow." + (i + 1)));
+			for (int i = 0; i < ParticleSnow.SPRITES.length; i++) {
+				ParticleSnow.SPRITES[i] = map.getSprite(new ResourceLocation("forestry:snow." + (i + 1)));
 			}
 		}
 	}

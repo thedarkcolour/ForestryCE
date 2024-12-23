@@ -2,6 +2,7 @@
 - Fixed locked slots not displaying properly in the Escritoire
 - Fixed incorrect species count in Naturalist chest (#136)
 - Fix serverside crash with Merry bees (#137)
+- Fix missing textures for Snowing effect particles (#120)
 
 ## Forestry 2.0.3
 - Fixed AbstractMethodError with farm and alveary (#131, #132)
