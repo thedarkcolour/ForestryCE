@@ -17,8 +17,8 @@ import net.minecraft.server.level.ServerLevel;
 
 import forestry.api.apiculture.IBeeHousing;
 import forestry.api.genetics.IEffectData;
+import forestry.apiculture.genetics.Bee;
 import forestry.core.genetics.EffectData;
-import forestry.core.render.ParticleRender;
 import forestry.core.utils.VecUtil;
 
 import forestry.api.genetics.IGenome;
@@ -59,7 +59,7 @@ public class FungificationBeeEffect extends ThrottledBeeEffect {
 	private void doBlockEffect(IGenome genome, IBeeHousing housing) {
 		Level world = housing.getWorldObj();
 		BlockPos housingCoordinates = housing.getCoordinates();
-		Vec3i area = ParticleRender.getModifiedArea(genome, housing);
+		Vec3i area = Bee.getParticleArea(genome, housing);
 		Vec3i halfArea = new Vec3i(area.getX() / 2, area.getY() / 2, area.getZ() / 2);
 
 		for (int attempt = 0; attempt < MAX_BLOCK_FIND_TRIES; ++attempt) {

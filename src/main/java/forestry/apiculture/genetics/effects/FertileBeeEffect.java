@@ -17,14 +17,13 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.ticks.ScheduledTick;
 
 import net.minecraftforge.common.IPlantable;
 
 import forestry.api.apiculture.IBeeHousing;
 import forestry.api.genetics.IEffectData;
 import forestry.api.genetics.IGenome;
-import forestry.core.render.ParticleRender;
+import forestry.apiculture.genetics.Bee;
 
 public class FertileBeeEffect extends ThrottledBeeEffect {
 	private static final int MAX_BLOCK_FIND_TRIES = 5;
@@ -38,7 +37,7 @@ public class FertileBeeEffect extends ThrottledBeeEffect {
 
 		Level level = housing.getWorldObj();
 		BlockPos housingCoordinates = housing.getCoordinates();
-		Vec3i area = ParticleRender.getModifiedArea(genome, housing);
+		Vec3i area = Bee.getParticleArea(genome, housing);
 
 		int blockX = getRandomOffset(level.random, housingCoordinates.getX(), area.getX());
 		int blockZ = getRandomOffset(level.random, housingCoordinates.getZ(), area.getZ());

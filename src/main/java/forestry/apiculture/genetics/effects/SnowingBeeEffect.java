@@ -18,13 +18,11 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SnowLayerBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-
 import forestry.api.apiculture.IBeeHousing;
 import forestry.api.core.TemperatureType;
 import forestry.api.genetics.IEffectData;
 import forestry.api.genetics.IGenome;
+import forestry.apiculture.genetics.Bee;
 import forestry.core.render.ParticleRender;
 import forestry.core.utils.VecUtil;
 
@@ -35,47 +33,36 @@ public class SnowingBeeEffect extends ThrottledBeeEffect {
 
 	@Override
 	public IEffectData doEffectThrottled(IGenome genome, IEffectData storedData, IBeeHousing housing) {
-
 		Level level = housing.getWorldObj();
 
-		TemperatureType temp = housing.temperature();
-
-		switch (temp) {
-			case HELLISH:
-			case HOT:
-			case WARM:
-				return storedData;
-			default:
+		if (housing.temperature().isWarmerOrEqual(TemperatureType.WARM)) {
+			return storedData;
 		}
 
-		Vec3i area = ParticleRender.getModifiedArea(genome, housing);
-		Vec3i offset = VecUtil.scale(area, -1 / 2.0f);
+		Vec3i area = Bee.getParticleArea(genome, housing);
+		Vec3i offset = VecUtil.scale(area, -0.5f);
 
-		for (int i = 0; i < 1; i++) {
+		BlockPos randomPos = VecUtil.getRandomPositionInArea(level.random, area);
+		BlockPos posBlock = randomPos.offset(housing.getCoordinates()).offset(offset);
 
-			BlockPos randomPos = VecUtil.getRandomPositionInArea(level.random, area);
+		// Put snow on the ground
+		if (level.hasChunkAt(posBlock)) {
+			BlockState state = level.getBlockState(posBlock);
+			Block block = state.getBlock();
+			if (!state.isAir() && block != Blocks.SNOW || !Blocks.SNOW.defaultBlockState().canSurvive(level, posBlock)) {
+				return storedData;
+			}
 
-			BlockPos posBlock = randomPos.offset(housing.getCoordinates()).offset(offset);
-
-			// Put snow on the ground
-			if (level.hasChunkAt(posBlock)) {
-				BlockState state = level.getBlockState(posBlock);
-				Block block = state.getBlock();
-				if (!state.isAir() && block != Blocks.SNOW || !Blocks.SNOW.defaultBlockState().canSurvive(level, posBlock)) {
-					continue;
-				}
-
-				if (block == Blocks.SNOW) {
-					int layers = state.getValue(SnowLayerBlock.LAYERS);
-					if (layers < 7) {
-						BlockState moreSnow = state.setValue(SnowLayerBlock.LAYERS, layers + 1);
-						level.setBlockAndUpdate(posBlock, moreSnow);
-					} else {
-						level.setBlockAndUpdate(posBlock, Blocks.SNOW.defaultBlockState());
-					}
-				} else if (block.defaultBlockState().canBeReplaced()) {
+			if (block == Blocks.SNOW) {
+				int layers = state.getValue(SnowLayerBlock.LAYERS);
+				if (layers < 7) {
+					BlockState moreSnow = state.setValue(SnowLayerBlock.LAYERS, layers + 1);
+					level.setBlockAndUpdate(posBlock, moreSnow);
+				} else {
 					level.setBlockAndUpdate(posBlock, Blocks.SNOW.defaultBlockState());
 				}
+			} else if (block.defaultBlockState().canBeReplaced()) {
+				level.setBlockAndUpdate(posBlock, Blocks.SNOW.defaultBlockState());
 			}
 		}
 
@@ -83,21 +70,20 @@ public class SnowingBeeEffect extends ThrottledBeeEffect {
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
 	public IEffectData doFX(IGenome genome, IEffectData storedData, IBeeHousing housing) {
-		if (housing.getWorldObj().random.nextInt(3) == 0) {
-			Vec3i area = ParticleRender.getModifiedArea(genome, housing);
+		Level level = housing.getWorldObj();
+
+		if (level.random.nextInt(3) == 0) {
+			Vec3i area = Bee.getParticleArea(genome, housing);
 			Vec3i offset = VecUtil.scale(area, -0.5F);
 
 			BlockPos coordinates = housing.getCoordinates();
-			Level world = housing.getWorldObj();
 
-			BlockPos spawn = VecUtil.getRandomPositionInArea(world.random, area).offset(coordinates).offset(offset);
-			ParticleRender.addEntitySnowFX(world, spawn.getX(), spawn.getY(), spawn.getZ());
+			BlockPos spawn = VecUtil.getRandomPositionInArea(level.random, area).offset(coordinates).offset(offset);
+			ParticleRender.addEntitySnowFX(level, spawn.getX(), spawn.getY(), spawn.getZ());
 			return storedData;
 		} else {
 			return super.doFX(genome, storedData, housing);
 		}
 	}
-
 }

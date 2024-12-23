@@ -568,6 +568,25 @@ public class Bee extends IndividualLiving<IBeeSpecies, IBee, IBeeSpeciesType> im
 		return VecUtil.getAllInBoxFromCenterMutable(level, minPos, housingPos, maxPos);
 	}
 
+	public static Vec3i getParticleArea(IGenome genome, IBeeHousing housing) {
+		Vec3i area = getAdjustedTerritory(genome, IForestryApi.INSTANCE.getHiveManager().createBeeHousingModifier(housing));
+		int x = area.getX();
+		int y = area.getY();
+		int z = area.getZ();
+
+		if (x < 1) {
+			x = 1;
+		}
+		if (y < 1) {
+			y = 1;
+		}
+		if (z < 1) {
+			z = 1;
+		}
+
+		return new Vec3i(x, y, z);
+	}
+
 	// todo reimplement beekeeping mode through config
 	public static Vec3i getAdjustedTerritory(IGenome genome, IBeeModifier beeModifier) {
 		return beeModifier.modifyTerritory(genome, genome.getActiveValue(BeeChromosomes.TERRITORY));

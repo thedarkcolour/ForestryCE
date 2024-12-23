@@ -19,7 +19,6 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import forestry.api.IForestryApi;
 import forestry.api.apiculture.IBeeHousing;
 import forestry.api.apiculture.hives.IHiveTile;
 import forestry.api.genetics.IGenome;
@@ -99,7 +98,7 @@ public class ParticleRender {
 			//effectRenderer.add(particle);
 			world.addParticle(new BeeParticleData(ApicultureParticles.BEE_ROUND_TRIP_PARTICLE.get(), destination, color), particleStart.x, particleStart.y, particleStart.z, 0, 0, 0);
 		} else {
-			Vec3i area = getModifiedArea(genome, housing);
+			Vec3i area = Bee.getParticleArea(genome, housing);
 			Vec3i offset = housing.getCoordinates().offset(-area.getX() / 2, -area.getY() / 4, -area.getZ() / 2);
 			BlockPos destination = VecUtil.getRandomPositionInArea(world.random, area).offset(offset);
 			world.addParticle(new BeeParticleData(ApicultureParticles.BEE_EXPLORER_PARTICLE.get(), destination, color), particleStart.x, particleStart.y, particleStart.z, 0, 0, 0);
@@ -193,24 +192,5 @@ public class ParticleRender {
 		if (particle != null) {
 			effectRenderer.add(particle);
 		}
-	}
-
-	public static Vec3i getModifiedArea(IGenome genome, IBeeHousing housing) {
-		Vec3i area = Bee.getAdjustedTerritory(genome, IForestryApi.INSTANCE.getHiveManager().createBeeHousingModifier(housing));
-		int x = area.getX();
-		int y = area.getY();
-		int z = area.getZ();
-
-		if (x < 1) {
-			x = 1;
-		}
-		if (y < 1) {
-			y = 1;
-		}
-		if (z < 1) {
-			z = 1;
-		}
-
-		return new Vec3i(x, y, z);
 	}
 }

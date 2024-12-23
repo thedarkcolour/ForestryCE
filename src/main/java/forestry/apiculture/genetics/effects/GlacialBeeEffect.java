@@ -30,15 +30,10 @@ public class GlacialBeeEffect extends ThrottledBeeEffect {
 
 	@Override
 	public IEffectData doEffectThrottled(IGenome genome, IEffectData storedData, IBeeHousing housing) {
-		Level world = housing.getWorldObj();
-		TemperatureType temp = housing.temperature();
+		Level level = housing.getWorldObj();
 
-		switch (temp) {
-			case HELLISH:
-			case HOT:
-			case WARM:
-				return storedData;
-			default:
+		if (housing.temperature().isWarmerOrEqual(TemperatureType.WARM)) {
+			return storedData;
 		}
 
 		Vec3i area = genome.getActiveValue(BeeChromosomes.TERRITORY);
@@ -47,15 +42,15 @@ public class GlacialBeeEffect extends ThrottledBeeEffect {
 
 		for (int i = 0; i < 10; i++) {
 
-			BlockPos randomPos = VecUtil.getRandomPositionInArea(world.random, area);
+			BlockPos randomPos = VecUtil.getRandomPositionInArea(level.random, area);
 			BlockPos posBlock = VecUtil.sum(randomPos, housingCoords, offset);
 
 			// Freeze water
-			if (world.hasChunkAt(posBlock)) {
-				Block block = world.getBlockState(posBlock).getBlock();
+			if (level.hasChunkAt(posBlock)) {
+				Block block = level.getBlockState(posBlock).getBlock();
 				if (block == Blocks.WATER) {
-					if (world.isEmptyBlock(new BlockPos(posBlock.getX(), posBlock.getY() + 1, posBlock.getZ()))) {
-						world.setBlockAndUpdate(posBlock, Blocks.ICE.defaultBlockState());
+					if (level.isEmptyBlock(new BlockPos(posBlock.getX(), posBlock.getY() + 1, posBlock.getZ()))) {
+						level.setBlockAndUpdate(posBlock, Blocks.ICE.defaultBlockState());
 					}
 				}
 			}
