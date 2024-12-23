@@ -51,8 +51,8 @@ public class MachineProperties<T extends TileForestry> implements IMachineProper
 	}
 
 	@Override
-	public VoxelShape getShape(BlockState state, BlockGetter reader, BlockPos pos, CollisionContext context) {
-		return shape.getShape(state, reader, pos, context);
+	public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+		return shape.getShape(state, level, pos, context);
 	}
 
 	@Override

@@ -33,14 +33,23 @@ public enum BlockTypeCoreTesr implements IBlockType {
 	}
 
 	private static MachineProperties<? extends TileEscritoire> createEscritoireProperties(FeatureTileType<TileEscritoire> teClass, String name) {
-		final VoxelShape desk = Block.box(0, 8, 0, 16, 16, 16);
-		final VoxelShape standRB = Block.box(13, 0, 13, 15, 10, 15);
-		final VoxelShape standRF = Block.box(13, 0, 1, 15, 10, 3);
-		final VoxelShape standLB = Block.box(1, 0, 13, 3, 10, 15);
-		final VoxelShape standLF = Block.box(1, 0, 1, 3, 10, 3);
+		VoxelShape desk = Block.box(0, 8, 0, 16, 11.5, 16);
+		VoxelShape standRB = Block.box(13, 0, 13, 15, 10, 15);
+		VoxelShape standRF = Block.box(13, 0, 1, 15, 10, 3);
+		VoxelShape standLB = Block.box(1, 0, 13, 3, 10, 15);
+		VoxelShape standLF = Block.box(1, 0, 1, 3, 10, 3);
+		VoxelShape commonShape = Shapes.or(desk, standLB, standLF, standRB, standRF);
+
+		// Order: S-W-N-E (according to Direction.get2DDataValue)
+		VoxelShape[] shapes = {
+				Shapes.or(commonShape, Block.box(0, 10, 0, 16, 16, 3.5)),
+				Shapes.or(commonShape, Block.box(12.5, 10, 0, 16, 16, 16)),
+				Shapes.or(commonShape, Block.box(0, 10, 12.5, 16, 16, 16)),
+				Shapes.or(commonShape, Block.box(0, 10, 0, 3.5, 16, 16)),
+		};
 
 		return new MachineProperties.Builder<>(teClass, name)
-				.setShape(() -> Shapes.or(desk, standLB, standLF, standRB, standRF))
+				.setShape((state, level, pos, context) -> shapes[state.getValue(BlockBase.FACING).get2DDataValue()])
 				.create();
 	}
 
