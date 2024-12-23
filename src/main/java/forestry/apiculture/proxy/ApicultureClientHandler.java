@@ -14,7 +14,6 @@ import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.TextureAtlas;
-import net.minecraft.resources.ResourceLocation;
 
 import net.minecraftforge.client.event.ModelEvent;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
@@ -23,6 +22,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
+import forestry.api.ForestryConstants;
 import forestry.api.client.IClientModuleHandler;
 import forestry.apiculture.features.ApicultureBlocks;
 import forestry.apiculture.features.ApicultureMenuTypes;
@@ -44,6 +44,7 @@ public class ApicultureClientHandler implements IClientModuleHandler {
 	public void registerEvents(IEventBus modBus) {
 		modBus.addListener(ApicultureClientHandler::setupClient);
 		modBus.addListener(ApicultureClientHandler::registerParticleFactory);
+		modBus.addListener(ApicultureClientHandler::hackFixForSnowingEffect);
 		modBus.addListener(ApicultureClientHandler::handleSprites);
 		modBus.addListener(ApicultureClientHandler::registerModelLoaders);
 	}
@@ -66,11 +67,19 @@ public class ApicultureClientHandler implements IClientModuleHandler {
 		event.register(ApicultureParticles.BEE_TARGET_ENTITY_PARTICLE.get(), BeeTargetEntityParticle.Factory::new);
 	}
 
+	private static void hackFixForSnowingEffect(TextureStitchEvent.Pre event) {
+		if (event.getAtlas().location().equals(TextureAtlas.LOCATION_PARTICLES)) {
+			for (int i = 0; i < ParticleSnow.sprites.length; i++) {
+				event.addSprite(ForestryConstants.forestry("particle/snow." + (i + 1)));
+			}
+		}
+	}
+
 	private static void handleSprites(TextureStitchEvent.Post event) {
 		TextureAtlas map = event.getAtlas();
 		if (map.location().equals(TextureAtlas.LOCATION_PARTICLES)) {
 			for (int i = 0; i < ParticleSnow.sprites.length; i++) {
-				ParticleSnow.sprites[i] = map.getSprite(new ResourceLocation("forestry:particle/snow." + (i + 1)));
+				ParticleSnow.sprites[i] = map.getSprite(ForestryConstants.forestry("particle/snow." + (i + 1)));
 			}
 		}
 	}

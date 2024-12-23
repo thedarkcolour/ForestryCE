@@ -94,6 +94,25 @@ public class Bee extends IndividualLiving<IBeeSpecies, IBee, IBeeSpeciesType> im
 		this.generation = generation;
 	}
 
+	public static Vec3i getModifiedArea(IGenome genome, IBeeHousing housing) {
+		Vec3i area = getAdjustedTerritory(genome, IForestryApi.INSTANCE.getHiveManager().createBeeHousingModifier(housing));
+		int x = area.getX();
+		int y = area.getY();
+		int z = area.getZ();
+
+		if (x < 1) {
+			x = 1;
+		}
+		if (y < 1) {
+			y = 1;
+		}
+		if (z < 1) {
+			z = 1;
+		}
+
+		return new Vec3i(x, y, z);
+	}
+
 	@Override
 	protected IIntegerChromosome getLifespanChromosome() {
 		return BeeChromosomes.LIFESPAN;

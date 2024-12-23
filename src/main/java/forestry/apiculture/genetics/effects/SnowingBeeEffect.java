@@ -25,6 +25,7 @@ import forestry.api.apiculture.IBeeHousing;
 import forestry.api.core.TemperatureType;
 import forestry.api.genetics.IEffectData;
 import forestry.api.genetics.IGenome;
+import forestry.apiculture.genetics.Bee;
 import forestry.core.render.ParticleRender;
 import forestry.core.utils.VecUtil;
 
@@ -48,7 +49,7 @@ public class SnowingBeeEffect extends ThrottledBeeEffect {
 			default:
 		}
 
-		Vec3i area = ParticleRender.getModifiedArea(genome, housing);
+		Vec3i area = Bee.getModifiedArea(genome, housing);
 		Vec3i offset = VecUtil.scale(area, -1 / 2.0f);
 
 		for (int i = 0; i < 1; i++) {
@@ -86,7 +87,7 @@ public class SnowingBeeEffect extends ThrottledBeeEffect {
 	@OnlyIn(Dist.CLIENT)
 	public IEffectData doFX(IGenome genome, IEffectData storedData, IBeeHousing housing) {
 		if (housing.getWorldObj().random.nextInt(3) == 0) {
-			Vec3i area = ParticleRender.getModifiedArea(genome, housing);
+			Vec3i area = Bee.getModifiedArea(genome, housing);
 			Vec3i offset = VecUtil.scale(area, -0.5F);
 
 			BlockPos coordinates = housing.getCoordinates();

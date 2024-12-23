@@ -11,7 +11,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import forestry.api.apiculture.IBeeHousing;
 import forestry.api.genetics.IEffectData;
 import forestry.api.genetics.IGenome;
-import forestry.core.render.ParticleRender;
+import forestry.apiculture.genetics.Bee;
 import forestry.core.utils.VecUtil;
 
 public class SifterBeeEffect extends ThrottledBeeEffect {
@@ -22,7 +22,7 @@ public class SifterBeeEffect extends ThrottledBeeEffect {
 	@Override
 	IEffectData doEffectThrottled(IGenome genome, IEffectData storedData, IBeeHousing housing) {
 		Level level = housing.getWorldObj();
-		Vec3i area = ParticleRender.getModifiedArea(genome, housing);
+		Vec3i area = Bee.getModifiedArea(genome, housing);
 		Vec3i offset = VecUtil.scale(area, -1 / 2.0f);
 
 		BlockPos randomPos = VecUtil.getRandomPositionInArea(level.random, area);

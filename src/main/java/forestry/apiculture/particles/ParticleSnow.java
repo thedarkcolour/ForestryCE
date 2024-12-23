@@ -15,7 +15,6 @@ import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.TextureSheetParticle;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 
-// todo check if this is broken
 public class ParticleSnow extends TextureSheetParticle {
 	public static final TextureAtlasSprite[] sprites = new TextureAtlasSprite[3];
 
