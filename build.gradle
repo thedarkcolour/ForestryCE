@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "thedarkcolour.forestry"
-version = "1.0.15"
+version = "1.0.16"
 base.archivesName = "forestry-$minecraftVersion"
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
@@ -272,11 +272,11 @@ static def getChangelog(Object version) {
 		def versionString = chunk.substring(0, lineTerminatorIndex)
 
 		if (versionString == version) {
-			return "## Ex Deorum $version\n" + chunk.substring(lineTerminatorIndex + 1)
+			return "## Forestry $version\n" + chunk.substring(lineTerminatorIndex + 1)
 		}
 	}
 
 	// Fallback in case this fails
-	return "Ex Deorum Update ${version}"
+	return "Forestry Update ${version}"
 }
 
