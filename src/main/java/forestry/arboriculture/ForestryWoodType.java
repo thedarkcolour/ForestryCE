@@ -6,9 +6,12 @@
 package forestry.arboriculture;
 
 import java.util.Locale;
+import java.util.stream.Stream;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -17,12 +20,14 @@ import net.minecraft.world.level.block.state.properties.WoodType;
 
 import com.mojang.authlib.GameProfile;
 
+import forestry.api.ForestryTags;
 import forestry.api.arboriculture.IWoodType;
 import forestry.api.arboriculture.genetics.IFruit;
 import forestry.api.genetics.IGenome;
 import forestry.api.genetics.alleles.TreeChromosomes;
 import forestry.arboriculture.blocks.ForestryLeafType;
 import forestry.arboriculture.features.ArboricultureBlocks;
+import forestry.modules.features.FeatureBlock;
 import forestry.modules.features.FeatureBlockGroup;
 
 import org.jetbrains.annotations.Nullable;
@@ -69,6 +74,8 @@ public enum ForestryWoodType implements IWoodType {
 	private final float hardness;
 	private final ForestryLeafType leafType;
 	private final WoodType type;
+	public final TagKey<Block> blockTag;
+	public final TagKey<Item> itemTag;
 
 	ForestryWoodType(ForestryLeafType leafType) {
 		this(leafType, DEFAULT_HARDNESS);
@@ -80,6 +87,9 @@ public enum ForestryWoodType implements IWoodType {
 		this.hardness = hardness;
 
 		this.type = new WoodType(this.name, new BlockSetType(this.name));
+
+		this.blockTag = ForestryTags.blockTag(this.name + "_logs");
+		this.itemTag = ForestryTags.itemTag(this.name + "_logs");
 	}
 
 	@Override
@@ -125,5 +135,23 @@ public enum ForestryWoodType implements IWoodType {
 
 	public WoodType getWoodType() {
 		return this.type;
+	}
+
+	public Stream<FeatureBlock<?, ?>> getBurnables() {
+		return Stream.of(
+				ArboricultureBlocks.LOGS.get(this),
+				ArboricultureBlocks.WOOD.get(this),
+				ArboricultureBlocks.STRIPPED_LOGS.get(this),
+				ArboricultureBlocks.STRIPPED_WOOD.get(this)
+		);
+	}
+
+	public Stream<FeatureBlock<?, ?>> getFireproof() {
+		return Stream.of(
+				ArboricultureBlocks.LOGS_FIREPROOF.get(this),
+				ArboricultureBlocks.WOOD_FIREPROOF.get(this),
+				ArboricultureBlocks.STRIPPED_LOGS_FIREPROOF.get(this),
+				ArboricultureBlocks.STRIPPED_WOOD_FIREPROOF.get(this)
+		);
 	}
 }

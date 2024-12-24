@@ -56,12 +56,12 @@ public class ArboricultureBlocks {
 	/* LOGS & WOOD */
 	public static final FeatureBlockGroup<BlockForestryLog, ForestryWoodType> LOGS = woodGroup(BlockForestryLog::new, WoodBlockKind.LOG, false, ForestryWoodType.VALUES);
 	public static final FeatureBlockGroup<BlockForestryLog, ForestryWoodType> LOGS_FIREPROOF = woodGroup(BlockForestryLog::new, WoodBlockKind.LOG, true, ForestryWoodType.VALUES);
-	// todo stripped logs
-	// todo stripped logs fireproof
+	public static final FeatureBlockGroup<BlockForestryLog, ForestryWoodType> STRIPPED_LOGS = woodGroup(BlockForestryLog::new, WoodBlockKind.STRIPPED_LOG, false, ForestryWoodType.VALUES);
+	public static final FeatureBlockGroup<BlockForestryLog, ForestryWoodType> STRIPPED_LOGS_FIREPROOF = woodGroup(BlockForestryLog::new, WoodBlockKind.STRIPPED_LOG, true, ForestryWoodType.VALUES);
 	public static final FeatureBlockGroup<BlockForestryLog, ForestryWoodType> WOOD = woodGroup(BlockForestryLog::new, WoodBlockKind.WOOD, false, ForestryWoodType.VALUES);
 	public static final FeatureBlockGroup<BlockForestryLog, ForestryWoodType> WOOD_FIREPROOF = woodGroup(BlockForestryLog::new, WoodBlockKind.WOOD, true, ForestryWoodType.VALUES);
-	// todo stripped wood
-	// todo stripped wood fireproof
+	public static final FeatureBlockGroup<BlockForestryLog, ForestryWoodType> STRIPPED_WOOD = woodGroup(BlockForestryLog::new, WoodBlockKind.STRIPPED_WOOD, false, ForestryWoodType.VALUES);
+	public static final FeatureBlockGroup<BlockForestryLog, ForestryWoodType> STRIPPED_WOOD_FIREPROOF = woodGroup(BlockForestryLog::new, WoodBlockKind.STRIPPED_WOOD, true, ForestryWoodType.VALUES);
 
 	public static final FeatureBlockGroup<BlockForestryPlank, ForestryWoodType> PLANKS = woodGroup(BlockForestryPlank::new, WoodBlockKind.PLANKS, false, ForestryWoodType.VALUES);
 	public static final FeatureBlockGroup<BlockForestryPlank, ForestryWoodType> PLANKS_FIREPROOF = woodGroup(BlockForestryPlank::new, WoodBlockKind.PLANKS, true, ForestryWoodType.VALUES);

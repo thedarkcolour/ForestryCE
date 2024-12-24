@@ -431,9 +431,8 @@ public class ForestryCreativeTabs {
 	private static void addAllWoodBlocks(CreativeModeTab.Output items, IWoodAccess access, IWoodType type, boolean fireproof) {
 		items.accept(access.getStack(type, WoodBlockKind.LOG, fireproof));
 		items.accept(access.getStack(type, WoodBlockKind.WOOD, fireproof));
-		// todo stripped variants
-		//items.accept(access.getStack(type, WoodBlockKind.STRIPPED_LOG, fireproof));
-		//items.accept(access.getStack(type, WoodBlockKind.STRIPPED_WOOD, fireproof));
+		items.accept(access.getStack(type, WoodBlockKind.STRIPPED_LOG, fireproof));
+		items.accept(access.getStack(type, WoodBlockKind.STRIPPED_WOOD, fireproof));
 		items.accept(access.getStack(type, WoodBlockKind.PLANKS, fireproof));
 		items.accept(access.getStack(type, WoodBlockKind.STAIRS, fireproof));
 		items.accept(access.getStack(type, WoodBlockKind.SLAB, fireproof));

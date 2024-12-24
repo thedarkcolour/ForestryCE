@@ -142,7 +142,17 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 	}
 
 	protected static ResourceLocation withSuffix(ResourceLocation loc, String suffix) {
-		return new ResourceLocation(loc.getNamespace(), loc.getPath() + suffix);
+		return loc.withSuffix(suffix);
+	}
+
+	protected static ResourceLocation withPrefix(String prefix, ResourceLocation loc) {
+		String oldPath = loc.getPath();
+		int slash = oldPath.lastIndexOf('/') + 1;
+
+		if (slash != 0) {
+			return loc.withPath(oldPath.substring(0, slash) + prefix + oldPath.substring(slash));
+		}
+		return loc.withPrefix(prefix);
 	}
 
 	public void generic3d(Block block, Block otherParent) {

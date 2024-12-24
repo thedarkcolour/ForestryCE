@@ -108,13 +108,14 @@ public class ForestryWoodModelProvider extends ForestryBlockStateProvider {
 			generic3d(planks);
 			generic3d(fireproofPlanks, planks);
 
-			// Logs, Wood
+			// Logs, Wood, Stripped Logs, Stripped Wood
 			BlockForestryLog log = ArboricultureBlocks.LOGS.get(woodType).block();
 			ResourceLocation logTexture = blockTexture(log);
+			ResourceLocation strippedLogTexture = withPrefix("stripped_", logTexture);
 
 			logLike(woodType, ArboricultureBlocks.LOGS, ArboricultureBlocks.LOGS_FIREPROOF, logTexture, withSuffix(logTexture, "_top"));
-			//logLike(woodType, ArboricultureBlocks.STRIPPED_LOGS, ArboricultureBlocks.STRIPPED_LOGS_FIREPROOF, withPrefix("stripped_", logTexture), withPrefix("stripped_", withSuffix(logTexture, "_top")));
-			//logLike(woodType, ArboricultureBlocks.STRIPPED_WOOD, ArboricultureBlocks.STRIPPED_WOOD_FIREPROOF, withPrefix("stripped_", logTexture), withPrefix("stripped_", logTexture));
+			logLike(woodType, ArboricultureBlocks.STRIPPED_LOGS, ArboricultureBlocks.STRIPPED_LOGS_FIREPROOF, strippedLogTexture, withPrefix("stripped_", withSuffix(logTexture, "_top")));
+			logLike(woodType, ArboricultureBlocks.STRIPPED_WOOD, ArboricultureBlocks.STRIPPED_WOOD_FIREPROOF, strippedLogTexture, strippedLogTexture);
 			logLike(woodType, ArboricultureBlocks.WOOD, ArboricultureBlocks.WOOD_FIREPROOF, logTexture, logTexture);
 
 			// Slab

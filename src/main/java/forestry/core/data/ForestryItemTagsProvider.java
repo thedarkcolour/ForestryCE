@@ -10,6 +10,7 @@ import net.minecraftforge.common.Tags;
 
 import forestry.api.ForestryTags;
 import forestry.apiculture.features.ApicultureItems;
+import forestry.arboriculture.ForestryWoodType;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.features.ArboricultureItems;
 import forestry.core.features.CoreItems;
@@ -27,13 +28,16 @@ public class ForestryItemTagsProvider {
 		tags.copy(BlockTags.PLANKS, ItemTags.PLANKS);
 		tags.copy(BlockTags.LOGS, ItemTags.LOGS);
 		tags.copy(BlockTags.LOGS_THAT_BURN, ItemTags.LOGS_THAT_BURN);
+		for (ForestryWoodType type : ForestryWoodType.VALUES) {
+			tags.copy(type.blockTag, type.itemTag);
+		}
 		tags.tag(ItemTags.NON_FLAMMABLE_WOOD).add(ArboricultureBlocks.PLANKS_FIREPROOF.getItems().toArray(Item[]::new));
 		tags.tag(ItemTags.NON_FLAMMABLE_WOOD).add(ArboricultureBlocks.SLABS_FIREPROOF.getItems().toArray(Item[]::new));
 		tags.tag(ItemTags.NON_FLAMMABLE_WOOD).add(ArboricultureBlocks.STAIRS_FIREPROOF.getItems().toArray(Item[]::new));
 		tags.tag(ItemTags.NON_FLAMMABLE_WOOD).add(ArboricultureBlocks.LOGS_FIREPROOF.getItems().toArray(Item[]::new));
 		tags.tag(ItemTags.NON_FLAMMABLE_WOOD).add(ArboricultureBlocks.WOOD_FIREPROOF.getItems().toArray(Item[]::new));
-		//tags.tag(ItemTags.NON_FLAMMABLE_WOOD).add(ArboricultureBlocks.STRIPPED_WOOD_FIREPROOF.getItems().toArray(Item[]::new));
-		//tags.tag(ItemTags.NON_FLAMMABLE_WOOD).add(ArboricultureBlocks.STRIPPED_LOGS_FIREPROOF.getItems().toArray(Item[]::new));
+		tags.tag(ItemTags.NON_FLAMMABLE_WOOD).add(ArboricultureBlocks.STRIPPED_WOOD_FIREPROOF.getItems().toArray(Item[]::new));
+		tags.tag(ItemTags.NON_FLAMMABLE_WOOD).add(ArboricultureBlocks.STRIPPED_LOGS_FIREPROOF.getItems().toArray(Item[]::new));
 		tags.tag(ItemTags.NON_FLAMMABLE_WOOD).add(ArboricultureBlocks.FENCES_FIREPROOF.getItems().toArray(Item[]::new));
 		tags.tag(ItemTags.NON_FLAMMABLE_WOOD).add(ArboricultureBlocks.FENCE_GATES_FIREPROOF.getItems().toArray(Item[]::new));
 		tags.tag(ItemTags.NON_FLAMMABLE_WOOD).add(ArboricultureBlocks.PLANKS_VANILLA_FIREPROOF.getItems().toArray(Item[]::new));
