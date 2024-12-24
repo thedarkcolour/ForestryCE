@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "forestry:block/ebony_stripped_wood",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "forestry:block/ebony_stripped_wood"
+    },
+    "axis=z": {
+      "model": "forestry:block/ebony_stripped_wood",
+      "x": 90
+    }
+  }
+}
