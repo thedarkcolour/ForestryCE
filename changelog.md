@@ -1,3 +1,6 @@
+## Forestry 1.0.16
+- Fix crash with multiblocks (#139)
+
 ## Forestry 1.0.15
 - Fix inconsistent ordering of life stages in API
 - Fix Snowing effect particles and server crash

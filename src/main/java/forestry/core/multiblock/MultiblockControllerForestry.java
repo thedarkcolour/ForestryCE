@@ -197,21 +197,10 @@ public abstract class MultiblockControllerForestry extends MultiblockControllerB
 		return getInternalInventory().canTakeItemThroughFace(slotIndex, itemStack, side);
 	}
 
-	//TODO inventory field
-	//	@Override
-	//	public int getField(int id) {
-	//		return getInternalInventory().getField(id);
-	//	}
-	//
-	//	@Override
-	//	public int getFieldCount() {
-	//		return getInternalInventory().getFieldCount();
-	//	}
-	//
-	//	@Override
-	//	public void setField(int id, int value) {
-	//		getInternalInventory().setField(id, value);
-	//	}
+	@Override
+	public boolean isEmpty() {
+		return getInternalInventory().isEmpty();
+	}
 
 	@Override
 	public void clearContent() {
