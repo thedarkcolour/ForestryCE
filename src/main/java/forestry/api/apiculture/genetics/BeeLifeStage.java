@@ -23,7 +23,7 @@ public enum BeeLifeStage implements ILifeStage {
 	private final ItemLike itemForm;
 
 	BeeLifeStage(ItemLike supplier) {
-		this.name = name().toLowerCase(Locale.ROOT);
+		this.name = name().toLowerCase(Locale.ENGLISH);
 		this.itemForm = supplier;
 	}
 

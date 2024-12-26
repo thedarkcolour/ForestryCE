@@ -24,8 +24,6 @@ public enum BlockTypeFactoryPlain implements IBlockType {
 	FABRICATOR(FactoryTiles.FABRICATOR, "fabricator", TileFabricator::serverTick),
 	RAINTANK(FactoryTiles.RAIN_TANK, "raintank", TileRaintank::serverTick);
 
-	public static final BlockTypeFactoryPlain[] VALUES = values();
-
 	private final IMachineProperties<?> machineProperties;
 
 	<T extends TileForestry> BlockTypeFactoryPlain(FeatureTileType<T> teClass, String name, IForestryTicker<T> serverTicker) {

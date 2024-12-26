@@ -19,14 +19,16 @@ public enum ButterflyLifeStage implements ILifeStage {
 	CATERPILLAR(LepidopterologyItems.CATERPILLAR_GE),
 	COCOON(LepidopterologyItems.COCOON_GE);
 
+	private final String name;
 	private final ItemLike itemForm;
 
 	ButterflyLifeStage(ItemLike itemForm) {
+		this.name = name().toLowerCase(Locale.ENGLISH);
 		this.itemForm = itemForm;
 	}
 
 	public String getSerializedName() {
-		return toString().toLowerCase(Locale.ROOT);
+		return this.name;
 	}
 
 	@Override

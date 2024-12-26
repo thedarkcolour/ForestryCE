@@ -5,32 +5,32 @@
  ******************************************************************************/
 package forestry.api.arboriculture.genetics;
 
-import java.util.List;
+import java.util.Locale;
 
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.ItemLike;
 
 import forestry.api.genetics.ILifeStage;
 import forestry.arboriculture.features.ArboricultureItems;
 
 public enum TreeLifeStage implements ILifeStage {
-	SAPLING("sapling"),
-	POLLEN("pollen");
+	SAPLING(ArboricultureItems.SAPLING),
+	POLLEN(ArboricultureItems.POLLEN_FERTILE);
 
-	public static final List<TreeLifeStage> VALUES = List.of(values());
+	private final String name;
+	private final ItemLike itemForm;
 
-	private final String translationKey;
-
-	TreeLifeStage(String translationKey) {
-		this.translationKey = translationKey;
+	TreeLifeStage(ItemLike itemForm) {
+		this.name = name().toLowerCase(Locale.ENGLISH);
+		this.itemForm = itemForm;
 	}
 
 	public String getSerializedName() {
-		return this.translationKey;
+		return this.name;
 	}
 
 	@Override
 	public Item getItemForm() {
-		return this == SAPLING ? ArboricultureItems.SAPLING.item() : ArboricultureItems.POLLEN_FERTILE.item();
+		return this.itemForm.asItem();
 	}
-
 }
