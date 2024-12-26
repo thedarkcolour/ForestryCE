@@ -5,11 +5,8 @@
  ******************************************************************************/
 package forestry.api.mail;
 
-import java.util.Map;
-
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.core.NonNullList;
-import net.minecraft.world.level.Level;
 import net.minecraft.server.level.ServerLevel;
 
 public interface IPostOffice {
@@ -23,10 +20,4 @@ public interface IPostOffice {
 	ItemStack getAnyStamp(EnumPostage postage, int max);
 
 	ItemStack getAnyStamp(EnumPostage[] postages, int max);
-
-	void registerTradeStation(ITradeStation trade);
-
-	void deregisterTradeStation(ITradeStation trade);
-
-	Map<IMailAddress, ITradeStation> getActiveTradeStations(Level world);
 }

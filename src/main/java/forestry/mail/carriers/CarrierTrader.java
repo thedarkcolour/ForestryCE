@@ -13,6 +13,7 @@ package forestry.mail.carriers;
 import forestry.api.mail.*;
 import forestry.mail.EnumDeliveryState;
 import forestry.mail.MailAddress;
+import forestry.mail.TradeRegistry;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
@@ -45,7 +46,7 @@ public class CarrierTrader implements IPostalCarrier {
 
 	@Override
 	public IPostalState deliverLetter(ServerLevel world, IPostOffice office, IMailAddress recipient, ItemStack letterStack, boolean doDeliver) {
-		ITradeStation trade = PostManager.postRegistry.getTradeStation(world, recipient);
+		ITradeStation trade = TradeRegistry.getOrCreate(world).getTradeStation(recipient);
 		if (trade == null) {
 			return EnumDeliveryState.NO_MAILBOX;
 		}

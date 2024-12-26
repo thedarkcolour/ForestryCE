@@ -10,13 +10,10 @@
  ******************************************************************************/
 package forestry.mail;
 
-import java.util.LinkedHashMap;
-
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.saveddata.SavedData;
 
 import forestry.api.mail.EnumPostage;
@@ -26,7 +23,6 @@ import forestry.api.mail.IPostOffice;
 import forestry.api.mail.IPostalCarrier;
 import forestry.api.mail.IPostalState;
 import forestry.api.mail.IStamps;
-import forestry.api.mail.ITradeStation;
 import forestry.api.mail.PostManager;
 import forestry.mail.features.MailItems;
 import forestry.mail.items.EnumStampDefinition;
@@ -36,7 +32,6 @@ public class PostOffice extends SavedData implements IPostOffice {
 	// / CONSTANTS
 	public static final String SAVE_NAME = "forestry_mail";
 	private final int[] collectedPostage = new int[EnumPostage.values().length];
-	private LinkedHashMap<IMailAddress, ITradeStation> activeTradeStations = new LinkedHashMap<>();
 
 	// CONSTRUCTORS
 	public PostOffice() {
@@ -50,67 +45,12 @@ public class PostOffice extends SavedData implements IPostOffice {
 		}
 	}
 
-	public void setWorld(ServerLevel world) {
-		refreshActiveTradeStations(world);
-	}
-
 	@Override
 	public CompoundTag save(CompoundTag compoundNBT) {
 		for (int i = 0; i < collectedPostage.length; i++) {
 			compoundNBT.putInt("CPS" + i, collectedPostage[i]);
 		}
 		return compoundNBT;
-	}
-
-	/* TRADE STATION MANAGMENT */
-
-	@Override
-	public LinkedHashMap<IMailAddress, ITradeStation> getActiveTradeStations(Level world) {
-		return this.activeTradeStations;
-	}
-
-	private void refreshActiveTradeStations(ServerLevel world) {
-		//TODO: Find a way to write and read mail data
-		/*activeTradeStations = new LinkedHashMap<>();
-		File worldSave = world.getSaveHandler().getWorldDirectory();    //TODO right file?
-		File file = worldSave.getParentFile();
-		if (!file.exists() || !file.isDirectory()) {
-			return;
-		}
-
-		String[] list = file.list();
-		if (list == null) {
-			return;
-		}
-
-		for (String str : list) {
-			if (!str.startsWith(TradeStation.SAVE_NAME)) {
-				continue;
-			}
-			if (!str.endsWith(".dat")) {
-				continue;
-			}
-
-			MailAddress address = new MailAddress(str.replace(TradeStation.SAVE_NAME, "").replace(".dat", ""));
-			ITradeStation trade = PostManager.postRegistry.getTradeStation(world, address);
-			if (trade == null) {
-				continue;
-			}
-
-			registerTradeStation(trade);
-		}*/
-	}
-
-	@Override
-	public void registerTradeStation(ITradeStation trade) {
-		if (!activeTradeStations.containsKey(trade.getAddress())) {
-			activeTradeStations.put(trade.getAddress(), trade);
-		}
-	}
-
-	@Override
-	public void deregisterTradeStation(ITradeStation trade) {
-		activeTradeStations.remove(trade.getAddress());
 	}
 
 	// / STAMP MANAGMENT

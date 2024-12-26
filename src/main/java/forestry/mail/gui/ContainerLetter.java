@@ -29,7 +29,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import forestry.Forestry;
-import forestry.api.mail.PostManager;
 import forestry.core.gui.ContainerItemInventory;
 import forestry.core.gui.slots.SlotFiltered;
 import forestry.core.utils.NetworkUtil;
@@ -189,7 +188,7 @@ public class ContainerLetter extends ContainerItemInventory<ItemInventoryLetter>
 			return;
 		}
 
-		ITradeStation station = PostManager.postRegistry.getTradeStation((ServerLevel) world, address);
+		ITradeStation station = TradeRegistry.getOrCreate((ServerLevel) world).getTradeStation(address);
 		if (station == null) {
 			setTradeInfo(null);
 			return;
