@@ -58,7 +58,6 @@ public class ModuleMail extends BlankForestryModule {
 	private static void onWorldLoad(LevelEvent.Load event) {
 		PostRegistry.cachedPostOffice = null;
 		PostRegistry.cachedPOBoxes.clear();
-		PostRegistry.cachedTradeStations.clear();
 	}
 
 	@Override

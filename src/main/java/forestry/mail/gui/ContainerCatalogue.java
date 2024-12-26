@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.Set;
 
 import forestry.api.mail.*;
+import forestry.mail.TradeRegistry;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.server.level.ServerPlayer;
@@ -32,7 +33,6 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerListener;
 import net.minecraft.world.item.ItemStack;
 
-import forestry.api.mail.PostManager;
 import forestry.core.gui.IGuiSelectable;
 import forestry.core.utils.NetworkUtil;
 import forestry.mail.features.MailMenuTypes;
@@ -86,9 +86,7 @@ public class ContainerCatalogue extends AbstractContainerMenu implements IGuiSel
 		stationCount.set(0);
 		currentFilter.set(1);
 
-		if (!player.level.isClientSide) {
-			rebuildStationsList();
-		}
+		rebuildStationsList();
 	}
 
 	public int getPageCount() {
@@ -104,10 +102,13 @@ public class ContainerCatalogue extends AbstractContainerMenu implements IGuiSel
 	}
 
 	private void rebuildStationsList() {
+		if (player.level.isClientSide) {
+			return;
+		}
+
 		stations.clear();
 
-		IPostOffice postOffice = PostManager.postRegistry.getPostOffice((ServerLevel) player.level());
-		Map<IMailAddress, ITradeStation> tradeStations = postOffice.getActiveTradeStations(player.level());
+		Map<IMailAddress, ITradeStation> tradeStations = TradeRegistry.getOrCreate((ServerLevel) player.level).getActiveTradeStations();
 
 		for (ITradeStation station : tradeStations.values()) {
 			ITradeStationInfo info = station.getTradeInfo();
