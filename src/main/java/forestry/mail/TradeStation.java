@@ -12,7 +12,9 @@ package forestry.mail;
 
 import javax.annotation.Nullable;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import forestry.mail.carriers.PostalCarriers;
 import net.minecraft.core.Direction;
@@ -24,7 +26,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.saveddata.SavedData;
 
 import com.mojang.authlib.GameProfile;
 
@@ -36,7 +37,6 @@ import forestry.api.mail.IPostalState;
 import forestry.api.mail.IStamps;
 import forestry.api.mail.ITradeStation;
 import forestry.api.mail.PostManager;
-import forestry.core.inventory.IInventoryAdapter;
 import forestry.core.inventory.InventoryAdapter;
 import forestry.core.utils.InventoryUtil;
 import forestry.core.utils.ItemStackUtil;
@@ -44,8 +44,7 @@ import forestry.mail.features.MailItems;
 import forestry.mail.inventory.InventoryTradeStation;
 import forestry.mail.items.EnumStampDefinition;
 
-public class TradeStation extends SavedData implements ITradeStation, IInventoryAdapter {
-	public static final String SAVE_NAME = "trade_po_";
+public class TradeStation implements ITradeStation {
 	public static final short SLOT_TRADEGOOD = 0;
 	public static final short SLOT_TRADEGOOD_COUNT = 1;
 	public static final short SLOT_EXCHANGE_1 = 1;
@@ -69,6 +68,8 @@ public class TradeStation extends SavedData implements ITradeStation, IInventory
 	private boolean isInvalid = false;
 	private final InventoryAdapter inventory = new InventoryTradeStation();
 
+	private final Set<Watcher> updateWatchers = new HashSet<>();
+
 	public TradeStation(@Nullable GameProfile owner, IMailAddress address) {
 		if (!address.getCarrier().equals(PostalCarriers.TRADER.get())) {
 			throw new IllegalArgumentException("TradeStation address must be a trader");
@@ -79,17 +80,7 @@ public class TradeStation extends SavedData implements ITradeStation, IInventory
 	}
 
 	public TradeStation(CompoundTag tag) {
-		if (tag.contains("owner")) {
-			owner = NbtUtils.readGameProfile(tag.getCompound("owner"));
-		}
-
-		if (tag.contains("address")) {
-			address = new MailAddress(tag.getCompound("address"));
-		}
-
-		this.isVirtual = tag.getBoolean("VRT");
-		this.isInvalid = tag.getBoolean("IVL");
-		inventory.read(tag);
+		read(tag);
 	}
 
 	@Override
@@ -98,7 +89,6 @@ public class TradeStation extends SavedData implements ITradeStation, IInventory
 	}
 
 	// / SAVING & LOADING
-	@Override
 	public CompoundTag save(CompoundTag compoundNBT) {
 		if (owner != null) {
 			CompoundTag nbt = new CompoundTag();
@@ -125,7 +115,17 @@ public class TradeStation extends SavedData implements ITradeStation, IInventory
 
 	@Override
 	public void read(CompoundTag nbt) {
-		// load(nbt);
+		if (nbt.contains("owner")) {
+			owner = NbtUtils.readGameProfile(nbt.getCompound("owner"));
+		}
+
+		if (nbt.contains("address")) {
+			address = new MailAddress(nbt.getCompound("address"));
+		}
+
+		this.isVirtual = nbt.getBoolean("VRT");
+		this.isInvalid = nbt.getBoolean("IVL");
+		inventory.read(nbt);
 	}
 
 	/* INVALIDATING */
@@ -593,9 +593,8 @@ public class TradeStation extends SavedData implements ITradeStation, IInventory
 		return inventory.isEmpty();
 	}
 
-	@Override
 	public void setDirty() {
-		super.setDirty();
+		updateWatchers.forEach(Watcher::onWatchableUpdate);
 		inventory.setChanged();
 	}
 
@@ -688,4 +687,11 @@ public class TradeStation extends SavedData implements ITradeStation, IInventory
 	public void clearContent() {
 	}
 
+	public boolean registerUpdateWatcher(Watcher updateWatcher) {
+		return updateWatchers.add(updateWatcher);
+	}
+
+	public boolean unregisterUpdateWatcher(Watcher updateWatcher) {
+		return updateWatchers.remove(updateWatcher);
+	}
 }

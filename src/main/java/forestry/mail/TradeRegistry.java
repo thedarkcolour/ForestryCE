@@ -1,10 +1,10 @@
 package forestry.mail;
 
 import com.mojang.authlib.GameProfile;
-import forestry.Forestry;
 import forestry.api.mail.*;
 import forestry.mail.carriers.PostalCarriers;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.saveddata.SavedData;
 
@@ -12,16 +12,10 @@ import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TradeRegistry extends SavedData {
+public class TradeRegistry extends SavedData implements IWatchable.Watcher {
     private static final String SAVE_NAME = "forestry_trade_stations";
 
-    private final ServerLevel level;
-
     public final Map<IMailAddress, ITradeStation> cachedTradeStations = new HashMap<>();
-
-    public TradeRegistry(ServerLevel level) {
-        this.level = level;
-    }
 
     /**
      * @param address the potential address of the Trader
@@ -41,71 +35,82 @@ public class TradeRegistry extends SavedData {
 
     public void registerTradeStation(IMailAddress address, ITradeStation station) {
         cachedTradeStations.put(address, station);
+        station.registerUpdateWatcher(this);
+        setDirty();
     }
 
     @Nullable
-    public TradeStation getTradeStation(IMailAddress address) {
+    public ITradeStation getTradeStation(IMailAddress address) {
         if (cachedTradeStations.containsKey(address)) {
-            return (TradeStation) cachedTradeStations.get(address);
-        }
-
-        TradeStation trade = level.getDataStorage().get(TradeStation::new, TradeStation.SAVE_NAME + address);
-
-        // Only existing and valid mail orders are returned
-        if (trade != null && trade.isValid()) {
-            registerTradeStation(address, trade);
-            return trade;
+            return cachedTradeStations.get(address);
         }
 
         return null;
     }
 
-    public TradeStation getOrCreateTradeStation(GameProfile owner, IMailAddress address) {
-        TradeStation trade = getTradeStation(address);
+    public ITradeStation getOrCreateTradeStation(GameProfile owner, IMailAddress address) {
+        ITradeStation trade = getTradeStation(address);
 
         if (trade == null) {
-            trade = level.getDataStorage().computeIfAbsent(TradeStation::new, () -> new TradeStation(owner, address), TradeStation.SAVE_NAME + address);
-            trade.setDirty();
+            trade = new TradeStation(owner, address);
             registerTradeStation(address, trade);
+            trade.setDirty();
         }
 
         return trade;
     }
 
     public void deleteTradeStation(IMailAddress address) {
-        TradeStation trade = getTradeStation(address);
+        ITradeStation trade = getTradeStation(address);
         if (trade == null) {
             return;
         }
-        // TODO: Clean this up or migrate to save in a single file, as deleting seems not possible for now
-        // Need to be marked as invalid since WorldSavedData seems to do some caching of its own.
         trade.invalidate();
+        trade.unregisterUpdateWatcher(this);
         cachedTradeStations.remove(address);
-        //		File file = world.getSaveHandler().getMapFileFromName(trade.getName());	//TODO which file?
-        boolean delete = false; //TODO fix file.delete();
-        if (!delete) {
-            Forestry.LOGGER.error("Failed to delete trade station file. {}", "FIXME!");//file);
-        }
+        setDirty();
     }
 
     public Map<IMailAddress, ITradeStation> getActiveTradeStations() {
         return this.cachedTradeStations;
     }
 
-    private static TradeRegistry create(ServerLevel level) {
-        return new TradeRegistry(level);
+    @Override
+    public void onWatchableUpdate() {
+        setDirty();
     }
 
-    private static TradeRegistry load(CompoundTag compoundTag, ServerLevel level) {
-        return new TradeRegistry(level);
+    private static TradeRegistry create() {
+        return new TradeRegistry();
+    }
+
+    private static TradeRegistry load(CompoundTag compoundTag) {
+        TradeRegistry registry = new TradeRegistry();
+        ListTag tradeStations = compoundTag.getList("tradeStations", 10);
+        for(int i = 0; i < tradeStations.size(); ++i) {
+            CompoundTag stationTag = tradeStations.getCompound(i);
+
+            IMailAddress address = new MailAddress(stationTag.getCompound("address"));
+            ITradeStation station = new TradeStation(stationTag.getCompound("station"));
+            registry.registerTradeStation(address, station);
+        }
+        return registry;
     }
 
     @Override
     public CompoundTag save(CompoundTag compoundTag) {
+        ListTag tradeStations = new ListTag();
+        for (Map.Entry<IMailAddress, ITradeStation> entry : cachedTradeStations.entrySet()) {
+            CompoundTag entryTag = new CompoundTag();
+            entryTag.put("address", entry.getKey().write(new CompoundTag()));
+            entryTag.put("station", entry.getValue().write(new CompoundTag()));
+            tradeStations.add(entryTag);
+        }
+        compoundTag.put("tradeStations", tradeStations);
         return compoundTag;
     }
 
     public static TradeRegistry getOrCreate(ServerLevel level) {
-        return level.getDataStorage().computeIfAbsent((tag) -> TradeRegistry.load(tag, level), () -> TradeRegistry.create(level), SAVE_NAME);
+        return level.getDataStorage().computeIfAbsent(TradeRegistry::load, TradeRegistry::create, SAVE_NAME);
     }
 }
