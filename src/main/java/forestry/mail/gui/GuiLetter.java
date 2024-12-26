@@ -74,6 +74,7 @@ public class GuiLetter extends GuiForestry<ContainerLetter> {
 		minecraft.keyboardHandler.setSendRepeatsToGui(true);
 
 		address = new EditBox(this.minecraft.font, leftPos + 46, topPos + 13, 93, 13, null);
+		address.setEditable(!isProcessedLetter);
 		IMailAddress recipient = menu.getRecipient();
 		if (recipient != null) {
 			address.setValue(recipient.getName());
@@ -81,6 +82,7 @@ public class GuiLetter extends GuiForestry<ContainerLetter> {
 
 		text = new GuiTextBox(this.minecraft.font, leftPos + 17, topPos + 31, 122, 57);
 		text.setMaxLength(128);
+		text.setEditable(!isProcessedLetter);
 		if (!menu.getText().isEmpty()) {
 			text.setValue(menu.getText());
 		}
@@ -91,6 +93,9 @@ public class GuiLetter extends GuiForestry<ContainerLetter> {
 
 	@Override
 	public boolean keyPressed(int key, int scanCode, int modifiers) {
+		if (isProcessedLetter) {
+			return super.keyPressed(key, scanCode, modifiers);
+		}
 
 		// Set focus or enter text into address
 		if (this.address.isFocused()) {
