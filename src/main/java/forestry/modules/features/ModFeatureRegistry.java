@@ -92,6 +92,7 @@ public class ModFeatureRegistry {
 		@SuppressWarnings("rawtypes")
 		private final HashMap<ResourceKey, DeferredRegister> registries = new HashMap<>();
 		private final LinkedListMultimap<ResourceKey<? extends Registry<?>>, Consumer<RegisterEvent>> registryListeners = LinkedListMultimap.create();
+
 		private final ResourceLocation moduleId;
 		private final IEventBus modBus;
 
@@ -242,6 +243,11 @@ public class ModFeatureRegistry {
 		@Override
 		public Collection<IModFeature> getFeatures(ResourceKey<? extends Registry<?>> type) {
 			return featureByRegistry.get(type);
+		}
+
+		@Override
+		public ResourceLocation getModuleId() {
+			return this.moduleId;
 		}
 
 		// this method is called at a LOW priority

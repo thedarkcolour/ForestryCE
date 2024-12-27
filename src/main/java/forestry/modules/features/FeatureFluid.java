@@ -74,7 +74,7 @@ public class FeatureFluid extends ModFeature implements IFluidFeature {
 	}
 
 	public static class Builder {
-		private final IFeatureRegistry registry;
+		final IFeatureRegistry registry;
 		private final ResourceLocation moduleId;
 		final String identifier;
 
@@ -136,7 +136,7 @@ public class FeatureFluid extends ModFeature implements IFluidFeature {
 		}
 
 		public FeatureFluid create() {
-			return registry.register(new FeatureFluid(this));
+			return this.registry.register(new FeatureFluid(this));
 		}
 	}
 

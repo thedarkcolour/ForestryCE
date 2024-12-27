@@ -36,8 +36,8 @@ public class FluidProperties {
 		this.flammability = builder.flammability;
 		this.spreadsFire = builder.spreadsFire;
 		this.properties = builder.properties;
-		this.resources[0] = ForestryConstants.forestry("block/liquid/" + builder.identifier + "_still");
-		this.resources[1] = ForestryConstants.forestry("block/liquid/" + builder.identifier + "_flow");
+		this.resources[0] = builder.registry.getModuleId().withPath("block/liquid/" + builder.identifier + "_still");
+		this.resources[1] = builder.registry.getModuleId().withPath("block/liquid/" + builder.identifier + "_flow");
 		if (!resourceExists(resources[1])) {
 			this.resources[1] = resources[0];
 		}

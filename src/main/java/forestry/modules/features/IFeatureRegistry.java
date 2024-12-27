@@ -36,6 +36,8 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegisterEvent;
 
 public interface IFeatureRegistry {
+	ResourceLocation getModuleId();
+
 	/**
 	 * @return The internal deferred registry instance managed by this feature registry.
 	 * If a deferred registry does not exist for the given registry, then one is created.
