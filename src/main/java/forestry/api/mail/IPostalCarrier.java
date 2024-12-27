@@ -5,6 +5,7 @@
  ******************************************************************************/
 package forestry.api.mail;
 
+import forestry.mail.LetterUtils;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.item.ItemStack;
@@ -42,7 +43,7 @@ public interface IPostalCarrier {
 	 * @param world       The world the {@link IPostOffice} handles.
 	 * @param office      {link @IPostOffice} which received this letter and handed it to the carrier.
 	 * @param recipient   An identifier for the recipient as typed by the player into the address field.
-	 * @param letterstack ItemStack representing the letter. See {@link IPostRegistry} for helper functions to validate and extract it.
+	 * @param letterstack ItemStack representing the letter. See {@link LetterUtils} for helper functions to validate and extract it.
 	 * @param doDeliver   Whether or not the letter is supposed to actually be delivered or if delivery is only to be simulated.
 	 * @return {link IPostalState} holding information on success or failure for delivery.
 	 */

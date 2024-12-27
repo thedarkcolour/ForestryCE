@@ -17,19 +17,14 @@ import net.minecraft.world.item.ItemStack;
 
 import forestry.api.mail.ILetter;
 import forestry.api.mail.IMailAddress;
-import forestry.api.mail.IPostRegistry;
-import forestry.api.mail.PostManager;
 import forestry.mail.features.MailItems;
 
-public class PostRegistry implements IPostRegistry {
-	/* LETTERS */
-	@Override
-	public ILetter createLetter(IMailAddress sender, IMailAddress recipient) {
+public class LetterUtils {
+	public static ILetter createLetter(IMailAddress sender, IMailAddress recipient) {
 		return new Letter(sender, recipient);
 	}
 
-	@Override
-	public ItemStack createLetterStack(ILetter letter) {
+	public static ItemStack createLetterStack(ILetter letter) {
 		CompoundTag compoundNBT = new CompoundTag();
 		letter.write(compoundNBT);
 
@@ -39,14 +34,13 @@ public class PostRegistry implements IPostRegistry {
 		return letterStack;
 	}
 
-	@Override
 	@Nullable
-	public ILetter getLetter(ItemStack itemstack) {
+	public static ILetter getLetter(ItemStack itemstack) {
 		if (itemstack.isEmpty()) {
 			return null;
 		}
 
-		if (!PostManager.postRegistry.isLetter(itemstack)) {
+		if (!LetterUtils.isLetter(itemstack)) {
 			return null;
 		}
 
@@ -57,8 +51,7 @@ public class PostRegistry implements IPostRegistry {
 		return new Letter(itemstack.getTag());
 	}
 
-	@Override
-	public boolean isLetter(ItemStack itemstack) {
+	public static boolean isLetter(ItemStack itemstack) {
 		return MailItems.LETTERS.itemEqual(itemstack);
 	}
 }
