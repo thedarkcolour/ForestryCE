@@ -18,7 +18,7 @@ import forestry.api.mail.ITradeStationInfo;
 import forestry.api.modules.IForestryPacketClient;
 import forestry.core.network.PacketIdClient;
 import forestry.core.utils.NetworkUtil;
-import forestry.mail.TradeStationInfo;
+import forestry.mail.carriers.trading.TradeStationInfo;
 import forestry.mail.gui.ILetterInfoReceiver;
 
 public record PacketLetterInfoResponseTrader(@Nullable ITradeStationInfo info) implements IForestryPacketClient {

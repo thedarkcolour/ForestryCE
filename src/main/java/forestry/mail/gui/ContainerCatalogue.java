@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.Set;
 
 import forestry.api.mail.*;
-import forestry.mail.TradeRegistry;
+import forestry.mail.carriers.trading.TradeStationRegistry;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.server.level.ServerPlayer;
@@ -103,7 +103,7 @@ public class ContainerCatalogue extends AbstractContainerMenu implements IGuiSel
 
 		stations.clear();
 
-		Map<IMailAddress, ITradeStation> tradeStations = TradeRegistry.getOrCreate((ServerLevel) player.level).getActiveTradeStations();
+		Map<IMailAddress, ITradeStation> tradeStations = TradeStationRegistry.getOrCreate((ServerLevel) player.level).getActiveTradeStations();
 
 		for (ITradeStation station : tradeStations.values()) {
 			ITradeStationInfo info = station.getTradeInfo();

@@ -8,12 +8,11 @@
  * Various Contributors including, but not limited to:
  * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
  ******************************************************************************/
-package forestry.mail.carriers;
+package forestry.mail.carriers.trading;
 
 import forestry.api.mail.*;
-import forestry.mail.EnumDeliveryState;
+import forestry.mail.postalstates.EnumDeliveryState;
 import forestry.mail.MailAddress;
-import forestry.mail.TradeRegistry;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
@@ -46,7 +45,7 @@ public class CarrierTrader implements IPostalCarrier {
 
 	@Override
 	public IPostalState deliverLetter(ServerLevel world, IPostOffice office, IMailAddress recipient, ItemStack letterStack, boolean doDeliver) {
-		ITradeStation trade = TradeRegistry.getOrCreate(world).getTradeStation(recipient);
+		ITradeStation trade = TradeStationRegistry.getOrCreate(world).getTradeStation(recipient);
 		if (trade == null) {
 			return EnumDeliveryState.NO_MAILBOX;
 		}

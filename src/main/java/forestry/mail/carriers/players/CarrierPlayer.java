@@ -8,7 +8,7 @@
  * Various Contributors including, but not limited to:
  * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
  ******************************************************************************/
-package forestry.mail.carriers;
+package forestry.mail.carriers.players;
 
 import forestry.api.ForestryConstants;
 import forestry.api.client.IForestryClientApi;
@@ -17,6 +17,7 @@ import forestry.core.utils.NetworkUtil;
 import forestry.core.utils.PlayerUtil;
 import forestry.mail.*;
 import forestry.mail.network.packets.PacketPOBoxInfoResponse;
+import forestry.mail.postalstates.EnumDeliveryState;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;

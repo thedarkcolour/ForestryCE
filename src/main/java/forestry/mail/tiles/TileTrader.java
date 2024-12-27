@@ -12,7 +12,7 @@ package forestry.mail.tiles;
 
 import com.google.common.base.Preconditions;
 
-import forestry.mail.TradeRegistry;
+import forestry.mail.carriers.trading.TradeStationRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.level.Level;
@@ -41,7 +41,7 @@ import forestry.core.tiles.TileBase;
 import forestry.core.utils.ItemStackUtil;
 import forestry.core.utils.NetworkUtil;
 import forestry.mail.MailAddress;
-import forestry.mail.TradeStation;
+import forestry.mail.carriers.trading.TradeStation;
 import forestry.mail.features.MailTiles;
 import forestry.mail.gui.ContainerTradeName;
 import forestry.mail.gui.ContainerTrader;
@@ -66,7 +66,7 @@ public class TileTrader extends TileBase implements IOwnedTile {
 	@Override
 	public void onDropContents(ServerLevel level) {
 		if (isLinked()) {
-			TradeRegistry.getOrCreate((ServerLevel) this.level).deleteTradeStation(address);
+			TradeStationRegistry.getOrCreate((ServerLevel) this.level).deleteTradeStation(address);
 		}
 	}
 
@@ -271,17 +271,17 @@ public class TileTrader extends TileBase implements IOwnedTile {
 			ServerLevel world = (ServerLevel) this.level;
 			IErrorLogic errorLogic = getErrorLogic();
 
-			TradeRegistry tradeRegistry = TradeRegistry.getOrCreate(world);
+			TradeStationRegistry tradeStationRegistry = TradeStationRegistry.getOrCreate(world);
 
-			boolean hasValidTradeAddress = tradeRegistry.isValidTradeAddress(address);
+			boolean hasValidTradeAddress = tradeStationRegistry.isValidTradeAddress(address);
 			errorLogic.setCondition(!hasValidTradeAddress, ForestryError.NOT_ALPHANUMERIC);
 
-			boolean hasUniqueTradeAddress = tradeRegistry.isAvailableTradeAddress(address);
+			boolean hasUniqueTradeAddress = tradeStationRegistry.isAvailableTradeAddress(address);
 			errorLogic.setCondition(!hasUniqueTradeAddress, ForestryError.NOT_UNIQUE);
 
 			if (hasValidTradeAddress & hasUniqueTradeAddress) {
 				this.address = address;
-				tradeRegistry.getOrCreateTradeStation(getOwnerHandler().getOwner(), address);
+				tradeStationRegistry.getOrCreateTradeStation(getOwnerHandler().getOwner(), address);
 				return true;
 			}
 		} else {
@@ -298,7 +298,7 @@ public class TileTrader extends TileBase implements IOwnedTile {
 			return super.getInternalInventory();
 		}
 
-		return TradeRegistry.getOrCreate((ServerLevel) level).getOrCreateTradeStation(getOwnerHandler().getOwner(), address);
+		return TradeStationRegistry.getOrCreate((ServerLevel) level).getOrCreateTradeStation(getOwnerHandler().getOwner(), address);
 	}
 
 	@Override

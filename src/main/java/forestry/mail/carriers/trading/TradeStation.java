@@ -8,7 +8,7 @@
  * Various Contributors including, but not limited to:
  * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
  ******************************************************************************/
-package forestry.mail;
+package forestry.mail.carriers.trading;
 
 import javax.annotation.Nullable;
 
@@ -16,7 +16,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import forestry.mail.*;
 import forestry.mail.carriers.PostalCarriers;
+import forestry.mail.postalstates.EnumDeliveryState;
+import forestry.mail.postalstates.ResponseNotMailable;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;

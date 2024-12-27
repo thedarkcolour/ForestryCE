@@ -1,7 +1,9 @@
-package forestry.mail;
+package forestry.mail.carriers.trading;
 
 import com.mojang.authlib.GameProfile;
 import forestry.api.mail.*;
+import forestry.mail.IWatchable;
+import forestry.mail.MailAddress;
 import forestry.mail.carriers.PostalCarriers;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -12,7 +14,7 @@ import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TradeRegistry extends SavedData implements IWatchable.Watcher {
+public class TradeStationRegistry extends SavedData implements IWatchable.Watcher {
     private static final String SAVE_NAME = "forestry_trade_stations";
 
     public final Map<IMailAddress, ITradeStation> cachedTradeStations = new HashMap<>();
@@ -80,12 +82,12 @@ public class TradeRegistry extends SavedData implements IWatchable.Watcher {
         setDirty();
     }
 
-    private static TradeRegistry create() {
-        return new TradeRegistry();
+    private static TradeStationRegistry create() {
+        return new TradeStationRegistry();
     }
 
-    private static TradeRegistry load(CompoundTag compoundTag) {
-        TradeRegistry registry = new TradeRegistry();
+    private static TradeStationRegistry load(CompoundTag compoundTag) {
+        TradeStationRegistry registry = new TradeStationRegistry();
         ListTag tradeStations = compoundTag.getList("tradeStations", 10);
         for(int i = 0; i < tradeStations.size(); ++i) {
             CompoundTag stationTag = tradeStations.getCompound(i);
@@ -110,7 +112,7 @@ public class TradeRegistry extends SavedData implements IWatchable.Watcher {
         return compoundTag;
     }
 
-    public static TradeRegistry getOrCreate(ServerLevel level) {
-        return level.getDataStorage().computeIfAbsent(TradeRegistry::load, TradeRegistry::create, SAVE_NAME);
+    public static TradeStationRegistry getOrCreate(ServerLevel level) {
+        return level.getDataStorage().computeIfAbsent(TradeStationRegistry::load, TradeStationRegistry::create, SAVE_NAME);
     }
 }

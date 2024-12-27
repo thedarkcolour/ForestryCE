@@ -16,6 +16,7 @@ import java.util.Iterator;
 import forestry.api.mail.*;
 import forestry.mail.*;
 import forestry.mail.carriers.PostalCarriers;
+import forestry.mail.carriers.trading.TradeStationRegistry;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
@@ -188,7 +189,7 @@ public class ContainerLetter extends ContainerItemInventory<ItemInventoryLetter>
 			return;
 		}
 
-		ITradeStation station = TradeRegistry.getOrCreate((ServerLevel) world).getTradeStation(address);
+		ITradeStation station = TradeStationRegistry.getOrCreate((ServerLevel) world).getTradeStation(address);
 		if (station == null) {
 			setTradeInfo(null);
 			return;

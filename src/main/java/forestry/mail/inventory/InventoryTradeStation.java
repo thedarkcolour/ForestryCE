@@ -22,7 +22,7 @@ import forestry.api.mail.IStamps;
 import forestry.core.inventory.InventoryAdapter;
 import forestry.core.utils.ItemStackUtil;
 import forestry.core.utils.SlotUtil;
-import forestry.mail.TradeStation;
+import forestry.mail.carriers.trading.TradeStation;
 
 public class InventoryTradeStation extends InventoryAdapter {
 
