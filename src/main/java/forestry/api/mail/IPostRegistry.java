@@ -8,13 +8,8 @@ package forestry.api.mail;
 import javax.annotation.Nullable;
 
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.server.level.ServerLevel;
 
 public interface IPostRegistry {
-
-	/* POST OFFICE */
-	IPostOffice getPostOffice(ServerLevel world);
-
 	/* LETTERS */
 	boolean isLetter(ItemStack itemstack);
 

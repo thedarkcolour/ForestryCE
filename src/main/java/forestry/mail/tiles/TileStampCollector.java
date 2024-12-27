@@ -10,6 +10,7 @@
  ******************************************************************************/
 package forestry.mail.tiles;
 
+import forestry.mail.PostOffice;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.player.Inventory;
@@ -21,7 +22,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
 import forestry.api.mail.IStamps;
-import forestry.api.mail.PostManager;
 import forestry.core.inventory.IInventoryAdapter;
 import forestry.core.tiles.TileBase;
 import forestry.core.utils.InventoryUtil;
@@ -45,11 +45,11 @@ public class TileStampCollector extends TileBase implements Container {
 
 		IInventoryAdapter inventory = getInternalInventory();
 		if (inventory.getItem(InventoryStampCollector.SLOT_FILTER).isEmpty()) {
-			stamp = PostManager.postRegistry.getPostOffice((ServerLevel) level).getAnyStamp(1);
+			stamp = PostOffice.getOrCreate((ServerLevel) level).getAnyStamp(1);
 		} else {
 			ItemStack filter = inventory.getItem(InventoryStampCollector.SLOT_FILTER);
 			if (filter.getItem() instanceof IStamps) {
-				stamp = PostManager.postRegistry.getPostOffice((ServerLevel) level).getAnyStamp(((IStamps) filter.getItem()).getPostage(filter), 1);
+				stamp = PostOffice.getOrCreate((ServerLevel) level).getAnyStamp(((IStamps) filter.getItem()).getPostage(filter), 1);
 			}
 		}
 
