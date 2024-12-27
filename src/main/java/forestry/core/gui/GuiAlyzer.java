@@ -60,7 +60,7 @@ public class GuiAlyzer extends GuiForestry<ContainerAlyzer> {
 		super(Constants.TEXTURE_PATH_GUI + "/portablealyzer.png", container, playerInv, Component.literal("GUI_ALYZER_TEST_TITLE"));
 
 		this.itemInventory = container.inventory;
-		this.imageWidth = 246;
+		this.imageWidth = 247;
 		this.imageHeight = 238;
 	}
 

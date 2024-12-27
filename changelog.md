@@ -1,6 +1,7 @@
 ## Forestry 2.0.5
 - Fixed KubeJS server event error (#138)
 - Add stripped log/wood variants for Forestry wood types (#118)
+- Fixed typo that cut off black order on the right side of the Portable Analyzer GUI
 
 ## Forestry 2.0.4
 - Fixed locked slots not displaying properly in the Escritoire
