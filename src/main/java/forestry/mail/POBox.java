@@ -14,6 +14,8 @@ import com.google.common.base.Preconditions;
 
 import javax.annotation.Nullable;
 
+import forestry.api.core.INbtReadable;
+import forestry.api.core.INbtWritable;
 import forestry.mail.carriers.PostalCarriers;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.Container;
@@ -27,14 +29,18 @@ import forestry.api.mail.PostManager;
 import forestry.core.inventory.InventoryAdapter;
 import forestry.core.utils.InventoryUtil;
 
-public class POBox extends SavedData implements Container {
+import java.util.HashSet;
+import java.util.Set;
 
-	public static final String SAVE_NAME = "pobox_";
+public class POBox implements Container, IWatchable, INbtReadable, INbtWritable {
+
 	public static final short SLOT_SIZE = 84;
 
 	@Nullable
 	private IMailAddress address;
 	private final InventoryAdapter letters = new InventoryAdapter(SLOT_SIZE, "Letters").disableAutomation();
+
+	private final Set<Watcher> updateWatchers = new HashSet<>();
 
 	public POBox(IMailAddress address) {
 		if (!address.getCarrier().equals(PostalCarriers.PLAYER.get())) {
@@ -45,6 +51,10 @@ public class POBox extends SavedData implements Container {
 	}
 
 	public POBox(CompoundTag tag) {
+		read(tag);
+	}
+
+	public void read(CompoundTag tag) {
 		if (tag.contains("address")) {
 			this.address = new MailAddress(tag.getCompound("address"));
 		}
@@ -52,8 +62,7 @@ public class POBox extends SavedData implements Container {
 		letters.read(tag);
 	}
 
-	@Override
-	public CompoundTag save(CompoundTag compoundNBT) {
+	public CompoundTag write(CompoundTag compoundNBT) {
 		if (this.address != null) {
 			CompoundTag nbt = new CompoundTag();
 			this.address.write(nbt);
@@ -109,8 +118,18 @@ public class POBox extends SavedData implements Container {
 
 	@Override
 	public void setDirty() {
-		super.setDirty();
+		updateWatchers.forEach(Watcher::onWatchableUpdate);
 		letters.setChanged();
+	}
+
+	@Override
+	public boolean registerUpdateWatcher(Watcher updateWatcher) {
+		return updateWatchers.add(updateWatcher);
+	}
+
+	@Override
+	public boolean unregisterUpdateWatcher(Watcher updateWatcher) {
+		return updateWatchers.remove(updateWatcher);
 	}
 
 	@Override
