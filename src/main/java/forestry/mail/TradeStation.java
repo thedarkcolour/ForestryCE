@@ -255,7 +255,7 @@ public class TradeStation implements ITradeStation {
 		ItemStack mailstack = LetterProperties.createStampedLetterStack(mail);
 		mailstack.setTag(compoundNBT);
 
-		IPostalState responseState = PostManager.postRegistry.getPostOffice(world).lodgeLetter(world, mailstack, doLodge);
+		IPostalState responseState = PostOffice.getOrCreate(world).lodgeLetter(world, mailstack, doLodge);
 
 		if (!responseState.isOk()) {
 			return new ResponseNotMailable(responseState);
@@ -300,7 +300,7 @@ public class TradeStation implements ITradeStation {
 			ItemStack confirmstack = LetterProperties.createStampedLetterStack(confirm);
 			confirmstack.setTag(compoundNBT);
 
-			PostManager.postRegistry.getPostOffice(world).lodgeLetter(world, confirmstack, doLodge);
+			PostOffice.getOrCreate(world).lodgeLetter(world, confirmstack, doLodge);
 
 			removePaper();
 			removeStamps(new int[]{0, 1});

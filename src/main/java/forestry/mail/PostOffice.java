@@ -130,4 +130,8 @@ public class PostOffice extends SavedData implements IPostOffice {
 			}
 		}
 	}
+
+	public static PostOffice getOrCreate(ServerLevel level) {
+		return level.getDataStorage().computeIfAbsent(PostOffice::new, PostOffice::new, PostOffice.SAVE_NAME);
+	}
 }

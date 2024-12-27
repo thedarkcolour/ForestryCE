@@ -19,7 +19,6 @@ import net.minecraft.resources.ResourceLocation;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 
 import forestry.api.client.IClientModuleHandler;
@@ -49,14 +48,8 @@ public class ModuleMail extends BlankForestryModule {
 
 	@Override
 	public void registerEvents(IEventBus modBus) {
-		MinecraftForge.EVENT_BUS.addListener(ModuleMail::onWorldLoad);
-
 		MinecraftForge.EVENT_BUS.register(new EventHandlerMailAlert());
 		PostalCarriers.register(modBus);
-	}
-
-	private static void onWorldLoad(LevelEvent.Load event) {
-		PostRegistry.cachedPostOffice = null;
 	}
 
 	@Override

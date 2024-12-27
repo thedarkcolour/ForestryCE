@@ -13,32 +13,15 @@ package forestry.mail;
 import javax.annotation.Nullable;
 
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 
 import forestry.api.mail.ILetter;
 import forestry.api.mail.IMailAddress;
-import forestry.api.mail.IPostOffice;
 import forestry.api.mail.IPostRegistry;
 import forestry.api.mail.PostManager;
 import forestry.mail.features.MailItems;
 
 public class PostRegistry implements IPostRegistry {
-	@Nullable
-	public static PostOffice cachedPostOffice;
-
-	@Override
-	public IPostOffice getPostOffice(ServerLevel world) {
-		if (cachedPostOffice != null) {
-			return cachedPostOffice;
-		}
-
-		PostOffice office = world.getDataStorage().computeIfAbsent(PostOffice::new, PostOffice::new, PostOffice.SAVE_NAME);
-
-		cachedPostOffice = office;
-		return office;
-	}
-
 	/* LETTERS */
 	@Override
 	public ILetter createLetter(IMailAddress sender, IMailAddress recipient) {

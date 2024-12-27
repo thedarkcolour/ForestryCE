@@ -79,7 +79,7 @@ public class TileMailbox extends TileBase {
 		if (letter != null) {
 			//this is only called after !world.isRemote has been checked, so I believe the cast is OK
 			ServerLevel world = (ServerLevel) this.level;
-			result = PostManager.postRegistry.getPostOffice(world).lodgeLetter(world, letterStack, true);
+			result = PostOffice.getOrCreate(world).lodgeLetter(world, letterStack, true);
 		} else {
 			result = EnumDeliveryState.NOT_MAILABLE;
 		}
