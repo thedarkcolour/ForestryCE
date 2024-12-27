@@ -1,4 +1,4 @@
-// 1.20.1	2024-12-24T13:33:39.2545737	Tags for minecraft:block mod id forestry
+// 1.20.1	2024-12-26T22:45:10.7501274	Tags for minecraft:block mod id forestry
 37a390e7a402ae2ce1addd2b8bbefd6229e8c7c6 data/forestry/tags/blocks/acacia_desert_logs.json
 d38d236618a81cc1b2e0dbb4e4d7c11e43e522ea data/forestry/tags/blocks/balsa_logs.json
 16059fb3cfd04606a73b78eaefbf7659417cb9d5 data/forestry/tags/blocks/baobab_logs.json
@@ -67,6 +67,7 @@ ce6210a1da642c35100b944ac690d4e987fbd2fe data/minecraft/tags/blocks/fences.json
 782be1504a178d2f90bc5d36b6617d64d15de1de data/minecraft/tags/blocks/mineable/pickaxe.json
 a74d324eaacf17486a9612367d49a24299a17723 data/minecraft/tags/blocks/mineable/shovel.json
 4f0f5d3a71d5e122fb2e1f8e6ba54801b535d904 data/minecraft/tags/blocks/needs_stone_tool.json
+4c9c3770f37424e1a7b788e1cefd14c740a72e2e data/minecraft/tags/blocks/overworld_natural_logs.json
 b8d8845e32db9a28a151672112321b3b2ef862c6 data/minecraft/tags/blocks/planks.json
 aa3ef881a072a72a240e6e382073be189586b71b data/minecraft/tags/blocks/saplings.json
 7490f2ef65e294f43406b0accf0563e09ef6a664 data/minecraft/tags/blocks/slabs.json

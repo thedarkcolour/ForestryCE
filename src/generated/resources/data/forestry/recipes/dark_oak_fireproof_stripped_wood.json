@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "bark",
+  "key": {
+    "#": {
+      "item": "forestry:dark_oak_fireproof_stripped_log"
+    }
+  },
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "result": {
+    "item": "forestry:dark_oak_fireproof_stripped_wood"
+  },
+  "show_notification": true
+}

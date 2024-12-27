@@ -1,0 +1,33 @@
+{
+  "values": [
+    "forestry:larch_log",
+    "forestry:teak_log",
+    "forestry:acacia_desert_log",
+    "forestry:lime_log",
+    "forestry:chestnut_log",
+    "forestry:wenge_log",
+    "forestry:baobab_log",
+    "forestry:sequoia_log",
+    "forestry:kapok_log",
+    "forestry:ebony_log",
+    "forestry:mahogany_log",
+    "forestry:balsa_log",
+    "forestry:willow_log",
+    "forestry:walnut_log",
+    "forestry:greenheart_log",
+    "forestry:hill_cherry_log",
+    "forestry:mahoe_log",
+    "forestry:poplar_log",
+    "forestry:palm_log",
+    "forestry:papaya_log",
+    "forestry:pine_log",
+    "forestry:plum_log",
+    "forestry:maple_log",
+    "forestry:citrus_log",
+    "forestry:giganteum_log",
+    "forestry:ipe_log",
+    "forestry:padauk_log",
+    "forestry:cocobolo_log",
+    "forestry:zebrawood_log"
+  ]
+}

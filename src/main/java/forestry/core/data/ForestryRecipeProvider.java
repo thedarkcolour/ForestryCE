@@ -404,8 +404,13 @@ public class ForestryRecipeProvider {
 			Block planks = woodAccess.getBlock(woodType, WoodBlockKind.PLANKS, false).getBlock();
 			Block fireproofPlanks = woodAccess.getBlock(woodType, WoodBlockKind.PLANKS, true).getBlock();
 			Block log = woodAccess.getBlock(woodType, WoodBlockKind.LOG, false).getBlock();
-			Block wood = woodAccess.getBlock(woodType, WoodBlockKind.WOOD, false).getBlock();
 			Block fireproofLog = woodAccess.getBlock(woodType, WoodBlockKind.LOG, true).getBlock();
+			Block wood = woodAccess.getBlock(woodType, WoodBlockKind.WOOD, false).getBlock();
+			Block fireproofWood = woodAccess.getBlock(woodType, WoodBlockKind.WOOD, true).getBlock();
+			Block strippedLog = woodAccess.getBlock(woodType, WoodBlockKind.STRIPPED_LOG, false).getBlock();
+			Block fireproofStrippedLog = woodAccess.getBlock(woodType, WoodBlockKind.STRIPPED_LOG, true).getBlock();
+			Block strippedWood = woodAccess.getBlock(woodType, WoodBlockKind.STRIPPED_WOOD, false).getBlock();
+			Block fireproofStrippedWood = woodAccess.getBlock(woodType, WoodBlockKind.STRIPPED_WOOD, true).getBlock();
 			Block door = woodAccess.getBlock(woodType, WoodBlockKind.DOOR, false).getBlock();
 			Block fence = woodAccess.getBlock(woodType, WoodBlockKind.FENCE, false).getBlock();
 			Block fireproofFence = woodAccess.getBlock(woodType, WoodBlockKind.FENCE, true).getBlock();
@@ -420,22 +425,23 @@ public class ForestryRecipeProvider {
 
 			// Regular (Forestry)
 			if (woodType instanceof ForestryWoodType) {
-				makeCommonWoodenSet(recipes, planks, log, fence, fenceGate, slab, stairs);
-				recipes.grid2x2(RecipeCategory.BUILDING_BLOCKS, wood, 3, Ingredient.of(log), "bark");
+				makeCommonWoodenSet(recipes, planks, log, wood, strippedLog, strippedWood, fence, fenceGate, slab, stairs);
 			}
 
 			// Fireproof (Vanilla & Forestry)
-			makeCommonWoodenSet(recipes, fireproofPlanks, fireproofLog, fireproofFence, fireproofFenceGate, fireproofSlab, fireproofStairs);
+			makeCommonWoodenSet(recipes, fireproofPlanks, fireproofLog, fireproofWood, fireproofStrippedLog, fireproofStrippedWood, fireproofFence, fireproofFenceGate, fireproofSlab, fireproofStairs);
 		}
 	}
 
 	// Shared between regular and fireproof recipes
-	private static void makeCommonWoodenSet(MKRecipeProvider recipes, Block planks, Block log, Block fence, Block fenceGate, Block slab, Block stairs) {
+	private static void makeCommonWoodenSet(MKRecipeProvider recipes, Block planks, Block log, Block wood, Block strippedLog, Block strippedWood, Block fence, Block fenceGate, Block slab, Block stairs) {
 		recipes.shapelessCrafting(RecipeCategory.BUILDING_BLOCKS, planks, 4, "planks", log);
 		recipes.woodenFence(fence, planks);
 		recipes.woodenFenceGate(fenceGate, planks);
 		recipes.woodenSlab(slab, planks);
 		recipes.woodenStairs(stairs, planks);
+		recipes.grid2x2(RecipeCategory.BUILDING_BLOCKS, wood, 3, Ingredient.of(log), "bark");
+		recipes.grid2x2(RecipeCategory.BUILDING_BLOCKS, strippedWood, 3, Ingredient.of(strippedLog), "bark");
 	}
 
 	private static void registerFoodRecipes(MKRecipeProvider recipes) {
