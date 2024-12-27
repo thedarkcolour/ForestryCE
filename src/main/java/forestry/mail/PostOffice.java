@@ -23,7 +23,6 @@ import forestry.api.mail.IPostOffice;
 import forestry.api.mail.IPostalCarrier;
 import forestry.api.mail.IPostalState;
 import forestry.api.mail.IStamps;
-import forestry.api.mail.PostManager;
 import forestry.mail.features.MailItems;
 import forestry.mail.items.EnumStampDefinition;
 
@@ -82,7 +81,7 @@ public class PostOffice extends SavedData implements IPostOffice {
 	// / DELIVERY
 	@Override
 	public IPostalState lodgeLetter(ServerLevel world, ItemStack itemstack, boolean doLodge) {
-		ILetter letter = PostManager.postRegistry.getLetter(itemstack);
+		ILetter letter = LetterUtils.getLetter(itemstack);
 		if (letter == null) {
 			return EnumDeliveryState.NOT_MAILABLE;
 		}

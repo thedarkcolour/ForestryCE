@@ -28,7 +28,6 @@ import com.mojang.authlib.GameProfile;
 import forestry.api.mail.ILetter;
 import forestry.api.mail.IMailAddress;
 import forestry.api.mail.IPostalState;
-import forestry.api.mail.PostManager;
 import forestry.core.inventory.InventoryAdapter;
 import forestry.core.tiles.TileBase;
 import forestry.mail.features.MailTiles;
@@ -50,7 +49,7 @@ public class TileMailbox extends TileBase {
 
 		ItemStack heldItem = player.getItemInHand(player.getUsedItemHand());
 		// Handle letter sending
-		if (PostManager.postRegistry.isLetter(heldItem)) {
+		if (LetterUtils.isLetter(heldItem)) {
 			IPostalState result = this.tryDispatchLetter(heldItem);
 			if (!result.isOk()) {
 				player.sendSystemMessage(result.getDescription());
@@ -73,7 +72,7 @@ public class TileMailbox extends TileBase {
 	}
 
 	private IPostalState tryDispatchLetter(ItemStack letterStack) {
-		ILetter letter = PostManager.postRegistry.getLetter(letterStack);
+		ILetter letter = LetterUtils.getLetter(letterStack);
 		IPostalState result;
 
 		if (letter != null) {

@@ -36,7 +36,6 @@ import forestry.api.mail.IMailAddress;
 import forestry.api.mail.IPostalState;
 import forestry.api.mail.IStamps;
 import forestry.api.mail.ITradeStation;
-import forestry.api.mail.PostManager;
 import forestry.core.inventory.InventoryAdapter;
 import forestry.core.utils.InventoryUtil;
 import forestry.core.utils.ItemStackUtil;
@@ -184,7 +183,7 @@ public class TradeStation implements ITradeStation {
 
 		boolean sendOwnerNotice = doLodge && owner != null;
 
-		ILetter letter = PostManager.postRegistry.getLetter(letterstack);
+		ILetter letter = LetterUtils.getLetter(letterstack);
 
 		if (!isVirtual() && !hasPaper(sendOwnerNotice ? 2 : 1)) {
 			return EnumTradeStationState.INSUFFICIENT_PAPER;

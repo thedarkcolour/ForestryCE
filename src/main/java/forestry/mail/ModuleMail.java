@@ -12,17 +12,24 @@ package forestry.mail;
 
 import java.util.function.Consumer;
 
+import forestry.api.mail.IMailAddress;
+import forestry.core.utils.NetworkUtil;
 import forestry.mail.carriers.PostalCarriers;
+import forestry.mail.carriers.players.POBox;
+import forestry.mail.carriers.players.POBoxRegistry;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.resources.ResourceLocation;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 
 import forestry.api.client.IClientModuleHandler;
-import forestry.api.mail.PostManager;
 import forestry.api.modules.ForestryModule;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.api.modules.IPacketRegistry;
@@ -48,13 +55,8 @@ public class ModuleMail extends BlankForestryModule {
 
 	@Override
 	public void registerEvents(IEventBus modBus) {
-		MinecraftForge.EVENT_BUS.register(new EventHandlerMailAlert());
+		MinecraftForge.EVENT_BUS.addListener(ModuleMail::handlePlayerLoggedIn);
 		PostalCarriers.register(modBus);
-	}
-
-	@Override
-	public void setupApi() {
-		PostManager.postRegistry = new PostRegistry();
 	}
 
 	@Override
