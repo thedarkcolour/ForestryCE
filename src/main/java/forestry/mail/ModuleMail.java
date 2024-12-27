@@ -59,6 +59,18 @@ public class ModuleMail extends BlankForestryModule {
 		PostalCarriers.register(modBus);
 	}
 
+	public static void handlePlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
+		Player player = event.getEntity();
+		if (player.level.isClientSide) {
+			return;
+		}
+
+		IMailAddress address = new MailAddress(player.getGameProfile());
+		POBox pobox = POBoxRegistry.getOrCreate((ServerLevel) player.level).getOrCreatePOBox(address);
+		PacketPOBoxInfoResponse packet = new PacketPOBoxInfoResponse(pobox.getPOBoxInfo(), false);
+		NetworkUtil.sendToPlayer(packet, (ServerPlayer) player);
+	}
+
 	@Override
 	public void addToRootCommand(LiteralArgumentBuilder<CommandSourceStack> command) {
 		command.then(CommandMail.register());
