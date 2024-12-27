@@ -12,7 +12,7 @@
  */
 package forestry.mail.commands;
 
-import forestry.mail.TradeRegistry;
+import forestry.mail.carriers.trading.TradeStationRegistry;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
@@ -49,7 +49,7 @@ public class CommandMail {
 		public static int execute(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
 			ServerPlayer player = context.getSource().getPlayerOrException();
 			ServerLevel world = (ServerLevel) player.level;
-			for (ITradeStation trade : TradeRegistry.getOrCreate(world).getActiveTradeStations().values()) {
+			for (ITradeStation trade : TradeStationRegistry.getOrCreate(world).getActiveTradeStations().values()) {
 				CommandHelpers.sendChatMessage(context.getSource(), makeTradeListEntry(trade.getTradeInfo()));
 			}
 
@@ -86,7 +86,7 @@ public class CommandMail {
 			Level world = player.getCommandSenderWorld();
 
 			MailAddress address = new MailAddress(player.getGameProfile());
-			ITradeStation trade = TradeRegistry.getOrCreate((ServerLevel) world).getTradeStation(address);
+			ITradeStation trade = TradeStationRegistry.getOrCreate((ServerLevel) world).getTradeStation(address);
 
 			if (trade == null) {
 				Style red = Style.EMPTY;

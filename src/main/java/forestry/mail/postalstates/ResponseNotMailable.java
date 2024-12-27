@@ -1,4 +1,4 @@
-package forestry.mail;
+package forestry.mail.postalstates;
 
 import net.minecraft.network.chat.Component;
 

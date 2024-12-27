@@ -10,6 +10,7 @@
  ******************************************************************************/
 package forestry.mail;
 
+import forestry.mail.postalstates.EnumDeliveryState;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;

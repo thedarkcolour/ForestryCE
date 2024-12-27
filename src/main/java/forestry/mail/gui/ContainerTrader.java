@@ -19,7 +19,7 @@ import forestry.core.gui.slots.SlotFiltered;
 import forestry.core.gui.slots.SlotForestry;
 import forestry.core.gui.slots.SlotOutput;
 import forestry.core.tiles.TileUtil;
-import forestry.mail.TradeStation;
+import forestry.mail.carriers.trading.TradeStation;
 import forestry.mail.features.MailMenuTypes;
 import forestry.mail.tiles.TileTrader;
 

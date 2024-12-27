@@ -11,6 +11,9 @@
 package forestry.mail.tiles;
 
 import forestry.mail.*;
+import forestry.mail.carriers.players.POBox;
+import forestry.mail.carriers.players.POBoxRegistry;
+import forestry.mail.postalstates.EnumDeliveryState;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.player.Inventory;

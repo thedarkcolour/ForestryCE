@@ -5,7 +5,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import forestry.api.ForestryConstants;
 import forestry.core.config.Constants;
 import forestry.core.config.ForestryConfig;
-import forestry.mail.POBoxInfo;
+import forestry.mail.carriers.players.POBoxInfo;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.toasts.Toast;
 import net.minecraft.client.gui.components.toasts.ToastComponent;

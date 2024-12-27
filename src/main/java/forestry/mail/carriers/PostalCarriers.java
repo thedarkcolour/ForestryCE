@@ -2,6 +2,8 @@ package forestry.mail.carriers;
 
 import forestry.api.ForestryConstants;
 import forestry.api.mail.IPostalCarrier;
+import forestry.mail.carriers.players.CarrierPlayer;
+import forestry.mail.carriers.trading.CarrierTrader;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;

@@ -8,7 +8,7 @@
  * Various Contributors including, but not limited to:
  * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
  ******************************************************************************/
-package forestry.mail;
+package forestry.mail.carriers.players;
 
 import com.google.common.base.Preconditions;
 
@@ -16,6 +16,10 @@ import javax.annotation.Nullable;
 
 import forestry.api.core.INbtReadable;
 import forestry.api.core.INbtWritable;
+import forestry.mail.IWatchable;
+import forestry.mail.Letter;
+import forestry.mail.LetterUtils;
+import forestry.mail.MailAddress;
 import forestry.mail.carriers.PostalCarriers;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.Container;
