@@ -10,7 +10,7 @@
  ******************************************************************************/
 package forestry.mail.tiles;
 
-import forestry.mail.MailAddress;
+import forestry.mail.*;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.player.Inventory;
@@ -31,9 +31,6 @@ import forestry.api.mail.IPostalState;
 import forestry.api.mail.PostManager;
 import forestry.core.inventory.InventoryAdapter;
 import forestry.core.tiles.TileBase;
-import forestry.mail.EnumDeliveryState;
-import forestry.mail.POBox;
-import forestry.mail.PostRegistry;
 import forestry.mail.features.MailTiles;
 import forestry.mail.gui.ContainerMailbox;
 
@@ -72,7 +69,7 @@ public class TileMailbox extends TileBase {
 		}
 
 		IMailAddress address = new MailAddress(playerProfile);
-		return PostRegistry.getOrCreatePOBox((ServerLevel) world, address);
+		return POBoxRegistry.getOrCreate((ServerLevel) world).getOrCreatePOBox(address);
 	}
 
 	private IPostalState tryDispatchLetter(ItemStack letterStack) {

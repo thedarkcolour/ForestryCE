@@ -11,14 +11,10 @@
 package forestry.mail;
 
 import javax.annotation.Nullable;
-import java.util.HashMap;
-import java.util.Map;
 
-import forestry.mail.carriers.PostalCarriers;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 
 import forestry.api.mail.ILetter;
 import forestry.api.mail.IMailAddress;
@@ -30,40 +26,6 @@ import forestry.mail.features.MailItems;
 public class PostRegistry implements IPostRegistry {
 	@Nullable
 	public static PostOffice cachedPostOffice;
-	public static final Map<IMailAddress, POBox> cachedPOBoxes = new HashMap<>();
-
-
-	/**
-	 * @param world   the Minecraft world the PO box will be in
-	 * @param address the potential address of the PO box
-	 * @return true if the passed address is valid for PO Boxes.
-	 */
-	@Override
-	public boolean isValidPOBox(Level world, IMailAddress address) {
-		return address.getCarrier().equals(PostalCarriers.PLAYER.get()) && address.getName().matches("^[a-zA-Z0-9]+$");
-	}
-
-	@Nullable
-	public static POBox getPOBox(ServerLevel world, IMailAddress address) {
-		if (cachedPOBoxes.containsKey(address)) {
-			return cachedPOBoxes.get(address);
-		}
-
-		return world.getDataStorage().get(POBox::new, POBox.SAVE_NAME + address);
-	}
-
-	public static POBox getOrCreatePOBox(ServerLevel world, IMailAddress add) {
-		POBox pobox = getPOBox(world, add);
-
-		if (pobox == null) {
-			pobox = world.getDataStorage().computeIfAbsent(POBox::new, () -> new POBox(add), POBox.SAVE_NAME + add);
-
-			pobox.setDirty();
-			cachedPOBoxes.put(add, pobox);
-		}
-
-		return pobox;
-	}
 
 	@Override
 	public IPostOffice getPostOffice(ServerLevel world) {

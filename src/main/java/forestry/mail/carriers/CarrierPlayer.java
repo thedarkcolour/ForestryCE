@@ -15,10 +15,7 @@ import forestry.api.client.IForestryClientApi;
 import forestry.api.mail.*;
 import forestry.core.utils.NetworkUtil;
 import forestry.core.utils.PlayerUtil;
-import forestry.mail.EnumDeliveryState;
-import forestry.mail.MailAddress;
-import forestry.mail.POBox;
-import forestry.mail.PostRegistry;
+import forestry.mail.*;
 import forestry.mail.network.packets.PacketPOBoxInfoResponse;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
@@ -50,7 +47,7 @@ public class CarrierPlayer implements IPostalCarrier {
 
 	@Override
 	public IPostalState deliverLetter(ServerLevel world, IPostOffice office, IMailAddress recipient, ItemStack letterStack, boolean doDeliver) {
-		POBox pobox = PostRegistry.getOrCreatePOBox(world, recipient);
+		POBox pobox = POBoxRegistry.getOrCreate(world).getOrCreatePOBox(recipient);
 		if (pobox == null) {
 			return EnumDeliveryState.NO_MAILBOX;
 		}
