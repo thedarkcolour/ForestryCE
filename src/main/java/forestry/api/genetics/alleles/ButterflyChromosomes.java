@@ -45,7 +45,7 @@ public class ButterflyChromosomes {
 	/**
 	 * Whether diurnal butterflies can work during the night, or nocturnal butterflies (moths) can work during the day.
 	 */
-	public static final IBooleanChromosome NEVER_SLEEPS = BeeChromosomes.NEVER_SLEEPS;
+	public static final IBooleanChromosome NEVER_SLEEPS = ForestryAlleles.REGISTRY.booleanChromosome(forestry("never_sleeps"));
 	/**
 	 * Whether this butterfly can spawn or fly while it is raining.
 	 */

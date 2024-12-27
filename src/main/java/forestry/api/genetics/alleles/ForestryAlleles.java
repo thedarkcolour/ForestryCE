@@ -6,8 +6,10 @@ import net.minecraft.core.Vec3i;
 
 import forestry.api.ForestryConstants;
 import forestry.api.IForestryApi;
+import forestry.api.apiculture.ForestryActivityTypes;
 import forestry.api.apiculture.ForestryBeeEffects;
 import forestry.api.apiculture.ForestryFlowerTypes;
+import forestry.api.apiculture.IActivityType;
 import forestry.api.apiculture.IFlowerType;
 import forestry.api.apiculture.genetics.IBeeEffect;
 import forestry.api.arboriculture.ForestryFruits;
@@ -97,6 +99,12 @@ public class ForestryAlleles {
 
 	public static final List<IValueAllele<ToleranceType>> DEFAULT_TEMPERATURE_TOLERANCES = List.of(TOLERANCE_NONE, TOLERANCE_BOTH_1, TOLERANCE_BOTH_2, TOLERANCE_BOTH_3, TOLERANCE_BOTH_4, TOLERANCE_BOTH_5, TOLERANCE_UP_1, TOLERANCE_UP_2, TOLERANCE_UP_3, TOLERANCE_UP_4, TOLERANCE_UP_5, TOLERANCE_DOWN_1, TOLERANCE_DOWN_2, TOLERANCE_DOWN_3, TOLERANCE_DOWN_4, TOLERANCE_DOWN_5);
 	public static final List<IValueAllele<ToleranceType>> DEFAULT_HUMIDITY_TOLERANCES = List.of(TOLERANCE_NONE, TOLERANCE_BOTH_1, TOLERANCE_BOTH_2, TOLERANCE_UP_1, TOLERANCE_UP_2, TOLERANCE_DOWN_1, TOLERANCE_DOWN_2);
+
+	// Activity
+	public static final IRegistryAllele<IActivityType> ACTIVITY_DIURNAL = REGISTRY.registryAllele(ForestryActivityTypes.DIURNAL, BeeChromosomes.ACTIVITY);
+	public static final IRegistryAllele<IActivityType> ACTIVITY_NOCTURNAL = REGISTRY.registryAllele(ForestryActivityTypes.NOCTURNAL, BeeChromosomes.ACTIVITY);
+	public static final IRegistryAllele<IActivityType> ACTIVITY_CREPUSCULAR = REGISTRY.registryAllele(ForestryActivityTypes.CREPUSCULAR, BeeChromosomes.ACTIVITY);
+	public static final IRegistryAllele<IActivityType> ACTIVITY_METATURNAL = REGISTRY.registryAllele(ForestryActivityTypes.METATURNAL, BeeChromosomes.ACTIVITY);
 
 	// Territory
 	public static final IValueAllele<Vec3i> TERRITORY_AVERAGE = REGISTRY.valueAllele(new Vec3i(9, 6, 9), IAlleleNaming.VEC3I_NAMING);

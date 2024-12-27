@@ -9,6 +9,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Rarity;
 
+import forestry.api.apiculture.IActivityType;
 import forestry.api.apiculture.IBeeHousing;
 import forestry.api.apiculture.IBeeJubilance;
 import forestry.api.apiculture.genetics.IBee;
@@ -20,13 +21,13 @@ import forestry.api.core.TemperatureType;
 import forestry.api.genetics.ClimateHelper;
 import forestry.api.genetics.IGenome;
 import forestry.api.genetics.alleles.BeeChromosomes;
+import forestry.api.genetics.alleles.ForestryAlleles;
+import forestry.api.genetics.alleles.IValueAllele;
 import forestry.api.plugin.IBeeSpeciesBuilder;
 import forestry.apiculture.genetics.Bee;
-import forestry.core.genetics.GenericRatings;
 import forestry.core.genetics.Species;
 
 public class BeeSpecies extends Species<IBeeSpeciesType, IBee> implements IBeeSpecies {
-	private final boolean nocturnal;
 	private final List<IProduct> products;
 	private final List<IProduct> specialties;
 	private final TemperatureType temperature;
@@ -39,7 +40,6 @@ public class BeeSpecies extends Species<IBeeSpeciesType, IBee> implements IBeeSp
 	public BeeSpecies(ResourceLocation id, IBeeSpeciesType speciesType, IGenome defaultGenome, IBeeSpeciesBuilder builder) {
 		super(id, speciesType, defaultGenome, builder);
 
-		this.nocturnal = builder.isNocturnal();
 		this.products = builder.buildProducts();
 		this.specialties = builder.buildSpecialties();
 		this.temperature = builder.getTemperature();
@@ -48,11 +48,6 @@ public class BeeSpecies extends Species<IBeeSpeciesType, IBee> implements IBeeSp
 		this.body = builder.getBody();
 		this.outline = builder.getOutline();
 		this.stripes = builder.getStripes();
-	}
-
-	@Override
-	public boolean isNocturnal() {
-		return this.nocturnal;
 	}
 
 	@Override
@@ -148,8 +143,9 @@ public class BeeSpecies extends Species<IBeeSpeciesType, IBee> implements IBeeSp
 
 		tooltip.add(genome.getActiveName(BeeChromosomes.FLOWER_TYPE).withStyle(ChatFormatting.GRAY));
 
-		if (genome.getActiveValue(BeeChromosomes.NEVER_SLEEPS)) {
-			tooltip.add(GenericRatings.rateActivityTime(true, false).withStyle(ChatFormatting.RED));
+		IValueAllele<IActivityType> activityAllele = genome.getActiveAllele(BeeChromosomes.ACTIVITY);
+		if (activityAllele != ForestryAlleles.ACTIVITY_DIURNAL) {
+			tooltip.add(BeeChromosomes.ACTIVITY.getDisplayName(activityAllele).withStyle(ChatFormatting.GOLD));
 		}
 
 		if (genome.getActiveValue(BeeChromosomes.TOLERATES_RAIN)) {

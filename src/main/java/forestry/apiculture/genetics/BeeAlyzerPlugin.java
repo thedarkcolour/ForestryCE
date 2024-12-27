@@ -160,20 +160,7 @@ public enum BeeAlyzerPlugin implements IAlyzerPlugin {
 						Component yes = Component.translatable("for.yes");
 						Component no = Component.translatable("for.no");
 
-						Component diurnal0, nocturnal0;
-						if (genome.getActiveValue(BeeChromosomes.NEVER_SLEEPS)) {
-							nocturnal0 = diurnal0 = yes;
-						} else {
-							nocturnal0 = primaryAllele.isNocturnal() ? yes : no;
-							diurnal0 = !primaryAllele.isNocturnal() ? yes : no;
-						}
-
-						textLayout.drawLine(graphics, Component.translatable("for.gui.diurnal"), GuiAlyzer.COLUMN_0);
-						textLayout.drawLine(graphics, diurnal0, GuiAlyzer.COLUMN_1, GuiAlyzer.getColorCoding(false));
-						textLayout.newLineCompressed();
-
-						textLayout.drawLine(graphics, Component.translatable("for.gui.nocturnal"), GuiAlyzer.COLUMN_0);
-						textLayout.drawLine(graphics, nocturnal0, GuiAlyzer.COLUMN_1, GuiAlyzer.getColorCoding(false));
+						guiAlyzer.drawHaploidChromosomeRow(graphics, Component.translatable("for.gui.activity"), bee, BeeChromosomes.ACTIVITY);
 						textLayout.newLineCompressed();
 
 						Component primary = genome.getActiveValue(BeeChromosomes.TOLERATES_RAIN) ? yes : no;
@@ -233,28 +220,7 @@ public enum BeeAlyzerPlugin implements IAlyzerPlugin {
 						Component yes = Component.translatable("for.yes");
 						Component no = Component.translatable("for.no");
 
-						Component diurnal0, diurnal1, nocturnal0, nocturnal1;
-						if (genome.getActiveValue(BeeChromosomes.NEVER_SLEEPS)) {
-							nocturnal0 = diurnal0 = yes;
-						} else {
-							nocturnal0 = primaryAllele.isNocturnal() ? yes : no;
-							diurnal0 = !primaryAllele.isNocturnal() ? yes : no;
-						}
-						if (genome.getInactiveValue(BeeChromosomes.NEVER_SLEEPS)) {
-							nocturnal1 = diurnal1 = yes;
-						} else {
-							nocturnal1 = secondaryAllele.isNocturnal() ? yes : no;
-							diurnal1 = !secondaryAllele.isNocturnal() ? yes : no;
-						}
-
-						textLayout.drawLine(graphics, Component.translatable("for.gui.diurnal"), GuiAlyzer.COLUMN_0);
-						textLayout.drawLine(graphics, diurnal0, GuiAlyzer.COLUMN_1, GuiAlyzer.getColorCoding(false));
-						textLayout.drawLine(graphics, diurnal1, GuiAlyzer.COLUMN_2, GuiAlyzer.getColorCoding(false));
-						textLayout.newLineCompressed();
-
-						textLayout.drawLine(graphics, Component.translatable("for.gui.nocturnal"), GuiAlyzer.COLUMN_0);
-						textLayout.drawLine(graphics, nocturnal0, GuiAlyzer.COLUMN_1, GuiAlyzer.getColorCoding(false));
-						textLayout.drawLine(graphics, nocturnal1, GuiAlyzer.COLUMN_2, GuiAlyzer.getColorCoding(false));
+						guiAlyzer.drawChromosomeRow(graphics, Component.translatable("for.gui.activity"), bee, BeeChromosomes.ACTIVITY);
 						textLayout.newLineCompressed();
 
 						Component primary = genome.getActiveValue(BeeChromosomes.TOLERATES_RAIN) ? yes : no;

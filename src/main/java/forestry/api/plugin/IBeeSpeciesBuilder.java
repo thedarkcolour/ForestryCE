@@ -71,11 +71,6 @@ public interface IBeeSpeciesBuilder extends ISpeciesBuilder<IBeeSpeciesType, IBe
 	 */
 	IBeeSpeciesBuilder setJubilance(IBeeJubilance jubilance);
 
-	/**
-	 * Specify whether this bee species is nocturnal.
-	 */
-	IBeeSpeciesBuilder setNocturnal(boolean nocturnal);
-
 	List<IProduct> buildProducts();
 
 	List<IProduct> buildSpecialties();
@@ -87,6 +82,4 @@ public interface IBeeSpeciesBuilder extends ISpeciesBuilder<IBeeSpeciesType, IBe
 	int getOutline();
 
 	IBeeJubilance getJubilance();
-
-	boolean isNocturnal();
 }

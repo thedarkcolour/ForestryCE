@@ -12,9 +12,11 @@ import net.minecraft.world.item.Items;
 
 import forestry.api.ForestryConstants;
 import forestry.api.ForestryTags;
+import forestry.api.apiculture.ForestryActivityTypes;
 import forestry.api.apiculture.ForestryBeeEffects;
 import forestry.api.apiculture.ForestryBeeSpecies;
 import forestry.api.apiculture.ForestryFlowerTypes;
+import forestry.api.apiculture.LightPreference;
 import forestry.api.apiculture.genetics.BeeLifeStage;
 import forestry.api.arboriculture.ForestryFruits;
 import forestry.api.arboriculture.ForestryTreeSpecies;
@@ -44,8 +46,10 @@ import forestry.api.plugin.ILepidopterologyRegistration;
 import forestry.api.plugin.IPollenRegistration;
 import forestry.apiculture.ApicultureFilterRule;
 import forestry.apiculture.ApicultureFilterRuleType;
+import forestry.apiculture.CrepuscularActivityType;
 import forestry.apiculture.EndFlowerType;
 import forestry.apiculture.FlowerType;
+import forestry.apiculture.SingleActivityType;
 import forestry.apiculture.features.ApicultureEffects;
 import forestry.apiculture.features.ApicultureItems;
 import forestry.apiculture.genetics.BeeSpeciesType;
@@ -112,7 +116,7 @@ public class DefaultForestryPlugin implements IForestryPlugin {
 					karyotype.set(BeeChromosomes.HUMIDITY_TOLERANCE, ForestryAlleles.TOLERANCE_NONE)
 							.addAlleles(ForestryAlleles.DEFAULT_HUMIDITY_TOLERANCES)
 							.setWeaklyInherited(true);
-					karyotype.set(BeeChromosomes.NEVER_SLEEPS, false)
+					karyotype.set(BeeChromosomes.ACTIVITY, ForestryAlleles.ACTIVITY_DIURNAL)
 							.setWeaklyInherited(true);
 					karyotype.set(BeeChromosomes.CAVE_DWELLING, false)
 							.setWeaklyInherited(true);
@@ -290,6 +294,11 @@ public class DefaultForestryPlugin implements IForestryPlugin {
 		apiculture.registerBeeEffect(ForestryBeeEffects.MYCOPHILIC, new FungificationBeeEffect());
 		apiculture.registerBeeEffect(ForestryBeeEffects.SIFTER, new SifterBeeEffect());
 		apiculture.registerBeeEffect(ForestryBeeEffects.HAKUNA_MATATA, new PotionBeeEffectExclusive(false, ApicultureEffects.HAKUNA_MATATA.get(), 20 * 60 * 3, 100, 1.0f, ApicultureEffects.MATATA.get()));
+
+		apiculture.registerActivityType(ForestryActivityTypes.DIURNAL, new SingleActivityType(0, 12000, ForestryError.NOT_DAY, LightPreference.ANY));
+		apiculture.registerActivityType(ForestryActivityTypes.NOCTURNAL, new SingleActivityType(12000, 24000, ForestryError.NOT_NIGHT, LightPreference.DARK));
+		apiculture.registerActivityType(ForestryActivityTypes.METATURNAL, new SingleActivityType(0, 24000, ForestryError.INVALID, LightPreference.ANY));
+		apiculture.registerActivityType(ForestryActivityTypes.CREPUSCULAR, new CrepuscularActivityType());
 
 		apiculture.registerSwarmerMaterial(ApicultureItems.ROYAL_JELLY.get(), 0.01f);
 	}

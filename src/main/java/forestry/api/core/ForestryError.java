@@ -13,6 +13,8 @@ import forestry.api.ForestryConstants;
  * All errors used by base Forestry for its blocks and items.
  */
 public enum ForestryError implements IError {
+	INVALID("invalid", "invalid"), // This error is a bug. Report to the GitHub repository of the mod that adds this block.
+
 	// Bees
 	TOO_HOT("too_hot"), // The bees are melting in the heat here and unable to work. Use the habitat locator to find a cooler climate.
 	TOO_COLD("too_cold"), // The bees are huddled together to survive the freezing cold here. Use the  habitat locator to find a warmer climate.
@@ -23,6 +25,7 @@ public enum ForestryError implements IError {
 	NOT_BRIGHT("not_lucid"), // The bees have trouble navigating in the dark.
 	NOT_DAY("not_day"), // The bees can only work during the daytime.
 	NOT_NIGHT("not_night"), // The bees can only work during the night.
+	NOT_TWILIGHT("not_twilight"), // The bees can only work during sunset or sunrise.
 	NO_FLOWER("no_flower"), // Hive members are not finding the right flowers. Use the Beealyzer to discover their flower preference.
 	NO_QUEEN("no_queen"), // Supply this hive with a queen or a princess and a drone.
 	NO_DRONE("no_drone"), // Mating requires a drone present.
@@ -78,9 +81,6 @@ public enum ForestryError implements IError {
 	NO_FERTILIZER("no_fertilizer"), // Farms require fertilizer for function. Compost is insufficient.
 	NO_FARMLAND("no_farmland"), // Smooth sandstone, bricks or stone bricks create a platform the farm will build on.
 	NO_LIQUID_FARM("no_liquid"), // Depending on rainfall, temperature and humidity farms need to be supplied with varying amounts of water.
-
-	// Habitatformer
-	WRONG_RESOURCE("wrong_resource", "no_recipe") // The habitatformer can not reach the targeted humidity wit the inserted fluid.
 	;
 
 	private final ResourceLocation id;

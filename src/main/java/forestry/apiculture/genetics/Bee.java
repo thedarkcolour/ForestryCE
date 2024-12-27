@@ -35,9 +35,11 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import forestry.api.IForestryApi;
+import forestry.api.apiculture.IActivityType;
 import forestry.api.apiculture.IBeeHousing;
 import forestry.api.apiculture.IBeeModifier;
 import forestry.api.apiculture.IFlowerType;
+import forestry.api.apiculture.LightPreference;
 import forestry.api.apiculture.genetics.IBee;
 import forestry.api.apiculture.genetics.IBeeEffect;
 import forestry.api.apiculture.genetics.IBeeSpecies;
@@ -168,10 +170,8 @@ public class Bee extends IndividualLiving<IBeeSpecies, IBee, IBeeSpeciesType> im
 
 	@Override
 	public Set<IError> getCanWork(IBeeHousing housing) {
-		Level world = housing.getWorldObj();
-
+		Level level = housing.getWorldObj();
 		Set<IError> errorStates = new HashSet<>();
-
 		IBeeModifier beeModifier = IForestryApi.INSTANCE.getHiveManager().createBeeHousingModifier(housing);
 
 		// / Rain needs tolerant flyers
@@ -180,30 +180,32 @@ public class Bee extends IndividualLiving<IBeeSpecies, IBee, IBeeSpeciesType> im
 		}
 
 		// / Night or darkness requires nocturnal species
-		if (world.isDay()) {
-			if (!canWorkDuringDay()) {
-				errorStates.add(ForestryError.NOT_NIGHT);
-			}
-		} else {
-			if (!canWorkAtNight(beeModifier)) {
-				errorStates.add(ForestryError.NOT_DAY);
-			}
-		}
+		IActivityType type = this.genome.getActiveValue(BeeChromosomes.ACTIVITY);
 
-		if (housing.getBlockLightValue() > Constants.APIARY_MIN_LEVEL_LIGHT) {
-			if (!canWorkDuringDay()) {
-				errorStates.add(ForestryError.NOT_GLOOMY);
+		if (!beeModifier.isAlwaysActive(genome)) {
+			long gameTime = level.getGameTime();
+			long dayTime = level.getDayTime();
+			BlockPos pos = housing.getCoordinates();
+
+			if (!type.isActive(gameTime, dayTime, pos)) {
+				errorStates.add(type.getInactiveError(gameTime, dayTime, pos));
 			}
-		} else {
-			if (!canWorkAtNight(beeModifier)) {
-				errorStates.add(ForestryError.NOT_BRIGHT);
+
+			if (housing.getBlockLightValue() > Constants.APIARY_MIN_LEVEL_LIGHT) {
+				if (type.getLightPreference() == LightPreference.DARK) {
+					errorStates.add(ForestryError.NOT_GLOOMY);
+				}
+			} else {
+				if (type.getLightPreference() == LightPreference.LIGHT) {
+					errorStates.add(ForestryError.NOT_BRIGHT);
+				}
 			}
 		}
 
 		// Check for the sky, except if in hell
 		// Whats the chance that a mod dimension will set its sky light to 0 rather than make it always night?
 		// I dont think its worth the extra processing to check every block above rather than rely on the cached value
-		if (!world.dimensionType().hasCeiling() && !(world.dimension() == Level.END)) {
+		if (!level.dimensionType().hasCeiling() && !(level.dimension() == Level.END)) {
 			if (!housing.canBlockSeeTheSky() && !canWorkUnderground(beeModifier)) {
 				errorStates.add(ForestryError.NO_SKY);
 			}
@@ -238,14 +240,6 @@ public class Bee extends IndividualLiving<IBeeSpecies, IBee, IBeeSpeciesType> im
 
 
 		return errorStates;
-	}
-
-	private boolean canWorkAtNight(IBeeModifier beeModifier) {
-		return genome.getActiveValue(BeeChromosomes.SPECIES).isNocturnal() || genome.getActiveValue(BeeChromosomes.NEVER_SLEEPS) || beeModifier.isSelfLighted();
-	}
-
-	private boolean canWorkDuringDay() {
-		return !genome.getActiveValue(BeeChromosomes.SPECIES).isNocturnal() || genome.getActiveValue(BeeChromosomes.NEVER_SLEEPS);
 	}
 
 	private boolean canWorkUnderground(IBeeModifier beeModifier) {

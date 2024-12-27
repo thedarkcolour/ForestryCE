@@ -2,6 +2,7 @@ package forestry.api.genetics.alleles;
 
 import net.minecraft.core.Vec3i;
 
+import forestry.api.apiculture.IActivityType;
 import forestry.api.apiculture.genetics.IBeeSpecies;
 import forestry.api.apiculture.IFlowerType;
 import forestry.api.apiculture.genetics.IBeeEffect;
@@ -41,7 +42,7 @@ public class BeeChromosomes {
 	/**
 	 * Whether diurnal bees can work during the night, or nocturnal bees can work during the day. Reused by butterflies.
 	 */
-	public static final IBooleanChromosome NEVER_SLEEPS = ForestryAlleles.REGISTRY.booleanChromosome(forestry("never_sleeps"));
+	public static final IRegistryChromosome<IActivityType> ACTIVITY = ForestryAlleles.REGISTRY.registryChromosome(forestry("activity"), IActivityType.class);
 	/**
 	 * Whether this bee can work when the sky above its housing is obstructed.
 	 */

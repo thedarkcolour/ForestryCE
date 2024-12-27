@@ -20,7 +20,6 @@ public class BeeSpeciesBuilder extends SpeciesBuilder<IBeeSpeciesType, IBeeSpeci
 	private int bodyColor = 0xffdc16;
 	private int stripesColor = 0;
 	private int outlineColor = -1;
-	private boolean nocturnal;
 	private IBeeJubilance jubilance = DefaultBeeJubilance.INSTANCE;
 
 	public BeeSpeciesBuilder(ResourceLocation id, String genus, String species, MutationsRegistration mutations) {
@@ -66,17 +65,6 @@ public class BeeSpeciesBuilder extends SpeciesBuilder<IBeeSpeciesType, IBeeSpeci
 	public IBeeSpeciesBuilder setJubilance(IBeeJubilance jubilance) {
 		this.jubilance = jubilance;
 		return this;
-	}
-
-	@Override
-	public IBeeSpeciesBuilder setNocturnal(boolean nocturnal) {
-		this.nocturnal = nocturnal;
-		return this;
-	}
-
-	@Override
-	public boolean isNocturnal() {
-		return this.nocturnal;
 	}
 
 	@Override

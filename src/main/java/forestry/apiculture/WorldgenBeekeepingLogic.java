@@ -13,10 +13,10 @@ package forestry.apiculture;
 import java.util.List;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
 
 import net.minecraftforge.api.distmarker.Dist;
@@ -25,11 +25,12 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import forestry.api.apiculture.IBeekeepingLogic;
 import forestry.api.apiculture.genetics.IBee;
 import forestry.api.genetics.IEffectData;
+import forestry.api.genetics.IGenome;
 import forestry.api.genetics.alleles.BeeChromosomes;
+import forestry.api.util.TickHelper;
 import forestry.apiculture.network.packets.PacketBeeLogicActive;
 import forestry.apiculture.tiles.TileHive;
 import forestry.core.utils.NetworkUtil;
-import forestry.api.util.TickHelper;
 
 public class WorldgenBeekeepingLogic implements IBeekeepingLogic {
 	private final TileHive housing;
@@ -96,9 +97,10 @@ public class WorldgenBeekeepingLogic implements IBeekeepingLogic {
 		if (tickHelper.updateOnInterval(200)) {
 			IBee queen = housing.getContainedBee();
 			hasFlowersCache.update(queen, housing);
-			Level world = housing.getWorldObj();
-			boolean canWork = (world.isDay() || queen.getGenome().getActiveValue(BeeChromosomes.NEVER_SLEEPS)) &&
-					(!housing.isRaining() || queen.getGenome().getActiveValue(BeeChromosomes.TOLERATES_RAIN));
+			Level level = housing.getWorldObj();
+			IGenome genome = queen.getGenome();
+			boolean canWork = genome.getActiveValue(BeeChromosomes.ACTIVITY).isActive(level.getGameTime(), level.getDayTime(), housing.getBlockPos()) &&
+					(!housing.isRaining() || genome.getActiveValue(BeeChromosomes.TOLERATES_RAIN));
 			boolean flowerCacheNeedsSync = hasFlowersCache.needsSync();
 
 			if (active != canWork) {

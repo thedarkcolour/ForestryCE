@@ -11,6 +11,7 @@ import java.util.function.Consumer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 
+import forestry.api.apiculture.IActivityType;
 import forestry.api.apiculture.IFlowerType;
 import forestry.api.apiculture.genetics.IBeeEffect;
 import forestry.api.apiculture.genetics.IBeeSpecies;
@@ -30,6 +31,7 @@ public class ApicultureRegistration extends SpeciesRegistration<IBeeSpeciesBuild
 	private final ModifiableRegistrar<ResourceLocation, IHiveBuilder, HiveBuilder> hives = new ModifiableRegistrar<>(IHiveBuilder.class);
 	private final Registrar<ResourceLocation, IFlowerType, IFlowerType> flowerTypes = new Registrar<>(IFlowerType.class);
 	private final Registrar<ResourceLocation, IBeeEffect, IBeeEffect> beeEffects = new Registrar<>(IBeeEffect.class);
+	private final Registrar<ResourceLocation, IActivityType, IActivityType> activityTypes = new Registrar<>(IActivityType.class);
 	private final ArrayList<VillageHive> commonVillageHives = new ArrayList<>();
 	private final ArrayList<VillageHive> rareVillageHives = new ArrayList<>();
 	private final Object2FloatOpenHashMap<Item> swarmerMaterials = new Object2FloatOpenHashMap<>();
@@ -71,6 +73,15 @@ public class ApicultureRegistration extends SpeciesRegistration<IBeeSpeciesBuild
 
 	public ImmutableMap<ResourceLocation, IBeeEffect> getBeeEffects() {
 		return this.beeEffects.build();
+	}
+
+	@Override
+	public void registerActivityType(ResourceLocation id, IActivityType type) {
+		this.activityTypes.create(id, type);
+	}
+
+	public ImmutableMap<ResourceLocation, IActivityType> getActivityTypes() {
+		return this.activityTypes.build();
 	}
 
 	@Override

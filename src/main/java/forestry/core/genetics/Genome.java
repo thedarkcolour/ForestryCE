@@ -8,10 +8,12 @@ import java.util.IdentityHashMap;
 import java.util.Map;
 
 import forestry.api.genetics.IGenome;
+import forestry.api.genetics.ISpecies;
 import forestry.api.genetics.alleles.AllelePair;
 import forestry.api.genetics.alleles.IAllele;
 import forestry.api.genetics.alleles.IChromosome;
 import forestry.api.genetics.alleles.IKaryotype;
+import forestry.api.genetics.alleles.IRegistryAllele;
 import forestry.api.plugin.IGenomeBuilder;
 
 public final class Genome implements IGenome {
@@ -26,11 +28,22 @@ public final class Genome implements IGenome {
 		this.chromosomes = chromosomes;
 	}
 
-	// Used by codec only
+	// Used by codec to sort alleles properly and populate missing chromosomes
 	public static IGenome fromUnsortedAlleles(Karyotype karyotype, Map<IChromosome<?>, AllelePair<?>> map) {
 		ImmutableMap.Builder<IChromosome<?>, AllelePair<?>> sorted = ImmutableMap.builderWithExpectedSize(map.size());
 		for (IChromosome<?> chromosome : karyotype.getChromosomes()) {
-			sorted.put(chromosome, map.get(chromosome));
+			// Fix missing chromosomes for backwards compatibility
+			AllelePair<?> pair = map.get(chromosome);
+			if (pair == null) {
+				pair = map.get(karyotype.getSpeciesChromosome())
+						.active()
+						.<IRegistryAllele<ISpecies<?>>>cast()
+						.value()
+						.getDefaultGenome()
+						.getAllelePair(chromosome);
+			}
+
+			sorted.put(chromosome, pair);
 		}
 		return new Genome(karyotype, sorted.buildOrThrow());
 	}

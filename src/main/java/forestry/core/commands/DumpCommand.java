@@ -168,8 +168,7 @@ public class DumpCommand {
 				Forestry.LOGGER.debug("  Secondary Stats:");
 				Forestry.LOGGER.debug("    Temperature: {}, {}", temperature, defaultGenome.getActiveName(BeeChromosomes.TEMPERATURE_TOLERANCE).getString());
 				Forestry.LOGGER.debug("    Humidity: {}, {}", humidity, defaultGenome.getActiveName(BeeChromosomes.HUMIDITY_TOLERANCE).getString());
-				Forestry.LOGGER.debug("    Nocturnal: {}", species.isNocturnal());
-				Forestry.LOGGER.debug("    Never sleeps: {}", defaultGenome.getActiveName(BeeChromosomes.NEVER_SLEEPS).getString());
+				Forestry.LOGGER.debug("    Activity: {}", defaultGenome.getActiveName(BeeChromosomes.ACTIVITY));
 				Forestry.LOGGER.debug("    Tolerant flyer: {}", defaultGenome.getActiveName(BeeChromosomes.TOLERATES_RAIN).getString());
 				Forestry.LOGGER.debug("    Cave-dwelling: {}", defaultGenome.getActiveName(BeeChromosomes.CAVE_DWELLING).getString());
 				Forestry.LOGGER.debug("    Flower Type: {}", defaultGenome.getActiveName(BeeChromosomes.FLOWER_TYPE).getString());

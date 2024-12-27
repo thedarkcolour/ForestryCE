@@ -7,6 +7,7 @@ import java.util.function.Consumer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 
+import forestry.api.apiculture.IActivityType;
 import forestry.api.apiculture.IFlowerType;
 import forestry.api.apiculture.genetics.IBeeEffect;
 import forestry.api.apiculture.hives.IHiveDefinition;
@@ -15,7 +16,7 @@ import forestry.api.genetics.alleles.IChromosome;
 
 /**
  * Entry point for apiculture related registration.
- * Obtain an instance by overriding {@link IForestryPlugin#registerApiculture)}.
+ * Obtain an instance by overriding {@link IForestryPlugin#registerApiculture}.
  */
 public interface IApicultureRegistration {
 	/**
@@ -63,7 +64,7 @@ public interface IApicultureRegistration {
 	 * Register a wild hive for world generation.
 	 *
 	 * @param id         The unique ID for this hive.
-	 * @param definition
+	 * @param definition The hive definition to register.
 	 */
 	IHiveBuilder registerHive(ResourceLocation id, IHiveDefinition definition);
 
@@ -75,15 +76,29 @@ public interface IApicultureRegistration {
 	 */
 	void modifyHive(ResourceLocation id, Consumer<IHiveBuilder> action);
 
+	/**
+	 * Register a flower type, a category of blocks that a bee can work with.
+	 *
+	 * @param id   The unique ID for this flower type.
+	 * @param type The flower type to register.
+	 */
 	void registerFlowerType(ResourceLocation id, IFlowerType type);
 
 	void registerBeeEffect(ResourceLocation id, IBeeEffect effect);
 
 	/**
+	 * Register an activity type, which defines activity periods for a bee.
+	 *
+	 * @param id   The unique ID for this activity type.
+	 * @param type The activity type to register.
+	 */
+	void registerActivityType(ResourceLocation id, IActivityType type);
+
+	/**
 	 * Registers an ingredient to be used in the Alveary Swarmer block, which creates swarm hives around the alveary
 	 * containing ignoble princesses with copies of the queen's genome.
 	 *
-	 * @param swarmItem  The item to be used.
+	 * @param swarmItem   The item to be used.
 	 * @param swarmChance The chance a swarm hive is created. For Royal Jelly, this is {@code 0.01} or 1%.
 	 */
 	void registerSwarmerMaterial(Item swarmItem, float swarmChance);

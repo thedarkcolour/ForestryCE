@@ -84,7 +84,7 @@ public interface IBeeModifier {
 	/**
 	 * @param genome       Genome of the bee this modifier is called for.
 	 * @param currentDecay Current decay. Starts out at {@code 1f} but may already have been modified by other modifiers.
-	 * @return Float modifying the chance for a swarmer queen to die off.
+	 * @return The new decay chance for a swarmer queen to die off.
 	 */
 	default float modifyGeneticDecay(IGenome genome, float currentDecay) {
 		return currentDecay;
@@ -98,9 +98,10 @@ public interface IBeeModifier {
 	}
 
 	/**
-	 * @return Whether bees in the hive can work during the night without {@link BeeChromosomes#NEVER_SLEEPS} or {@link IBeeSpecies#isNocturnal()}.
+	 * @param genome Genome of the bee this modifier is called for. Can be used to query the activity type.
+	 * @return Whether the bees in this hive should be active regardless of their activity type.
 	 */
-	default boolean isSelfLighted() {
+	default boolean isAlwaysActive(IGenome genome) {
 		return false;
 	}
 

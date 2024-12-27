@@ -8,6 +8,9 @@ import forestry.api.core.TemperatureType;
 import forestry.api.genetics.IGenome;
 import forestry.api.genetics.ISpecies;
 
+/**
+ * Represents a bee species. Defines a bee's traits, default genome, and produce.
+ */
 public interface IBeeSpecies extends ISpecies<IBee>, IProductProducer, ISpecialtyProducer {
 	@Override
 	IBeeSpeciesType getType();
@@ -22,8 +25,16 @@ public interface IBeeSpecies extends ISpecies<IBee>, IProductProducer, ISpecialt
 	 */
 	HumidityType getHumidity();
 
-	boolean isNocturnal();
-
+	/**
+	 * Determines whether a bee of this species is in a jubilant state. Bees in a jubilant state are able
+	 * to produce their specialty products. Most bees enter their jubilant state when they are in their preferred
+	 * temperature/humidity, but others have additional restrictions.
+	 *
+	 * @param genome  The genome of a bee of this species.
+	 * @param housing The hive where the bee is working. Provides access to the bee's working environment.
+	 * @return Whether this bee should produce its specialty products.
+	 * @see forestry.api.apiculture.IBeeJubilance
+	 */
 	boolean isJubilant(IGenome genome, IBeeHousing housing);
 
 	/**

@@ -13,7 +13,6 @@ import forestry.api.apiculture.genetics.IBeeSpecies;
 import forestry.api.genetics.ClimateHelper;
 import forestry.api.genetics.ILifeStage;
 import forestry.api.genetics.alleles.BeeChromosomes;
-import forestry.api.genetics.alleles.ButterflyChromosomes;
 import forestry.api.genetics.gatgets.DatabaseMode;
 import forestry.api.genetics.gatgets.IDatabaseTab;
 import forestry.core.gui.elements.Alignment;
@@ -62,30 +61,10 @@ public class BeeDatabaseTab implements IDatabaseTab<IBee> {
 
 		container.addLine(Component.translatable("for.gui.area"), BeeChromosomes.TERRITORY);
 		container.addLine(Component.translatable("for.gui.effect"), BeeChromosomes.EFFECT);
+		container.addLine(Component.translatable("for.gui.activity"), BeeChromosomes.ACTIVITY);
 
 		Component yes = Component.translatable("for.yes");
 		Component no = Component.translatable("for.no");
-
-		Component diurnal, nocturnal;
-		if (mode == DatabaseMode.ACTIVE) {
-			if (bee.getGenome().getActiveValue(BeeChromosomes.NEVER_SLEEPS)) {
-				nocturnal = diurnal = yes;
-			} else {
-				nocturnal = activeSpecies.isNocturnal() ? yes : no;
-				diurnal = !activeSpecies.isNocturnal() ? yes : no;
-			}
-		} else {
-			if (bee.getGenome().getInactiveValue(ButterflyChromosomes.NEVER_SLEEPS)) {
-				nocturnal = diurnal = yes;
-			} else {
-				nocturnal = inactiveSpecies.isNocturnal() ? yes : no;
-				diurnal = !inactiveSpecies.isNocturnal() ? yes : no;
-			}
-		}
-
-		container.addLine(Component.translatable("for.gui.diurnal"), diurnal, false);
-
-		container.addLine(Component.translatable("for.gui.nocturnal"), nocturnal, false);
 
 		Function<Boolean, Component> flyer = active -> {
 			boolean toleratesRain = active ? bee.getGenome().getActiveValue(BeeChromosomes.TOLERATES_RAIN) : bee.getGenome().getInactiveValue(BeeChromosomes.TOLERATES_RAIN);

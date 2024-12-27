@@ -97,7 +97,7 @@ public class ItemCreativeHiveFrame extends ItemForestry implements IHiveFrame {
 		}
 
 		@Override
-		public boolean isSelfLighted() {
+		public boolean isAlwaysActive(IGenome genome) {
 			return true;
 		}
 

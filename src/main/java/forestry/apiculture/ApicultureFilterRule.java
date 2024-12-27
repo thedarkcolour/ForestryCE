@@ -1,5 +1,6 @@
 package forestry.apiculture;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
@@ -7,6 +8,7 @@ import forestry.api.apiculture.genetics.IBee;
 import forestry.api.genetics.ForestrySpeciesTypes;
 import forestry.api.genetics.IIndividual;
 import forestry.api.genetics.alleles.BeeChromosomes;
+import forestry.api.genetics.alleles.ForestryAlleles;
 import forestry.api.genetics.filter.FilterData;
 import forestry.api.genetics.filter.IFilterRule;
 import forestry.api.genetics.filter.IFilterRuleType;
@@ -22,13 +24,13 @@ public enum ApicultureFilterRule implements IFilterRule {
 	NOCTURNAL(DefaultFilterRuleType.NOCTURNAL) {
 		@Override
 		protected boolean isValid(IBee bee) {
-			return bee.getGenome().getActiveValue(BeeChromosomes.NEVER_SLEEPS);
+			return bee.getGenome().getActiveAllele(BeeChromosomes.ACTIVITY) == ForestryAlleles.ACTIVITY_METATURNAL;
 		}
 	},
 	PURE_NOCTURNAL(DefaultFilterRuleType.PURE_NOCTURNAL) {
 		@Override
 		protected boolean isValid(IBee bee) {
-			return bee.getGenome().getActiveValue(BeeChromosomes.NEVER_SLEEPS) && bee.getGenome().getInactiveValue(BeeChromosomes.NEVER_SLEEPS);
+			return bee.getGenome().getActiveValue(BeeChromosomes.ACTIVITY).isActive(0, 15000, BlockPos.ZERO);
 		}
 	},
 	FLYER(DefaultFilterRuleType.FLYER) {

@@ -159,8 +159,6 @@ public class DefaultBeeSpecies {
 				.setGenome(genome -> {
 					genome.set(BeeChromosomes.SPEED, ForestryAlleles.SPEED_SLOWER);
 					genome.set(BeeChromosomes.LIFESPAN, ForestryAlleles.LIFESPAN_NORMAL);
-					genome.set(BeeChromosomes.NEVER_SLEEPS, true);
-					genome.set(BeeChromosomes.CAVE_DWELLING, true);
 				})
 				.setGlint(true);
 
@@ -171,8 +169,6 @@ public class DefaultBeeSpecies {
 				.setGenome(genome -> {
 					genome.set(BeeChromosomes.SPEED, ForestryAlleles.SPEED_SLOW);
 					genome.set(BeeChromosomes.LIFESPAN, ForestryAlleles.LIFESPAN_LONG);
-					genome.set(BeeChromosomes.NEVER_SLEEPS, true);
-					genome.set(BeeChromosomes.CAVE_DWELLING, true);
 				});
 
 		// Heroic
@@ -181,8 +177,6 @@ public class DefaultBeeSpecies {
 				.setGenome(genome -> {
 					genome.set(BeeChromosomes.SPEED, ForestryAlleles.SPEED_SLOW);
 					genome.set(BeeChromosomes.LIFESPAN, ForestryAlleles.LIFESPAN_LONG);
-					genome.set(BeeChromosomes.NEVER_SLEEPS, true);
-					genome.set(BeeChromosomes.CAVE_DWELLING, true);
 					genome.set(BeeChromosomes.EFFECT, ForestryAlleles.EFFECT_HEROIC);
 				})
 				.addMutations(mutations -> {
@@ -341,7 +335,6 @@ public class DefaultBeeSpecies {
 				.setBody(new Color(0xd9de9e))
 				.setTemperature(TemperatureType.COLD)
 				.setHumidity(HumidityType.ARID)
-				.setNocturnal(true)
 				.addProduct(BEE_COMBS.stack(EnumHoneyComb.MYSTERIOUS), 0.30f);
 
 		// Spectral
@@ -349,7 +342,6 @@ public class DefaultBeeSpecies {
 				.setBody(new Color(0xd9de9e))
 				.setTemperature(TemperatureType.COLD)
 				.setHumidity(HumidityType.ARID)
-				.setNocturnal(true)
 				.addProduct(BEE_COMBS.stack(EnumHoneyComb.MYSTERIOUS), 0.50f)
 				.setGenome(genome -> {
 					genome.set(BeeChromosomes.EFFECT, ForestryAlleles.EFFECT_REANIMATION);
@@ -363,7 +355,6 @@ public class DefaultBeeSpecies {
 				.setBody(new Color(0xd9de9e))
 				.setTemperature(TemperatureType.COLD)
 				.setHumidity(HumidityType.ARID)
-				.setNocturnal(true)
 				.addProduct(BEE_COMBS.stack(EnumHoneyComb.MYSTERIOUS), 0.40f)
 				.setGenome(genome -> {
 					genome.set(BeeChromosomes.SPEED, ForestryAlleles.SPEED_SLOWEST);
@@ -479,7 +470,7 @@ public class DefaultBeeSpecies {
 				.addProduct(BEE_COMBS.stack(EnumHoneyComb.FROZEN), 0.30f)
 				.addProduct(CoreItems.CRAFTING_MATERIALS.stack(EnumCraftingMaterial.ICE_SHARD), 0.20f)
 				.setGenome(genome -> {
-					genome.set(BeeChromosomes.NEVER_SLEEPS, true);
+					genome.set(BeeChromosomes.ACTIVITY, ForestryAlleles.ACTIVITY_METATURNAL);
 					genome.set(BeeChromosomes.EFFECT, ForestryAlleles.EFFECT_SNOWING);
 				})
 				.addMutations(mutations -> {
@@ -496,7 +487,7 @@ public class DefaultBeeSpecies {
 				.addProduct(BEE_COMBS.stack(EnumHoneyComb.FROZEN), 0.30f)
 				.addProduct(CoreItems.CRAFTING_MATERIALS.stack(EnumCraftingMaterial.ICE_SHARD), 0.20f)
 				.setGenome(genome -> {
-					genome.set(BeeChromosomes.NEVER_SLEEPS, true);
+					genome.set(BeeChromosomes.ACTIVITY, ForestryAlleles.ACTIVITY_METATURNAL);
 					genome.set(BeeChromosomes.EFFECT, ForestryAlleles.EFFECT_DRUNKARD);
 				})
 				.addMutations(mutations -> {
@@ -518,7 +509,7 @@ public class DefaultBeeSpecies {
 				.addSpecialty(new ItemStack(Items.CREEPER_HEAD), 0.02f)
 				.addSpecialty(new ItemStack(Items.PLAYER_HEAD), 0.02f)
 				.setGenome(genome -> {
-					genome.set(BeeChromosomes.NEVER_SLEEPS, true);
+					genome.set(BeeChromosomes.ACTIVITY, ForestryAlleles.ACTIVITY_METATURNAL);
 					genome.set(BeeChromosomes.TOLERATES_RAIN, true);
 					genome.set(BeeChromosomes.FLOWER_TYPE, ForestryAlleles.FLOWER_TYPE_GOURD);
 				})
@@ -544,7 +535,7 @@ public class DefaultBeeSpecies {
 					genome.set(BeeChromosomes.TEMPERATURE_TOLERANCE, ForestryAlleles.TOLERANCE_UP_2);
 					genome.set(BeeChromosomes.HUMIDITY_TOLERANCE, ForestryAlleles.TOLERANCE_UP_1);
 					genome.set(BeeChromosomes.TERRITORY, ForestryAlleles.TERRITORY_LARGEST);
-					genome.set(BeeChromosomes.NEVER_SLEEPS, true);
+					genome.set(BeeChromosomes.ACTIVITY, ForestryAlleles.ACTIVITY_METATURNAL);
 					// todo fireworks on 4th of July effect
 					//genome.set(BeeChromosomes.EFFECT, ForestryAlleles.EFFECT_PATRIOTIC);
 				})
@@ -607,7 +598,7 @@ public class DefaultBeeSpecies {
 				.setGenome(genome -> {
 					genome.set(BeeChromosomes.FERTILITY, ForestryAlleles.FERTILITY_4);
 					genome.set(BeeChromosomes.TOLERATES_RAIN, true);
-					genome.set(BeeChromosomes.NEVER_SLEEPS, true);
+					genome.set(BeeChromosomes.ACTIVITY, ForestryAlleles.ACTIVITY_METATURNAL);
 				})
 				.addMutations(mutations -> {
 					mutations.add(ForestryBeeSpecies.MARSHY, ForestryBeeSpecies.NOBLE, 15)
@@ -623,7 +614,7 @@ public class DefaultBeeSpecies {
 				.addSpecialty(CoreItems.PEAT.stack(), 0.08f)
 				.setGenome(genome -> {
 					genome.set(BeeChromosomes.TOLERATES_RAIN, true);
-					genome.set(BeeChromosomes.NEVER_SLEEPS, true);
+					genome.set(BeeChromosomes.ACTIVITY, ForestryAlleles.ACTIVITY_METATURNAL);
 					genome.set(BeeChromosomes.EFFECT, ForestryAlleles.EFFECT_MYCOPHILIC);
 					genome.set(BeeChromosomes.TERRITORY, ForestryAlleles.TERRITORY_LARGER);
 				})

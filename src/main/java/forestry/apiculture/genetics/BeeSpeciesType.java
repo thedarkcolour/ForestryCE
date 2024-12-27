@@ -15,7 +15,6 @@ import com.google.common.collect.ImmutableMap;
 import javax.annotation.Nullable;
 import java.util.List;
 
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -161,6 +160,7 @@ public class BeeSpeciesType extends SpeciesType<IBeeSpecies, IBee> implements IB
 		// populate bee registry chromosomes
 		BeeChromosomes.EFFECT.populate(registration.getBeeEffects());
 		BeeChromosomes.FLOWER_TYPE.populate(registration.getFlowerTypes());
+		BeeChromosomes.ACTIVITY.populate(registration.getActivityTypes());
 
 		// initialize hive manager
 		((ForestryApiImpl) IForestryApi.INSTANCE).setHiveManager(registration.buildHiveManager());

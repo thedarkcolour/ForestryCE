@@ -86,9 +86,9 @@ public class BeeHousingModifier implements IBeeModifier {
 	}
 
 	@Override
-	public boolean isSelfLighted() {
+	public boolean isAlwaysActive(IGenome genome) {
 		for (IBeeModifier modifier : beeHousing.getBeeModifiers()) {
-			if (modifier.isSelfLighted()) {
+			if (modifier.isAlwaysActive(genome)) {
 				return true;
 			}
 		}
