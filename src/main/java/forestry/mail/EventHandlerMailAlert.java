@@ -31,7 +31,7 @@ public class EventHandlerMailAlert {
 		}
 
 		IMailAddress address = new MailAddress(player.getGameProfile());
-		POBox pobox = PostRegistry.getOrCreatePOBox((ServerLevel) player.level, address);
+		POBox pobox = POBoxRegistry.getOrCreate((ServerLevel) player.level).getOrCreatePOBox(address);
 		PacketPOBoxInfoResponse packet = new PacketPOBoxInfoResponse(pobox.getPOBoxInfo(), false);
 		NetworkUtil.sendToPlayer(packet, (ServerPlayer) player);
 	}

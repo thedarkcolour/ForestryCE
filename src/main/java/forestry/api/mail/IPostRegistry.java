@@ -8,7 +8,6 @@ package forestry.api.mail;
 import javax.annotation.Nullable;
 
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import net.minecraft.server.level.ServerLevel;
 
 public interface IPostRegistry {
@@ -25,8 +24,4 @@ public interface IPostRegistry {
 	ILetter getLetter(ItemStack itemstack);
 
 	ItemStack createLetterStack(ILetter letter);
-
-	/* PO BOXES */
-	boolean isValidPOBox(Level world, IMailAddress address);
-
 }
