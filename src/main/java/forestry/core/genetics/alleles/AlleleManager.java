@@ -186,8 +186,9 @@ public class AlleleManager implements IAlleleManager {
 		return this.allelesByName.get(id);
 	}
 
+	@Override
 	@Nullable
-	private IChromosome<?> getChromosome(ResourceLocation id) {
+	public IChromosome<?> getChromosome(ResourceLocation id) {
 		return this.chromosomes.get(id);
 	}
 

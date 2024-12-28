@@ -83,4 +83,11 @@ public interface IAlleleManager {
 	 * @return A new registry chromosome.
 	 */
 	<V extends IRegistryAlleleValue> IRegistryChromosome<V> registryChromosome(ResourceLocation id, Class<V> valueClass);
+
+	/**
+	 * @return A chromosome with the given ID, or {@code null} if no chromosome has been created with that ID.
+	 * @since 2.1.1
+	 */
+	@Nullable
+	IChromosome<?> getChromosome(ResourceLocation id);
 }

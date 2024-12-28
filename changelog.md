@@ -1,5 +1,6 @@
 ## Forestry 2.1.1
 - Fix IIndividualHandlerItem methods returning individuals for empty stacks that were decremented
+- Added method in IAlleleManager to get IChromosome instances by registry name
 
 ## Forestry 2.1.0
 - Fixed typo that cut off black order on the right side of the Portable Analyzer GUI
