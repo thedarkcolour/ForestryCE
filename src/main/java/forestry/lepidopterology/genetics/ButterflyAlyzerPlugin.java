@@ -63,31 +63,31 @@ public enum ButterflyAlyzerPlugin implements IAlyzerPlugin {
 				textLayout.newLine();
 				textLayout.newLine();
 
-				guiAlyzer.drawSpeciesRow(graphics, Component.translatable("for.gui.species"), butterfly, ButterflyChromosomes.SPECIES);
+				guiAlyzer.drawSpeciesRow(graphics, butterfly, ButterflyChromosomes.SPECIES);
 				textLayout.newLine();
 
-				guiAlyzer.drawChromosomeRow(graphics, Component.translatable("for.gui.size"), butterfly, ButterflyChromosomes.SIZE);
+				guiAlyzer.drawChromosomeRow(graphics, butterfly, ButterflyChromosomes.SIZE);
 				textLayout.newLine();
 
 				//guiAlyzer.drawChromosomeRow(transform, Component.translatable("for.gui.lifespan"), butterfly, ButterflyChromosomes.LIFESPAN);
 				//textLayout.newLine();
 
-				guiAlyzer.drawChromosomeRow(graphics, Component.translatable("for.gui.speed"), butterfly, ButterflyChromosomes.SPEED);
+				guiAlyzer.drawChromosomeRow(graphics, butterfly, ButterflyChromosomes.SPEED);
 				textLayout.newLine();
 
-				guiAlyzer.drawChromosomeRow(graphics, Component.translatable("for.gui.metabolism"), butterfly, ButterflyChromosomes.METABOLISM);
+				guiAlyzer.drawChromosomeRow(graphics, butterfly, ButterflyChromosomes.METABOLISM);
 				textLayout.newLine();
 
-				textLayout.drawLine(graphics, Component.translatable("for.gui.fertility"), GuiAlyzer.COLUMN_0);
+				textLayout.drawLine(graphics, ButterflyChromosomes.FERTILITY.getChromosomeDisplayName(), GuiAlyzer.COLUMN_0);
 				AllelePair<IIntegerAllele> fertilityPair = genome.getAllelePair(ButterflyChromosomes.FERTILITY);
 				guiAlyzer.drawFertilityInfo(graphics, fertilityPair.active().value(), GuiAlyzer.COLUMN_1, guiAlyzer.getColorCoding(fertilityPair.active().dominant()), 8);
 				guiAlyzer.drawFertilityInfo(graphics, fertilityPair.inactive().value(), GuiAlyzer.COLUMN_2, guiAlyzer.getColorCoding(fertilityPair.inactive().dominant()), 8);
 				textLayout.newLine();
 
-				guiAlyzer.drawChromosomeRow(graphics, Component.translatable("for.gui.flowers"), butterfly, ButterflyChromosomes.FLOWER_TYPE);
+				guiAlyzer.drawChromosomeRow(graphics, butterfly, ButterflyChromosomes.FLOWER_TYPE);
 				textLayout.newLine();
 
-				guiAlyzer.drawChromosomeRow(graphics, Component.translatable("for.gui.effect"), butterfly, ButterflyChromosomes.EFFECT);
+				guiAlyzer.drawChromosomeRow(graphics, butterfly, ButterflyChromosomes.EFFECT);
 				textLayout.newLine();
 
 				textLayout.endPage(graphics);
@@ -113,7 +113,7 @@ public enum ButterflyAlyzerPlugin implements IAlyzerPlugin {
 				textLayout.newLine();
 				textLayout.newLine();
 
-				guiAlyzer.drawRow(graphics, Component.translatable("for.gui.climate"),
+				guiAlyzer.drawRow(graphics, ButterflyChromosomes.TEMPERATURE_TOLERANCE.getChromosomeDisplayName(),
 						ClimateHelper.toDisplay(primaryAllele.getTemperature()),
 						ClimateHelper.toDisplay(secondaryAllele.getTemperature()), individual, ButterflyChromosomes.SPECIES);
 				textLayout.newLine();
@@ -128,7 +128,7 @@ public enum ButterflyAlyzerPlugin implements IAlyzerPlugin {
 
 				textLayout.newLine();
 
-				guiAlyzer.drawRow(graphics, Component.translatable("for.gui.humidity"),
+				guiAlyzer.drawRow(graphics, ButterflyChromosomes.HUMIDITY_TOLERANCE.getChromosomeDisplayName(),
 						ClimateHelper.toDisplay(primaryAllele.getHumidity()),
 						ClimateHelper.toDisplay(secondaryAllele.getHumidity()), individual, ButterflyChromosomes.SPECIES);
 				textLayout.newLine();
@@ -172,7 +172,7 @@ public enum ButterflyAlyzerPlugin implements IAlyzerPlugin {
 				Component primary = genome.getActiveValue(ButterflyChromosomes.TOLERATES_RAIN) ? yes : no;
 				Component secondary = genome.getInactiveValue(ButterflyChromosomes.TOLERATES_RAIN) ? yes : no;
 
-				guiAlyzer.drawRow(graphics, Component.translatable("for.gui.flyer"), primary, secondary, individual, ButterflyChromosomes.TOLERATES_RAIN);
+				guiAlyzer.drawRow(graphics, Component.translatable("chromosome.forestry.tolerates_rain"), primary, secondary, individual, ButterflyChromosomes.TOLERATES_RAIN);
 				textLayout.newLine();
 
 				primary = genome.getActiveValue(ButterflyChromosomes.FIREPROOF) ? yes : no;

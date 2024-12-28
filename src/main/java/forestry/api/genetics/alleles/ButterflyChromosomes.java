@@ -41,7 +41,7 @@ public class ButterflyChromosomes {
 	/**
 	 * Determines the acceptable range of humidities from a butterfly's ideal humidity.
 	 */
-	public static final IValueChromosome<ToleranceType> HUMIDITY_TOLERANCE = BeeChromosomes.TEMPERATURE_TOLERANCE;
+	public static final IValueChromosome<ToleranceType> HUMIDITY_TOLERANCE = BeeChromosomes.HUMIDITY_TOLERANCE;
 	/**
 	 * Whether diurnal butterflies can work during the night, or nocturnal butterflies (moths) can work during the day.
 	 */

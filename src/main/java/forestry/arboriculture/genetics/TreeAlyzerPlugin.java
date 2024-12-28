@@ -62,14 +62,14 @@ public enum TreeAlyzerPlugin implements IAlyzerPlugin {
 					textLayout.newLine();
 					textLayout.newLine();
 
-					guiAlyzer.drawSpeciesRow(graphics, Component.translatable("for.gui.species"), tree, TreeChromosomes.SPECIES);
+					guiAlyzer.drawSpeciesRow(graphics, tree, TreeChromosomes.SPECIES);
 					textLayout.newLine();
 
-					guiAlyzer.drawChromosomeRow(graphics, Component.translatable("for.gui.saplings"), tree, TreeChromosomes.SAPLINGS);
+					guiAlyzer.drawChromosomeRow(graphics, tree, TreeChromosomes.SAPLINGS);
 					textLayout.newLineCompressed();
-					guiAlyzer.drawChromosomeRow(graphics, Component.translatable("for.gui.maturity"), tree, TreeChromosomes.MATURATION);
+					guiAlyzer.drawChromosomeRow(graphics, tree, TreeChromosomes.MATURATION);
 					textLayout.newLineCompressed();
-					guiAlyzer.drawChromosomeRow(graphics, Component.translatable("for.gui.height"), tree, TreeChromosomes.HEIGHT);
+					guiAlyzer.drawChromosomeRow(graphics, tree, TreeChromosomes.HEIGHT);
 					textLayout.newLineCompressed();
 
 					int activeGirth = genome.getActiveValue(TreeChromosomes.GIRTH);
@@ -80,12 +80,12 @@ public enum TreeAlyzerPlugin implements IAlyzerPlugin {
 
 					textLayout.newLineCompressed();
 
-					guiAlyzer.drawChromosomeRow(graphics, Component.translatable("for.gui.yield"), tree, TreeChromosomes.YIELD);
+					guiAlyzer.drawChromosomeRow(graphics, tree, TreeChromosomes.YIELD);
 					textLayout.newLineCompressed();
-					guiAlyzer.drawChromosomeRow(graphics, Component.translatable("for.gui.sappiness"), tree, TreeChromosomes.SAPPINESS);
+					guiAlyzer.drawChromosomeRow(graphics, tree, TreeChromosomes.SAPPINESS);
 					textLayout.newLineCompressed();
 
-					guiAlyzer.drawChromosomeRow(graphics, Component.translatable("for.gui.effect"), tree, TreeChromosomes.EFFECT);
+					guiAlyzer.drawChromosomeRow(graphics, tree, TreeChromosomes.EFFECT);
 
 					textLayout.endPage(graphics);
 				}

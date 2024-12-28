@@ -51,16 +51,16 @@ public enum BeeAlyzerPlugin implements IAlyzerPlugin {
 						textLayout.newLine();
 						textLayout.newLine();
 
-						guiAlyzer.drawHaploidSpeciesRow(graphics, Component.translatable("for.gui.species"), bee, BeeChromosomes.SPECIES);
+						guiAlyzer.drawHaploidSpeciesRow(graphics, bee, BeeChromosomes.SPECIES);
 						textLayout.newLine();
 
-						guiAlyzer.drawHaploidChromosomeRow(graphics, Component.translatable("for.gui.lifespan"), bee, BeeChromosomes.LIFESPAN);
+						guiAlyzer.drawHaploidChromosomeRow(graphics, bee, BeeChromosomes.LIFESPAN);
 						textLayout.newLine();
-						guiAlyzer.drawHaploidChromosomeRow(graphics, Component.translatable("for.gui.speed"), bee, BeeChromosomes.SPEED);
+						guiAlyzer.drawHaploidChromosomeRow(graphics, bee, BeeChromosomes.SPEED);
 						textLayout.newLine();
-						guiAlyzer.drawHaploidChromosomeRow(graphics, Component.translatable("for.gui.pollination"), bee, BeeChromosomes.POLLINATION);
+						guiAlyzer.drawHaploidChromosomeRow(graphics, bee, BeeChromosomes.POLLINATION);
 						textLayout.newLine();
-						guiAlyzer.drawHaploidChromosomeRow(graphics, Component.translatable("for.gui.flowers"), bee, BeeChromosomes.FLOWER_TYPE);
+						guiAlyzer.drawHaploidChromosomeRow(graphics, bee, BeeChromosomes.FLOWER_TYPE);
 						textLayout.newLine();
 
 						textLayout.drawLine(graphics, Component.translatable("for.gui.fertility"), GuiAlyzer.COLUMN_0);
@@ -68,10 +68,10 @@ public enum BeeAlyzerPlugin implements IAlyzerPlugin {
 						guiAlyzer.drawFertilityInfo(graphics, primaryFertility.value(), GuiAlyzer.COLUMN_1, GuiAlyzer.getColorCoding(primaryFertility.dominant()), 0);
 						textLayout.newLine();
 
-						guiAlyzer.drawHaploidChromosomeRow(graphics, Component.translatable("for.gui.area"), bee, BeeChromosomes.TERRITORY);
+						guiAlyzer.drawHaploidChromosomeRow(graphics, bee, BeeChromosomes.TERRITORY);
 						textLayout.newLine();
 
-						guiAlyzer.drawHaploidChromosomeRow(graphics, Component.translatable("for.gui.effect"), bee, BeeChromosomes.EFFECT);
+						guiAlyzer.drawHaploidChromosomeRow(graphics, bee, BeeChromosomes.EFFECT);
 						textLayout.newLine();
 
 						textLayout.endPage(graphics);
@@ -86,16 +86,16 @@ public enum BeeAlyzerPlugin implements IAlyzerPlugin {
 						textLayout.newLine();
 						textLayout.newLine();
 
-						guiAlyzer.drawSpeciesRow(graphics, Component.translatable("for.gui.species"), bee, BeeChromosomes.SPECIES);
+						guiAlyzer.drawSpeciesRow(graphics, bee, BeeChromosomes.SPECIES);
 						textLayout.newLine();
 
-						guiAlyzer.drawChromosomeRow(graphics, Component.translatable("for.gui.lifespan"), bee, BeeChromosomes.LIFESPAN);
+						guiAlyzer.drawChromosomeRow(graphics, bee, BeeChromosomes.LIFESPAN);
 						textLayout.newLine();
-						guiAlyzer.drawChromosomeRow(graphics, Component.translatable("for.gui.speed"), bee, BeeChromosomes.SPEED);
+						guiAlyzer.drawChromosomeRow(graphics, bee, BeeChromosomes.SPEED);
 						textLayout.newLine();
-						guiAlyzer.drawChromosomeRow(graphics, Component.translatable("for.gui.pollination"), bee, BeeChromosomes.POLLINATION);
+						guiAlyzer.drawChromosomeRow(graphics, bee, BeeChromosomes.POLLINATION);
 						textLayout.newLine();
-						guiAlyzer.drawChromosomeRow(graphics, Component.translatable("for.gui.flowers"), bee, BeeChromosomes.FLOWER_TYPE);
+						guiAlyzer.drawChromosomeRow(graphics, bee, BeeChromosomes.FLOWER_TYPE);
 						textLayout.newLine();
 
 						textLayout.drawLine(graphics, Component.translatable("for.gui.fertility"), GuiAlyzer.COLUMN_0);
@@ -105,10 +105,10 @@ public enum BeeAlyzerPlugin implements IAlyzerPlugin {
 						guiAlyzer.drawFertilityInfo(graphics, secondaryFertility.value(), GuiAlyzer.COLUMN_2, GuiAlyzer.getColorCoding(secondaryFertility.dominant()), 0);
 						textLayout.newLine();
 
-						guiAlyzer.drawChromosomeRow(graphics, Component.translatable("for.gui.area"), bee, BeeChromosomes.TERRITORY);
+						guiAlyzer.drawChromosomeRow(graphics, bee, BeeChromosomes.TERRITORY);
 						textLayout.newLine();
 
-						guiAlyzer.drawChromosomeRow(graphics, Component.translatable("for.gui.effect"), bee, BeeChromosomes.EFFECT);
+						guiAlyzer.drawChromosomeRow(graphics, bee, BeeChromosomes.EFFECT);
 						textLayout.newLine();
 
 						textLayout.endPage(graphics);
@@ -160,12 +160,12 @@ public enum BeeAlyzerPlugin implements IAlyzerPlugin {
 						Component yes = Component.translatable("for.yes");
 						Component no = Component.translatable("for.no");
 
-						guiAlyzer.drawHaploidChromosomeRow(graphics, Component.translatable("for.gui.activity"), bee, BeeChromosomes.ACTIVITY);
+						guiAlyzer.drawHaploidChromosomeRow(graphics, bee, BeeChromosomes.ACTIVITY);
 						textLayout.newLineCompressed();
 
 						Component primary = genome.getActiveValue(BeeChromosomes.TOLERATES_RAIN) ? yes : no;
 
-						textLayout.drawLine(graphics, Component.translatable("for.gui.flyer"), GuiAlyzer.COLUMN_0);
+						textLayout.drawLine(graphics, Component.translatable("chromosome.forestry.tolerates_rain"), GuiAlyzer.COLUMN_0);
 						textLayout.drawLine(graphics, primary, GuiAlyzer.COLUMN_1, GuiAlyzer.getColorCoding(false));
 						textLayout.newLineCompressed();
 
@@ -220,13 +220,13 @@ public enum BeeAlyzerPlugin implements IAlyzerPlugin {
 						Component yes = Component.translatable("for.yes");
 						Component no = Component.translatable("for.no");
 
-						guiAlyzer.drawChromosomeRow(graphics, Component.translatable("for.gui.activity"), bee, BeeChromosomes.ACTIVITY);
+						guiAlyzer.drawChromosomeRow(graphics, bee, BeeChromosomes.ACTIVITY);
 						textLayout.newLineCompressed();
 
 						Component primary = genome.getActiveValue(BeeChromosomes.TOLERATES_RAIN) ? yes : no;
 						Component secondary = genome.getInactiveValue(BeeChromosomes.TOLERATES_RAIN) ? yes : no;
 
-						textLayout.drawLine(graphics, Component.translatable("for.gui.flyer"), GuiAlyzer.COLUMN_0);
+						textLayout.drawLine(graphics, Component.translatable("chromosome.forestry.tolerates_rain"), GuiAlyzer.COLUMN_0);
 						textLayout.drawLine(graphics, primary, GuiAlyzer.COLUMN_1, GuiAlyzer.getColorCoding(false));
 						textLayout.drawLine(graphics, secondary, GuiAlyzer.COLUMN_2, GuiAlyzer.getColorCoding(false));
 

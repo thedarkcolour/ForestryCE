@@ -213,7 +213,7 @@ public class AlleleManager implements IAlleleManager {
 	@Override
 	public IBooleanChromosome booleanChromosome(ResourceLocation id) {
 		checkChromosomeRegistration();
-		return (IBooleanChromosome) this.chromosomes.computeIfAbsent(id, BooleanChromosome::new);
+		return (IBooleanChromosome) this.chromosomes.computeIfAbsent(id, BooleanChromosome::create);
 	}
 
 	@Override

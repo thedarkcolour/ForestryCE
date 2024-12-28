@@ -93,24 +93,24 @@ public class GuiAlyzer extends GuiForestry<ContainerAlyzer> {
 				getColorCoding(individual.getGenome().getInactiveAllele(chromosome).dominant()));
 	}
 
-	public final void drawChromosomeRow(GuiGraphics graphics, Component chromosomeName, IIndividual individual, IChromosome<?> chromosome) {
+	public final void drawChromosomeRow(GuiGraphics graphics, IIndividual individual, IChromosome<?> chromosome) {
 		IAllele active = individual.getGenome().getActiveAllele(chromosome);
 		MutableComponent activeName = chromosome.getDisplayName(active.cast());
 		IAllele inactive = individual.getGenome().getInactiveAllele(chromosome);
 		MutableComponent inactiveName = chromosome.getDisplayName(inactive.cast());
-		textLayout.drawRow(graphics, chromosomeName, activeName, inactiveName, ColourProperties.INSTANCE.get("gui.screen"), getColorCoding(active.dominant()), getColorCoding(inactive.dominant()));
+		textLayout.drawRow(graphics, chromosome.getChromosomeDisplayName(), activeName, inactiveName, ColourProperties.INSTANCE.get("gui.screen"), getColorCoding(active.dominant()), getColorCoding(inactive.dominant()));
 	}
 
-	public final void drawHaploidChromosomeRow(GuiGraphics graphics, Component chromosomeName, IIndividual individual, IChromosome<?> chromosome) {
+	public final void drawHaploidChromosomeRow(GuiGraphics graphics, IIndividual individual, IChromosome<?> chromosome) {
 		IAllele active = individual.getGenome().getActiveAllele(chromosome);
 		MutableComponent activeName = chromosome.getDisplayName(active.cast());
-		textLayout.drawRow(graphics, chromosomeName, activeName, ColourProperties.INSTANCE.get("gui.screen"), getColorCoding(active.dominant()));
+		textLayout.drawRow(graphics, chromosome.getChromosomeDisplayName(), activeName, ColourProperties.INSTANCE.get("gui.screen"), getColorCoding(active.dominant()));
 	}
 
-	public <S extends ISpecies<?>> void drawSpeciesRow(GuiGraphics graphics, Component text0, IIndividual individual, IRegistryChromosome<S> chromosome) {
+	public <S extends ISpecies<?>> void drawSpeciesRow(GuiGraphics graphics, IIndividual individual, IRegistryChromosome<S> chromosome) {
 		AllelePair<IValueAllele<S>> species = individual.getGenome().getAllelePair(chromosome);
 
-		textLayout.drawLine(graphics, text0, textLayout.column0);
+		textLayout.drawLine(graphics, chromosome.getChromosomeDisplayName(), textLayout.column0);
 		int columnwidth = textLayout.column2 - textLayout.column1 - 2;
 
 		IValueAllele<S> activeSpecies = species.active();
@@ -131,10 +131,10 @@ public class GuiAlyzer extends GuiForestry<ContainerAlyzer> {
 		textLayout.newLine();
 	}
 
-	public <S extends ISpecies<?>> void drawHaploidSpeciesRow(GuiGraphics graphics, Component text0, IIndividual individual, IRegistryChromosome<S> chromosome) {
+	public <S extends ISpecies<?>> void drawHaploidSpeciesRow(GuiGraphics graphics, IIndividual individual, IRegistryChromosome<S> chromosome) {
 		AllelePair<IValueAllele<S>> species = individual.getGenome().getAllelePair(chromosome);
 
-		textLayout.drawLine(graphics, text0, textLayout.column0);
+		textLayout.drawLine(graphics, chromosome.getChromosomeDisplayName(), textLayout.column0);
 		int columnwidth = textLayout.column2 - textLayout.column1 - 2;
 
 		IValueAllele<S> activeSpecies = species.active();

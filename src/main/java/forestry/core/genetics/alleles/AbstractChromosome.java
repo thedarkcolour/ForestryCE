@@ -1,5 +1,6 @@
 package forestry.core.genetics.alleles;
 
+import net.minecraft.Util;
 import net.minecraft.resources.ResourceLocation;
 
 import forestry.api.genetics.alleles.IAllele;
@@ -8,9 +9,11 @@ import forestry.core.utils.GeneticsUtil;
 
 public abstract class AbstractChromosome<A extends IAllele> implements IChromosome<A> {
 	protected final ResourceLocation id;
+	private final String translationKey;
 
 	protected AbstractChromosome(ResourceLocation id) {
 		this.id = id;
+		this.translationKey = Util.makeDescriptionId("chromosome", this.id);
 	}
 
 	@Override
@@ -21,6 +24,11 @@ public abstract class AbstractChromosome<A extends IAllele> implements IChromoso
 	@Override
 	public String getTranslationKey(A allele) {
 		return GeneticsUtil.createTranslationKey("allele", this.id, allele.alleleId());
+	}
+
+	@Override
+	public String getChromosomeTranslationKey() {
+		return this.translationKey;
 	}
 
 	@Override
