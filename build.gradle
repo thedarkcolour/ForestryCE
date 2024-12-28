@@ -82,7 +82,7 @@ dependencies {
 	compileOnly fg.deobf("vazkii.patchouli:Patchouli:$patchouliVersion-FORGE:api")
 	runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:$patchouliVersion-FORGE")
 	// ModKit DEV ONLY
-	implementation fg.deobf('com.github.thedarkcolour:ModKit:8397f53581')
+	implementation fg.deobf('com.github.thedarkcolour:ModKit:4124a5f078')
 }
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }

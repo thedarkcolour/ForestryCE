@@ -56,8 +56,7 @@ public class EnergyHelper {
 			return 0;
 		}
 
-		if (tile instanceof EngineBlockEntity) { // engine chaining
-			EngineBlockEntity receptor = (EngineBlockEntity) tile;
+		if (tile instanceof EngineBlockEntity receptor) { // engine chaining
 			return receptor.getEnergyManager().receiveEnergy(extractable, simulate);
 		}
 

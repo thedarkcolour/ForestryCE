@@ -26,6 +26,7 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 
 import forestry.api.ForestryCapabilities;
+import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.api.genetics.filter.FilterData;
 import forestry.core.inventory.AdjacentInventoryCache;
 import forestry.core.inventory.InventoryAdapterTile;
@@ -133,21 +134,25 @@ public class TileGeneticFilter extends TileForestry implements IStreamableGui {
 	}
 
 	public List<Direction> getValidDirections(ItemStack stack, Direction from) {
-		return stack.getCapability(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM).map(individual -> {
-			FilterData filterData = new FilterData(individual.getIndividual(), individual.getStage());
-			List<Direction> validFacings = new ArrayList<>();
+		IIndividualHandlerItem handler = IIndividualHandlerItem.get(stack);
 
-			for (Direction facing : Direction.VALUES) {
-				if (facing == from) {
-					continue;
-				}
-				if (isValidFacing(facing, stack, filterData)) {
-					validFacings.add(facing);
-				}
+		if (handler == null) {
+			return List.of();
+		}
+
+		FilterData filterData = new FilterData(handler.getIndividual(), handler.getStage());
+		List<Direction> validFacings = new ArrayList<>();
+
+		for (Direction facing : Direction.VALUES) {
+			if (facing == from) {
+				continue;
 			}
+			if (isValidFacing(facing, stack, filterData)) {
+				validFacings.add(facing);
+			}
+		}
 
-			return validFacings;
-		}).orElse(List.of());
+		return validFacings;
 	}
 
 	private boolean isValidFacing(Direction facing, ItemStack itemStack, FilterData filterData) {

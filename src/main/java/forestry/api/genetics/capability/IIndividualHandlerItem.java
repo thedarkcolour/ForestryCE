@@ -47,18 +47,22 @@ public interface IIndividualHandlerItem {
 	boolean isGeneticForm();
 
 	static void ifPresent(ItemStack stack, BiConsumer<IIndividual, ILifeStage> action) {
-		stack.getCapability(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM, null).ifPresent(handler -> action.accept(handler.getIndividual(), handler.getStage()));
+		if (!stack.isEmpty()) {
+			stack.getCapability(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM, null).ifPresent(handler -> action.accept(handler.getIndividual(), handler.getStage()));
+		}
 	}
 
 	static void ifPresent(ItemStack stack, Consumer<IIndividual> action) {
-		stack.getCapability(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM, null).ifPresent(handler -> action.accept(handler.getIndividual()));
+		if (!stack.isEmpty()) {
+			stack.getCapability(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM, null).ifPresent(handler -> action.accept(handler.getIndividual()));
+		}
 	}
 
 	/**
 	 * @return Whether the given item has an individual capability. (Vanilla saplings have a capability too)
 	 */
 	static boolean isIndividual(ItemStack stack) {
-		return stack.getCapability(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM).isPresent();
+		return !stack.isEmpty() && stack.getCapability(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM).isPresent();
 	}
 
 	/**
@@ -70,12 +74,18 @@ public interface IIndividualHandlerItem {
 	 */
 	@SuppressWarnings({"ConstantValue", "DataFlowIssue"})
 	static boolean filter(ItemStack stack, Predicate<IIndividual> predicate) {
+		if (stack.isEmpty()) {
+			return false;
+		}
 		IIndividualHandlerItem handler = stack.getCapability(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM, null).orElse(null);
 		return handler != null && predicate.test(handler.getIndividual());
 	}
 
 	@SuppressWarnings({"ConstantValue", "DataFlowIssue"})
 	static boolean filter(ItemStack stack, BiPredicate<IIndividual, ILifeStage> predicate) {
+		if (stack.isEmpty()) {
+			return false;
+		}
 		IIndividualHandlerItem handler = stack.getCapability(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM, null).orElse(null);
 		return handler != null && predicate.test(handler.getIndividual(), handler.getStage());
 	}
@@ -89,14 +99,16 @@ public interface IIndividualHandlerItem {
 	@Nullable
 	@SuppressWarnings("DataFlowIssue")
 	static IIndividualHandlerItem get(ItemStack stack) {
-		return stack.getCapability(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM, null).orElse(null);
+		return stack.isEmpty() ? null : stack.getCapability(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM, null).orElse(null);
 	}
 
 	@Nullable
 	@SuppressWarnings({"ConstantValue", "DataFlowIssue"})
 	static IIndividual getIndividual(ItemStack stack) {
+		if (stack.isEmpty()) {
+			return null;
+		}
 		// hack fix for creative tabs
-		// todo should i copy this to the other methods too?
 		stack.reviveCaps();
 		IIndividualHandlerItem handler = stack.getCapability(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM, null).orElse(null);
 		return handler != null ? handler.getIndividual() : null;

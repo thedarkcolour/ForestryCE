@@ -36,14 +36,16 @@ import forestry.energy.ForestryEnergyStorage;
 import forestry.energy.EnergyTransferMode;
 
 public abstract class TilePowered extends TileBase implements IRenderableTile, ISpeedUpgradable, IStreamableGui, IPowerHandler {
-
 	private static final int WORK_TICK_INTERVAL = 5; // one Forestry work tick happens every WORK_TICK_INTERVAL game ticks
 
 	private final ForestryEnergyStorage energyStorage;
 	private final LazyOptional<ForestryEnergyStorage> energyCap;
 
+	// The amount of ticks into the current work cycle. Between 0 and ticksPerWorkCycle
 	private int workCounter;
+	// The number of ticks a work cycle takes to complete
 	private int ticksPerWorkCycle;
+	// The amount of energy consumed over the course of an entire work cycle
 	private int energyPerWorkCycle;
 
 	protected float speedMultiplier = 1.0f;
@@ -81,6 +83,7 @@ public abstract class TilePowered extends TileBase implements IRenderableTile, I
 		return Math.round(ticksPerWorkCycle / speedMultiplier);
 	}
 
+	// RF/t is energyPerWorkCycle / ticksPerWorkCycle
 	public void setEnergyPerWorkCycle(int energyPerWorkCycle) {
 		this.energyPerWorkCycle = EnergyHelper.scaleForDifficulty(energyPerWorkCycle);
 	}
@@ -98,6 +101,7 @@ public abstract class TilePowered extends TileBase implements IRenderableTile, I
 		return false;
 	}
 
+	// Called every tick to determine whether the tile can start working or continue working
 	public abstract boolean hasWork();
 
 	@Override
@@ -144,15 +148,17 @@ public abstract class TilePowered extends TileBase implements IRenderableTile, I
 		}
 	}
 
+	// Called when the tile reaches the end of a work cycle. Consume inputs and produce outputs here.
 	protected abstract boolean workCycle();
 
-	public int getProgressScaled(int i) {
+	// Returns the width for a progress bar. pixels is the full width of the progress bar.
+	public int getProgressScaled(int pixels) {
 		int ticksPerWorkCycle = getTicksPerWorkCycle();
 		if (ticksPerWorkCycle == 0) {
 			return 0;
 		}
 
-		return workCounter * i / ticksPerWorkCycle;
+		return workCounter * pixels / ticksPerWorkCycle;
 	}
 
 	@Override
