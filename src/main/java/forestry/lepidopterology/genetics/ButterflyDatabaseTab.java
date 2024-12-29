@@ -92,13 +92,13 @@ public class ButterflyDatabaseTab implements IDatabaseTab<IButterfly> {
 			boolean tolerantFlyer = active ? butterfly.getGenome().getActiveValue(ButterflyChromosomes.TOLERATES_RAIN) : butterfly.getGenome().getInactiveValue(ButterflyChromosomes.TOLERATES_RAIN);
 			return tolerantFlyer ? yes : no;
 		};
-		database.addLine(Component.translatable("for.gui.flyer"), flyer, ButterflyChromosomes.TOLERATES_RAIN);
+		database.addLine(ButterflyChromosomes.TOLERATES_RAIN.getChromosomeDisplayName(), flyer, ButterflyChromosomes.TOLERATES_RAIN);
 
 		Function<Boolean, Component> fireResist = active -> {
 			boolean fireResistant = active ? butterfly.getGenome().getActiveValue(ButterflyChromosomes.FIREPROOF) : butterfly.getGenome().getInactiveValue(ButterflyChromosomes.FIREPROOF);
 			return fireResistant ? yes : no;
 		};
-		database.addLine(Component.translatable("for.gui.fireresist"), fireResist, ButterflyChromosomes.FIREPROOF);
+		database.addLine(ButterflyChromosomes.FIREPROOF.getChromosomeDisplayName(), fireResist, ButterflyChromosomes.FIREPROOF);
 	}
 
 	@Override

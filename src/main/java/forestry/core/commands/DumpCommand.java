@@ -1,6 +1,7 @@
 package forestry.core.commands;
 
 import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Table;
 
 import java.util.ArrayList;
@@ -32,6 +33,7 @@ import forestry.api.genetics.IGenome;
 import forestry.api.genetics.IMutation;
 import forestry.api.genetics.ISpeciesType;
 import forestry.api.genetics.alleles.BeeChromosomes;
+import forestry.api.genetics.alleles.IChromosome;
 import forestry.core.utils.SpeciesUtil;
 import forestry.modules.features.FeatureItem;
 import forestry.storage.features.BackpackItems;
@@ -44,7 +46,8 @@ public class DumpCommand {
 				.then(Commands.literal("mutations").executes(DumpCommand::mutations))
 				.then(Commands.literal("climates").executes(DumpCommand::climates))
 				.then(Commands.literal("backpacks").executes(DumpCommand::backpacks))
-				.then(Commands.literal("bee_species").executes(DumpCommand::beeSpecies));
+				.then(Commands.literal("bee_species").executes(DumpCommand::beeSpecies))
+				.then(Commands.literal("chromosomes").executes(DumpCommand::chromosomes));
 	}
 
 	// Dumps all registered mutations
@@ -199,6 +202,19 @@ public class DumpCommand {
 
 		} catch (Throwable throwable) {
 			Forestry.LOGGER.debug("Uh oh", throwable);
+		}
+
+		return 1;
+	}
+
+	private static int chromosomes(CommandContext<CommandSourceStack> ctx) {
+		for (ISpeciesType<?, ?> speciesType : IForestryApi.INSTANCE.getGeneticManager().getSpeciesTypes()) {
+			ImmutableList<IChromosome<?>> chromosomes = speciesType.getKaryotype().getChromosomes();
+			Forestry.LOGGER.debug("ISpeciesType \"{}\" has {} chromosomes:", speciesType.id(), chromosomes.size());
+
+			for (IChromosome<?> chromosome : chromosomes) {
+				Forestry.LOGGER.debug("  {} - {} -> \"{}\"", chromosome.id(), chromosome.getChromosomeTranslationKey(), chromosome.getChromosomeDisplayName().getString());
+			}
 		}
 
 		return 1;
