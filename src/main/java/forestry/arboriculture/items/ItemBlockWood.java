@@ -19,28 +19,31 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.Block;
 
 import forestry.api.arboriculture.IWoodType;
-import forestry.api.core.ItemGroups;
 import forestry.arboriculture.IWoodTyped;
 import forestry.arboriculture.WoodHelper;
 import forestry.core.items.ItemBlockForestry;
 
 public class ItemBlockWood<B extends Block & IWoodTyped> extends ItemBlockForestry<B> {
+	private final IWoodTyped wood;
+	private final IWoodType woodType;
+
 	public ItemBlockWood(B block) {
 		super(block, new Item.Properties());
+
+		// Safeguard against Diagonal Fence's registry replacements causing crashes
+		this.wood = block;
+		this.woodType = block.getWoodType();
 	}
 
 	@Override
 	public Component getName(ItemStack itemstack) {
 		// todo use vanilla names and data generation instead of this
-		IWoodTyped wood = getBlock();
-		IWoodType woodType = wood.getWoodType();
-		return WoodHelper.getDisplayName(wood, woodType);
+		return WoodHelper.getDisplayName(this.wood, this.woodType);
 	}
 
 	@Override
 	public int getBurnTime(ItemStack itemStack, @Nullable RecipeType<?> recipeType) {
-		B block = getBlock();
-		if (block.isFireproof()) {
+		if (this.wood.isFireproof()) {
 			return 0;
 		} else {
 			return 300;
