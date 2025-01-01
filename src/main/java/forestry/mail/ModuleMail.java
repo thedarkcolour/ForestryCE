@@ -12,22 +12,27 @@ package forestry.mail;
 
 import java.util.function.Consumer;
 
+import forestry.api.mail.IMailAddress;
+import forestry.core.utils.NetworkUtil;
+import forestry.mail.carriers.PostalCarriers;
+import forestry.mail.carriers.players.POBox;
+import forestry.mail.carriers.players.POBoxRegistry;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.resources.ResourceLocation;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.level.LevelEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 
 import forestry.api.client.IClientModuleHandler;
-import forestry.api.mail.EnumAddressee;
-import forestry.api.mail.PostManager;
 import forestry.api.modules.ForestryModule;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.api.modules.IPacketRegistry;
-import forestry.core.config.ForestryConfig;
 import forestry.core.network.PacketIdClient;
 import forestry.core.network.PacketIdServer;
 import forestry.mail.client.MailClientHandler;
@@ -50,22 +55,20 @@ public class ModuleMail extends BlankForestryModule {
 
 	@Override
 	public void registerEvents(IEventBus modBus) {
-		MinecraftForge.EVENT_BUS.addListener(ModuleMail::onWorldLoad);
-
-		MinecraftForge.EVENT_BUS.register(new EventHandlerMailAlert());
+		MinecraftForge.EVENT_BUS.addListener(ModuleMail::handlePlayerLoggedIn);
+		PostalCarriers.register(modBus);
 	}
 
-	private static void onWorldLoad(LevelEvent.Load event) {
-		PostRegistry.cachedPostOffice = null;
-		PostRegistry.cachedPOBoxes.clear();
-		PostRegistry.cachedTradeStations.clear();
-	}
+	public static void handlePlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
+		Player player = event.getEntity();
+		if (player.level.isClientSide) {
+			return;
+		}
 
-	@Override
-	public void setupApi() {
-		PostManager.postRegistry = new PostRegistry();
-		PostManager.postRegistry.registerCarrier(new PostalCarrier(EnumAddressee.PLAYER));
-		PostManager.postRegistry.registerCarrier(new PostalCarrier(EnumAddressee.TRADER));
+		IMailAddress address = new MailAddress(player.getGameProfile());
+		POBox pobox = POBoxRegistry.getOrCreate((ServerLevel) player.level).getOrCreatePOBox(address);
+		PacketPOBoxInfoResponse packet = new PacketPOBoxInfoResponse(pobox.getPOBoxInfo(), false);
+		NetworkUtil.sendToPlayer(packet, (ServerPlayer) player);
 	}
 
 	@Override

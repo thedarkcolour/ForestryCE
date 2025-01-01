@@ -13,6 +13,10 @@ package forestry.mail.gui;
 import javax.annotation.Nullable;
 import java.util.Iterator;
 
+import forestry.api.mail.*;
+import forestry.mail.*;
+import forestry.mail.carriers.PostalCarriers;
+import forestry.mail.carriers.trading.TradeStationRegistry;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
@@ -26,17 +30,9 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import forestry.Forestry;
-import forestry.api.mail.EnumAddressee;
-import forestry.api.mail.ILetter;
-import forestry.api.mail.IMailAddress;
-import forestry.api.mail.IPostalCarrier;
-import forestry.api.mail.ITradeStation;
-import forestry.api.mail.ITradeStationInfo;
-import forestry.api.mail.PostManager;
 import forestry.core.gui.ContainerItemInventory;
 import forestry.core.gui.slots.SlotFiltered;
 import forestry.core.utils.NetworkUtil;
-import forestry.mail.Letter;
 import forestry.mail.features.MailMenuTypes;
 import forestry.mail.inventory.ItemInventoryLetter;
 import forestry.mail.network.packets.PacketLetterInfoResponsePlayer;
@@ -44,7 +40,7 @@ import forestry.mail.network.packets.PacketLetterInfoResponseTrader;
 import forestry.mail.network.packets.PacketLetterTextSet;
 
 public class ContainerLetter extends ContainerItemInventory<ItemInventoryLetter> implements ILetterInfoReceiver {
-	private EnumAddressee carrierType = EnumAddressee.PLAYER;
+	private IPostalCarrier carrier = PostalCarriers.PLAYER.get();
 	@Nullable
 	private ITradeStationInfo tradeInfo = null;
 
@@ -79,46 +75,46 @@ public class ContainerLetter extends ContainerItemInventory<ItemInventoryLetter>
 			}
 		}
 
-		// Set recipient type
+		// Set carrier
 		ILetter letter = inventory.getLetter();
 		IMailAddress recipient = letter.getRecipient();
 		if (recipient != null) {
-			this.carrierType = recipient.getType();
+			this.carrier = recipient.getCarrier();
 		}
 	}
 
 	@Override
-	public void removed(Player PlayerEntity) {
+	public void removed(Player playerEntity) {
 
-		if (!PlayerEntity.level.isClientSide) {
+		if (!playerEntity.level.isClientSide) {
 			ILetter letter = inventory.getLetter();
 			if (!letter.isProcessed()) {
-				IMailAddress sender = PostManager.postRegistry.getMailAddress(PlayerEntity.getGameProfile());
+				IMailAddress sender = new MailAddress(playerEntity.getGameProfile());
 				letter.setSender(sender);
 			}
 		}
 
 		inventory.onLetterClosed();
 
-		super.removed(PlayerEntity);
+		super.removed(playerEntity);
 	}
 
 	public ILetter getLetter() {
 		return inventory.getLetter();
 	}
 
-	public void setCarrierType(EnumAddressee type) {
-		this.carrierType = type;
+	public void setCarrier(IPostalCarrier carrier) {
+		this.carrier = carrier;
 	}
 
-	public EnumAddressee getCarrierType() {
-		return this.carrierType;
+	public IPostalCarrier getCarrier() {
+		return this.carrier;
 	}
 
 	public void advanceCarrierType() {
-		Iterator<IPostalCarrier> it = PostManager.postRegistry.getRegisteredCarriers().values().iterator();
+		Iterator<IPostalCarrier> it = PostalCarriers.REGISTRY.get().iterator();
 		while (it.hasNext()) {
-			if (it.next().getType().equals(carrierType)) {
+			if (it.next().equals(carrier)) {
 				break;
 			}
 		}
@@ -127,44 +123,39 @@ public class ContainerLetter extends ContainerItemInventory<ItemInventoryLetter>
 		if (it.hasNext()) {
 			postal = it.next();
 		} else {
-			postal = PostManager.postRegistry.getRegisteredCarriers().values().iterator().next();
+			postal = PostalCarriers.REGISTRY.get().iterator().next();
 		}
 
-		setCarrierType(postal.getType());
+		setCarrier(postal);
 	}
 
-	public void handleRequestLetterInfo(Player player, String recipientName, EnumAddressee type) {
+	public void handleRequestLetterInfo(Player player, String recipientName, IPostalCarrier carrier) {
 		MinecraftServer server = player.getServer();
 		if (server == null) {
 			Forestry.LOGGER.error("Could not get server");
 			return;
 		}
-		IMailAddress recipient = getRecipient(server, recipientName, type);
+		IMailAddress recipient = getRecipient(server, recipientName, carrier);
 
 		getLetter().setRecipient(recipient);
 
 		// Update the trading info
-		if (recipient == null || recipient.getType() == EnumAddressee.TRADER) {
+		if (recipient.getCarrier().equals(PostalCarriers.TRADER.get())) {
 			updateTradeInfo(player.level, recipient);
 		}
 
+		// TODO: Move this to the carrier to make it more extensible
 		// Update info on client
-		if (type == EnumAddressee.PLAYER) {
-			if (recipient != null) {
-				NetworkUtil.sendToPlayer(new PacketLetterInfoResponsePlayer(recipient), (ServerPlayer) player);
-			}
-		} else {
+		if (carrier.equals(PostalCarriers.PLAYER.get())) {
+            NetworkUtil.sendToPlayer(new PacketLetterInfoResponsePlayer(recipient), (ServerPlayer) player);
+        } else {
 			NetworkUtil.sendToPlayer(new PacketLetterInfoResponseTrader(tradeInfo), (ServerPlayer) player);
 		}
 	}
 
-	@Nullable
-	private static IMailAddress getRecipient(MinecraftServer minecraftServer, String recipientName, EnumAddressee type) {
-		return switch (type) {
-			case PLAYER -> minecraftServer.getProfileCache().get(recipientName).map(PostManager.postRegistry::getMailAddress).orElse(null);
-			case TRADER -> PostManager.postRegistry.getMailAddress(recipientName);
-		};
-	}
+	private static IMailAddress getRecipient(MinecraftServer minecraftServer, String recipientName, IPostalCarrier carrier) {
+        return carrier.getRecipient(minecraftServer, recipientName);
+    }
 
 	@Nullable
 	public IMailAddress getRecipient() {
@@ -198,7 +189,7 @@ public class ContainerLetter extends ContainerItemInventory<ItemInventoryLetter>
 			return;
 		}
 
-		ITradeStation station = PostManager.postRegistry.getTradeStation((ServerLevel) world, address);
+		ITradeStation station = TradeStationRegistry.getOrCreate((ServerLevel) world).getTradeStation(address);
 		if (station == null) {
 			setTradeInfo(null);
 			return;
@@ -208,11 +199,11 @@ public class ContainerLetter extends ContainerItemInventory<ItemInventoryLetter>
 	}
 
 	@Override
-	public void handleLetterInfoUpdate(EnumAddressee type, @Nullable IMailAddress address, @Nullable ITradeStationInfo tradeInfo) {
-		carrierType = type;
-		if (type == EnumAddressee.PLAYER) {
+	public void handleLetterInfoUpdate(IPostalCarrier carrier, @Nullable IMailAddress address, @Nullable ITradeStationInfo tradeInfo) {
+		this.carrier = carrier;
+		if (carrier.equals(PostalCarriers.PLAYER.get())) {
 			getLetter().setRecipient(address);
-		} else if (type == EnumAddressee.TRADER) {
+		} else if (carrier.equals(PostalCarriers.TRADER.get())) {
 			this.setTradeInfo(tradeInfo);
 		}
 	}

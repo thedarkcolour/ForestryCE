@@ -1307,7 +1307,7 @@
   "item.for.lepidopterist_bag.name": "Rucksack des Lepidopterologen",
   "item.for.moth.name": "Motte",
   "tile.for.butterfly_chest.name": "Truhe des Lepidopterologen",
-  "for.chat.mail.already_mailed": "Man kann den Brief nicht nochmal versenden.",
+  "for.chat.mail.already.mailed": "Man kann den Brief nicht nochmal versenden.",
   "for.chat.command.forestry.mail.desc": "- %s : Postsystembefehle",
   "for.chat.command.forestry.mail.help": "Verschiedene Befehle bezüglich des Postsystems",
   "for.chat.command.forestry.mail.format": "Format: /%s <Sub-Befehl>",
@@ -1563,5 +1563,7 @@
   "for.jei.farming.products": "Produkte",
   "for.jei.charcoal.pile.name": "Holzkohlehaufen",
   "for.jei.chance": "Chance: %s",
-  "for.jei.fortune": "Die Menge an diesem Item wird durch die Verzauberung \"Glück\" beeinflusst."
+  "for.jei.fortune": "Die Menge an diesem Item wird durch die Verzauberung \"Glück\" beeinflusst.",
+  "for.gui.mail.toast.title": "Du hast Post!",
+  "for.gui.mail.toast.message": "%1$d ungeöffnete Briefe"
 }

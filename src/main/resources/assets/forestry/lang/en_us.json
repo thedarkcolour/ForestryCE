@@ -1790,7 +1790,7 @@
   "_comment": "###################",
   "_comment": "MAIL",
   "_comment": "###################",
-  "for.chat.mail.already_mailed": "Cannot resend letter.",
+  "for.chat.mail.already.mailed": "Cannot resend letter.",
   "for.chat.command.forestry.mail.desc": "- %1$s : Mail System Commands",
   "for.chat.command.forestry.mail.help": "Various commands related to the mail system",
   "for.chat.command.forestry.mail.format": "Format: /%1$s <sub-command>",
@@ -2217,5 +2217,7 @@
   "forestry.date.month.9": "Sep. %s",
   "forestry.date.month.10": "Oct. %s",
   "forestry.date.month.11": "Nov. %s",
-  "forestry.date.month.12": "Dec. %s"
+  "forestry.date.month.12": "Dec. %s",
+  "for.gui.mail.toast.title": "You've got Mail!",
+  "for.gui.mail.toast.message": "%1$d unopened letters"
 }

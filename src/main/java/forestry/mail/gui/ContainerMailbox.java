@@ -24,8 +24,8 @@ import forestry.core.gui.slots.SlotOutput;
 import forestry.core.tiles.TileUtil;
 import forestry.core.utils.NetworkUtil;
 import forestry.core.utils.SlotUtil;
-import forestry.mail.POBox;
-import forestry.mail.POBoxInfo;
+import forestry.mail.carriers.players.POBox;
+import forestry.mail.carriers.players.POBoxInfo;
 import forestry.mail.features.MailMenuTypes;
 import forestry.mail.network.packets.PacketPOBoxInfoResponse;
 import forestry.mail.tiles.TileMailbox;
@@ -67,7 +67,7 @@ public class ContainerMailbox extends ContainerTile<TileMailbox> {
 		if (SlotUtil.isSlotInRange(slotId, SLOT_LETTERS, SLOT_LETTERS_COUNT)) {
 			if (!player.level.isClientSide && mailInventory != null) {
 				POBoxInfo info = mailInventory.getPOBoxInfo();
-				NetworkUtil.sendToPlayer(new PacketPOBoxInfoResponse(info), (ServerPlayer) player);
+				NetworkUtil.sendToPlayer(new PacketPOBoxInfoResponse(info, true), (ServerPlayer) player);
 			}
 		}
 	}

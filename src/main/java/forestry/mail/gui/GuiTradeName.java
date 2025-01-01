@@ -36,42 +36,38 @@ public class GuiTradeName extends GuiForestry<ContainerTradeName> {
 		this.tile = container.getTile();
 		this.imageWidth = 176;
 		this.imageHeight = 90;
-
-		addressNameField = new EditBox(this.minecraft.font, leftPos + 44, topPos + 39, 90, 14, null);
 	}
 
 	@Override
 	public void init() {
 		super.init();
 
-		addressNameField = new EditBox(this.minecraft.font, leftPos + 44, topPos + 39, 90, 14, null);
+		addressNameField = new EditBox(this.font, leftPos + 44, topPos + 39, 90, 14, null);
+		addressNameField.setCanLoseFocus(true);
+		addressNameField.setTextColor(-1);
+		addressNameField.setTextColorUneditable(-1);
+		addressNameField.setBordered(true);
+		addressNameField.setMaxLength(12);
 		addressNameField.setValue(menu.getAddress().getName());
-		addressNameField.setFocus(true);
+		addWidget(this.addressNameField);
+		setInitialFocus(this.addressNameField);
+		addressNameField.setEditable(true);
 	}
 
 	@Override
 	public boolean keyPressed(int key, int scanCode, int modifiers) {
+		if (key == GLFW.GLFW_KEY_ESCAPE) {
+			this.minecraft.player.closeContainer();
+		}
 
-		// Set focus or enter text into address
-		if (addressNameField.isFocused()) {
-			if (scanCode == GLFW.GLFW_KEY_ENTER) {
-				setAddress();
-			} else {
-				addressNameField.keyPressed(key, scanCode, modifiers);
-			}
+		if (key == GLFW.GLFW_KEY_ENTER && this.addressNameField.isFocused()) {
+			setAddress();
 			return true;
 		}
 
-		return super.keyPressed(key, scanCode, modifiers);
-	}
-
-	@Override
-	public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
-		if (super.mouseClicked(mouseX, mouseY, mouseButton)) {
-			return false;    //TODO this return value
-		}
-		addressNameField.mouseClicked(mouseX, mouseY, mouseButton);
-		return true;
+		return this.addressNameField.keyPressed(key, scanCode, modifiers)
+				|| this.addressNameField.canConsumeInput()
+				|| super.keyPressed(key, scanCode, modifiers);
 	}
 
 	@Override

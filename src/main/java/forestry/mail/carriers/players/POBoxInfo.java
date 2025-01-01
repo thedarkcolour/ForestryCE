@@ -8,7 +8,7 @@
  * Various Contributors including, but not limited to:
  * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
  ******************************************************************************/
-package forestry.mail;
+package forestry.mail.carriers.players;
 
 public record POBoxInfo(int playerLetters, int tradeLetters) {
 	public boolean hasMail() {

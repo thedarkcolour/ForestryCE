@@ -13,6 +13,7 @@ package forestry.mail.gui;
 import java.util.ArrayList;
 import java.util.List;
 
+import forestry.mail.carriers.PostalCarriers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.gui.Font;
@@ -26,7 +27,6 @@ import net.minecraft.ChatFormatting;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
-import forestry.api.mail.EnumAddressee;
 import forestry.api.mail.ITradeStationInfo;
 import forestry.core.config.SessionVars;
 import forestry.core.gui.GuiForestry;
@@ -49,9 +49,6 @@ public class GuiCatalogue extends GuiForestry<ContainerCatalogue> {
 		super(new ResourceLocation("textures/gui/book.png"), container, inv, title);
 		this.imageWidth = 192;
 		this.imageHeight = 192;
-
-		buttonFilter = new Button(width / 2 - 44, topPos + 150, 42, 20, Component.translatable("for.gui.mail.filter.all"), b -> actionPerformed(4));
-		buttonUse = new Button(width / 2, topPos + 150, 42, 20, Component.translatable("for.gui.mail.address.copy"), b -> actionPerformed(5));
 	}
 
 	@Override
@@ -65,7 +62,6 @@ public class GuiCatalogue extends GuiForestry<ContainerCatalogue> {
 		addRenderableWidget(new Button(width / 2 + 44, topPos + 150, 12, 20, Component.literal(">"), b -> actionPerformed(2)));
 		addRenderableWidget(new Button(width / 2 - 58, topPos + 150, 12, 20, Component.literal("<"), b -> actionPerformed(3)));
 
-		//TODO but these are set in the constructor??
 		buttonFilter = new Button(width / 2 - 44, topPos + 150, 42, 20, Component.translatable("for.gui.mail.filter.all"), b -> actionPerformed(4));
 		addRenderableWidget(buttonFilter);
 
@@ -154,7 +150,7 @@ public class GuiCatalogue extends GuiForestry<ContainerCatalogue> {
 				ITradeStationInfo info = menu.getTradeInfo();
 				if (info != null) {
 					SessionVars.setStringVar("mail.letter.recipient", info.address().getName());
-					SessionVars.setStringVar("mail.letter.addressee", EnumAddressee.TRADER.toString());
+					SessionVars.setStringVar("mail.letter.carrier", PostalCarriers.TRADER.getKey().location().toString());
 				}
 				player.closeContainer();
 			}

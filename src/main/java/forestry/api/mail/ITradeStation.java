@@ -5,10 +5,15 @@
  ******************************************************************************/
 package forestry.api.mail;
 
+import forestry.core.inventory.IInventoryAdapter;
+import forestry.mail.IWatchable;
 import net.minecraft.world.Container;
 
-public interface ITradeStation extends ILetterHandler, Container {
+import javax.annotation.Nullable;
 
+public interface ITradeStation extends ILetterHandler, Container, IWatchable, IInventoryAdapter {
+
+	@Nullable
 	IMailAddress getAddress();
 
 	boolean isValid();

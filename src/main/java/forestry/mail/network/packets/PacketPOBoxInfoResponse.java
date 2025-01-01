@@ -10,18 +10,20 @@
  ******************************************************************************/
 package forestry.mail.network.packets;
 
+import forestry.core.config.ForestryConfig;
+import forestry.mail.gui.ToastMailboxInfo;
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 
 import forestry.api.modules.IForestryPacketClient;
 import forestry.core.network.PacketIdClient;
-import forestry.mail.POBoxInfo;
-import forestry.mail.gui.GuiMailboxInfo;
+import forestry.mail.carriers.players.POBoxInfo;
 
-public record PacketPOBoxInfoResponse(int playerLetters, int tradeLetters) implements IForestryPacketClient {
-	public PacketPOBoxInfoResponse(POBoxInfo info) {
-		this(info.playerLetters(), info.tradeLetters());
+public record PacketPOBoxInfoResponse(int playerLetters, int tradeLetters, boolean silent) implements IForestryPacketClient {
+	public PacketPOBoxInfoResponse(POBoxInfo info, boolean silent) {
+		this(info.playerLetters(), info.tradeLetters(), silent);
 	}
 
 	@Override
@@ -33,13 +35,17 @@ public record PacketPOBoxInfoResponse(int playerLetters, int tradeLetters) imple
 	public void write(FriendlyByteBuf buffer) {
 		buffer.writeInt(playerLetters);
 		buffer.writeInt(tradeLetters);
+		buffer.writeBoolean(silent);
 	}
 
 	public static PacketPOBoxInfoResponse decode(FriendlyByteBuf buffer) {
-		return new PacketPOBoxInfoResponse(buffer.readInt(), buffer.readInt());
+		return new PacketPOBoxInfoResponse(buffer.readInt(), buffer.readInt(), buffer.readBoolean());
 	}
 
 	public static void handle(PacketPOBoxInfoResponse msg, Player player) {
-		GuiMailboxInfo.INSTANCE.setPOBoxInfo(player, new POBoxInfo(msg.playerLetters, msg.tradeLetters));
+		POBoxInfo poBox = new POBoxInfo(msg.playerLetters, msg.tradeLetters);
+		if (player.equals(Minecraft.getInstance().player) && ForestryConfig.CLIENT.mailAlertsEnabled.get()) {
+			ToastMailboxInfo.addOrUpdate(Minecraft.getInstance().getToasts(), poBox, msg.silent);
+		}
 	}
 }

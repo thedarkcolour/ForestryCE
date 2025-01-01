@@ -12,7 +12,9 @@
 package forestry.core.utils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.IntFunction;
 
 import net.minecraft.core.BlockPos;
@@ -26,10 +28,6 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 
 import forestry.api.core.IProduct;
-import forestry.api.core.Product;
-
-import it.unimi.dsi.fastutil.objects.Object2IntMap;
-import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 
 public abstract class ItemStackUtil {
 	private static final int[] EMPTY_CONSUME = new int[0];
@@ -53,21 +51,40 @@ public abstract class ItemStackUtil {
 		receptor.grow(canTransfer);
 	}
 
-	public static List<ItemStack> condenseStacks(List<ItemStack> stacks) {
-		Object2IntOpenHashMap<ItemStack> map = new Object2IntOpenHashMap<>();
+	public static Map<ItemStack, Integer> condensedStackCounts(List<ItemStack> stacks) {
+		Map<ItemStack, Integer> map = new HashMap<>();
 
 		for (ItemStack stack : stacks) {
+			if (stack.isEmpty()) {
+				continue;
+			}
 			ItemStack copy = stack.copy();
 			copy.setCount(1);
 
-			map.put(copy, map.getInt(copy) + stack.getCount());
+			// TODO This is terrible stuff, please find another way to solve this :)
+			// The hash map is actually useless as the hash of an ItemStack isn't always the same
+			boolean found = false;
+			for (Map.Entry<ItemStack, Integer> entry : map.entrySet()) {
+				if (isIdenticalItem(entry.getKey(), copy)) {
+					map.put(entry.getKey(), map.get(entry.getKey()) + stack.getCount());
+					found = true;
+					break;
+				}
+			}
+			if (!found) {
+				map.put(copy, stack.getCount());
+			}
 		}
 
+		return map;
+	}
+
+	public static List<ItemStack> realizeStacks(Map<ItemStack, Integer> map) {
 		ArrayList<ItemStack> condensed = new ArrayList<>(map.size());
 
-		for (Object2IntMap.Entry<ItemStack> entry : map.object2IntEntrySet()) {
+		for (Map.Entry<ItemStack, Integer> entry : map.entrySet()) {
 			ItemStack stack = entry.getKey();
-			int count = entry.getIntValue();
+			int count = entry.getValue();
 
 			while (count > 0) {
 				int transfer = Math.min(count, stack.getMaxStackSize());
@@ -80,6 +97,10 @@ public abstract class ItemStackUtil {
 		}
 
 		return condensed;
+	}
+
+	public static List<ItemStack> condenseStacks(List<ItemStack> stacks) {
+		return realizeStacks(condensedStackCounts(stacks));
 	}
 
 	public static boolean containsItemStack(Iterable<ItemStack> list, ItemStack itemStack) {
@@ -134,18 +155,22 @@ public abstract class ItemStackUtil {
 	public static int containsSets(List<ItemStack> set, List<ItemStack> stock, boolean craftingTools) {
 		int totalSets = 0;
 
-		List<ItemStack> condensedRequired = ItemStackUtil.condenseStacks(set);
-		List<ItemStack> condensedOffered = ItemStackUtil.condenseStacks(stock);
+		Map<ItemStack, Integer> condensedRequired = ItemStackUtil.condensedStackCounts(set);
+		Map<ItemStack, Integer> condensedOffered = ItemStackUtil.condensedStackCounts(stock);
 
-		for (ItemStack req : condensedRequired) {
-			int reqCount = 0;
+		for (Map.Entry<ItemStack, Integer> req : condensedRequired.entrySet()) {
+			if (req.getValue() <= 0) {
+				continue;
+			}
+			int offerCount = 0;
 
-			for (ItemStack offer : condensedOffered) {
-				if (isCraftingEquivalent(req, offer, craftingTools)) {
-					int stackCount = offer.getCount() / req.getCount();
-					reqCount = Math.max(reqCount, stackCount);
+			for (Map.Entry<ItemStack, Integer> offer : condensedOffered.entrySet()) {
+				if (isCraftingEquivalent(req.getKey(), offer.getKey(), craftingTools)) {
+					offerCount += offer.getValue();
 				}
 			}
+
+			int reqCount = offerCount / req.getValue();
 
 			if (reqCount == 0) {
 				return 0;

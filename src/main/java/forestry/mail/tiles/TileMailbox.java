@@ -10,6 +10,10 @@
  ******************************************************************************/
 package forestry.mail.tiles;
 
+import forestry.mail.*;
+import forestry.mail.carriers.players.POBox;
+import forestry.mail.carriers.players.POBoxRegistry;
+import forestry.mail.postalstates.EnumDeliveryState;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.player.Inventory;
@@ -27,12 +31,8 @@ import com.mojang.authlib.GameProfile;
 import forestry.api.mail.ILetter;
 import forestry.api.mail.IMailAddress;
 import forestry.api.mail.IPostalState;
-import forestry.api.mail.PostManager;
 import forestry.core.inventory.InventoryAdapter;
 import forestry.core.tiles.TileBase;
-import forestry.mail.EnumDeliveryState;
-import forestry.mail.POBox;
-import forestry.mail.PostRegistry;
 import forestry.mail.features.MailTiles;
 import forestry.mail.gui.ContainerMailbox;
 
@@ -52,7 +52,7 @@ public class TileMailbox extends TileBase {
 
 		ItemStack heldItem = player.getItemInHand(player.getUsedItemHand());
 		// Handle letter sending
-		if (PostManager.postRegistry.isLetter(heldItem)) {
+		if (LetterUtils.isLetter(heldItem)) {
 			IPostalState result = this.tryDispatchLetter(heldItem);
 			if (!result.isOk()) {
 				player.sendSystemMessage(result.getDescription());
@@ -70,18 +70,18 @@ public class TileMailbox extends TileBase {
 			return getInternalInventory();
 		}
 
-		IMailAddress address = PostManager.postRegistry.getMailAddress(playerProfile);
-		return PostRegistry.getOrCreatePOBox((ServerLevel) world, address);
+		IMailAddress address = new MailAddress(playerProfile);
+		return POBoxRegistry.getOrCreate((ServerLevel) world).getOrCreatePOBox(address);
 	}
 
 	private IPostalState tryDispatchLetter(ItemStack letterStack) {
-		ILetter letter = PostManager.postRegistry.getLetter(letterStack);
+		ILetter letter = LetterUtils.getLetter(letterStack);
 		IPostalState result;
 
 		if (letter != null) {
 			//this is only called after !world.isRemote has been checked, so I believe the cast is OK
 			ServerLevel world = (ServerLevel) this.level;
-			result = PostManager.postRegistry.getPostOffice(world).lodgeLetter(world, letterStack, true);
+			result = PostOffice.getOrCreate(world).lodgeLetter(world, letterStack, true);
 		} else {
 			result = EnumDeliveryState.NOT_MAILABLE;
 		}

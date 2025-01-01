@@ -1289,7 +1289,7 @@
   "item.for.lepidopterist_bag.name": "鱗翅目昆蟲學家背包",
   "item.for.moth.name": "蛾",
   "tile.for.butterfly_chest.name": "鱗翅目昆蟲學家箱子",
-  "for.chat.mail.already_mailed": "無法重發信件。",
+  "for.chat.mail.already.mailed": "無法重發信件。",
   "for.chat.command.forestry.mail.desc": "- %s： 郵件系統命令",
   "for.chat.command.forestry.mail.help": "與郵件系統相關的各種命令。",
   "for.chat.command.forestry.mail.format": "格式： /%s <子命令>",

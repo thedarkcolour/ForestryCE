@@ -18,27 +18,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import forestry.api.mail.*;
+import forestry.mail.carriers.trading.TradeStationRegistry;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ContainerListener;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerLevel;
 
-import forestry.api.mail.EnumAddressee;
-import forestry.api.mail.EnumTradeStationState;
-import forestry.api.mail.IMailAddress;
-import forestry.api.mail.IPostOffice;
-import forestry.api.mail.IPostalState;
-import forestry.api.mail.ITradeStation;
-import forestry.api.mail.ITradeStationInfo;
-import forestry.api.mail.PostManager;
 import forestry.core.gui.IGuiSelectable;
 import forestry.core.utils.NetworkUtil;
 import forestry.mail.features.MailMenuTypes;
 import forestry.mail.network.packets.PacketLetterInfoResponseTrader;
 
+import net.minecraft.world.inventory.DataSlot;
 import net.minecraft.world.item.ItemStack;
 
 public class ContainerCatalogue extends AbstractContainerMenu implements IGuiSelectable, ILetterInfoReceiver {
@@ -49,13 +43,13 @@ public class ContainerCatalogue extends AbstractContainerMenu implements IGuiSel
 	@Nullable
 	private ITradeStationInfo currentTrade = null;
 
-	private int stationIndex = 0;
+	private DataSlot stationIndex = DataSlot.standalone();
 
 	// for display on client
-	private int stationCount;
+	private DataSlot stationCount = DataSlot.standalone();
 
 	private boolean needsSync = true;
-	private int currentFilter = 1;
+	private DataSlot currentFilter = DataSlot.standalone();
 
 	private static final String[] FILTER_NAMES = new String[]{"all", "online", "offline"};
 	private static final List<Set<IPostalState>> FILTERS = new ArrayList<>();
@@ -79,63 +73,68 @@ public class ContainerCatalogue extends AbstractContainerMenu implements IGuiSel
 		super(MailMenuTypes.CATALOGUE.menuType(), windowId);
 		this.player = inv.player;
 
-		if (!player.level.isClientSide) {
-			rebuildStationsList();
-		}
+		addDataSlot(stationIndex);
+		addDataSlot(stationCount);
+		addDataSlot(currentFilter);
+
+		stationIndex.set(0);
+		stationCount.set(0);
+		currentFilter.set(1);
+
+		rebuildStationsList();
 	}
 
 	public int getPageCount() {
-		return Math.max(stationCount, 1);
+		return Math.max(stationCount.get(), 1);
 	}
 
 	public int getPageNumber() {
-		return stationIndex + 1;
+		return stationIndex.get() + 1;
 	}
 
 	public String getFilterIdent() {
-		return FILTER_NAMES[currentFilter];
+		return FILTER_NAMES[currentFilter.get()];
 	}
 
 	private void rebuildStationsList() {
-		// todo check that Nedelosk did not create a bug with this
-		if (!player.level.isClientSide) {
+		if (player.level.isClientSide) {
 			return;
 		}
 
 		stations.clear();
 
-		IPostOffice postOffice = PostManager.postRegistry.getPostOffice((ServerLevel) player.level);
-		Map<IMailAddress, ITradeStation> tradeStations = postOffice.getActiveTradeStations(player.level);
+		Map<IMailAddress, ITradeStation> tradeStations = TradeStationRegistry.getOrCreate((ServerLevel) player.level).getActiveTradeStations();
 
 		for (ITradeStation station : tradeStations.values()) {
 			ITradeStationInfo info = station.getTradeInfo();
 
 			// Filter out any trade stations which do not actually offer anything.
-			if (FILTERS.get(currentFilter).contains(info.state())) {
+			if (FILTERS.get(currentFilter.get()).contains(info.state())) {
 				stations.add(station);
 			}
 		}
 
-		stationIndex = 0;
+		stationIndex.set(0);
+		stationCount.set(stations.size());
 		updateTradeInfo();
 	}
 
 	public void nextPage() {
 		if (!stations.isEmpty()) {
-			stationIndex = (stationIndex + 1) % stations.size();
+			stationIndex.set((stationIndex.get() + 1) % stations.size());
 			updateTradeInfo();
 		}
 	}
 
 	public void previousPage() {
 		if (!stations.isEmpty()) {
-			stationIndex = (stationIndex - 1 + stations.size()) % stations.size();
+			stationIndex.set((stationIndex.get() - 1 + stations.size()) % stations.size());
 			updateTradeInfo();
 		}
 	}
 
 	public void cycleFilter() {
-		currentFilter = (currentFilter + 1) % FILTERS.size();
+		currentFilter.set((currentFilter.get() + 1) % FILTERS.size());
 		rebuildStationsList();
 	}
 
@@ -147,7 +146,7 @@ public class ContainerCatalogue extends AbstractContainerMenu implements IGuiSel
 		}
 
 		if (!stations.isEmpty()) {
-			ITradeStation station = stations.get(stationIndex);
+			ITradeStation station = stations.get(stationIndex.get());
 			setTradeInfo(station.getTradeInfo());
 		} else {
 			setTradeInfo(null);
@@ -156,7 +155,7 @@ public class ContainerCatalogue extends AbstractContainerMenu implements IGuiSel
 	}
 
 	@Override
-	public void handleLetterInfoUpdate(EnumAddressee type, @Nullable IMailAddress address, @Nullable ITradeStationInfo tradeInfo) {
+	public void handleLetterInfoUpdate(IPostalCarrier carrier, @Nullable IMailAddress address, @Nullable ITradeStationInfo tradeInfo) {
 		setTradeInfo(tradeInfo);
 	}
 
@@ -174,23 +173,8 @@ public class ContainerCatalogue extends AbstractContainerMenu implements IGuiSel
 		super.broadcastChanges();
 
 		if (needsSync) {
-			for (ContainerListener crafter : containerListeners) {
-				crafter.dataChanged(this, 0, stationIndex);
-				crafter.dataChanged(this, 1, stations.size());
-				crafter.dataChanged(this, 2, currentFilter);
-			}
-
 			NetworkUtil.sendToPlayer(new PacketLetterInfoResponseTrader(currentTrade), (ServerPlayer) player);
 			needsSync = false;
-		}
-	}
-
-	@Override
-	public void setData(int i, int j) {
-		switch (i) {
-			case 0 -> stationIndex = j;
-			case 1 -> stationCount = j;
-			case 2 -> currentFilter = j;
 		}
 	}
 
@@ -211,9 +195,8 @@ public class ContainerCatalogue extends AbstractContainerMenu implements IGuiSel
 		needsSync = true;
 	}
 
-	// todo
 	@Override
-	public ItemStack quickMoveStack(Player p_38941_, int p_38942_) {
+	public ItemStack quickMoveStack(Player player, int slot) {
 		return ItemStack.EMPTY;
 	}
 }

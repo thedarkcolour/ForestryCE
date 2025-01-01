@@ -8,15 +8,15 @@
  * Various Contributors including, but not limited to:
  * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
  ******************************************************************************/
-package forestry.mail;
+package forestry.mail.carriers.trading;
 
 import java.util.List;
 
+import forestry.mail.carriers.PostalCarriers;
 import net.minecraft.world.item.ItemStack;
 
 import com.mojang.authlib.GameProfile;
 
-import forestry.api.mail.EnumAddressee;
 import forestry.api.mail.EnumTradeStationState;
 import forestry.api.mail.IMailAddress;
 import forestry.api.mail.ITradeStationInfo;
@@ -24,7 +24,7 @@ import forestry.api.mail.ITradeStationInfo;
 public record TradeStationInfo(IMailAddress address, GameProfile owner, ItemStack tradegood, List<ItemStack> required,
 							   EnumTradeStationState state) implements ITradeStationInfo {
 	public TradeStationInfo {
-		if (address.getType() != EnumAddressee.TRADER) {
+		if (!address.getCarrier().equals(PostalCarriers.TRADER.get())) {
 			throw new IllegalArgumentException("TradeStation address must be a trader");
 		}
 	}

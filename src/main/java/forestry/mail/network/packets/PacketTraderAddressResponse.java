@@ -10,6 +10,8 @@
  ******************************************************************************/
 package forestry.mail.network.packets;
 
+import forestry.api.mail.IMailAddress;
+import forestry.mail.MailAddress;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -20,7 +22,7 @@ import forestry.core.network.PacketIdClient;
 import forestry.core.tiles.TileUtil;
 import forestry.mail.tiles.TileTrader;
 
-public record PacketTraderAddressResponse(BlockPos pos, String addressName) implements IForestryPacketClient {
+public record PacketTraderAddressResponse(BlockPos pos, IMailAddress address) implements IForestryPacketClient {
 	@Override
 	public ResourceLocation id() {
 		return PacketIdClient.TRADING_ADDRESS_RESPONSE;
@@ -29,14 +31,14 @@ public record PacketTraderAddressResponse(BlockPos pos, String addressName) impl
 	@Override
 	public void write(FriendlyByteBuf buffer) {
 		buffer.writeBlockPos(pos);
-		buffer.writeUtf(addressName);
+		buffer.writeUtf(address.getName());
 	}
 
 	public static PacketTraderAddressResponse decode(FriendlyByteBuf buffer) {
-		return new PacketTraderAddressResponse(buffer.readBlockPos(), buffer.readUtf());
+		return new PacketTraderAddressResponse(buffer.readBlockPos(), new MailAddress(buffer.readUtf()));
 	}
 
 	public static void handle(PacketTraderAddressResponse msg, Player player) {
-		TileUtil.actOnTile(player.level, msg.pos, TileTrader.class, tile -> tile.handleSetAddressResponse(msg.addressName));
+		TileUtil.actOnTile(player.level, msg.pos, TileTrader.class, tile -> tile.setAddress(msg.address));
 	}
 }

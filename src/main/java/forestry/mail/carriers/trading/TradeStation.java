@@ -8,12 +8,18 @@
  * Various Contributors including, but not limited to:
  * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
  ******************************************************************************/
-package forestry.mail;
+package forestry.mail.carriers.trading;
 
 import javax.annotation.Nullable;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import forestry.mail.*;
+import forestry.mail.carriers.PostalCarriers;
+import forestry.mail.postalstates.EnumDeliveryState;
+import forestry.mail.postalstates.ResponseNotMailable;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
@@ -23,11 +29,9 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.saveddata.SavedData;
 
 import com.mojang.authlib.GameProfile;
 
-import forestry.api.mail.EnumAddressee;
 import forestry.api.mail.EnumPostage;
 import forestry.api.mail.EnumTradeStationState;
 import forestry.api.mail.ILetter;
@@ -35,18 +39,14 @@ import forestry.api.mail.IMailAddress;
 import forestry.api.mail.IPostalState;
 import forestry.api.mail.IStamps;
 import forestry.api.mail.ITradeStation;
-import forestry.api.mail.PostManager;
-import forestry.core.inventory.IInventoryAdapter;
 import forestry.core.inventory.InventoryAdapter;
 import forestry.core.utils.InventoryUtil;
 import forestry.core.utils.ItemStackUtil;
-import forestry.core.utils.Translator;
 import forestry.mail.features.MailItems;
 import forestry.mail.inventory.InventoryTradeStation;
 import forestry.mail.items.EnumStampDefinition;
 
-public class TradeStation extends SavedData implements ITradeStation, IInventoryAdapter {
-	public static final String SAVE_NAME = "trade_po_";
+public class TradeStation implements ITradeStation {
 	public static final short SLOT_TRADEGOOD = 0;
 	public static final short SLOT_TRADEGOOD_COUNT = 1;
 	public static final short SLOT_EXCHANGE_1 = 1;
@@ -70,8 +70,10 @@ public class TradeStation extends SavedData implements ITradeStation, IInventory
 	private boolean isInvalid = false;
 	private final InventoryAdapter inventory = new InventoryTradeStation();
 
+	private final Set<Watcher> updateWatchers = new HashSet<>();
+
 	public TradeStation(@Nullable GameProfile owner, IMailAddress address) {
-		if (address.getType() != EnumAddressee.TRADER) {
+		if (!address.getCarrier().equals(PostalCarriers.TRADER.get())) {
 			throw new IllegalArgumentException("TradeStation address must be a trader");
 		}
 
@@ -80,26 +82,15 @@ public class TradeStation extends SavedData implements ITradeStation, IInventory
 	}
 
 	public TradeStation(CompoundTag tag) {
-		if (tag.contains("owner")) {
-			owner = NbtUtils.readGameProfile(tag.getCompound("owner"));
-		}
-
-		if (tag.contains("address")) {
-			address = new MailAddress(tag.getCompound("address"));
-		}
-
-		this.isVirtual = tag.getBoolean("VRT");
-		this.isInvalid = tag.getBoolean("IVL");
-		inventory.read(tag);
+		read(tag);
 	}
 
 	@Override
-	public IMailAddress getAddress() {
+	public @Nullable IMailAddress getAddress() {
 		return this.address;
 	}
 
 	// / SAVING & LOADING
-	@Override
 	public CompoundTag save(CompoundTag compoundNBT) {
 		if (owner != null) {
 			CompoundTag nbt = new CompoundTag();
@@ -126,13 +117,23 @@ public class TradeStation extends SavedData implements ITradeStation, IInventory
 
 	@Override
 	public void read(CompoundTag nbt) {
-		// load(nbt);
+		if (nbt.contains("owner")) {
+			owner = NbtUtils.readGameProfile(nbt.getCompound("owner"));
+		}
+
+		if (nbt.contains("address")) {
+			address = new MailAddress(nbt.getCompound("address"));
+		}
+
+		this.isVirtual = nbt.getBoolean("VRT");
+		this.isInvalid = nbt.getBoolean("IVL");
+		inventory.read(nbt);
 	}
 
 	/* INVALIDATING */
 	@Override
 	public boolean isValid() {
-		return !this.isInvalid;
+		return !this.isInvalid || this.address == null;
 	}
 
 	@Override
@@ -185,7 +186,7 @@ public class TradeStation extends SavedData implements ITradeStation, IInventory
 
 		boolean sendOwnerNotice = doLodge && owner != null;
 
-		ILetter letter = PostManager.postRegistry.getLetter(letterstack);
+		ILetter letter = LetterUtils.getLetter(letterstack);
 
 		if (!isVirtual() && !hasPaper(sendOwnerNotice ? 2 : 1)) {
 			return EnumTradeStationState.INSUFFICIENT_PAPER;
@@ -256,7 +257,7 @@ public class TradeStation extends SavedData implements ITradeStation, IInventory
 		ItemStack mailstack = LetterProperties.createStampedLetterStack(mail);
 		mailstack.setTag(compoundNBT);
 
-		IPostalState responseState = PostManager.postRegistry.getPostOffice(world).lodgeLetter(world, mailstack, doLodge);
+		IPostalState responseState = PostOffice.getOrCreate(world).lodgeLetter(world, mailstack, doLodge);
 
 		if (!responseState.isOk()) {
 			return new ResponseNotMailable(responseState);
@@ -301,7 +302,7 @@ public class TradeStation extends SavedData implements ITradeStation, IInventory
 			ItemStack confirmstack = LetterProperties.createStampedLetterStack(confirm);
 			confirmstack.setTag(compoundNBT);
 
-			PostManager.postRegistry.getPostOffice(world).lodgeLetter(world, confirmstack, doLodge);
+			PostOffice.getOrCreate(world).lodgeLetter(world, confirmstack, doLodge);
 
 			removePaper();
 			removeStamps(new int[]{0, 1});
@@ -472,6 +473,24 @@ public class TradeStation extends SavedData implements ITradeStation, IInventory
 			}
 		}
 
+		// if there isn't a single larger stamp we will just combine smaller ones, starting with the higher values
+		// this is totally disregarding whether there's a better solution or not, but I won't implement a knapsack solver here
+		if (postageRemaining > 0) {
+			postageRemaining = postageRequired;
+			stamps = new int[EnumPostage.values().length];
+			for (int i = stamps.length - 1; i >= 0; i--) {
+				EnumPostage postValue = EnumPostage.values()[i];
+				int num = virtual ? 99 : getNumStamps(postValue);
+
+				int reqNum = Math.min((int) Math.ceil((double) postageRemaining / postValue.getValue()), num);
+				stamps[i] = reqNum;
+				postageRemaining -= reqNum * postValue.getValue();
+				if (postageRemaining <= 0) {
+					return stamps;
+				}
+			}
+		}
+
 		return stamps;
 	}
 
@@ -576,9 +595,8 @@ public class TradeStation extends SavedData implements ITradeStation, IInventory
 		return inventory.isEmpty();
 	}
 
-	@Override
 	public void setDirty() {
-		super.setDirty();
+		updateWatchers.forEach(Watcher::onWatchableUpdate);
 		inventory.setChanged();
 	}
 
@@ -671,4 +689,11 @@ public class TradeStation extends SavedData implements ITradeStation, IInventory
 	public void clearContent() {
 	}
 
+	public boolean registerUpdateWatcher(Watcher updateWatcher) {
+		return updateWatchers.add(updateWatcher);
+	}
+
+	public boolean unregisterUpdateWatcher(Watcher updateWatcher) {
+		return updateWatchers.remove(updateWatcher);
+	}
 }

@@ -2,6 +2,8 @@ package forestry.mail.network.packets;
 
 import javax.annotation.Nullable;
 
+import forestry.mail.MailAddress;
+import forestry.mail.carriers.PostalCarriers;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -10,15 +12,13 @@ import net.minecraft.world.item.ItemStack;
 
 import com.mojang.authlib.GameProfile;
 
-import forestry.api.mail.EnumAddressee;
 import forestry.api.mail.EnumTradeStationState;
 import forestry.api.mail.IMailAddress;
 import forestry.api.mail.ITradeStationInfo;
-import forestry.api.mail.PostManager;
 import forestry.api.modules.IForestryPacketClient;
 import forestry.core.network.PacketIdClient;
 import forestry.core.utils.NetworkUtil;
-import forestry.mail.TradeStationInfo;
+import forestry.mail.carriers.trading.TradeStationInfo;
 import forestry.mail.gui.ILetterInfoReceiver;
 
 public record PacketLetterInfoResponseTrader(@Nullable ITradeStationInfo info) implements IForestryPacketClient {
@@ -48,7 +48,7 @@ public record PacketLetterInfoResponseTrader(@Nullable ITradeStationInfo info) i
 
 	public static PacketLetterInfoResponseTrader decode(FriendlyByteBuf buffer) {
 		if (buffer.readBoolean()) {
-			IMailAddress address = PostManager.postRegistry.getMailAddress(buffer.readUtf());
+			IMailAddress address = new MailAddress(buffer.readUtf());
 			GameProfile owner = new GameProfile(buffer.readUUID(), buffer.readUtf());
 			ItemStack tradegood = buffer.readItem();
 			NonNullList<ItemStack> required = NetworkUtil.readItemStacks(buffer);
@@ -61,7 +61,7 @@ public record PacketLetterInfoResponseTrader(@Nullable ITradeStationInfo info) i
 
 	public static void handle(PacketLetterInfoResponseTrader msg, Player player) {
 		if (player.containerMenu instanceof ILetterInfoReceiver receiver) {
-			receiver.handleLetterInfoUpdate(EnumAddressee.TRADER, null, msg.info);
+			receiver.handleLetterInfoUpdate(PostalCarriers.TRADER.get(), null, msg.info);
 		}
 	}
 }
