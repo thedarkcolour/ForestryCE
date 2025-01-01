@@ -12,7 +12,7 @@ import forestry.api.genetics.ForestrySpeciesTypes;
 import static forestry.api.ForestryConstants.forestry;
 
 /**
- * All chromosomes of the Forestry bee species.
+ * All chromosomes of the Forestry bee species type.
  */
 public class BeeChromosomes {
 	/**
@@ -40,7 +40,7 @@ public class BeeChromosomes {
 	 */
 	public static final IValueChromosome<ToleranceType> HUMIDITY_TOLERANCE = ForestryAlleles.REGISTRY.valueChromosome(forestry("humidity_tolerance"), ToleranceType.class);
 	/**
-	 * Whether diurnal bees can work during the night, or nocturnal bees can work during the day. Reused by butterflies.
+	 * The activity type determines when this bee is awake. Builtin types are found in {@link forestry.api.apiculture.ForestryActivityTypes}.
 	 */
 	public static final IRegistryChromosome<IActivityType> ACTIVITY = ForestryAlleles.REGISTRY.registryChromosome(forestry("activity"), IActivityType.class);
 	/**

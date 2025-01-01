@@ -34,7 +34,7 @@ public interface IKaryotypeBuilder {
 	}
 
 	/**
-	 * Overload of {@link #set(IRegistryChromosome, ResourceLocation)} for default booleans.
+	 * Overload of {@link #set(IRegistryChromosome, ResourceLocation)} for booleans.
 	 */
 	default IChromosomeBuilder<IBooleanAllele> set(IBooleanChromosome chromosome, boolean defaultAllele) {
 		return set(chromosome, defaultAllele ? ForestryAlleles.TRUE : ForestryAlleles.FALSE)

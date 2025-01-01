@@ -1,12 +1,8 @@
 package forestry.apiimpl.client;
 
-import com.google.common.base.Preconditions;
+import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
 
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.data.loading.DatagenModLoader;
-
-import net.minecraftforge.fml.loading.FMLEnvironment;
-
+import forestry.api.ForestryConstants;
 import forestry.api.client.IForestryClientApi;
 import forestry.api.client.ITextureManager;
 import forestry.api.client.apiculture.IBeeClientManager;
@@ -15,12 +11,14 @@ import forestry.api.client.lepidopterology.IButterflyClientManager;
 import forestry.api.client.plugin.IClientHelper;
 import forestry.apiimpl.client.plugin.ClientHelper;
 import forestry.core.render.ForestryTextureManager;
+import forestry.modules.ModuleUtil;
 
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
 public class ForestryClientApiImpl implements IForestryClientApi {
-	private final ITextureManager textureManager;
+	@Nullable
+	private ITextureManager textureManager;
 	private final IClientHelper helper = new ClientHelper();
 	@Nullable
 	private IBeeClientManager beeManager;
@@ -30,17 +28,19 @@ public class ForestryClientApiImpl implements IForestryClientApi {
 	private IButterflyClientManager butterflyManager;
 
 	public ForestryClientApiImpl() {
-		Preconditions.checkState(FMLEnvironment.dist == Dist.CLIENT, "Tried to load IForestryClientApi on invalid side " + FMLEnvironment.dist);
+		ModuleUtil.getModBus(ForestryConstants.MOD_ID).addListener(this::initializeTextureManager);
+	}
 
-		if (DatagenModLoader.isRunningDataGen()) {
-			this.textureManager = new DummyTextureManager();
-		} else {
-			this.textureManager = new ForestryTextureManager();
-		}
+	// Must be called after textureManager is initialized in Minecraft's constructor.
+	private void initializeTextureManager(RegisterClientReloadListenersEvent event) {
+		this.textureManager = new ForestryTextureManager();
 	}
 
 	@Override
 	public ITextureManager getTextureManager() {
+		if (this.textureManager == null) {
+			throw new IllegalStateException("ITextureManager not initialized yet. Please wait until Minecraft constructor has been called");
+		}
 		return this.textureManager;
 	}
 

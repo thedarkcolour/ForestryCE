@@ -15,6 +15,7 @@ import forestry.api.genetics.alleles.IChromosome;
 import forestry.api.genetics.alleles.IKaryotype;
 import forestry.api.genetics.alleles.IRegistryAllele;
 import forestry.api.plugin.IGenomeBuilder;
+import forestry.core.utils.SpeciesUtil;
 
 public final class Genome implements IGenome {
 	final ImmutableMap<IChromosome<?>, AllelePair<?>> chromosomes;
@@ -29,16 +30,25 @@ public final class Genome implements IGenome {
 	}
 
 	// Used by codec to sort alleles properly and populate missing chromosomes
-	public static IGenome fromUnsortedAlleles(Karyotype karyotype, Map<IChromosome<?>, AllelePair<?>> map) {
+	public static IGenome sanitizeAlleles(Karyotype karyotype, Map<IChromosome<?>, AllelePair<?>> map) {
 		ImmutableMap.Builder<IChromosome<?>, AllelePair<?>> sorted = ImmutableMap.builderWithExpectedSize(map.size());
 		for (IChromosome<?> chromosome : karyotype.getChromosomes()) {
 			// Fix missing chromosomes for backwards compatibility
 			AllelePair<?> pair = map.get(chromosome);
 			if (pair == null) {
-				pair = map.get(karyotype.getSpeciesChromosome())
-						.active()
-						.<IRegistryAllele<ISpecies<?>>>cast()
-						.value()
+				ISpecies<?> species;
+
+				AllelePair<?> speciesPair = map.get(karyotype.getSpeciesChromosome());
+				if (speciesPair == null) {
+					// If species was added/removed, revert to default
+					species = SpeciesUtil.BEE_TYPE.get().getDefaultSpecies();
+				} else {
+					species = speciesPair.active()
+							.<IRegistryAllele<ISpecies<?>>>cast()
+							.value();
+				}
+
+				pair = species
 						.getDefaultGenome()
 						.getAllelePair(chromosome);
 			}

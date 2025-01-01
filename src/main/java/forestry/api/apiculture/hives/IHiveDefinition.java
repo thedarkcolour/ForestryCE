@@ -45,7 +45,7 @@ public interface IHiveDefinition {
 
 	/**
 	 * Called after successful hive generation.
-	 * world, x, y, z give the location of the new hive.
+	 * level, x, y, z give the location of the new hive.
 	 **/
-	void postGen(WorldGenLevel world, RandomSource rand, BlockPos pos);
+	void postGen(WorldGenLevel level, RandomSource rand, BlockPos pos);
 }

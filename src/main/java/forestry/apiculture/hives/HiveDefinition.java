@@ -46,8 +46,8 @@ import forestry.core.utils.SpeciesUtil;
 public enum HiveDefinition implements IHiveDefinition {
 	FOREST(ApicultureBlocks.BEEHIVE.get(BlockHiveType.FOREST).defaultState(), 6.0f, ForestryBeeSpecies.FOREST, HiveGenTree.INSTANCE) {
 		@Override
-		public void postGen(WorldGenLevel world, RandomSource rand, BlockPos pos) {
-			postGenFlowers(world, rand, pos, flowerStates);
+		public void postGen(WorldGenLevel level, RandomSource rand, BlockPos pos) {
+			postGenFlowers(level, rand, pos, flowerStates);
 		}
 
 		@Override
@@ -58,8 +58,8 @@ public enum HiveDefinition implements IHiveDefinition {
 	},
 	MEADOWS(ApicultureBlocks.BEEHIVE.get(BlockHiveType.MEADOWS).defaultState(), 1.0f, ForestryBeeSpecies.MEADOWS, new HiveGenGround(BlockTags.DIRT)) {
 		@Override
-		public void postGen(WorldGenLevel world, RandomSource rand, BlockPos pos) {
-			postGenFlowers(world, rand, pos, flowerStates);
+		public void postGen(WorldGenLevel level, RandomSource rand, BlockPos pos) {
+			postGenFlowers(level, rand, pos, flowerStates);
 		}
 
 		@Override
@@ -70,8 +70,8 @@ public enum HiveDefinition implements IHiveDefinition {
 	},
 	DESERT(ApicultureBlocks.BEEHIVE.get(BlockHiveType.DESERT).defaultState(), 1.0f, ForestryBeeSpecies.MODEST, new HiveGenGround(ForestryTags.Blocks.MODEST_BEE_GROUND)) {
 		@Override
-		public void postGen(WorldGenLevel world, RandomSource rand, BlockPos pos) {
-			postGenFlowers(world, rand, pos, cactusStates);
+		public void postGen(WorldGenLevel level, RandomSource rand, BlockPos pos) {
+			postGenFlowers(level, rand, pos, cactusStates);
 		}
 	},
 	JUNGLE(ApicultureBlocks.BEEHIVE.get(BlockHiveType.JUNGLE).defaultState(), 6.0f, ForestryBeeSpecies.TROPICAL, HiveGenTree.INSTANCE),
@@ -83,19 +83,19 @@ public enum HiveDefinition implements IHiveDefinition {
 	},
 	SNOW(ApicultureBlocks.BEEHIVE.get(BlockHiveType.SNOW).defaultState(), 2.0f, ForestryBeeSpecies.WINTRY, new HiveGenGround(ForestryTags.Blocks.WINTRY_BEE_GROUND)) {
 		@Override
-		public void postGen(WorldGenLevel world, RandomSource rand, BlockPos pos) {
+		public void postGen(WorldGenLevel level, RandomSource rand, BlockPos pos) {
 			BlockPos posAbove = pos.above();
-			if (world.isEmptyBlock(posAbove)) {
-				world.setBlock(posAbove, Blocks.SNOW.defaultBlockState(), Block.UPDATE_CLIENTS);
+			if (level.isEmptyBlock(posAbove)) {
+				level.setBlock(posAbove, Blocks.SNOW.defaultBlockState(), Block.UPDATE_CLIENTS);
 			}
 
-			postGenFlowers(world, rand, pos, flowerStates);
+			postGenFlowers(level, rand, pos, flowerStates);
 		}
 	},
 	SWAMP(ApicultureBlocks.BEEHIVE.get(BlockHiveType.SWAMP).defaultState(), 2.0f, ForestryBeeSpecies.MARSHY, new HiveGenGround(BlockTags.DIRT)) {
 		@Override
-		public void postGen(WorldGenLevel world, RandomSource rand, BlockPos pos) {
-			postGenFlowers(world, rand, pos, mushroomStates);
+		public void postGen(WorldGenLevel level, RandomSource rand, BlockPos pos) {
+			postGenFlowers(level, rand, pos, mushroomStates);
 		}
 
 		@Override
@@ -106,7 +106,7 @@ public enum HiveDefinition implements IHiveDefinition {
 	},
 	SAVANNA(ApicultureBlocks.BEEHIVE.get(BlockHiveType.SAVANNA).defaultState(), 1.0f, ForestryBeeSpecies.SAVANNA, new HiveGenGround(BlockTags.DIRT)) {
 		@Override
-		public void postGen(WorldGenLevel world, RandomSource rand, BlockPos pos) {
+		public void postGen(WorldGenLevel level, RandomSource rand, BlockPos pos) {
 			//TODO: generate pumpkins in dry biomes and melons in normal ones
 			//postGenFlowers(world,rand,pos,flowerStates);
 		}
@@ -173,7 +173,7 @@ public enum HiveDefinition implements IHiveDefinition {
 	}
 
 	@Override
-	public void postGen(WorldGenLevel world, RandomSource rand, BlockPos pos) {
+	public void postGen(WorldGenLevel level, RandomSource rand, BlockPos pos) {
 	}
 
 	protected static void postGenFlowers(WorldGenLevel world, RandomSource rand, BlockPos hivePos, List<BlockState> flowerStates) {

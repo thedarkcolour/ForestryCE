@@ -48,7 +48,7 @@ public class Karyotype implements IKaryotype {
 
 		Keyable chromosomesKeyable = Keyable.forStrings(() -> this.chromosomes.keySet().stream().map(chromosome -> chromosome.id().toString()));
 		this.genomeCodec = Codec.simpleMap(IForestryApi.INSTANCE.getAlleleManager().chromosomeCodec(), AllelePair.CODEC, chromosomesKeyable)
-				.xmap(map -> Genome.fromUnsortedAlleles(this, map), IGenome::getChromosomes).codec();
+				.xmap(map -> Genome.sanitizeAlleles(this, map), IGenome::getChromosomes).codec();
 	}
 
 	@Override
@@ -187,6 +187,9 @@ public class Karyotype implements IKaryotype {
 				// registry alleles are added later
 				if (!(chromosome instanceof IRegistryChromosome<?>) && permitted.isEmpty()) {
 					throw new IllegalStateException("Chromosome missing permitted alleles in karyotype.");
+				}
+				if (builder.defaultAllele == null) {
+					throw new IllegalStateException("Chromosome \"" + chromosome.id() + "\" has no default allele. Please set one in the karyotype for the species " + this.speciesChromosome.id());
 				}
 				permittedAlleles.put(chromosome, permitted);
 				defaultAlleles.put(chromosome, builder.defaultAllele);

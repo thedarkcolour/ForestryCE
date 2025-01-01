@@ -70,7 +70,7 @@ public class HiveDefinitionSwarmer implements IHiveDefinition {
 	}
 
 	@Override
-	public void postGen(WorldGenLevel world, RandomSource rand, BlockPos pos) {
-		TileUtil.actOnTile(world, pos, TileHive.class, tile -> tile.setContained(bees));
+	public void postGen(WorldGenLevel level, RandomSource rand, BlockPos pos) {
+		TileUtil.actOnTile(level, pos, TileHive.class, tile -> tile.setContained(bees));
 	}
 }

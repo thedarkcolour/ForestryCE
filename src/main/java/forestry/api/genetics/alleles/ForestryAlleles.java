@@ -25,7 +25,9 @@ import forestry.api.lepidopterology.IButterflyEffect;
  * All alleles defined by base Forestry. Although the field names might seem to suggest that they're
  * only intended for a certain chromosome, allele instances do not have any meaning besides the values
  * they contain. For example, if you need a dominant allele with the value 10, feel free to use {@link #LIFESPAN_SHORTEST}
- * or even copy it to a differently named field even if not for a lifespan-related chromosome.
+ * or even copy it to a differently named field even if not for a lifespan-related chromosome. Note that you might
+ * have to add that allele to the chromosome's list of valid alleles in its IKaryotype, which can be done using
+ * {@link forestry.api.plugin.ISpeciesTypeBuilder#setKaryotype} and {@link forestry.api.plugin.IKaryotypeBuilder#get}
  */
 public class ForestryAlleles {
 	public static final IAlleleManager REGISTRY = IForestryApi.INSTANCE.getAlleleManager();

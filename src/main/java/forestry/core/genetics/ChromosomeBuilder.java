@@ -2,6 +2,7 @@ package forestry.core.genetics;
 
 import com.google.common.collect.ImmutableSet;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 import forestry.api.genetics.alleles.IAllele;
@@ -11,6 +12,7 @@ import forestry.api.plugin.IChromosomeBuilder;
 public class ChromosomeBuilder<A extends IAllele> implements IChromosomeBuilder<A> {
 	final IChromosome<A> chromosome;
 	final ImmutableSet.Builder<A> alleles;
+	@Nullable
 	A defaultAllele;
 	boolean weaklyInherited;
 
