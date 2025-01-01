@@ -3,6 +3,7 @@
 - Added method in IAlleleManager to get IChromosome instances by registry name
 - Fix butterfly humidity tolerance having the same range as temperature tolerance
 - Chromosomes now have translation keys and display names
+- Fixed saplings not growing (#142)
 
 ## Forestry 2.1.0
 - Fixed typo that cut off black order on the right side of the Portable Analyzer GUI

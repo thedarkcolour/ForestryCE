@@ -44,7 +44,7 @@ public class BlockSapling extends Block implements BonemealableBlock, EntityBloc
 	protected static final VoxelShape SHAPE = Block.box(2.0D, 0.0D, 2.0D, 14.0D, 12.0D, 14.0D);
 
 	public BlockSapling() {
-		super(Block.Properties.of().noCollission().strength(0.0F).sound(SoundType.GRASS));
+		super(Block.Properties.of().noCollission().strength(0.0F).sound(SoundType.GRASS).randomTicks());
 	}
 
 	@Override
