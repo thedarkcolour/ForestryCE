@@ -59,6 +59,16 @@ repositories {
 		url = "https://maven.blamejared.com/"
 	}
 	maven {
+		name = 'Architectury API'
+		url = "https://maven.architectury.dev"
+		content { includeGroup "dev.architectury" }
+	}
+	maven {
+		name = 'KubeJS and Rhino'
+		url = "https://maven.saps.dev/minecraft"
+		content { includeGroup "dev.latvian.mods" }
+	}
+	maven {
 		url "https://cursemaven.com"
 		content {
 			includeGroup "curse.maven"
@@ -78,6 +88,10 @@ dependencies {
 	compileOnly fg.deobf("mezz.jei:jei-$minecraftVersion-common-api:$jeiVersion")
 	compileOnly fg.deobf("mezz.jei:jei-$minecraftVersion-forge-api:$jeiVersion")
 	runtimeOnly fg.deobf("mezz.jei:jei-$minecraftVersion-forge:$jeiVersion")
+	// KubeJS OPTIONAL
+	implementation fg.deobf("dev.architectury:architectury-forge:${architectury_version}")
+	implementation fg.deobf("dev.latvian.mods:rhino-forge:${rhino_version}")
+	implementation fg.deobf("dev.latvian.mods:kubejs-forge:${kubejs_version}")
 	// PATCHOULI REQUIRED
 	compileOnly fg.deobf("vazkii.patchouli:Patchouli:$patchouliVersion-FORGE:api")
 	runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:$patchouliVersion-FORGE")
