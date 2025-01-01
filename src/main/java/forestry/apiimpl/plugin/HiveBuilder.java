@@ -22,9 +22,11 @@ import forestry.apiculture.hives.Hive;
 public class HiveBuilder implements IHiveBuilder {
 	private final IHiveDefinition definition;
 	private final ArrayList<IHiveDrop> drops = new ArrayList<>();
+	private float generationChance;
 
 	public HiveBuilder(IHiveDefinition definition) {
 		this.definition = definition;
+		this.generationChance = definition.getGenChance();
 	}
 
 	@Override
@@ -39,7 +41,12 @@ public class HiveBuilder implements IHiveBuilder {
 		return this;
 	}
 
+	@Override
+	public void setGenerationChance(float generationChance) {
+		this.generationChance = generationChance;
+	}
+
 	public IHive build() {
-		return new Hive(definition, ImmutableList.copyOf(drops));
+		return new Hive(this.definition, this.generationChance, ImmutableList.copyOf(drops));
 	}
 }

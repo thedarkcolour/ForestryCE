@@ -29,9 +29,11 @@ import forestry.api.core.TemperatureType;
 public final class Hive implements IHive {
 	private final IHiveDefinition hiveDescription;
 	private final List<IHiveDrop> drops;
+	private final float generationChance;
 
-	public Hive(IHiveDefinition definition, List<IHiveDrop> drops) {
+	public Hive(IHiveDefinition definition, float generationChance, List<IHiveDrop> drops) {
 		this.hiveDescription = definition;
+		this.generationChance = generationChance;
 		this.drops = drops;
 	}
 
@@ -52,7 +54,7 @@ public final class Hive implements IHive {
 
 	@Override
 	public float genChance() {
-		return this.hiveDescription.getGenChance();
+		return this.generationChance;
 	}
 
 	@Override
@@ -94,6 +96,6 @@ public final class Hive implements IHive {
 
 	@Override
 	public String toString() {
-		return hiveDescription + " hive";
+		return this.hiveDescription + " hive";
 	}
 }

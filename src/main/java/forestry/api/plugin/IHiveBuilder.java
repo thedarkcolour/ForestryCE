@@ -39,4 +39,10 @@ public interface IHiveBuilder {
 	 * @param drop The supplier of the drop. Called after items and bee species are all registered.
 	 */
 	IHiveBuilder addCustomDrop(IHiveDrop drop);
+
+	/**
+	 * Changes the generation chance of the hive.
+	 * @since 1.1.1
+	 */
+	void setGenerationChance(float generationChance);
 }

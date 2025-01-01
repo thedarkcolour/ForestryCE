@@ -12,6 +12,10 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.state.BlockState;
 
+/**
+ * Determines placement conditions for a naturally generated wild beehive.
+ * todo rename to IHivePlacement
+ */
 public interface IHiveGen {
 	/**
 	 * @return The position including X, Y, and Z coordinates to place the hive at, or {@code null} if the hive can't
