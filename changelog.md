@@ -2,6 +2,7 @@
 - Fix Gourd and Mushroom farms not taking inputs (#141)
 - Add the automatic Gourd farm back to Forestry
 - Fix crash when KubeJS is not present (#149)
+- Fix tree leaves not decaying when harvested in an Arboretum/Tree farm
 
 ## Forestry 2.1.3
 - Fixed crash in large modpacks about ITextureManager not being initialized.

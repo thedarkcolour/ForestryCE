@@ -69,12 +69,12 @@ public class CropDestroy extends Crop {
 			}
 		}
 
-		BlockUtil.sendDestroyEffects(level, pos, blockState);
-
 		if (replantState != null) {
+			BlockUtil.sendDestroyEffects(level, pos, blockState);
+
 			level.setBlock(pos, replantState, Block.UPDATE_CLIENTS);
 		} else {
-			level.removeBlock(pos, false);
+			level.destroyBlock(pos, false);
 		}
 		if (!(harvested instanceof NonNullList)) {
 			return NonNullList.of(ItemStack.EMPTY, harvested.toArray(new ItemStack[0]));
