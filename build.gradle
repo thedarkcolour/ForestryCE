@@ -242,7 +242,7 @@ if (System.getenv("CURSEFORGE_TOKEN")) {
 			changelogType = "markdown"
 			changelog = getChangelog(version)
 
-			releaseType = "beta"
+			releaseType = "release"
 
 			addGameVersion(project.minecraftVersion)
 			addGameVersion("Forge")
@@ -264,7 +264,7 @@ modrinth {
     projectId = project.modrinthId
 	versionName = "Forestry: Community Edition $version"
 	versionNumber = version.toString()
-	versionType = "beta"
+	versionType = "release"
 	gameVersions = [minecraftVersion]
 	loaders = ["forge"]
 	changelog = getChangelog(project.version)
