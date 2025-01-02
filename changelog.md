@@ -4,6 +4,7 @@
 - Fixed Naturalist chests not closing when KubeJS is installed (#148)
 - Relax the version requirement on Forge to allow launching Forestry with NeoForge, no guarantees of stability (#147)
 - Fix Engine chaining not working
+- Electron tube tooltips are now always shown
 
 ## Forestry 2.1.1
 - Fix IIndividualHandlerItem methods returning individuals for empty stacks that were decremented

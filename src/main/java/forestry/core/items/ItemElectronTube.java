@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -26,7 +25,6 @@ import forestry.api.circuits.ICircuit;
 import forestry.api.circuits.ICircuitLayout;
 import forestry.api.circuits.ICircuitManager;
 import forestry.api.core.ItemGroups;
-import forestry.core.utils.ItemTooltipUtil;
 
 import it.unimi.dsi.fastutil.Pair;
 
@@ -40,13 +38,9 @@ public class ItemElectronTube extends ItemOverlay {
 		super.appendHoverText(itemstack, world, list, flag);
 		ArrayList<Pair<ICircuitLayout, ICircuit>> circuits = getCircuits(itemstack);
 		if (!circuits.isEmpty()) {
-			if (Screen.hasShiftDown()) {
-				for (var entry : circuits) {
-					list.add(entry.left().getUsage().withStyle(ChatFormatting.WHITE, ChatFormatting.UNDERLINE));
-					entry.right().addTooltip(list);
-				}
-			} else {
-				ItemTooltipUtil.addShiftInformation(itemstack, world, list, flag);
+			for (var entry : circuits) {
+				list.add(entry.left().getUsage().withStyle(ChatFormatting.WHITE, ChatFormatting.UNDERLINE));
+				entry.right().addTooltip(list);
 			}
 		} else {
 			list.add(Component.literal("<")
