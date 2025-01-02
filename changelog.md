@@ -3,6 +3,7 @@
 - Add the automatic Gourd farm back to Forestry
 - Fix crash when KubeJS is not present (#149)
 - Fix tree leaves not decaying when harvested in an Arboretum/Tree farm
+- Fix /forestry bee modify setting the stack size to zero and always saying "modified genome of bee" instead of "tree" or "butterfly"
 
 ## Forestry 2.1.3
 - Fixed crash in large modpacks about ITextureManager not being initialized.

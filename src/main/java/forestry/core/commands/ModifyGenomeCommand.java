@@ -82,11 +82,11 @@ public class ModifyGenomeCommand {
 
 					IGenome newGenome = builder.build();
 					IIndividual newIndividual = individual.copyWithGenome(newGenome);
-					if (individual.isAnalyzed()) {
-						newIndividual.analyze();
-					}
-					player.setItemInHand(InteractionHand.MAIN_HAND, newIndividual.createStack(handler.getStage()));
-					source.sendSuccess(() -> Component.literal("Modified genome of bee"), true);
+					newIndividual.analyze();
+					ItemStack newStack = newIndividual.createStack(handler.getStage());
+					newStack.setCount(stack.getCount());
+					player.setItemInHand(InteractionHand.MAIN_HAND, newStack);
+					source.sendSuccess(() -> Component.literal("Modified genome of ").append(newStack.getDisplayName()), true);
 
 					return 1;
 				} else {
