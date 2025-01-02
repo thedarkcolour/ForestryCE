@@ -1,6 +1,7 @@
 package forestry.apiimpl.client;
 
 import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 
 import forestry.api.ForestryConstants;
 import forestry.api.client.IForestryClientApi;
@@ -28,7 +29,7 @@ public class ForestryClientApiImpl implements IForestryClientApi {
 	private IButterflyClientManager butterflyManager;
 
 	public ForestryClientApiImpl() {
-		ModuleUtil.getModBus(ForestryConstants.MOD_ID).addListener(this::initializeTextureManager);
+		ModuleUtil.getModBus(ForestryConstants.MOD_ID).addListener(EventPriority.HIGHEST, this::initializeTextureManager);
 	}
 
 	// Must be called after textureManager is initialized in Minecraft's constructor.

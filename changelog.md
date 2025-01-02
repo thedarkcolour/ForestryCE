@@ -1,3 +1,6 @@
+## Forestry 2.1.3
+- Fixed crash in large modpacks about ITextureManager not being initialized.
+
 ## Forestry 2.1.2
 - Fix crash with Diagonal Fences mod (#145)
 - Fix integer alleles always being recessive (#146)
