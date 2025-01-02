@@ -1,5 +1,6 @@
 ## Forestry 2.1.2
 - Fix crash with Diagonal Fences mod (#145)
+- Fix integer alleles always being recessive (#146)
 
 ## Forestry 2.1.1
 - Fix IIndividualHandlerItem methods returning individuals for empty stacks that were decremented
