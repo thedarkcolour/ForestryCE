@@ -79,8 +79,13 @@ public class ContainerNaturalistInventory extends ContainerTile<TileNaturalistCh
 	public void addSlotListener(ContainerListener listener) {
 		super.addSlotListener(listener);
 
-		if (page == 0) {
-			tile.increaseNumPlayersUsing();
+		// When a player opens a chest, they add a listener. The listener used to be the player itself, but now it's
+		// a separate object that implements ContainerListener. Luckily, it's still declared as an anonymous class
+		// inside of ServerPlayer, so we can identify it by its nest host. Hack fix for chests staying open :)
+		if (listener.getClass().getNestHost() == ServerPlayer.class) {
+			if (page == 0) {
+				tile.increaseNumPlayersUsing();
+			}
 		}
 	}
 
