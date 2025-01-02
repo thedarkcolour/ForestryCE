@@ -5,6 +5,7 @@
 - Relax the version requirement on Forge to allow launching Forestry with NeoForge, no guarantees of stability (#147)
 - Fix Engine chaining not working
 - Electron tube tooltips are now always shown
+- Fix several missing chromosome translations that went missing in 2.1.1
 
 ## Forestry 2.1.1
 - Fix IIndividualHandlerItem methods returning individuals for empty stacks that were decremented

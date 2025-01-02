@@ -144,7 +144,7 @@ public class TreeSpecies extends Species<ITreeSpeciesType, ITree> implements ITr
 		tooltip.add(yieldAndSappiness);
 
 		if (genome.getActiveValue(TreeChromosomes.FIREPROOF)) {
-			tooltip.add(Component.translatable("for.gui.fireresist").withStyle(ChatFormatting.RED));
+			tooltip.add(TreeChromosomes.FIREPROOF.getChromosomeDisplayName().withStyle(ChatFormatting.RED));
 		}
 
 		MutableComponent fruitAndEffect = null;

@@ -172,13 +172,13 @@ public enum ButterflyAlyzerPlugin implements IAlyzerPlugin {
 				Component primary = genome.getActiveValue(ButterflyChromosomes.TOLERATES_RAIN) ? yes : no;
 				Component secondary = genome.getInactiveValue(ButterflyChromosomes.TOLERATES_RAIN) ? yes : no;
 
-				guiAlyzer.drawRow(graphics, Component.translatable("chromosome.forestry.tolerates_rain"), primary, secondary, individual, ButterflyChromosomes.TOLERATES_RAIN);
+				guiAlyzer.drawRow(graphics, ButterflyChromosomes.TOLERATES_RAIN.getChromosomeDisplayName(), primary, secondary, individual, ButterflyChromosomes.TOLERATES_RAIN);
 				textLayout.newLine();
 
 				primary = genome.getActiveValue(ButterflyChromosomes.FIREPROOF) ? yes : no;
 				secondary = genome.getInactiveValue(ButterflyChromosomes.FIREPROOF) ? yes : no;
 
-				guiAlyzer.drawRow(graphics, Component.translatable("for.gui.fireresist"), primary, secondary, individual, ButterflyChromosomes.FIREPROOF);
+				guiAlyzer.drawRow(graphics, ButterflyChromosomes.FIREPROOF.getChromosomeDisplayName(), primary, secondary, individual, ButterflyChromosomes.FIREPROOF);
 
 				textLayout.endPage(graphics);
 			});

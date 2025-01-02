@@ -74,7 +74,7 @@ public enum TreeAlyzerPlugin implements IAlyzerPlugin {
 
 					int activeGirth = genome.getActiveValue(TreeChromosomes.GIRTH);
 					int inactiveGirth = genome.getInactiveValue(TreeChromosomes.GIRTH);
-					textLayout.drawLine(graphics, Component.translatable("for.gui.girth"), GuiAlyzer.COLUMN_0);
+					textLayout.drawLine(graphics, TreeChromosomes.GIRTH.getChromosomeDisplayName(), GuiAlyzer.COLUMN_0);
 					guiAlyzer.drawLine(graphics, String.format("%sx%s", activeGirth, activeGirth), GuiAlyzer.COLUMN_1, tree, TreeChromosomes.GIRTH, false);
 					guiAlyzer.drawLine(graphics, String.format("%sx%s", inactiveGirth, inactiveGirth), GuiAlyzer.COLUMN_2, tree, TreeChromosomes.GIRTH, true);
 
@@ -123,69 +123,9 @@ public enum TreeAlyzerPlugin implements IAlyzerPlugin {
 					Component fireproofActive = genome.getActiveValue(TreeChromosomes.FIREPROOF) ? yes : no;
 					Component fireproofInactive = genome.getInactiveValue(TreeChromosomes.FIREPROOF) ? yes : no;
 
-					guiAlyzer.drawRow(graphics, Component.translatable("for.gui.fireproof"), fireproofActive, fireproofInactive, tree, TreeChromosomes.FIREPROOF);
+					guiAlyzer.drawRow(graphics, TreeChromosomes.FIREPROOF.getChromosomeDisplayName(), fireproofActive, fireproofInactive, tree, TreeChromosomes.FIREPROOF);
 					textLayout.newLine();
-					guiAlyzer.drawRow(graphics, Component.translatable("for.gui.fruits"), activeFruit, inactiveFruit, tree, TreeChromosomes.FRUIT);
-
-					textLayout.newLine();
-/*
-					// todo this was PlantType, displayed as "soil". should there be soil types for trees?
-					textLayout.drawLine(transform, Component.translatable("for.gui.native"), GuiAlyzer.COLUMN_0);
-					textLayout.drawLine(transform, Component.translatable("for.gui." + primary.getPlantType().getName()), GuiAlyzer.COLUMN_1,
-							speciesDominance0);
-					textLayout.drawLine(transform, Component.translatable("for.gui." + secondary.getPlantType().getName()), GuiAlyzer.COLUMN_2,
-							speciesDominance1);
-
-					textLayout.newLine();
-
-					 FRUIT FAMILIES
-					textLayout.drawLine(transform, Component.translatable("for.gui.supports"), GuiAlyzer.COLUMN_0);
-					List<IFruitFamily> families0 = new ArrayList<>(primary.getSuitableFruit());
-					List<IFruitFamily> families1 = new ArrayList<>(secondary.getSuitableFruit());
-
-					int max = Math.max(families0.size(), families1.size());
-					for (int i = 0; i < max; i++) {
-						if (i > 0) {
-							textLayout.newLineCompressed();
-						}
-
-						if (families0.size() > i) {
-							textLayout.drawLine(transform, families0.get(i).getName(), GuiAlyzer.COLUMN_1, speciesDominance0);
-						}
-						if (families1.size() > i) {
-							textLayout.drawLine(transform, families1.get(i).getName(), GuiAlyzer.COLUMN_2, speciesDominance1);
-						}
-
-					}
-
-					textLayout.newLine();
-
-					int fruitDominance0 = guiAlyzer.getColorCoding(activeFruit.dominant());
-					int fruitDominance1 = guiAlyzer.getColorCoding(inactiveFruit.dominant());
-
-					textLayout.drawLine(transform, Component.translatable("for.gui.fruits"), GuiAlyzer.COLUMN_0);
-					ChatFormatting strike = ChatFormatting.RESET;
-					if (!tree.canBearFruit() && activeFruit != AlleleFruits.fruitNone) {
-						strike = ChatFormatting.STRIKETHROUGH;
-					}
-					textLayout.drawLine(transform, activeFruit.getProvider().getDescription().withStyle(strike), GuiAlyzer.COLUMN_1, fruitDominance0);
-
-					strike = ChatFormatting.RESET;
-					if (!secondary.getSuitableFruit().contains(inactiveFruit.getProvider().getFamily()) && inactiveFruit != AlleleFruits.fruitNone) {
-						strike = ChatFormatting.STRIKETHROUGH;
-					}
-					textLayout.drawLine(transform, inactiveFruit.getProvider().getDescription().withStyle(strike), GuiAlyzer.COLUMN_2, fruitDominance1);
-
-					textLayout.newLine();
-
-					textLayout.drawLine(transform, Component.translatable("for.gui.family"), GuiAlyzer.COLUMN_0);
-
-					if (!primaryFamily.getUID().equals(EnumFruitFamily.NONE.getUID())) {
-						textLayout.drawLine(transform, primaryFamily.getName(), GuiAlyzer.COLUMN_1, fruitDominance0);
-					}
-					if (!secondaryFamily.getUID().equals(EnumFruitFamily.NONE.getUID())) {
-						textLayout.drawLine(transform, secondaryFamily.getName(), GuiAlyzer.COLUMN_2, fruitDominance1);
-					}*/
+					guiAlyzer.drawRow(graphics, TreeChromosomes.FRUIT.getChromosomeDisplayName(), activeFruit, inactiveFruit, tree, TreeChromosomes.FRUIT);
 
 					textLayout.endPage(graphics);
 				}
@@ -249,5 +189,4 @@ public enum TreeAlyzerPlugin implements IAlyzerPlugin {
 	public List<String> getHints() {
 		return GuiForestry.HINTS.get("treealyzer");
 	}
-
 }

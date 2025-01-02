@@ -63,7 +63,7 @@ public enum BeeAlyzerPlugin implements IAlyzerPlugin {
 						guiAlyzer.drawHaploidChromosomeRow(graphics, bee, BeeChromosomes.FLOWER_TYPE);
 						textLayout.newLine();
 
-						textLayout.drawLine(graphics, Component.translatable("for.gui.fertility"), GuiAlyzer.COLUMN_0);
+						textLayout.drawLine(graphics, BeeChromosomes.FERTILITY.getChromosomeDisplayName(), GuiAlyzer.COLUMN_0);
 						IIntegerAllele primaryFertility = bee.getGenome().getActiveAllele(BeeChromosomes.FERTILITY);
 						guiAlyzer.drawFertilityInfo(graphics, primaryFertility.value(), GuiAlyzer.COLUMN_1, GuiAlyzer.getColorCoding(primaryFertility.dominant()), 0);
 						textLayout.newLine();
@@ -98,7 +98,7 @@ public enum BeeAlyzerPlugin implements IAlyzerPlugin {
 						guiAlyzer.drawChromosomeRow(graphics, bee, BeeChromosomes.FLOWER_TYPE);
 						textLayout.newLine();
 
-						textLayout.drawLine(graphics, Component.translatable("for.gui.fertility"), GuiAlyzer.COLUMN_0);
+						textLayout.drawLine(graphics, BeeChromosomes.FERTILITY.getChromosomeDisplayName(), GuiAlyzer.COLUMN_0);
 						IIntegerAllele primaryFertility = bee.getGenome().getActiveAllele(BeeChromosomes.FERTILITY);
 						IIntegerAllele secondaryFertility = bee.getGenome().getInactiveAllele(BeeChromosomes.FERTILITY);
 						guiAlyzer.drawFertilityInfo(graphics, primaryFertility.value(), GuiAlyzer.COLUMN_1, GuiAlyzer.getColorCoding(primaryFertility.dominant()), 0);
