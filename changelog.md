@@ -1,6 +1,7 @@
 ## Forestry 2.1.4
 - Fix Gourd and Mushroom farms not taking inputs (#141)
 - Add the automatic Gourd farm back to Forestry
+- Fix crash when KubeJS is not present (#149)
 
 ## Forestry 2.1.3
 - Fixed crash in large modpacks about ITextureManager not being initialized.

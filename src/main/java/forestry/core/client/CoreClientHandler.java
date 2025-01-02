@@ -43,10 +43,12 @@ import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
+import forestry.api.ForestryConstants;
 import forestry.api.apiculture.genetics.BeeLifeStage;
 import forestry.api.apiculture.genetics.IBeeSpecies;
 import forestry.api.client.IClientModuleHandler;
@@ -56,6 +58,7 @@ import forestry.api.client.arboriculture.ITreeClientManager;
 import forestry.api.core.ISpectacleBlock;
 import forestry.apiculture.features.ApicultureBlocks;
 import forestry.apiculture.features.ApicultureItems;
+import forestry.apiimpl.client.ForestryClientApiImpl;
 import forestry.apiimpl.plugin.PluginManager;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.features.ArboricultureItems;
@@ -93,6 +96,7 @@ import forestry.energy.features.EnergyTiles;
 import forestry.factory.features.FactoryTiles;
 import forestry.lepidopterology.features.LepidopterologyItems;
 import forestry.mail.features.MailItems;
+import forestry.modules.ModuleUtil;
 import forestry.storage.features.BackpackItems;
 import forestry.storage.features.CrateItems;
 
@@ -122,6 +126,8 @@ public class CoreClientHandler implements IClientModuleHandler {
 		modBus.addListener(CoreClientHandler::registerBlockColors);
 		modBus.addListener(CoreClientHandler::registerItemColors);
 		MinecraftForge.EVENT_BUS.addListener(CoreClientHandler::onClientTick);
+
+		ModuleUtil.getModBus(ForestryConstants.MOD_ID).addListener(EventPriority.HIGHEST, ((ForestryClientApiImpl) IForestryClientApi.INSTANCE)::initializeTextureManager);
 	}
 
 	private static void onClientSetup(FMLClientSetupEvent event) {

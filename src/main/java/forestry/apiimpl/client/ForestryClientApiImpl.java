@@ -28,12 +28,8 @@ public class ForestryClientApiImpl implements IForestryClientApi {
 	@Nullable
 	private IButterflyClientManager butterflyManager;
 
-	public ForestryClientApiImpl() {
-		ModuleUtil.getModBus(ForestryConstants.MOD_ID).addListener(EventPriority.HIGHEST, this::initializeTextureManager);
-	}
-
 	// Must be called after textureManager is initialized in Minecraft's constructor.
-	private void initializeTextureManager(RegisterClientReloadListenersEvent event) {
+	public void initializeTextureManager(RegisterClientReloadListenersEvent event) {
 		this.textureManager = new ForestryTextureManager();
 	}
 

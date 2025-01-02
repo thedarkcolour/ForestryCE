@@ -25,17 +25,17 @@ public class KubeForestryPlugin implements IForestryPlugin {
 
 	@Override
 	public void registerGenetics(IGeneticRegistration genetics) {
-		ForestryEvents.GENETICS.post(new GeneticsEventJS(genetics));
+		Delegate.registerGenetics(genetics);
 	}
 
 	@Override
 	public void registerApiculture(IApicultureRegistration apiculture) {
-		ForestryEvents.APICULTURE.post(new ApicultureEventJS(apiculture));
+		Delegate.registerApiculture(apiculture);
 	}
 
 	@Override
 	public void registerClient(Consumer<Consumer<IClientRegistration>> registrar) {
-		registrar.accept(registration -> ForestryClientEvents.LOAD.post(new ForestryClientEventJS(registration)));
+		Delegate.registerClient(registrar);
 	}
 
 	@Override
@@ -46,5 +46,22 @@ public class KubeForestryPlugin implements IForestryPlugin {
 	@Override
 	public boolean shouldLoad() {
 		return ModList.get().isLoaded("kubejs");
+	}
+
+	/**
+	 * Needed to avoid classloading errors when KubeJS is not present
+	 */
+	private static class Delegate {
+		private static void registerGenetics(IGeneticRegistration genetics) {
+			ForestryEvents.GENETICS.post(new GeneticsEventJS(genetics));
+		}
+
+		private static void registerApiculture(IApicultureRegistration apiculture) {
+			ForestryEvents.APICULTURE.post(new ApicultureEventJS(apiculture));
+		}
+
+		private static void registerClient(Consumer<Consumer<IClientRegistration>> registrar) {
+			registrar.accept(registration -> ForestryClientEvents.LOAD.post(new ForestryClientEventJS(registration)));
+		}
 	}
 }
