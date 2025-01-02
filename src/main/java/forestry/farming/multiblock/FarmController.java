@@ -210,8 +210,8 @@ public class FarmController extends RectangularMultiblockControllerBase implemen
 		boolean hasPower = false;
 		for (Map.Entry<IFarmComponent.Active, Integer> entry : farmActiveComponents.entrySet()) {
 			IFarmComponent.Active farmComponent = entry.getKey();
-			if (farmComponent instanceof TileFarmGearbox) {
-				hasPower |= ((TileFarmGearbox) farmComponent).getEnergyManager().getEnergyStored() > 0;
+			if (farmComponent instanceof TileFarmGearbox gearbox) {
+				hasPower |= gearbox.getEnergyManager().getEnergyStored() > 0;
 			}
 
 			int tickOffset = entry.getValue();

@@ -39,6 +39,7 @@ import forestry.farming.logic.farmables.FarmableChorus;
 import forestry.farming.logic.farmables.FarmableGE;
 import forestry.farming.logic.farmables.FarmableGourd;
 import forestry.farming.logic.farmables.FarmableMangroveTree;
+import forestry.farming.logic.farmables.FarmableMushroom;
 import forestry.farming.logic.farmables.FarmableSapling;
 import forestry.farming.logic.farmables.FarmableStacked;
 
@@ -63,7 +64,8 @@ public class DefaultFarms {
 		// Gourd (Pumpkin and Melon)
 		IFarmTypeBuilder gourd = farming.createFarmType(ForestryFarmTypes.GOURD, FarmLogicGourd::new, new ItemStack(Items.MELON))
 				.setFertilizerConsumption(10)
-				.setWaterConsumption(hydrationModifier -> (int) (40 * hydrationModifier));
+				.setWaterConsumption(hydrationModifier -> (int) (40 * hydrationModifier))
+				.addSoil(new ItemStack(Blocks.DIRT), Blocks.FARMLAND.defaultBlockState());
 		addGourdFarmables(gourd);
 
 		// Mushroom
@@ -72,6 +74,8 @@ public class DefaultFarms {
 				.setWaterConsumption(hydrationModifier -> (int) (80 * hydrationModifier))
 				.addSoil(Blocks.MYCELIUM)
 				.addSoil(Blocks.PODZOL);
+		shroom.addFarmable(new FarmableMushroom(new ItemStack(Items.BROWN_MUSHROOM), Blocks.BROWN_MUSHROOM.defaultBlockState()));
+		shroom.addFarmable(new FarmableMushroom(new ItemStack(Items.RED_MUSHROOM), Blocks.RED_MUSHROOM.defaultBlockState()));
 
 		// Nether Wart
 		IFarmTypeBuilder infernal = farming.createFarmType(ForestryFarmTypes.INFERNAL, FarmLogicInfernal::new, new ItemStack(Items.NETHER_WART))

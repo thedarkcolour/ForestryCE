@@ -24,7 +24,6 @@ import forestry.api.farming.IFarmable;
 import forestry.core.utils.BlockUtil;
 
 public class FarmLogicCrops extends FarmLogicWatered {
-
 	public FarmLogicCrops(IFarmType properties, boolean isManual) {
 		super(properties, isManual);
 	}

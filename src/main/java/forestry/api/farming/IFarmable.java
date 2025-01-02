@@ -15,7 +15,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
 /**
- * IFarmable describes a farmable resource, including its sapling/premature and mature versions, its germling/seeds,
+ * IFarmable describes a farmable resource, including its sapling/premature and mature versions, its saplings/seeds,
  * and the harvested resources resulting from harvesting and collecting from windfall.
  */
 public interface IFarmable {
@@ -25,18 +25,27 @@ public interface IFarmable {
 	boolean isSaplingAt(Level level, BlockPos pos, BlockState state);
 
 	/**
+	 * Used by farms to get crops of this farmable if the block at the position matches.
+	 *
+	 * @param level The world.
+	 * @param pos   The position to check for a mature crop. Can be different than the base position.
+	 * @param state The block state at the position.
 	 * @return {@link ICrop} if the block at the given location is a harvestable and mature crop, null otherwise.
 	 */
 	@Nullable
 	ICrop getCropAt(Level level, BlockPos pos, BlockState state);
 
 	/**
-	 * @return true if the item is a valid germling (plantable sapling, seed, etc.) for this type.
+	 * Used by the farm to check if an item can be used to plant this farmable.
+	 *
+	 * @param stack A potential item to be input into the farm.
+	 *
+	 * @return {@code true} if the item is a valid seed/sapling/etc. for this farmable.
 	 */
 	boolean isGermling(ItemStack stack);
 
 	/**
-	 * Used by JEI to display the germlings of this farmable.
+	 * Used by JEI to display the seeds/saplings/etc. of this farmable.
 	 *
 	 * @param accumulator Accepts new item stacks for germlings.
 	 */
@@ -52,7 +61,11 @@ public interface IFarmable {
 	}
 
 	/**
-	 * @return true if the item is something that can drop from this type without actually being harvested as a crop. (Apples or sapling from decaying leaves.)
+	 * Used by the farm to pickup nearby products that might have fallen from decayed leaves.
+	 * For example, tree farms typically only harvest the trunks, which means that as the leaves decay, items will
+	 * spawn that need to be collected by the farm as products of the tree.
+	 *
+	 * @return {@code true} if the item should be collected as windfall.
 	 */
 	boolean isWindfall(ItemStack stack);
 
@@ -63,5 +76,4 @@ public interface IFarmable {
 	 * @return {@code true} if a sapling was planted, false otherwise.
 	 */
 	boolean plantSaplingAt(Player player, ItemStack germling, Level level, BlockPos pos);
-
 }

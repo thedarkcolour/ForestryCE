@@ -11,19 +11,19 @@
 package forestry.farming.logic;
 
 import javax.annotation.Nullable;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.Stack;
 
-import net.minecraft.core.Direction;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 
 import forestry.api.farming.ICrop;
 import forestry.api.farming.IFarmHousing;
@@ -60,24 +60,24 @@ public class FarmLogicArboreal extends FarmLogicHomogeneous {
 		return crops;
 	}
 
-	private Collection<ICrop> harvestBlocks(Level world, BlockPos position) {
+	private Collection<ICrop> harvestBlocks(Level level, BlockPos pos) {
 		// Determine what type we want to harvest.
-		IFarmable farmable = getFarmableForBlock(world, position, getFarmables());
+		IFarmable farmable = getFarmableForBlock(level, pos, getFarmables());
 		if (farmable == null) {
-			return Collections.emptyList();
+			return List.of();
 		}
 
 		// get all crops of the same type that are connected to the first one
-		Stack<BlockPos> knownCropPositions = new Stack<>();
-		knownCropPositions.add(position);
+		ArrayDeque<BlockPos> knownCropPositions = new ArrayDeque<>();
+		knownCropPositions.add(pos);
 
 		Set<BlockPos> checkedBlocks = new HashSet<>();
-		Stack<ICrop> crops = new Stack<>();
+		ArrayDeque<ICrop> crops = new ArrayDeque<>();
 
-		while (!knownCropPositions.empty()) {
+		while (!knownCropPositions.isEmpty()) {
 			BlockPos knownCropPos = knownCropPositions.pop();
 			for (BlockPos mutable : BlockPos.betweenClosed(knownCropPos.offset(-1, -1, -1), knownCropPos.offset(1, 1, 1))) {
-				if (!world.hasChunkAt(mutable)) {
+				if (!level.hasChunkAt(mutable)) {
 					return crops;
 				}
 
@@ -85,8 +85,8 @@ public class FarmLogicArboreal extends FarmLogicHomogeneous {
 				if (!checkedBlocks.contains(candidate)) {
 					checkedBlocks.add(candidate);
 
-					BlockState blockState = world.getBlockState(candidate);
-					ICrop crop = farmable.getCropAt(world, candidate, blockState);
+					BlockState blockState = level.getBlockState(candidate);
+					ICrop crop = farmable.getCropAt(level, candidate, blockState);
 					if (crop != null) {
 						crops.push(crop);
 						knownCropPositions.push(candidate);
@@ -139,5 +139,4 @@ public class FarmLogicArboreal extends FarmLogicHomogeneous {
 
 		return false;
 	}
-
 }
