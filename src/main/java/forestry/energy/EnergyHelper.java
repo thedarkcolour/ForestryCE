@@ -57,7 +57,7 @@ public class EnergyHelper {
 		}
 
 		if (tile instanceof EngineBlockEntity receptor) { // engine chaining
-			return receptor.getEnergyManager().receiveEnergy(extractable, simulate);
+			return receptor.getEnergyManager().forceReceiveEnergy(extractable, simulate);
 		}
 
 		return tile.getCapability(ForgeCapabilities.ENERGY, side).map(storage -> {

@@ -60,6 +60,15 @@ public class ForestryEnergyStorage extends EnergyStorage implements IStreamable,
 		setEnergyStored(energy + amount);
 	}
 
+	// Used by engines for chaining
+	public int forceReceiveEnergy(int maxReceive, boolean simulate) {
+		int energyReceived = Math.min(capacity - energy, maxReceive);
+		if (!simulate) {
+			energy += energyReceived;
+		}
+		return energyReceived;
+	}
+
 	public void setEnergyStored(int energyStored) {
 		this.energy = energyStored;
 		if (this.energy > capacity) {
