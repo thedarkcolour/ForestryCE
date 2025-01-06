@@ -1,3 +1,6 @@
+## Forestry 2.2.1
+- Fix saplings not being able to grow through leaves
+
 ## Forestry 2.2.0
 - Fix lifespan allele mutations not affecting offspring (#150)
 - Species types now have display names

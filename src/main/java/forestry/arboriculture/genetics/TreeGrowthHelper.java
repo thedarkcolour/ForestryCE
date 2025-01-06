@@ -4,6 +4,7 @@ import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
@@ -59,7 +60,7 @@ public class TreeGrowthHelper {
 				for (int z = 0; z < area.getZ(); z++) {
 					BlockPos pos = start.offset(x, y, z);
 					BlockState blockState = level.getBlockState(pos);
-					if (!blockState.canBeReplaced()) {
+					if (!blockState.canBeReplaced() && !blockState.is(BlockTags.LEAVES)) {
 						return false;
 					}
 				}
