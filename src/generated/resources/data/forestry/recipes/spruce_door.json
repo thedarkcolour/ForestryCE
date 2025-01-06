@@ -3,14 +3,9 @@
   "category": "redstone",
   "group": "wooden_door",
   "key": {
-    "#": [
-      {
-        "item": "minecraft:spruce_planks"
-      },
-      {
-        "item": "forestry:spruce_fireproof_planks"
-      }
-    ]
+    "#": {
+      "item": "forestry:spruce_fireproof_planks"
+    }
   },
   "pattern": [
     "##",
@@ -18,6 +13,7 @@
     "##"
   ],
   "result": {
+    "count": 3,
     "item": "minecraft:spruce_door"
   },
   "show_notification": true

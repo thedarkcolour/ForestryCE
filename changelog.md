@@ -1,5 +1,6 @@
 ## Forestry 2.2.1
 - Fix saplings not being able to grow through leaves
+- Fix incorrect door recipes overriding Vanilla and only producing 1 door instead of 3 (#154)
 
 ## Forestry 2.2.0
 - Fix lifespan allele mutations not affecting offspring (#150)

@@ -3,14 +3,9 @@
   "category": "redstone",
   "group": "wooden_door",
   "key": {
-    "#": [
-      {
-        "item": "minecraft:birch_planks"
-      },
-      {
-        "item": "forestry:birch_fireproof_planks"
-      }
-    ]
+    "#": {
+      "item": "forestry:birch_fireproof_planks"
+    }
   },
   "pattern": [
     "##",
@@ -18,6 +13,7 @@
     "##"
   ],
   "result": {
+    "count": 3,
     "item": "minecraft:birch_door"
   },
   "show_notification": true

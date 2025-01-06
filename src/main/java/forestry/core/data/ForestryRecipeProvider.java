@@ -420,11 +420,12 @@ public class ForestryRecipeProvider {
 			Block fireproofSlab = woodAccess.getBlock(woodType, WoodBlockKind.SLAB, true).getBlock();
 			Block stairs = woodAccess.getBlock(woodType, WoodBlockKind.STAIRS, false).getBlock();
 			Block fireproofStairs = woodAccess.getBlock(woodType, WoodBlockKind.STAIRS, true).getBlock();
+			boolean isVanilla = woodType instanceof VanillaWoodType;
 
-			recipes.woodenDoor(door, Ingredient.of(planks, fireproofPlanks));
+			recipes.woodenDoor(door, isVanilla ? Ingredient.of(fireproofPlanks) : Ingredient.of(planks, fireproofPlanks));
 
 			// Regular (Forestry)
-			if (woodType instanceof ForestryWoodType) {
+			if (!isVanilla) {
 				makeCommonWoodenSet(recipes, planks, log, wood, strippedLog, strippedWood, fence, fenceGate, slab, stairs);
 			}
 
