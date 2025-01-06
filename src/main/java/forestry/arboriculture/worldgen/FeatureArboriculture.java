@@ -15,7 +15,10 @@ import com.google.common.collect.Sets;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.OptionalInt;
 import java.util.Set;
 
 import net.minecraft.core.BlockPos;
@@ -24,6 +27,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelWriter;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
@@ -95,10 +99,12 @@ public abstract class FeatureArboriculture extends FeatureBase {
 			generateLeaves(level, rand, leaf, contour, genPos);
 			generateExtras(level, rand, genPos);
 
-			// Correctly update the leaf distance states on the leaf blocks
-			DiscreteVoxelShape voxelshapepart = updateLeaves(level, contour);
-			// Call updateShape method on all blocks on the edge of the tree's bounding box
-			StructureTemplate.updateShapeAtEdge(level, 3, voxelshapepart, contour.boundingBox.minX(), contour.boundingBox.minY(), contour.boundingBox.minZ());
+			if (contour.boundingBox != null) {
+				// Correctly update the leaf distance states on the leaf blocks
+				DiscreteVoxelShape voxelshapepart = updateLeaves(level, contour);
+				// Call updateShape method on all blocks on the edge of the tree's bounding box
+				StructureTemplate.updateShapeAtEdge(level, 3, voxelshapepart, contour.boundingBox.minX(), contour.boundingBox.minY(), contour.boundingBox.minZ());
+			}
 			return true;
 		}
 
@@ -115,67 +121,64 @@ public abstract class FeatureArboriculture extends FeatureBase {
 	 * Copied vanilla logic from TreeFeature#updateLeaves
 	 */
 	private DiscreteVoxelShape updateLeaves(LevelAccessor level, TreeContour.Impl contour) {
-		BoundingBox boundingBox = contour.boundingBox;
-		List<Set<BlockPos>> list = Lists.newArrayList();
-		DiscreteVoxelShape voxelshapepart = new BitSetDiscreteVoxelShape(boundingBox.getXSpan(), boundingBox.getYSpan(), boundingBox.getZSpan());
-		int i = 6;
+		BoundingBox pBox = contour.boundingBox;
+		DiscreteVoxelShape discretevoxelshape = new BitSetDiscreteVoxelShape(pBox.getXSpan(), pBox.getYSpan(), pBox.getZSpan());
+		ArrayList<HashSet<BlockPos>> list = new ArrayList<>();
 
-		for (int j = 0; j < 6; ++j) {
-			list.add(Sets.newHashSet());
+		for (int j = 0; j < 7; ++j) {
+			list.add(new HashSet<>());
 		}
 
-		BlockPos.MutableBlockPos blockpos$mutable = new BlockPos.MutableBlockPos();
-
-		for (BlockPos blockpos1 : Lists.newArrayList(contour.leavePositions)) {
-			if (boundingBox.isInside(blockpos1)) {
-				voxelshapepart.fill(blockpos1.getX() - boundingBox.minX(), blockpos1.getY() - boundingBox.minY(), blockpos1.getZ() - boundingBox.minZ());
+		for (BlockPos blockpos : Lists.newArrayList(contour.leavePositions)) {
+			if (pBox.isInside(blockpos)) {
+				discretevoxelshape.fill(blockpos.getX() - pBox.minX(), blockpos.getY() - pBox.minY(), blockpos.getZ() - pBox.minZ());
 			}
+		}
 
-			for (Direction direction : Direction.values()) {
-				blockpos$mutable.setWithOffset(blockpos1, direction);
-				if (!contour.leavePositions.contains(blockpos$mutable)) {
-					BlockState blockstate = level.getBlockState(blockpos$mutable);
-					if (blockstate.hasProperty(BlockStateProperties.DISTANCE)) {
-						list.get(0).add(blockpos$mutable.immutable());
-						if (boundingBox.isInside(blockpos$mutable)) {
-							voxelshapepart.fill(blockpos$mutable.getX() - boundingBox.minX(), blockpos$mutable.getY() - boundingBox.minY(), blockpos$mutable.getZ() - boundingBox.minZ());
-						}
+		BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+		int k1 = 0;
+
+		while (true) {
+			while (k1 >= 7 || !list.get(k1).isEmpty()) {
+				if (k1 >= 7) {
+					return discretevoxelshape;
+				}
+
+				Iterator<BlockPos> iterator = list.get(k1).iterator();
+				BlockPos blockpos1 = iterator.next();
+				iterator.remove();
+				if (pBox.isInside(blockpos1)) {
+					if (k1 != 0) {
+						BlockState blockstate = level.getBlockState(blockpos1);
+						setBlockKnownShape(level, blockpos1, blockstate.setValue(BlockStateProperties.DISTANCE, Integer.valueOf(k1)));
 					}
-				}
-			}
-		}
 
-		for (int l = 1; l < 6; ++l) {
-			Set<BlockPos> set = list.get(l - 1);
-			Set<BlockPos> set1 = list.get(l);
+					discretevoxelshape.fill(blockpos1.getX() - pBox.minX(), blockpos1.getY() - pBox.minY(), blockpos1.getZ() - pBox.minZ());
 
-			for (BlockPos blockpos2 : set) {
-				if (boundingBox.isInside(blockpos2)) {
-					voxelshapepart.fill(blockpos2.getX() - boundingBox.minX(), blockpos2.getY() - boundingBox.minY(), blockpos2.getZ() - boundingBox.minZ());
-				}
-
-				for (Direction direction1 : Direction.values()) {
-					blockpos$mutable.setWithOffset(blockpos2, direction1);
-					if (!set.contains(blockpos$mutable) && !set1.contains(blockpos$mutable)) {
-						BlockState blockstate1 = level.getBlockState(blockpos$mutable);
-						if (blockstate1.hasProperty(BlockStateProperties.DISTANCE)) {
-							int k = blockstate1.getValue(BlockStateProperties.DISTANCE);
-							if (k > l + 1) {
-								BlockState blockstate2 = blockstate1.setValue(BlockStateProperties.DISTANCE, Integer.valueOf(l + 1));
-								setBlockKnownShape(level, blockpos$mutable, blockstate2);
-								if (boundingBox.isInside(blockpos$mutable)) {
-									voxelshapepart.fill(blockpos$mutable.getX() - boundingBox.minX(), blockpos$mutable.getY() - boundingBox.minY(), blockpos$mutable.getZ() - boundingBox.minZ());
+					for (Direction direction : Direction.values()) {
+						blockpos$mutableblockpos.setWithOffset(blockpos1, direction);
+						if (pBox.isInside(blockpos$mutableblockpos)) {
+							int k = blockpos$mutableblockpos.getX() - pBox.minX();
+							int l = blockpos$mutableblockpos.getY() - pBox.minY();
+							int i1 = blockpos$mutableblockpos.getZ() - pBox.minZ();
+							if (!discretevoxelshape.isFull(k, l, i1)) {
+								BlockState blockstate1 = level.getBlockState(blockpos$mutableblockpos);
+								OptionalInt optionalint = LeavesBlock.getOptionalDistanceAt(blockstate1);
+								if (!optionalint.isEmpty()) {
+									int j1 = Math.min(optionalint.getAsInt(), k1 + 1);
+									if (j1 < 7) {
+										list.get(j1).add(blockpos$mutableblockpos.immutable());
+										k1 = Math.min(k1, j1);
+									}
 								}
-
-								set1.add(blockpos$mutable.immutable());
 							}
 						}
 					}
 				}
 			}
-		}
 
-		return voxelshapepart;
+			++k1;
+		}
 	}
 
 	private static void setBlockKnownShape(LevelWriter level, BlockPos pos, BlockState state) {

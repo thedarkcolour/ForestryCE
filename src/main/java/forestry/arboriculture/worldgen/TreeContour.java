@@ -35,12 +35,12 @@ public sealed interface TreeContour {
 
 		@Override
 		public void addLeaf(BlockPos pos) {
-			leavePositions.add(pos.immutable());
+			this.leavePositions.add(pos.immutable());
 
-			if (boundingBox == null) {
-				boundingBox = new BoundingBox(pos);
+			if (this.boundingBox == null) {
+				this.boundingBox = new BoundingBox(pos);
 			} else {
-				boundingBox.encapsulate(pos);
+				this.boundingBox.encapsulate(pos);
 			}
 		}
 
@@ -51,7 +51,7 @@ public sealed interface TreeContour {
 
 		@Override
 		public List<BlockPos> getBranchEnds() {
-			return branchEnds;
+			return this.branchEnds;
 		}
 	}
 
