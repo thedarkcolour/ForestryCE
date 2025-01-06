@@ -8,6 +8,8 @@ import java.util.Collection;
 import java.util.List;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
@@ -100,6 +102,20 @@ public interface ISpeciesType<S extends ISpecies<I>, I extends IIndividual> exte
 	 * @return The life stage used to represent this species in icons.
 	 */
 	ILifeStage getDefaultStage();
+
+	/**
+	 * @return The translation key for this species type. Ex. "species_type.forestry.bee" -> "Bee"
+	 * @since 2.2.0
+	 */
+	String getTranslationKey();
+
+	/**
+	 * @return The display name for this species type. Ex. "Bee" or "Butterfly"
+	 * @since 2.2.0
+	 */
+	default MutableComponent getDisplayName() {
+		return Component.translatable(getTranslationKey());
+	}
 
 	/**
 	 * @return A new item stack with the default species and life stage of this species type.

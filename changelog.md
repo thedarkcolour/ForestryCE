@@ -1,3 +1,7 @@
+## Forestry 2.2.0
+- Fix lifespan allele mutations not affecting offspring (#150)
+- Species types now have display names
+
 ## Forestry 2.1.4
 - Fix Gourd and Mushroom farms not taking inputs (#141)
 - Add the automatic Gourd farm back to Forestry

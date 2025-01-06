@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import net.minecraft.Util;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
@@ -34,6 +35,7 @@ public abstract class SpeciesType<S extends ISpecies<I>, I extends IIndividual> 
 	protected final ResourceLocation id;
 	protected final IKaryotype karyotype;
 	private final ILifeStage defaultStage;
+	private final String translationKey;
 	private final ImmutableMap<Item, ILifeStage> stages;
 	protected final Reference2FloatOpenHashMap<Item> researchMaterials;
 
@@ -48,6 +50,7 @@ public abstract class SpeciesType<S extends ISpecies<I>, I extends IIndividual> 
 		this.id = id;
 		this.karyotype = karyotype;
 		this.defaultStage = builder.getDefaultStage();
+		this.translationKey = Util.makeDescriptionId("species_type", id);
 
 		List<ILifeStage> stages = builder.getStages();
 		ImmutableMap.Builder<Item, ILifeStage> stagesBuilder = ImmutableMap.builderWithExpectedSize(stages.size());
@@ -73,6 +76,11 @@ public abstract class SpeciesType<S extends ISpecies<I>, I extends IIndividual> 
 	@Override
 	public ILifeStage getDefaultStage() {
 		return this.defaultStage;
+	}
+
+	@Override
+	public String getTranslationKey() {
+		return this.translationKey;
 	}
 
 	@Override
