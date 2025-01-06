@@ -353,7 +353,7 @@ public class GuiAlyzer extends GuiForestry<ContainerAlyzer> {
 
 		boolean researched = breedingTracker.isResearched(combination);
 		if (researched) {
-			graphics.drawString(this.font, "+", x + 9, y + 1, 0);
+			graphics.drawString(this.font, "+", x + 9, y + 1, 0, false);
 			RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
 		}
 	}

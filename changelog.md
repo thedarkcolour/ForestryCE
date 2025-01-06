@@ -1,3 +1,6 @@
+## Forestry 2.2.2
+- Fix accidental drop shadow in Tab 4 of Analyzer for researched mutations with a + sign
+
 ## Forestry 2.2.1
 - Fix saplings not being able to grow through leaves
 - Fix incorrect door recipes overriding Vanilla and only producing 1 door instead of 3 (#154)
