@@ -30,6 +30,7 @@ public class CommandBee {
 		return Commands.literal("bee")
 				.then(CommandSaveStats.register(saveHelper))
 				.then(GiveSpeciesCommand.register(type))
-				.then(ModifyGenomeCommand.register(type));
+				.then(ModifyGenomeCommand.register(type))
+				.then(CathemeralPeriodCommand.register());
 	}
 }

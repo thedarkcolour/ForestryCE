@@ -107,6 +107,7 @@ public class ForestryAlleles {
 	public static final IRegistryAllele<IActivityType> ACTIVITY_NOCTURNAL = REGISTRY.registryAllele(ForestryActivityTypes.NOCTURNAL, BeeChromosomes.ACTIVITY);
 	public static final IRegistryAllele<IActivityType> ACTIVITY_CREPUSCULAR = REGISTRY.registryAllele(ForestryActivityTypes.CREPUSCULAR, BeeChromosomes.ACTIVITY);
 	public static final IRegistryAllele<IActivityType> ACTIVITY_METATURNAL = REGISTRY.registryAllele(ForestryActivityTypes.METATURNAL, BeeChromosomes.ACTIVITY);
+	public static final IRegistryAllele<IActivityType> ACTIVITY_CATHEMERAL = REGISTRY.registryAllele(ForestryActivityTypes.CATHEMERAL, BeeChromosomes.ACTIVITY);
 
 	// Territory
 	public static final IValueAllele<Vec3i> TERRITORY_AVERAGE = REGISTRY.valueAllele(new Vec3i(9, 6, 9), IAlleleNaming.VEC3I_NAMING);

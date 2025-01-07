@@ -30,6 +30,7 @@ public enum ForestryError implements IError {
 	NO_QUEEN("no_queen"), // Supply this hive with a queen or a princess and a drone.
 	NO_DRONE("no_drone"), // Mating requires a drone present.
 	NO_SKY("no_sky"), // The hive requires direct sunlight from above.
+	SLEEPY("sleepy"),
 
 	// Machines
 	NO_RESOURCE("no_resource"), // More resources need to be supplied for operation.

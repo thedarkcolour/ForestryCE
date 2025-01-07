@@ -12,6 +12,7 @@ import java.util.Map;
 
 import net.minecraft.resources.ResourceLocation;
 
+import forestry.Forestry;
 import forestry.api.genetics.alleles.IAllele;
 import forestry.api.genetics.alleles.IRegistryAllele;
 import forestry.api.genetics.alleles.IRegistryAlleleValue;
@@ -82,6 +83,12 @@ public class RegistryChromosome<V extends IRegistryAlleleValue> extends ValueChr
 		for (Map.Entry<ResourceLocation, V> entry : registry.entrySet()) {
 			this.reverseLookup.put(entry.getValue(), entry.getKey());
 		}
+
+		for (ResourceLocation alleleId : this.alleles.keySet()) {
+			if (!registry.containsKey(alleleId)) {
+				Forestry.LOGGER.warn("No IRegistryAllele found for registered value {}, did you forget to create one?", alleleId);
+			}
+		}
 	}
 
 	@Override
@@ -89,7 +96,7 @@ public class RegistryChromosome<V extends IRegistryAlleleValue> extends ValueChr
 		return this.registry != null;
 	}
 
-	// called by AlleleManager
+	// called by RegistryAllele
 	void add(ResourceLocation id, RegistryAllele<V> allele) {
 		this.alleles.put(id, allele);
 	}

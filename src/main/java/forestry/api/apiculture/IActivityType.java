@@ -24,7 +24,8 @@ public interface IActivityType extends IRegistryAlleleValue {
 	boolean isActive(long gameTime, long dayTime, BlockPos pos);
 
 	/**
-	 * Gets the error to display in GUIs for when this bee is inactive. The error might be "
+	 * Gets the error to display in GUIs for when this bee is inactive. This method is only called when
+	 * {@link #isActive} returns false for the given parameters, so no need to duplicate your time checks.
 	 *
 	 * @param gameTime The number of ticks spent in the current level. See {@link LevelData#getGameTime}.
 	 * @param dayTime  The time of day of the current level, can be above 24000. See {@link LevelData#getDayTime}.

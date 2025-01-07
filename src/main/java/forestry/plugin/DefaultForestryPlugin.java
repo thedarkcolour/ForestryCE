@@ -46,6 +46,7 @@ import forestry.api.plugin.ILepidopterologyRegistration;
 import forestry.api.plugin.IPollenRegistration;
 import forestry.apiculture.ApicultureFilterRule;
 import forestry.apiculture.ApicultureFilterRuleType;
+import forestry.apiculture.CathemeralActivityType;
 import forestry.apiculture.CrepuscularActivityType;
 import forestry.apiculture.EndFlowerType;
 import forestry.apiculture.FlowerType;
@@ -299,6 +300,7 @@ public class DefaultForestryPlugin implements IForestryPlugin {
 		apiculture.registerActivityType(ForestryActivityTypes.NOCTURNAL, new SingleActivityType(12000, 24000, ForestryError.NOT_NIGHT, LightPreference.DARK));
 		apiculture.registerActivityType(ForestryActivityTypes.METATURNAL, new SingleActivityType(0, 24000, ForestryError.INVALID, LightPreference.ANY));
 		apiculture.registerActivityType(ForestryActivityTypes.CREPUSCULAR, new CrepuscularActivityType());
+		apiculture.registerActivityType(ForestryActivityTypes.CATHEMERAL, new CathemeralActivityType());
 
 		apiculture.registerSwarmerMaterial(ApicultureItems.ROYAL_JELLY.get(), 0.01f);
 	}

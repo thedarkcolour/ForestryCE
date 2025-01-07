@@ -29,4 +29,9 @@ public class ForestryActivityTypes {
 	 * Active during ticks 0 to 24000.
 	 */
 	public static final ResourceLocation METATURNAL = ForestryConstants.forestry("activity_metaturnal");
+	/**
+	 * Cathemeral bees have an unpredictable sleep pattern.
+	 * Activity period varies according to position, but always 12000 ticks long.
+	 */
+	public static final ResourceLocation CATHEMERAL = ForestryConstants.forestry("activity_cathemeral");
 }
