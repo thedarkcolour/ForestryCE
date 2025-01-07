@@ -7,14 +7,12 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
 import forestry.api.genetics.ISpecies;
 import forestry.api.genetics.ISpeciesType;
 import forestry.core.utils.JeiUtil;
 import forestry.core.utils.ModUtil;
 
-import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
+import it.unimi.dsi.fastutil.objects.Object2FloatOpenCustomHashMap;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.IRecipeSlotTooltipCallback;
@@ -86,14 +84,12 @@ class ProductsRecipeCategory implements IRecipeCategory<ProductRecipe> {
 		}
 	}
 
-	private static void setProductsList(IRecipeLayoutBuilder builder, Object2FloatOpenHashMap<ItemStack> productStacks, int slotsY) {
-		IRecipeSlotTooltipCallback callback = (view, tooltip) -> {
-			view.getDisplayedItemStack().ifPresent(stack -> {
-				if (productStacks.containsKey(stack)) {
-					tooltip.add(JeiUtil.formatChance(productStacks.getFloat(stack)));
-				}
-			});
-		};
+	private static void setProductsList(IRecipeLayoutBuilder builder, Object2FloatOpenCustomHashMap<ItemStack> productStacks, int slotsY) {
+		IRecipeSlotTooltipCallback callback = (view, tooltip) -> view.getDisplayedItemStack().ifPresent(stack -> {
+			if (productStacks.containsKey(stack)) {
+				tooltip.add(JeiUtil.formatChance(productStacks.getFloat(stack)));
+			}
+		});
 
 		int products = productStacks.size();
 

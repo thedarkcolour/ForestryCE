@@ -12,7 +12,9 @@ import forestry.api.core.IProductProducer;
 import forestry.api.core.ISpecialtyProducer;
 import forestry.api.genetics.ILifeStage;
 import forestry.api.genetics.ISpecies;
+import forestry.core.utils.ItemStackUtil;
 
+import it.unimi.dsi.fastutil.objects.Object2FloatOpenCustomHashMap;
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 
 class ProductRecipe {
@@ -22,10 +24,10 @@ class ProductRecipe {
 	final List<ItemStack> inputs;
 	// Null when species is not IProductProducer
 	@Nullable
-	final Object2FloatOpenHashMap<ItemStack> products;
+	final Object2FloatOpenCustomHashMap<ItemStack> products;
 	// Null when species is not ISpecialtyProducer
 	@Nullable
-	final Object2FloatOpenHashMap<ItemStack> specialties;
+	final Object2FloatOpenCustomHashMap<ItemStack> specialties;
 
 	// Displayed in GUI
 	final ItemStack displayInput;
@@ -55,8 +57,8 @@ class ProductRecipe {
 		this.specialties = species instanceof ISpecialtyProducer producer ? createProductsList(producer.getSpecialties()) : null;
 	}
 
-	private Object2FloatOpenHashMap<ItemStack> createProductsList(List<IProduct> productGetter) {
-		Object2FloatOpenHashMap<ItemStack> list = new Object2FloatOpenHashMap<>(productGetter.size());
+	private Object2FloatOpenCustomHashMap<ItemStack> createProductsList(List<IProduct> productGetter) {
+		Object2FloatOpenCustomHashMap<ItemStack> list = new Object2FloatOpenCustomHashMap<>(productGetter.size(), ItemStackUtil.ITEM_STACK_STRATEGY);
 
 		for (IProduct product : productGetter) {
 			ItemStack stack = product.createStack();

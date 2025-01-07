@@ -1,5 +1,6 @@
 ## Forestry 2.2.2
 - Fix accidental drop shadow in Tab 4 of Analyzer for researched mutations with a + sign
+- Fix product chances not showing in JEI (#152)
 
 ## Forestry 2.2.1
 - Fix saplings not being able to grow through leaves

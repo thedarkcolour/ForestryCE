@@ -27,10 +27,36 @@ import net.minecraft.world.level.Level;
 
 import forestry.api.core.IProduct;
 
+import it.unimi.dsi.fastutil.Hash;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 
 public abstract class ItemStackUtil {
+	public static final Hash.Strategy<ItemStack> ITEM_STACK_STRATEGY = new Hash.Strategy<ItemStack>() {
+		@Override
+		public int hashCode(ItemStack o) {
+			if (o.isEmpty()) {
+				return 0;
+			}
+			int result = 1;
+			result = 31 * result + o.getCount();
+			result = 31 * result + o.getItem().hashCode();
+			if (o.hasTag()) {
+				result = 31 * result + o.getTag().hashCode();
+			}
+
+			return result;
+		}
+
+		@Override
+		public boolean equals(ItemStack a, ItemStack b) {
+			if (a == null || b == null) {
+				return a == b;
+			}
+			return ItemStack.matches(a, b);
+		}
+	};
+
 	private static final int[] EMPTY_CONSUME = new int[0];
 
 	/**
