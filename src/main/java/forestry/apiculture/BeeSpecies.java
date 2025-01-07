@@ -149,7 +149,7 @@ public class BeeSpecies extends Species<IBeeSpeciesType, IBee> implements IBeeSp
 		}
 
 		if (genome.getActiveValue(BeeChromosomes.TOLERATES_RAIN)) {
-			tooltip.add(Component.translatable("for.gui.flyer.tooltip").withStyle(ChatFormatting.WHITE));
+			tooltip.add(Component.translatable("chromosome.forestry.tolerates_rain.tooltip").withStyle(ChatFormatting.WHITE));
 		}
 	}
 }
