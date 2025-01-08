@@ -57,10 +57,11 @@ public class BlockBogEarth extends Block {
 
 		int maturity = state.getValue(MATURITY);
 		if (isMoistened(world, pos)) {
-			if (maturity == maturityDelimiter - 1) {
-				world.setBlock(pos, CoreBlocks.PEAT.defaultState(), UPDATE_CLIENTS);
-			} else {
+			// todo remove the -1 and just make the property smaller
+			if (maturity < maturityDelimiter - 1) {
 				world.setBlock(pos, state.setValue(MATURITY, maturity + 1), UPDATE_CLIENTS);
+			} else {
+				world.setBlock(pos, CoreBlocks.PEAT.defaultState(), UPDATE_CLIENTS);
 			}
 		}
 	}

@@ -2,6 +2,7 @@
 - Add Cathemeral bee activity type, which is a random activity period of 12000 ticks that varies based on position. Check times using /forestry bee cathemeral
 - Fix Tolerant Flyer tooltip and Cave Tolerant display in analyzer
 - Fix bees not working below y=0
+- Fix Bog Earth crash when set to maturity = 3 using a debug stick
 
 ## Forestry 2.2.2
 - Fix accidental drop shadow in Tab 4 of Analyzer for researched mutations with a + sign
