@@ -90,6 +90,7 @@ public final class VecUtil {
 		private int spiralLayer;
 		private final int maxSpiralLayers;
 		private int direction;
+		private final int minWorldHeight;
 
 		@Nullable
 		private BlockPos.MutableBlockPos theBlockPos;
@@ -108,6 +109,7 @@ public final class VecUtil {
 			int zDiameter = maxZ - minZ;
 			this.maxSpiralLayers = Math.max(xDiameter, zDiameter) / 2;
 			this.spiralLayer = 1;
+			this.minWorldHeight = level.getMinBuildHeight();
 		}
 
 		@Override
@@ -138,7 +140,7 @@ public final class VecUtil {
 				int y = this.theBlockPos.getY();
 				int z = this.theBlockPos.getZ();
 
-				if (y > minY && y > 0) {
+				if (y > minY && y > this.minWorldHeight) {
 					y--;
 				} else {
 					switch (direction) {
