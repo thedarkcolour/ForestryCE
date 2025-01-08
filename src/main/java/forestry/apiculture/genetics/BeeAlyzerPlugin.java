@@ -165,13 +165,13 @@ public enum BeeAlyzerPlugin implements IAlyzerPlugin {
 
 						Component primary = genome.getActiveValue(BeeChromosomes.TOLERATES_RAIN) ? yes : no;
 
-						textLayout.drawLine(graphics, Component.translatable("chromosome.forestry.tolerates_rain"), GuiAlyzer.COLUMN_0);
+						textLayout.drawLine(graphics, BeeChromosomes.TOLERATES_RAIN.getChromosomeDisplayName(), GuiAlyzer.COLUMN_0);
 						textLayout.drawLine(graphics, primary, GuiAlyzer.COLUMN_1, GuiAlyzer.getColorCoding(false));
 						textLayout.newLineCompressed();
 
 						primary = genome.getActiveValue(BeeChromosomes.CAVE_DWELLING) ? yes : no;
 
-						textLayout.drawLine(graphics, Component.translatable("for.gui.cave"), GuiAlyzer.COLUMN_0);
+						textLayout.drawLine(graphics, BeeChromosomes.CAVE_DWELLING.getChromosomeDisplayName(), GuiAlyzer.COLUMN_0);
 						textLayout.drawLine(graphics, primary, GuiAlyzer.COLUMN_1, GuiAlyzer.getColorCoding(false));
 
 						textLayout.newLine();
@@ -226,7 +226,7 @@ public enum BeeAlyzerPlugin implements IAlyzerPlugin {
 						Component primary = genome.getActiveValue(BeeChromosomes.TOLERATES_RAIN) ? yes : no;
 						Component secondary = genome.getInactiveValue(BeeChromosomes.TOLERATES_RAIN) ? yes : no;
 
-						textLayout.drawLine(graphics, Component.translatable("chromosome.forestry.tolerates_rain"), GuiAlyzer.COLUMN_0);
+						textLayout.drawLine(graphics, BeeChromosomes.TOLERATES_RAIN.getChromosomeDisplayName(), GuiAlyzer.COLUMN_0);
 						textLayout.drawLine(graphics, primary, GuiAlyzer.COLUMN_1, GuiAlyzer.getColorCoding(false));
 						textLayout.drawLine(graphics, secondary, GuiAlyzer.COLUMN_2, GuiAlyzer.getColorCoding(false));
 
@@ -235,7 +235,7 @@ public enum BeeAlyzerPlugin implements IAlyzerPlugin {
 						primary = genome.getActiveValue(BeeChromosomes.CAVE_DWELLING) ? yes : no;
 						secondary = genome.getInactiveValue(BeeChromosomes.CAVE_DWELLING) ? yes : no;
 
-						textLayout.drawLine(graphics, Component.translatable("for.gui.cave"), GuiAlyzer.COLUMN_0);
+						textLayout.drawLine(graphics, BeeChromosomes.CAVE_DWELLING.getChromosomeDisplayName(), GuiAlyzer.COLUMN_0);
 						textLayout.drawLine(graphics, primary, GuiAlyzer.COLUMN_1, GuiAlyzer.getColorCoding(false));
 						textLayout.drawLine(graphics, secondary, GuiAlyzer.COLUMN_2, GuiAlyzer.getColorCoding(false));
 

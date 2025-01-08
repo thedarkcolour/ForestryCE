@@ -381,13 +381,16 @@ public class Bee extends IndividualLiving<IBeeSpecies, IBee, IBeeSpeciesType> im
 			IBeeModifier beeModifier = IForestryApi.INSTANCE.getHiveManager().createBeeHousingModifier(housing);
 			RandomSource rand = housing.getWorldObj().random;
 
-			if ((this.generation > 96 + rand.nextInt(6) + rand.nextInt(6)) &&
-					(rand.nextFloat() < 0.02f * beeModifier.modifyGeneticDecay(this.genome, 1f))) {
+			if (checkIgnobleDecay(rand, this.generation, beeModifier.modifyGeneticDecay(this.genome, 1f))) {
 				return null;
 			}
 		}
 
 		return createOffspring(housing, mate, getGeneration() + 1);
+	}
+
+	public static boolean checkIgnobleDecay(RandomSource rand, int generation, float modifier) {
+		return (generation > 96 + rand.nextInt(6) + rand.nextInt(6)) && (rand.nextFloat() < 0.02f * modifier);
 	}
 
 	@Override

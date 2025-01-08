@@ -13,6 +13,7 @@ import java.util.Set;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
@@ -29,11 +30,8 @@ import forestry.api.genetics.pollen.IPollen;
 
 /**
  * Other implementations than Forestry's default one are not supported.
- *
- * @author SirSengir
  */
 public interface IBee extends IIndividualLiving {
-
 	/**
 	 * @return true if the individual is originally of pristine/natural origin.
 	 */
@@ -87,7 +85,6 @@ public interface IBee extends IIndividualLiving {
 	 * @param housing          the location the bee is living
 	 * @param potentialFlowers the flowers to choose from
 	 * @return the position of the planted flower, or null of none were planted
-	 * @since Forestry 5.5.4
 	 */
 	@Nullable
 	BlockPos plantFlowerRandom(IBeeHousing housing, List<BlockState> potentialFlowers);
