@@ -36,7 +36,7 @@ public class HiveDecorator extends Feature<NoneFeatureConfiguration> {
 	}
 
 	public static boolean tryGenHive(WorldGenLevel world, RandomSource rand, int posX, int posZ, IHive hive) {
-		final BlockPos hivePos = hive.getPosForHive(world, posX, posZ);
+		final BlockPos hivePos = hive.getPosForHive(world, rand, posX, posZ);
 
 		if (hivePos == null) {
 			return false;

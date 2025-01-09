@@ -89,9 +89,15 @@ public final class Hive implements IHive {
 	}
 
 	@Nullable
+	@Deprecated
 	@Override
 	public BlockPos getPosForHive(WorldGenLevel level, int posX, int posZ) {
 		return this.hiveDescription.getHiveGen().getPosForHive(level, posX, posZ);
+	}
+
+	@Override
+	public BlockPos getPosForHive(WorldGenLevel level, RandomSource rand, int posX, int posZ) {
+		return this.hiveDescription.getHiveGen().getPosForHive(level, rand, posX, posZ);
 	}
 
 	@Override

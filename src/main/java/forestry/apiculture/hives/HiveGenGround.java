@@ -19,6 +19,7 @@ public class HiveGenGround implements IHiveGen {
 	}
 
 	@Override
+	@Deprecated
 	public BlockPos getPosForHive(WorldGenLevel level, int posX, int posZ) {
 		// get to the ground
 		int groundY = level.getHeight(Heightmap.Types.WORLD_SURFACE_WG, posX, posZ);

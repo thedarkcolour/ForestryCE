@@ -43,6 +43,7 @@ public enum HiveGenTree implements IHiveGen {
 	}
 
 	@Override
+	@Deprecated
 	public BlockPos getPosForHive(WorldGenLevel level, int posX, int posZ) {
 		ChunkAccess chunk = level.getChunk(posX >> 4, posZ >> 4);
 
