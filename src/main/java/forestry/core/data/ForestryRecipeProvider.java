@@ -1491,7 +1491,7 @@ public class ForestryRecipeProvider {
 				.setProcessingTime(20)
 				.setInput(Ingredient.of(ApicultureItems.BEE_COMBS.get(EnumHoneyComb.SIMMERING)))
 				.product(1.0f, CoreItems.CRAFTING_MATERIALS.stack(EnumCraftingMaterial.REFRACTORY_WAX))
-				.product(0.7f, CoreItems.CRAFTING_MATERIALS.stack(EnumCraftingMaterial.PHOSPHOR, 2))
+				.product(0.7f, ApicultureItems.HONEY_DROP.stack())
 				.build(consumer, id("centrifuge", "simmering_comb"));
 		new CentrifugeRecipeBuilder()
 				.setProcessingTime(20)
@@ -1564,6 +1564,12 @@ public class ForestryRecipeProvider {
 				.product(0.2f, CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.BEESWAX).stack())
 				.product(0.3f, new ItemStack(Items.QUARTZ))
 				.build(consumer, id("centrifuge", "mellow_comb"));
+		new CentrifugeRecipeBuilder()
+				.setProcessingTime(20)
+				.setInput(Ingredient.of(ApicultureItems.BEE_COMBS.get(EnumHoneyComb.VINTAGE)))
+				.product(1.0f, CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.BEESWAX).stack())
+				.product(0.9f, ApicultureItems.HONEYDEW.stack())
+				.build(consumer, id("centrifuge", "vintage_comb"));
 		new CentrifugeRecipeBuilder()
 				.setProcessingTime(5)
 				.setInput(Ingredient.of(ApicultureItems.PROPOLIS.get(EnumPropolis.SILKY)))
@@ -1926,6 +1932,13 @@ public class ForestryRecipeProvider {
 				.setRemnants(ApicultureItems.PROPOLIS.stack(EnumPropolis.NORMAL, 1))
 				.setRemnantsChance(5 / 100f)
 				.build(consumer, id("squeezer", "honey_drop"));
+		new SqueezerRecipeBuilder()
+				.setProcessingTime(10)
+				.setResources(NonNullList.withSize(1, Ingredient.of(ApicultureItems.BEE_COMBS.stack(EnumHoneyComb.SPONGE))))
+				.setFluidOutput(honeyDropFluid)
+				.setRemnants(new ItemStack(Items.SPONGE))
+				.setRemnantsChance(2 / 100f)
+				.build(consumer, id("squeezer", "sponge_comb"));
 		new SqueezerRecipeBuilder()
 				.setProcessingTime(10)
 				.setResources(NonNullList.withSize(1, Ingredient.of(ApicultureItems.HONEYDEW)))

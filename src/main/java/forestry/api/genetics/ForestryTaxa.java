@@ -85,6 +85,7 @@ public class ForestryTaxa {
 	public static final String GENUS_NOBLE = "probapis";
 	public static final String GENUS_INDUSTRIOUS = "industrapis";
 	public static final String GENUS_HEROIC = "herapis";
+	public static final String GENUS_LUSH = "troglobites";
 	public static final String GENUS_INFERNAL = "diapis";
 	public static final String GENUS_AUSTERE = "modapis";
 	public static final String GENUS_TROPICAL = "caldapis";
@@ -96,6 +97,11 @@ public class ForestryTaxa {
 	public static final String GENUS_BOGGY = "paludapis";
 	public static final String GENUS_SAVANNA = "afrapis";
 	public static final String GENUS_MONASTIC = "monapis";
+	public static final String GENUS_KLEPTOPLASTIC = "phytapis";
+	public static final String GENUS_RELIC = "reliquia";
+	public static final String GENUS_AQUATIC = "spongiforma";
+	public static final String GENUS_EMBITTERED = "irata";
+	public static final String GENUS_ABOMINATION = "abominatio";
 	// Tree Genera
 	public static final String GENUS_DIOSPYROS = "diospyros";
 	public static final String GENUS_ACACIA = "acacia";
@@ -169,6 +175,9 @@ public class ForestryTaxa {
 	public static final String SPECIES_STEADFAST = "legio";
 	public static final String SPECIES_VALIANT = "centurio";
 	public static final String SPECIES_HEROIC = "kraphti";
+	public static final String SPECIES_LUSH = "atvatabari";
+	public static final String SPECIES_VERDANT = "lidenbrocki";
+	public static final String SPECIES_LUXURIANT = "verni";
 	public static final String SPECIES_SINISTER = "caecus";
 	public static final String SPECIES_FIENDISH = "diabolus";
 	public static final String SPECIES_DEMONIC = "draco";
@@ -181,6 +190,8 @@ public class ForestryTaxa {
 	public static final String SPECIES_ENDED = "notchi";
 	public static final String SPECIES_SPECTRAL = "idolum";
 	public static final String SPECIES_PHANTASMAL = "lemur";
+	public static final String SPECIES_SHULKING = "shurukui";
+	public static final String SPECIES_PHASING = "iter";
 	public static final String SPECIES_WINTRY = "brumalis";
 	public static final String SPECIES_ICY = "coagulis";
 	public static final String SPECIES_GLACIAL = "glacialis";
@@ -205,6 +216,22 @@ public class ForestryTaxa {
 	public static final String SPECIES_MONASTIC = "monachus";
 	public static final String SPECIES_SECLUDED = "contractus";
 	public static final String SPECIES_HERMITIC = "anachoreta";
+	public static final String SPECIES_KLEPTOPLASTIC = "vitaraptor";
+	public static final String SPECIES_PHOTOSYNTHETIC = "phytomimus";
+	public static final String SPECIES_AUTOTROPHIC = "solaris";
+	public static final String SPECIES_PRIMEVAL = "antiqua";
+	public static final String SPECIES_ANACHRONE = "tempuraptor";
+	public static final String SPECIES_RELIC = "elizabethii";
+	public static final String SPECIES_AQUATIC = "squarepantsii";//a real species name
+	public static final String SPECIES_PIRATE = "pirata";
+	public static final String SPECIES_PRISMATIC = "orichalcus";
+	public static final String SPECIES_ABYSSAL = "stygii";
+	public static final String SPECIES_EMBITTERED = "irata";
+	public static final String SPECIES_SPITEFUL = "invida";
+	public static final String SPECIES_SEETHING = "sulphuri";
+	public static final String SPECIES_WARPED = "corrumpata";
+	public static final String SPECIES_ZOMBIFIED = "inmortui";
+	public static final String SPECIES_SCULK = "alieni";
 	// Tree Species
 	public static final String SPECIES_OAK = "robur";
 	public static final String SPECIES_DARK_OAK = "velutina";

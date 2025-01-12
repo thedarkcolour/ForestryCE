@@ -163,18 +163,30 @@ public final class ForestryBlockTagsProvider {
 		tags.tag(ForestryTags.Blocks.SNOW_FLOWERS).addTag(BlockTags.FLOWERS);
 		tags.tag(ForestryTags.Blocks.WHEAT_FLOWERS).add(Blocks.WHEAT);
 		tags.tag(ForestryTags.Blocks.GOURD_FLOWERS).add(Blocks.MELON_STEM, Blocks.ATTACHED_MELON_STEM, Blocks.PUMPKIN_STEM, Blocks.ATTACHED_PUMPKIN_STEM);
+		tags.tag(ForestryTags.Blocks.CAVE_FLOWERS).add(Blocks.CAVE_VINES,Blocks.CAVE_VINES_PLANT,Blocks.SPORE_BLOSSOM);
+		tags.tag(ForestryTags.Blocks.ANCIENT_FLOWERS).add(Blocks.TORCHFLOWER,Blocks.PITCHER_PLANT);
+		tags.tag(ForestryTags.Blocks.SEA_FLOWERS).add(Blocks.KELP,Blocks.KELP_PLANT);
+		tags.tag(ForestryTags.Blocks.CORAL_FLOWERS).addTags(BlockTags.CORALS).addTags(BlockTags.WALL_CORALS);
+		tags.tag(ForestryTags.Blocks.SCULK_FLOWERS).add(Blocks.SCULK_SHRIEKER,Blocks.SCULK_CATALYST,Blocks.SCULK_SENSOR);
 
 		tags.tag(ForestryTags.Blocks.PLANTABLE_FLOWERS)
 				.addTag(BlockTags.FLOWERS)
 				.add(Blocks.RED_MUSHROOM, Blocks.BROWN_MUSHROOM)
 				.add(Blocks.FERN)
-				.add(Blocks.CRIMSON_FUNGUS, Blocks.WARPED_FUNGUS, Blocks.WARPED_ROOTS, Blocks.CRIMSON_ROOTS);
+				.add(Blocks.CRIMSON_FUNGUS, Blocks.WARPED_FUNGUS, Blocks.WARPED_ROOTS, Blocks.CRIMSON_ROOTS)
+				.add(Blocks.CAVE_VINES,Blocks.SPORE_BLOSSOM)
+				.add(Blocks.TORCHFLOWER,Blocks.PITCHER_PLANT)
+				.addTags(BlockTags.CORALS)
+				.add(Blocks.KELP);
 
 		tags.tag(ForestryTags.Blocks.PLANTABLE_FLOWERS_GROUND).add(Blocks.DIRT, Blocks.GRASS_BLOCK, Blocks.SNOW, Blocks.SAND, Blocks.SANDSTONE);
 
 		//why is there no tag for cactus plantable, but there is for dead bush?
 		tags.tag(ForestryTags.Blocks.MODEST_BEE_GROUND).addTag(BlockTags.SAND).addTag(BlockTags.TERRACOTTA);
 		tags.tag(ForestryTags.Blocks.WINTRY_BEE_GROUND).addTag(BlockTags.DIRT).addTag(BlockTags.SNOW);
+		tags.tag(ForestryTags.Blocks.LUSH_BEE_CEILING).add(Blocks.MOSS_BLOCK).add(Blocks.ROOTED_DIRT);
+		tags.tag(ForestryTags.Blocks.CAVE_EXTRA_REPLACEABLES).add(Blocks.POINTED_DRIPSTONE).add(Blocks.CAVE_VINES).add(Blocks.CAVE_VINES_PLANT).add(Blocks.HANGING_ROOTS).add(Blocks.GLOW_LICHEN);
+		tags.tag(ForestryTags.Blocks.NETHER_EXTRA_REPLACEABLES).add(Blocks.WEEPING_VINES,Blocks.WEEPING_VINES_PLANT,Blocks.TWISTING_VINES,Blocks.TWISTING_VINES_PLANT);
 	}
 
 	private static Collection<Block> union(FeatureBlockGroup<?, ?>... features) {

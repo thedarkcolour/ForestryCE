@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.Stack;
 
+import forestry.api.apiculture.*;
+import forestry.api.genetics.ForestryTaxa;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -31,14 +33,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import forestry.Forestry;
 import forestry.api.IForestryApi;
-import forestry.api.apiculture.IApiaristTracker;
-import forestry.api.apiculture.IBeeHousing;
-import forestry.api.apiculture.IBeeHousingInventory;
-import forestry.api.apiculture.IBeeListener;
-import forestry.api.apiculture.IBeeModifier;
-import forestry.api.apiculture.IBeekeepingLogic;
 import forestry.api.apiculture.genetics.BeeLifeStage;
 import forestry.api.apiculture.genetics.IBee;
 import forestry.api.core.ForestryError;
@@ -360,7 +355,13 @@ public class BeekeepingLogic implements IBeekeepingLogic {
 
 		// Mate and replace princess with queen
 		IBee princess = (IBee) IIndividualHandlerItem.getIndividual(princessStack);
+		if(princess.getSpecies().getGenusName().equals(ForestryTaxa.GENUS_EMBITTERED) && housing.getWorldObj().dimension()!=Level.NETHER){
+			princess = SpeciesUtil.getBeeSpecies(ForestryBeeSpecies.ZOMBIFIED).createIndividual();
+		}
 		IBee drone = (IBee) IIndividualHandlerItem.getIndividual(droneStack);
+		if(drone.getSpecies().getGenusName().equals(ForestryTaxa.GENUS_EMBITTERED) && housing.getWorldObj().dimension()!=Level.NETHER){
+			drone = SpeciesUtil.getBeeSpecies(ForestryBeeSpecies.ZOMBIFIED).createIndividual();
+		}
 		princess.setMate(drone.getGenome());
 
 		queenStack = princess.createStack(BeeLifeStage.QUEEN);

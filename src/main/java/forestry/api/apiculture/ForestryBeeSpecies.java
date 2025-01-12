@@ -21,6 +21,9 @@ public class ForestryBeeSpecies {
 	public static final ResourceLocation STEADFAST = forestry("bee_steadfast");
 	public static final ResourceLocation VALIANT = forestry("bee_valiant");
 	public static final ResourceLocation HEROIC = forestry("bee_heroic");
+	public static final ResourceLocation LUSH = forestry("bee_lush");
+	public static final ResourceLocation VERDANT = forestry("bee_verdant");
+	public static final ResourceLocation LUXURIANT = forestry("bee_luxuriant");
 	public static final ResourceLocation SINISTER = forestry("bee_sinister");
 	public static final ResourceLocation FIENDISH = forestry("bee_fiendish");
 	public static final ResourceLocation DEMONIC = forestry("bee_demonic");
@@ -33,6 +36,8 @@ public class ForestryBeeSpecies {
 	public static final ResourceLocation ENDED = forestry("bee_ended");
 	public static final ResourceLocation SPECTRAL = forestry("bee_spectral");
 	public static final ResourceLocation PHANTASMAL = forestry("bee_phantasmal");
+	public static final ResourceLocation SHULKING = forestry("bee_shulking");
+	public static final ResourceLocation PHASING = forestry("bee_phasing");
 	public static final ResourceLocation WINTRY = forestry("bee_wintry");
 	public static final ResourceLocation ICY = forestry("bee_icy");
 	public static final ResourceLocation GLACIAL = forestry("bee_glacial");
@@ -56,4 +61,20 @@ public class ForestryBeeSpecies {
 	public static final ResourceLocation MONASTIC = forestry("bee_monastic");
 	public static final ResourceLocation SECLUDED = forestry("bee_secluded");
 	public static final ResourceLocation HERMITIC = forestry("bee_hermitic");
+	public static final ResourceLocation KLEPTOPLASTIC = forestry("bee_kleptoplastic");
+	public static final ResourceLocation PHOTOSYNTHETIC = forestry("bee_photosynthetic");
+	public static final ResourceLocation AUTOTROPHIC = forestry("bee_autotrophic");
+	public static final ResourceLocation PRIMEVAL = forestry("bee_primeval");
+	public static final ResourceLocation ANACHRONE = forestry("bee_anachrone");
+	public static final ResourceLocation RELIC = forestry("bee_relic");
+	public static final ResourceLocation AQUATIC = forestry("bee_aquatic");
+	public static final ResourceLocation PIRATE = forestry("bee_pirate");
+	public static final ResourceLocation PRISMATIC = forestry("bee_prismatic");
+	public static final ResourceLocation ABYSSAL = forestry("bee_abyssal");
+	public static final ResourceLocation EMBITTERED = forestry("bee_embittered");
+	public static final ResourceLocation SPITEFUL = forestry("bee_spiteful");
+	public static final ResourceLocation SEETHING = forestry("bee_seething");
+	public static final ResourceLocation WARPED = forestry("bee_warped");
+	public static final ResourceLocation ZOMBIFIED = forestry("bee_zombified");
+	public static final ResourceLocation SCULK = forestry("bee_sculk");
 }

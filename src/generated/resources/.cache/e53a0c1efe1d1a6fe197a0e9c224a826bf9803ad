@@ -1,10 +1,13 @@
-// 1.20.1	2024-11-21T17:52:29.5822659	Global Loot Modifiers : forestry
+// 1.20.1	2025-01-12T21:50:37.552711629	Global Loot Modifiers : forestry
 43d1faf47316572e6d53fbac9e397a29afa18fee data/forestry/loot_modifiers/chests/abandoned_mineshaft.json
 6ddffdaf882e4afd81421349a1e4b02d3d3ee115 data/forestry/loot_modifiers/chests/desert_pyramid.json
 08790b3a71350ac5f482df6487bf4f8c2de4d7a4 data/forestry/loot_modifiers/chests/end_city_treasure.json
 f526de41376c2bceaa2b86d398587f0dae1e9637 data/forestry/loot_modifiers/chests/igloo_chest.json
 539dba3f66c1e35b908de88076ebe377b0a3073a data/forestry/loot_modifiers/chests/jungle_temple.json
 e07ad829b538d95000e682acff8add254393f415 data/forestry/loot_modifiers/chests/nether_bridge.json
+36cd13348254823755affc84b81277b4978360d1 data/forestry/loot_modifiers/chests/shipwreck_map.json
+afdc4f9f8eba7060d599bd9b5d4309616441340b data/forestry/loot_modifiers/chests/shipwreck_supply.json
+2fe15ec7992678ae4dabfc749318c505982db692 data/forestry/loot_modifiers/chests/shipwreck_treasure.json
 e8b0b56bff1ead0fc4c98908382028ad3a032dba data/forestry/loot_modifiers/chests/simple_dungeon.json
 fbf4fc6e7f7c28ca338fbeda97a0c53556f401fc data/forestry/loot_modifiers/chests/spawn_bonus_chest.json
 0810cf79c40cf40aecf2ceee99f54fcfad34346a data/forestry/loot_modifiers/chests/stronghold_corridor.json
@@ -12,4 +15,4 @@ fbf4fc6e7f7c28ca338fbeda97a0c53556f401fc data/forestry/loot_modifiers/chests/spa
 6fe0f453471af948ef57a539c773eaa4b17bac21 data/forestry/loot_modifiers/chests/stronghold_library.json
 8fe314e5c5f3c20021296abbe507fc0d4d2163eb data/forestry/loot_modifiers/chests/village_naturalist.json
 077a4fea2d35cf5c36eef7c041fb4c893d81c208 data/forestry/loot_modifiers/grafter.json
-cf4ff89d43fa60a26e88a5e05592f27c3a27ed46 data/forge/loot_modifiers/global_loot_modifiers.json
+2cb712405d02e5563d1c1a6827e6d1e3db84ca80 data/forge/loot_modifiers/global_loot_modifiers.json

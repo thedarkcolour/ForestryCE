@@ -72,6 +72,21 @@
             "items": [
               "forestry:bee_comb_kaolin"
             ]
+          },
+          {
+            "items": [
+              "forestry:bee_comb_vintage"
+            ]
+          },
+          {
+            "items": [
+              "forestry:bee_comb_sponge"
+            ]
+          },
+          {
+            "items": [
+              "forestry:bee_comb_sculken"
+            ]
           }
         ]
       },
