@@ -1,6 +1,7 @@
-// 1.20.1	2025-01-10T08:25:04.4282449	Tags for minecraft:worldgen/biome mod id forestry
+// 1.20.1	2025-01-13T11:38:12.963566366	Tags for minecraft:worldgen/biome mod id forestry
 2848fd21678020e480817af24906cc7471b13118 data/forestry/tags/worldgen/biome/humidity/arid.json
 0f241c94b10e4b16b4304f66ad949bb089955b1e data/forestry/tags/worldgen/biome/humidity/damp.json
+45e2314b6fbf2e847bd70c163e678e0e756a1640 data/forestry/tags/worldgen/biome/special/deep_dark.json
 3589bb8f8e711112317247a4999588e18ac59e7e data/forestry/tags/worldgen/biome/special/shattered_savanna.json
 45a7fce7990fceb93e22529d0a7ef778bfac4a99 data/forestry/tags/worldgen/biome/special/warped_forest.json
 ca1b8a5c668cf9b8500bf52957349126bd081a15 data/forestry/tags/worldgen/biome/temperature/cold.json

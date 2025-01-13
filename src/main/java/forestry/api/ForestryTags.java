@@ -218,6 +218,7 @@ public class ForestryTags {
 
 		public static final TagKey<Biome> SHATTERED_SAVANNA = tag("special/shattered_savanna");
 		public static final TagKey<Biome> WARPED_FOREST = tag("special/warped_forest");
+		public static final TagKey<Biome> DEEP_DARK = tag("special/deep_dark");
 
 		private static TagKey<Biome> tag(String path) {
 			return TagKey.create(Registries.BIOME, ForestryConstants.forestry(path));

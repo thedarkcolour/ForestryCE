@@ -183,6 +183,7 @@ public class DefaultBeeSpecies {
 					genome.set(BeeChromosomes.SPEED, ForestryAlleles.SPEED_SLOW);
 					genome.set(BeeChromosomes.LIFESPAN, ForestryAlleles.LIFESPAN_LONG);
 					genome.set(BeeChromosomes.EFFECT, ForestryAlleles.EFFECT_HEROIC);
+					genome.set(BeeChromosomes.ACTIVITY, ForestryAlleles.ACTIVITY_METATURNAL);
 				})
 				.addMutations(mutations -> {
 					mutations.add(ForestryBeeSpecies.STEADFAST, ForestryBeeSpecies.VALIANT, 6)
@@ -387,6 +388,7 @@ public class DefaultBeeSpecies {
 				.setTemperature(TemperatureType.COLD)
 				.setHumidity(HumidityType.ARID)
 				.addProduct(BEE_COMBS.stack(EnumHoneyComb.MYSTERIOUS), 0.20f)
+				.addSpecialty(new ItemStack(Items.SHULKER_SHELL), 0.015F)
 				.setGenome(genome -> {
 					genome.set(BeeChromosomes.EFFECT, ForestryAlleles.EFFECT_ASCENSION);
 					genome.set(BeeChromosomes.SPEED, ForestryAlleles.SPEED_SLOW);
@@ -411,6 +413,7 @@ public class DefaultBeeSpecies {
 				})
 				.addMutations(mutations -> {
 					mutations.add(ForestryBeeSpecies.HERMITIC, ForestryBeeSpecies.ENDED, 4);
+					mutations.add(ForestryBeeSpecies.HERMITIC, ForestryBeeSpecies.SHULKING, 4);
 				});
 
 		// Phantasmal
@@ -426,6 +429,7 @@ public class DefaultBeeSpecies {
 				})
 				.addMutations(mutations -> {
 					mutations.add(ForestryBeeSpecies.SPECTRAL, ForestryBeeSpecies.ENDED, 2);
+					mutations.add(ForestryBeeSpecies.SPECTRAL, ForestryBeeSpecies.SHULKING, 2);
 				})
 				.setGlint(true);
 
@@ -921,6 +925,8 @@ public class DefaultBeeSpecies {
 				.addMutations(mutations -> {
 					mutations.add(ForestryBeeSpecies.PIRATE, ForestryBeeSpecies.ENDED, 40).addMutationCondition(new CaveMutationCondition());
 					mutations.add(ForestryBeeSpecies.AQUATIC, ForestryBeeSpecies.ENDED, 40).addMutationCondition(new CaveMutationCondition());
+					mutations.add(ForestryBeeSpecies.PIRATE, ForestryBeeSpecies.SHULKING, 60).addMutationCondition(new CaveMutationCondition());
+					mutations.add(ForestryBeeSpecies.AQUATIC, ForestryBeeSpecies.SHULKING, 60).addMutationCondition(new CaveMutationCondition());
 				})
 				.setGlint(true)
 				.setAuthority("EnderiumSmith");
@@ -987,6 +993,8 @@ public class DefaultBeeSpecies {
 				.addMutations(mutations -> {
 					mutations.add(ForestryBeeSpecies.EMBITTERED, ForestryBeeSpecies.ENDED, 40).restrictBiomeType(ForestryTags.Biomes.WARPED_FOREST);
 					mutations.add(ForestryBeeSpecies.SPITEFUL, ForestryBeeSpecies.ENDED, 40).restrictBiomeType(ForestryTags.Biomes.WARPED_FOREST);
+					mutations.add(ForestryBeeSpecies.EMBITTERED, ForestryBeeSpecies.SHULKING, 40).restrictBiomeType(ForestryTags.Biomes.WARPED_FOREST);
+					mutations.add(ForestryBeeSpecies.SPITEFUL, ForestryBeeSpecies.SHULKING, 40).restrictBiomeType(ForestryTags.Biomes.WARPED_FOREST);
 				})
 				.setAuthority("EnderiumSmith");
 
@@ -1028,7 +1036,7 @@ public class DefaultBeeSpecies {
 					genome.set(BeeChromosomes.CAVE_DWELLING, ForestryAlleles.TRUE);
 				})
 				.addMutations(mutations -> {
-					mutations.add(ForestryBeeSpecies.ABYSSAL, ForestryBeeSpecies.PHANTASMAL, 4);
+					mutations.add(ForestryBeeSpecies.ABYSSAL, ForestryBeeSpecies.PHANTASMAL, 4).restrictBiomeType(ForestryTags.Biomes.DEEP_DARK);
 				})
 				.setGlint(true)
 				.setAuthority("EnderiumSmith");

@@ -449,6 +449,7 @@ public class ForestryCreativeTabs {
 		items.accept(CoreItems.PORTABLE_ALYZER);
 		items.accept(ApicultureItems.HONEY_DROP);
 		items.accept(ApicultureItems.HONEYDEW);
+		items.accept(ApicultureItems.EXPERIENCE_DROP);
 		items.accept(CoreBlocks.BASE.get(BlockTypeCoreTesr.ESCRITOIRE));
 		items.accept(CoreBlocks.BASE.get(BlockTypeCoreTesr.ANALYZER));
 	}

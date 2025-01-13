@@ -1,4 +1,4 @@
-// 1.20.1	2025-01-11T21:14:24.182599616	Recipes
+// 1.20.1	2025-01-13T12:27:10.756930922	Recipes
 6867bbb8c2b291d6e111aae900a9ce8be0cf8ebe data/forestry/advancements/recipes/building_blocks/acacia_desert_fence.json
 92d402b3f91419af71a9913fbddab9c5e9183779 data/forestry/advancements/recipes/building_blocks/acacia_desert_fence_gate.json
 756f6f4fa8d9fdc7fe1895f6bd02cb5e107c6acf data/forestry/advancements/recipes/building_blocks/acacia_desert_fireproof_fence.json
@@ -1026,6 +1026,7 @@ f555e2af3563f00e5ae768ba9cd861e2e86f3dc7 data/forestry/recipes/centrifuge/frozen
 c4303a72c20ee706e8c8641afb719f83cc45a36a data/forestry/recipes/centrifuge/mysterious_comb.json
 2c87bdcc68151114a746e0a23f67976b6faefb8a data/forestry/recipes/centrifuge/parched_comb.json
 e7be8cdd5fdc0bc68ae5e5745ceb585c16016728 data/forestry/recipes/centrifuge/powdery_comb.json
+81c5510b1edafee222b19f98c0501ea5d9ded411 data/forestry/recipes/centrifuge/sculken_comb.json
 b8ef95d2d012aa5bf6c0feb3daf907a5d6aed5c5 data/forestry/recipes/centrifuge/silky_comb.json
 4aec683e1075cc65d8a6426cfee12f8afd94ff31 data/forestry/recipes/centrifuge/silky_propolis.json
 3cb84e265e31c57e4a6865bf2ba90e28ef317b67 data/forestry/recipes/centrifuge/simmering_comb.json

@@ -214,25 +214,22 @@ public class LootTableHelper {
 				LootTable.lootTable().withPool(LootPool.lootPool()
 						.name("forestry_apiculture_bees")
 						.setRolls(ConstantValue.exactly(1))
-						.add(princessLoot(ForestryBeeSpecies.PIRATE))
-						.add(beeLoot(ForestryBeeSpecies.PIRATE).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 3))).setWeight(3))
-						.add(EmptyLootItem.emptyItem().setWeight(6))
+						.add(beeLoot(ForestryBeeSpecies.PIRATE).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 3))))
+						.add(EmptyLootItem.emptyItem().setWeight(9))
 				));
 		add(BuiltInLootTables.SHIPWRECK_TREASURE, "apiculture",
 				LootTable.lootTable().withPool(LootPool.lootPool()
 						.name("forestry_apiculture_bees")
 						.setRolls(ConstantValue.exactly(1))
-						.add(princessLoot(ForestryBeeSpecies.PIRATE))
-						.add(beeLoot(ForestryBeeSpecies.PIRATE).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 3))).setWeight(3))
-						.add(EmptyLootItem.emptyItem().setWeight(6))
+						.add(beeLoot(ForestryBeeSpecies.PIRATE).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 3))))
+						.add(EmptyLootItem.emptyItem().setWeight(9))
 				));
 		add(BuiltInLootTables.SHIPWRECK_MAP, "apiculture",
 				LootTable.lootTable().withPool(LootPool.lootPool()
 						.name("forestry_apiculture_bees")
 						.setRolls(ConstantValue.exactly(1))
-						.add(princessLoot(ForestryBeeSpecies.PIRATE))
-						.add(beeLoot(ForestryBeeSpecies.PIRATE).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 3))).setWeight(3))
-						.add(EmptyLootItem.emptyItem().setWeight(6))
+						.add(beeLoot(ForestryBeeSpecies.PIRATE).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 3))))
+						.add(EmptyLootItem.emptyItem().setWeight(9))
 				));
 	}
 
@@ -247,10 +244,6 @@ public class LootTableHelper {
 
 	private LootPoolSingletonContainer.Builder<?> beeLoot(ResourceLocation species) {
 		return beeLoot(BeeLifeStage.DRONE, species);
-	}
-
-	private LootPoolSingletonContainer.Builder<?> princessLoot(ResourceLocation species) {
-		return beeLoot(BeeLifeStage.PRINCESS, species);
 	}
 
 	private LootPoolSingletonContainer.Builder<?> beeLoot(BeeLifeStage type, ResourceLocation species) {

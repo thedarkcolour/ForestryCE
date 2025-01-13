@@ -355,12 +355,10 @@ public class BeekeepingLogic implements IBeekeepingLogic {
 
 		// Mate and replace princess with queen
 		IBee princess = (IBee) IIndividualHandlerItem.getIndividual(princessStack);
+		IBee drone = (IBee) IIndividualHandlerItem.getIndividual(droneStack);
+		// If nether princess is outside nether it zombifies. Drones can breed in the short life they have so species may persist in secondary trait
 		if(princess.getSpecies().getGenusName().equals(ForestryTaxa.GENUS_EMBITTERED) && housing.getWorldObj().dimension()!=Level.NETHER){
 			princess = SpeciesUtil.getBeeSpecies(ForestryBeeSpecies.ZOMBIFIED).createIndividual();
-		}
-		IBee drone = (IBee) IIndividualHandlerItem.getIndividual(droneStack);
-		if(drone.getSpecies().getGenusName().equals(ForestryTaxa.GENUS_EMBITTERED) && housing.getWorldObj().dimension()!=Level.NETHER){
-			drone = SpeciesUtil.getBeeSpecies(ForestryBeeSpecies.ZOMBIFIED).createIndividual();
 		}
 		princess.setMate(drone.getGenome());
 

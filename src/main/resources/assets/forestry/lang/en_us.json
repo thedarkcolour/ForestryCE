@@ -503,6 +503,7 @@
   "item.forestry.gear_tin": "Tin Gear",
   "item.forestry.hardened_machine": "Hardened Casing",
   "item.forestry.honeydew": "Honeydew",
+  "item.forestry.exp_drop": "Experience Drop",
   "item.forestry.portable_alyzer": "Portable Analyzer",
   "item.forestry.portable_alyzer.tooltip": "Handheld Genetic Analyzer for bees, saplings, and butterflies.",
   "item.forestry.portable_alyzer.charges": "%s Charges",
