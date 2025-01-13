@@ -23,6 +23,10 @@ import forestry.api.core.INbtWritable;
  * Save and load it to NBT using the INbtWritable methods.
  */
 public interface IBeekeepingLogic extends INbtWritable, INbtReadable {
+	/**
+	 * The default number of ticks per queen work cycle.
+	 */
+	int DEFAULT_WORK_THROTTLE = 550;
 
 	/* SERVER */
 
@@ -44,6 +48,15 @@ public interface IBeekeepingLogic extends INbtWritable, INbtReadable {
 	 */
 	void clearCachedValues();
 
+	/**
+	 * Changes the number of ticks per work cycle for this beekeeping logic.
+	 * The default work throttle is 550 ticks per work cycle, which is 27.5 seconds per work cycle.
+	 *
+	 * @param workThrottle The number of ticks per work cycle.
+	 * @since 2.2.4
+	 */
+	default void setWorkThrottle(int workThrottle) {
+	}
 
 	/* CLIENT */
 
