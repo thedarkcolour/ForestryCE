@@ -1,3 +1,6 @@
+## Forestry 2.2.4
+- Fix saplings with default genomes not generating leaves properly (#144)
+
 ## Forestry 2.2.3
 - Add Cathemeral bee activity type, which is a random activity period of 12000 ticks that varies based on position. Check times using /forestry bee cathemeral
 - Fix Tolerant Flyer tooltip and Cave Tolerant display in analyzer
