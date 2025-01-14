@@ -52,7 +52,8 @@ public interface IBeeModifier {
 	 * @param mate         Genome of the mate, {@code null} if there this bee is not mated.
 	 * @param currentAging Current amount to age the bee by. Starts at {@code 1} but may have already been
 	 *                     modified by other IBeeModifiers.
-	 * @return The number of age steps to age. This number will be rounded if it is not whole. Default is {@code 1f}.
+	 * @return The number of age steps to age. If the number has a decimal part, then that decimal part is the probability
+	 * for whether an additional aging step should take place. Default is {@code 1f}.
 	 * To cancel aging, return {@code 0}. To instantly kill the bee, return a negative value.
 	 */
 	default float modifyAging(IGenome genome, @Nullable IGenome mate, float currentAging) {

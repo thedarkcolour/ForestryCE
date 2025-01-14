@@ -3,6 +3,7 @@
 - Add API for IBeekeepingLogic to change throttle ticks
 - Fix NBT loading bug in BeekeepingLogic to load queen max health
 - Make parts of JEI plugin public
+- Fix IBeeModifier.modifyAging and IIndividualLiving.age
 
 ## Forestry 2.2.3
 - Add Cathemeral bee activity type, which is a random activity period of 12000 ticks that varies based on position. Check times using /forestry bee cathemeral
