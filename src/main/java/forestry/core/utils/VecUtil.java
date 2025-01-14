@@ -30,9 +30,9 @@ public final class VecUtil {
 	public static final Comparator<BlockPos> TOP_DOWN_COMPARATOR = (a, b) -> Integer.compare(b.getY(), a.getY());
 
 	public static BlockPos getRandomPositionInArea(RandomSource random, Vec3i area) {
-		int x = random.nextInt(area.getX());
-		int y = random.nextInt(area.getY());
-		int z = random.nextInt(area.getZ());
+		int x = random.nextInt(area.getX() + 1);
+		int y = random.nextInt(area.getY() + 1);
+		int z = random.nextInt(area.getZ() + 1);
 		return new BlockPos(x, y, z);
 	}
 
