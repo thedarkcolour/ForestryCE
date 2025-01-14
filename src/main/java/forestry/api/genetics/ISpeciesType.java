@@ -23,7 +23,6 @@ import com.mojang.serialization.Codec;
 import forestry.api.ForestryCapabilities;
 import forestry.api.genetics.alleles.IKaryotype;
 import forestry.api.genetics.capability.IIndividualHandlerItem;
-import forestry.api.genetics.gatgets.IDatabasePlugin;
 import forestry.api.plugin.IApicultureRegistration;
 import forestry.api.plugin.IForestryPlugin;
 
@@ -151,11 +150,6 @@ public interface ISpeciesType<S extends ISpecies<I>, I extends IIndividual> exte
 	 * Plugin to add information for the handheld genetic analyzer.
 	 */
 	IAlyzerPlugin getAlyzerPlugin();
-
-	/**
-	 * Plugin to add information for the database.
-	 */
-	IDatabasePlugin getDatabasePlugin();
 
 	ItemStack createStack(I individual, ILifeStage type);
 

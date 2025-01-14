@@ -52,7 +52,6 @@ import forestry.api.genetics.IIndividual;
 import forestry.api.genetics.IMutationManager;
 import forestry.api.genetics.alleles.IKaryotype;
 import forestry.api.genetics.alleles.TreeChromosomes;
-import forestry.api.genetics.gatgets.IDatabasePlugin;
 import forestry.api.plugin.IForestryPlugin;
 import forestry.api.plugin.ISpeciesTypeBuilder;
 import forestry.apiimpl.plugin.ArboricultureRegistration;
@@ -68,7 +67,6 @@ import forestry.core.genetics.SpeciesType;
 import forestry.core.genetics.root.BreedingTrackerManager;
 import forestry.core.tiles.TileUtil;
 import forestry.core.utils.BlockUtil;
-import forestry.core.utils.RenderUtil;
 
 public class TreeSpeciesType extends SpeciesType<ITreeSpecies, ITree> implements ITreeSpeciesType, IBreedingTrackerHandler {
 	// todo make both of these reloadable
@@ -233,22 +231,17 @@ public class TreeSpeciesType extends SpeciesType<ITreeSpecies, ITree> implements
 
 	@Override
 	public void registerLeafTickHandler(ILeafTickHandler handler) {
-		leafTickHandlers.add(handler);
+		this.leafTickHandlers.add(handler);
 	}
 
 	@Override
 	public Collection<ILeafTickHandler> getLeafTickHandlers() {
-		return leafTickHandlers;
+		return this.leafTickHandlers;
 	}
 
 	@Override
 	public IAlyzerPlugin getAlyzerPlugin() {
 		return TreeAlyzerPlugin.INSTANCE;
-	}
-
-	@Override
-	public IDatabasePlugin getDatabasePlugin() {
-		return TreePlugin.INSTANCE;
 	}
 
 	@Nullable

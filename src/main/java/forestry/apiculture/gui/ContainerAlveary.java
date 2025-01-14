@@ -16,11 +16,11 @@ import net.minecraft.world.entity.player.Inventory;
 import forestry.api.modules.IForestryPacketClient;
 import forestry.apiculture.features.ApicultureMenuTypes;
 import forestry.apiculture.multiblock.TileAlveary;
-import forestry.core.gui.ContainerAnalyzerProvider;
+import forestry.core.gui.ContainerTile;
 import forestry.core.network.packets.PacketGuiStream;
 import forestry.core.tiles.TileUtil;
 
-public class ContainerAlveary extends ContainerAnalyzerProvider<TileAlveary> {
+public class ContainerAlveary extends ContainerTile<TileAlveary> {
 	public static ContainerAlveary fromNetwork(int windowId, Inventory inv, FriendlyByteBuf data) {
 		TileAlveary tile = TileUtil.getTile(inv.player.level(), data.readBlockPos(), TileAlveary.class);
 		return new ContainerAlveary(windowId, inv, tile);

@@ -5,6 +5,7 @@
 - Make parts of JEI plugin public
 - Fix IBeeModifier.modifyAging and IIndividualLiving.age
 - Fix bee territory being too small on East and West (#162)
+- Remove the Analyzer widgets from Apiary and Alveary
 
 ## Forestry 2.2.3
 - Add Cathemeral bee activity type, which is a random activity period of 12000 ticks that varies based on position. Check times using /forestry bee cathemeral

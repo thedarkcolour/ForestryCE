@@ -31,7 +31,6 @@ import forestry.core.tiles.TilePowered;
 import forestry.core.tiles.TileUtil;
 import forestry.energy.ForestryEnergyStorage;
 
-//TODO: Add needsGuiUpdate() method, so we only send one gui update packet.
 public abstract class ContainerTile<T extends BlockEntity> extends ContainerForestry {
 	protected final T tile;
 	@Nullable
@@ -111,8 +110,8 @@ public abstract class ContainerTile<T extends BlockEntity> extends ContainerFore
 
 	@OnlyIn(Dist.CLIENT)
 	public void onGuiEnergy(int energyStored) {
-		if (tile instanceof IPowerHandler) {
-			ForestryEnergyStorage energyStorage = ((IPowerHandler) tile).getEnergyManager();
+		if (tile instanceof IPowerHandler handler) {
+			ForestryEnergyStorage energyStorage = handler.getEnergyManager();
 			energyStorage.setEnergyStored(energyStored);
 		}
 	}
