@@ -35,15 +35,16 @@ import forestry.energy.EnergyHelper;
 import forestry.energy.ForestryEnergyStorage;
 import forestry.energy.EnergyTransferMode;
 
+// todo rename "ticks" to "steps" in 1.21 to clarify they're different than actual ticks
 public abstract class TilePowered extends TileBase implements IRenderableTile, ISpeedUpgradable, IStreamableGui, IPowerHandler {
 	private static final int WORK_TICK_INTERVAL = 5; // one Forestry work tick happens every WORK_TICK_INTERVAL game ticks
 
 	private final ForestryEnergyStorage energyStorage;
 	private final LazyOptional<ForestryEnergyStorage> energyCap;
 
-	// The amount of ticks into the current work cycle. Between 0 and ticksPerWorkCycle
+	// The amount of "ticks" into the current work cycle. Between 0 and ticksPerWorkCycle
 	private int workCounter;
-	// The number of ticks a work cycle takes to complete
+	// The number of "ticks" a work cycle takes to complete. In reality, a "tick" here is 5 real ticks
 	private int ticksPerWorkCycle;
 	// The amount of energy consumed over the course of an entire work cycle
 	private int energyPerWorkCycle;
@@ -71,6 +72,7 @@ public abstract class TilePowered extends TileBase implements IRenderableTile, I
 		return workCounter;
 	}
 
+	// A "tick" is actually 5 ticks. Yay!
 	public void setTicksPerWorkCycle(int ticksPerWorkCycle) {
 		this.ticksPerWorkCycle = ticksPerWorkCycle;
 		this.workCounter = 0;

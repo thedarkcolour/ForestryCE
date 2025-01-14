@@ -10,12 +10,10 @@
  ******************************************************************************/
 package forestry.factory.inventory;
 
-import java.util.Optional;
 
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
 
-import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 
 import forestry.core.inventory.InventoryAdapterTile;
@@ -38,8 +36,7 @@ public class InventoryCarpenter extends InventoryAdapterTile<TileCarpenter> {
 	@Override
 	public boolean canSlotAccept(int slotIndex, ItemStack stack) {
 		if (slotIndex == SLOT_CAN_INPUT) {
-			Optional<FluidStack> fluid = FluidUtil.getFluidContained(stack);
-			return fluid.map(f -> tile.getTankManager().canFillFluidType(f)).orElse(false);
+			return FluidUtil.getFluidContained(stack).filter(f -> tile.getTankManager().canFillFluidType(f)).isPresent();
 		} else if (slotIndex == SLOT_BOX) {
 			return RecipeUtils.isCarpenterBox(tile.getLevel().getRecipeManager(), stack);
 		} else if (canSlotAccept(SLOT_CAN_INPUT, stack) || canSlotAccept(SLOT_BOX, stack)) {
