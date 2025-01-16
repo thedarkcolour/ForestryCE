@@ -2,7 +2,6 @@ package forestry.core.data;
 
 import forestry.apiculture.features.ApicultureItems;
 import forestry.arboriculture.ForestryWoodType;
-import forestry.arboriculture.features.ArboricultureEntities;
 import forestry.arboriculture.features.ArboricultureItems;
 
 import thedarkcolour.modkit.data.MKItemModelProvider;

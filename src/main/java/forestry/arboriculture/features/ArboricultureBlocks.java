@@ -27,6 +27,7 @@ import forestry.arboriculture.blocks.BlockForestryLog;
 import forestry.arboriculture.blocks.BlockForestryPlank;
 import forestry.arboriculture.blocks.BlockForestrySlab;
 import forestry.arboriculture.blocks.BlockForestryStairs;
+import forestry.arboriculture.blocks.BlockForestryTrapdoor;
 import forestry.arboriculture.blocks.BlockFruitPod;
 import forestry.arboriculture.blocks.BlockSapling;
 import forestry.arboriculture.blocks.ForestryLeafType;
@@ -84,6 +85,7 @@ public class ArboricultureBlocks {
 	public static final FeatureBlockGroup<BlockForestryStairs, VanillaWoodType> STAIRS_VANILLA_FIREPROOF = woodGroup((type) -> new BlockForestryStairs(PLANKS_VANILLA_FIREPROOF.get(type).block()), WoodBlockKind.STAIRS, true, VanillaWoodType.VALUES);
 
 	public static final FeatureBlockGroup<BlockForestryDoor, ForestryWoodType> DOORS = woodGroup(BlockForestryDoor::new, ItemBlockWoodDoor::new, WoodBlockKind.DOOR, false, ForestryWoodType.VALUES);
+	public static final FeatureBlockGroup<BlockForestryTrapdoor, ForestryWoodType> TRAPDOORS = woodGroup(BlockForestryTrapdoor::new, WoodBlockKind.TRAPDOOR, false, ForestryWoodType.VALUES);
 
 	/* GENETICS */
 	public static final FeatureBlock<BlockSapling, BlockItem> SAPLING_GE = REGISTRY.block(BlockSapling::new, "sapling_ge");

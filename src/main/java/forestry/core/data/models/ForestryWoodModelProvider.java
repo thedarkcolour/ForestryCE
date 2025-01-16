@@ -17,6 +17,7 @@ import forestry.arboriculture.blocks.BlockForestryFenceGate;
 import forestry.arboriculture.blocks.BlockForestryLog;
 import forestry.arboriculture.blocks.BlockForestrySlab;
 import forestry.arboriculture.blocks.BlockForestryStairs;
+import forestry.arboriculture.blocks.BlockForestryTrapdoor;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.modules.features.FeatureBlockGroup;
 
@@ -167,6 +168,11 @@ public class ForestryWoodModelProvider extends ForestryBlockStateProvider {
 			BlockForestryDoor door = ArboricultureBlocks.DOORS.get(woodType).block();
 			doorBlock(door, withSuffix(blockTexture(door), "_bottom"), withSuffix(blockTexture(door), "_top"));
 			generic2d(door);
+
+			// Trapdoor
+			BlockForestryTrapdoor trapdoor = ArboricultureBlocks.TRAPDOORS.get(woodType).block();
+			trapdoorBlockWithRenderType(trapdoor, blockTexture(trapdoor), true, "cutout");
+			itemModels().trapdoorBottom(path(trapdoor), blockTexture(trapdoor));
 		}
 	}
 

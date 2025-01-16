@@ -446,7 +446,7 @@ public class ForestryCreativeTabs {
 		items.accept(access.getStack(type, WoodBlockKind.FENCE_GATE, fireproof));
 		items.accept(access.getStack(type, WoodBlockKind.DOOR, fireproof));
 		// one day...
-		//items.accept(access.getStack(type, WoodBlockKind.TRAPDOOR, fireproof));
+		items.accept(access.getStack(type, WoodBlockKind.TRAPDOOR, fireproof));
 		//items.accept(access.getStack(type, WoodBlockKind.PRESSURE_PLATE, fireproof));
 		//items.accept(access.getStack(type, WoodBlockKind.BUTTON, fireproof));
 	}

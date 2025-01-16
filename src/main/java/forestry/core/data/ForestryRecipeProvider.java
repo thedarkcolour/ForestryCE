@@ -412,6 +412,7 @@ public class ForestryRecipeProvider {
 			Block strippedWood = woodAccess.getBlock(woodType, WoodBlockKind.STRIPPED_WOOD, false).getBlock();
 			Block fireproofStrippedWood = woodAccess.getBlock(woodType, WoodBlockKind.STRIPPED_WOOD, true).getBlock();
 			Block door = woodAccess.getBlock(woodType, WoodBlockKind.DOOR, false).getBlock();
+			Block trapdoor = woodAccess.getBlock(woodType, WoodBlockKind.TRAPDOOR, false).getBlock();
 			Block fence = woodAccess.getBlock(woodType, WoodBlockKind.FENCE, false).getBlock();
 			Block fireproofFence = woodAccess.getBlock(woodType, WoodBlockKind.FENCE, true).getBlock();
 			Block fenceGate = woodAccess.getBlock(woodType, WoodBlockKind.FENCE_GATE, false).getBlock();
@@ -433,6 +434,8 @@ public class ForestryRecipeProvider {
 					recipe.pattern("P P");
 					recipe.pattern("PPP");
 				});
+
+				recipes.woodenTrapdoor(trapdoor, Ingredient.of(planks, fireproofPlanks));
 			}
 
 			// Fireproof (Vanilla & Forestry)

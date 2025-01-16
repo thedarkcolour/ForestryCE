@@ -37,7 +37,7 @@ public enum WoodAccess implements IWoodAccess {
 
 	WoodAccess() {
 		for (WoodBlockKind woodBlockKind : WoodBlockKind.values()) {
-			woodMaps.put(woodBlockKind, new WoodMap(woodBlockKind));
+			this.woodMaps.put(woodBlockKind, new WoodMap(woodBlockKind));
 		}
 		registerVanilla();
 	}
@@ -128,6 +128,14 @@ public enum WoodAccess implements IWoodAccess {
 		register(VanillaWoodType.ACACIA, WoodBlockKind.DOOR, false, Blocks.ACACIA_DOOR.defaultBlockState(), () -> Items.ACACIA_DOOR);
 		register(VanillaWoodType.DARK_OAK, WoodBlockKind.DOOR, false, Blocks.DARK_OAK_DOOR.defaultBlockState(), () -> Items.DARK_OAK_DOOR);
 		register(VanillaWoodType.CHERRY, WoodBlockKind.DOOR, false, Blocks.CHERRY_DOOR.defaultBlockState(), () -> Items.CHERRY_DOOR);
+
+		register(VanillaWoodType.OAK, WoodBlockKind.TRAPDOOR, false, Blocks.OAK_TRAPDOOR.defaultBlockState(), () -> Items.OAK_TRAPDOOR);
+		register(VanillaWoodType.SPRUCE, WoodBlockKind.TRAPDOOR, false, Blocks.SPRUCE_TRAPDOOR.defaultBlockState(), () -> Items.SPRUCE_TRAPDOOR);
+		register(VanillaWoodType.BIRCH, WoodBlockKind.TRAPDOOR, false, Blocks.BIRCH_TRAPDOOR.defaultBlockState(), () -> Items.BIRCH_TRAPDOOR);
+		register(VanillaWoodType.JUNGLE, WoodBlockKind.TRAPDOOR, false, Blocks.JUNGLE_TRAPDOOR.defaultBlockState(), () -> Items.JUNGLE_TRAPDOOR);
+		register(VanillaWoodType.ACACIA, WoodBlockKind.TRAPDOOR, false, Blocks.ACACIA_TRAPDOOR.defaultBlockState(), () -> Items.ACACIA_TRAPDOOR);
+		register(VanillaWoodType.DARK_OAK, WoodBlockKind.TRAPDOOR, false, Blocks.DARK_OAK_TRAPDOOR.defaultBlockState(), () -> Items.DARK_OAK_TRAPDOOR);
+		register(VanillaWoodType.CHERRY, WoodBlockKind.TRAPDOOR, false, Blocks.CHERRY_TRAPDOOR.defaultBlockState(), () -> Items.CHERRY_TRAPDOOR);
 	}
 
 	/**
@@ -143,7 +151,7 @@ public enum WoodAccess implements IWoodAccess {
 
 	@Override
 	public void register(IWoodType woodType, WoodBlockKind woodBlockKind, boolean fireproof, BlockState blockState, Supplier<Item> itemStack) {
-		if (woodBlockKind == WoodBlockKind.DOOR) {
+		if (isNonBurning(woodBlockKind)) {
 			fireproof = true;
 		}
 		WoodMap woodMap = woodMaps.get(woodBlockKind);
@@ -156,7 +164,7 @@ public enum WoodAccess implements IWoodAccess {
 
 	@Override
 	public ItemStack getStack(IWoodType woodType, WoodBlockKind woodBlockKind, boolean fireproof) {
-		if (woodBlockKind == WoodBlockKind.DOOR) {
+		if (isNonBurning(woodBlockKind)) {
 			fireproof = true;
 		}
 		WoodMap woodMap = woodMaps.get(woodBlockKind);
@@ -170,7 +178,7 @@ public enum WoodAccess implements IWoodAccess {
 
 	@Override
 	public BlockState getBlock(IWoodType woodType, WoodBlockKind woodBlockKind, boolean fireproof) {
-		if (woodBlockKind == WoodBlockKind.DOOR) {
+		if (isNonBurning(woodBlockKind)) {
 			fireproof = true;
 		}
 		WoodMap woodMap = woodMaps.get(woodBlockKind);
@@ -180,6 +188,10 @@ public enum WoodAccess implements IWoodAccess {
 			throw new IllegalStateException(errMessage);
 		}
 		return blockState;
+	}
+
+	private static boolean isNonBurning(WoodBlockKind kind) {
+		return kind == WoodBlockKind.DOOR || kind == WoodBlockKind.TRAPDOOR;
 	}
 
 	@Override
