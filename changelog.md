@@ -1,3 +1,7 @@
+## Forestry 2.3.1
+- Massive texture overhaul and two new paintings, thanks to Spearkiller (#171)
+- Added Pressure Plates, Buttons, Trapdoors, Signs, Hanging Signs, Boats, and Chest Boats for all wood types
+
 ## Forestry 2.3.0
 - Fix saplings with default genomes not generating leaves properly (#144)
 - Add API for IBeekeepingLogic to change throttle ticks
