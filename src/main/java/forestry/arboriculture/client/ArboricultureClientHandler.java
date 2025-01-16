@@ -10,17 +10,22 @@
  ******************************************************************************/
 package forestry.arboriculture.client;
 
+import net.minecraft.client.model.BoatModel;
+import net.minecraft.client.model.ChestBoatModel;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 
+import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.ModelEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 import forestry.api.client.IClientModuleHandler;
+import forestry.arboriculture.ForestryWoodType;
 import forestry.arboriculture.blocks.BlockDecorativeLeaves;
 import forestry.arboriculture.features.ArboricultureBlocks;
+import forestry.arboriculture.features.ArboricultureEntities;
 import forestry.arboriculture.models.ModelDecorativeLeaves;
 import forestry.arboriculture.models.ModelDefaultLeaves;
 import forestry.arboriculture.models.ModelDefaultLeavesFruit;
@@ -33,6 +38,8 @@ public class ArboricultureClientHandler implements IClientModuleHandler {
 	public void registerEvents(IEventBus modBus) {
 		modBus.addListener(ArboricultureClientHandler::registerModelLoaders);
 		modBus.addListener(ArboricultureClientHandler::onClientSetup);
+		modBus.addListener(ArboricultureClientHandler::registerEntityRenderers);
+		modBus.addListener(ArboricultureClientHandler::registerModelLayers);
 	}
 
 	@SuppressWarnings("deprecation")
@@ -58,5 +65,17 @@ public class ArboricultureClientHandler implements IClientModuleHandler {
 
 	private static void registerModelLoaders(ModelEvent.RegisterGeometryLoaders event) {
 		event.register("sapling_ge", new SaplingModelLoader());
+	}
+
+	private static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
+		event.registerEntityRenderer(ArboricultureEntities.BOAT.entityType(), ctx -> new ForestryBoatRenderer(ctx, false));
+		event.registerEntityRenderer(ArboricultureEntities.CHEST_BOAT.entityType(), ctx -> new ForestryBoatRenderer(ctx, true));
+	}
+
+	private static void registerModelLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
+		for (ForestryWoodType type : ForestryWoodType.VALUES) {
+			event.registerLayerDefinition(ForestryBoatRenderer.createBoatModelLocation(type, false), BoatModel::createBodyModel);
+			event.registerLayerDefinition(ForestryBoatRenderer.createBoatModelLocation(type, true), ChestBoatModel::createBodyModel);
+		}
 	}
 }

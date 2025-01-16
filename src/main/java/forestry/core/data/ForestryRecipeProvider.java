@@ -420,13 +420,19 @@ public class ForestryRecipeProvider {
 			Block fireproofSlab = woodAccess.getBlock(woodType, WoodBlockKind.SLAB, true).getBlock();
 			Block stairs = woodAccess.getBlock(woodType, WoodBlockKind.STAIRS, false).getBlock();
 			Block fireproofStairs = woodAccess.getBlock(woodType, WoodBlockKind.STAIRS, true).getBlock();
-			boolean isVanilla = woodType instanceof VanillaWoodType;
 
-			recipes.woodenDoor(door, isVanilla ? Ingredient.of(fireproofPlanks) : Ingredient.of(planks, fireproofPlanks));
+			recipes.woodenDoor(door, woodType instanceof VanillaWoodType ? Ingredient.of(fireproofPlanks) : Ingredient.of(planks, fireproofPlanks));
 
 			// Regular (Forestry)
-			if (!isVanilla) {
+			if (woodType instanceof ForestryWoodType type) {
 				makeCommonWoodenSet(recipes, planks, log, wood, strippedLog, strippedWood, fence, fenceGate, slab, stairs);
+
+				recipes.shapelessCrafting(RecipeCategory.MISC, ArboricultureItems.CHEST_BOAT.item(type), 1, ArboricultureItems.BOAT.item(type), Tags.Items.CHESTS_WOODEN);
+				recipes.shapedCrafting(RecipeCategory.MISC, ArboricultureItems.BOAT.item(type), recipe -> {
+					recipe.define('P', Ingredient.of(planks, fireproofPlanks));
+					recipe.pattern("P P");
+					recipe.pattern("PPP");
+				});
 			}
 
 			// Fireproof (Vanilla & Forestry)

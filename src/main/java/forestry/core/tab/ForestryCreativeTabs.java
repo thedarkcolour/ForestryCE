@@ -35,6 +35,7 @@ import forestry.apiculture.blocks.NaturalistChestBlockType;
 import forestry.apiculture.features.ApicultureBlocks;
 import forestry.apiculture.features.ApicultureItems;
 import forestry.apiculture.items.ItemCreativeHiveFrame;
+import forestry.arboriculture.ForestryWoodType;
 import forestry.arboriculture.WoodAccess;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.features.ArboricultureItems;
@@ -269,6 +270,11 @@ public class ForestryCreativeTabs {
 		}
 		for (IWoodType type : access.getRegisteredWoodTypes()) {
 			addAllWoodBlocks(items, access, type, true);
+		}
+
+		for (ForestryWoodType type : ForestryWoodType.VALUES) {
+			items.accept(ArboricultureItems.BOAT.item(type));
+			items.accept(ArboricultureItems.CHEST_BOAT.item(type));
 		}
 
 		// Specimens

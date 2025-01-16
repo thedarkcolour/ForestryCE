@@ -15,6 +15,7 @@ import java.util.function.Consumer;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.DispenserBlock;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 
@@ -22,6 +23,8 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
+
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 
 import forestry.api.arboriculture.TreeManager;
 import forestry.api.arboriculture.genetics.ITree;
@@ -35,6 +38,8 @@ import forestry.api.modules.ForestryModuleIds;
 import forestry.api.modules.IPacketRegistry;
 import forestry.arboriculture.client.ArboricultureClientHandler;
 import forestry.arboriculture.commands.CommandTree;
+import forestry.arboriculture.features.ArboricultureItems;
+import forestry.arboriculture.items.ForestryBoatDispenserBehavior;
 import forestry.arboriculture.network.PacketRipeningUpdate;
 import forestry.arboriculture.villagers.ArboricultureVillagers;
 import forestry.core.genetics.capability.IndividualHandlerItem;
@@ -54,6 +59,7 @@ public class ModuleArboriculture extends BlankForestryModule {
 		MinecraftForge.EVENT_BUS.addListener(ArboricultureVillagers::villagerTrades);
 
 		modBus.addListener(ModuleArboriculture::registerCapabilities);
+		modBus.addListener(ModuleArboriculture::commonSetup);
 		MinecraftForge.EVENT_BUS.addGenericListener(ItemStack.class, ModuleArboriculture::attachCapabilities);
 	}
 
@@ -83,6 +89,15 @@ public class ModuleArboriculture extends BlankForestryModule {
 
 	private static void registerCapabilities(RegisterCapabilitiesEvent event) {
 		event.register(IArmorNaturalist.class);
+	}
+
+	private static void commonSetup(FMLCommonSetupEvent event) {
+		event.enqueueWork(() -> {
+			for (ForestryWoodType type : ForestryWoodType.VALUES) {
+				DispenserBlock.registerBehavior(ArboricultureItems.BOAT.item(type), new ForestryBoatDispenserBehavior(type, false));
+				DispenserBlock.registerBehavior(ArboricultureItems.CHEST_BOAT.item(type), new ForestryBoatDispenserBehavior(type, true));
+			}
+		});
 	}
 
 	@Override
