@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "P": [
+      {
+        "item": "forestry:giganteum_planks"
+      },
+      {
+        "item": "forestry:giganteum_fireproof_planks"
+      }
+    ]
+  },
+  "pattern": [
+    "P P",
+    "PPP"
+  ],
+  "result": {
+    "item": "forestry:giganteum_boat"
+  },
+  "show_notification": true
+}

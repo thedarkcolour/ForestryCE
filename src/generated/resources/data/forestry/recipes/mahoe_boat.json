@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "P": [
+      {
+        "item": "forestry:mahoe_planks"
+      },
+      {
+        "item": "forestry:mahoe_fireproof_planks"
+      }
+    ]
+  },
+  "pattern": [
+    "P P",
+    "PPP"
+  ],
+  "result": {
+    "item": "forestry:mahoe_boat"
+  },
+  "show_notification": true
+}

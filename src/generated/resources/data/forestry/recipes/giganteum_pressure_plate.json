@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "P": [
+      {
+        "item": "forestry:giganteum_planks"
+      },
+      {
+        "item": "forestry:giganteum_fireproof_planks"
+      }
+    ]
+  },
+  "pattern": [
+    "PP"
+  ],
+  "result": {
+    "item": "forestry:giganteum_pressure_plate"
+  },
+  "show_notification": true
+}

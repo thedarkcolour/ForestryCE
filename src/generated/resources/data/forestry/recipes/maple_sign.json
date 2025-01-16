@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "P": [
+      {
+        "item": "forestry:maple_planks"
+      },
+      {
+        "item": "forestry:maple_fireproof_planks"
+      }
+    ],
+    "S": {
+      "tag": "forge:rods/wooden"
+    }
+  },
+  "pattern": [
+    "PPP",
+    "PPP",
+    " S "
+  ],
+  "result": {
+    "item": "forestry:maple_sign"
+  },
+  "show_notification": true
+}

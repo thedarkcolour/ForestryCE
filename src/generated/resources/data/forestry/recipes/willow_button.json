@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "ingredients": [
+    [
+      {
+        "item": "forestry:willow_planks"
+      },
+      {
+        "item": "forestry:willow_fireproof_planks"
+      }
+    ]
+  ],
+  "result": {
+    "item": "forestry:willow_button"
+  }
+}

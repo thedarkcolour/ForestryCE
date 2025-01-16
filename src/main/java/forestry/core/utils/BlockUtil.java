@@ -40,6 +40,7 @@ import forestry.core.tiles.TileUtil;
 public abstract class BlockUtil {
 	public static final BlockBehaviour.StatePredicate ALWAYS = (state, level, pos) -> true;
 	public static final BlockBehaviour.StatePredicate NEVER = (state, level, pos) -> false;
+	public static final BlockBehaviour.StateArgumentPredicate<EntityType<?>> NEVER_SPAWN = (a, b, c, entityType) -> false;
 	public static final BlockBehaviour.StateArgumentPredicate<EntityType<?>> IS_PARROT_OR_OCELOT = (a, b, c, entityType) -> entityType == EntityType.OCELOT || entityType == EntityType.PARROT;
 
 	public static List<ItemStack> getBlockDrops(LevelAccessor level, BlockPos pos) {

@@ -1,5 +1,9 @@
 package forestry.arboriculture.features;
 
+import java.util.stream.Stream;
+
+import net.minecraft.world.level.block.entity.SignBlockEntity;
+
 import forestry.api.modules.ForestryModuleIds;
 import forestry.arboriculture.tiles.TileFruitPod;
 import forestry.arboriculture.tiles.TileLeaves;
@@ -16,4 +20,7 @@ public class ArboricultureTiles {
 	public static final FeatureTileType<TileSapling> SAPLING = REGISTRY.tile(TileSapling::new, "sapling", ArboricultureBlocks.SAPLING_GE::collect);
 	public static final FeatureTileType<TileLeaves> LEAVES = REGISTRY.tile(TileLeaves::new, "leaves", ArboricultureBlocks.LEAVES::collect);
 	public static final FeatureTileType<TileFruitPod> PODS = REGISTRY.tile(TileFruitPod::new, "pods", ArboricultureBlocks.PODS::getBlocks);
+
+	public static final FeatureTileType<SignBlockEntity> SIGN = REGISTRY.tile((pos, state) -> new SignBlockEntity(ArboricultureTiles.SIGN.tileType(), pos, state), "sign", () -> Stream.concat(ArboricultureBlocks.SIGN.getList().stream(), ArboricultureBlocks.WALL_SIGN.getList().stream()).toList());
+	public static final FeatureTileType<SignBlockEntity> HANGING_SIGN = REGISTRY.tile((pos, state) -> new SignBlockEntity(ArboricultureTiles.SIGN.tileType(), pos, state), "hanging_sign", () -> Stream.concat(ArboricultureBlocks.HANGING_SIGN.getList().stream(), ArboricultureBlocks.WALL_HANGING_SIGN.getList().stream()).toList());
 }

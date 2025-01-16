@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "ingredients": [
+    [
+      {
+        "item": "forestry:giganteum_planks"
+      },
+      {
+        "item": "forestry:giganteum_fireproof_planks"
+      }
+    ]
+  ],
+  "result": {
+    "item": "forestry:giganteum_button"
+  }
+}

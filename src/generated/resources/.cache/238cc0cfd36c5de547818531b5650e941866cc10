@@ -1,4 +1,4 @@
-// 1.20.1	2024-12-24T13:33:39.2775724	Tags for minecraft:item mod id forestry
+// 1.20.1	2025-01-15T19:56:18.4778744	Tags for minecraft:item mod id forestry
 37a390e7a402ae2ce1addd2b8bbefd6229e8c7c6 data/forestry/tags/items/acacia_desert_logs.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forestry/tags/items/backpack/allow/adventurer.json
 426fdc880d77e5feaa70125d93a57b7ce21dbc2b data/forestry/tags/items/backpack/allow/builder.json
@@ -83,6 +83,8 @@ a50813a6215611330b9e7a32904eb8f174d3741a data/forge/tags/items/storage_blocks/br
 c74d64c654da6d15a76cd4167268fc9965ef23ca data/forge/tags/items/storage_blocks/charcoal.json
 8b3a8ecaabc2db91e27ad34b051647d52a0ad47e data/forge/tags/items/storage_blocks/raw_tin.json
 ed974f25f4057a6e2a627a4ee061decd56b7d274 data/forge/tags/items/storage_blocks/tin.json
+e91391e92a69b4d4671725791c4d18eab3a67dc5 data/minecraft/tags/items/boats.json
+fb0bd2460dbe1ab5a379bc617361df42116a0b6e data/minecraft/tags/items/chest_boats.json
 fd7f5b8d14cefaa9260c3a25ed12037ccad07bac data/minecraft/tags/items/dirt.json
 535a46aff3a61f198d4837345f5a5f16d84d4e1d data/minecraft/tags/items/doors.json
 ce6210a1da642c35100b944ac690d4e987fbd2fe data/minecraft/tags/items/fences.json

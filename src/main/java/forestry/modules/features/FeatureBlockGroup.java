@@ -3,6 +3,7 @@ package forestry.modules.features;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
@@ -21,7 +22,12 @@ public class FeatureBlockGroup<B extends Block, S extends IBlockSubtype> extends
 		return builder.registry.block(() -> builder.constructor.apply(type), builder.itemConstructor != null ? (block) -> builder.itemConstructor.apply(block, type) : null, builder.getIdentifier(type));
 	}
 
+	// todo remove in 1.21
 	public Collection<B> getBlocks() {
+		return getList();
+	}
+
+	public List<B> getList() {
 		ArrayList<B> blocks = new ArrayList<>(featureByType.size());
 		for (FeatureBlock<B, BlockItem> value : featureByType.values()) {
 			blocks.add(value.block());

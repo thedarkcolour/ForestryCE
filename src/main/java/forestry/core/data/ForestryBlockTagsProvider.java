@@ -8,6 +8,7 @@ import java.util.Set;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 
@@ -136,6 +137,14 @@ public final class ForestryBlockTagsProvider {
 		tags.tag(Tags.Blocks.FENCE_GATES_WOODEN).add(ArboricultureBlocks.FENCE_GATES_VANILLA_FIREPROOF.blockArray());
 		tags.tag(BlockTags.SLABS).add(ArboricultureBlocks.SLABS_VANILLA_FIREPROOF.blockArray());
 		tags.tag(BlockTags.WOODEN_SLABS).add(ArboricultureBlocks.SLABS_VANILLA_FIREPROOF.blockArray());
+
+		tags.tag(BlockTags.WOODEN_BUTTONS).add(ArboricultureBlocks.BUTTON.blockArray());
+		tags.tag(BlockTags.WOODEN_PRESSURE_PLATES).add(ArboricultureBlocks.BUTTON.blockArray());
+		tags.tag(BlockTags.WOODEN_TRAPDOORS).add(ArboricultureBlocks.TRAPDOORS.blockArray());
+		tags.tag(BlockTags.STANDING_SIGNS).add(ArboricultureBlocks.SIGN.blockArray());
+		tags.tag(BlockTags.WALL_SIGNS).add(ArboricultureBlocks.WALL_SIGN.blockArray());
+		tags.tag(BlockTags.CEILING_HANGING_SIGNS).add(ArboricultureBlocks.HANGING_SIGN.blockArray());
+		tags.tag(BlockTags.WALL_HANGING_SIGNS).add(ArboricultureBlocks.WALL_HANGING_SIGN.blockArray());
 
 		tags.tag(BlockTags.SAPLINGS).add(ArboricultureBlocks.SAPLING_GE.block());
 		tags.tag(BlockTags.LEAVES).add(ArboricultureBlocks.LEAVES.block()).add(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.blockArray()).add(ArboricultureBlocks.LEAVES_DEFAULT.blockArray()).add(ArboricultureBlocks.LEAVES_DECORATIVE.blockArray());

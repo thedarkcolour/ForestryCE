@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "P": [
+      {
+        "item": "forestry:lime_planks"
+      },
+      {
+        "item": "forestry:lime_fireproof_planks"
+      }
+    ],
+    "S": {
+      "tag": "forge:rods/wooden"
+    }
+  },
+  "pattern": [
+    "PPP",
+    "PPP",
+    " S "
+  ],
+  "result": {
+    "item": "forestry:lime_sign"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "ingredients": [
+    [
+      {
+        "item": "forestry:balsa_planks"
+      },
+      {
+        "item": "forestry:balsa_fireproof_planks"
+      }
+    ]
+  ],
+  "result": {
+    "item": "forestry:balsa_button"
+  }
+}

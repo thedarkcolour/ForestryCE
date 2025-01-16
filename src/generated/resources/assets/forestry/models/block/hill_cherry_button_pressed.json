@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/button_pressed",
+  "textures": {
+    "texture": "forestry:block/hill_cherry_planks"
+  }
+}

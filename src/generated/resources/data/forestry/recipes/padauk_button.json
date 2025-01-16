@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "ingredients": [
+    [
+      {
+        "item": "forestry:padauk_planks"
+      },
+      {
+        "item": "forestry:padauk_fireproof_planks"
+      }
+    ]
+  ],
+  "result": {
+    "item": "forestry:padauk_button"
+  }
+}

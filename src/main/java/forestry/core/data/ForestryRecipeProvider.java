@@ -50,6 +50,7 @@ import forestry.apiculture.items.EnumPropolis;
 import forestry.arboriculture.ForestryWoodType;
 import forestry.arboriculture.VanillaWoodType;
 import forestry.arboriculture.WoodAccess;
+import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.features.ArboricultureItems;
 import forestry.arboriculture.features.CharcoalBlocks;
 import forestry.core.blocks.BlockTypeCoreTesr;
@@ -412,6 +413,7 @@ public class ForestryRecipeProvider {
 			Block strippedWood = woodAccess.getBlock(woodType, WoodBlockKind.STRIPPED_WOOD, false).getBlock();
 			Block fireproofStrippedWood = woodAccess.getBlock(woodType, WoodBlockKind.STRIPPED_WOOD, true).getBlock();
 			Block door = woodAccess.getBlock(woodType, WoodBlockKind.DOOR, false).getBlock();
+			Block trapdoor = woodAccess.getBlock(woodType, WoodBlockKind.TRAPDOOR, false).getBlock();
 			Block fence = woodAccess.getBlock(woodType, WoodBlockKind.FENCE, false).getBlock();
 			Block fireproofFence = woodAccess.getBlock(woodType, WoodBlockKind.FENCE, true).getBlock();
 			Block fenceGate = woodAccess.getBlock(woodType, WoodBlockKind.FENCE_GATE, false).getBlock();
@@ -420,13 +422,43 @@ public class ForestryRecipeProvider {
 			Block fireproofSlab = woodAccess.getBlock(woodType, WoodBlockKind.SLAB, true).getBlock();
 			Block stairs = woodAccess.getBlock(woodType, WoodBlockKind.STAIRS, false).getBlock();
 			Block fireproofStairs = woodAccess.getBlock(woodType, WoodBlockKind.STAIRS, true).getBlock();
-			boolean isVanilla = woodType instanceof VanillaWoodType;
 
-			recipes.woodenDoor(door, isVanilla ? Ingredient.of(fireproofPlanks) : Ingredient.of(planks, fireproofPlanks));
+			recipes.woodenDoor(door, woodType instanceof VanillaWoodType ? Ingredient.of(fireproofPlanks) : Ingredient.of(planks, fireproofPlanks));
 
 			// Regular (Forestry)
-			if (!isVanilla) {
+			if (woodType instanceof ForestryWoodType type) {
 				makeCommonWoodenSet(recipes, planks, log, wood, strippedLog, strippedWood, fence, fenceGate, slab, stairs);
+
+				recipes.shapelessCrafting(RecipeCategory.MISC, ArboricultureItems.CHEST_BOAT.item(type), 1, ArboricultureItems.BOAT.item(type), Tags.Items.CHESTS_WOODEN);
+				recipes.shapedCrafting(RecipeCategory.MISC, ArboricultureItems.BOAT.item(type), recipe -> {
+					recipe.define('P', Ingredient.of(planks, fireproofPlanks));
+					recipe.pattern("P P");
+					recipe.pattern("PPP");
+				});
+
+				recipes.woodenTrapdoor(trapdoor, Ingredient.of(planks, fireproofPlanks));
+
+				recipes.shapedCrafting(RecipeCategory.MISC, ArboricultureBlocks.SIGN.get(type), recipe -> {
+					recipe.define('P', Ingredient.of(planks, fireproofPlanks));
+					recipe.define('S', Tags.Items.RODS_WOODEN);
+					recipe.pattern("PPP");
+					recipe.pattern("PPP");
+					recipe.pattern(" S ");
+				});
+
+				recipes.shapedCrafting(RecipeCategory.MISC, ArboricultureBlocks.HANGING_SIGN.get(type), recipe -> {
+					recipe.define('X', Items.CHAIN);
+					recipe.define('#', Ingredient.of(strippedLog, fireproofStrippedLog));
+					recipe.pattern("X X");
+					recipe.pattern("###");
+					recipe.pattern("###");
+				});
+
+				recipes.shapelessCrafting(RecipeCategory.REDSTONE, ArboricultureBlocks.BUTTON.get(type), 1, Ingredient.of(planks, fireproofPlanks));
+				recipes.shapedCrafting(RecipeCategory.REDSTONE, ArboricultureBlocks.PRESSURE_PLATE.get(type), recipe -> {
+					recipe.define('P', Ingredient.of(planks, fireproofPlanks));
+					recipe.pattern("PP");
+				});
 			}
 
 			// Fireproof (Vanilla & Forestry)

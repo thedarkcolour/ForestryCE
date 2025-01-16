@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": [
+      {
+        "item": "forestry:greenheart_stripped_log"
+      },
+      {
+        "item": "forestry:greenheart_fireproof_stripped_log"
+      }
+    ],
+    "X": {
+      "item": "minecraft:chain"
+    }
+  },
+  "pattern": [
+    "X X",
+    "###",
+    "###"
+  ],
+  "result": {
+    "item": "forestry:greenheart_hanging_sign"
+  },
+  "show_notification": true
+}

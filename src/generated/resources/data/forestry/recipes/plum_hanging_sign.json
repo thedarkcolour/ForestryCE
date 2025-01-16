@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": [
+      {
+        "item": "forestry:plum_stripped_log"
+      },
+      {
+        "item": "forestry:plum_fireproof_stripped_log"
+      }
+    ],
+    "X": {
+      "item": "minecraft:chain"
+    }
+  },
+  "pattern": [
+    "X X",
+    "###",
+    "###"
+  ],
+  "result": {
+    "item": "forestry:plum_hanging_sign"
+  },
+  "show_notification": true
+}
