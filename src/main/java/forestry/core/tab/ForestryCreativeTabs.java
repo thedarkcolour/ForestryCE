@@ -275,6 +275,8 @@ public class ForestryCreativeTabs {
 		for (ForestryWoodType type : ForestryWoodType.VALUES) {
 			items.accept(ArboricultureItems.BOAT.item(type));
 			items.accept(ArboricultureItems.CHEST_BOAT.item(type));
+			items.accept(ArboricultureBlocks.SIGN.get(type));
+			items.accept(ArboricultureBlocks.HANGING_SIGN.get(type));
 		}
 
 		// Specimens

@@ -14,10 +14,14 @@ import forestry.arboriculture.VanillaWoodType;
 import forestry.arboriculture.blocks.BlockForestryDoor;
 import forestry.arboriculture.blocks.BlockForestryFence;
 import forestry.arboriculture.blocks.BlockForestryFenceGate;
+import forestry.arboriculture.blocks.BlockForestryHangingSign;
 import forestry.arboriculture.blocks.BlockForestryLog;
 import forestry.arboriculture.blocks.BlockForestrySlab;
 import forestry.arboriculture.blocks.BlockForestryStairs;
+import forestry.arboriculture.blocks.BlockForestryStandingSign;
 import forestry.arboriculture.blocks.BlockForestryTrapdoor;
+import forestry.arboriculture.blocks.BlockForestryWallHangingSign;
+import forestry.arboriculture.blocks.BlockForestryWallSign;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.modules.features.FeatureBlockGroup;
 
@@ -173,6 +177,22 @@ public class ForestryWoodModelProvider extends ForestryBlockStateProvider {
 			BlockForestryTrapdoor trapdoor = ArboricultureBlocks.TRAPDOORS.get(woodType).block();
 			trapdoorBlockWithRenderType(trapdoor, blockTexture(trapdoor), true, "cutout");
 			itemModels().trapdoorBottom(path(trapdoor), blockTexture(trapdoor));
+
+			// Sign
+			BlockForestryStandingSign sign = ArboricultureBlocks.SIGN.get(woodType).block();
+			BlockForestryWallSign wallSign = ArboricultureBlocks.WALL_SIGN.get(woodType).block();
+			ModelFile signModel = particleOnly(models(), path(sign), blockTexture(planks));
+			singleModelBlock(this, sign, signModel);
+			singleModelBlock(this, wallSign, signModel);
+			generic2d(sign);
+
+			// Hanging Sign
+			BlockForestryHangingSign hangingSign = ArboricultureBlocks.HANGING_SIGN.get(woodType).block();
+			BlockForestryWallHangingSign hangingWallSign = ArboricultureBlocks.WALL_HANGING_SIGN.get(woodType).block();
+			ModelFile hangingSignModel = particleOnly(models(), path(hangingSign), blockTexture(planks));
+			singleModelBlock(this, hangingSign, hangingSignModel);
+			singleModelBlock(this, hangingWallSign, hangingSignModel);
+			generic2d(hangingSign);
 		}
 	}
 

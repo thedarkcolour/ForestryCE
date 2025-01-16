@@ -16,6 +16,7 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.DispenserBlock;
+import net.minecraft.world.level.block.state.properties.WoodType;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 
@@ -96,6 +97,7 @@ public class ModuleArboriculture extends BlankForestryModule {
 			for (ForestryWoodType type : ForestryWoodType.VALUES) {
 				DispenserBlock.registerBehavior(ArboricultureItems.BOAT.item(type), new ForestryBoatDispenserBehavior(type, false));
 				DispenserBlock.registerBehavior(ArboricultureItems.CHEST_BOAT.item(type), new ForestryBoatDispenserBehavior(type, true));
+				WoodType.register(type.getWoodType());
 			}
 		});
 	}

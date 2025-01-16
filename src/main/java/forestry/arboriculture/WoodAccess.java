@@ -136,6 +136,38 @@ public enum WoodAccess implements IWoodAccess {
 		register(VanillaWoodType.ACACIA, WoodBlockKind.TRAPDOOR, false, Blocks.ACACIA_TRAPDOOR.defaultBlockState(), () -> Items.ACACIA_TRAPDOOR);
 		register(VanillaWoodType.DARK_OAK, WoodBlockKind.TRAPDOOR, false, Blocks.DARK_OAK_TRAPDOOR.defaultBlockState(), () -> Items.DARK_OAK_TRAPDOOR);
 		register(VanillaWoodType.CHERRY, WoodBlockKind.TRAPDOOR, false, Blocks.CHERRY_TRAPDOOR.defaultBlockState(), () -> Items.CHERRY_TRAPDOOR);
+
+		register(VanillaWoodType.OAK, WoodBlockKind.SIGN, false, Blocks.OAK_SIGN.defaultBlockState(), () -> Items.OAK_SIGN);
+		register(VanillaWoodType.SPRUCE, WoodBlockKind.SIGN, false, Blocks.SPRUCE_SIGN.defaultBlockState(), () -> Items.SPRUCE_SIGN);
+		register(VanillaWoodType.BIRCH, WoodBlockKind.SIGN, false, Blocks.BIRCH_SIGN.defaultBlockState(), () -> Items.BIRCH_SIGN);
+		register(VanillaWoodType.JUNGLE, WoodBlockKind.SIGN, false, Blocks.JUNGLE_SIGN.defaultBlockState(), () -> Items.JUNGLE_SIGN);
+		register(VanillaWoodType.ACACIA, WoodBlockKind.SIGN, false, Blocks.ACACIA_SIGN.defaultBlockState(), () -> Items.ACACIA_SIGN);
+		register(VanillaWoodType.DARK_OAK, WoodBlockKind.SIGN, false, Blocks.DARK_OAK_SIGN.defaultBlockState(), () -> Items.DARK_OAK_SIGN);
+		register(VanillaWoodType.CHERRY, WoodBlockKind.SIGN, false, Blocks.CHERRY_SIGN.defaultBlockState(), () -> Items.CHERRY_SIGN);
+
+		register(VanillaWoodType.OAK, WoodBlockKind.WALL_SIGN, false, Blocks.OAK_WALL_SIGN.defaultBlockState(), () -> Items.OAK_SIGN);
+		register(VanillaWoodType.SPRUCE, WoodBlockKind.WALL_SIGN, false, Blocks.SPRUCE_WALL_SIGN.defaultBlockState(), () -> Items.SPRUCE_SIGN);
+		register(VanillaWoodType.BIRCH, WoodBlockKind.WALL_SIGN, false, Blocks.BIRCH_WALL_SIGN.defaultBlockState(), () -> Items.BIRCH_SIGN);
+		register(VanillaWoodType.JUNGLE, WoodBlockKind.WALL_SIGN, false, Blocks.JUNGLE_WALL_SIGN.defaultBlockState(), () -> Items.JUNGLE_SIGN);
+		register(VanillaWoodType.ACACIA, WoodBlockKind.WALL_SIGN, false, Blocks.ACACIA_WALL_SIGN.defaultBlockState(), () -> Items.ACACIA_SIGN);
+		register(VanillaWoodType.DARK_OAK, WoodBlockKind.WALL_SIGN, false, Blocks.DARK_OAK_WALL_SIGN.defaultBlockState(), () -> Items.DARK_OAK_SIGN);
+		register(VanillaWoodType.CHERRY, WoodBlockKind.WALL_SIGN, false, Blocks.CHERRY_WALL_SIGN.defaultBlockState(), () -> Items.CHERRY_SIGN);
+
+		register(VanillaWoodType.OAK, WoodBlockKind.HANGING_SIGN, false, Blocks.OAK_HANGING_SIGN.defaultBlockState(), () -> Items.OAK_HANGING_SIGN);
+		register(VanillaWoodType.SPRUCE, WoodBlockKind.HANGING_SIGN, false, Blocks.SPRUCE_HANGING_SIGN.defaultBlockState(), () -> Items.SPRUCE_HANGING_SIGN);
+		register(VanillaWoodType.BIRCH, WoodBlockKind.HANGING_SIGN, false, Blocks.BIRCH_HANGING_SIGN.defaultBlockState(), () -> Items.BIRCH_HANGING_SIGN);
+		register(VanillaWoodType.JUNGLE, WoodBlockKind.HANGING_SIGN, false, Blocks.JUNGLE_HANGING_SIGN.defaultBlockState(), () -> Items.JUNGLE_HANGING_SIGN);
+		register(VanillaWoodType.ACACIA, WoodBlockKind.HANGING_SIGN, false, Blocks.ACACIA_HANGING_SIGN.defaultBlockState(), () -> Items.ACACIA_HANGING_SIGN);
+		register(VanillaWoodType.DARK_OAK, WoodBlockKind.HANGING_SIGN, false, Blocks.DARK_OAK_HANGING_SIGN.defaultBlockState(), () -> Items.DARK_OAK_HANGING_SIGN);
+		register(VanillaWoodType.CHERRY, WoodBlockKind.HANGING_SIGN, false, Blocks.CHERRY_HANGING_SIGN.defaultBlockState(), () -> Items.CHERRY_HANGING_SIGN);
+
+		register(VanillaWoodType.OAK, WoodBlockKind.WALL_HANGING_SIGN, false, Blocks.OAK_WALL_HANGING_SIGN.defaultBlockState(), () -> Items.OAK_HANGING_SIGN);
+		register(VanillaWoodType.SPRUCE, WoodBlockKind.WALL_HANGING_SIGN, false, Blocks.SPRUCE_WALL_HANGING_SIGN.defaultBlockState(), () -> Items.SPRUCE_HANGING_SIGN);
+		register(VanillaWoodType.BIRCH, WoodBlockKind.WALL_HANGING_SIGN, false, Blocks.BIRCH_WALL_HANGING_SIGN.defaultBlockState(), () -> Items.BIRCH_HANGING_SIGN);
+		register(VanillaWoodType.JUNGLE, WoodBlockKind.WALL_HANGING_SIGN, false, Blocks.JUNGLE_WALL_HANGING_SIGN.defaultBlockState(), () -> Items.JUNGLE_HANGING_SIGN);
+		register(VanillaWoodType.ACACIA, WoodBlockKind.WALL_HANGING_SIGN, false, Blocks.ACACIA_WALL_HANGING_SIGN.defaultBlockState(), () -> Items.ACACIA_HANGING_SIGN);
+		register(VanillaWoodType.DARK_OAK, WoodBlockKind.WALL_HANGING_SIGN, false, Blocks.DARK_OAK_WALL_HANGING_SIGN.defaultBlockState(), () -> Items.DARK_OAK_HANGING_SIGN);
+		register(VanillaWoodType.CHERRY, WoodBlockKind.WALL_HANGING_SIGN, false, Blocks.CHERRY_WALL_HANGING_SIGN.defaultBlockState(), () -> Items.CHERRY_HANGING_SIGN);
 	}
 
 	/**

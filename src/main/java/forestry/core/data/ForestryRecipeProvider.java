@@ -50,6 +50,7 @@ import forestry.apiculture.items.EnumPropolis;
 import forestry.arboriculture.ForestryWoodType;
 import forestry.arboriculture.VanillaWoodType;
 import forestry.arboriculture.WoodAccess;
+import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.features.ArboricultureItems;
 import forestry.arboriculture.features.CharcoalBlocks;
 import forestry.core.blocks.BlockTypeCoreTesr;
@@ -436,6 +437,22 @@ public class ForestryRecipeProvider {
 				});
 
 				recipes.woodenTrapdoor(trapdoor, Ingredient.of(planks, fireproofPlanks));
+
+				recipes.shapedCrafting(RecipeCategory.MISC, ArboricultureBlocks.SIGN.get(type), recipe -> {
+					recipe.define('P', Ingredient.of(planks, fireproofPlanks));
+					recipe.define('S', Tags.Items.RODS_WOODEN);
+					recipe.pattern("PPP");
+					recipe.pattern("PPP");
+					recipe.pattern(" S ");
+				});
+
+				recipes.shapedCrafting(RecipeCategory.MISC, ArboricultureBlocks.HANGING_SIGN.get(type), recipe -> {
+					recipe.define('X', Items.CHAIN);
+					recipe.define('#', Ingredient.of(strippedLog, fireproofStrippedLog));
+					recipe.pattern("X X");
+					recipe.pattern("###");
+					recipe.pattern("###");
+				});
 			}
 
 			// Fireproof (Vanilla & Forestry)

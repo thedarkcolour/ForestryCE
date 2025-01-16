@@ -20,6 +20,7 @@ import net.minecraft.world.level.block.state.properties.WoodType;
 
 import com.mojang.authlib.GameProfile;
 
+import forestry.api.ForestryConstants;
 import forestry.api.ForestryTags;
 import forestry.api.arboriculture.IWoodType;
 import forestry.api.arboriculture.genetics.IFruit;
@@ -86,7 +87,7 @@ public enum ForestryWoodType implements IWoodType {
 		this.leafType = leafType;
 		this.hardness = hardness;
 
-		this.type = new WoodType(this.name, new BlockSetType(this.name));
+		this.type = new WoodType(ForestryConstants.forestry(this.name).toString(), new BlockSetType(this.name));
 
 		this.blockTag = ForestryTags.blockTag(this.name + "_logs");
 		this.itemTag = ForestryTags.itemTag(this.name + "_logs");
