@@ -453,6 +453,12 @@ public class ForestryRecipeProvider {
 					recipe.pattern("###");
 					recipe.pattern("###");
 				});
+
+				recipes.shapelessCrafting(RecipeCategory.REDSTONE, ArboricultureBlocks.BUTTON.get(type), 1, Ingredient.of(planks, fireproofPlanks));
+				recipes.shapedCrafting(RecipeCategory.REDSTONE, ArboricultureBlocks.PRESSURE_PLATE.get(type), recipe -> {
+					recipe.define('P', Ingredient.of(planks, fireproofPlanks));
+					recipe.pattern("PP");
+				});
 			}
 
 			// Fireproof (Vanilla & Forestry)

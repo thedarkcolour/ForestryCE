@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "ingredients": [
+    [
+      {
+        "item": "forestry:zebrawood_planks"
+      },
+      {
+        "item": "forestry:zebrawood_fireproof_planks"
+      }
+    ]
+  ],
+  "result": {
+    "item": "forestry:zebrawood_button"
+  }
+}

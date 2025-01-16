@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "P": [
+      {
+        "item": "forestry:mahogany_planks"
+      },
+      {
+        "item": "forestry:mahogany_fireproof_planks"
+      }
+    ]
+  },
+  "pattern": [
+    "PP"
+  ],
+  "result": {
+    "item": "forestry:mahogany_pressure_plate"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "P": [
+      {
+        "item": "forestry:hill_cherry_planks"
+      },
+      {
+        "item": "forestry:hill_cherry_fireproof_planks"
+      }
+    ]
+  },
+  "pattern": [
+    "PP"
+  ],
+  "result": {
+    "item": "forestry:hill_cherry_pressure_plate"
+  },
+  "show_notification": true
+}

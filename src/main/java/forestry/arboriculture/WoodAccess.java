@@ -168,6 +168,22 @@ public enum WoodAccess implements IWoodAccess {
 		register(VanillaWoodType.ACACIA, WoodBlockKind.WALL_HANGING_SIGN, false, Blocks.ACACIA_WALL_HANGING_SIGN.defaultBlockState(), () -> Items.ACACIA_HANGING_SIGN);
 		register(VanillaWoodType.DARK_OAK, WoodBlockKind.WALL_HANGING_SIGN, false, Blocks.DARK_OAK_WALL_HANGING_SIGN.defaultBlockState(), () -> Items.DARK_OAK_HANGING_SIGN);
 		register(VanillaWoodType.CHERRY, WoodBlockKind.WALL_HANGING_SIGN, false, Blocks.CHERRY_WALL_HANGING_SIGN.defaultBlockState(), () -> Items.CHERRY_HANGING_SIGN);
+
+		register(VanillaWoodType.OAK, WoodBlockKind.BUTTON, false, Blocks.OAK_BUTTON.defaultBlockState(), () -> Items.OAK_BUTTON);
+		register(VanillaWoodType.SPRUCE, WoodBlockKind.BUTTON, false, Blocks.SPRUCE_BUTTON.defaultBlockState(), () -> Items.SPRUCE_BUTTON);
+		register(VanillaWoodType.BIRCH, WoodBlockKind.BUTTON, false, Blocks.BIRCH_BUTTON.defaultBlockState(), () -> Items.BIRCH_BUTTON);
+		register(VanillaWoodType.JUNGLE, WoodBlockKind.BUTTON, false, Blocks.JUNGLE_BUTTON.defaultBlockState(), () -> Items.JUNGLE_BUTTON);
+		register(VanillaWoodType.ACACIA, WoodBlockKind.BUTTON, false, Blocks.ACACIA_BUTTON.defaultBlockState(), () -> Items.ACACIA_BUTTON);
+		register(VanillaWoodType.DARK_OAK, WoodBlockKind.BUTTON, false, Blocks.DARK_OAK_BUTTON.defaultBlockState(), () -> Items.DARK_OAK_BUTTON);
+		register(VanillaWoodType.CHERRY, WoodBlockKind.BUTTON, false, Blocks.CHERRY_BUTTON.defaultBlockState(), () -> Items.CHERRY_BUTTON);
+
+		register(VanillaWoodType.OAK, WoodBlockKind.PRESSURE_PLATE, false, Blocks.OAK_PRESSURE_PLATE.defaultBlockState(), () -> Items.OAK_PRESSURE_PLATE);
+		register(VanillaWoodType.SPRUCE, WoodBlockKind.PRESSURE_PLATE, false, Blocks.SPRUCE_PRESSURE_PLATE.defaultBlockState(), () -> Items.SPRUCE_PRESSURE_PLATE);
+		register(VanillaWoodType.BIRCH, WoodBlockKind.PRESSURE_PLATE, false, Blocks.BIRCH_PRESSURE_PLATE.defaultBlockState(), () -> Items.BIRCH_PRESSURE_PLATE);
+		register(VanillaWoodType.JUNGLE, WoodBlockKind.PRESSURE_PLATE, false, Blocks.JUNGLE_PRESSURE_PLATE.defaultBlockState(), () -> Items.JUNGLE_PRESSURE_PLATE);
+		register(VanillaWoodType.ACACIA, WoodBlockKind.PRESSURE_PLATE, false, Blocks.ACACIA_PRESSURE_PLATE.defaultBlockState(), () -> Items.ACACIA_PRESSURE_PLATE);
+		register(VanillaWoodType.DARK_OAK, WoodBlockKind.PRESSURE_PLATE, false, Blocks.DARK_OAK_PRESSURE_PLATE.defaultBlockState(), () -> Items.DARK_OAK_PRESSURE_PLATE);
+		register(VanillaWoodType.CHERRY, WoodBlockKind.PRESSURE_PLATE, false, Blocks.CHERRY_PRESSURE_PLATE.defaultBlockState(), () -> Items.CHERRY_PRESSURE_PLATE);
 	}
 
 	/**
@@ -223,7 +239,7 @@ public enum WoodAccess implements IWoodAccess {
 	}
 
 	private static boolean isNonBurning(WoodBlockKind kind) {
-		return kind == WoodBlockKind.DOOR || kind == WoodBlockKind.TRAPDOOR;
+		return kind == WoodBlockKind.DOOR || kind == WoodBlockKind.TRAPDOOR || kind == WoodBlockKind.BUTTON || kind == WoodBlockKind.PRESSURE_PLATE;
 	}
 
 	@Override

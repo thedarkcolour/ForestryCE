@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "ingredients": [
+    [
+      {
+        "item": "forestry:kapok_planks"
+      },
+      {
+        "item": "forestry:kapok_fireproof_planks"
+      }
+    ]
+  ],
+  "result": {
+    "item": "forestry:kapok_button"
+  }
+}

@@ -1599,6 +1599,8 @@
   "for.trapdoor.grammar": "%1$s Trapdoor",
   "for.sign.grammar": "%1$s Sign",
   "for.hanging_sign.grammar": "%1$s Hanging Sign",
+  "for.button.grammar": "%1$s Button",
+  "for.pressure_plate.grammar": "%1$s Pressure Plate",
   "for.slab.grammar": "%1$s Slab",
   "for.slab.double.grammar": "%1$s Wood Slab",
   "for.stairs.grammar": "%1$s Stairs",

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "ingredients": [
+    [
+      {
+        "item": "forestry:walnut_planks"
+      },
+      {
+        "item": "forestry:walnut_fireproof_planks"
+      }
+    ]
+  ],
+  "result": {
+    "item": "forestry:walnut_button"
+  }
+}

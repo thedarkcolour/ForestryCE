@@ -6,16 +6,19 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.StairBlock;
 
+import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
 import forestry.arboriculture.ForestryWoodType;
 import forestry.arboriculture.VanillaWoodType;
+import forestry.arboriculture.blocks.BlockForestryButton;
 import forestry.arboriculture.blocks.BlockForestryDoor;
 import forestry.arboriculture.blocks.BlockForestryFence;
 import forestry.arboriculture.blocks.BlockForestryFenceGate;
 import forestry.arboriculture.blocks.BlockForestryHangingSign;
 import forestry.arboriculture.blocks.BlockForestryLog;
+import forestry.arboriculture.blocks.BlockForestryPressurePlate;
 import forestry.arboriculture.blocks.BlockForestrySlab;
 import forestry.arboriculture.blocks.BlockForestryStairs;
 import forestry.arboriculture.blocks.BlockForestryStandingSign;
@@ -193,6 +196,17 @@ public class ForestryWoodModelProvider extends ForestryBlockStateProvider {
 			singleModelBlock(this, hangingSign, hangingSignModel);
 			singleModelBlock(this, hangingWallSign, hangingSignModel);
 			generic2d(hangingSign);
+
+			// Button
+			BlockForestryButton button = ArboricultureBlocks.BUTTON.get(woodType).block();
+			buttonBlock(button, planksLoc);
+			ModelFile buttonInventoryModel = itemModels().buttonInventory(path(button) + "_inventory", planksLoc);
+			itemModels().withExistingParent(path(button), buttonInventoryModel.getLocation());
+
+			// Pressure plate
+			BlockForestryPressurePlate pressurePlate = ArboricultureBlocks.PRESSURE_PLATE.get(woodType).block();
+			pressurePlateBlock(pressurePlate, planksLoc);
+			generic3d(pressurePlate);
 		}
 	}
 

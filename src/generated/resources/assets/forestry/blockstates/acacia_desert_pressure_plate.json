@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "powered=false": {
+      "model": "forestry:block/acacia_desert_pressure_plate"
+    },
+    "powered=true": {
+      "model": "forestry:block/acacia_desert_pressure_plate_down"
+    }
+  }
+}
