@@ -43,6 +43,7 @@ public class Data {
 		dataHelper.createTags(Registries.BIOME, ForestryBiomeTagsProvider::addTags);
 		dataHelper.createTags(Registries.FLUID, ForestryFluidTagsProvider::addTags);
 		dataHelper.createTags(Registries.POINT_OF_INTEREST_TYPE, ForestryPoiTypeTagProvider::addTags);
+		dataHelper.createTags(Registries.PAINTING_VARIANT, ForestryPaintingTagsProvider::addTags);
 		dataHelper.createRecipes(ForestryRecipeProvider::addRecipes);
 		dataHelper.createDamageTypes(ForestryDamageTypesProvider::addTypes);
 		dataHelper.createItemModels(false, false, false, ForestryItemModels::addModels);

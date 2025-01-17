@@ -1,3 +1,6 @@
+## Forestry 2.3.2
+- Fix paintings only being available through commands
+
 ## Forestry 2.3.1
 - Massive texture overhaul and two new paintings, thanks to Spearkiller (#171)
 - Added Pressure Plates, Buttons, Trapdoors, Signs, Hanging Signs, Boats, and Chest Boats for all wood types
