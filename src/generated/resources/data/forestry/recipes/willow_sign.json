@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "P": [
+      {
+        "item": "forestry:willow_planks"
+      },
+      {
+        "item": "forestry:willow_fireproof_planks"
+      }
+    ],
+    "S": {
+      "tag": "forge:rods/wooden"
+    }
+  },
+  "pattern": [
+    "PPP",
+    "PPP",
+    " S "
+  ],
+  "result": {
+    "item": "forestry:willow_sign"
+  },
+  "show_notification": true
+}

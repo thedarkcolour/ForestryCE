@@ -16,9 +16,10 @@ import net.minecraft.world.level.LevelAccessor;
 import com.mojang.authlib.GameProfile;
 
 import forestry.api.core.IBlockSubtype;
+import forestry.api.core.IItemSubtype;
 import forestry.api.genetics.IGenome;
 
-public interface IWoodType extends IBlockSubtype {
+public interface IWoodType extends IBlockSubtype, IItemSubtype {
 	float getHardness();
 
 	String toString();

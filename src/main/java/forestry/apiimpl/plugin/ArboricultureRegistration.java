@@ -2,8 +2,7 @@ package forestry.apiimpl.plugin;
 
 import com.google.common.collect.ImmutableMap;
 
-import java.awt.Color;
-
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
 
 import forestry.api.arboriculture.ITreeSpecies;
@@ -28,7 +27,7 @@ public class ArboricultureRegistration extends SpeciesRegistration<ITreeSpeciesB
 	}
 
 	@Override
-	public ITreeSpeciesBuilder registerSpecies(ResourceLocation id, String genus, String species, boolean dominant, Color escritoireColor, IWoodType woodType) {
+	public ITreeSpeciesBuilder registerSpecies(ResourceLocation id, String genus, String species, boolean dominant, TextColor escritoireColor, IWoodType woodType) {
 		return register(id, genus, species)
 				.setDominant(dominant)
 				.setEscritoireColor(escritoireColor)

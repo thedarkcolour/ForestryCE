@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "P": [
+      {
+        "item": "forestry:acacia_desert_planks"
+      },
+      {
+        "item": "forestry:acacia_desert_fireproof_planks"
+      }
+    ]
+  },
+  "pattern": [
+    "PP"
+  ],
+  "result": {
+    "item": "forestry:acacia_desert_pressure_plate"
+  },
+  "show_notification": true
+}

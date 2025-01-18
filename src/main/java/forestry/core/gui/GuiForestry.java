@@ -39,7 +39,6 @@ import forestry.api.climate.IClimateProvider;
 import forestry.api.core.IErrorLogicSource;
 import forestry.api.core.IErrorSource;
 import forestry.core.config.ForestryConfig;
-import forestry.core.gui.elements.WindowGui;
 import forestry.core.gui.ledgers.ClimateLedger;
 import forestry.core.gui.ledgers.HintLedger;
 import forestry.core.gui.ledgers.LedgerManager;
@@ -59,7 +58,6 @@ public abstract class GuiForestry<C extends AbstractContainerMenu> extends Abstr
 	public final ResourceLocation textureFile;
 	protected final WidgetManager widgetManager;
 	protected final LedgerManager ledgerManager;
-	protected final WindowGui<?> window;
 	protected TextLayoutHelper textLayout;
 
 	protected GuiForestry(String texture, C menu, Inventory inv, Component title) {
@@ -71,7 +69,6 @@ public abstract class GuiForestry<C extends AbstractContainerMenu> extends Abstr
 
 		this.widgetManager = new WidgetManager(this);
 		this.ledgerManager = new LedgerManager(this);
-		this.window = new WindowGui<>(imageWidth, imageHeight, this);
 
 		this.textureFile = texture;
 	}
@@ -87,26 +84,22 @@ public abstract class GuiForestry<C extends AbstractContainerMenu> extends Abstr
 		this.ledgerManager.clear();
 
 		this.textLayout = new TextLayoutHelper(this, ColourProperties.INSTANCE);
-		this.window.init(leftPos, topPos);
 
 		addLedgers();
 	}
 
 	@Override
 	public void resize(Minecraft mc, int width, int height) {
-		window.setSize(width, height);
 		super.resize(mc, width, height);
 	}
 
 	@Override
 	public void containerTick() {
 		super.containerTick();
-		window.updateClient();
 	}
 
 	@Override
 	public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks) {
-		this.window.setMousePosition(mouseX, mouseY);
 		renderBackground(graphics);
 		super.render(graphics, mouseX, mouseY, partialTicks);
 		renderTooltip(graphics, mouseX, mouseY);
@@ -166,69 +159,17 @@ public abstract class GuiForestry<C extends AbstractContainerMenu> extends Abstr
 	@Override
 	public boolean mouseClicked(double mouseX, double mouseY, int mouseButton) {
 		// / Handle ledger clicks
-		ledgerManager.handleMouseClicked(mouseX, mouseY, mouseButton);
-		widgetManager.handleMouseClicked(mouseX, mouseY, mouseButton);
-		if (window.onMouseClicked(mouseX, mouseY, mouseButton)) {
-			return true;
-		}
+		this.ledgerManager.handleMouseClicked(mouseX, mouseY, mouseButton);
+		this.widgetManager.handleMouseClicked(mouseX, mouseY, mouseButton);
 		return super.mouseClicked(mouseX, mouseY, mouseButton);
 	}
 
 	@Override
 	public boolean mouseReleased(double mouseX, double mouseY, int mouseButton) {
-		if (widgetManager.handleMouseRelease(mouseX, mouseY, mouseButton)
-				|| window.onMouseReleased(mouseX, mouseY, mouseButton)) {
+		if (widgetManager.handleMouseRelease(mouseX, mouseY, mouseButton)) {
 			return true;
 		}
 		return super.mouseReleased(mouseX, mouseY, mouseButton);
-	}
-
-	@Override
-	public void mouseMoved(double mouseX, double mouseY) {
-		window.onMouseMove(mouseX, mouseY);
-	}
-
-	@Override
-	public boolean mouseDragged(double mouseX, double mouseY, int mouseButton, double oldMouseX, double oldMouseY) {
-		if (window.onMouseDrag(mouseX, mouseY)) {
-			return true;
-		}
-		return super.mouseDragged(mouseX, mouseY, mouseButton, oldMouseX, oldMouseY);
-	}
-
-	@Override
-	public boolean keyPressed(int key, int scanCode, int modifiers) {
-		if (window.onKeyPressed(key, scanCode, modifiers)) {
-			return true;
-		}
-		return super.keyPressed(key, scanCode, modifiers);
-	}
-
-	@Override
-	public boolean keyReleased(int key, int scanCode, int modifiers) {
-		if (window.onKeyReleased(key, scanCode, modifiers)) {
-			return true;
-		}
-		return super.keyReleased(key, scanCode, modifiers);
-	}
-
-	@Override
-	public boolean charTyped(char codePoint, int modifiers) {
-		if (window.onCharTyped(codePoint, modifiers)) {
-			return true;
-		}
-		return super.charTyped(codePoint, modifiers);
-	}
-
-	@Override
-	public boolean mouseScrolled(double mouseX, double mouseY, double deltaWheel) {
-		super.mouseScrolled(mouseX, mouseY, deltaWheel);
-		if (deltaWheel != 0) {
-			if (window.onMouseScrolled(mouseX, mouseY, deltaWheel)) {
-				return true;
-			}
-		}
-		return super.mouseScrolled(mouseX, mouseY, deltaWheel);
 	}
 
 	@Nullable
@@ -259,11 +200,6 @@ public abstract class GuiForestry<C extends AbstractContainerMenu> extends Abstr
 	}
 
 	@Override
-	protected boolean hasClickedOutside(double mouseX, double mouseY, int guiLeft, int guiTop, int mouseButton) {
-		return !window.isMouseOver(mouseX - guiLeft, mouseY - guiTop) && super.hasClickedOutside(mouseX, mouseY, guiLeft, guiTop, mouseButton);
-	}
-
-	@Override
 	protected void renderLabels(GuiGraphics graphics, int mouseX, int mouseY) {
 		ledgerManager.drawTooltips(graphics, mouseX, mouseY);
 
@@ -271,7 +207,6 @@ public abstract class GuiForestry<C extends AbstractContainerMenu> extends Abstr
 			GuiUtil.drawToolTips(graphics, this, widgetManager.getWidgets(), mouseX, mouseY);
 			GuiUtil.drawToolTips(graphics, this, this.renderables, mouseX, mouseY);
 			GuiUtil.drawToolTips(graphics, this, menu.slots, mouseX, mouseY);
-			window.drawTooltip(graphics, mouseX, mouseY);
 		}
 	}
 
@@ -286,8 +221,6 @@ public abstract class GuiForestry<C extends AbstractContainerMenu> extends Abstr
 		transform.translate(leftPos, topPos, 0.0F);
 		drawWidgets(graphics);
 		transform.popPose();
-
-		window.draw(graphics, mouseX, mouseY);
 
 		bindTexture(textureFile);
 	}

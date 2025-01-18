@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "P": [
+      {
+        "item": "forestry:cocobolo_planks"
+      },
+      {
+        "item": "forestry:cocobolo_fireproof_planks"
+      }
+    ]
+  },
+  "pattern": [
+    "PP"
+  ],
+  "result": {
+    "item": "forestry:cocobolo_pressure_plate"
+  },
+  "show_notification": true
+}

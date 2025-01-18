@@ -78,17 +78,17 @@ public abstract class IndividualLiving<S extends ISpecies<I>, I extends IIndivid
 	}
 
 	@Override
-	public void age(Level level, float lifespanModifier) {
-		if (lifespanModifier < 0f) {
+	public void age(Level level, float ageStep) {
+		if (ageStep < 0f) {
 			setHealth(0);
 			return;
 		}
 		// don't age, skip division by zero later down the line
-		if (lifespanModifier == 0f) {
+		if (ageStep == 0f) {
 			return;
 		}
 
-		float ageModifier = 1.0f / lifespanModifier;
+		float ageModifier = ageStep;
 
 		while (ageModifier > 1.0f) {
 			decreaseHealth();

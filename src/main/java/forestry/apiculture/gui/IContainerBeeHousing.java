@@ -10,10 +10,7 @@
  ******************************************************************************/
 package forestry.apiculture.gui;
 
-import forestry.core.gui.IContainerAnalyzerProvider;
-
-public interface IContainerBeeHousing extends IContainerAnalyzerProvider {
-
+public interface IContainerBeeHousing {
 	IGuiBeeHousingDelegate getDelegate();
 
 	GuiBeeHousing.Icon getIcon();

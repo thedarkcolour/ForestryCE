@@ -1,3 +1,24 @@
+## Forestry 2.3.3
+- Actually fix painting variants
+- Phase out usage of java.awt.Color in common code to avoid potential server crashes with certain providers
+
+## Forestry 2.3.2
+- Fix paintings only being available through commands
+- Add GeneticsEventJS#defineTaxon method to add custom genera and other taxa through KubeJS
+
+## Forestry 2.3.1
+- Massive texture overhaul and two new paintings, thanks to Spearkiller (#171)
+- Added Pressure Plates, Buttons, Trapdoors, Signs, Hanging Signs, Boats, and Chest Boats for all wood types
+
+## Forestry 2.3.0
+- Fix saplings with default genomes not generating leaves properly (#144)
+- Add API for IBeekeepingLogic to change throttle ticks
+- Fix NBT loading bug in BeekeepingLogic to load queen max health
+- Make parts of JEI plugin public
+- Fix IBeeModifier.modifyAging and IIndividualLiving.age
+- Fix bee territory being too small on East and West (#162)
+- Remove the Analyzer widgets from Apiary and Alveary
+
 ## Forestry 2.2.3
 - Add Cathemeral bee activity type, which is a random activity period of 12000 ticks that varies based on position. Check times using /forestry bee cathemeral
 - Fix Tolerant Flyer tooltip and Cave Tolerant display in analyzer

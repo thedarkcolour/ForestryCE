@@ -14,7 +14,7 @@ import forestry.api.genetics.alleles.IChromosome;
 import forestry.api.genetics.alleles.IKaryotype;
 import forestry.api.plugin.IGenomeBuilder;
 
-class MutationRecipe {
+public class MutationRecipe {
 	final ItemStack firstParent;
 	final ItemStack secondParent;
 	final ItemStack result;

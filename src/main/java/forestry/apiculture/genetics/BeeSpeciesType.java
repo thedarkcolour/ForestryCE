@@ -40,7 +40,6 @@ import forestry.api.genetics.IMutationManager;
 import forestry.api.genetics.alleles.BeeChromosomes;
 import forestry.api.genetics.alleles.IKaryotype;
 import forestry.api.genetics.capability.IIndividualHandlerItem;
-import forestry.api.genetics.gatgets.IDatabasePlugin;
 import forestry.api.plugin.IForestryPlugin;
 import forestry.api.plugin.ISpeciesTypeBuilder;
 import forestry.apiimpl.ForestryApiImpl;
@@ -108,11 +107,6 @@ public class BeeSpeciesType extends SpeciesType<IBeeSpecies, IBee> implements IB
 	@Override
 	public IAlyzerPlugin getAlyzerPlugin() {
 		return BeeAlyzerPlugin.INSTANCE;
-	}
-
-	@Override
-	public IDatabasePlugin getDatabasePlugin() {
-		return BeePlugin.INSTANCE;
 	}
 
 	@Override

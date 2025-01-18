@@ -1,11 +1,11 @@
 package forestry.api.plugin;
 
 import javax.annotation.Nullable;
-import java.awt.Color;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Function;
 
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
@@ -83,7 +83,7 @@ public interface ITreeSpeciesBuilder extends ISpeciesBuilder<ITreeSpeciesType, I
 	 * @see ISpeciesBuilder#setEscritoireColor
 	 */
 	@Override
-	ITreeSpeciesBuilder setEscritoireColor(Color color);
+	ITreeSpeciesBuilder setEscritoireColor(TextColor color);
 
 	@Nullable
 	ITreeGenerator getGenerator();

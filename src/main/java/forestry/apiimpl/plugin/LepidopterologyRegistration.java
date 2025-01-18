@@ -2,8 +2,7 @@ package forestry.apiimpl.plugin;
 
 import com.google.common.collect.ImmutableMap;
 
-import java.awt.Color;
-
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
 
 import forestry.api.genetics.ISpeciesType;
@@ -22,7 +21,7 @@ public class LepidopterologyRegistration extends SpeciesRegistration<IButterflyS
 	}
 
 	@Override
-	public IButterflySpeciesBuilder registerSpecies(ResourceLocation id, String genus, String species, boolean dominant, Color serumColor, float rarity) {
+	public IButterflySpeciesBuilder registerSpecies(ResourceLocation id, String genus, String species, boolean dominant, TextColor serumColor, float rarity) {
 		return register(id, genus, species)
 				.setDominant(dominant)
 				.setSerumColor(serumColor)

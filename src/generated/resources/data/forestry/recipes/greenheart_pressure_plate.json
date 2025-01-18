@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "P": [
+      {
+        "item": "forestry:greenheart_planks"
+      },
+      {
+        "item": "forestry:greenheart_fireproof_planks"
+      }
+    ]
+  },
+  "pattern": [
+    "PP"
+  ],
+  "result": {
+    "item": "forestry:greenheart_pressure_plate"
+  },
+  "show_notification": true
+}

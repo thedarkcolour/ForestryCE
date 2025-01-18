@@ -8,6 +8,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LeavesBlock;
@@ -53,7 +54,7 @@ public class DefaultTreeGenerator implements ITreeGenerator {
 
 	@Override
 	public boolean setLeaves(IGenome genome, LevelAccessor level, BlockPos pos, RandomSource rand) {
-		if (genome.isDefaultGenome()) {
+		if (genome.isDefaultGenome() && level instanceof WorldGenLevel) {
 			return this.woodType.setDefaultLeaves(level, pos, genome, rand, null);
 		} else {
 			BlockState leaves = ArboricultureBlocks.LEAVES.defaultState();

@@ -13,23 +13,20 @@ package forestry.apiculture.gui;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.Slot;
-import net.minecraft.world.item.ItemStack;
 
 import forestry.apiculture.multiblock.IAlvearyControllerInternal;
 import forestry.apiculture.multiblock.TileAlveary;
 import forestry.core.config.Constants;
-import forestry.core.gui.GuiAnalyzerProvider;
+import forestry.core.gui.GuiForestryTitled;
 import forestry.core.render.EnumTankLevel;
 
-public class GuiAlveary extends GuiAnalyzerProvider<ContainerAlveary> {
+public class GuiAlveary extends GuiForestryTitled<ContainerAlveary> {
 	private final TileAlveary tile;
 
 	public GuiAlveary(ContainerAlveary container, Inventory inventory, Component title) {
-		super(Constants.TEXTURE_PATH_GUI + "/alveary.png", container, inventory, () -> title, 25, 7, 2, 0);
+		super(Constants.TEXTURE_PATH_GUI + "/alveary.png", container, inventory, title);
 		this.tile = container.getTile();
 		this.imageHeight = 190;
-		analyzer.init();
 	}
 
 	@Override
@@ -53,22 +50,5 @@ public class GuiAlveary extends GuiAnalyzerProvider<ContainerAlveary> {
 		addClimateLedger(tile);
 		addHintLedger("apiary");
 		addOwnerLedger(tile);
-	}
-
-	@Override
-	protected void drawSelectedSlot(GuiGraphics graphics, int selectedSlot) {
-		Slot slot = menu.getForestrySlot(1 + selectedSlot);
-		SELECTED_COMB_SLOT.draw(graphics, topPos + slot.y - 3, leftPos + slot.x - 3);
-	}
-
-	@Override
-	public ItemStack getSpecimen(int index) {
-		Slot slot = menu.getForestrySlot(getSelectedSlot(index));
-		return slot.getItem();
-	}
-
-	@Override
-	protected boolean hasErrors() {
-		return tile.getErrorLogic().hasErrors();
 	}
 }

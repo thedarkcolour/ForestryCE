@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.function.Consumer;
 
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 
@@ -46,7 +47,7 @@ public class ApicultureRegistration extends SpeciesRegistration<IBeeSpeciesBuild
 	}
 
 	@Override
-	public IBeeSpeciesBuilder registerSpecies(ResourceLocation id, String genus, String species, boolean dominant, Color outline) {
+	public IBeeSpeciesBuilder registerSpecies(ResourceLocation id, String genus, String species, boolean dominant, TextColor outline) {
 		return register(id, genus, species)
 				.setDominant(dominant)
 				.setOutline(outline);

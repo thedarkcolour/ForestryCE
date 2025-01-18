@@ -37,7 +37,6 @@ import forestry.api.genetics.IMutationManager;
 import forestry.api.genetics.alleles.ButterflyChromosomes;
 import forestry.api.genetics.alleles.IKaryotype;
 import forestry.api.genetics.capability.IIndividualHandlerItem;
-import forestry.api.genetics.gatgets.IDatabasePlugin;
 import forestry.api.lepidopterology.IButterflyNursery;
 import forestry.api.lepidopterology.ILepidopteristTracker;
 import forestry.api.lepidopterology.genetics.ButterflyLifeStage;
@@ -197,11 +196,6 @@ public class ButterflySpeciesType extends SpeciesType<IButterflySpecies, IButter
 	@Override
 	public IAlyzerPlugin getAlyzerPlugin() {
 		return ButterflyAlyzerPlugin.INSTANCE;
-	}
-
-	@Override
-	public IDatabasePlugin getDatabasePlugin() {
-		return ButterflyPlugin.INSTANCE;
 	}
 
 	@Override

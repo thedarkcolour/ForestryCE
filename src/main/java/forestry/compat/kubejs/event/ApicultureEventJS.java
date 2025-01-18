@@ -8,6 +8,7 @@ import java.util.function.UnaryOperator;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
@@ -34,7 +35,6 @@ import forestry.compat.kubejs.apiculture.KubeFlowerType;
 import forestry.compat.kubejs.apiculture.KubeHiveDefinition;
 
 import dev.latvian.mods.kubejs.event.EventJS;
-import dev.latvian.mods.rhino.mod.util.color.Color;
 
 public class ApicultureEventJS extends EventJS {
 	private final IApicultureRegistration wrapped;
@@ -59,8 +59,8 @@ public class ApicultureEventJS extends EventJS {
 	 * @param outline  The color of the bee's outline. Stripe and body colors can be customized using the returned {@link IBeeSpeciesBuilder}.
 	 * @return A bee species builder which you can further customize with mutations, products, and other properties.
 	 */
-	public IBeeSpeciesBuilder registerSpecies(ResourceLocation id, String genus, String species, boolean dominant, Color outline) {
-		return this.wrapped.registerSpecies(id, genus, species, dominant, new java.awt.Color(outline.getRgbJS()));
+	public IBeeSpeciesBuilder registerSpecies(ResourceLocation id, String genus, String species, boolean dominant, TextColor outline) {
+		return this.wrapped.registerSpecies(id, genus, species, dominant, outline);
 	}
 
 	public void modifySpecies(ResourceLocation id, Consumer<IBeeSpeciesBuilder> action) {

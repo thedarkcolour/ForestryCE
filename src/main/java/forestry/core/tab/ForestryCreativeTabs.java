@@ -35,6 +35,7 @@ import forestry.apiculture.blocks.NaturalistChestBlockType;
 import forestry.apiculture.features.ApicultureBlocks;
 import forestry.apiculture.features.ApicultureItems;
 import forestry.apiculture.items.ItemCreativeHiveFrame;
+import forestry.arboriculture.ForestryWoodType;
 import forestry.arboriculture.WoodAccess;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.features.ArboricultureItems;
@@ -271,6 +272,13 @@ public class ForestryCreativeTabs {
 			addAllWoodBlocks(items, access, type, true);
 		}
 
+		for (ForestryWoodType type : ForestryWoodType.VALUES) {
+			items.accept(ArboricultureItems.BOAT.item(type));
+			items.accept(ArboricultureItems.CHEST_BOAT.item(type));
+			items.accept(ArboricultureBlocks.SIGN.get(type));
+			items.accept(ArboricultureBlocks.HANGING_SIGN.get(type));
+		}
+
 		// Specimens
 		Collection<ILifeStage> stages = SpeciesUtil.TREE_TYPE.get().getLifeStages();
 
@@ -440,9 +448,9 @@ public class ForestryCreativeTabs {
 		items.accept(access.getStack(type, WoodBlockKind.FENCE_GATE, fireproof));
 		items.accept(access.getStack(type, WoodBlockKind.DOOR, fireproof));
 		// one day...
-		//items.accept(access.getStack(type, WoodBlockKind.TRAPDOOR, fireproof));
-		//items.accept(access.getStack(type, WoodBlockKind.PRESSURE_PLATE, fireproof));
-		//items.accept(access.getStack(type, WoodBlockKind.BUTTON, fireproof));
+		items.accept(access.getStack(type, WoodBlockKind.TRAPDOOR, fireproof));
+		items.accept(access.getStack(type, WoodBlockKind.PRESSURE_PLATE, fireproof));
+		items.accept(access.getStack(type, WoodBlockKind.BUTTON, fireproof));
 	}
 
 	private static void addGeneticBasics(CreativeModeTab.Output items) {

@@ -37,7 +37,7 @@ public enum WoodAccess implements IWoodAccess {
 
 	WoodAccess() {
 		for (WoodBlockKind woodBlockKind : WoodBlockKind.values()) {
-			woodMaps.put(woodBlockKind, new WoodMap(woodBlockKind));
+			this.woodMaps.put(woodBlockKind, new WoodMap(woodBlockKind));
 		}
 		registerVanilla();
 	}
@@ -128,6 +128,62 @@ public enum WoodAccess implements IWoodAccess {
 		register(VanillaWoodType.ACACIA, WoodBlockKind.DOOR, false, Blocks.ACACIA_DOOR.defaultBlockState(), () -> Items.ACACIA_DOOR);
 		register(VanillaWoodType.DARK_OAK, WoodBlockKind.DOOR, false, Blocks.DARK_OAK_DOOR.defaultBlockState(), () -> Items.DARK_OAK_DOOR);
 		register(VanillaWoodType.CHERRY, WoodBlockKind.DOOR, false, Blocks.CHERRY_DOOR.defaultBlockState(), () -> Items.CHERRY_DOOR);
+
+		register(VanillaWoodType.OAK, WoodBlockKind.TRAPDOOR, false, Blocks.OAK_TRAPDOOR.defaultBlockState(), () -> Items.OAK_TRAPDOOR);
+		register(VanillaWoodType.SPRUCE, WoodBlockKind.TRAPDOOR, false, Blocks.SPRUCE_TRAPDOOR.defaultBlockState(), () -> Items.SPRUCE_TRAPDOOR);
+		register(VanillaWoodType.BIRCH, WoodBlockKind.TRAPDOOR, false, Blocks.BIRCH_TRAPDOOR.defaultBlockState(), () -> Items.BIRCH_TRAPDOOR);
+		register(VanillaWoodType.JUNGLE, WoodBlockKind.TRAPDOOR, false, Blocks.JUNGLE_TRAPDOOR.defaultBlockState(), () -> Items.JUNGLE_TRAPDOOR);
+		register(VanillaWoodType.ACACIA, WoodBlockKind.TRAPDOOR, false, Blocks.ACACIA_TRAPDOOR.defaultBlockState(), () -> Items.ACACIA_TRAPDOOR);
+		register(VanillaWoodType.DARK_OAK, WoodBlockKind.TRAPDOOR, false, Blocks.DARK_OAK_TRAPDOOR.defaultBlockState(), () -> Items.DARK_OAK_TRAPDOOR);
+		register(VanillaWoodType.CHERRY, WoodBlockKind.TRAPDOOR, false, Blocks.CHERRY_TRAPDOOR.defaultBlockState(), () -> Items.CHERRY_TRAPDOOR);
+
+		register(VanillaWoodType.OAK, WoodBlockKind.SIGN, false, Blocks.OAK_SIGN.defaultBlockState(), () -> Items.OAK_SIGN);
+		register(VanillaWoodType.SPRUCE, WoodBlockKind.SIGN, false, Blocks.SPRUCE_SIGN.defaultBlockState(), () -> Items.SPRUCE_SIGN);
+		register(VanillaWoodType.BIRCH, WoodBlockKind.SIGN, false, Blocks.BIRCH_SIGN.defaultBlockState(), () -> Items.BIRCH_SIGN);
+		register(VanillaWoodType.JUNGLE, WoodBlockKind.SIGN, false, Blocks.JUNGLE_SIGN.defaultBlockState(), () -> Items.JUNGLE_SIGN);
+		register(VanillaWoodType.ACACIA, WoodBlockKind.SIGN, false, Blocks.ACACIA_SIGN.defaultBlockState(), () -> Items.ACACIA_SIGN);
+		register(VanillaWoodType.DARK_OAK, WoodBlockKind.SIGN, false, Blocks.DARK_OAK_SIGN.defaultBlockState(), () -> Items.DARK_OAK_SIGN);
+		register(VanillaWoodType.CHERRY, WoodBlockKind.SIGN, false, Blocks.CHERRY_SIGN.defaultBlockState(), () -> Items.CHERRY_SIGN);
+
+		register(VanillaWoodType.OAK, WoodBlockKind.WALL_SIGN, false, Blocks.OAK_WALL_SIGN.defaultBlockState(), () -> Items.OAK_SIGN);
+		register(VanillaWoodType.SPRUCE, WoodBlockKind.WALL_SIGN, false, Blocks.SPRUCE_WALL_SIGN.defaultBlockState(), () -> Items.SPRUCE_SIGN);
+		register(VanillaWoodType.BIRCH, WoodBlockKind.WALL_SIGN, false, Blocks.BIRCH_WALL_SIGN.defaultBlockState(), () -> Items.BIRCH_SIGN);
+		register(VanillaWoodType.JUNGLE, WoodBlockKind.WALL_SIGN, false, Blocks.JUNGLE_WALL_SIGN.defaultBlockState(), () -> Items.JUNGLE_SIGN);
+		register(VanillaWoodType.ACACIA, WoodBlockKind.WALL_SIGN, false, Blocks.ACACIA_WALL_SIGN.defaultBlockState(), () -> Items.ACACIA_SIGN);
+		register(VanillaWoodType.DARK_OAK, WoodBlockKind.WALL_SIGN, false, Blocks.DARK_OAK_WALL_SIGN.defaultBlockState(), () -> Items.DARK_OAK_SIGN);
+		register(VanillaWoodType.CHERRY, WoodBlockKind.WALL_SIGN, false, Blocks.CHERRY_WALL_SIGN.defaultBlockState(), () -> Items.CHERRY_SIGN);
+
+		register(VanillaWoodType.OAK, WoodBlockKind.HANGING_SIGN, false, Blocks.OAK_HANGING_SIGN.defaultBlockState(), () -> Items.OAK_HANGING_SIGN);
+		register(VanillaWoodType.SPRUCE, WoodBlockKind.HANGING_SIGN, false, Blocks.SPRUCE_HANGING_SIGN.defaultBlockState(), () -> Items.SPRUCE_HANGING_SIGN);
+		register(VanillaWoodType.BIRCH, WoodBlockKind.HANGING_SIGN, false, Blocks.BIRCH_HANGING_SIGN.defaultBlockState(), () -> Items.BIRCH_HANGING_SIGN);
+		register(VanillaWoodType.JUNGLE, WoodBlockKind.HANGING_SIGN, false, Blocks.JUNGLE_HANGING_SIGN.defaultBlockState(), () -> Items.JUNGLE_HANGING_SIGN);
+		register(VanillaWoodType.ACACIA, WoodBlockKind.HANGING_SIGN, false, Blocks.ACACIA_HANGING_SIGN.defaultBlockState(), () -> Items.ACACIA_HANGING_SIGN);
+		register(VanillaWoodType.DARK_OAK, WoodBlockKind.HANGING_SIGN, false, Blocks.DARK_OAK_HANGING_SIGN.defaultBlockState(), () -> Items.DARK_OAK_HANGING_SIGN);
+		register(VanillaWoodType.CHERRY, WoodBlockKind.HANGING_SIGN, false, Blocks.CHERRY_HANGING_SIGN.defaultBlockState(), () -> Items.CHERRY_HANGING_SIGN);
+
+		register(VanillaWoodType.OAK, WoodBlockKind.WALL_HANGING_SIGN, false, Blocks.OAK_WALL_HANGING_SIGN.defaultBlockState(), () -> Items.OAK_HANGING_SIGN);
+		register(VanillaWoodType.SPRUCE, WoodBlockKind.WALL_HANGING_SIGN, false, Blocks.SPRUCE_WALL_HANGING_SIGN.defaultBlockState(), () -> Items.SPRUCE_HANGING_SIGN);
+		register(VanillaWoodType.BIRCH, WoodBlockKind.WALL_HANGING_SIGN, false, Blocks.BIRCH_WALL_HANGING_SIGN.defaultBlockState(), () -> Items.BIRCH_HANGING_SIGN);
+		register(VanillaWoodType.JUNGLE, WoodBlockKind.WALL_HANGING_SIGN, false, Blocks.JUNGLE_WALL_HANGING_SIGN.defaultBlockState(), () -> Items.JUNGLE_HANGING_SIGN);
+		register(VanillaWoodType.ACACIA, WoodBlockKind.WALL_HANGING_SIGN, false, Blocks.ACACIA_WALL_HANGING_SIGN.defaultBlockState(), () -> Items.ACACIA_HANGING_SIGN);
+		register(VanillaWoodType.DARK_OAK, WoodBlockKind.WALL_HANGING_SIGN, false, Blocks.DARK_OAK_WALL_HANGING_SIGN.defaultBlockState(), () -> Items.DARK_OAK_HANGING_SIGN);
+		register(VanillaWoodType.CHERRY, WoodBlockKind.WALL_HANGING_SIGN, false, Blocks.CHERRY_WALL_HANGING_SIGN.defaultBlockState(), () -> Items.CHERRY_HANGING_SIGN);
+
+		register(VanillaWoodType.OAK, WoodBlockKind.BUTTON, false, Blocks.OAK_BUTTON.defaultBlockState(), () -> Items.OAK_BUTTON);
+		register(VanillaWoodType.SPRUCE, WoodBlockKind.BUTTON, false, Blocks.SPRUCE_BUTTON.defaultBlockState(), () -> Items.SPRUCE_BUTTON);
+		register(VanillaWoodType.BIRCH, WoodBlockKind.BUTTON, false, Blocks.BIRCH_BUTTON.defaultBlockState(), () -> Items.BIRCH_BUTTON);
+		register(VanillaWoodType.JUNGLE, WoodBlockKind.BUTTON, false, Blocks.JUNGLE_BUTTON.defaultBlockState(), () -> Items.JUNGLE_BUTTON);
+		register(VanillaWoodType.ACACIA, WoodBlockKind.BUTTON, false, Blocks.ACACIA_BUTTON.defaultBlockState(), () -> Items.ACACIA_BUTTON);
+		register(VanillaWoodType.DARK_OAK, WoodBlockKind.BUTTON, false, Blocks.DARK_OAK_BUTTON.defaultBlockState(), () -> Items.DARK_OAK_BUTTON);
+		register(VanillaWoodType.CHERRY, WoodBlockKind.BUTTON, false, Blocks.CHERRY_BUTTON.defaultBlockState(), () -> Items.CHERRY_BUTTON);
+
+		register(VanillaWoodType.OAK, WoodBlockKind.PRESSURE_PLATE, false, Blocks.OAK_PRESSURE_PLATE.defaultBlockState(), () -> Items.OAK_PRESSURE_PLATE);
+		register(VanillaWoodType.SPRUCE, WoodBlockKind.PRESSURE_PLATE, false, Blocks.SPRUCE_PRESSURE_PLATE.defaultBlockState(), () -> Items.SPRUCE_PRESSURE_PLATE);
+		register(VanillaWoodType.BIRCH, WoodBlockKind.PRESSURE_PLATE, false, Blocks.BIRCH_PRESSURE_PLATE.defaultBlockState(), () -> Items.BIRCH_PRESSURE_PLATE);
+		register(VanillaWoodType.JUNGLE, WoodBlockKind.PRESSURE_PLATE, false, Blocks.JUNGLE_PRESSURE_PLATE.defaultBlockState(), () -> Items.JUNGLE_PRESSURE_PLATE);
+		register(VanillaWoodType.ACACIA, WoodBlockKind.PRESSURE_PLATE, false, Blocks.ACACIA_PRESSURE_PLATE.defaultBlockState(), () -> Items.ACACIA_PRESSURE_PLATE);
+		register(VanillaWoodType.DARK_OAK, WoodBlockKind.PRESSURE_PLATE, false, Blocks.DARK_OAK_PRESSURE_PLATE.defaultBlockState(), () -> Items.DARK_OAK_PRESSURE_PLATE);
+		register(VanillaWoodType.CHERRY, WoodBlockKind.PRESSURE_PLATE, false, Blocks.CHERRY_PRESSURE_PLATE.defaultBlockState(), () -> Items.CHERRY_PRESSURE_PLATE);
 	}
 
 	/**
@@ -143,7 +199,7 @@ public enum WoodAccess implements IWoodAccess {
 
 	@Override
 	public void register(IWoodType woodType, WoodBlockKind woodBlockKind, boolean fireproof, BlockState blockState, Supplier<Item> itemStack) {
-		if (woodBlockKind == WoodBlockKind.DOOR) {
+		if (isNonBurning(woodBlockKind)) {
 			fireproof = true;
 		}
 		WoodMap woodMap = woodMaps.get(woodBlockKind);
@@ -156,7 +212,7 @@ public enum WoodAccess implements IWoodAccess {
 
 	@Override
 	public ItemStack getStack(IWoodType woodType, WoodBlockKind woodBlockKind, boolean fireproof) {
-		if (woodBlockKind == WoodBlockKind.DOOR) {
+		if (isNonBurning(woodBlockKind)) {
 			fireproof = true;
 		}
 		WoodMap woodMap = woodMaps.get(woodBlockKind);
@@ -170,7 +226,7 @@ public enum WoodAccess implements IWoodAccess {
 
 	@Override
 	public BlockState getBlock(IWoodType woodType, WoodBlockKind woodBlockKind, boolean fireproof) {
-		if (woodBlockKind == WoodBlockKind.DOOR) {
+		if (isNonBurning(woodBlockKind)) {
 			fireproof = true;
 		}
 		WoodMap woodMap = woodMaps.get(woodBlockKind);
@@ -180,6 +236,10 @@ public enum WoodAccess implements IWoodAccess {
 			throw new IllegalStateException(errMessage);
 		}
 		return blockState;
+	}
+
+	private static boolean isNonBurning(WoodBlockKind kind) {
+		return kind == WoodBlockKind.DOOR || kind == WoodBlockKind.TRAPDOOR || kind == WoodBlockKind.BUTTON || kind == WoodBlockKind.PRESSURE_PLATE;
 	}
 
 	@Override

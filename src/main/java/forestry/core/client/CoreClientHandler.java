@@ -75,7 +75,6 @@ import forestry.core.gui.GuiAlyzer;
 import forestry.core.gui.GuiAnalyzer;
 import forestry.core.gui.GuiEscritoire;
 import forestry.core.gui.GuiNaturalistInventory;
-import forestry.core.gui.elements.GuiElementFactory;
 import forestry.core.models.ClientManager;
 import forestry.core.models.FluidContainerModel;
 import forestry.core.models.ModelBlockCached;
@@ -213,7 +212,6 @@ public class CoreClientHandler implements IClientModuleHandler {
 	private static void registerReloadListeners(RegisterClientReloadListenersEvent event) {
 		event.registerReloadListener(((ForestryTextureManager) IForestryClientApi.INSTANCE.getTextureManager()).getSpriteUploader());
 		event.registerReloadListener(ColourProperties.INSTANCE);
-		event.registerReloadListener(GuiElementFactory.INSTANCE);
 
 		event.registerReloadListener((prepBarrier, resourceManager, prepProfiler, reloadProfiler, backgroundExecutor, gameExecutor) -> {
 			return prepBarrier.wait(Unit.INSTANCE).thenRunAsync(ModelBlockCached::clear, gameExecutor);

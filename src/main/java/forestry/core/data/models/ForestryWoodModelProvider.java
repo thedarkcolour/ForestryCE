@@ -6,17 +6,25 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.StairBlock;
 
+import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 
 import forestry.arboriculture.ForestryWoodType;
 import forestry.arboriculture.VanillaWoodType;
+import forestry.arboriculture.blocks.BlockForestryButton;
 import forestry.arboriculture.blocks.BlockForestryDoor;
 import forestry.arboriculture.blocks.BlockForestryFence;
 import forestry.arboriculture.blocks.BlockForestryFenceGate;
+import forestry.arboriculture.blocks.BlockForestryHangingSign;
 import forestry.arboriculture.blocks.BlockForestryLog;
+import forestry.arboriculture.blocks.BlockForestryPressurePlate;
 import forestry.arboriculture.blocks.BlockForestrySlab;
 import forestry.arboriculture.blocks.BlockForestryStairs;
+import forestry.arboriculture.blocks.BlockForestryStandingSign;
+import forestry.arboriculture.blocks.BlockForestryTrapdoor;
+import forestry.arboriculture.blocks.BlockForestryWallHangingSign;
+import forestry.arboriculture.blocks.BlockForestryWallSign;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.modules.features.FeatureBlockGroup;
 
@@ -167,6 +175,38 @@ public class ForestryWoodModelProvider extends ForestryBlockStateProvider {
 			BlockForestryDoor door = ArboricultureBlocks.DOORS.get(woodType).block();
 			doorBlock(door, withSuffix(blockTexture(door), "_bottom"), withSuffix(blockTexture(door), "_top"));
 			generic2d(door);
+
+			// Trapdoor
+			BlockForestryTrapdoor trapdoor = ArboricultureBlocks.TRAPDOORS.get(woodType).block();
+			trapdoorBlockWithRenderType(trapdoor, blockTexture(trapdoor), true, "cutout");
+			itemModels().trapdoorBottom(path(trapdoor), blockTexture(trapdoor));
+
+			// Sign
+			BlockForestryStandingSign sign = ArboricultureBlocks.SIGN.get(woodType).block();
+			BlockForestryWallSign wallSign = ArboricultureBlocks.WALL_SIGN.get(woodType).block();
+			ModelFile signModel = particleOnly(models(), path(sign), blockTexture(planks));
+			singleModelBlock(this, sign, signModel);
+			singleModelBlock(this, wallSign, signModel);
+			generic2d(sign);
+
+			// Hanging Sign
+			BlockForestryHangingSign hangingSign = ArboricultureBlocks.HANGING_SIGN.get(woodType).block();
+			BlockForestryWallHangingSign hangingWallSign = ArboricultureBlocks.WALL_HANGING_SIGN.get(woodType).block();
+			ModelFile hangingSignModel = particleOnly(models(), path(hangingSign), blockTexture(planks));
+			singleModelBlock(this, hangingSign, hangingSignModel);
+			singleModelBlock(this, hangingWallSign, hangingSignModel);
+			generic2d(hangingSign);
+
+			// Button
+			BlockForestryButton button = ArboricultureBlocks.BUTTON.get(woodType).block();
+			buttonBlock(button, planksLoc);
+			ModelFile buttonInventoryModel = itemModels().buttonInventory(path(button) + "_inventory", planksLoc);
+			itemModels().withExistingParent(path(button), buttonInventoryModel.getLocation());
+
+			// Pressure plate
+			BlockForestryPressurePlate pressurePlate = ArboricultureBlocks.PRESSURE_PLATE.get(woodType).block();
+			pressurePlateBlock(pressurePlate, planksLoc);
+			generic3d(pressurePlate);
 		}
 	}
 

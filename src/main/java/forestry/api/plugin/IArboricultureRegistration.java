@@ -2,6 +2,7 @@ package forestry.api.plugin;
 
 import java.awt.Color;
 
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
 
 import forestry.api.arboriculture.IWoodType;
@@ -22,7 +23,15 @@ public interface IArboricultureRegistration {
 	 * @param escritoireColor The primary color of this tree species. Used for pollen colors and tree leaf tinting.
 	 * @param woodType        The wood type of this tree species.
 	 */
-	ITreeSpeciesBuilder registerSpecies(ResourceLocation id, String genus, String species, boolean dominant, Color escritoireColor, IWoodType woodType);
+	ITreeSpeciesBuilder registerSpecies(ResourceLocation id, String genus, String species, boolean dominant, TextColor escritoireColor, IWoodType woodType);
+
+	/**
+	 * @deprecated Use the variant that accepts a TextColor
+	 */
+	@Deprecated(forRemoval = true)
+	default ITreeSpeciesBuilder registerSpecies(ResourceLocation id, String genus, String species, boolean dominant, Color escritoireColor, IWoodType woodType) {
+		return registerSpecies(id, genus, species, dominant, TextColor.fromRgb(escritoireColor.getRGB()), woodType);
+	}
 
 	/**
 	 * Register a new type of fruit.

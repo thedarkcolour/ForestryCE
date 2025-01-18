@@ -6,6 +6,7 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 
+import net.minecraftforge.client.model.generators.BlockModelProvider;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.client.model.generators.loaders.CompositeModelBuilder;
@@ -75,8 +76,8 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 		// Fluids (doesn't actually show in game, but silences the warning spam from Minecraft)
 		for (ForestryFluids fluid : ForestryFluids.values()) {
 			Block block = fluid.getFeature().fluidBlock().block();
-			ModelFile blockModel = particleOnly(path(block), fluid.getFeature().properties().resources[0]);
-			getVariantBuilder(block).partialState().modelForState().modelFile(blockModel).addModel();
+			ModelFile blockModel = particleOnly(models(), path(block), fluid.getFeature().properties().resources[0]);
+			singleModelBlock(this, block, blockModel);
 		}
 
 		// Leaves (same as with fluids)
@@ -87,19 +88,23 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 			ResourceLocation particle = IForestryClientApi.INSTANCE.getTreeManager().getLeafSprite(treeType.getIndividual().getSpecies()).get(false, true);
 			ModelFile file = models().getBuilder(path(defaultBlock)).texture("particle", particle);
 
-			getVariantBuilder(defaultBlock).partialState().modelForState().modelFile(file).addModel();
-			getVariantBuilder(defaultFruitBlock).partialState().modelForState().modelFile(file).addModel();
-			getVariantBuilder(decorativeBlock).partialState().modelForState().modelFile(file).addModel();
+			singleModelBlock(this, defaultBlock, file);
+			singleModelBlock(this, defaultFruitBlock, file);
+			singleModelBlock(this, decorativeBlock, file);
 
 			generic3d(defaultBlock);
 			generic3d(defaultFruitBlock, defaultBlock);
 			generic3d(decorativeBlock, defaultBlock);
 		}
-		getVariantBuilder(ArboricultureBlocks.LEAVES.block()).partialState().modelForState().modelFile(particleOnly(ArboricultureBlocks.LEAVES.getName(), blockTexture(Blocks.OAK_LEAVES))).addModel();
+		singleModelBlock(this, ArboricultureBlocks.LEAVES.block(), particleOnly(models(), ArboricultureBlocks.LEAVES.getName(), blockTexture(Blocks.OAK_LEAVES)));
 	}
 
-	private ModelFile particleOnly(String path, ResourceLocation particleTexture) {
-		return models().getBuilder(path).texture("particle", particleTexture);
+	public static void singleModelBlock(ForestryBlockStateProvider states, Block defaultBlock, ModelFile file) {
+		states.getVariantBuilder(defaultBlock).partialState().modelForState().modelFile(file).addModel();
+	}
+
+	public static ModelFile particleOnly(BlockModelProvider models, String path, ResourceLocation particleTexture) {
+		return models.getBuilder(path).texture("particle", particleTexture);
 	}
 
 	private void singleFarm(FarmBlock block) {
@@ -107,7 +112,7 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 		Block base = material.getBase();
 		ResourceLocation texture = modLoc("block/farm/" + block.getType().getSerializedName());
 
-		getVariantBuilder(block).partialState().modelForState().modelFile(farmPillar(path(block), base, texture, texture)).addModel();
+		singleModelBlock(this, block, farmPillar(path(block), base, texture, texture));
 	}
 
 	private void plainFarm(FarmBlock block) {

@@ -19,20 +19,29 @@ import forestry.arboriculture.WoodAccess;
 import forestry.arboriculture.blocks.BlockDecorativeLeaves;
 import forestry.arboriculture.blocks.BlockDefaultLeaves;
 import forestry.arboriculture.blocks.BlockDefaultLeavesFruit;
+import forestry.arboriculture.blocks.BlockForestryButton;
 import forestry.arboriculture.blocks.BlockForestryDoor;
 import forestry.arboriculture.blocks.BlockForestryFence;
 import forestry.arboriculture.blocks.BlockForestryFenceGate;
+import forestry.arboriculture.blocks.BlockForestryHangingSign;
 import forestry.arboriculture.blocks.BlockForestryLeaves;
 import forestry.arboriculture.blocks.BlockForestryLog;
 import forestry.arboriculture.blocks.BlockForestryPlank;
+import forestry.arboriculture.blocks.BlockForestryPressurePlate;
 import forestry.arboriculture.blocks.BlockForestrySlab;
 import forestry.arboriculture.blocks.BlockForestryStairs;
+import forestry.arboriculture.blocks.BlockForestryStandingSign;
+import forestry.arboriculture.blocks.BlockForestryTrapdoor;
+import forestry.arboriculture.blocks.BlockForestryWallHangingSign;
+import forestry.arboriculture.blocks.BlockForestryWallSign;
 import forestry.arboriculture.blocks.BlockFruitPod;
 import forestry.arboriculture.blocks.BlockSapling;
 import forestry.arboriculture.blocks.ForestryLeafType;
 import forestry.arboriculture.blocks.ForestryPodType;
 import forestry.arboriculture.items.ItemBlockDecorativeLeaves;
+import forestry.arboriculture.items.ItemBlockHangingSign;
 import forestry.arboriculture.items.ItemBlockLeaves;
+import forestry.arboriculture.items.ItemBlockSign;
 import forestry.arboriculture.items.ItemBlockWood;
 import forestry.arboriculture.items.ItemBlockWoodDoor;
 import forestry.arboriculture.items.ItemBlockWoodSlab;
@@ -84,6 +93,15 @@ public class ArboricultureBlocks {
 	public static final FeatureBlockGroup<BlockForestryStairs, VanillaWoodType> STAIRS_VANILLA_FIREPROOF = woodGroup((type) -> new BlockForestryStairs(PLANKS_VANILLA_FIREPROOF.get(type).block()), WoodBlockKind.STAIRS, true, VanillaWoodType.VALUES);
 
 	public static final FeatureBlockGroup<BlockForestryDoor, ForestryWoodType> DOORS = woodGroup(BlockForestryDoor::new, ItemBlockWoodDoor::new, WoodBlockKind.DOOR, false, ForestryWoodType.VALUES);
+	public static final FeatureBlockGroup<BlockForestryTrapdoor, ForestryWoodType> TRAPDOORS = woodGroup(BlockForestryTrapdoor::new, WoodBlockKind.TRAPDOOR, false, ForestryWoodType.VALUES);
+
+	public static final FeatureBlockGroup<BlockForestryStandingSign, ForestryWoodType> SIGN = registerWood(REGISTRY.blockGroup(BlockForestryStandingSign::new, ForestryWoodType.VALUES).item(ItemBlockSign::new).identifier("sign", FeatureGroup.IdentifierType.SUFFIX).create(), WoodBlockKind.SIGN);
+	public static final FeatureBlockGroup<BlockForestryWallSign, ForestryWoodType> WALL_SIGN = registerWood(REGISTRY.blockGroup(BlockForestryWallSign::new, ForestryWoodType.VALUES).identifier("wall_sign", FeatureGroup.IdentifierType.SUFFIX).create(), WoodBlockKind.WALL_SIGN);
+	public static final FeatureBlockGroup<BlockForestryHangingSign, ForestryWoodType> HANGING_SIGN = registerWood(REGISTRY.blockGroup(BlockForestryHangingSign::new, ForestryWoodType.VALUES).item(ItemBlockHangingSign::new).identifier("hanging_sign", FeatureGroup.IdentifierType.SUFFIX).create(), WoodBlockKind.HANGING_SIGN);
+	public static final FeatureBlockGroup<BlockForestryWallHangingSign, ForestryWoodType> WALL_HANGING_SIGN = registerWood(REGISTRY.blockGroup(BlockForestryWallHangingSign::new, ForestryWoodType.VALUES).identifier("wall_hanging_sign", FeatureGroup.IdentifierType.SUFFIX).create(), WoodBlockKind.WALL_HANGING_SIGN);
+
+	public static final FeatureBlockGroup<BlockForestryButton, ForestryWoodType> BUTTON = woodGroup(BlockForestryButton::new, WoodBlockKind.BUTTON, false, ForestryWoodType.VALUES);
+	public static final FeatureBlockGroup<BlockForestryPressurePlate, ForestryWoodType> PRESSURE_PLATE = woodGroup(BlockForestryPressurePlate::new, WoodBlockKind.PRESSURE_PLATE, false, ForestryWoodType.VALUES);
 
 	/* GENETICS */
 	public static final FeatureBlock<BlockSapling, BlockItem> SAPLING_GE = REGISTRY.block(BlockSapling::new, "sapling_ge");

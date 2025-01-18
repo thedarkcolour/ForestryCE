@@ -10,51 +10,52 @@
  ******************************************************************************/
 package forestry.core.items.definitions;
 
-import java.awt.Color;
 import java.util.Locale;
+
+import net.minecraft.network.chat.TextColor;
 
 import forestry.core.items.ItemOverlay;
 
 public enum EnumElectronTube implements ItemOverlay.IOverlayInfo {
-	COPPER(new Color(0xe3b78e)),
-	TIN(new Color(0xE6F8FF)),
-	BRONZE(new Color(0xddc276)),
-	IRON(new Color(0xCCCCCC)),
-	GOLD(new Color(0xffff8b)),
-	DIAMOND(new Color(0x8CF5E3)),
-	OBSIDIAN(new Color(0x866bc0)),
-	BLAZE(new Color(0xd96600), new Color(0xFFF87E)),
-	EMERALD(new Color(0x00CC41)),
-	APATITE(new Color(0x579CD9)),
-	LAPIS(new Color(0x1c57c6)),
-	ENDER(new Color(0x33adad), new Color(0x255661));
+	COPPER(TextColor.fromRgb(0xe3b78e)),
+	TIN(TextColor.fromRgb(0xE6F8FF)),
+	BRONZE(TextColor.fromRgb(0xddc276)),
+	IRON(TextColor.fromRgb(0xCCCCCC)),
+	GOLD(TextColor.fromRgb(0xffff8b)),
+	DIAMOND(TextColor.fromRgb(0x8CF5E3)),
+	OBSIDIAN(TextColor.fromRgb(0x866bc0)),
+	BLAZE(TextColor.fromRgb(0xd96600), TextColor.fromRgb(0xFFF87E)),
+	EMERALD(TextColor.fromRgb(0x00CC41)),
+	APATITE(TextColor.fromRgb(0x579CD9)),
+	LAPIS(TextColor.fromRgb(0x1c57c6)),
+	ENDER(TextColor.fromRgb(0x33adad), TextColor.fromRgb(0x255661));
 
 	private final String uid;
 	private final int primaryColor;
 	private final int secondaryColor;
 
-	EnumElectronTube(Color secondaryColor) {
-		this(secondaryColor, Color.WHITE);
+	EnumElectronTube(TextColor secondaryColor) {
+		this(secondaryColor, TextColor.fromRgb(0xffffff));
 	}
 
-	EnumElectronTube(Color secondaryColor, Color primaryColor) {
-		this.uid = toString().toLowerCase(Locale.ENGLISH);
-		this.primaryColor = primaryColor.getRGB();
-		this.secondaryColor = secondaryColor.getRGB();
+	EnumElectronTube(TextColor secondaryColor, TextColor primaryColor) {
+		this.uid = name().toLowerCase(Locale.ENGLISH);
+		this.primaryColor = primaryColor.getValue();
+		this.secondaryColor = secondaryColor.getValue();
 	}
 
 	@Override
 	public String getSerializedName() {
-		return uid;
+		return this.uid;
 	}
 
 	@Override
 	public int getPrimaryColor() {
-		return primaryColor;
+		return this.primaryColor;
 	}
 
 	@Override
 	public int getSecondaryColor() {
-		return secondaryColor;
+		return this.secondaryColor;
 	}
 }

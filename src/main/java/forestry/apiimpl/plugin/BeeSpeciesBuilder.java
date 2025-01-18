@@ -1,9 +1,9 @@
 package forestry.apiimpl.plugin;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
 
 import forestry.api.apiculture.IBeeJubilance;
@@ -44,20 +44,20 @@ public class BeeSpeciesBuilder extends SpeciesBuilder<IBeeSpeciesType, IBeeSpeci
 	}
 
 	@Override
-	public IBeeSpeciesBuilder setBody(Color color) {
-		this.bodyColor = color.getRGB();
+	public IBeeSpeciesBuilder setBody(TextColor color) {
+		this.bodyColor = color.getValue();
 		return this;
 	}
 
 	@Override
-	public IBeeSpeciesBuilder setStripes(Color color) {
-		this.stripesColor = color.getRGB();
+	public IBeeSpeciesBuilder setStripes(TextColor color) {
+		this.stripesColor = color.getValue();
 		return this;
 	}
 
 	@Override
-	public IBeeSpeciesBuilder setOutline(Color color) {
-		this.outlineColor = color.getRGB();
+	public IBeeSpeciesBuilder setOutline(TextColor color) {
+		this.outlineColor = color.getValue();
 		return this;
 	}
 

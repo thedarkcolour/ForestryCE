@@ -7,8 +7,6 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
 import forestry.api.genetics.IGenome;
 import forestry.api.genetics.IIndividual;
 import forestry.api.genetics.ILifeStage;
@@ -28,7 +26,7 @@ import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 
-class MutationsRecipeCategory implements IRecipeCategory<MutationRecipe> {
+public class MutationsRecipeCategory implements IRecipeCategory<MutationRecipe> {
 	private static final int SPECIES_SLOTS_Y = 16;
 	private static final int SPECIES_SLOT_0_X = 18 + 1;
 	private static final int SPECIES_SLOT_1_X = 71 + 1;

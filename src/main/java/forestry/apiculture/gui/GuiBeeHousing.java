@@ -13,16 +13,13 @@ package forestry.apiculture.gui;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.Slot;
-import net.minecraft.world.item.ItemStack;
 
 import forestry.core.config.Constants;
 import forestry.core.gui.ContainerForestry;
-import forestry.core.gui.GuiAnalyzerProvider;
-import forestry.core.gui.slots.SlotWatched;
+import forestry.core.gui.GuiForestryTitled;
 import forestry.core.render.EnumTankLevel;
 
-public class GuiBeeHousing<C extends ContainerForestry & IContainerBeeHousing> extends GuiAnalyzerProvider<C> {
+public class GuiBeeHousing<C extends ContainerForestry & IContainerBeeHousing> extends GuiForestryTitled<C> {
 	private final IGuiBeeHousingDelegate delegate;
 
 	public enum Icon {
@@ -38,17 +35,9 @@ public class GuiBeeHousing<C extends ContainerForestry & IContainerBeeHousing> e
 	}
 
 	public GuiBeeHousing(C container, Inventory inv, Component title) {
-		super(Constants.TEXTURE_PATH_GUI + container.getIcon().path, container, inv, container.getDelegate(), 25, 7, 2, 0);
+		super(Constants.TEXTURE_PATH_GUI + container.getIcon().path, container, inv, title);
 		this.delegate = container.getDelegate();
 		this.imageHeight = 190;
-
-		for (int i = 0; i < 2; i++) {
-			Slot queenSlot = container.getForestrySlot(1 + i);
-			if (queenSlot instanceof SlotWatched watched) {
-				watched.setChangeWatcher(this);
-			}
-		}
-		analyzer.init();
 	}
 
 	@Override
@@ -56,12 +45,6 @@ public class GuiBeeHousing<C extends ContainerForestry & IContainerBeeHousing> e
 		super.renderBg(graphics, partialTicks, mouseX, mouseY);
 
 		drawHealthMeter(graphics, leftPos + 20, topPos + 37, delegate.getHealthScaled(46), EnumTankLevel.rateTankLevel(delegate.getHealthScaled(100)));
-	}
-
-	@Override
-	protected void drawSelectedSlot(GuiGraphics graphics, int selectedSlot) {
-		Slot slot = menu.getForestrySlot(1 + selectedSlot);
-		SELECTED_COMB_SLOT.draw(graphics, topPos + slot.y - 3, leftPos + slot.x - 3);
 	}
 
 	private void drawHealthMeter(GuiGraphics graphics, int x, int y, int height, EnumTankLevel rated) {
@@ -77,16 +60,5 @@ public class GuiBeeHousing<C extends ContainerForestry & IContainerBeeHousing> e
 		addClimateLedger(delegate);
 		addHintLedger(delegate.getHintKey());
 		addOwnerLedger(delegate);
-	}
-
-	@Override
-	public ItemStack getSpecimen(int index) {
-		Slot slot = menu.getForestrySlot(getSelectedSlot(index));
-		return slot.getItem();
-	}
-
-	@Override
-	protected boolean hasErrors() {
-		return delegate.getErrorLogic().hasErrors();
 	}
 }

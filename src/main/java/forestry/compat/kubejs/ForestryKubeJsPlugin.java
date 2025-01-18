@@ -1,9 +1,5 @@
 package forestry.compat.kubejs;
 
-import net.minecraftforge.api.distmarker.Dist;
-
-import net.minecraftforge.fml.loading.FMLEnvironment;
-
 import forestry.api.IForestryApi;
 import forestry.api.client.IForestryClientApi;
 import forestry.api.genetics.alleles.BeeChromosomes;
@@ -12,10 +8,7 @@ import forestry.compat.kubejs.event.ForestryClientEvents;
 import forestry.compat.kubejs.event.ForestryEvents;
 
 import dev.latvian.mods.kubejs.KubeJSPlugin;
-import dev.latvian.mods.kubejs.client.ClientProperties;
 import dev.latvian.mods.kubejs.script.BindingsEvent;
-import dev.latvian.mods.kubejs.script.ScriptType;
-import dev.latvian.mods.kubejs.util.ClassFilter;
 
 /**
  * A KubeJS plugin that registers Forestry-specific compatibility.

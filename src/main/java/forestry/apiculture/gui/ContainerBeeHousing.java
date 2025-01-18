@@ -10,19 +10,20 @@
  ******************************************************************************/
 package forestry.apiculture.gui;
 
+import java.util.Objects;
+
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 
 import forestry.api.modules.IForestryPacketClient;
 import forestry.apiculture.features.ApicultureMenuTypes;
 import forestry.apiculture.tiles.TileBeeHousingBase;
-import forestry.core.gui.ContainerAnalyzerProvider;
+import forestry.core.gui.ContainerTile;
 import forestry.core.network.packets.PacketGuiStream;
 import forestry.core.tiles.TileUtil;
 import forestry.core.utils.NetworkUtil;
 
-public class ContainerBeeHousing extends ContainerAnalyzerProvider<TileBeeHousingBase> implements IContainerBeeHousing {
-
+public class ContainerBeeHousing extends ContainerTile<TileBeeHousingBase> implements IContainerBeeHousing {
 	private final IGuiBeeHousingDelegate delegate;
 	private final GuiBeeHousing.Icon icon;
 
@@ -30,10 +31,9 @@ public class ContainerBeeHousing extends ContainerAnalyzerProvider<TileBeeHousin
 		TileBeeHousingBase tile = TileUtil.getTile(inv.player.level(), buffer.readBlockPos(), TileBeeHousingBase.class);
 		boolean hasFrames = buffer.readBoolean();
 		GuiBeeHousing.Icon icon = NetworkUtil.readEnum(buffer, GuiBeeHousing.Icon.VALUES);
-		return new ContainerBeeHousing(windowId, inv, tile, hasFrames, icon);    //TODO nullability.
+		return new ContainerBeeHousing(windowId, inv, Objects.requireNonNull(tile), hasFrames, icon);
 	}
 
-	//TODO hack icon in GUI by checking title. Then it isn't needed here.
 	public ContainerBeeHousing(int windowId, Inventory playerInv, TileBeeHousingBase tile, boolean hasFrames, GuiBeeHousing.Icon icon) {
 		super(windowId, ApicultureMenuTypes.BEE_HOUSING.menuType(), playerInv, tile, 8, 108);
 		ContainerBeeHelper.addSlots(this, tile, hasFrames);
@@ -50,10 +50,10 @@ public class ContainerBeeHousing extends ContainerAnalyzerProvider<TileBeeHousin
 	public void broadcastChanges() {
 		super.broadcastChanges();
 
-		int beeProgress = tile.getBeekeepingLogic().getBeeProgressPercent();
+		int beeProgress = this.tile.getBeekeepingLogic().getBeeProgressPercent();
 		if (this.beeProgress != beeProgress) {
 			this.beeProgress = beeProgress;
-			IForestryPacketClient packet = new PacketGuiStream(tile);
+			IForestryPacketClient packet = new PacketGuiStream(this.tile);
 			sendPacketToListeners(packet);
 		}
 	}

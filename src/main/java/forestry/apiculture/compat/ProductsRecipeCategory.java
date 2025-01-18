@@ -22,7 +22,7 @@ import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 
-class ProductsRecipeCategory implements IRecipeCategory<ProductRecipe> {
+public class ProductsRecipeCategory implements IRecipeCategory<ProductRecipe> {
 	private static final int SPECIES_SLOT_X = 19 + 11;
 	private static final int SPECIES_SLOT_Y = 16;
 	private static final int PRODUCT_SLOTS_X = 93;
