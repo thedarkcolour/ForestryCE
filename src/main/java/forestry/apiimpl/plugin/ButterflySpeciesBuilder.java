@@ -4,6 +4,7 @@ import javax.annotation.Nullable;
 import java.awt.Color;
 import java.util.List;
 
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.biome.Biome;
@@ -28,8 +29,8 @@ public class ButterflySpeciesBuilder extends SpeciesBuilder<IButterflySpeciesTyp
 	}
 
 	@Override
-	public IButterflySpeciesBuilder setSerumColor(Color color) {
-		this.serumColor = color.getRGB();
+	public IButterflySpeciesBuilder setSerumColor(TextColor color) {
+		this.serumColor = color.getValue();
 		return this;
 	}
 

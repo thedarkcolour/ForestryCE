@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.util.List;
 import java.util.function.Consumer;
 
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
 
 import forestry.api.core.HumidityType;
@@ -72,7 +73,15 @@ public interface ISpeciesBuilder<T extends ISpeciesType<S, ?>, S extends ISpecie
 	 *
 	 * @param color The color of the Escritoire memory cell when displaying this species.
 	 */
-	B setEscritoireColor(Color color);
+	B setEscritoireColor(TextColor color);
+
+	/**
+	 * @deprecated Use the variant that accepts a TextColor
+	 */
+	@Deprecated(forRemoval = true)
+	default B setEscritoireColor(Color color) {
+		return setEscritoireColor(TextColor.fromRgb(color.getRGB()));
+	}
 
 	/**
 	 * Specify whether this bee species is a "secret" species whose mutation cannot be discovered in the Escritoire.

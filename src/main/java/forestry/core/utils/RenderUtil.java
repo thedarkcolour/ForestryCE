@@ -54,9 +54,9 @@ public class RenderUtil {
 		int color = IClientFluidTypeExtensions.of(attributes).getTintColor();
 		ForestryFluids definition = ForestryFluids.getFluidDefinition(fluid);
 		if (color < 0) {
-			color = Color.BLUE.getRGB();
+			color = 0x0000ff;
 			if (definition != null) {
-				color = definition.getParticleColor().getRGB();
+				color = definition.getParticleColor();
 			}
 		}
 		return color;

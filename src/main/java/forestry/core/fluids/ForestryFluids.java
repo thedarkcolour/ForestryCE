@@ -11,7 +11,6 @@
 package forestry.core.fluids;
 
 import javax.annotation.Nullable;
-import java.awt.Color;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -28,6 +27,7 @@ import net.minecraftforge.fluids.FluidStack;
 
 import forestry.api.ForestryConstants;
 import forestry.api.modules.ForestryModuleIds;
+import forestry.core.ForestryColors;
 import forestry.core.items.definitions.DrinkProperties;
 import forestry.core.utils.ModUtil;
 import forestry.modules.features.FeatureFluid;
@@ -39,46 +39,46 @@ import forestry.modules.features.ModFeatureRegistry;
 @FeatureProvider
 public enum ForestryFluids {
 	BIO_ETHANOL(properties -> properties
-			.particleColor(new Color(255, 111, 0))
+			.particleColor(ForestryColors.color(255, 111, 0))
 			.density(790)
 			.viscosity(1000)
 			.flammability(300)
 			.spreadsFire()),
 	BIOMASS(properties -> properties
-			.particleColor(new Color(100, 132, 41))
+			.particleColor(ForestryColors.color(100, 132, 41))
 			.density(400)
 			.viscosity(6560)
 			.flammability(100)),
 	GLASS(properties -> properties
-			.particleColor(new Color(164, 164, 164))
+			.particleColor(ForestryColors.color(164, 164, 164))
 			.density(2400)
 			.viscosity(10000)
 			.flammability(0)
 			.spreadsFire()
 			.temperature(1400)),
 	HONEY(properties -> properties
-			.particleColor(new Color(255, 196, 35))
+			.particleColor(ForestryColors.color(255, 196, 35))
 			.density(1420)
 			.viscosity(75600)
 			.drinkProperties(2, 0.2f, 64)
 	),
 	ICE(properties -> properties
-			.particleColor(new Color(175, 242, 255))
+			.particleColor(ForestryColors.color(175, 242, 255))
 			.density(520)
 			.viscosity(1000)
 			.temperature(265)),
 	JUICE(properties -> properties
-			.particleColor(new Color(168, 201, 114))
+			.particleColor(ForestryColors.color(168, 201, 114))
 			.drinkProperties(2, 0.2f, 32)
 	),
 	SEED_OIL(properties -> properties
-			.particleColor(new Color(255, 255, 168))
+			.particleColor(ForestryColors.color(255, 255, 168))
 			.density(885)
 			.viscosity(5000)
 			.spreadsFire()
 			.flammability(2)),
 	SHORT_MEAD(properties -> properties
-			.particleColor(new Color(239, 154, 56))
+			.particleColor(ForestryColors.color(239, 154, 56))
 			.density(1000)
 			.viscosity(1200)
 			.spreadsFire()
@@ -145,7 +145,7 @@ public enum ForestryFluids {
 		return new FluidStack(fluid, mb);
 	}
 
-	public final Color getParticleColor() {
+	public final int getParticleColor() {
 		return feature.properties().particleColor;
 	}
 

@@ -1,5 +1,6 @@
 ## Forestry 2.3.3
 - Actually fix painting variants
+- Phase out usage of java.awt.Color in common code to avoid potential server crashes with certain providers
 
 ## Forestry 2.3.2
 - Fix paintings only being available through commands

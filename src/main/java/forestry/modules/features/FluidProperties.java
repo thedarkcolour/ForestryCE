@@ -1,26 +1,24 @@
 package forestry.modules.features;
 
 import javax.annotation.Nullable;
-import java.awt.Color;
 import java.util.function.Supplier;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.world.item.Item;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.data.loading.DatagenModLoader;
 
 import net.minecraftforge.fml.loading.FMLEnvironment;
 
-import forestry.api.ForestryConstants;
 import forestry.core.items.definitions.DrinkProperties;
 
 public class FluidProperties {
 	public final int density;
 	public final int viscosity;
 	public final int temperature;
-	public final Color particleColor;
+	public final int particleColor;
 	public final int flammability;
 	public final boolean spreadsFire;
 	@Nullable
@@ -48,6 +46,6 @@ public class FluidProperties {
 		if (FMLEnvironment.dist == Dist.DEDICATED_SERVER || DatagenModLoader.isRunningDataGen()) {
 			return true;
 		}
-        return Minecraft.getInstance().getResourceManager().getResource(location).isPresent();
+		return Minecraft.getInstance().getResourceManager().getResource(location).isPresent();
 	}
 }

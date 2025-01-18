@@ -8,6 +8,7 @@ import java.awt.Color;
 import java.util.List;
 import java.util.function.Consumer;
 
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
 
 import forestry.api.core.HumidityType;
@@ -89,8 +90,8 @@ public abstract class SpeciesBuilder<T extends ISpeciesType<S, ?>, S extends ISp
 	}
 
 	@Override
-	public B setEscritoireColor(Color color) {
-		this.escritoireColor = color.getRGB();
+	public B setEscritoireColor(TextColor color) {
+		this.escritoireColor = color.getValue();
 		return self();
 	}
 

@@ -4,12 +4,11 @@ import javax.annotation.Nullable;
 import java.awt.Color;
 import java.util.List;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.biome.Biome;
 
 import forestry.api.core.IProduct;
-import forestry.api.core.Product;
 import forestry.api.lepidopterology.genetics.IButterflySpecies;
 import forestry.api.lepidopterology.genetics.IButterflySpeciesType;
 
@@ -19,9 +18,17 @@ import forestry.api.lepidopterology.genetics.IButterflySpeciesType;
  */
 public interface IButterflySpeciesBuilder extends ISpeciesBuilder<IButterflySpeciesType, IButterflySpecies, IButterflySpeciesBuilder> {
 	/**
+	 * @deprecated Use the variant that accepts a TextColor
+	 */
+	@Deprecated(forRemoval = true)
+	default IButterflySpeciesBuilder setSerumColor(Color color) {
+		return setSerumColor(TextColor.fromRgb(color.getRGB()));
+	}
+
+	/**
 	 * Overrides the serum color set in {@link ILepidopterologyRegistration#registerSpecies}.
 	 */
-	IButterflySpeciesBuilder setSerumColor(Color color);
+	IButterflySpeciesBuilder setSerumColor(TextColor color);
 
 	IButterflySpeciesBuilder setFlightDistance(float flightDistance);
 

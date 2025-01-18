@@ -10,8 +10,6 @@
  ******************************************************************************/
 package forestry.core.fluids;
 
-import java.awt.Color;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -33,7 +31,7 @@ import forestry.modules.features.FluidProperties;
 public class BlockForestryFluid extends LiquidBlock {
 	private final boolean spreadsFire;
 	private final int flammability;
-	private final Color color;
+	private final int color;
 	private final boolean freezing;
 	private final boolean burning;
 	private final float explosionPower;
@@ -85,10 +83,6 @@ public class BlockForestryFluid extends LiquidBlock {
 	@Override
 	public boolean isFireSource(BlockState state, LevelReader world, BlockPos pos, Direction side) {
 		return this.spreadsFire && this.flammability == 0;
-	}
-
-	public Color getColor() {
-		return color;
 	}
 
 	@Override

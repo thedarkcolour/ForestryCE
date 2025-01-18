@@ -3,6 +3,7 @@ package forestry.api.plugin;
 import java.awt.Color;
 import java.util.List;
 
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.world.item.ItemStack;
 
 import forestry.api.apiculture.IBeeJubilance;
@@ -52,18 +53,48 @@ public interface IBeeSpeciesBuilder extends ISpeciesBuilder<IBeeSpeciesType, IBe
 
 	/**
 	 * Sets the color of the bee's body. The default is yellow, {@code #ffdc16}, used by most bees.
+	 *
+	 * @since 2.3.3 Now accepts TextColor instead of java.awt.Color
 	 */
-	IBeeSpeciesBuilder setBody(Color color);
+	IBeeSpeciesBuilder setBody(TextColor color);
 
 	/**
-	 * Sets the color of the bee's stripes. The default is {@link Color#BLACK}.
+	 * Sets the color of the bee's stripes. The default is {@code #000000}.
+	 *
+	 * @since 2.3.3 Now accepts TextColor instead of java.awt.Color
 	 */
-	IBeeSpeciesBuilder setStripes(Color color);
+	IBeeSpeciesBuilder setStripes(TextColor color);
 
 	/**
 	 * Overrides the default bee outlines set in {@link IApicultureRegistration#registerSpecies}.
+	 *
+	 * @since 2.3.3 Now accepts TextColor instead of java.awt.Color
 	 */
-	IBeeSpeciesBuilder setOutline(Color color);
+	IBeeSpeciesBuilder setOutline(TextColor color);
+
+	/**
+	 * @deprecated Use variant that accepts TextColor
+	 */
+	@Deprecated(forRemoval = true)
+	default IBeeSpeciesBuilder setBody(Color color) {
+		return setBody(TextColor.fromRgb(color.getRGB()));
+	}
+
+	/**
+	 * @deprecated Use variant that accepts TextColor
+	 */
+	@Deprecated(forRemoval = true)
+	default IBeeSpeciesBuilder setStripes(Color color) {
+		return setStripes(TextColor.fromRgb(color.getRGB()));
+	}
+
+	/**
+	 * @deprecated Use variant that accepts TextColor
+	 */
+	@Deprecated(forRemoval = true)
+	default IBeeSpeciesBuilder setOutline(Color color) {
+		return setOutline(TextColor.fromRgb(color.getRGB()));
+	}
 
 	/**
 	 * Specify the jubilance conditions for this bee species. The default returns true if the bee's ideal temperature and humidity are met.

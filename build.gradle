@@ -6,6 +6,7 @@ plugins {
 	id('com.matthewprenger.cursegradle') version '1.4.0'
 	id('org.parchmentmc.librarian.forgegradle') version "1.+"
 	id "org.jetbrains.gradle.plugin.idea-ext" version "1.1.9"
+	//id 'io.freefair.lombok' version '8.11'
 }
 
 group = "thedarkcolour.forestry"

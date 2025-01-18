@@ -1,7 +1,6 @@
 package forestry.modules.features;
 
 import javax.annotation.Nullable;
-import java.awt.Color;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -9,11 +8,10 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-
+import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.Fluid;
 
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
@@ -23,6 +21,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
+import forestry.core.ForestryColors;
 import forestry.core.fluids.BlockForestryFluid;
 import forestry.core.items.definitions.DrinkProperties;
 
@@ -81,7 +80,7 @@ public class FeatureFluid extends ModFeature implements IFluidFeature {
 		int density = 1000;
 		int viscosity = 1000;
 		int temperature = 295;
-		Color particleColor = Color.WHITE;
+		int particleColor = ForestryColors.WHITE;
 		int flammability = 0;
 		boolean spreadsFire = false;
 		@Nullable
@@ -120,7 +119,7 @@ public class FeatureFluid extends ModFeature implements IFluidFeature {
 			return this;
 		}
 
-		public Builder particleColor(Color color) {
+		public Builder particleColor(int color) {
 			this.particleColor = color;
 			return this;
 		}
@@ -147,7 +146,7 @@ public class FeatureFluid extends ModFeature implements IFluidFeature {
 
 		public ForestryFluidType(FluidProperties forestryProps, Properties properties) {
 			super(properties);
-			this.color = forestryProps.particleColor.getRGB();
+			this.color = forestryProps.particleColor;
 			this.stillTexture = forestryProps.resources[0];
 			this.flowingTexture = forestryProps.resources[1];
 		}

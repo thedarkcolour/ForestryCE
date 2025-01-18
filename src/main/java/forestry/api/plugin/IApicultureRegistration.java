@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.util.Map;
 import java.util.function.Consumer;
 
+import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 
@@ -20,6 +21,14 @@ import forestry.api.genetics.alleles.IChromosome;
  */
 public interface IApicultureRegistration {
 	/**
+	 * @deprecated Use variant that accepts TextColor
+	 */
+	@Deprecated(forRemoval = true)
+	default IBeeSpeciesBuilder registerSpecies(ResourceLocation id, String genus, String species, boolean dominant, Color outline) {
+		return registerSpecies(id, genus, species, dominant, TextColor.fromRgb(outline.getRGB()));
+	}
+
+	/**
 	 * Register a new bee species.
 	 *
 	 * @param id       The unique ID for this species.
@@ -28,8 +37,9 @@ public interface IApicultureRegistration {
 	 * @param dominant Whether this species appears as a dominant allele in a genome.
 	 * @param outline  The color used for tinting the bee's outline. IntelliJ should show a nice color preview.
 	 * @throws IllegalStateException If a species has already been registered with the given ID.
+	 * @since 2.3.3 Now accepts TextColor instead of java.awt.Color
 	 */
-	IBeeSpeciesBuilder registerSpecies(ResourceLocation id, String genus, String species, boolean dominant, Color outline);
+	IBeeSpeciesBuilder registerSpecies(ResourceLocation id, String genus, String species, boolean dominant, TextColor outline);
 
 	/**
 	 * Modify a species that was already registered.
