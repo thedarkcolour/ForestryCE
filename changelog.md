@@ -1,3 +1,6 @@
+## Forestry 2.3.3
+- Actually fix painting variants
+
 ## Forestry 2.3.2
 - Fix paintings only being available through commands
 - Add GeneticsEventJS#defineTaxon method to add custom genera and other taxa through KubeJS
