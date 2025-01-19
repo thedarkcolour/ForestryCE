@@ -30,4 +30,11 @@ public class ForestryBeeEffects {
 	public static final ResourceLocation PATRIOTIC = ForestryConstants.forestry("bee_effect_patriotic");
 	public static final ResourceLocation SIFTER = ForestryConstants.forestry("bee_effect_sifter");
 	public static final ResourceLocation HAKUNA_MATATA = ForestryConstants.forestry("bee_effect_hakuna_matata");
+	public static final ResourceLocation GLOW_BERRY_GROW = ForestryConstants.forestry("bee_effect_glow_berry_grow");
+	public static final ResourceLocation REJUVENATION = ForestryConstants.forestry("bee_effect_rejuvenation");
+	public static final ResourceLocation CHRONOPHAGE = ForestryConstants.forestry("bee_effect_chronophage");
+	public static final ResourceLocation SCULK = ForestryConstants.forestry("bee_effect_sculk");
+	public static final ResourceLocation GUARDIAN = ForestryConstants.forestry("bee_effect_guardian");
+	public static final ResourceLocation PHASING = ForestryConstants.forestry("bee_effect_phasing");
+	public static final ResourceLocation ASCENSION = ForestryConstants.forestry("bee_effect_ascension");
 }

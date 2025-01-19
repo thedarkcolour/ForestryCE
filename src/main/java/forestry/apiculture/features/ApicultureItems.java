@@ -45,6 +45,7 @@ public class ApicultureItems {
 	// BEE RESOURCES
 	public static final FeatureItem<Item> HONEY_DROP = REGISTRY.item("honey_drop");
 	public static final FeatureItem<Item> HONEYDEW = REGISTRY.item("honeydew");
+	public static final FeatureItem<Item> EXPERIENCE_DROP = REGISTRY.item("exp_drop");
 	public static final FeatureItemGroup<ItemPropolis, EnumPropolis> PROPOLIS = REGISTRY.itemGroup(ItemPropolis::new, "propolis", EnumPropolis.values());
 
 	public static final FeatureItem<Item> ROYAL_JELLY = REGISTRY.item("royal_jelly");

@@ -79,7 +79,7 @@ public class LootTableHelper {
 						.name("forestry_apiculture_bees")
 						.setRolls(ConstantValue.exactly(1))
 						.add(beeLoot(ForestryBeeSpecies.STEADFAST))
-						.add(beeLoot(ForestryBeeSpecies.STEADFAST).setWeight(3)
+						.add(beeLoot(ForestryBeeSpecies.MODEST).setWeight(3)
 								.apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 3.0F))))
 						.add(EmptyLootItem.emptyItem().setWeight(6))
 				));
@@ -105,7 +105,7 @@ public class LootTableHelper {
 								.apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 2)))
 								.setWeight(20)
 						)
-						.add(beeLoot(ForestryBeeSpecies.ENDED)
+						.add(beeLoot(ForestryBeeSpecies.SHULKING)
 								.apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 3)))
 								.setWeight(20)
 						)
@@ -210,6 +210,27 @@ public class LootTableHelper {
 						.add(EmptyLootItem.emptyItem().setWeight(3))
 				)
 		);
+		add(BuiltInLootTables.SHIPWRECK_SUPPLY, "apiculture",
+				LootTable.lootTable().withPool(LootPool.lootPool()
+						.name("forestry_apiculture_bees")
+						.setRolls(ConstantValue.exactly(1))
+						.add(beeLoot(ForestryBeeSpecies.PIRATE).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 3))))
+						.add(EmptyLootItem.emptyItem().setWeight(9))
+				));
+		add(BuiltInLootTables.SHIPWRECK_TREASURE, "apiculture",
+				LootTable.lootTable().withPool(LootPool.lootPool()
+						.name("forestry_apiculture_bees")
+						.setRolls(ConstantValue.exactly(1))
+						.add(beeLoot(ForestryBeeSpecies.PIRATE).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 3))))
+						.add(EmptyLootItem.emptyItem().setWeight(9))
+				));
+		add(BuiltInLootTables.SHIPWRECK_MAP, "apiculture",
+				LootTable.lootTable().withPool(LootPool.lootPool()
+						.name("forestry_apiculture_bees")
+						.setRolls(ConstantValue.exactly(1))
+						.add(beeLoot(ForestryBeeSpecies.PIRATE).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 3))))
+						.add(EmptyLootItem.emptyItem().setWeight(9))
+				));
 	}
 
 	private LootPoolSingletonContainer.Builder<?> saplingLoot(ResourceLocation species) {

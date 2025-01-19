@@ -73,6 +73,11 @@ public class ForestryTags {
 		public static final TagKey<Block> SNOW_FLOWERS = blockTag("flowers/snow");
 		public static final TagKey<Block> WHEAT_FLOWERS = blockTag("flowers/wheat");
 		public static final TagKey<Block> GOURD_FLOWERS = blockTag("flowers/gourd");
+		public static final TagKey<Block> CAVE_FLOWERS = blockTag("flowers/cave");
+		public static final TagKey<Block> ANCIENT_FLOWERS = blockTag("flowers/ancient");
+		public static final TagKey<Block> SEA_FLOWERS = blockTag("flowers/sea");
+		public static final TagKey<Block> CORAL_FLOWERS = blockTag("flowers/coral");
+		public static final TagKey<Block> SCULK_FLOWERS = blockTag("flowers/sculk");
 
 		// Flowers that can grow around hives
 		public static final TagKey<Block> PLANTABLE_FLOWERS = blockTag("flowers/plantable");
@@ -82,8 +87,11 @@ public class ForestryTags {
 		public static final TagKey<Block> MODEST_BEE_GROUND = blockTag("hive_grounds/modest");
 		public static final TagKey<Block> ENDED_BEE_GROUND = blockTag("hive_grounds/ended");
 		public static final TagKey<Block> WINTRY_BEE_GROUND = blockTag("hive_grounds/wintry");
+		public static final TagKey<Block> LUSH_BEE_CEILING = blockTag("hive_grounds/lush");
+		public static final TagKey<Block> CAVE_EXTRA_REPLACEABLES = blockTag("hive_grounds/cave_extra_replaceable");
 		// Blocks where the Alveary Swarmer can spawn hives on top of
 		public static final TagKey<Block> SWARM_BEE_GROUND = blockTag("hive_grounds/swarm");
+		public static final TagKey<Block> NETHER_EXTRA_REPLACEABLES = blockTag("hive_grounds/nether_extra_replaceable");
 
 		private static TagKey<Block> forgeTag(String name) {
 			return BlockTags.create(new ResourceLocation("forge", name));
@@ -209,6 +217,8 @@ public class ForestryTags {
 		public static final TagKey<Biome> HELLISH_TEMPERATURE = tag("temperature/hellish");
 
 		public static final TagKey<Biome> SHATTERED_SAVANNA = tag("special/shattered_savanna");
+		public static final TagKey<Biome> WARPED_FOREST = tag("special/warped_forest");
+		public static final TagKey<Biome> DEEP_DARK = tag("special/deep_dark");
 
 		private static TagKey<Biome> tag(String path) {
 			return TagKey.create(Registries.BIOME, ForestryConstants.forestry(path));

@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.List;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BiomeTags;
@@ -22,10 +23,13 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraftforge.common.Tags;
 
 import forestry.api.ForestryTags;
@@ -109,6 +113,47 @@ public enum HiveDefinition implements IHiveDefinition {
 		public void postGen(WorldGenLevel level, RandomSource rand, BlockPos pos) {
 			//TODO: generate pumpkins in dry biomes and melons in normal ones
 			//postGenFlowers(world,rand,pos,flowerStates);
+		}
+	},
+	LUSH(ApicultureBlocks.BEEHIVE.get(BlockHiveType.LUSH).defaultState(), 2.0F, ForestryBeeSpecies.LUSH, new HiveGenCaveCeiling(ForestryTags.Blocks.LUSH_BEE_CEILING, ForestryTags.Blocks.CAVE_EXTRA_REPLACEABLES)) {
+		@Override
+		public boolean isGoodBiome(Holder<Biome> biome) {
+			return super.isGoodBiome(biome) && biome.is(Tags.Biomes.IS_CAVE);
+		}
+
+		@Override
+		public void postGen(WorldGenLevel level, RandomSource rand, BlockPos pos) {
+			if(level.getBlockState(pos.below()).canBeReplaced()){
+				level.setBlock(pos.below(),Blocks.CAVE_VINES.defaultBlockState().setValue(BlockStateProperties.BERRIES, rand.nextFloat()<0.11F), Block.UPDATE_CLIENTS);
+			}
+		}
+	},
+	AQUATIC(ApicultureBlocks.BEEHIVE.get(BlockHiveType.AQUATIC).defaultState(), 1.0F, ForestryBeeSpecies.AQUATIC, new HiveGenOcean(BlockTags.SAND)){
+		@Override
+		public boolean isGoodBiome(Holder<Biome> biome) {
+			return biome.is(Biomes.WARM_OCEAN);
+		}
+
+		static final Block[] CORAL_FANS=new Block[]{Blocks.FIRE_CORAL_WALL_FAN,Blocks.BRAIN_CORAL_WALL_FAN,Blocks.BUBBLE_CORAL_WALL_FAN,Blocks.HORN_CORAL_WALL_FAN,Blocks.TUBE_CORAL_WALL_FAN};
+		static final Block[] CORAL_PLANTS=new Block[]{Blocks.FIRE_CORAL_FAN,Blocks.BRAIN_CORAL_FAN,Blocks.BUBBLE_CORAL_FAN,Blocks.HORN_CORAL_FAN,Blocks.TUBE_CORAL_FAN};
+
+		@Override
+		public void postGen(WorldGenLevel level, RandomSource rand, BlockPos pos) {
+			for(Direction direction:Direction.VALUES){
+				BlockPos pos2=pos.relative(direction);
+				if(direction.getAxis().isHorizontal()&&level.getBlockState(pos2).getBlock()==Blocks.WATER){
+					level.setBlock(pos2, CORAL_FANS[rand.nextInt(5)].defaultBlockState().setValue(HorizontalDirectionalBlock.FACING, direction), Block.UPDATE_CLIENTS);
+				}
+				if(level.getBlockState(pos.above()).getBlock()==Blocks.WATER){
+					level.setBlock(pos.above(), CORAL_PLANTS[rand.nextInt(5)].defaultBlockState(), Block.UPDATE_CLIENTS);
+				}
+			}
+		}
+	},
+	NETHER(ApicultureBlocks.BEEHIVE.get(BlockHiveType.NETHER).defaultState(), 4.0F, ForestryBeeSpecies.EMBITTERED, new HiveGenCaveCeiling(BlockTags.WART_BLOCKS, ForestryTags.Blocks.NETHER_EXTRA_REPLACEABLES)){
+		@Override
+		public boolean isGoodBiome(Holder<Biome> biome) {
+			return biome.is(BiomeTags.IS_NETHER);
 		}
 	};
 

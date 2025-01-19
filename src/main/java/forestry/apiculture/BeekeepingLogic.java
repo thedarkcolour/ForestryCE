@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.Stack;
 
+import forestry.api.apiculture.*;
+import forestry.api.genetics.ForestryTaxa;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -32,12 +34,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import forestry.api.IForestryApi;
-import forestry.api.apiculture.IApiaristTracker;
-import forestry.api.apiculture.IBeeHousing;
-import forestry.api.apiculture.IBeeHousingInventory;
-import forestry.api.apiculture.IBeeListener;
-import forestry.api.apiculture.IBeeModifier;
-import forestry.api.apiculture.IBeekeepingLogic;
 import forestry.api.apiculture.genetics.BeeLifeStage;
 import forestry.api.apiculture.genetics.IBee;
 import forestry.api.core.ForestryError;
@@ -363,6 +359,10 @@ public class BeekeepingLogic implements IBeekeepingLogic {
 		// Mate and replace princess with queen
 		IBee princess = (IBee) IIndividualHandlerItem.getIndividual(princessStack);
 		IBee drone = (IBee) IIndividualHandlerItem.getIndividual(droneStack);
+		// If nether princess is outside nether it zombifies. Drones can breed in the short life they have so species may persist in secondary trait
+		if(princess.getSpecies().getGenusName().equals(ForestryTaxa.GENUS_EMBITTERED) && housing.getWorldObj().dimension()!=Level.NETHER){
+			princess = SpeciesUtil.getBeeSpecies(ForestryBeeSpecies.ZOMBIFIED).createIndividual();
+		}
 		princess.setMate(drone.getGenome());
 
 		this.queenStack = princess.createStack(BeeLifeStage.QUEEN);
