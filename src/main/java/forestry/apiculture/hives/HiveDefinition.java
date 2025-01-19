@@ -134,17 +134,18 @@ public enum HiveDefinition implements IHiveDefinition {
 			return biome.is(Biomes.WARM_OCEAN);
 		}
 
+		static final Block[] CORAL_FANS=new Block[]{Blocks.FIRE_CORAL_WALL_FAN,Blocks.BRAIN_CORAL_WALL_FAN,Blocks.BUBBLE_CORAL_WALL_FAN,Blocks.HORN_CORAL_WALL_FAN,Blocks.TUBE_CORAL_WALL_FAN};
+		static final Block[] CORAL_PLANTS=new Block[]{Blocks.FIRE_CORAL_FAN,Blocks.BRAIN_CORAL_FAN,Blocks.BUBBLE_CORAL_FAN,Blocks.HORN_CORAL_FAN,Blocks.TUBE_CORAL_FAN};
+
 		@Override
 		public void postGen(WorldGenLevel level, RandomSource rand, BlockPos pos) {
 			for(Direction direction:Direction.VALUES){
 				BlockPos pos2=pos.relative(direction);
-				Block[] blocks=new Block[]{Blocks.FIRE_CORAL_WALL_FAN,Blocks.BRAIN_CORAL_WALL_FAN,Blocks.BUBBLE_CORAL_WALL_FAN,Blocks.HORN_CORAL_WALL_FAN,Blocks.TUBE_CORAL_WALL_FAN};
 				if(direction.getAxis().isHorizontal()&&level.getBlockState(pos2).getBlock()==Blocks.WATER){
-					level.setBlock(pos2, blocks[rand.nextInt(5)].defaultBlockState().setValue(HorizontalDirectionalBlock.FACING, direction), Block.UPDATE_CLIENTS);
+					level.setBlock(pos2, CORAL_FANS[rand.nextInt(5)].defaultBlockState().setValue(HorizontalDirectionalBlock.FACING, direction), Block.UPDATE_CLIENTS);
 				}
 				if(level.getBlockState(pos.above()).getBlock()==Blocks.WATER){
-					Block[] blocks2=new Block[]{Blocks.FIRE_CORAL_FAN,Blocks.BRAIN_CORAL_FAN,Blocks.BUBBLE_CORAL_FAN,Blocks.HORN_CORAL_FAN,Blocks.TUBE_CORAL_FAN};
-					level.setBlock(pos.above(), blocks2[rand.nextInt(5)].defaultBlockState(), Block.UPDATE_CLIENTS);
+					level.setBlock(pos.above(), CORAL_PLANTS[rand.nextInt(5)].defaultBlockState(), Block.UPDATE_CLIENTS);
 				}
 			}
 		}

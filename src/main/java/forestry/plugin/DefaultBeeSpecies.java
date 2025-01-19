@@ -782,7 +782,7 @@ public class DefaultBeeSpecies {
 					genome.set(BeeChromosomes.SPEED, ForestryAlleles.SPEED_NORMAL);
 				})
 				.addMutations(mutations -> {
-					mutations.add(ForestryBeeSpecies.LUXURIANT, ForestryBeeSpecies.HERMITIC, 8);
+					mutations.add(ForestryBeeSpecies.LUXURIANT, ForestryBeeSpecies.MONASTIC, 12);
 				})
 				.setAuthority("EnderiumSmith");
 
@@ -795,8 +795,8 @@ public class DefaultBeeSpecies {
 					genome.set(BeeChromosomes.SPEED, ForestryAlleles.SPEED_FAST);
 				})
 				.addMutations(mutations -> {
-					mutations.add(ForestryBeeSpecies.KLEPTOPLASTIC, ForestryBeeSpecies.LUXURIANT, 4);
-					mutations.add(ForestryBeeSpecies.KLEPTOPLASTIC, ForestryBeeSpecies.HERMITIC, 4);
+					mutations.add(ForestryBeeSpecies.KLEPTOPLASTIC, ForestryBeeSpecies.LUXURIANT, 8);
+					mutations.add(ForestryBeeSpecies.KLEPTOPLASTIC, ForestryBeeSpecies.MONASTIC, 8);
 				})
 				.setAuthority("EnderiumSmith");
 
@@ -809,7 +809,7 @@ public class DefaultBeeSpecies {
 					genome.set(BeeChromosomes.SPEED, ForestryAlleles.SPEED_FASTER);
 				})
 				.addMutations(mutations -> {
-					mutations.add(ForestryBeeSpecies.KLEPTOPLASTIC, ForestryBeeSpecies.PHOTOSYNTHETIC, 2);
+					mutations.add(ForestryBeeSpecies.KLEPTOPLASTIC, ForestryBeeSpecies.PHOTOSYNTHETIC, 4);
 				})
 				.setGlint(true)
 				.setAuthority("EnderiumSmith");
