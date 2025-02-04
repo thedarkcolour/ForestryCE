@@ -23,6 +23,7 @@ import forestry.apiculture.genetics.HermitBeeJubilance;
 import forestry.apiculture.items.EnumHoneyComb;
 import forestry.apiculture.items.EnumPollenCluster;
 import forestry.core.features.CoreItems;
+import forestry.core.genetics.mutations.MutationConditionCave;
 import forestry.core.items.definitions.EnumCraftingMaterial;
 
 import static forestry.api.genetics.ForestryTaxa.*;
@@ -705,6 +706,51 @@ public class DefaultBeeSpecies {
 				.addMutations(mutations -> {
 					mutations.add(ForestryBeeSpecies.MONASTIC, ForestryBeeSpecies.SECLUDED, 8);
 				})
+				.setGlint(true);
+
+		// Lush
+		apiculture.registerSpecies(ForestryBeeSpecies.LUSH, GENUS_LUSH, SPECIES_LUSH, true, new Color(0x70922D))
+				.setTemperature(TemperatureType.WARM)
+				.setHumidity(HumidityType.DAMP)
+				.addProduct(BEE_COMBS.stack(EnumHoneyComb.HONEY), 0.35F)
+				.setGenome(genome -> {
+					genome.set(BeeChromosomes.LIFESPAN, ForestryAlleles.LIFESPAN_NORMAL);
+					genome.set(BeeChromosomes.SPEED, ForestryAlleles.SPEED_SLOWEST);
+					genome.set(BeeChromosomes.POLLINATION, ForestryAlleles.POLLINATION_SLOWER);
+				})
+				.setAuthority("EnderiumSmith");
+
+		// Verdant
+		apiculture.registerSpecies(ForestryBeeSpecies.VERDANT, GENUS_LUSH, SPECIES_VERDANT, true, new Color(0x1C5B3A))
+				.setTemperature(TemperatureType.WARM)
+				.setHumidity(HumidityType.DAMP)
+				.addProduct(BEE_COMBS.stack(EnumHoneyComb.HONEY), 0.45F)
+				.addSpecialty(new ItemStack(Items.SMALL_DRIPLEAF), 0.15F)
+				.setGenome(genome -> {
+					genome.set(BeeChromosomes.LIFESPAN, ForestryAlleles.LIFESPAN_LONG);
+					genome.set(BeeChromosomes.SPEED, ForestryAlleles.SPEED_SLOW);
+					genome.set(BeeChromosomes.POLLINATION, ForestryAlleles.POLLINATION_SLOWER);
+				})
+				.addMutations(mutations -> {
+					mutations.add(ForestryBeeSpecies.LUSH, ForestryBeeSpecies.VALIANT, 10).addMutationCondition(new MutationConditionCave());
+				})
+				.setAuthority("EnderiumSmith");
+
+		// LUXURIANT
+		apiculture.registerSpecies(ForestryBeeSpecies.LUXURIANT, GENUS_LUSH, SPECIES_LUXURIANT, false, new Color(0xEB8931))
+				.setTemperature(TemperatureType.WARM)
+				.setHumidity(HumidityType.DAMP)
+				.addProduct(BEE_COMBS.stack(EnumHoneyComb.HONEY), 0.55F)
+				.setGenome(genome -> {
+					genome.set(BeeChromosomes.LIFESPAN, ForestryAlleles.LIFESPAN_LONG);
+					genome.set(BeeChromosomes.SPEED, ForestryAlleles.SPEED_SLOWEST);
+					genome.set(BeeChromosomes.POLLINATION, ForestryAlleles.POLLINATION_FAST);
+					genome.set(BeeChromosomes.EFFECT, ForestryAlleles.EFFECT_GLOW_BERRY_GROW);
+				})
+				.addMutations(mutations -> {
+					mutations.add(ForestryBeeSpecies.LUSH, ForestryBeeSpecies.VERDANT, 8).addMutationCondition(new MutationConditionCave());
+				})
+				.setAuthority("EnderiumSmith")
 				.setGlint(true);
 	}
 }

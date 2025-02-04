@@ -1,4 +1,4 @@
-// 1.20.1	2025-01-15T23:29:40.0926931	Loot Tables
+// 1.20.1	2025-02-03T18:15:10.2026322	Loot Tables
 41fb17dab11f0d0ac4c695eb706119b894401c59 data/forestry/loot_tables/blocks/acacia_desert_button.json
 cd06ea8f3c3db3fc055cc6b07393f6aa938e0525 data/forestry/loot_tables/blocks/acacia_desert_door.json
 0826e330e65982a3be8d6b9d0987e5fc526d62dd data/forestry/loot_tables/blocks/acacia_desert_fence.json
@@ -97,6 +97,7 @@ f7a93b91cdcc6f14ab4c0489a2b8e5156f21b7c0 data/forestry/loot_tables/blocks/beehiv
 f1b817aba7dcf3fc0ddd08f4aa1f44c6512d1198 data/forestry/loot_tables/blocks/beehive_end.json
 3d2a9207b55de3fcdd8431ffbe6016511d49d071 data/forestry/loot_tables/blocks/beehive_forest.json
 41f7fb87de2d4f466bbd81da053410a1f960d2a9 data/forestry/loot_tables/blocks/beehive_jungle.json
+329cac9841e11bf7f76b53e0fbbfdfe18c799436 data/forestry/loot_tables/blocks/beehive_lush.json
 05dbcb7c32dc998788cb93323c3c10e63a53dded data/forestry/loot_tables/blocks/beehive_meadows.json
 c9f20dea972ea84db298bc6da4b88b83c48f4f9b data/forestry/loot_tables/blocks/beehive_savanna.json
 fda6aa38ac28800d33083c9975ee175e373b050e data/forestry/loot_tables/blocks/beehive_snow.json

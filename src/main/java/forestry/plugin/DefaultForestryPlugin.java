@@ -61,6 +61,7 @@ import forestry.apiculture.genetics.effects.ExplorationBeeEffect;
 import forestry.apiculture.genetics.effects.FertileBeeEffect;
 import forestry.apiculture.genetics.effects.FungificationBeeEffect;
 import forestry.apiculture.genetics.effects.GlacialBeeEffect;
+import forestry.apiculture.genetics.effects.GlowBerryGrowEffect;
 import forestry.apiculture.genetics.effects.HeroicBeeEffect;
 import forestry.apiculture.genetics.effects.IgnitionBeeEffect;
 import forestry.apiculture.genetics.effects.MisanthropeBeeEffect;
@@ -247,6 +248,10 @@ public class DefaultForestryPlugin implements IForestryPlugin {
 				.addDrop(0.80, ForestryBeeSpecies.SAVANNA, parchedComb, 0.7f)
 				.addDrop(0.03, ForestryBeeSpecies.VALIANT, parchedComb);
 
+		apiculture.registerHive(ForestryBeeSpecies.LUSH, HiveDefinition.LUSH)
+				.addDrop(0.80, ForestryBeeSpecies.LUSH, honeyComb, 0.5F)
+				.addDrop(0.08, ForestryBeeSpecies.VALIANT, honeyComb);
+
 
 		// Common village bees
 		apiculture.addVillageBee(ForestryBeeSpecies.FOREST, false);
@@ -273,6 +278,7 @@ public class DefaultForestryPlugin implements IForestryPlugin {
 		apiculture.registerFlowerType(ForestryFlowerTypes.SNOW, new FlowerType(ForestryTags.Blocks.SNOW_FLOWERS, true));
 		apiculture.registerFlowerType(ForestryFlowerTypes.WHEAT, new FlowerType(ForestryTags.Blocks.WHEAT_FLOWERS, true));
 		apiculture.registerFlowerType(ForestryFlowerTypes.GOURD, new FlowerType(ForestryTags.Blocks.GOURD_FLOWERS, true));
+		apiculture.registerFlowerType(ForestryFlowerTypes.CAVE, new FlowerType(ForestryTags.Blocks.CAVE_FLOWERS, true));
 
 		apiculture.registerBeeEffect(ForestryBeeEffects.NONE, new DummyBeeEffect(true));
 		apiculture.registerBeeEffect(ForestryBeeEffects.AGGRESSIVE, new AggressiveBeeEffect());
@@ -295,6 +301,7 @@ public class DefaultForestryPlugin implements IForestryPlugin {
 		apiculture.registerBeeEffect(ForestryBeeEffects.MYCOPHILIC, new FungificationBeeEffect());
 		apiculture.registerBeeEffect(ForestryBeeEffects.SIFTER, new SifterBeeEffect());
 		apiculture.registerBeeEffect(ForestryBeeEffects.HAKUNA_MATATA, new PotionBeeEffectExclusive(false, ApicultureEffects.HAKUNA_MATATA.get(), 20 * 60 * 3, 100, 1.0f, ApicultureEffects.MATATA.get()));
+		apiculture.registerBeeEffect(ForestryBeeEffects.GLOW_BERRY_GROW, new GlowBerryGrowEffect());
 
 		apiculture.registerActivityType(ForestryActivityTypes.DIURNAL, new SingleActivityType(0, 12000, ForestryError.NOT_DAY, LightPreference.ANY));
 		apiculture.registerActivityType(ForestryActivityTypes.NOCTURNAL, new SingleActivityType(12000, 24000, ForestryError.NOT_NIGHT, LightPreference.DARK));

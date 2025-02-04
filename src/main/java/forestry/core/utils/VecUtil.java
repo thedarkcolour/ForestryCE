@@ -53,6 +53,11 @@ public final class VecUtil {
 		return BlockPos.containing(vec.getX() * factor, vec.getY() * factor, vec.getZ() * factor);
 	}
 
+	// Returns the offset to translate to the bottom corner of a bee's territory, "centering" the position.
+	public static Vec3i center(Vec3i vec) {
+		return new Vec3i(-vec.getZ() / 2, -(vec.getY() - 1) / 2, -vec.getZ() / 2);
+	}
+
 	public static Direction direction(Vec3i a, Vec3i b) {
 		int x = Math.abs(a.getX() - b.getX());
 		int y = Math.abs(a.getY() - b.getY());

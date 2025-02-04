@@ -18,11 +18,14 @@ public class ForestryBiomeTagsProvider {
 				.add(Biomes.WOODED_BADLANDS)
 				.add(Biomes.SAVANNA)
 				.add(Biomes.SAVANNA_PLATEAU)
+				.add(Biomes.LUSH_CAVES)
 				.add(Biomes.WINDSWEPT_SAVANNA);
 		tags.tag(ForestryTags.Biomes.HELLISH_TEMPERATURE)
 				.addTag(BiomeTags.IS_NETHER);
 		tags.tag(ForestryTags.Biomes.ARID_HUMIDITY)
 				.addTag(BiomeTags.IS_END);
 		tags.tag(ForestryTags.Biomes.SHATTERED_SAVANNA).add(Biomes.WINDSWEPT_SAVANNA);
+		tags.tag(ForestryTags.Biomes.DAMP_HUMIDITY)
+				.add(Biomes.LUSH_CAVES);
 	}
 }

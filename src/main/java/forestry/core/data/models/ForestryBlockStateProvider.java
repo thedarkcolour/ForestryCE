@@ -2,6 +2,7 @@ package forestry.core.data.models;
 
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -14,6 +15,9 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 
 import forestry.api.ForestryConstants;
 import forestry.api.client.IForestryClientApi;
+import forestry.apiculture.blocks.BlockBeeHive;
+import forestry.apiculture.blocks.BlockHiveType;
+import forestry.apiculture.features.ApicultureBlocks;
 import forestry.arboriculture.blocks.ForestryLeafType;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.core.features.CoreBlocks;
@@ -26,6 +30,7 @@ import forestry.farming.blocks.EnumFarmBlockType;
 import forestry.farming.blocks.EnumFarmMaterial;
 import forestry.farming.blocks.FarmBlock;
 import forestry.farming.features.FarmingBlocks;
+import forestry.modules.features.FeatureBlock;
 
 public class ForestryBlockStateProvider extends BlockStateProvider {
 	public ForestryBlockStateProvider(PackOutput output, ExistingFileHelper exFileHelper) {
@@ -97,6 +102,19 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 			generic3d(decorativeBlock, defaultBlock);
 		}
 		singleModelBlock(this, ArboricultureBlocks.LEAVES.block(), particleOnly(models(), ArboricultureBlocks.LEAVES.getName(), blockTexture(Blocks.OAK_LEAVES)));
+
+		for (BlockHiveType type : BlockHiveType.values()) {
+			BlockBeeHive feature = ApicultureBlocks.BEEHIVE.get(type).block();
+			String path = path(feature);
+
+			ResourceLocation side = modBlock("beehives/" + type.getSerializedName() + ".side");
+			ResourceLocation top = modBlock("beehives/" + type.getSerializedName() + ".top");
+			// todo make all hives use bottom textures
+			ResourceLocation bottom = type == BlockHiveType.LUSH ? modBlock("beehives/" + type.getSerializedName() + ".bottom") : top;
+
+			singleModelBlock(this, feature, models().cubeBottomTop(path, side, bottom, top));
+			generic3d(feature);
+		}
 	}
 
 	public static void singleModelBlock(ForestryBlockStateProvider states, Block defaultBlock, ModelFile file) {

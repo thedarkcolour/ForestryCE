@@ -172,6 +172,7 @@ public final class ForestryBlockTagsProvider {
 		tags.tag(ForestryTags.Blocks.SNOW_FLOWERS).addTag(BlockTags.FLOWERS);
 		tags.tag(ForestryTags.Blocks.WHEAT_FLOWERS).add(Blocks.WHEAT);
 		tags.tag(ForestryTags.Blocks.GOURD_FLOWERS).add(Blocks.MELON_STEM, Blocks.ATTACHED_MELON_STEM, Blocks.PUMPKIN_STEM, Blocks.ATTACHED_PUMPKIN_STEM);
+		tags.tag(ForestryTags.Blocks.CAVE_FLOWERS).add(Blocks.CAVE_VINES, Blocks.CAVE_VINES_PLANT, Blocks.SPORE_BLOSSOM);
 
 		tags.tag(ForestryTags.Blocks.PLANTABLE_FLOWERS)
 				.addTag(BlockTags.FLOWERS)
@@ -184,6 +185,8 @@ public final class ForestryBlockTagsProvider {
 		//why is there no tag for cactus plantable, but there is for dead bush?
 		tags.tag(ForestryTags.Blocks.MODEST_BEE_GROUND).addTag(BlockTags.SAND).addTag(BlockTags.TERRACOTTA);
 		tags.tag(ForestryTags.Blocks.WINTRY_BEE_GROUND).addTag(BlockTags.DIRT).addTag(BlockTags.SNOW);
+		tags.tag(ForestryTags.Blocks.LUSH_BEE_CEILING).add(Blocks.MOSS_BLOCK).add(Blocks.ROOTED_DIRT);
+		tags.tag(ForestryTags.Blocks.CAVE_EXTRA_REPLACEABLES).add(Blocks.POINTED_DRIPSTONE).add(Blocks.CAVE_VINES).add(Blocks.CAVE_VINES_PLANT).add(Blocks.HANGING_ROOTS).add(Blocks.GLOW_LICHEN);
 	}
 
 	private static Collection<Block> union(FeatureBlockGroup<?, ?>... features) {

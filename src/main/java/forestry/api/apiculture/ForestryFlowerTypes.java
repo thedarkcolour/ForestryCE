@@ -17,4 +17,5 @@ public class ForestryFlowerTypes {
 	public static final ResourceLocation SNOW = ForestryConstants.forestry("flower_type_snow");
 	public static final ResourceLocation WHEAT = ForestryConstants.forestry("flower_type_wheat");
 	public static final ResourceLocation GOURD = ForestryConstants.forestry("flower_type_gourd");
+	public static final ResourceLocation CAVE = ForestryConstants.forestry("flower_type_cave");
 }

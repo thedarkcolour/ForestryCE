@@ -25,6 +25,7 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
 import net.minecraftforge.common.Tags;
 
@@ -109,6 +110,19 @@ public enum HiveDefinition implements IHiveDefinition {
 		public void postGen(WorldGenLevel level, RandomSource rand, BlockPos pos) {
 			//TODO: generate pumpkins in dry biomes and melons in normal ones
 			//postGenFlowers(world,rand,pos,flowerStates);
+		}
+	},
+	LUSH(ApicultureBlocks.BEEHIVE.get(BlockHiveType.LUSH).defaultState(), 2.0F, ForestryBeeSpecies.LUSH, new HiveGenCaveCeiling(ForestryTags.Blocks.LUSH_BEE_CEILING, ForestryTags.Blocks.CAVE_EXTRA_REPLACEABLES)) {
+		@Override
+		public boolean isGoodBiome(Holder<Biome> biome) {
+			return super.isGoodBiome(biome) && biome.is(Tags.Biomes.IS_CAVE);
+		}
+
+		@Override
+		public void postGen(WorldGenLevel level, RandomSource rand, BlockPos pos) {
+			if (level.getBlockState(pos.below()).canBeReplaced()) {
+				level.setBlock(pos.below(), Blocks.CAVE_VINES.defaultBlockState().setValue(BlockStateProperties.BERRIES, rand.nextFloat() < 0.11F), Block.UPDATE_CLIENTS);
+			}
 		}
 	};
 

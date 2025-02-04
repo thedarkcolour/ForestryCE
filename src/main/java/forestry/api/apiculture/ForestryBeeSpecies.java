@@ -56,4 +56,7 @@ public class ForestryBeeSpecies {
 	public static final ResourceLocation MONASTIC = forestry("bee_monastic");
 	public static final ResourceLocation SECLUDED = forestry("bee_secluded");
 	public static final ResourceLocation HERMITIC = forestry("bee_hermitic");
+	public static final ResourceLocation LUSH = forestry("bee_lush");
+	public static final ResourceLocation VERDANT = forestry("bee_verdant");
+	public static final ResourceLocation LUXURIANT = forestry("bee_luxuriant");
 }
