@@ -18,7 +18,6 @@ import java.util.List;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.RandomSource;
@@ -38,8 +37,8 @@ import forestry.api.arboriculture.genetics.ITree;
 import forestry.api.climate.IClimateManager;
 import forestry.api.core.HumidityType;
 import forestry.api.core.TemperatureType;
-import forestry.arboriculture.TreeConfig;
 import forestry.arboriculture.commands.TreeGenHelper;
+import forestry.core.config.ForestryConfig;
 import forestry.core.utils.BlockUtil;
 import forestry.core.utils.SpeciesUtil;
 
@@ -109,9 +108,8 @@ public class TreeDecorator extends Feature<NoneFeatureConfiguration> {
 		RandomSource rand = context.random();
 		BlockPos pos = context.origin();
 
-		// todo configurable
-		float globalRarity = TreeConfig.getSpawnRarity();
-		if (globalRarity <= 0.0F) {
+		double globalRarity = ForestryConfig.SERVER.treesSpawnNaturally.get();
+		if (globalRarity <= 0.0) {
 			return false;
 		}
 

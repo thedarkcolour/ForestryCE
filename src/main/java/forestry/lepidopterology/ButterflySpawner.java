@@ -23,6 +23,7 @@ import forestry.api.arboriculture.genetics.ITree;
 import forestry.api.genetics.alleles.TreeChromosomes;
 import forestry.api.lepidopterology.genetics.IButterfly;
 import forestry.api.lepidopterology.genetics.IButterflySpecies;
+import forestry.core.config.ForestryConfig;
 import forestry.core.utils.SpeciesUtil;
 import forestry.lepidopterology.entities.EntityButterfly;
 
@@ -35,7 +36,7 @@ public class ButterflySpawner implements ILeafTickHandler {
 
 	@Override
 	public boolean onRandomLeafTick(ITree tree, Level world, RandomSource rand, BlockPos pos, boolean isDestroyed) {
-		if (!world.getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING)) {
+		if (!world.getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING) || ForestryConfig.SERVER.disableButterflySpawning.get()) {
 			return false;
 		}
 

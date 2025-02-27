@@ -1,3 +1,7 @@
+## Forestry 2.4.2
+- Reimplement config option for changing Forestry tree natural spawn rate
+- Reimplement config option to disable butterfly spawning
+
 ## Forestry 2.4.1
 - Require Forge 47.3.5 to fix Hanging Signs crash (#174)
 - Dropped NeoForge support. There is absolutely no reason to use NeoForge in 1.20.1.

@@ -76,6 +76,8 @@ public class ForestryConfig {
 		public final ForgeConfigSpec.BooleanValue pollinateVanillaLeaves;
 		public final ForgeConfigSpec.DoubleValue wildHiveSpawnRate;
 		public final ForgeConfigSpec.BooleanValue useHaploidDrones;
+		// Trees
+		public final ForgeConfigSpec.DoubleValue treesSpawnNaturally;
 		// Butterflies
 		public final ForgeConfigSpec.IntValue butterflyClusterLimit;
 		public final ForgeConfigSpec.IntValue butterflyClusterWidth;
@@ -88,6 +90,7 @@ public class ForestryConfig {
 		public final ForgeConfigSpec.IntValue legacyFarmsRingSize;
 		// Misc
 		public final ForgeConfigSpec.BooleanValue enableBackpackResupply;
+		public final ForgeConfigSpec.BooleanValue disableButterflySpawning;
 
 		public Server(ForgeConfigSpec.Builder builder) {
 			// Genetics
@@ -132,8 +135,18 @@ public class ForestryConfig {
 					.defineInRange("legacy_farms_ring_size", 4, 1, 10);
 			builder.pop();
 
+			// Trees
+			builder.push("trees");
+			this.treesSpawnNaturally = builder
+					.comment("Multiplies the chance of a Forestry tree spawning in the wild. Set to 0 to disable Forestry tree spawning.")
+					.defineInRange("tree_spawn_chance_modifier", 1.0f, 0.0f, 1000000.0f);
+			builder.pop();
+
 			// Butterflies
 			builder.push("butterflies");
+			this.disableButterflySpawning = builder
+					.comment("Whether butterflies can spawn from Forestry leaves.")
+					.define("disable_butterfly_spawning", false);
 			this.butterflyClusterLimit = builder
 					.comment("The maximum number of butterflies that can spawn in the same area or cluster.")
 					.defineInRange("butterfly_cluster_limit", 20, 1, 2000);
