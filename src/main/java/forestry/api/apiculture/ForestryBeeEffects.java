@@ -31,5 +31,6 @@ public class ForestryBeeEffects {
 	public static final ResourceLocation SIFTER = ForestryConstants.forestry("bee_effect_sifter");
 	public static final ResourceLocation HAKUNA_MATATA = ForestryConstants.forestry("bee_effect_hakuna_matata");
 	public static final ResourceLocation GLOW_BERRY_GROW = ForestryConstants.forestry("bee_effect_glow_berry_grow");
+	public static final ResourceLocation GUARDIAN = ForestryConstants.forestry("bee_effect_guardian");
 	public static final ResourceLocation ASCENSION = ForestryConstants.forestry("bee_effect_ascension");
 }

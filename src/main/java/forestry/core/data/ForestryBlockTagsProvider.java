@@ -8,7 +8,6 @@ import java.util.Set;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 
@@ -173,6 +172,8 @@ public final class ForestryBlockTagsProvider {
 		tags.tag(ForestryTags.Blocks.WHEAT_FLOWERS).add(Blocks.WHEAT);
 		tags.tag(ForestryTags.Blocks.GOURD_FLOWERS).add(Blocks.MELON_STEM, Blocks.ATTACHED_MELON_STEM, Blocks.PUMPKIN_STEM, Blocks.ATTACHED_PUMPKIN_STEM);
 		tags.tag(ForestryTags.Blocks.CAVE_FLOWERS).add(Blocks.CAVE_VINES, Blocks.CAVE_VINES_PLANT, Blocks.SPORE_BLOSSOM);
+		tags.tag(ForestryTags.Blocks.SEA_FLOWERS).add(Blocks.KELP, Blocks.KELP_PLANT);
+		tags.tag(ForestryTags.Blocks.CORAL_FLOWERS).addTags(BlockTags.CORALS).addTags(BlockTags.WALL_CORALS);
 
 		tags.tag(ForestryTags.Blocks.PLANTABLE_FLOWERS)
 				.addTag(BlockTags.FLOWERS)

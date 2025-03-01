@@ -1,4 +1,4 @@
-// 1.20.1	2025-01-15T23:50:39.6574633	Recipes
+// 1.20.1	2025-02-26T20:39:23.2835601	Recipes
 6867bbb8c2b291d6e111aae900a9ce8be0cf8ebe data/forestry/advancements/recipes/building_blocks/acacia_desert_fence.json
 92d402b3f91419af71a9913fbddab9c5e9183779 data/forestry/advancements/recipes/building_blocks/acacia_desert_fence_gate.json
 756f6f4fa8d9fdc7fe1895f6bd02cb5e107c6acf data/forestry/advancements/recipes/building_blocks/acacia_desert_fireproof_fence.json
@@ -74,6 +74,7 @@ d78dcc639f32eb17ec0374d8151c6e9d1c83d31a data/forestry/advancements/recipes/buil
 f38cab8c1ad35fcf4dc71d63d6a2e702eacad6e1 data/forestry/advancements/recipes/building_blocks/block_bee_comb_powdery.json
 c6b43634160e816bc5fc02aebb07228d02fdf80e data/forestry/advancements/recipes/building_blocks/block_bee_comb_silky.json
 f64f64f639ae74b3b4337e55d22694fe9bc22d7f data/forestry/advancements/recipes/building_blocks/block_bee_comb_simmering.json
+b07b2d23eb6b73bbfc4910ff6db5e3f979936651 data/forestry/advancements/recipes/building_blocks/block_bee_comb_sponge.json
 18957a3bcce150376db54eac98e4ec81396d1adf data/forestry/advancements/recipes/building_blocks/block_bee_comb_stringy.json
 3dd86aa117fe0d879616624795e30ac43d8aa886 data/forestry/advancements/recipes/building_blocks/block_bee_comb_wheaten.json
 72f1f083e8802d7da73337cb1203f372a5f43e58 data/forestry/advancements/recipes/building_blocks/bog_earth_bucket.json
@@ -1022,6 +1023,7 @@ e2822c5f781e2a82060071b9afdb7ce66d5a2783 data/forestry/recipes/block_bee_comb_pa
 4520db0250722d8d399431f22ad5e41edb06378a data/forestry/recipes/block_bee_comb_powdery.json
 c025efabde34b093118fbdd15712b0ea88fc2d5f data/forestry/recipes/block_bee_comb_silky.json
 467de3704dbc7ba08b61d006baa6c7d2012245ac data/forestry/recipes/block_bee_comb_simmering.json
+221775c297ac440486542836617ba1c5376a4c20 data/forestry/recipes/block_bee_comb_sponge.json
 5a75008e6c981b85d9be708a9284506171753bf5 data/forestry/recipes/block_bee_comb_stringy.json
 6b2e7373e8c64a30d935ba6da94b0d2bec006ba0 data/forestry/recipes/block_bee_comb_wheaten.json
 3d311cc794067009b9544bb36582e27ba1c8f808 data/forestry/recipes/bog_earth_bucket.json
@@ -1062,6 +1064,7 @@ a161b20d567cd57cdf067bff289fe2f1f8a0c55a data/forestry/recipes/carpenter/crates/
 dd15da2539d854834c5dad7d066f7e501043df7a data/forestry/recipes/carpenter/crates/pack/forestry/bee_comb_powdery.json
 ad1662d72113037270e25d32357c74c8808dcd5d data/forestry/recipes/carpenter/crates/pack/forestry/bee_comb_silky.json
 4a1ffeff90331ae88e193824c2f07fca10d425e5 data/forestry/recipes/carpenter/crates/pack/forestry/bee_comb_simmering.json
+aac920cc38b25dbdb6b4d070fa7860b22759de9c data/forestry/recipes/carpenter/crates/pack/forestry/bee_comb_sponge.json
 8b9d84d7546973efcaf8297c3927cbf429abf823 data/forestry/recipes/carpenter/crates/pack/forestry/bee_comb_stringy.json
 ac1d485d1630565fd768af8f3b2ff738df298856 data/forestry/recipes/carpenter/crates/pack/forestry/bee_comb_wheaten.json
 3b0f0003ade708b333fc388a9a7b0dbcaf1e8232 data/forestry/recipes/carpenter/crates/pack/forestry/bog_earth.json
@@ -1142,6 +1145,7 @@ e155109db940be535e2f2aece53b19debdcb0ed9 data/forestry/recipes/carpenter/crates/
 2b1c277346798a01c1b4527e8610a7ee0cb42be3 data/forestry/recipes/carpenter/crates/unpack/forestry/bee_comb_powdery.json
 4588fa1209fc51011a94f3e7314f2d9b3d41e936 data/forestry/recipes/carpenter/crates/unpack/forestry/bee_comb_silky.json
 f1f554c074a8b428521d5898d590bd147a03826a data/forestry/recipes/carpenter/crates/unpack/forestry/bee_comb_simmering.json
+659fb787c88585a6c3fd5dc7df3cbd0215e63401 data/forestry/recipes/carpenter/crates/unpack/forestry/bee_comb_sponge.json
 05dabb621291b3ccf4da916332e3f67cfaeabd3b data/forestry/recipes/carpenter/crates/unpack/forestry/bee_comb_stringy.json
 51205d401ad3af48a54aa8f2b253a2089f643296 data/forestry/recipes/carpenter/crates/unpack/forestry/bee_comb_wheaten.json
 d0888e8a77974bd58e0f203e4fc4cffc0cea2cf6 data/forestry/recipes/carpenter/crates/unpack/forestry/bog_earth.json

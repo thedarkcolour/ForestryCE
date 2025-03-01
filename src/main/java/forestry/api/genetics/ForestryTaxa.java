@@ -97,6 +97,8 @@ public class ForestryTaxa {
 	public static final String GENUS_SAVANNA = "afrapis";
 	public static final String GENUS_MONASTIC = "monapis";
 	public static final String GENUS_LUSH = "troglobites";
+	public static final String GENUS_KLEPTOPLASTIC = "phytapis";
+	public static final String GENUS_AQUATIC = "spongiforma";
 	// Tree Genera
 	public static final String GENUS_DIOSPYROS = "diospyros";
 	public static final String GENUS_ACACIA = "acacia";
@@ -209,6 +211,13 @@ public class ForestryTaxa {
 	public static final String SPECIES_LUSH = "atvatabari";
 	public static final String SPECIES_VERDANT = "lidenbrocki";
 	public static final String SPECIES_LUXURIANT = "verni";
+	public static final String SPECIES_KLEPTOPLASTIC = "vitaraptor";
+	public static final String SPECIES_PHOTOSYNTHETIC = "phytomimus";
+	public static final String SPECIES_AUTOTROPHIC = "solaris";
+	public static final String SPECIES_AQUATIC = "squarepantsii";//a real species name
+	public static final String SPECIES_PIRATE = "pirata";
+	public static final String SPECIES_PRISMATIC = "orichalcus";
+	public static final String SPECIES_ABYSSAL = "stygii";
 	public static final String SPECIES_SHULKING = "shurukui";
 	// Tree Species
 	public static final String SPECIES_OAK = "robur";

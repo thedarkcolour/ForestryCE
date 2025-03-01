@@ -400,6 +400,9 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_SLOWER);
 					genome.set(TreeChromosomes.GIRTH, ForestryAlleles.GIRTH_3);
 				})
+				.addMutations(mutations -> {
+					mutations.add(ForestryTreeSpecies.DARK_OAK, ForestryTreeSpecies.KAPOK, 10);
+				})
 				.setRarity(0.0005f);
 
 		// Zebrawood (Wood is called "zebrawood" but species is glassywood. should this be changed?)

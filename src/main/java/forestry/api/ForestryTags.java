@@ -74,6 +74,8 @@ public class ForestryTags {
 		public static final TagKey<Block> WHEAT_FLOWERS = blockTag("flowers/wheat");
 		public static final TagKey<Block> GOURD_FLOWERS = blockTag("flowers/gourd");
 		public static final TagKey<Block> CAVE_FLOWERS = blockTag("flowers/cave");
+		public static final TagKey<Block> SEA_FLOWERS = blockTag("flowers/sea");
+		public static final TagKey<Block> CORAL_FLOWERS = blockTag("flowers/coral");
 
 		// Flowers that can grow around hives
 		public static final TagKey<Block> PLANTABLE_FLOWERS = blockTag("flowers/plantable");

@@ -1,12 +1,13 @@
 package forestry.core.recipes.jei;
 
-import mezz.jei.api.gui.ingredient.IRecipeSlotTooltipCallback;
-import mezz.jei.api.gui.ingredient.IRecipeSlotView;
-import net.minecraft.ChatFormatting;
+import java.util.List;
+
 import net.minecraft.network.chat.Component;
 
-import java.text.NumberFormat;
-import java.util.List;
+import forestry.core.utils.JeiUtil;
+
+import mezz.jei.api.gui.ingredient.IRecipeSlotTooltipCallback;
+import mezz.jei.api.gui.ingredient.IRecipeSlotView;
 
 public class ChanceTooltipCallback implements IRecipeSlotTooltipCallback {
 	private final float chance;
@@ -22,10 +23,6 @@ public class ChanceTooltipCallback implements IRecipeSlotTooltipCallback {
 
 	@Override
 	public void onTooltip(IRecipeSlotView recipeSlotView, List<Component> tooltip) {
-		NumberFormat percentFormat = NumberFormat.getPercentInstance();
-		percentFormat.setMaximumFractionDigits(2);
-		String chanceString = String.valueOf(percentFormat.format(chance));
-
-		tooltip.add(Component.translatable("for.jei.chance", chanceString).withStyle(ChatFormatting.GRAY));
+		tooltip.add(JeiUtil.formatChance(chance));
 	}
 }

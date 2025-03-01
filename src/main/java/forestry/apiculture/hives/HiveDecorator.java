@@ -22,10 +22,12 @@ import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 
+import forestry.Forestry;
 import forestry.api.IForestryApi;
 import forestry.api.apiculture.hives.IHive;
 import forestry.api.core.HumidityType;
 import forestry.api.core.TemperatureType;
+import forestry.apiculture.blocks.BlockHiveType;
 import forestry.core.config.ForestryConfig;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
@@ -42,10 +44,11 @@ public class HiveDecorator extends Feature<NoneFeatureConfiguration> {
 			return false;
 		}
 
-		//Forestry.LOGGER.debug("Attempting to place hive {} at pos {}", hive, hivePos);
+		if (hive.getDefinition() == HiveDefinition.AQUATIC)
+		Forestry.LOGGER.debug("Attempting to place hive {} at pos {}", hive, hivePos);
 
 		if (!hive.canReplace(world, hivePos)) {
-			//Forestry.LOGGER.debug("Failed to place hive: could not replace block {}", world.getBlockState(hivePos));
+			Forestry.LOGGER.debug("Failed to place hive: could not replace block {}", world.getBlockState(hivePos));
 			return false;
 		}
 
@@ -58,7 +61,7 @@ public class HiveDecorator extends Feature<NoneFeatureConfiguration> {
 		}
 
 		if (!hive.isValidLocation(world, hivePos)) {
-			//Forestry.LOGGER.debug("Failed to place hive: could not place block at {}", hivePos);
+			Forestry.LOGGER.debug("Failed to place hive: could not place block at {}", hivePos);
 			return false;
 		}
 

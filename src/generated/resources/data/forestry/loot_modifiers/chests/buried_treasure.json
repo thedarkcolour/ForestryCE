@@ -1,0 +1,13 @@
+{
+  "type": "forestry:condition_modifier",
+  "conditions": [
+    {
+      "condition": "forge:loot_table_id",
+      "loot_table_id": "minecraft:chests/buried_treasure"
+    }
+  ],
+  "extensions": [
+    "apiculture"
+  ],
+  "table": "minecraft:chests/buried_treasure"
+}

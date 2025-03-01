@@ -50,7 +50,9 @@ import forestry.apiculture.CathemeralActivityType;
 import forestry.apiculture.CrepuscularActivityType;
 import forestry.apiculture.EndFlowerType;
 import forestry.apiculture.FlowerType;
+import forestry.apiculture.PhotosynthesisFlowerType;
 import forestry.apiculture.SingleActivityType;
+import forestry.apiculture.WaterFlowerType;
 import forestry.apiculture.features.ApicultureEffects;
 import forestry.apiculture.features.ApicultureItems;
 import forestry.apiculture.genetics.BeeSpeciesType;
@@ -63,6 +65,7 @@ import forestry.apiculture.genetics.effects.FertileBeeEffect;
 import forestry.apiculture.genetics.effects.FungificationBeeEffect;
 import forestry.apiculture.genetics.effects.GlacialBeeEffect;
 import forestry.apiculture.genetics.effects.GlowBerryGrowEffect;
+import forestry.apiculture.genetics.effects.GuardianBeeEffect;
 import forestry.apiculture.genetics.effects.HeroicBeeEffect;
 import forestry.apiculture.genetics.effects.IgnitionBeeEffect;
 import forestry.apiculture.genetics.effects.MisanthropeBeeEffect;
@@ -216,6 +219,7 @@ public class DefaultForestryPlugin implements IForestryPlugin {
 		Supplier<List<ItemStack>> mysteriousComb = getHoneyComb(EnumHoneyComb.MYSTERIOUS);
 		Supplier<List<ItemStack>> frozenComb = getHoneyComb(EnumHoneyComb.FROZEN);
 		Supplier<List<ItemStack>> mossyComb = getHoneyComb(EnumHoneyComb.MOSSY);
+		Supplier<List<ItemStack>> spongeComb = getHoneyComb(EnumHoneyComb.SPONGE);
 
 		apiculture.registerHive(ForestryBeeSpecies.FOREST, HiveDefinition.FOREST)
 				.addDrop(0.80, ForestryBeeSpecies.FOREST, honeyComb, 0.7f)
@@ -253,6 +257,9 @@ public class DefaultForestryPlugin implements IForestryPlugin {
 				.addDrop(0.80, ForestryBeeSpecies.LUSH, honeyComb, 0.5F)
 				.addDrop(0.08, ForestryBeeSpecies.VALIANT, honeyComb);
 
+		apiculture.registerHive(ForestryBeeSpecies.AQUATIC, HiveDefinition.AQUATIC)
+				.addDrop(0.80, ForestryBeeSpecies.AQUATIC, spongeComb, 0.4F)
+				.addDrop(0.03, ForestryBeeSpecies.VALIANT, spongeComb);
 
 		// Common village bees
 		apiculture.addVillageBee(ForestryBeeSpecies.FOREST, false);
@@ -280,6 +287,9 @@ public class DefaultForestryPlugin implements IForestryPlugin {
 		apiculture.registerFlowerType(ForestryFlowerTypes.WHEAT, new FlowerType(ForestryTags.Blocks.WHEAT_FLOWERS, true));
 		apiculture.registerFlowerType(ForestryFlowerTypes.GOURD, new FlowerType(ForestryTags.Blocks.GOURD_FLOWERS, true));
 		apiculture.registerFlowerType(ForestryFlowerTypes.CAVE, new FlowerType(ForestryTags.Blocks.CAVE_FLOWERS, true));
+		apiculture.registerFlowerType(ForestryFlowerTypes.PHOTOSYNTHESIS, new PhotosynthesisFlowerType());
+		apiculture.registerFlowerType(ForestryFlowerTypes.SEA, new WaterFlowerType(ForestryTags.Blocks.SEA_FLOWERS, false));
+		apiculture.registerFlowerType(ForestryFlowerTypes.CORAL, new WaterFlowerType(ForestryTags.Blocks.CORAL_FLOWERS, false));
 
 		apiculture.registerBeeEffect(ForestryBeeEffects.NONE, new DummyBeeEffect(true));
 		apiculture.registerBeeEffect(ForestryBeeEffects.AGGRESSIVE, new AggressiveBeeEffect());
@@ -303,6 +313,7 @@ public class DefaultForestryPlugin implements IForestryPlugin {
 		apiculture.registerBeeEffect(ForestryBeeEffects.SIFTER, new SifterBeeEffect());
 		apiculture.registerBeeEffect(ForestryBeeEffects.HAKUNA_MATATA, new PotionBeeEffectExclusive(false, ApicultureEffects.HAKUNA_MATATA.get(), 20 * 60 * 3, 100, 1.0f, ApicultureEffects.MATATA.get()));
 		apiculture.registerBeeEffect(ForestryBeeEffects.GLOW_BERRY_GROW, new GlowBerryGrowEffect());
+		apiculture.registerBeeEffect(ForestryBeeEffects.GUARDIAN, new GuardianBeeEffect());
 		apiculture.registerBeeEffect(ForestryBeeEffects.ASCENSION, new AscensionBeeEffect());
 
 		apiculture.registerActivityType(ForestryActivityTypes.DIURNAL, new SingleActivityType(0, 12000, ForestryError.NOT_DAY, LightPreference.ANY));

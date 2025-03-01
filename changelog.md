@@ -1,3 +1,16 @@
+## Forestry 2.4.3
+- Add Aquatic bee genus, thanks to EnderiumSmith
+  - Add new Aquatic bee species that spawns in Warm Ocean biomes by coral reefs
+  - Add new Pirate bee species that spawns in shipwreck chests and buried treasure chests
+  - Add new Prismatic bee species that produces Prismarine shards and crystals
+  - Add new Abyssal bee species that produces glow ink sacs
+- Add Solar bee genus, thanks to EnderiumSmith
+  - Added Kleptoplastic bee species that light nearby entities on fire, using sunlight to pollinate
+  - Added Photosynthetic bee species with "Fast" pollination
+  - Added Autotroph bee species with "Faster" pollination, the fastest of any species in base Forestry
+- Added missing mutation for Myrtle Ebony (#186)
+- Fix percentage values displaying incorrectly for centrifuge (#168)
+
 ## Forestry 2.4.2
 - Reimplement config option for changing Forestry tree natural spawn rate
 - Reimplement config option to disable butterfly spawning

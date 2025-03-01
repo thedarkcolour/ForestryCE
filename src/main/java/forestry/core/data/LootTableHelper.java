@@ -210,6 +210,33 @@ public class LootTableHelper {
 						.add(EmptyLootItem.emptyItem().setWeight(3))
 				)
 		);
+		add(BuiltInLootTables.SHIPWRECK_SUPPLY, "apiculture",
+				LootTable.lootTable().withPool(LootPool.lootPool()
+						.name("forestry_apiculture_bees")
+						.setRolls(ConstantValue.exactly(1))
+						.add(beeLoot(ForestryBeeSpecies.PIRATE).setWeight(12).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 3))))
+						.add(EmptyLootItem.emptyItem().setWeight(6))
+				));
+		add(BuiltInLootTables.SHIPWRECK_TREASURE, "apiculture",
+				LootTable.lootTable().withPool(LootPool.lootPool()
+						.name("forestry_apiculture_bees")
+						.setRolls(ConstantValue.exactly(1))
+						.add(beeLoot(BeeLifeStage.PRINCESS, ForestryBeeSpecies.PIRATE).setWeight(12))
+						.add(beeLoot(ForestryBeeSpecies.PIRATE).setWeight(6).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 3))))
+				));
+		add(BuiltInLootTables.SHIPWRECK_MAP, "apiculture",
+				LootTable.lootTable().withPool(LootPool.lootPool()
+						.name("forestry_apiculture_bees")
+						.setRolls(ConstantValue.exactly(1))
+						.add(beeLoot(ForestryBeeSpecies.PIRATE).setWeight(12).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 3))))
+						.add(EmptyLootItem.emptyItem().setWeight(3))
+				));
+		add(BuiltInLootTables.BURIED_TREASURE, "apiculture",
+				LootTable.lootTable().withPool(LootPool.lootPool()
+						.name("forestry_apiculture_bees")
+						.setRolls(ConstantValue.exactly(1))
+						.add(beeLoot(BeeLifeStage.PRINCESS, ForestryBeeSpecies.PIRATE))
+				));
 	}
 
 	private LootPoolSingletonContainer.Builder<?> saplingLoot(ResourceLocation species) {

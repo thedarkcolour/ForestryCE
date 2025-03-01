@@ -18,6 +18,7 @@ public enum BlockHiveType implements IBlockSubtype {
 	SWAMP(ForestryBeeSpecies.MARSHY),
 	SAVANNA(ForestryBeeSpecies.SAVANNA),
 	LUSH(ForestryBeeSpecies.LUSH),
+	AQUATIC(ForestryBeeSpecies.AQUATIC),
 	SWARM(ForestryConstants.forestry("none"));
 
 	private final ResourceLocation speciesUid;

@@ -1,0 +1,18 @@
+{
+  "type": "forestry:carpenter",
+  "box": [],
+  "recipe": {
+    "type": "minecraft:crafting_shapeless",
+    "category": "misc",
+    "ingredients": [
+      {
+        "item": "forestry:crated_bee_comb_sponge"
+      }
+    ],
+    "result": {
+      "count": 9,
+      "item": "forestry:bee_comb_sponge"
+    }
+  },
+  "time": 5
+}

@@ -1,0 +1,13 @@
+{
+  "type": "forestry:condition_modifier",
+  "conditions": [
+    {
+      "condition": "forge:loot_table_id",
+      "loot_table_id": "minecraft:chests/shipwreck_supply"
+    }
+  ],
+  "extensions": [
+    "apiculture"
+  ],
+  "table": "minecraft:chests/shipwreck_supply"
+}

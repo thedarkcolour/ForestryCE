@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.List;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BiomeTags;
@@ -22,8 +23,10 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
@@ -124,7 +127,30 @@ public enum HiveDefinition implements IHiveDefinition {
 				level.setBlock(pos.below(), Blocks.CAVE_VINES.defaultBlockState().setValue(BlockStateProperties.BERRIES, rand.nextFloat() < 0.11F), Block.UPDATE_CLIENTS);
 			}
 		}
-	};
+	},
+	AQUATIC(ApicultureBlocks.BEEHIVE.get(BlockHiveType.AQUATIC).defaultState(), 1.0F, ForestryBeeSpecies.AQUATIC, new HiveGenOcean(BlockTags.SAND)) {
+		@Override
+		public boolean isGoodBiome(Holder<Biome> biome) {
+			return biome.is(Biomes.WARM_OCEAN);
+		}
+
+		static final Block[] CORAL_FANS = new Block[]{Blocks.FIRE_CORAL_WALL_FAN, Blocks.BRAIN_CORAL_WALL_FAN, Blocks.BUBBLE_CORAL_WALL_FAN, Blocks.HORN_CORAL_WALL_FAN, Blocks.TUBE_CORAL_WALL_FAN};
+		static final Block[] CORAL_PLANTS = new Block[]{Blocks.FIRE_CORAL_FAN, Blocks.BRAIN_CORAL_FAN, Blocks.BUBBLE_CORAL_FAN, Blocks.HORN_CORAL_FAN, Blocks.TUBE_CORAL_FAN};
+
+		@Override
+		public void postGen(WorldGenLevel level, RandomSource rand, BlockPos pos) {
+			for (Direction direction : Direction.VALUES) {
+				BlockPos pos2 = pos.relative(direction);
+				if (direction.getAxis().isHorizontal() && level.getBlockState(pos2).getBlock() == Blocks.WATER) {
+					level.setBlock(pos2, CORAL_FANS[rand.nextInt(5)].defaultBlockState().setValue(HorizontalDirectionalBlock.FACING, direction), Block.UPDATE_CLIENTS);
+				}
+				if (level.getBlockState(pos.above()).getBlock() == Blocks.WATER) {
+					level.setBlock(pos.above(), CORAL_PLANTS[rand.nextInt(5)].defaultBlockState(), Block.UPDATE_CLIENTS);
+				}
+			}
+		}
+	},
+	;
 
 	private static final IHiveGen FLOWER_GROUND = new HiveGenGround(ForestryTags.Blocks.PLANTABLE_FLOWERS_GROUND);
 	private static final List<BlockState> flowerStates = new ArrayList<>();

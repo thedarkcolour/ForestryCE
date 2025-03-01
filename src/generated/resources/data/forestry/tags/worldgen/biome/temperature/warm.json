@@ -4,6 +4,9 @@
     "minecraft:savanna",
     "minecraft:savanna_plateau",
     "minecraft:lush_caves",
-    "minecraft:windswept_savanna"
+    "minecraft:windswept_savanna",
+    "minecraft:warm_ocean",
+    "minecraft:lukewarm_ocean",
+    "minecraft:deep_lukewarm_ocean"
   ]
 }

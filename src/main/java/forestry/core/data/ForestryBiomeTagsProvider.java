@@ -13,13 +13,22 @@ public class ForestryBiomeTagsProvider {
 	public static void addTags(MKTagsProvider<Biome> tags, HolderLookup.Provider lookup) {
 		// Climates
 		tags.tag(ForestryTags.Biomes.COLD_TEMPERATURE)
-				.addTag(BiomeTags.IS_END);
+				.addTag(BiomeTags.IS_END)
+				.add(Biomes.COLD_OCEAN)
+				.add(Biomes.DEEP_OCEAN)
+				.add(Biomes.DEEP_COLD_OCEAN)
+				.add(Biomes.DEEP_FROZEN_OCEAN)
+		;
 		tags.tag(ForestryTags.Biomes.WARM_TEMPERATURE)
 				.add(Biomes.WOODED_BADLANDS)
 				.add(Biomes.SAVANNA)
 				.add(Biomes.SAVANNA_PLATEAU)
 				.add(Biomes.LUSH_CAVES)
-				.add(Biomes.WINDSWEPT_SAVANNA);
+				.add(Biomes.WINDSWEPT_SAVANNA)
+				.add(Biomes.WARM_OCEAN)
+				.add(Biomes.LUKEWARM_OCEAN)
+				.add(Biomes.DEEP_LUKEWARM_OCEAN)
+		;
 		tags.tag(ForestryTags.Biomes.HELLISH_TEMPERATURE)
 				.addTag(BiomeTags.IS_NETHER);
 		tags.tag(ForestryTags.Biomes.ARID_HUMIDITY)
