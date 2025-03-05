@@ -1,0 +1,12 @@
+{
+  "values": [
+    "forestry:elm_fireproof_log",
+    "forestry:elm_fireproof_wood",
+    "forestry:elm_fireproof_stripped_log",
+    "forestry:elm_fireproof_stripped_wood",
+    "forestry:elm_log",
+    "forestry:elm_wood",
+    "forestry:elm_stripped_log",
+    "forestry:elm_stripped_wood"
+  ]
+}
