@@ -34,6 +34,7 @@
 		"tree=sipiri": { "model": "forestry:germlings/sapling.tree_sipiri" },
 		"tree=papaya": { "model": "forestry:germlings/sapling.tree_papaya" },
 		"tree=date": { "model": "forestry:germlings/sapling.tree_date" },
-		"tree=poplar": { "model": "forestry:germlings/sapling.tree_poplar" }
+		"tree=poplar": { "model": "forestry:germlings/sapling.tree_poplar" },
+		"tree=elm": { "model": "forestry:germlings/sapling.tree_elm" }
 	}
 }

@@ -84,6 +84,7 @@ public class DefaultForestryClientRegistration implements Consumer<IClientRegist
 		client.setLeafSprite(ForestryTreeSpecies.PAPAYA, ForestryLeafSprites.PALM);
 		client.setLeafSprite(ForestryTreeSpecies.DATE, ForestryLeafSprites.PALM);
 		client.setLeafSprite(ForestryTreeSpecies.POPLAR, ForestryLeafSprites.BIRCH);
+		client.setLeafSprite(ForestryTreeSpecies.ELM, ForestryLeafSprites.OAK);
 
 		// Vanilla leaf tints
 		client.setLeafTint(ForestryTreeSpecies.OAK, BiomeLeafTint.DEFAULT);

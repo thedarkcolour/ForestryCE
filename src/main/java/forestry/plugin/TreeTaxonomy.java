@@ -54,11 +54,6 @@ public class TreeTaxonomy {
 						family.defineSubTaxon(ForestryTaxa.GENUS_JUGLANS);
 					});
 				});
-				klass.defineSubTaxon(ForestryTaxa.ORDER_ROSALES, order -> {
-					order.defineSubTaxon(ForestryTaxa.FAMILY_ROSACEAE, family -> {
-						family.defineSubTaxon(ForestryTaxa.GENUS_PRUNUS);
-					});
-				});
 				klass.defineSubTaxon(ForestryTaxa.ORDER_MALVALES, order -> {
 					order.defineSubTaxon(ForestryTaxa.FAMILY_DIPTEROCARPACEAE, family -> {
 						family.defineSubTaxon(ForestryTaxa.GENUS_MAHOGANY);
@@ -89,6 +84,19 @@ public class TreeTaxonomy {
 					});
 					order.defineSubTaxon(ForestryTaxa.FAMILY_ANACARDIACEAE, family -> {
 						family.defineSubTaxon(ForestryTaxa.GENUS_ASTRONIUM);
+					});
+				});
+			});
+			phylum.defineSubTaxon(ForestryTaxa.CLASS_DICOTYLEDONS, klass -> {
+				klass.defineSubTaxon(ForestryTaxa.ORDER_ROSALES, order -> {
+					order.defineSubTaxon(ForestryTaxa.FAMILY_ULMACEAE, family -> {
+						family.defineSubTaxon(ForestryTaxa.GENUS_ULMUS);
+					});
+					//Moved here from Rosids, because according to the following sites, this is where it should be
+					//https://www.picturethisai.com/wiki/Prunus_serrulata.html
+					//https://www.picturethisai.com/wiki/Rosales.html
+					order.defineSubTaxon(ForestryTaxa.FAMILY_ROSACEAE, family -> {
+						family.defineSubTaxon(ForestryTaxa.GENUS_PRUNUS);
 					});
 				});
 			});

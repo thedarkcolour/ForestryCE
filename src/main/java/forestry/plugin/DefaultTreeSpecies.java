@@ -633,5 +633,17 @@ public class DefaultTreeSpecies {
 				mutations.add(ForestryTreeSpecies.OAK, ForestryTreeSpecies.WILLOW, 5);
 				mutations.add(ForestryTreeSpecies.LIME, ForestryTreeSpecies.WILLOW, 5);
 			});
+
+		// Golden Elm
+		arboriculture.registerSpecies(ForestryTreeSpecies.ELM, GENUS_ULMUS, SPECIES_ELM, true, new Color(0xB7DE2C), ForestryWoodType.ELM)
+			.setTreeFeature(FeatureElm::new)
+			.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.ELM))
+			.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.ELM).block().getStateDefinition().getPossibleStates())
+			.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.get(ForestryLeafType.ELM).block().getStateDefinition().getPossibleStates())
+			.setGenome(genome -> {
+				genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_SMALL);
+				genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_LOW);
+				genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_SLOWER);
+			});
 	}
 }
