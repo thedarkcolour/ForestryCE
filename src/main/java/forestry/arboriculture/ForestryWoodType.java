@@ -45,6 +45,7 @@ public enum ForestryWoodType implements IWoodType {
 
 	KAPOK(ForestryLeafType.KAPOK),
 	EBONY(ForestryLeafType.EBONY),
+	ELM(ForestryLeafType.ELM),
 	MAHOGANY(ForestryLeafType.MAHOGANY),
 	BALSA(ForestryLeafType.BALSA, 1.0f),
 	WILLOW(ForestryLeafType.WILLOW),

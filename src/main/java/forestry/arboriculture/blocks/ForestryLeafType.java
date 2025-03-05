@@ -60,6 +60,7 @@ public final class ForestryLeafType implements IBlockSubtype {
 	public static final ForestryLeafType PAPAYA = new ForestryLeafType(ForestryTreeSpecies.PAPAYA);
 	public static final ForestryLeafType DATE = new ForestryLeafType(ForestryTreeSpecies.DATE);
 	public static final ForestryLeafType POPLAR = new ForestryLeafType(ForestryTreeSpecies.POPLAR);
+	public static final ForestryLeafType ELM = new ForestryLeafType(ForestryTreeSpecies.ELM);
 
 	private final ResourceLocation speciesId;
 
@@ -103,7 +104,7 @@ public final class ForestryLeafType implements IBlockSubtype {
 	// Default values used by Forestry to make its leaf blocks (includes all the fields)
 	@ApiStatus.Internal
 	public static List<ForestryLeafType> values() {
-		return Arrays.asList(OAK, DARK_OAK, BIRCH, LIME, WALNUT, CHESTNUT, CHERRY_VANILLA, HILL_CHERRY, LEMON, PLUM, MAPLE, SPRUCE, LARCH, PINE, SEQUOIA, GIANT_SEQUOIA, JUNGLE, TEAK, IPE, KAPOK, EBONY, ZEBRAWOOD, MAHOGANY, ACACIA_VANILLA, DESERT_ACACIA, PADAUK, BALSA, COCOBOLO, WENGE, BAOBAB, MAHOE, WILLOW, SIPIRI, PAPAYA, DATE, POPLAR);
+		return Arrays.asList(OAK, DARK_OAK, BIRCH, LIME, WALNUT, CHESTNUT, CHERRY_VANILLA, HILL_CHERRY, LEMON, PLUM, MAPLE, SPRUCE, LARCH, PINE, SEQUOIA, GIANT_SEQUOIA, JUNGLE, TEAK, IPE, KAPOK, EBONY, ZEBRAWOOD, MAHOGANY, ACACIA_VANILLA, DESERT_ACACIA, PADAUK, BALSA, COCOBOLO, WENGE, BAOBAB, MAHOE, WILLOW, SIPIRI, PAPAYA, DATE, POPLAR, ELM);
 	}
 
 	@Override

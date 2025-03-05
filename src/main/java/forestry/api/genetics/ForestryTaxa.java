@@ -70,6 +70,7 @@ public class ForestryTaxa {
 	public static final String FAMILY_ANACARDIACEAE = "anacardiaceae";
 	public static final String FAMILY_PINACEAE = "pinaceae";
 	public static final String FAMILY_CUPRESSACEAE = "cupressaceae";
+	public static final String FAMILY_ULMACEAE = "ulaceae";
 	// Butterfly Families
 	public static final String FAMILY_GEOMETER_MOTHS = "geometridae";
 	public static final String FAMILY_SATURNIIDS = "saturniidae";
@@ -133,6 +134,7 @@ public class ForestryTaxa {
 	public static final String GENUS_SEQUOIA = "sequoia";
 	public static final String GENUS_SEQUOIADENDRON = "sequoiadendron";
 	public static final String GENUS_CARICA = "carica";
+	public static final String GENUS_ULMUS = "ulmus";
 	// Butterfly Genera
 	public static final String GENUS_ANTHOCHARIS = "anthocharis";
 	public static final String GENUS_ATTACUS = "attacus";
@@ -264,6 +266,7 @@ public class ForestryTaxa {
 	public static final String SPECIES_PAPAYA = "papaya";
 	public static final String SPECIES_DATE = "dactylifera";
 	public static final String SPECIES_POPLAR = "alba";
+	public static final String SPECIES_ELM = "glabra";
 	// Butterfly Species
 	public static final String SPECIES_CABBAGE_WHITE = "rapae";
 	public static final String SPECIES_BRIMSTONE = "rhamni";

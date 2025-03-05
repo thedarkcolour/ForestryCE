@@ -51,4 +51,5 @@ public class ForestryTreeSpecies {
 	public static final ResourceLocation PAPAYA = forestry("tree_papaya");
 	public static final ResourceLocation DATE = forestry("tree_date");
 	public static final ResourceLocation POPLAR = forestry("tree_poplar");
+	public static final ResourceLocation ELM = forestry("tree_elm");
 }
