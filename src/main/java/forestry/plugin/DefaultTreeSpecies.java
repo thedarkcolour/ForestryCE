@@ -646,7 +646,8 @@ public class DefaultTreeSpecies {
 				genome.set(TreeChromosomes.SAPLINGS, ForestryAlleles.SAPLINGS_LOW);
 			})
 			.addMutations(mutations -> {
-				mutations.add(ForestryTreeSpecies.OAK, ForestryTreeSpecies.HILL_CHERRY, 5);
-			});
+				mutations.add(ForestryTreeSpecies.LIME, ForestryTreeSpecies.CHERRY_VANILLA, 0.05f);
+			})
+			.setAuthority("Spear");
 	}
 }
