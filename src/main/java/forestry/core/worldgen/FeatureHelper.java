@@ -127,7 +127,7 @@ public class FeatureHelper {
 	public static void generateEllipsoid(LevelAccessor world, BlockPos center, float radiusX, float radiusY, float radiusZ, ITreeBlockType block, EnumReplaceMode replace, TreeContour contour) {
 		Vec3i start = new Vec3i(center.getX() - (int)radiusX, center.getY() - (int)radiusY, center.getZ() - (int)radiusZ);
 		Vec3i area = new Vec3i((int)radiusX * 2 + 1, (int)radiusY * 2 + 1, (int)radiusZ * 2 + 1);
-		Forestry.LOGGER.info(area.toString());
+		//Forestry.LOGGER.info(area.toString());
 		BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
 
 		for (int x = start.getX(); x <= start.getX() + area.getX()+1; x++) {

@@ -10,11 +10,13 @@
  ******************************************************************************/
 package forestry.arboriculture.worldgen;
 
+import forestry.Forestry;
 import forestry.api.arboriculture.ITreeGenData;
 import forestry.core.worldgen.FeatureHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.levelgen.feature.Feature;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -22,20 +24,20 @@ import java.util.Set;
 public class FeatureElm extends FeatureTree {
 
 	public FeatureElm(ITreeGenData tree) {
-		super(tree, 6, 4);
+		super(tree, 6, 3);
 	}
 
 	@Override
 	public Set<BlockPos> generateTrunk(LevelAccessor level, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
 		FeatureHelper.generateTreeTrunk(level, rand, wood, startPos, height, girth, 0, 0, null, 0);
 
-		int trunkSpawn = height - 2;
-		float adjustedGirth = girth * .65f;
+		int trunkSpawn = height - 3;
+		float adjustedGirth = girth * .75f;
 
 		Set<BlockPos> branchCoords = new HashSet<>();
-		while (trunkSpawn > 2) {
-			int radius = Math.round(adjustedGirth * (height - trunkSpawn) / 1.5f);
-			branchCoords.addAll(FeatureHelper.generateBranches(level, rand, wood, startPos.offset(0, trunkSpawn, 0), girth, 0.25f, 0.25f, radius, 2, 1.0f));
+		while (trunkSpawn > 3) {
+			int radius = Math.round(adjustedGirth * (height - trunkSpawn) / 1.1f);
+			branchCoords.addAll(FeatureHelper.generateBranches(level, rand, wood, startPos.offset(0, trunkSpawn, 0), girth, 0.2f, 0.3f, radius, 1, 1.0f));
 			trunkSpawn -= 2;
 		}
 		return branchCoords;
@@ -44,14 +46,14 @@ public class FeatureElm extends FeatureTree {
 	@Override
 	protected void generateLeaves(LevelAccessor level, RandomSource rand, TreeBlockTypeLeaf leaf, TreeContour contour, BlockPos startPos) {
 		int leafSpawn = height + 1;
-		float adjustedGirth = girth * .65f;
+		float adjustedGirth = girth * .75f;
 
-		FeatureHelper.generateCylinderFromTreeStartPos(level, leaf, startPos.offset(0, leafSpawn--, 0), girth, girth, 1, FeatureHelper.EnumReplaceMode.SOFT, contour);
-		FeatureHelper.generateCylinderFromTreeStartPos(level, leaf, startPos.offset(0, leafSpawn--, 0), girth, 0.2f * adjustedGirth + girth, 1, FeatureHelper.EnumReplaceMode.SOFT, contour);
-		FeatureHelper.generateCylinderFromTreeStartPos(level, leaf, startPos.offset(0, leafSpawn, 0), girth, 0.2f * adjustedGirth + girth, 1, FeatureHelper.EnumReplaceMode.SOFT, contour);
+		FeatureHelper.generateEllipsoid(level, startPos.offset(0, leafSpawn-=2, 0), girth * 3.25f, 2, girth * 3.25f, leaf, FeatureHelper.EnumReplaceMode.SOFT, contour );
+		FeatureHelper.generateEllipsoid(level, startPos.offset(0, leafSpawn-=2, 0), girth * 4.875f, 2, girth * 4.875f, leaf, FeatureHelper.EnumReplaceMode.SOFT, contour );
 
 		for (BlockPos branchEnd : contour.getBranchEnds()) {
-			FeatureHelper.generateCylinderFromPos(level, leaf, branchEnd, 2.0f + girth, 2, FeatureHelper.EnumReplaceMode.AIR, contour);
+			FeatureHelper.generateEllipsoid(level, branchEnd, 3f * girth, 3f * adjustedGirth, 3f * girth, leaf, FeatureHelper.EnumReplaceMode.SOFT, contour );
+			FeatureHelper.generateEllipsoid(level, branchEnd.offset(0,-(int)(3f * adjustedGirth)/2,0), 4.9f * girth, 2.5f * adjustedGirth, 4.9f * girth, leaf, FeatureHelper.EnumReplaceMode.SOFT, contour );
 		}
 	}
 }
