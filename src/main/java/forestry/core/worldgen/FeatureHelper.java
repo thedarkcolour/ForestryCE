@@ -19,7 +19,9 @@ import net.minecraft.world.level.block.VineBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nullable;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class FeatureHelper {
@@ -364,21 +366,18 @@ public class FeatureHelper {
 	}
 
 	public static class DirectionHelper {
-		// Indices correspond to 3D Data Value of direction
-		private static final Direction[] VALUES = new Direction[]{Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST};
+
+		public static final Direction[] VALUES = new Direction[]{Direction.NORTH, Direction.SOUTH, Direction.EAST, Direction.WEST};
 
 		public static Direction getRandom(RandomSource random) {
 			return VALUES[random.nextInt(VALUES.length)];
 		}
 
 		public static Direction getRandomOther(RandomSource random, Direction direction) {
-			// exclude the direction by index
-			int exclude = direction.get3DDataValue() - 2;
-			int choice = random.nextInt(3);
-			if (choice >= exclude) {
-				choice++;
-			}
-			return VALUES[choice];
+			List<Direction> directions = Arrays.asList(VALUES);
+			directions.remove(direction);
+			int size = directions.size();
+			return directions.toArray(new Direction[size])[random.nextInt(size)];
 		}
 	}
 }
