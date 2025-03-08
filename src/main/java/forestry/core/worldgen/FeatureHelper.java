@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import forestry.Forestry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
@@ -114,6 +115,30 @@ public class FeatureHelper {
 			for (int y = start.getY() + area.getY() - 1; y >= start.getY(); y--) { // generating top-down is faster for lighting calculations
 				for (int z = start.getZ(); z < start.getZ() + area.getZ(); z++) {
 					if (center.closerThan(mutablePos.set(x, y, z), radius + 0.01)) {
+						if (addBlock(world, mutablePos, block, replace)) {
+							contour.addLeaf(mutablePos);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	public static void generateEllipsoid(LevelAccessor world, BlockPos center, float radiusX, float radiusY, float radiusZ, ITreeBlockType block, EnumReplaceMode replace, TreeContour contour) {
+		Vec3i start = new Vec3i(center.getX() - (int)radiusX, center.getY() - (int)radiusY, center.getZ() - (int)radiusZ);
+		Vec3i area = new Vec3i((int)radiusX * 2 + 1, (int)radiusY * 2 + 1, (int)radiusZ * 2 + 1);
+		Forestry.LOGGER.info(area.toString());
+		BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
+
+		for (int x = start.getX(); x <= start.getX() + area.getX()+1; x++) {
+			for (int y = start.getY() + area.getY() + 1; y >= start.getY(); y--) { // generating top-down is faster for lighting calculations
+				for (int z = start.getZ(); z <= start.getZ() + area.getZ() +1; z++) {
+
+					if ( ((x - center.getX()) * (x - center.getX())) / (radiusX * radiusX)
+							+ ((y - center.getY()) * (y - center.getY())) / (radiusY * radiusY)
+							+ ((z - center.getZ()) * (z - center.getZ())) / (radiusZ * radiusZ) <= 1.00 ) {
+
+						mutablePos.set(x, y, z);
 						if (addBlock(world, mutablePos, block, replace)) {
 							contour.addLeaf(mutablePos);
 						}
