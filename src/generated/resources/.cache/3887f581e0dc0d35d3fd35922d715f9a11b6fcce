@@ -1,4 +1,4 @@
-// 1.20.1	2025-02-26T20:39:23.3046036	Block States: forestry
+// 1.20.1	2025-03-06T14:02:45.0045114	Block States: forestry
 efb6cd9088f34afc855db97087b928d69c02ae5f assets/forestry/blockstates/apatite_ore.json
 f57484d5f7156fddd1a540e02d9ddec37cb1f2bd assets/forestry/blockstates/arboretum_managed.json
 f57484d5f7156fddd1a540e02d9ddec37cb1f2bd assets/forestry/blockstates/arboretum_manual.json
@@ -9,6 +9,7 @@ c50532e817eb0fca568821f3ba6f8508ede25f8e assets/forestry/blockstates/beehive_end
 d6b5189f8f956e35a8d291cba2ea63c216b65c81 assets/forestry/blockstates/beehive_jungle.json
 6b396981380f9eac015c45838f809333d3b3ca0b assets/forestry/blockstates/beehive_lush.json
 a17b43aaf5af570b8120a5b858ab5a54d6d615be assets/forestry/blockstates/beehive_meadows.json
+7c0e35e82624199496764ca594ef111e0db3e3ba assets/forestry/blockstates/beehive_nether.json
 ec82852b003aa43dd0955b5156afa9ead9941163 assets/forestry/blockstates/beehive_savanna.json
 4181eb878799469af0824e65e6208eea1707568a assets/forestry/blockstates/beehive_snow.json
 7f8074ed80475da630a24a79d57cfeafa5d76aa1 assets/forestry/blockstates/beehive_swamp.json
@@ -211,6 +212,7 @@ f74b2c91e018425ed52b05740c114148c488ac20 assets/forestry/models/block/beehive_fo
 0a267aaa75d0e0942b3d763cf02427e638e09f3d assets/forestry/models/block/beehive_jungle.json
 0605f7abb55616d4911442285702298055fa9dc5 assets/forestry/models/block/beehive_lush.json
 8d9a2cbc763ac50c871ef9bed6713e4a487825c2 assets/forestry/models/block/beehive_meadows.json
+7ba6eba9f84e95c7395ebdc8855b5c116d436fa9 assets/forestry/models/block/beehive_nether.json
 e68cb32ceb2edf15cc7f89c7444b2fd83127ffca assets/forestry/models/block/beehive_savanna.json
 9165b90ce88c311a3731c42735f015e8d372e2a6 assets/forestry/models/block/beehive_snow.json
 0b786c345265694430e4e513b229b3fdfdda299b assets/forestry/models/block/beehive_swamp.json
@@ -340,6 +342,7 @@ d0eef751812bbf2ce67e31b4dff72b5a311415f5 assets/forestry/models/item/beehive_des
 b3cd02039ef025ff6429a3655944e22a8659ea01 assets/forestry/models/item/beehive_jungle.json
 d04ddfe5198dbf6a289cca624a06df2774a8ec34 assets/forestry/models/item/beehive_lush.json
 614c49deddd68f81f641a2f439f1f0e86f9410fe assets/forestry/models/item/beehive_meadows.json
+fd126fe28a76922a8bee6c997ced8f36080a384b assets/forestry/models/item/beehive_nether.json
 93da685134a2cba3c2359f9fd4c3a80e7be22ee3 assets/forestry/models/item/beehive_savanna.json
 eaf59827ef2dd8b360b6733535f342a25d54f8a4 assets/forestry/models/item/beehive_snow.json
 f4cd9e4406b6b20e00ef3473f2a8ca5382612fab assets/forestry/models/item/beehive_swamp.json

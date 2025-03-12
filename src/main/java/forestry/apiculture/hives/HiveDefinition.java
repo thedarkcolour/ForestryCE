@@ -150,6 +150,12 @@ public enum HiveDefinition implements IHiveDefinition {
 			}
 		}
 	},
+	NETHER(ApicultureBlocks.BEEHIVE.get(BlockHiveType.NETHER).defaultState(), 4.0F, ForestryBeeSpecies.EMBITTERED, new HiveGenCaveCeiling(BlockTags.WART_BLOCKS, ForestryTags.Blocks.NETHER_EXTRA_REPLACEABLES)) {
+		@Override
+		public boolean isGoodBiome(Holder<Biome> biome) {
+			return biome.is(BiomeTags.IS_NETHER);
+		}
+	},
 	;
 
 	private static final IHiveGen FLOWER_GROUND = new HiveGenGround(ForestryTags.Blocks.PLANTABLE_FLOWERS_GROUND);

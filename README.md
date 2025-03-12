@@ -20,11 +20,15 @@ Full crash reports are located in [the minecraft data folder](http://hopper.mine
 Thank you for reporting bugs!
 
 ### Contributing
-Beware of ugly code.
+Forestry is a large and complex project that I spent hundreds of hours working on, so I am always
 
-Bugfixes are generally welcome. If you want to contribute something which changes game mechanics, please talk to someone 
-with commit privileges first. Nothing is more frustrating than putting a lot of work and effort into a new game mechanic 
-and then having the PR rejected because it doesn't fit gameplay-wise.
+If you'd like to contribute to Forestry:
+- **Bugfixes**: Bugfixes are always welcome.
+- **Translations**: Translations are always welcome.
+- **Textures**: New textures for Forestry are mostly done. New texture proposals will be showcased on Discord before being merged.
+- **Gameplay changes**: Discuss your proposed changes with me on Discord before implementing them in code.
+- **New Features**: Discuss your feature idea on Discord before implementing it in code.
+- **Multiple Features**: Please make separate pull requests for each feature instead of making one giant PR. Large pull requests are difficult and time-consuming to review.
 
 ### For Mod Developers
 The Maven repository is not available yet. Use CurseForge or Modrinth's artifacts.

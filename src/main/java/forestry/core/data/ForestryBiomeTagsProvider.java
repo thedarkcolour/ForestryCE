@@ -34,6 +34,7 @@ public class ForestryBiomeTagsProvider {
 		tags.tag(ForestryTags.Biomes.ARID_HUMIDITY)
 				.addTag(BiomeTags.IS_END);
 		tags.tag(ForestryTags.Biomes.SHATTERED_SAVANNA).add(Biomes.WINDSWEPT_SAVANNA);
+		tags.tag(ForestryTags.Biomes.WARPED_FOREST).add(Biomes.WARPED_FOREST);
 		tags.tag(ForestryTags.Biomes.DAMP_HUMIDITY)
 				.add(Biomes.LUSH_CAVES);
 	}

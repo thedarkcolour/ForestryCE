@@ -30,6 +30,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.MinecraftForge;
 
 import forestry.api.IForestryApi;
 import forestry.api.apiculture.IApiaristTracker;
@@ -41,6 +42,7 @@ import forestry.api.apiculture.IBeekeepingLogic;
 import forestry.api.apiculture.genetics.BeeLifeStage;
 import forestry.api.apiculture.genetics.IBee;
 import forestry.api.core.ForestryError;
+import forestry.api.core.ForestryEvent;
 import forestry.api.core.IError;
 import forestry.api.core.IErrorLogic;
 import forestry.api.genetics.IEffectData;
@@ -363,7 +365,17 @@ public class BeekeepingLogic implements IBeekeepingLogic {
 		// Mate and replace princess with queen
 		IBee princess = (IBee) IIndividualHandlerItem.getIndividual(princessStack);
 		IBee drone = (IBee) IIndividualHandlerItem.getIndividual(droneStack);
+		IGenome originalMate = princess.getMate();
 		princess.setMate(drone.getGenome());
+
+		ForestryEvent.BeeMatingEvent event = new ForestryEvent.BeeMatingEvent(this.housing, drone, princess);
+
+		if (MinecraftForge.EVENT_BUS.post(event)) {
+			princess.setMate(originalMate);
+			return;
+		} else {
+			princess = event.getPrincess();
+		}
 
 		this.queenStack = princess.createStack(BeeLifeStage.QUEEN);
 		beeInventory.setQueen(this.queenStack);

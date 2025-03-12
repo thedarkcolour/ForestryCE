@@ -87,6 +87,7 @@ public class ForestryTags {
 		public static final TagKey<Block> WINTRY_BEE_GROUND = blockTag("hive_grounds/wintry");
 		public static final TagKey<Block> LUSH_BEE_CEILING = blockTag("hive_grounds/lush");
 		public static final TagKey<Block> CAVE_EXTRA_REPLACEABLES = blockTag("hive_grounds/cave_extra_replaceable");
+		public static final TagKey<Block> NETHER_EXTRA_REPLACEABLES = blockTag("hive_grounds/nether_extra_replaceable");
 		// Blocks where the Alveary Swarmer can spawn hives on top of
 		public static final TagKey<Block> SWARM_BEE_GROUND = blockTag("hive_grounds/swarm");
 
@@ -214,6 +215,7 @@ public class ForestryTags {
 		public static final TagKey<Biome> HELLISH_TEMPERATURE = tag("temperature/hellish");
 
 		public static final TagKey<Biome> SHATTERED_SAVANNA = tag("special/shattered_savanna");
+		public static final TagKey<Biome> WARPED_FOREST = tag("special/warped_forest");
 
 		private static TagKey<Biome> tag(String path) {
 			return TagKey.create(Registries.BIOME, ForestryConstants.forestry(path));

@@ -878,5 +878,72 @@ public class DefaultBeeSpecies {
 					genome.set(BeeChromosomes.SPEED, ForestryAlleles.SPEED_SLOW);
 				})
 				.setAuthority("EnderiumSmith");
+
+		// EMBITTERED
+		apiculture.registerSpecies(ForestryBeeSpecies.EMBITTERED, GENUS_EMBITTERED, SPECIES_EMBITTERED, true, new Color(0x894344))
+				.setBody(new Color(0x9a2323))
+				.setTemperature(TemperatureType.HELLISH)
+				.setHumidity(HumidityType.ARID)
+				.addProduct(BEE_COMBS.stack(EnumHoneyComb.SIMMERING), 0.45F)
+				.addProduct(CoreItems.CRAFTING_MATERIALS.stack(EnumCraftingMaterial.PHOSPHOR), 0.15F)
+				.setGenome(genome -> {
+					genome.set(BeeChromosomes.SPEED, ForestryAlleles.SPEED_NORMAL);
+					genome.set(BeeChromosomes.EFFECT, ForestryAlleles.EFFECT_AGGRESSIVE);
+				})
+				.setAuthority("EnderiumSmith");
+
+		// SPITEFUL
+		apiculture.registerSpecies(ForestryBeeSpecies.SPITEFUL, GENUS_EMBITTERED, SPECIES_SPITEFUL, false, new Color(0xFEAC6D))
+				.setBody(new Color(0x9a2323))
+				.setTemperature(TemperatureType.HELLISH)
+				.setHumidity(HumidityType.ARID)
+				.addProduct(BEE_COMBS.stack(EnumHoneyComb.SIMMERING), 0.55F)
+				.addSpecialty(POLLEN_CLUSTER.stack(EnumPollenCluster.NORMAL), 0.15F)
+				.setGenome(genome -> {
+					genome.set(BeeChromosomes.SPEED, ForestryAlleles.SPEED_FAST);
+					genome.set(BeeChromosomes.EFFECT, ForestryAlleles.EFFECT_AGGRESSIVE);
+				})
+				.addMutations(mutations -> {
+					mutations.add(ForestryBeeSpecies.EMBITTERED, ForestryBeeSpecies.FIENDISH, 12);
+				})
+				.setAuthority("EnderiumSmith");
+
+		// SEETHING
+		apiculture.registerSpecies(ForestryBeeSpecies.SEETHING, GENUS_EMBITTERED, SPECIES_SEETHING, false, new Color(0xff8f00))
+				.setBody(new Color(0x9a2323))
+				.setTemperature(TemperatureType.HELLISH)
+				.setHumidity(HumidityType.ARID)
+				.addProduct(BEE_COMBS.stack(EnumHoneyComb.SIMMERING), 0.45F)
+				.addProduct(new ItemStack(Items.BLAZE_POWDER), 0.15F)
+				.setGenome(genome -> {
+					genome.set(BeeChromosomes.SPEED, ForestryAlleles.SPEED_NORMAL);
+					genome.set(BeeChromosomes.EFFECT, ForestryAlleles.EFFECT_IGNITION);
+				})
+				.addMutations(mutations -> {
+					mutations.add(ForestryBeeSpecies.SPITEFUL, ForestryBeeSpecies.EMBITTERED, 8);
+				})
+				.setGlint(true)
+				.setAuthority("EnderiumSmith");
+
+		// WARPED
+		apiculture.registerSpecies(ForestryBeeSpecies.WARPED, GENUS_EMBITTERED, SPECIES_WARPED, true, new Color(0x14B485))
+				.setBody(new Color(0x9a2323))
+				.setTemperature(TemperatureType.HELLISH)
+				.setHumidity(HumidityType.ARID)
+				.addProduct(BEE_COMBS.stack(EnumHoneyComb.SIMMERING), 0.15F)
+				.addSpecialty(BEE_COMBS.stack(EnumHoneyComb.MYSTERIOUS), 0.35F)
+				.setGenome(genome -> {
+					genome.set(BeeChromosomes.SPEED, ForestryAlleles.SPEED_SLOW);
+					genome.set(BeeChromosomes.LIFESPAN, ForestryAlleles.LIFESPAN_ELONGATED);
+					genome.set(BeeChromosomes.EFFECT, ForestryAlleles.EFFECT_PHASING);
+				})
+				.addMutations(mutations -> {
+					mutations.add(ForestryBeeSpecies.EMBITTERED, ForestryBeeSpecies.ENDED, 40).restrictBiomeType(ForestryTags.Biomes.WARPED_FOREST);
+					mutations.add(ForestryBeeSpecies.SPITEFUL, ForestryBeeSpecies.ENDED, 40).restrictBiomeType(ForestryTags.Biomes.WARPED_FOREST);
+					mutations.add(ForestryBeeSpecies.EMBITTERED, ForestryBeeSpecies.SHULKING, 40).restrictBiomeType(ForestryTags.Biomes.WARPED_FOREST);
+					mutations.add(ForestryBeeSpecies.SPITEFUL, ForestryBeeSpecies.SHULKING, 40).restrictBiomeType(ForestryTags.Biomes.WARPED_FOREST);
+				})
+				.setAuthority("EnderiumSmith");
+
 	}
 }

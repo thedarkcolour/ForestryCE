@@ -67,4 +67,8 @@ public class ForestryBeeSpecies {
 	public static final ResourceLocation PRISMATIC = forestry("bee_prismatic");
 	public static final ResourceLocation ABYSSAL = forestry("bee_abyssal");
 	public static final ResourceLocation SHULKING = forestry("bee_shulking");
+	public static final ResourceLocation EMBITTERED = forestry("bee_embittered");
+	public static final ResourceLocation SPITEFUL = forestry("bee_spiteful");
+	public static final ResourceLocation SEETHING = forestry("bee_seething");
+	public static final ResourceLocation WARPED = forestry("bee_warped");
 }

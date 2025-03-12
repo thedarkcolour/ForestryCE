@@ -1,3 +1,13 @@
+## Forestry 2.4.4
+- Add Embittered bee genus, thanks to EnderiumSmith
+  - Add new Embittered bee species that spawns in Warped Forest biomes underneath Huge Warped Fungus
+  - Add new Spiteful bee species that produces pollen clusters
+  - Add new Seething bee species that produces Blaze powder
+  - Add new Warped bee species that produces both Mysterious and Simmering combs
+- Add ForestryEvent.BeeMatingEvent to allow for special mating conditions
+- Make Savanna & Desert lines Nocturnal instead of Metaturnal
+- Give Village common bees boosted climate tolerance
+
 ## Forestry 2.4.3
 - Add Aquatic bee genus, thanks to EnderiumSmith
   - Add new Aquatic bee species that spawns in Warm Ocean biomes by coral reefs
