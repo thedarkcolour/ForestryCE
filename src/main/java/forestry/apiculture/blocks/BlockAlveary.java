@@ -76,6 +76,11 @@ public class BlockAlveary extends BlockStructure implements EntityBlock {
 
 	private final BlockAlvearyType type;
 
+	public BlockAlveary() {
+		super(Block.Properties.of().strength(1f).sound(SoundType.WOOD));
+		this.type = BlockAlvearyType.PLAIN;
+	}
+
 	public BlockAlveary(BlockAlvearyType type) {
 		super(Block.Properties.of().strength(1f).sound(SoundType.WOOD));
 		this.type = type;
