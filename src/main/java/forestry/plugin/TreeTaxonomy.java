@@ -101,7 +101,7 @@ public class TreeTaxonomy {
 				});
 			});
 		});
-		genetics.defineTaxon(ForestryTaxa.KINGDOM_PLANT, ForestryTaxa.PHYLUM_CONIFERS, phylum -> {
+		genetics.defineTaxon(ForestryTaxa.KINGDOM_PLANT, ForestryTaxa.PHYLUM_NAKED_SEED_PLANT, phylum -> {
 			phylum.defineSubTaxon(ForestryTaxa.CLASS_CONIFERS, klass -> {
 				klass.defineSubTaxon(ForestryTaxa.ORDER_PINALES, order -> {
 					order.defineSubTaxon(ForestryTaxa.FAMILY_PINACEAE, family -> {

@@ -22,7 +22,7 @@ public class ForestryTaxa {
 	// Phyla / Divisions
 	public static final String PHYLUM_ARTHROPODS = "arthropoda";
 	public static final String PHYLUM_FLOWERING_PLANT = "angiosperms";
-	public static final String PHYLUM_CONIFERS = "pinophyta";
+	public static final String PHYLUM_NAKED_SEED_PLANT = "gymnosperms";
 
 	// Classes
 	public static final String CLASS_INSECTS = "insecta";
