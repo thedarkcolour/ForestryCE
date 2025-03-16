@@ -31,6 +31,7 @@ public class ForestryTaxa {
 	public static final String CLASS_ROSIDS = "rosids";
 	public static final String CLASS_CONIFERS = "pinopsida";
 	public static final String CLASS_DICOTYLEDONS = "magnoliopsida";
+	public static final String CLASS_GINKGOOPSIDA = "ginkgoopsida";
 
 	// Orders
 	public static final String ORDER_HYMNOPTERA = "hymnoptera";
@@ -47,6 +48,10 @@ public class ForestryTaxa {
 	public static final String ORDER_MALPIGHIALES = "malpighiales";
 	public static final String ORDER_SAPINDALES = "sapindales";
 	public static final String ORDER_PINALES = "pinales";
+	public static final String ORDER_CORNALES = "cornales";
+	public static final String ORDER_MYRTALES = "myrtales";
+	public static final String ORDER_GINKGOALES = "ginkgoales";
+	public static final String ORDER_ARAUCARIALES = "arucariales";
 
 	// Bee Families
 	public static final String FAMILY_BEES = "apidae";
@@ -71,6 +76,11 @@ public class ForestryTaxa {
 	public static final String FAMILY_PINACEAE = "pinaceae";
 	public static final String FAMILY_CUPRESSACEAE = "cupressaceae";
 	public static final String FAMILY_ULMACEAE = "ulaceae";
+	public static final String FAMILY_MYRTACEAE = "myrtaceae";
+	public static final String FAMILY_CORNACEAE = "cornaceae";
+	public static final String FAMILY_GINKGOACEAE = "ginkgoaceae";
+	public static final String FAMILY_ARAUCARIACEAE = "araucariaceae";
+	public static final String FAMILY_OLEACEAE = "oleaceae";
 	// Butterfly Families
 	public static final String FAMILY_GEOMETER_MOTHS = "geometridae";
 	public static final String FAMILY_SATURNIIDS = "saturniidae";
@@ -137,6 +147,19 @@ public class ForestryTaxa {
 	public static final String GENUS_SEQUOIADENDRON = "sequoiadendron";
 	public static final String GENUS_CARICA = "carica";
 	public static final String GENUS_ULMUS = "ulmus";
+	public static final String GENUS_ABIES = "abies";
+	public static final String GENUS_COCOS = "cocos";
+	public static final String GENUS_FAGUS = "fagus";
+	public static final String GENUS_FEIJOA = "feijoa";
+	public static final String GENUS_CORNUS = "cornus";
+	public static final String GENUS_GINKGO = "ginkgo";
+	public static final String GENUS_JACARANDA = "jacaranda";
+	public static final String GENUS_ARAUCARIA = "araucaria";
+	public static final String GENUS_HESPEROCYPARIS = "hesperocyparis";
+	public static final String GENUS_OLEA = "olea";
+	public static final String GENUS_PYRUS = "pyrus";
+	public static final String GENUS_EUCALYPTUS = "eucalyptus";
+	public static final String GENUS_JUNIPERUS = "juniperus";
 	// Butterfly Genera
 	public static final String GENUS_ANTHOCHARIS = "anthocharis";
 	public static final String GENUS_ATTACUS = "attacus";
@@ -274,6 +297,21 @@ public class ForestryTaxa {
 	public static final String SPECIES_DATE = "dactylifera";
 	public static final String SPECIES_POPLAR = "alba";
 	public static final String SPECIES_ELM = "glabra";
+	public static final String SPECIES_BALSAMEA = "balsamea";
+	public static final String SPECIES_NUCIFERA = "nucifera";
+	public static final String SPECIES_SYLVATICA = "sylvatica";
+	public static final String SPECIES_SELLOWIANA = "sellowiana";
+	public static final String SPECIES_FLORIDA = "florida";
+	public static final String SPECIES_BILBOA = "bilboa";
+	public static final String SPECIES_MIMOSIFOLIA = "mimosofolia";
+	public static final String SPECIES_ARAUCANA = "araucana";
+	public static final String SPECIES_MACROCARPA = "macrocarpa";
+	public static final String SPECIES_EUROPAEA = "europaea";
+	public static final String SPECIES_SINENSIS = "sinensis";
+	public static final String SPECIES_COMMUNIS = "communis";
+	public static final String SPECIES_DEGLUPTA = "deglupta";
+	public static final String SPECIES_OVATA = "ovata";
+	public static final String SPECIES_SCOPULORUM = "scopulorum";
 	// Butterfly Species
 	public static final String SPECIES_CABBAGE_WHITE = "rapae";
 	public static final String SPECIES_BRIMSTONE = "rhamni";

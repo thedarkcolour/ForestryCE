@@ -58,6 +58,21 @@ public enum ForestryWoodType implements IWoodType {
 	IPE(ForestryLeafType.IPE),
 	PADAUK(ForestryLeafType.PADAUK),
 	COCOBOLO(ForestryLeafType.COCOBOLO),
+	FIR(ForestryLeafType.FIR),
+	COCONUT(ForestryLeafType.COCONUT),
+	BEECH(ForestryLeafType.BEECH),
+	FEIJOA(ForestryLeafType.FEIJOA),
+	DOGWOOD(ForestryLeafType.DOGWOOD),
+	GINKGO(ForestryLeafType.GINKGO),
+	JACARANDA(ForestryLeafType.JACARANDA),
+	MONKEY_PUZZLE(ForestryLeafType.MONKEY_PUZZLE),
+	CYPRESS(ForestryLeafType.CYPRESS),
+	OLIVE(ForestryLeafType.OLIVE),
+	ORANGE(ForestryLeafType.ORANGE),
+	PEAR(ForestryLeafType.PEAR),
+	EUCALYPTUS(ForestryLeafType.EUCALYPTUS),
+	GUM(ForestryLeafType.GUM),
+	JUNIPER(ForestryLeafType.JUNIPER),
 	ZEBRAWOOD(ForestryLeafType.ZEBRAWOOD);
 
 	public static final float DEFAULT_HARDNESS = 2.0f;

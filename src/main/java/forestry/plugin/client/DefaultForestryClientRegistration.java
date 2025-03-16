@@ -59,7 +59,7 @@ public class DefaultForestryClientRegistration implements Consumer<IClientRegist
 		client.setLeafSprite(ForestryTreeSpecies.WALNUT, ForestryLeafSprites.ACACIA);
 		client.setLeafSprite(ForestryTreeSpecies.CHESTNUT, ForestryLeafSprites.BIRCH);
 		client.setLeafSprite(ForestryTreeSpecies.HILL_CHERRY, ForestryLeafSprites.BIRCH);
-		client.setLeafSprite(ForestryTreeSpecies.LEMON, ForestryLeafSprites.OAK);
+		client.setLeafSprite(ForestryTreeSpecies.LEMON, ForestryLeafSprites.AZALEA);
 		client.setLeafSprite(ForestryTreeSpecies.PLUM, ForestryLeafSprites.OAK);
 		client.setLeafSprite(ForestryTreeSpecies.MAPLE, ForestryLeafSprites.MAPLE);
 		client.setLeafSprite(ForestryTreeSpecies.LARCH, ForestryLeafSprites.SPRUCE);
@@ -85,6 +85,21 @@ public class DefaultForestryClientRegistration implements Consumer<IClientRegist
 		client.setLeafSprite(ForestryTreeSpecies.DATE, ForestryLeafSprites.PALM);
 		client.setLeafSprite(ForestryTreeSpecies.POPLAR, ForestryLeafSprites.BIRCH);
 		client.setLeafSprite(ForestryTreeSpecies.ELM, ForestryLeafSprites.OAK);
+		client.setLeafSprite(ForestryTreeSpecies.FIR, ForestryLeafSprites.SPRUCE);
+		client.setLeafSprite(ForestryTreeSpecies.COCONUT, ForestryLeafSprites.PALM);
+		client.setLeafSprite(ForestryTreeSpecies.BEECH, ForestryLeafSprites.OAK);
+		client.setLeafSprite(ForestryTreeSpecies.FEIJOA, ForestryLeafSprites.AZALEA);
+		client.setLeafSprite(ForestryTreeSpecies.DOGWOOD, ForestryLeafSprites.CHERRY); //CHANGE THIS
+		client.setLeafSprite(ForestryTreeSpecies.GINKGO, ForestryLeafSprites.GINKGO);
+		client.setLeafSprite(ForestryTreeSpecies.JACARANDA, ForestryLeafSprites.CHERRY); //CHANGE THIS
+		client.setLeafSprite(ForestryTreeSpecies.MONKEY_PUZZLE, ForestryLeafSprites.SPRUCE);
+		client.setLeafSprite(ForestryTreeSpecies.CYPRESS, ForestryLeafSprites.SPRUCE);
+		client.setLeafSprite(ForestryTreeSpecies.OLIVE, ForestryLeafSprites.BIRCH);
+		client.setLeafSprite(ForestryTreeSpecies.ORANGE, ForestryLeafSprites.AZALEA);
+		client.setLeafSprite(ForestryTreeSpecies.PEAR, ForestryLeafSprites.OAK);
+		client.setLeafSprite(ForestryTreeSpecies.EUCALYPTUS, ForestryLeafSprites.BIRCH);
+		client.setLeafSprite(ForestryTreeSpecies.GUM, ForestryLeafSprites.BIRCH);
+		client.setLeafSprite(ForestryTreeSpecies.JUNIPER, ForestryLeafSprites.SPRUCE);
 
 		// Vanilla leaf tints
 		client.setLeafTint(ForestryTreeSpecies.OAK, BiomeLeafTint.DEFAULT);

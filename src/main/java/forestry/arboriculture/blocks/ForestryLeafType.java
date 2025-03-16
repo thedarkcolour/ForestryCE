@@ -59,6 +59,21 @@ public final class ForestryLeafType implements IBlockSubtype {
 	public static final ForestryLeafType DATE = new ForestryLeafType(ForestryTreeSpecies.DATE);
 	public static final ForestryLeafType POPLAR = new ForestryLeafType(ForestryTreeSpecies.POPLAR);
 	public static final ForestryLeafType ELM = new ForestryLeafType(ForestryTreeSpecies.ELM);
+	public static final ForestryLeafType FIR = new ForestryLeafType(ForestryTreeSpecies.FIR);
+	public static final ForestryLeafType COCONUT = new ForestryLeafType(ForestryTreeSpecies.COCONUT);
+	public static final ForestryLeafType BEECH = new ForestryLeafType(ForestryTreeSpecies.BEECH);
+	public static final ForestryLeafType FEIJOA = new ForestryLeafType(ForestryTreeSpecies.FEIJOA);
+	public static final ForestryLeafType DOGWOOD = new ForestryLeafType(ForestryTreeSpecies.DOGWOOD);
+	public static final ForestryLeafType GINKGO = new ForestryLeafType(ForestryTreeSpecies.GINKGO);
+	public static final ForestryLeafType JACARANDA = new ForestryLeafType(ForestryTreeSpecies.JACARANDA);
+	public static final ForestryLeafType MONKEY_PUZZLE = new ForestryLeafType(ForestryTreeSpecies.MONKEY_PUZZLE);
+	public static final ForestryLeafType CYPRESS = new ForestryLeafType(ForestryTreeSpecies.CYPRESS);
+	public static final ForestryLeafType OLIVE = new ForestryLeafType(ForestryTreeSpecies.OLIVE);
+	public static final ForestryLeafType ORANGE = new ForestryLeafType(ForestryTreeSpecies.ORANGE);
+	public static final ForestryLeafType PEAR = new ForestryLeafType(ForestryTreeSpecies.PEAR);
+	public static final ForestryLeafType EUCALYPTUS = new ForestryLeafType(ForestryTreeSpecies.EUCALYPTUS);
+	public static final ForestryLeafType GUM = new ForestryLeafType(ForestryTreeSpecies.GUM);
+	public static final ForestryLeafType JUNIPER = new ForestryLeafType(ForestryTreeSpecies.JUNIPER);
 
 	private final ResourceLocation speciesId;
 
@@ -102,7 +117,11 @@ public final class ForestryLeafType implements IBlockSubtype {
 	// Default values used by Forestry to make its leaf blocks (includes all the fields)
 	@ApiStatus.Internal
 	public static List<ForestryLeafType> values() {
-		return Arrays.asList(OAK, DARK_OAK, BIRCH, LIME, WALNUT, CHESTNUT, CHERRY_VANILLA, HILL_CHERRY, LEMON, PLUM, MAPLE, SPRUCE, LARCH, PINE, SEQUOIA, GIANT_SEQUOIA, JUNGLE, TEAK, IPE, KAPOK, EBONY, ZEBRAWOOD, MAHOGANY, ACACIA_VANILLA, DESERT_ACACIA, PADAUK, BALSA, COCOBOLO, WENGE, BAOBAB, MAHOE, WILLOW, SIPIRI, PAPAYA, DATE, POPLAR, ELM);
+		return Arrays.asList(OAK, DARK_OAK, BIRCH, LIME, WALNUT, CHESTNUT, CHERRY_VANILLA, HILL_CHERRY,
+				LEMON, PLUM, MAPLE, SPRUCE, LARCH, PINE, SEQUOIA, GIANT_SEQUOIA, JUNGLE, TEAK, IPE, KAPOK,
+				EBONY, ZEBRAWOOD, MAHOGANY, ACACIA_VANILLA, DESERT_ACACIA, PADAUK, BALSA, COCOBOLO, WENGE,
+				BAOBAB, MAHOE, WILLOW, SIPIRI, PAPAYA, DATE, POPLAR, ELM, FIR, COCONUT, BEECH, FEIJOA,
+				DOGWOOD, GINKGO, JACARANDA, MONKEY_PUZZLE, CYPRESS, OLIVE, ORANGE, PEAR, EUCALYPTUS, GUM, JUNIPER);
 	}
 
 	@Override

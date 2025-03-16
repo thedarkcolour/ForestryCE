@@ -52,4 +52,19 @@ public class ForestryTreeSpecies {
 	public static final ResourceLocation DATE = forestry("tree_date");
 	public static final ResourceLocation POPLAR = forestry("tree_poplar");
 	public static final ResourceLocation ELM = forestry("tree_elm");
+	public static final ResourceLocation FIR = forestry("tree_fir");
+	public static final ResourceLocation COCONUT = forestry("tree_coconut");
+	public static final ResourceLocation BEECH = forestry("tree_beech");
+	public static final ResourceLocation FEIJOA = forestry("tree_feijoa");
+	public static final ResourceLocation DOGWOOD = forestry("tree_dogwood");
+	public static final ResourceLocation GINKGO = forestry("tree_ginkgo");
+	public static final ResourceLocation JACARANDA = forestry("tree_jacaranda");
+	public static final ResourceLocation MONKEY_PUZZLE = forestry("tree_monkey_puzzle");
+	public static final ResourceLocation CYPRESS = forestry("tree_cypress");
+	public static final ResourceLocation OLIVE = forestry("tree_olive");
+	public static final ResourceLocation ORANGE = forestry("tree_orange");
+	public static final ResourceLocation PEAR = forestry("tree_pear");
+	public static final ResourceLocation EUCALYPTUS = forestry("tree_eucalyptus");
+	public static final ResourceLocation GUM = forestry("tree_gum");
+	public static final ResourceLocation JUNIPER = forestry("tree_juniper");
 }

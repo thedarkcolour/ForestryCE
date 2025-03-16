@@ -635,19 +635,214 @@ public class DefaultTreeSpecies {
 
 		// Golden Elm
 		arboriculture.registerSpecies(ForestryTreeSpecies.ELM, GENUS_ULMUS, SPECIES_ELM, true, TextColor.fromRgb(0xDDFA52), ForestryWoodType.ELM)
-				.setTreeFeature(FeatureElm::new)
-				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.ELM))
-				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.ELM).block().getStateDefinition().getPossibleStates())
-				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.get(ForestryLeafType.ELM).block().getStateDefinition().getPossibleStates())
-				.setGenome(genome -> {
-					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_AVERAGE);
-					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_AVERAGE);
-					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_AVERAGE);
-					genome.set(TreeChromosomes.SAPLINGS, ForestryAlleles.SAPLINGS_LOW);
-				})
-				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.LIME, ForestryTreeSpecies.CHERRY_VANILLA, 0.05f);
-				})
-				.setAuthority("Spear");
+			.setTreeFeature(FeatureElm::new)
+			.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.ELM))
+			.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.ELM).block().getStateDefinition().getPossibleStates())
+			.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.get(ForestryLeafType.ELM).block().getStateDefinition().getPossibleStates())
+			.setGenome(genome -> {
+				genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_AVERAGE);
+				genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_AVERAGE);
+				genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_AVERAGE);
+				genome.set(TreeChromosomes.SAPLINGS, ForestryAlleles.SAPLINGS_LOW);
+			})
+			.addMutations(mutations -> {
+				mutations.add(ForestryTreeSpecies.LIME, ForestryTreeSpecies.CHERRY_VANILLA, 0.05f);
+			})
+			.setAuthority("Spear");
+
+		// Balsam Fir
+		arboriculture.registerSpecies(ForestryTreeSpecies.FIR, GENUS_ABIES, SPECIES_BALSAMEA, true, TextColor.fromRgb(0x395A39), ForestryWoodType.FIR)
+			.setTreeFeature(FeatureFir::new)
+			.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.FIR))
+			.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.FIR).block().getStateDefinition().getPossibleStates())
+			.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.get(ForestryLeafType.FIR).block().getStateDefinition().getPossibleStates())
+			.setGenome(genome -> {
+				genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_AVERAGE);
+				genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_AVERAGE);
+				genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_AVERAGE);
+			})
+			.setAuthority("Spear");
+
+		// Coconut
+		arboriculture.registerSpecies(ForestryTreeSpecies.COCONUT, GENUS_COCOS, SPECIES_NUCIFERA, true, TextColor.fromRgb(0x6C8031), ForestryWoodType.COCONUT)
+			.setTreeFeature(FeatureCoconut::new)
+			.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.COCONUT))
+			.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.COCONUT).block().getStateDefinition().getPossibleStates())
+			.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.get(ForestryLeafType.COCONUT).block().getStateDefinition().getPossibleStates())
+			.setGenome(genome -> {
+				genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_AVERAGE);
+				genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_AVERAGE);
+				genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_AVERAGE);
+			})
+			.setAuthority("Spear");
+
+		// Copper Beech
+		arboriculture.registerSpecies(ForestryTreeSpecies.BEECH, GENUS_FAGUS, SPECIES_SYLVATICA, true, TextColor.fromRgb(0x6C8031), ForestryWoodType.BEECH)
+			.setTreeFeature(FeatureBeech::new)
+			.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.BEECH))
+			.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.BEECH).block().getStateDefinition().getPossibleStates())
+			.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.get(ForestryLeafType.BEECH).block().getStateDefinition().getPossibleStates())
+			.setGenome(genome -> {
+				genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_AVERAGE);
+				genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_AVERAGE);
+				genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_AVERAGE);
+			})
+			.setAuthority("Spear");
+
+		// Feijoa
+		arboriculture.registerSpecies(ForestryTreeSpecies.FEIJOA, GENUS_FEIJOA, SPECIES_SELLOWIANA, true, TextColor.fromRgb(0x93A1A2), ForestryWoodType.FEIJOA)
+			.setTreeFeature(FeatureFeijoa::new)
+			.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.FEIJOA))
+			.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.FEIJOA).block().getStateDefinition().getPossibleStates())
+			.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.get(ForestryLeafType.FEIJOA).block().getStateDefinition().getPossibleStates())
+			.setGenome(genome -> {
+				genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_AVERAGE);
+				genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_AVERAGE);
+				genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_AVERAGE);
+			})
+			.setAuthority("Spear");
+
+		// Flowering Dogwood
+		arboriculture.registerSpecies(ForestryTreeSpecies.DOGWOOD, GENUS_CORNUS, SPECIES_FLORIDA, true, TextColor.fromRgb(0xF4F4F4), ForestryWoodType.DOGWOOD)
+			.setTreeFeature(FeatureDogwood::new)
+			.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.DOGWOOD))
+			.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.DOGWOOD).block().getStateDefinition().getPossibleStates())
+			.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.get(ForestryLeafType.DOGWOOD).block().getStateDefinition().getPossibleStates())
+			.setGenome(genome -> {
+				genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_AVERAGE);
+				genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_AVERAGE);
+				genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_AVERAGE);
+			})
+			.setAuthority("Spear");
+
+		// Ginkgo
+		arboriculture.registerSpecies(ForestryTreeSpecies.GINKGO, GENUS_GINKGO, SPECIES_BILBOA, true, TextColor.fromRgb(0xFFE554), ForestryWoodType.GINKGO)
+			.setTreeFeature(FeatureGinkgo::new)
+			.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.GINKGO))
+			.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.GINKGO).block().getStateDefinition().getPossibleStates())
+			.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.get(ForestryLeafType.GINKGO).block().getStateDefinition().getPossibleStates())
+			.setGenome(genome -> {
+				genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_AVERAGE);
+				genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_AVERAGE);
+				genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_AVERAGE);
+			})
+			.setAuthority("Spear");
+
+		// Jacaranda
+		arboriculture.registerSpecies(ForestryTreeSpecies.JACARANDA, GENUS_JACARANDA, SPECIES_MIMOSIFOLIA, true, TextColor.fromRgb(0xC18FFB), ForestryWoodType.JACARANDA)
+			.setTreeFeature(FeatureJacaranda::new)
+			.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.JACARANDA))
+			.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.JACARANDA).block().getStateDefinition().getPossibleStates())
+			.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.get(ForestryLeafType.JACARANDA).block().getStateDefinition().getPossibleStates())
+			.setGenome(genome -> {
+				genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_AVERAGE);
+				genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_AVERAGE);
+				genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_AVERAGE);
+			})
+			.setAuthority("Spear");
+
+		// Monkey Puzzle
+		arboriculture.registerSpecies(ForestryTreeSpecies.MONKEY_PUZZLE, GENUS_ARAUCARIA, SPECIES_ARAUCANA, true, TextColor.fromRgb(0x6C8031), ForestryWoodType.MONKEY_PUZZLE)
+			.setTreeFeature(FeatureMonkeyPuzzle::new)
+			.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.MONKEY_PUZZLE))
+			.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.MONKEY_PUZZLE).block().getStateDefinition().getPossibleStates())
+			.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.get(ForestryLeafType.MONKEY_PUZZLE).block().getStateDefinition().getPossibleStates())
+			.setGenome(genome -> {
+				genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_AVERAGE);
+				genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_AVERAGE);
+				genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_AVERAGE);
+			})
+			.setAuthority("Spear");
+
+		// Monterey Cypress (May be renamed to Macrocarpa)
+		arboriculture.registerSpecies(ForestryTreeSpecies.CYPRESS, GENUS_HESPEROCYPARIS, SPECIES_MACROCARPA, true, TextColor.fromRgb(0x6C8031), ForestryWoodType.CYPRESS)
+			.setTreeFeature(FeatureCypress::new)
+			.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.CYPRESS))
+			.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.CYPRESS).block().getStateDefinition().getPossibleStates())
+			.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.get(ForestryLeafType.CYPRESS).block().getStateDefinition().getPossibleStates())
+			.setGenome(genome -> {
+				genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_AVERAGE);
+				genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_AVERAGE);
+				genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_AVERAGE);
+			})
+			.setAuthority("Spear");
+
+		// Olive
+		arboriculture.registerSpecies(ForestryTreeSpecies.OLIVE, GENUS_OLEA, SPECIES_EUROPAEA, true, TextColor.fromRgb(0x6C8031), ForestryWoodType.OLIVE)
+			.setTreeFeature(FeatureOlive::new)
+			.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.OLIVE))
+			.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.OLIVE).block().getStateDefinition().getPossibleStates())
+			.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.get(ForestryLeafType.OLIVE).block().getStateDefinition().getPossibleStates())
+			.setGenome(genome -> {
+				genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_AVERAGE);
+				genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_AVERAGE);
+				genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_AVERAGE);
+			})
+			.setAuthority("Spear");
+
+		// Sweet Orange
+		arboriculture.registerSpecies(ForestryTreeSpecies.ORANGE, GENUS_CITRUS, SPECIES_SINENSIS, true, TextColor.fromRgb(0x57AD3F), ForestryWoodType.ORANGE)
+			.setTreeFeature(FeatureOrange::new)
+			.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.ORANGE))
+			.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.ORANGE).block().getStateDefinition().getPossibleStates())
+			.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.get(ForestryLeafType.ORANGE).block().getStateDefinition().getPossibleStates())
+			.setGenome(genome -> {
+				genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_AVERAGE);
+				genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_AVERAGE);
+				genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_AVERAGE);
+			})
+			.setAuthority("Spear");
+
+		// D'Anjou Pear
+		arboriculture.registerSpecies(ForestryTreeSpecies.PEAR, GENUS_PYRUS, SPECIES_COMMUNIS, true, TextColor.fromRgb(0x6C8031), ForestryWoodType.PEAR)
+			.setTreeFeature(FeaturePear::new)
+			.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.PEAR))
+			.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.PEAR).block().getStateDefinition().getPossibleStates())
+			.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.get(ForestryLeafType.PEAR).block().getStateDefinition().getPossibleStates())
+			.setGenome(genome -> {
+				genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_AVERAGE);
+				genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_AVERAGE);
+				genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_AVERAGE);
+			})
+			.setAuthority("Spear");
+
+		// Rainbow Eucalyptus
+		arboriculture.registerSpecies(ForestryTreeSpecies.EUCALYPTUS, GENUS_EUCALYPTUS, SPECIES_DEGLUPTA, true, TextColor.fromRgb(0x70922D), ForestryWoodType.EUCALYPTUS)
+			.setTreeFeature(FeatureEucalyptus::new)
+			.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.EUCALYPTUS))
+			.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.EUCALYPTUS).block().getStateDefinition().getPossibleStates())
+			.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.get(ForestryLeafType.EUCALYPTUS).block().getStateDefinition().getPossibleStates())
+			.setGenome(genome -> {
+				genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_AVERAGE);
+				genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_AVERAGE);
+				genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_AVERAGE);
+			})
+			.setAuthority("Spear");
+
+		// Swamp Gum
+		arboriculture.registerSpecies(ForestryTreeSpecies.GUM, GENUS_EUCALYPTUS, SPECIES_OVATA, true, TextColor.fromRgb(0x989855), ForestryWoodType.GUM)
+			.setTreeFeature(FeatureGum::new)
+			.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.GUM))
+			.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.GUM).block().getStateDefinition().getPossibleStates())
+			.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.get(ForestryLeafType.GUM).block().getStateDefinition().getPossibleStates())
+			.setGenome(genome -> {
+				genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_AVERAGE);
+				genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_AVERAGE);
+				genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_AVERAGE);
+			})
+			.setAuthority("Spear");
+
+		// Rocky Mountain Juniper
+		arboriculture.registerSpecies(ForestryTreeSpecies.JUNIPER, GENUS_JUNIPERUS, SPECIES_SCOPULORUM, true, TextColor.fromRgb(0x8BC0C4), ForestryWoodType.JUNIPER)
+			.setTreeFeature(FeatureJuniper::new)
+			.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.JUNIPER))
+			.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.JUNIPER).block().getStateDefinition().getPossibleStates())
+			.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.get(ForestryLeafType.JUNIPER).block().getStateDefinition().getPossibleStates())
+			.setGenome(genome -> {
+				genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_AVERAGE);
+				genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_AVERAGE);
+				genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_AVERAGE);
+			})
+			.setAuthority("Spear");
 	}
 }

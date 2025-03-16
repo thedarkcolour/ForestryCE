@@ -22,9 +22,13 @@ public class TreeTaxonomy {
 				klass.defineSubTaxon(ForestryTaxa.ORDER_LAMIALES, order -> {
 					order.defineSubTaxon(ForestryTaxa.FAMILY_BIGNONIACEAE, family -> {
 						family.defineSubTaxon(ForestryTaxa.GENUS_HANDROANTHUS);
+						family.defineSubTaxon(ForestryTaxa.GENUS_JACARANDA);
 					});
 					order.defineSubTaxon(ForestryTaxa.FAMILY_LAMIACEAE, family -> {
 						family.defineSubTaxon(ForestryTaxa.GENUS_TECTONA);
+					});
+					order.defineSubTaxon(ForestryTaxa.FAMILY_OLEACEAE, family -> {
+						family.defineSubTaxon(ForestryTaxa.GENUS_OLEA);
 					});
 				});
 			});
@@ -32,6 +36,7 @@ public class TreeTaxonomy {
 				klass.defineSubTaxon(ForestryTaxa.ORDER_ARECALES, order -> {
 					order.defineSubTaxon(ForestryTaxa.FAMILY_ARECACEAE, family -> {
 						family.defineSubTaxon(ForestryTaxa.GENUS_PHOENIX);
+						family.defineSubTaxon(ForestryTaxa.GENUS_COCOS); //Lilopsidia class is supposedly outdated?
 					});
 				});
 			});
@@ -39,6 +44,12 @@ public class TreeTaxonomy {
 				klass.defineSubTaxon(ForestryTaxa.ORDER_BRASSICALES, order -> {
 					order.defineSubTaxon(ForestryTaxa.FAMILY_CARICACEAE, family -> {
 						family.defineSubTaxon(ForestryTaxa.GENUS_CARICA);
+					});
+				});
+				klass.defineSubTaxon(ForestryTaxa.ORDER_MYRTALES, order -> {
+					order.defineSubTaxon(ForestryTaxa.FAMILY_MYRTACEAE, family -> {
+						family.defineSubTaxon(ForestryTaxa.GENUS_FEIJOA);
+						family.defineSubTaxon(ForestryTaxa.GENUS_EUCALYPTUS);
 					});
 				});
 				klass.defineSubTaxon(ForestryTaxa.ORDER_FABALES);
@@ -49,6 +60,7 @@ public class TreeTaxonomy {
 					order.defineSubTaxon(ForestryTaxa.FAMILY_FAGACEAE, family -> {
 						family.defineSubTaxon(ForestryTaxa.GENUS_CASTANEA);
 						family.defineSubTaxon(ForestryTaxa.GENUS_QUERCUS);
+						family.defineSubTaxon(ForestryTaxa.GENUS_FAGUS);
 					});
 					order.defineSubTaxon(ForestryTaxa.FAMILY_JUGLANDACEAE, family -> {
 						family.defineSubTaxon(ForestryTaxa.GENUS_JUGLANS);
@@ -97,6 +109,12 @@ public class TreeTaxonomy {
 					//https://www.picturethisai.com/wiki/Rosales.html
 					order.defineSubTaxon(ForestryTaxa.FAMILY_ROSACEAE, family -> {
 						family.defineSubTaxon(ForestryTaxa.GENUS_PRUNUS);
+						family.defineSubTaxon(ForestryTaxa.GENUS_PYRUS);
+					});
+				});
+				klass.defineSubTaxon(ForestryTaxa.ORDER_CORNALES, order -> {
+					order.defineSubTaxon(ForestryTaxa.FAMILY_CORNACEAE, family -> {
+						family.defineSubTaxon(ForestryTaxa.GENUS_CORNUS);
 					});
 				});
 			});
@@ -108,10 +126,25 @@ public class TreeTaxonomy {
 						family.defineSubTaxon(ForestryTaxa.GENUS_PICEA);
 						family.defineSubTaxon(ForestryTaxa.GENUS_PINUS);
 						family.defineSubTaxon(ForestryTaxa.GENUS_LARIX);
+						family.defineSubTaxon(ForestryTaxa.GENUS_ABIES);
 					});
 					order.defineSubTaxon(ForestryTaxa.FAMILY_CUPRESSACEAE, family -> {
 						family.defineSubTaxon(ForestryTaxa.GENUS_SEQUOIA);
 						family.defineSubTaxon(ForestryTaxa.GENUS_SEQUOIADENDRON);
+						family.defineSubTaxon(ForestryTaxa.GENUS_JUNIPERUS);
+						family.defineSubTaxon(ForestryTaxa.GENUS_HESPEROCYPARIS);
+					});
+				});
+				klass.defineSubTaxon(ForestryTaxa.ORDER_ARAUCARIALES, order -> {
+					order.defineSubTaxon(ForestryTaxa.FAMILY_ARAUCARIACEAE, family -> {
+						family.defineSubTaxon(ForestryTaxa.GENUS_ARAUCARIA);
+					});
+				});
+			});
+			phylum.defineSubTaxon(ForestryTaxa.CLASS_GINKGOOPSIDA, klass -> {
+				klass.defineSubTaxon(ForestryTaxa.ORDER_GINKGOALES, order -> {
+					order.defineSubTaxon(ForestryTaxa.FAMILY_GINKGOACEAE, family -> {
+						family.defineSubTaxon(ForestryTaxa.GENUS_GINKGO);
 					});
 				});
 			});
