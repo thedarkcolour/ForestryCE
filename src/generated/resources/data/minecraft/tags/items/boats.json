@@ -29,6 +29,21 @@
     "forestry:ipe_boat",
     "forestry:padauk_boat",
     "forestry:cocobolo_boat",
+    "forestry:fir_boat",
+    "forestry:coconut_boat",
+    "forestry:beech_boat",
+    "forestry:feijoa_boat",
+    "forestry:dogwood_boat",
+    "forestry:ginkgo_boat",
+    "forestry:jacaranda_boat",
+    "forestry:monkey_puzzle_boat",
+    "forestry:cypress_boat",
+    "forestry:olive_boat",
+    "forestry:orange_boat",
+    "forestry:pear_boat",
+    "forestry:eucalyptus_boat",
+    "forestry:gum_boat",
+    "forestry:juniper_boat",
     "forestry:zebrawood_boat"
   ]
 }

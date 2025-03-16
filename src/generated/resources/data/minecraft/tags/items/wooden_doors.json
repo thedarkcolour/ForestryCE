@@ -29,6 +29,21 @@
     "forestry:ipe_door",
     "forestry:padauk_door",
     "forestry:cocobolo_door",
+    "forestry:fir_door",
+    "forestry:coconut_door",
+    "forestry:beech_door",
+    "forestry:feijoa_door",
+    "forestry:dogwood_door",
+    "forestry:ginkgo_door",
+    "forestry:jacaranda_door",
+    "forestry:monkey_puzzle_door",
+    "forestry:cypress_door",
+    "forestry:olive_door",
+    "forestry:orange_door",
+    "forestry:pear_door",
+    "forestry:eucalyptus_door",
+    "forestry:gum_door",
+    "forestry:juniper_door",
     "forestry:zebrawood_door"
   ]
 }
