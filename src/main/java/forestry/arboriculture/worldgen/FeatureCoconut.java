@@ -13,51 +13,41 @@ package forestry.arboriculture.worldgen;
 import forestry.api.arboriculture.ITreeGenData;
 import forestry.core.worldgen.FeatureHelper;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class FeatureCoconut extends FeatureTree {
 	public FeatureCoconut(ITreeGenData tree) {
-		super(tree, 8, 8);
+		super(tree, 10, 4);
 	}
 
 	@Override
 	public Set<BlockPos> generateTrunk(LevelAccessor level, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
-		FeatureHelper.generateTreeTrunk(level, rand, wood, startPos, height, girth, 0, 0, null, 0);
-		FeatureHelper.generateSupportStems(wood, level, rand, startPos, height, girth, 0.8f, 0.3f);
 
-		return FeatureHelper.generateBranches(level, rand, wood, startPos.offset(0, height - 4, 0), girth, 0, 0.25f, 3, 2, 0.75f);
+		Direction d = Direction.getRandom(rand);
+
+		return FeatureHelper.generateTreeTrunk(level, rand, wood, startPos, height, girth, 0, 0, d, 3);
 	}
 
 	@Override
 	protected void generateLeaves(LevelAccessor level, RandomSource rand, TreeBlockTypeLeaf leaf, TreeContour contour, BlockPos startPos) {
-		for (BlockPos branchEnd : contour.getBranchEnds()) {
-			FeatureHelper.generateCylinderFromPos(level, leaf, branchEnd, 1.0f + girth, 2, FeatureHelper.EnumReplaceMode.AIR, contour);
-		}
+		for (Direction dir: Direction.VALUES){
+			int length = 3 + rand.nextInt(3); // Frond length varies between 3-5 blocks
+			BlockPos leafPos = startPos;
 
-		int leafSpawn = height + 1;
+			for (int i = 0; i < length; i++) {
+				leafPos = leafPos.offset(dir.getStepX(), dir.getStepY(), dir.getStepZ());
+				FeatureHelper.addBlock(level, leafPos, leaf, FeatureHelper.EnumReplaceMode.SOFT, contour);
 
-		FeatureHelper.generateCylinderFromTreeStartPos(level, leaf, startPos.offset(0, leafSpawn--, 0), girth, girth, 1, FeatureHelper.EnumReplaceMode.SOFT, contour);
-		FeatureHelper.generateCylinderFromTreeStartPos(level, leaf, startPos.offset(0, leafSpawn--, 0), girth, 0.5f + girth, 1, FeatureHelper.EnumReplaceMode.SOFT, contour);
-
-		FeatureHelper.generateCylinderFromTreeStartPos(level, leaf, startPos.offset(0, leafSpawn--, 0), girth, 1.9f + girth, 1, FeatureHelper.EnumReplaceMode.SOFT, contour);
-
-		while (leafSpawn > height - 4) {
-			FeatureHelper.generateCylinderFromTreeStartPos(level, leaf, startPos.offset(0, leafSpawn--, 0), girth, 2.5f + girth, 1, FeatureHelper.EnumReplaceMode.SOFT, contour);
-		}
-		FeatureHelper.generateCylinderFromTreeStartPos(level, leaf, startPos.offset(0, leafSpawn, 0), girth, 1.9f + girth, 1, FeatureHelper.EnumReplaceMode.SOFT, contour);
-
-		// Add some smaller twigs below for flavour
-		for (int times = 0; times < height / 4; times++) {
-			int h = 10 + rand.nextInt(Math.max(1, height - 10));
-			if (rand.nextBoolean() && h < height / 2) {
-				h = height / 2 + rand.nextInt(height / 2);
+				// Make the leaves slightly curved by gradually lowering them
+				if (i % 2 == 0) {
+					leafPos.offset(0, -1, 0);
+				}
 			}
-			int x_off = -1 + rand.nextInt(3);
-			int y_off = -1 + rand.nextInt(3);
-			FeatureHelper.generateSphere(level, startPos.offset(x_off, h, y_off), 1 + rand.nextInt(1), leaf, FeatureHelper.EnumReplaceMode.AIR, contour);
 		}
 	}
 }
