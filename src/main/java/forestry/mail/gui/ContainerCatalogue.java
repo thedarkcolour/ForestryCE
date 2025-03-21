@@ -102,13 +102,13 @@ public class ContainerCatalogue extends AbstractContainerMenu implements IGuiSel
 	}
 
 	private void rebuildStationsList() {
-		if (player.level.isClientSide) {
+		if (player.level().isClientSide) {
 			return;
 		}
 
 		stations.clear();
 
-		Map<IMailAddress, ITradeStation> tradeStations = TradeStationRegistry.getOrCreate((ServerLevel) player.level).getActiveTradeStations();
+		Map<IMailAddress, ITradeStation> tradeStations = TradeStationRegistry.getOrCreate((ServerLevel) player.level()).getActiveTradeStations();
 
 		for (ITradeStation station : tradeStations.values()) {
 			ITradeStationInfo info = station.getTradeInfo();

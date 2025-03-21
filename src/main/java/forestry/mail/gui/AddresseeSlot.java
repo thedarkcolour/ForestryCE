@@ -33,12 +33,12 @@ public class AddresseeSlot extends Widget {
 	}
 
 	@Override
-	public void draw(PoseStack transform, int startX, int startY) {
+	public void draw(GuiGraphics graphics, int startX, int startY) {
 		IPostalCarrier carrier = containerLetter.getCarrier();
-        RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0F);
-        RenderSystem.setShaderTexture(0, ForestrySprites.TEXTURE_ATLAS);
-        GuiComponent.blit(transform, startX + xPos, startY + yPos, manager.gui.getBlitOffset(), 32, 32, carrier.getSprite());
-    }
+		RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0F);
+		RenderSystem.setShaderTexture(0, ForestrySprites.TEXTURE_ATLAS);
+		graphics.blit(startX + xPos, startY + yPos, 0, 32, 32, carrier.getSprite());
+	}
 
 	@Override
 	public ToolTip getToolTip(int mouseX, int mouseY) {

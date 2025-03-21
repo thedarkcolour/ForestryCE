@@ -12,29 +12,29 @@ package forestry.mail;
 
 import java.util.function.Consumer;
 
-import forestry.api.mail.IMailAddress;
-import forestry.core.utils.NetworkUtil;
-import forestry.mail.carriers.PostalCarriers;
-import forestry.mail.carriers.players.POBox;
-import forestry.mail.carriers.players.POBoxRegistry;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.resources.ResourceLocation;
-
-import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
+
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 
 import forestry.api.client.IClientModuleHandler;
+import forestry.api.mail.IMailAddress;
 import forestry.api.modules.ForestryModule;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.api.modules.IPacketRegistry;
 import forestry.core.network.PacketIdClient;
 import forestry.core.network.PacketIdServer;
+import forestry.core.utils.NetworkUtil;
+import forestry.mail.carriers.PostalCarriers;
+import forestry.mail.carriers.players.POBox;
+import forestry.mail.carriers.players.POBoxRegistry;
 import forestry.mail.client.MailClientHandler;
 import forestry.mail.commands.CommandMail;
 import forestry.mail.network.packets.PacketLetterInfoRequest;
@@ -61,12 +61,12 @@ public class ModuleMail extends BlankForestryModule {
 
 	public static void handlePlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
 		Player player = event.getEntity();
-		if (player.level.isClientSide) {
+		if (player.level().isClientSide) {
 			return;
 		}
 
 		IMailAddress address = new MailAddress(player.getGameProfile());
-		POBox pobox = POBoxRegistry.getOrCreate((ServerLevel) player.level).getOrCreatePOBox(address);
+		POBox pobox = POBoxRegistry.getOrCreate((ServerLevel) player.level()).getOrCreatePOBox(address);
 		PacketPOBoxInfoResponse packet = new PacketPOBoxInfoResponse(pobox.getPOBoxInfo(), false);
 		NetworkUtil.sendToPlayer(packet, (ServerPlayer) player);
 	}

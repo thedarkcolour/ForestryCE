@@ -12,15 +12,13 @@ package forestry.mail.gui;
 
 import java.util.ArrayList;
 
-import forestry.api.mail.IPostalCarrier;
-import forestry.mail.carriers.PostalCarriers;
-import net.minecraft.resources.ResourceLocation;
 import org.apache.commons.lang3.StringUtils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
 import net.minecraftforge.api.distmarker.Dist;
@@ -29,6 +27,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import org.lwjgl.glfw.GLFW;
 
 import forestry.api.mail.IMailAddress;
+import forestry.api.mail.IPostalCarrier;
 import forestry.core.config.Constants;
 import forestry.core.config.SessionVars;
 import forestry.core.gui.GuiForestry;
@@ -37,6 +36,7 @@ import forestry.core.gui.widgets.ItemStackWidget;
 import forestry.core.gui.widgets.Widget;
 import forestry.core.render.ColourProperties;
 import forestry.core.utils.NetworkUtil;
+import forestry.mail.carriers.PostalCarriers;
 import forestry.mail.inventory.ItemInventoryLetter;
 import forestry.mail.network.packets.PacketLetterInfoRequest;
 
@@ -166,9 +166,9 @@ public class GuiLetter extends GuiForestry<ContainerLetter> {
 			graphics.drawWordWrap(this.font, Component.literal(text.getValue()), leftPos + 20, topPos + 34, 119, ColourProperties.INSTANCE.get("gui.mail.lettertext"));
 		} else {
 			clearTradeInfoWidgets();
-			address.render(transform, mouseX, mouseY, partialTicks);    //TODO correct?
+			address.render(graphics, mouseX, mouseY, partialTicks);    //TODO correct?
 			if (menu.getCarrier().equals(PostalCarriers.TRADER.get())) {
-				drawTradePreview(transform, 18, 32);
+				drawTradePreview(graphics, 18, 32);
 			} else {
 				text.render(graphics, mouseX, mouseY, partialTicks);
 			}

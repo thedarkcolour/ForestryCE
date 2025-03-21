@@ -29,8 +29,10 @@ import net.minecraft.world.level.Level;
 
 import forestry.api.core.IProduct;
 
+import it.unimi.dsi.fastutil.Hash;
+
 public abstract class ItemStackUtil {
-	public static final Hash.Strategy<ItemStack> ITEM_STACK_STRATEGY = new Hash.Strategy<ItemStack>() {
+	public static final Hash.Strategy<ItemStack> ITEM_STACK_STRATEGY = new Hash.Strategy<>() {
 		@Override
 		public int hashCode(ItemStack o) {
 			if (o.isEmpty()) {

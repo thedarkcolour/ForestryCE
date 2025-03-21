@@ -13,10 +13,6 @@ package forestry.mail.gui;
 import javax.annotation.Nullable;
 import java.util.Iterator;
 
-import forestry.api.mail.*;
-import forestry.mail.*;
-import forestry.mail.carriers.PostalCarriers;
-import forestry.mail.carriers.trading.TradeStationRegistry;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
@@ -30,9 +26,18 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import forestry.Forestry;
+import forestry.api.mail.ILetter;
+import forestry.api.mail.IMailAddress;
+import forestry.api.mail.IPostalCarrier;
+import forestry.api.mail.ITradeStation;
+import forestry.api.mail.ITradeStationInfo;
 import forestry.core.gui.ContainerItemInventory;
 import forestry.core.gui.slots.SlotFiltered;
 import forestry.core.utils.NetworkUtil;
+import forestry.mail.Letter;
+import forestry.mail.MailAddress;
+import forestry.mail.carriers.PostalCarriers;
+import forestry.mail.carriers.trading.TradeStationRegistry;
 import forestry.mail.features.MailMenuTypes;
 import forestry.mail.inventory.ItemInventoryLetter;
 import forestry.mail.network.packets.PacketLetterInfoResponsePlayer;
@@ -85,8 +90,7 @@ public class ContainerLetter extends ContainerItemInventory<ItemInventoryLetter>
 
 	@Override
 	public void removed(Player playerEntity) {
-
-		if (!playerEntity.level.isClientSide) {
+		if (!playerEntity.level().isClientSide) {
 			ILetter letter = inventory.getLetter();
 			if (!letter.isProcessed()) {
 				IMailAddress sender = new MailAddress(playerEntity.getGameProfile());
@@ -141,7 +145,7 @@ public class ContainerLetter extends ContainerItemInventory<ItemInventoryLetter>
 
 		// Update the trading info
 		if (recipient.getCarrier().equals(PostalCarriers.TRADER.get())) {
-			updateTradeInfo(player.level, recipient);
+			updateTradeInfo(player.level(), recipient);
 		}
 
 		// TODO: Move this to the carrier to make it more extensible

@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import forestry.mail.carriers.PostalCarriers;
+
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -61,14 +63,11 @@ public class GuiCatalogue extends GuiForestry<ContainerCatalogue> {
 		addRenderableWidget(new Button.Builder(Component.literal(">"), b -> actionPerformed(2)).pos(width / 2 + 44, topPos + 150).size(12, 20).build());
 		addRenderableWidget(new Button.Builder(Component.literal("<"), b -> actionPerformed(3)).pos(width / 2 - 58, topPos + 150).size(12, 20).build());
 
-		this.buttonFilter = new Button.Builder(Component.translatable("for.gui.mail.filter.all"), b -> actionPerformed(4)).pos(width / 2 - 44, topPos + 150).size(42, 20).build();
+		this.buttonFilter = new Button.Builder(Component.translatable("for.gui.mail.filter.all"), b -> actionPerformed(4)).pos(this.width / 2 - 44, this.topPos + 150).size(42, 20).build();
 		addRenderableWidget(this.buttonFilter);
 
-		buttonFilter = new Button(width / 2 - 44, topPos + 150, 42, 20, Component.translatable("for.gui.mail.filter.all"), b -> actionPerformed(4));
-		addRenderableWidget(buttonFilter);
-
-		buttonUse = new Button(width / 2, topPos + 150, 42, 20, Component.translatable("for.gui.mail.address.copy"), b -> actionPerformed(5));
-		addRenderableWidget(buttonUse);
+		this.buttonUse = new Button.Builder(Component.translatable("for.gui.mail.address.copy"), b -> actionPerformed(5)).pos(this.width / 2, this.topPos + 150).size(42, 20).build();
+		addRenderableWidget(this.buttonUse);
 	}
 
 	@Override

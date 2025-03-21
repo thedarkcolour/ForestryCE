@@ -39,6 +39,6 @@ public record PacketTraderAddressResponse(BlockPos pos, IMailAddress address) im
 	}
 
 	public static void handle(PacketTraderAddressResponse msg, Player player) {
-		TileUtil.actOnTile(player.level, msg.pos, TileTrader.class, tile -> tile.setAddress(msg.address));
+		TileUtil.actOnTile(player.level(), msg.pos, TileTrader.class, tile -> tile.setAddress(msg.address));
 	}
 }

@@ -1,21 +1,25 @@
 package forestry.mail.gui;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
-import forestry.api.ForestryConstants;
-import forestry.core.config.Constants;
-import forestry.core.config.ForestryConfig;
-import forestry.mail.carriers.players.POBoxInfo;
-import net.minecraft.client.gui.GuiComponent;
+import java.util.ArrayList;
+import java.util.List;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.toasts.Toast;
 import net.minecraft.client.gui.components.toasts.ToastComponent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+
+import com.mojang.blaze3d.systems.RenderSystem;
+
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import java.util.ArrayList;
-import java.util.List;
+import forestry.api.ForestryConstants;
+import forestry.core.config.Constants;
+import forestry.core.config.ForestryConfig;
+import forestry.mail.carriers.players.POBoxInfo;
 
 @OnlyIn(Dist.CLIENT)
 public class ToastMailboxInfo implements Toast {
@@ -31,14 +35,13 @@ public class ToastMailboxInfo implements Toast {
     }
 
     @Override
-    public Visibility render(PoseStack poseStack, ToastComponent toastComponent, long timeSinceLastVisible) {
+    public Visibility render(GuiGraphics graphics, ToastComponent toastComponent, long timeSinceLastVisible) {
         if (!ForestryConfig.CLIENT.mailAlertsEnabled.get()) {
             return Visibility.HIDE;
         }
 
-        RenderSystem.setShaderTexture(0, BACKGROUND_SPRITE);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        toastComponent.blit(poseStack, 0, 0, 0, 0, this.width(), this.height());
+        // todo verify this works
+        graphics.blit(BACKGROUND_SPRITE, 0, 0, 0, 0, width(), height());
 
         List<Icons> icons = new ArrayList<>(2);
         if (!poBox.hasMail()) {
@@ -51,14 +54,16 @@ public class ToastMailboxInfo implements Toast {
                 icons.add(Icons.TRADE_LETTER);
             }
         }
-        icons.get((int) (timeSinceLastVisible / ICON_TIME % (long) icons.size())).render(poseStack, toastComponent, 6, 8);
-        toastComponent.getMinecraft().font.draw(poseStack, this.title, 36, 7, 0xFFFFFF);
-        toastComponent.getMinecraft().font.draw(
-                poseStack,
+        icons.get((int) (timeSinceLastVisible / ICON_TIME % (long) icons.size())).render(graphics, 6, 8);
+        Font font = Minecraft.getInstance().font;
+        graphics.drawString(font, this.title, 36, 7, 0xFFFFFF, false);
+        graphics.drawString(
+                font,
                 Component.translatable("for.gui.mail.toast.message", poBox.playerLetters() + poBox.tradeLetters()),
                 36,
                 18,
-                0xFFFFFF
+                0xFFFFFF,
+                false
         );
 
         return timeSinceLastVisible >= DISPLAY_TIME || !poBox.hasMail() ? Visibility.HIDE : Visibility.SHOW;
@@ -87,9 +92,10 @@ public class ToastMailboxInfo implements Toast {
             this.y = pY;
         }
 
-        public void render(PoseStack pPoseStack, GuiComponent pGuiComponent, int pX, int pY) {
+        public void render(GuiGraphics graphics, int pX, int pY) {
             RenderSystem.enableBlend();
-            pGuiComponent.blit(pPoseStack, pX, pY, 176 + this.x * 26, this.y * 15, 26, 15);
+            // todo verify this sprite is correct
+            graphics.blit(BACKGROUND_SPRITE, pX, pY, 176 + this.x * 26, this.y * 15, 26, 15);
             RenderSystem.enableBlend();
         }
     }
