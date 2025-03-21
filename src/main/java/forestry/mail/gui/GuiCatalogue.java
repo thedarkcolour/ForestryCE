@@ -150,6 +150,7 @@ public class GuiCatalogue extends GuiForestry<ContainerCatalogue> {
 					SessionVars.setStringVar("mail.letter.recipient", info.address().getName());
 					SessionVars.setStringVar("mail.letter.carrier", PostalCarriers.TRADER.getKey().location().toString());
 				}
+				player.displayClientMessage(Component.translatable("for.gui.mail.catalogue.save_info"), false);
 				player.closeContainer();
 			}
 		}

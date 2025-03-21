@@ -434,7 +434,7 @@ public class ForestryCreativeTabs {
 		MailBlocks.BASE.getItems().forEach(items::accept);
 		items.accept(MailItems.CATALOGUE);
 		MailItems.STAMPS.getItems().forEach(items::accept);
-		MailItems.LETTERS.getColumnFeatures(ItemLetter.State.FRESH).forEach(items::accept);
+		items.accept(MailItems.LETTERS.get(ItemLetter.Size.EMPTY, ItemLetter.State.FRESH));
 	}
 
 	private static void addAllWoodBlocks(CreativeModeTab.Output items, IWoodAccess access, IWoodType type, boolean fireproof) {
