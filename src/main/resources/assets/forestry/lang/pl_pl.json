@@ -790,7 +790,7 @@
   "chat.mail.not_mailable": "Nie można wysłać listu.",
   "chat.mail.not_postpaid": "List ma nidobór znaczków.",
   "chat.mail.mailbox_full": "Skrzynka odbiory jest pełna.",
-  "chat.mail.already_mailed": "Nie można wysłać listu.",
+  "chat.mail.already.mailed": "Nie można wysłać listu.",
   "chat.mail.response_not_mailable": "Stacja handlowa nie może wysłać odpowiedzi. Musisz mieć skrzynkę pocztową.",
   "chat.mail.insufficient_offer": "Stacja handlowa wymaga więcej.",
   "chat.mail.insufficient_trade_good": "Stacja handlowa nie ma zasobów.",

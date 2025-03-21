@@ -574,7 +574,7 @@
   "chat.mail.not_mailable": "Kiri ei ole saadetav.",
   "chat.mail.not_postpaid": "Kirjal pole piisavalt marke.",
   "chat.mail.mailbox_full": "Saaja postikast on tдis.",
-  "chat.mail.already_mailed": "Ei saa uuesti saata kirja.",
+  "chat.mail.already.mailed": "Ei saa uuesti saata kirja.",
   "chat.mail.response_not_mailable": "Vahetus jaam ei saa saata vastus kirja. Sul on vaja postkasti selle kдtte saamiseks.",
   "chat.mail.insufficient_offer": "Vahetus jaam nхuab rohkem.",
   "chat.mail.insufficient_trade_good": "Vahetus jaam jooksis varudest tьhjaks.",

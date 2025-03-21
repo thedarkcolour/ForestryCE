@@ -1824,7 +1824,7 @@
   "_comment": "###################",
   "_comment": "MAIL",
   "_comment": "###################",
-  "for.chat.mail.already_mailed": "信件无法重发。",
+  "for.chat.mail.already.mailed": "信件无法重发。",
   "for.chat.command.forestry.mail.desc": "- %1$s：邮政命令",
   "for.chat.command.forestry.mail.help": "与邮政有关的命令。",
   "for.chat.command.forestry.mail.format": "格式：/%1$s <子命令>",

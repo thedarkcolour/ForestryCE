@@ -1834,7 +1834,7 @@
   "_comment": "###################",
   "_comment": "MAIL",
   "_comment": "###################",
-"for.chat.mail.already_mailed": "Неможливо повторно надіслати лист.",
+"for.chat.mail.already.mailed": "Неможливо повторно надіслати лист.",
   "for.chat.command.forestry.mail.desc": "- %1$s : системні команди пошти",
   "for.chat.command.forestry.mail.help": "Різні команди, пов'язані з поштовою системою",
   "for.chat.command.forestry.mail.format": "Формат: /%1$s <підкоманда>",
