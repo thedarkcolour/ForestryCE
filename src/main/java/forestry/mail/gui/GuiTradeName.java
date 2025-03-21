@@ -14,8 +14,8 @@ import org.apache.commons.lang3.StringUtils;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
-import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Inventory;
 
 import org.lwjgl.glfw.GLFW;
 
@@ -70,21 +70,16 @@ public class GuiTradeName extends GuiForestry<ContainerTradeName> {
 	}
 
 	@Override
-	protected void renderBg(GuiGraphics graphics, float partialTicks, int var3, int var2) {
-		super.renderBg(graphics, partialTicks, var3, var2);
+	protected void renderBg(GuiGraphics graphics, float partialTicks, int mouseX, int mouseY) {
+		super.renderBg(graphics, partialTicks, mouseX, mouseY);
 
-		Component prompt = Component.translatable("for.gui.mail.nametrader");
 		textLayout.startPage(graphics);
 		textLayout.newLine();
-		textLayout.drawCenteredLine(graphics, prompt, 0, ColourProperties.INSTANCE.get("gui.mail.text"));
+		textLayout.drawCenteredLine(graphics, Component.translatable("for.gui.mail.nametrader"), 0, ColourProperties.INSTANCE.get("gui.mail.text"));
+		textLayout.newLine(38);
+		textLayout.drawCenteredLine(graphics, Component.translatable("for.gui.mail.nametrader.finish"), 0, ColourProperties.INSTANCE.get("gui.mail.text"));
 		textLayout.endPage(graphics);
-		addressNameField.render(graphics, var2, var3, partialTicks);    //TODO correct?
-	}
-
-	@Override
-	public void removed() {
-		super.removed();
-		setAddress();
+		addressNameField.render(graphics, mouseY, mouseX, partialTicks);
 	}
 
 	private void setAddress() {
@@ -97,6 +92,6 @@ public class GuiTradeName extends GuiForestry<ContainerTradeName> {
 
 	@Override
 	protected void addLedgers() {
-		addErrorLedger(tile);
+		addErrorLedger(this.tile);
 	}
 }

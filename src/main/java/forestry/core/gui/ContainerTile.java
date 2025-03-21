@@ -45,8 +45,14 @@ public abstract class ContainerTile<T extends BlockEntity> extends ContainerFore
 		this.tile = tile;
 	}
 
+	@Deprecated(forRemoval = true)
 	protected ContainerTile(int windowId, MenuType<?> type, T tile) {
 		super(windowId, type, null);
+		this.tile = tile;
+	}
+
+	protected ContainerTile(int windowId, MenuType<?> type, T tile, Player player) {
+		super(windowId, type, player);
 		this.tile = tile;
 	}
 

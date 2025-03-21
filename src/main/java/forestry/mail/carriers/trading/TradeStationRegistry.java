@@ -13,18 +13,21 @@ import net.minecraft.world.level.saveddata.SavedData;
 import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 public class TradeStationRegistry extends SavedData implements IWatchable.Watcher {
     private static final String SAVE_NAME = "forestry_trade_stations";
 
-    public final Map<IMailAddress, ITradeStation> cachedTradeStations = new HashMap<>();
+    public static final Pattern TRADE_STATION_NAME_REGEX = Pattern.compile("^[a-zA-Z0-9]+$");
+
+    private final Map<IMailAddress, ITradeStation> cachedTradeStations = new HashMap<>();
 
     /**
      * @param address the potential address of the Trader
      * @return true if the passed address can be an address for a trade station
      */
     public boolean isValidTradeAddress(IMailAddress address) {
-        return address.getCarrier().equals(PostalCarriers.TRADER.get()) && address.getName().matches("^[a-zA-Z0-9]+$");
+        return address.getCarrier().equals(PostalCarriers.TRADER.get()) && TRADE_STATION_NAME_REGEX.matcher(address.getName()).matches();
     }
 
     /**

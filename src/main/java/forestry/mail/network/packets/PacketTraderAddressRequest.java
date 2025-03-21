@@ -15,6 +15,8 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 
+import net.minecraftforge.network.NetworkHooks;
+
 import forestry.api.modules.IForestryPacketServer;
 import forestry.core.network.PacketIdServer;
 import forestry.core.tiles.TileUtil;
@@ -26,7 +28,11 @@ public record PacketTraderAddressRequest(BlockPos pos, String addressName) imple
 	}
 
 	public static void handle(PacketTraderAddressRequest msg, ServerPlayer player) {
-		TileUtil.actOnTile(player.level(), msg.pos(), TileTrader.class, tile -> tile.handleSetAddressRequest(msg.addressName()));
+		TileUtil.actOnTile(player.level(), msg.pos(), TileTrader.class, tile -> {
+			if (tile.handleSetAddressRequest(msg.addressName())) {
+				NetworkHooks.openScreen(player, tile, msg.pos());
+			}
+		});
 	}
 
 	@Override

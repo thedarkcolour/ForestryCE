@@ -210,6 +210,7 @@
   "for.gui.mail.foreveryattached": "for every attached",
   "for.gui.mail.from": "From",
   "for.gui.mail.nametrader": "Name your trade station",
+  "for.gui.mail.nametrader.finish": "Hit ENTER to confirm",
   "for.gui.mail.nothing.to.trade": "Trade station has nothing to trade.",
   "for.gui.mail.no.trader": "No trade station of that name available.",
   "for.gui.mail.pleasesend": "Please send",

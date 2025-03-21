@@ -12,27 +12,26 @@ package forestry.mail.tiles;
 
 import com.google.common.base.Preconditions;
 
-import forestry.mail.carriers.trading.TradeStationRegistry;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Container;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import forestry.api.core.ForestryError;
 import forestry.api.core.IErrorLogic;
 import forestry.api.mail.IMailAddress;
 import forestry.api.mail.IStamps;
-import forestry.api.core.ForestryError;
 import forestry.core.inventory.IInventoryAdapter;
 import forestry.core.owner.IOwnedTile;
 import forestry.core.owner.IOwnerHandler;
@@ -42,6 +41,7 @@ import forestry.core.utils.ItemStackUtil;
 import forestry.core.utils.NetworkUtil;
 import forestry.mail.MailAddress;
 import forestry.mail.carriers.trading.TradeStation;
+import forestry.mail.carriers.trading.TradeStationRegistry;
 import forestry.mail.features.MailTiles;
 import forestry.mail.gui.ContainerTradeName;
 import forestry.mail.gui.ContainerTrader;
@@ -250,7 +250,7 @@ public class TileTrader extends TileBase implements IOwnedTile {
 		return address;
 	}
 
-	public void handleSetAddressRequest(String addressName) {
+	public boolean handleSetAddressRequest(String addressName) {
 		IMailAddress address = new MailAddress(addressName);
 		boolean updated = setAddress(address);
 
@@ -258,6 +258,8 @@ public class TileTrader extends TileBase implements IOwnedTile {
 			PacketTraderAddressResponse packetResponse = new PacketTraderAddressResponse(worldPosition, address);
 			NetworkUtil.sendNetworkPacket(packetResponse, worldPosition, level);
 		}
+
+		return updated;
 	}
 
 	public boolean setAddress(IMailAddress address) {
@@ -303,10 +305,10 @@ public class TileTrader extends TileBase implements IOwnedTile {
 
 	@Override
 	public AbstractContainerMenu createMenu(int windowId, Inventory inv, Player player) {
-		if (isLinked()) {    //TODO does this sync over?
+		if (isLinked()) {
 			return new ContainerTrader(windowId, inv, this);
 		} else {
-			return new ContainerTradeName(windowId, inv, this);
+			return new ContainerTradeName(windowId, inv.player, this);
 		}
 	}
 }

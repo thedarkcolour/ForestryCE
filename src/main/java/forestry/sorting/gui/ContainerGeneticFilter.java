@@ -18,7 +18,7 @@ public class ContainerGeneticFilter extends ContainerTile<TileGeneticFilter> {
 	}
 
 	public ContainerGeneticFilter(int windowId, Inventory playerInventory, TileGeneticFilter tile) {
-		super(windowId, SortingMenuTypes.GENETIC_FILTER.menuType(), tile);
+		super(windowId, SortingMenuTypes.GENETIC_FILTER.menuType(), tile, playerInventory.player);
 		addInventory(playerInventory, 26, 140);
 	}
 
