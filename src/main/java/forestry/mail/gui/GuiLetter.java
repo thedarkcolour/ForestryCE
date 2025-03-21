@@ -11,6 +11,7 @@
 package forestry.mail.gui;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -96,8 +97,16 @@ public class GuiLetter extends GuiForestry<ContainerLetter> {
 
 		// Set focus or enter text into address
 		if (this.address.isFocused()) {
-			if (key == GLFW.GLFW_KEY_ENTER) {
+			if (key == GLFW.GLFW_KEY_ENTER || key == GLFW.GLFW_KEY_ESCAPE) {
 				this.address.setFocused(false);
+			} else if (key == GLFW.GLFW_KEY_TAB) {
+				// Name autocomplete
+				String currentValue = this.address.getValue().toLowerCase(Locale.ENGLISH);
+				Minecraft.getInstance().getConnection().getOnlinePlayers().stream()
+						.map(info -> info.getProfile().getName())
+						.filter(name -> name.toLowerCase(Locale.ENGLISH).contains(currentValue))
+						.findFirst()
+						.ifPresent(name -> this.address.setValue(name));
 			} else {
 				this.address.keyPressed(key, scanCode, modifiers);
 			}
@@ -105,8 +114,8 @@ public class GuiLetter extends GuiForestry<ContainerLetter> {
 		}
 
 		if (this.text.isFocused()) {
-			if (key == GLFW.GLFW_KEY_ENTER) {
-				if (hasShiftDown()) {
+			if (key == GLFW.GLFW_KEY_ENTER || key == GLFW.GLFW_KEY_ESCAPE) {
+				if (hasShiftDown() && key != GLFW.GLFW_KEY_ESCAPE) {
 					text.setValue(text.getValue() + "\n");
 				} else {
 					this.text.setFocused(false);
