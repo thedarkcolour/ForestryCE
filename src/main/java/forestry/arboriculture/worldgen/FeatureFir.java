@@ -21,15 +21,18 @@ import java.util.Set;
 
 public class FeatureFir extends FeatureTree {
 	public FeatureFir(ITreeGenData tree) {
-		super(tree, 8, 8);
+		super(tree, 9, 4);
 	}
+	private int MIN_HEIGHT = 3;
 
-	@Override
+    @Override
 	public Set<BlockPos> generateTrunk(LevelAccessor level, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
-		FeatureHelper.generateTreeTrunk(level, rand, wood, startPos, height, girth, 0, 0, null, 0);
+
+
+		FeatureHelper.generateTreeTrunk(level, rand, wood, startPos, Math.max(height-girth, MIN_HEIGHT), girth, 0, 0, 0.4f);
 
 		Set<BlockPos> branchEnds = new HashSet<>();
-		for (int yBranch = 3; yBranch < height - 3; yBranch++) {
+		for (int yBranch = 3; yBranch < height - (height/2); yBranch++) {
 			branchEnds.addAll(FeatureHelper.generateBranches(level, rand, wood, startPos.offset(0, yBranch, 0), girth, 0.05f, 0.1f, Math.round((height - yBranch) * 0.15f), 1, 0.33f));
 		}
 		return branchEnds;
@@ -41,14 +44,21 @@ public class FeatureFir extends FeatureTree {
 			FeatureHelper.generateSphere(level, branchEnd, 2, leaf, FeatureHelper.EnumReplaceMode.AIR, contour);
 		}
 
-		int leafSpawn = height + 1;
-		float step = 5f / height;
+		int leafSpawn = height + girth + 1;
+
+		float maxRadius = 3.25f + rand.nextFloat();
+
+		//determines the rate of radius change as Y decreases.
+		float step = maxRadius / height;
 		float r = 0;
 
-		while (leafSpawn > 2) {
+		//step *= (girth);
+		int canopyHeight = rand.nextInt(0,MIN_HEIGHT)+1;
+
+        while (leafSpawn > canopyHeight) {
 			r += step;
-			FeatureHelper.generateCylinderFromTreeStartPos(level, leaf, startPos.offset(0, leafSpawn--, 0), girth, (int)r, 1, FeatureHelper.EnumReplaceMode.SOFT, contour);
+			FeatureHelper.generateCylinderFromTreeStartPos(level, leaf, startPos.offset(0, leafSpawn--, 0), girth, r, (4f/3), 1, FeatureHelper.EnumReplaceMode.SOFT, contour);
 		}
-		FeatureHelper.generateCylinderFromTreeStartPos(level, leaf, startPos.offset(0, leafSpawn--, 0), girth, (int)(r*0.75), 1, FeatureHelper.EnumReplaceMode.SOFT, contour);
+		FeatureHelper.generateCylinderFromTreeStartPos(level, leaf, startPos.offset(0, leafSpawn--, 0), girth, (r*0.75f),1.25f, 1, FeatureHelper.EnumReplaceMode.SOFT, contour);
 	}
 }
