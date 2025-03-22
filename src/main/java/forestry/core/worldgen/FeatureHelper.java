@@ -49,20 +49,34 @@ public class FeatureHelper {
 	 * Uses centerPos and girth of a tree to calculate the center
 	 */
 	public static void generateCylinderFromTreeStartPos(LevelAccessor world, ITreeBlockType block, BlockPos startPos, int girth, float radius, int height, EnumReplaceMode replace, TreeContour contour) {
-		generateCylinderFromPos(world, block, startPos.offset(girth / 2, 0, girth / 2), radius, height, replace, contour);
+		generateCylinderFromPos(world, block, startPos.offset(girth / 2, 0, girth / 2), radius, 1f, height, replace, contour);
 	}
 
 	/**
 	 * Center is the bottom middle of the cylinder
 	 */
 	public static void generateCylinderFromPos(LevelAccessor world, ITreeBlockType block, BlockPos center, float radius, int height, EnumReplaceMode replace, TreeContour contour) {
+		generateCylinderFromPos(world, block, center, radius, 1f, height, replace, contour);
+	}
+
+	/**
+	 * Uses centerPos and girth of a tree to calculate the center
+	 */
+	public static void generateCylinderFromTreeStartPos(LevelAccessor world, ITreeBlockType block, BlockPos startPos, int girth, float radius, float radiusMult, int height, EnumReplaceMode replace, TreeContour contour) {
+		generateCylinderFromPos(world, block, startPos.offset(girth / 2, 0, girth / 2), radius, radiusMult, height, replace, contour);
+	}
+
+	/**
+	 * Center is the bottom middle of the cylinder
+	 */
+	public static void generateCylinderFromPos(LevelAccessor world, ITreeBlockType block, BlockPos center, float radius, float radiusMult, int height, EnumReplaceMode replace, TreeContour contour) {
 		BlockPos start = BlockPos.containing(center.getX() - radius, center.getY(), center.getZ() - radius);
 		for (int x = 0; x < radius * 2 + 1; x++) {
 			for (int y = height - 1; y >= 0; y--) { // generating top-down is faster for lighting calculations
 				for (int z = 0; z < radius * 2 + 1; z++) {
 					BlockPos position = start.offset(x, y, z);
 					Vec3i treeCenter = new Vec3i(center.getX(), position.getY(), center.getZ());
-					if (position.distSqr(treeCenter) <= radius * radius + 0.01) {
+					if (position.distSqr(treeCenter) <= ((radius * radius) + 0.01) * radiusMult) {
 						Direction direction = VecUtil.direction(position, treeCenter);
 						block.setDirection(direction);
 						if (addBlock(world, position, block, replace)) {
@@ -223,6 +237,63 @@ public class FeatureHelper {
 
 					if (y + 1 == height) {
 						treeTops.add(pos);
+					}
+				}
+			}
+		}
+
+		return treeTops;
+	}
+
+
+
+	/**
+	 * Returns a list of trunk top coordinates. Takes a taper instead of a direction as I can't forsee needing a tree to do both.
+	 * @param taper the percentage representing at which point the tree should reach maximum girth.
+	 */
+	public static Set<BlockPos> generateTreeTrunk(
+			LevelAccessor level,
+			RandomSource rand,
+			ITreeBlockType wood,
+			BlockPos startPos,
+			int height,
+			int girth,
+			int yStart,
+			float vinesChance,
+			float taper
+	) {
+		Set<BlockPos> treeTops = new HashSet<>();
+
+		int taperStart = yStart+ (int)(height * taper); // Work out the highest point that max girth occurs.
+
+		for (int y = height - 1; y >= yStart; y--) { // generating top-down is faster for lighting calculations
+
+			//The X and Z coordinates for the middle of the tree
+			int midX = startPos.getX()+(girth/2);
+			int midZ = startPos.getZ()+(girth/2);
+
+			float taperAmount = (float) (y - taperStart) / (height - taperStart);
+			//Forestry.LOGGER.debug("Generating Fir tree, y: " + y + ", taper: " + taperAmount);
+
+			for (int x = 0; x < girth; x++) {
+				for (int z = 0; z < girth; z++) {
+					BlockPos pos = startPos.offset(x, y, z);
+
+					float dist = (float)Math.pow( pos.getX() - midX, 2 ) + (float)Math.pow( pos.getZ() - midZ, 2);
+					float max = (float)Math.pow(girth*(1f - taperAmount), 2);
+
+					Forestry.LOGGER.debug("Dist: " + dist + ", Max: " + max);
+					//if the Y is below the start of the taper, or is within tapering distance
+					if (y <= taperStart ||
+							dist <= max
+					) {
+
+						addBlock(level, pos, wood, EnumReplaceMode.ALL);
+						addVines(level, rand, pos, vinesChance);
+
+						if (y + 1 == height) {
+							treeTops.add(pos);
+						}
 					}
 				}
 			}
