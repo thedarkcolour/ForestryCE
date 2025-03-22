@@ -34,8 +34,8 @@ public class FeatureElm extends FeatureTree {
 
 		Set<BlockPos> branchCoords = new HashSet<>();
 		while (trunkSpawn > 3) {
-			int radius = Math.round(adjustedGirth * (height - trunkSpawn) / 1.1f);
-			branchCoords.addAll(FeatureHelper.generateBranches(level, rand, wood, startPos.offset(0, trunkSpawn, 0), girth, 0.2f, 0.3f, radius, 1, 1.0f));
+			int radius = (int) Math.round(adjustedGirth + (height - trunkSpawn) * 1.2 );
+			branchCoords.addAll(FeatureHelper.generateBranches(level, rand, wood, startPos.offset(0, trunkSpawn, 0), girth, 0.2f, 0.3f, radius, 1, 0.85f));
 			trunkSpawn -= 2;
 		}
 		return branchCoords;
@@ -46,12 +46,12 @@ public class FeatureElm extends FeatureTree {
 		int leafSpawn = height + 1;
 		float adjustedGirth = girth * .75f;
 
-		FeatureHelper.generateEllipsoid(level, startPos.offset(0, leafSpawn-=2, 0), girth * 3.25f, 2, girth * 3.25f, leaf, FeatureHelper.EnumReplaceMode.SOFT, contour );
-		FeatureHelper.generateEllipsoid(level, startPos.offset(0, leafSpawn-=2, 0), girth * 4.875f, 2, girth * 4.875f, leaf, FeatureHelper.EnumReplaceMode.SOFT, contour );
+		FeatureHelper.generateEllipsoid(level, startPos.offset(0, leafSpawn-=1, 0), girth + 2.25f, 2, girth + 2.25f, 1.25f, leaf, FeatureHelper.EnumReplaceMode.SOFT, contour );
+		FeatureHelper.generateEllipsoid(level, startPos.offset(0, leafSpawn-=2, 0), girth + 3.875f, 2.5f, girth + 3.875f, 1.25f, leaf, FeatureHelper.EnumReplaceMode.SOFT, contour );
 
 		for (BlockPos branchEnd : contour.getBranchEnds()) {
-			FeatureHelper.generateEllipsoid(level, branchEnd, 3f * girth, 3f * adjustedGirth, 3f * girth, leaf, FeatureHelper.EnumReplaceMode.SOFT, contour );
-			FeatureHelper.generateEllipsoid(level, branchEnd.offset(0,-(int)(3f * adjustedGirth)/2,0), 4.9f * girth, 2.5f * adjustedGirth, 4.9f * girth, leaf, FeatureHelper.EnumReplaceMode.SOFT, contour );
+			FeatureHelper.generateEllipsoid(level, branchEnd, 2f + girth, 2, 2f + girth, .9f, leaf, FeatureHelper.EnumReplaceMode.SOFT, contour );
+			FeatureHelper.generateEllipsoid(level, branchEnd.offset(0,-2,0), 3f + girth, 2, 3f + girth, .9f, leaf, FeatureHelper.EnumReplaceMode.SOFT, contour );
 		}
 	}
 }
