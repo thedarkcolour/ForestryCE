@@ -1,10 +1,12 @@
 package forestry.core.worldgen;
 
-import forestry.api.arboriculture.ITreeGenData;
-import forestry.arboriculture.worldgen.ITreeBlockType;
-import forestry.arboriculture.worldgen.TreeBlockType;
-import forestry.arboriculture.worldgen.TreeContour;
-import forestry.core.utils.VecUtil;
+import javax.annotation.Nullable;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import forestry.Forestry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
@@ -18,11 +20,11 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.VineBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
-import javax.annotation.Nullable;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import forestry.api.arboriculture.ITreeGenData;
+import forestry.arboriculture.worldgen.ITreeBlockType;
+import forestry.arboriculture.worldgen.TreeBlockType;
+import forestry.arboriculture.worldgen.TreeContour;
+import forestry.core.utils.VecUtil;
 
 public class FeatureHelper {
 	public static boolean addBlock(LevelAccessor world, BlockPos pos, ITreeBlockType type, EnumReplaceMode replaceMode) {
@@ -59,12 +61,8 @@ public class FeatureHelper {
 			for (int y = height - 1; y >= 0; y--) { // generating top-down is faster for lighting calculations
 				for (int z = 0; z < radius * 2 + 1; z++) {
 					BlockPos position = start.offset(x, y, z);
-					// use relative coordinates to avoid floating-point precision issues at high coordinates
-					double dx = position.getX() - center.getX();
-					double dz = position.getZ() - center.getZ();
-					double distSqr = dx * dx + dz * dz;
-					if (distSqr <= radius * radius + 0.01) {
-						Vec3i treeCenter = new Vec3i(center.getX(), position.getY(), center.getZ());
+					Vec3i treeCenter = new Vec3i(center.getX(), position.getY(), center.getZ());
+					if (position.distSqr(treeCenter) <= radius * radius + 0.01) {
 						Direction direction = VecUtil.direction(position, treeCenter);
 						block.setDirection(direction);
 						if (addBlock(world, position, block, replace)) {
@@ -127,17 +125,34 @@ public class FeatureHelper {
 	}
 
 	public static void generateEllipsoid(LevelAccessor world, BlockPos center, float radiusX, float radiusY, float radiusZ, ITreeBlockType block, EnumReplaceMode replace, TreeContour contour) {
-		Vec3i start = new Vec3i(center.getX() - (int) radiusX, center.getY() - (int) radiusY, center.getZ() - (int) radiusZ);
-		Vec3i area = new Vec3i((int) radiusX * 2 + 1, (int) radiusY * 2 + 1, (int) radiusZ * 2 + 1);
+		generateEllipsoid(world, center, radiusX, radiusY, radiusZ, 1, block, replace, contour);
+	}
+
+	/**
+	 *
+	 * @param world The world to place the blocks in.
+	 * @param center Where the ellipsoid should be placed
+	 * @param radiusX The radius of the ellipsoid in the X direction
+	 * @param radiusY The radius of the ellipsoid in the Y direction
+	 * @param radiusZ The radius of the ellipsoid in the Z direction
+	 * @param radiusMult How much to increase the size of the ellipsoid while keeping it contained within the bounds.
+	 * @param block The block being placed
+	 * @param replace The replacement mode
+	 * @param contour A container for branch ends and leaf positions
+	 */
+	public static void generateEllipsoid(LevelAccessor world, BlockPos center, float radiusX, float radiusY, float radiusZ, float radiusMult, ITreeBlockType block, EnumReplaceMode replace, TreeContour contour) {
+		Vec3i start = new Vec3i(center.getX() - (int)radiusX, center.getY() - (int)radiusY, center.getZ() - (int)radiusZ);
+		Vec3i area = new Vec3i((int)radiusX * 2 + 1, (int)radiusY * 2 + 1, (int)radiusZ * 2 + 1);
+		//Forestry.LOGGER.info(area.toString());
 		BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
 
-		for (int x = start.getX(); x <= start.getX() + area.getX() + 1; x++) {
-			for (int y = start.getY() + area.getY() + 1; y >= start.getY(); y--) { // generating top-down is faster for lighting calculations
-				for (int z = start.getZ(); z <= start.getZ() + area.getZ() + 1; z++) {
+		for (int x = start.getX()-1; x <= start.getX() + area.getX(); x++) {
+			for (int y = start.getY() + area.getY() + 1; y > start.getY(); y--) { // generating top-down is faster for lighting calculations
+				for (int z = start.getZ()-1; z <= start.getZ() + area.getZ(); z++) {
 
-					if (((x - center.getX()) * (x - center.getX())) / (radiusX * radiusX)
-						+ ((y - center.getY()) * (y - center.getY())) / (radiusY * radiusY)
-						+ ((z - center.getZ()) * (z - center.getZ())) / (radiusZ * radiusZ) <= 1.00) {
+					if (	 (((x - center.getX()) * (x - center.getX())) / (radiusX * radiusX)
+							+ ((y - center.getY()) * (y - center.getY())) / (radiusY * radiusY)
+							+ ((z - center.getZ()) * (z - center.getZ())) / (radiusZ * radiusZ)) <= 1.00 * radiusMult ) {
 
 						mutablePos.set(x, y, z);
 						if (addBlock(world, mutablePos, block, replace)) {
@@ -153,16 +168,16 @@ public class FeatureHelper {
 	 * Returns a list of trunk top coordinates
 	 */
 	public static Set<BlockPos> generateTreeTrunk(
-		LevelAccessor level,
-		RandomSource rand,
-		ITreeBlockType wood,
-		BlockPos startPos,
-		int height,
-		int girth,
-		int yStart,
-		float vinesChance,
-		@Nullable Direction leanDirection,
-		float leanScale
+			LevelAccessor level,
+			RandomSource rand,
+			ITreeBlockType wood,
+			BlockPos startPos,
+			int height,
+			int girth,
+			int yStart,
+			float vinesChance,
+			@Nullable Direction leanDirection,
+			float leanScale
 	) {
 		Set<BlockPos> treeTops = new HashSet<>();
 
