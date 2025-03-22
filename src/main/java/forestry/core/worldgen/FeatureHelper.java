@@ -125,18 +125,34 @@ public class FeatureHelper {
 	}
 
 	public static void generateEllipsoid(LevelAccessor world, BlockPos center, float radiusX, float radiusY, float radiusZ, ITreeBlockType block, EnumReplaceMode replace, TreeContour contour) {
+		generateEllipsoid(world, center, radiusX, radiusY, radiusZ, 1, block, replace, contour);
+	}
+
+	/**
+	 *
+	 * @param world The world to place the blocks in.
+	 * @param center Where the ellipsoid should be placed
+	 * @param radiusX The radius of the ellipsoid in the X direction
+	 * @param radiusY The radius of the ellipsoid in the Y direction
+	 * @param radiusZ The radius of the ellipsoid in the Z direction
+	 * @param radiusMult How much to increase the size of the ellipsoid while keeping it contained within the bounds.
+	 * @param block The block being placed
+	 * @param replace The replacement mode
+	 * @param contour A container for branch ends and leaf positions
+	 */
+	public static void generateEllipsoid(LevelAccessor world, BlockPos center, float radiusX, float radiusY, float radiusZ, float radiusMult, ITreeBlockType block, EnumReplaceMode replace, TreeContour contour) {
 		Vec3i start = new Vec3i(center.getX() - (int)radiusX, center.getY() - (int)radiusY, center.getZ() - (int)radiusZ);
 		Vec3i area = new Vec3i((int)radiusX * 2 + 1, (int)radiusY * 2 + 1, (int)radiusZ * 2 + 1);
 		//Forestry.LOGGER.info(area.toString());
 		BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
 
-		for (int x = start.getX(); x <= start.getX() + area.getX()+1; x++) {
-			for (int y = start.getY() + area.getY() + 1; y >= start.getY(); y--) { // generating top-down is faster for lighting calculations
-				for (int z = start.getZ(); z <= start.getZ() + area.getZ() +1; z++) {
+		for (int x = start.getX()-1; x <= start.getX() + area.getX(); x++) {
+			for (int y = start.getY() + area.getY() + 1; y > start.getY(); y--) { // generating top-down is faster for lighting calculations
+				for (int z = start.getZ()-1; z <= start.getZ() + area.getZ(); z++) {
 
-					if ( ((x - center.getX()) * (x - center.getX())) / (radiusX * radiusX)
+					if (	 (((x - center.getX()) * (x - center.getX())) / (radiusX * radiusX)
 							+ ((y - center.getY()) * (y - center.getY())) / (radiusY * radiusY)
-							+ ((z - center.getZ()) * (z - center.getZ())) / (radiusZ * radiusZ) <= 1.00 ) {
+							+ ((z - center.getZ()) * (z - center.getZ())) / (radiusZ * radiusZ)) <= 1.00 * radiusMult ) {
 
 						mutablePos.set(x, y, z);
 						if (addBlock(world, mutablePos, block, replace)) {
