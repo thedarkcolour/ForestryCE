@@ -670,7 +670,7 @@ public class DefaultTreeSpecies {
 			.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.COCONUT).block().getStateDefinition().getPossibleStates())
 			.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.get(ForestryLeafType.COCONUT).block().getStateDefinition().getPossibleStates())
 			.setGenome(genome -> {
-				genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_AVERAGE);
+				genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_LARGE);
 				genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_AVERAGE);
 				genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_AVERAGE);
 			})
