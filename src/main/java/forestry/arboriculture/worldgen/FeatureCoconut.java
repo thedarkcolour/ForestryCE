@@ -10,8 +10,6 @@
  ******************************************************************************/
 package forestry.arboriculture.worldgen;
 
-import dev.latvian.mods.rhino.ast.Block;
-import forestry.Forestry;
 import forestry.api.arboriculture.ITreeGenData;
 import forestry.core.worldgen.FeatureHelper;
 import net.minecraft.core.BlockPos;
@@ -20,7 +18,6 @@ import net.minecraft.core.Vec3i;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 
-import java.util.HashSet;
 import java.util.Set;
 
 public class FeatureCoconut extends FeatureTree {

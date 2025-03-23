@@ -16,7 +16,6 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.item.context.DirectionalPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.VineBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -159,7 +158,7 @@ public class FeatureHelper {
 	public static void generateEllipsoid(LevelAccessor world, BlockPos center, float radiusX, float radiusY, float radiusZ, float radiusMult, ITreeBlockType block, EnumReplaceMode replace, TreeContour contour) {
 		Vec3i start = new Vec3i(center.getX() - Math.round(radiusX), center.getY() - Math.round(radiusY), center.getZ() - Math.round(radiusZ));
 		Vec3i area = new Vec3i((int)radiusX * 2 + 1, (int)radiusY * 2 + 1, (int)radiusZ * 2 + 1);
-		//Forestry.LOGGER.info(area.toString());
+		
 		BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
 
 		for (int x = start.getX()-1; x <= start.getX() + area.getX(); x++) {
@@ -199,14 +198,11 @@ public class FeatureHelper {
 		);
 		float stepDist = (float)step.length();
 
-		//Prog keeps track of where we are when 'building' the frond
+		//Prog keeps track of where we are when 'building' the line
 		Vec3 prog = new Vec3(0,0,0);
 		BlockPos.MutableBlockPos mutablePos = start.mutable();
 
 		for ( float d = 0; d <= length; d += stepDist ){
-
-			//Forestry.LOGGER.debug( "Generating frond: " + (d/length)*100 + "% complete. (Length: " + length + ", step dist: " + stepDist + ")" );
-			//Forestry.LOGGER.debug( step.x + ", " + step.y + ", " + step.z);
 
 			float completion = d/length;
 			float thickness = thicknessStart + (thicknessEnd - thicknessStart) * completion;
@@ -280,12 +276,7 @@ public class FeatureHelper {
 					addBlock(level, pos, wood, EnumReplaceMode.ALL);
 					addVines(level, rand, pos, vinesChance);
 
-					if (y + 1 == height) {
-						treeTops.add(pos);
-						/*Forestry.LOGGER.debug("( " + pos.getX() + ", " +
-								pos.getY() + ", " +
-								pos.getZ() + ")");*/
-					}
+					if (y + 1 == height) treeTops.add(pos);
 				}
 			}
 		}
@@ -321,7 +312,6 @@ public class FeatureHelper {
 			int midZ = startPos.getZ()+(girth/2);
 
 			float taperAmount = (float) (y - taperStart) / (height - taperStart);
-			//Forestry.LOGGER.debug("Generating Fir tree, y: " + y + ", taper: " + taperAmount);
 
 			for (int x = 0; x < girth; x++) {
 				for (int z = 0; z < girth; z++) {
@@ -332,9 +322,7 @@ public class FeatureHelper {
 
 					Forestry.LOGGER.debug("Dist: " + dist + ", Max: " + max);
 					//if the Y is below the start of the taper, or is within tapering distance
-					if (y <= taperStart ||
-							dist <= max
-					) {
+					if (y <= taperStart || dist <= max ) {
 
 						addBlock(level, pos, wood, EnumReplaceMode.ALL);
 						addVines(level, rand, pos, vinesChance);
