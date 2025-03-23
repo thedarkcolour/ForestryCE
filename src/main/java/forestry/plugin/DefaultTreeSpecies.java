@@ -677,7 +677,7 @@ public class DefaultTreeSpecies {
 			.setAuthority("Spear");
 
 		// Copper Beech
-		arboriculture.registerSpecies(ForestryTreeSpecies.BEECH, GENUS_FAGUS, SPECIES_SYLVATICA, true, TextColor.fromRgb(0x6C8031), ForestryWoodType.BEECH)
+		arboriculture.registerSpecies(ForestryTreeSpecies.BEECH, GENUS_FAGUS, SPECIES_SYLVATICA, true, TextColor.fromRgb(0xAD301A), ForestryWoodType.BEECH)
 			.setTreeFeature(FeatureBeech::new)
 			.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.BEECH))
 			.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.BEECH).block().getStateDefinition().getPossibleStates())
