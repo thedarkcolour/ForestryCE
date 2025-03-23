@@ -16,6 +16,7 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.item.context.DirectionalPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.VineBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -25,6 +26,7 @@ import forestry.arboriculture.worldgen.ITreeBlockType;
 import forestry.arboriculture.worldgen.TreeBlockType;
 import forestry.arboriculture.worldgen.TreeContour;
 import forestry.core.utils.VecUtil;
+import net.minecraft.world.phys.Vec3;
 
 public class FeatureHelper {
 	public static boolean addBlock(LevelAccessor world, BlockPos pos, ITreeBlockType type, EnumReplaceMode replaceMode) {
@@ -178,6 +180,49 @@ public class FeatureHelper {
 		}
 	}
 
+	public static void generateLine(LevelAccessor world, BlockPos start, BlockPos end, float thicknessStart, float thicknessEnd, ITreeBlockType leaf, EnumReplaceMode replace, TreeContour contour){
+
+		//Differences between coordinate starts and finishes.
+		float dx = end.getX() - start.getX();
+		float dy = end.getY() - start.getY();
+		float dz = end.getZ() - start.getZ();
+
+		//Start by calculating the distance
+		float length = (float)Math.sqrt(start.distSqr(end));
+		if (length == 0) return;
+
+		//Each 'step' should be a fraction of the full length
+		Vec3 step = new Vec3(
+				dx/length,
+				dy/length,
+				dz/length
+		);
+		float stepDist = (float)step.length();
+
+		//Prog keeps track of where we are when 'building' the frond
+		Vec3 prog = new Vec3(0,0,0);
+		BlockPos.MutableBlockPos mutablePos = start.mutable();
+
+		for ( float d = 0; d <= length; d += stepDist ){
+
+			//Forestry.LOGGER.debug( "Generating frond: " + (d/length)*100 + "% complete. (Length: " + length + ", step dist: " + stepDist + ")" );
+			//Forestry.LOGGER.debug( step.x + ", " + step.y + ", " + step.z);
+
+			float completion = d/length;
+			float thickness = thicknessStart + (thicknessEnd - thicknessStart) * completion;
+
+			mutablePos = mutablePos.set(
+				(int)(start.getX() + prog.x),
+				(int)(start.getY() + prog.y),
+				(int)(start.getZ() + prog.z)
+			);
+			generateEllipsoid(world, mutablePos, thickness, thickness, thickness, 1.5f + (completion*0.5f), leaf, replace, contour);
+
+			prog = prog.add(step);
+		}
+
+	}
+
 	/**
 	 * Returns a list of trunk top coordinates
 	 */
@@ -237,6 +282,9 @@ public class FeatureHelper {
 
 					if (y + 1 == height) {
 						treeTops.add(pos);
+						/*Forestry.LOGGER.debug("( " + pos.getX() + ", " +
+								pos.getY() + ", " +
+								pos.getZ() + ")");*/
 					}
 				}
 			}
