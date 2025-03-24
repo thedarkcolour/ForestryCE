@@ -11,8 +11,8 @@ import javax.annotation.Nullable;
 import java.util.Set;
 
 public abstract class FeatureTree extends FeatureArboriculture {
-	private static final int minHeight = 4;
-	private static final int maxHeight = 80;
+	private final int minHeight;
+	private final int maxHeight = 80;
 
 	private final int baseHeight;
 	private final int heightVariation;
@@ -20,10 +20,18 @@ public abstract class FeatureTree extends FeatureArboriculture {
 	protected int girth;
 	protected int height;
 
+	protected FeatureTree(ITreeGenData tree, int baseHeight, int heightVariation, int minHeightOverride) {
+		super(tree);
+		this.baseHeight = baseHeight;
+		this.heightVariation = heightVariation;
+		this.minHeight = minHeightOverride;
+	}
+
 	protected FeatureTree(ITreeGenData tree, int baseHeight, int heightVariation) {
 		super(tree);
 		this.baseHeight = baseHeight;
 		this.heightVariation = heightVariation;
+		this.minHeight = 4;
 	}
 
 	@Override
