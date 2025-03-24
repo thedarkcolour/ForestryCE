@@ -44,7 +44,7 @@ public class FeatureBeech extends FeatureTree {
 	protected void generateLeaves(LevelAccessor level, RandomSource rand, TreeBlockTypeLeaf leaf, TreeContour contour, BlockPos startPos) {
 		int r = 3;
 		for (BlockPos branchEnd : contour.getBranchEnds()) {
-			FeatureHelper.generateEllipsoid(level, branchEnd.offset(0, -1, 1), r, 2, r, 1.5f, leaf, FeatureHelper.EnumReplaceMode.SOFT, contour);
+			FeatureHelper.generateEllipsoid(level, branchEnd.offset(girth/2, -1, girth/2), r, 2, r, 1.5f, leaf, FeatureHelper.EnumReplaceMode.SOFT, contour);
 		}
 
 		int yCenter = height - girth;

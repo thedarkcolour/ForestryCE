@@ -46,8 +46,8 @@ public class FeatureElm extends FeatureTree {
 		int leafSpawn = height + 1;
 		float adjustedGirth = girth * .75f;
 
-		FeatureHelper.generateEllipsoid(level, startPos.offset(0, leafSpawn-=1, 0), girth + 2.25f, 2, girth + 2.25f, 1.25f, leaf, FeatureHelper.EnumReplaceMode.SOFT, contour );
-		FeatureHelper.generateEllipsoid(level, startPos.offset(0, leafSpawn-=2, 0), girth + 3.875f, 2.5f, girth + 3.875f, 1.25f, leaf, FeatureHelper.EnumReplaceMode.SOFT, contour );
+		FeatureHelper.generateEllipsoid(level, startPos.offset(girth/2, leafSpawn-=1, girth/2), girth + 2.25f, 2, girth + 2.25f, 1.25f, leaf, FeatureHelper.EnumReplaceMode.SOFT, contour );
+		FeatureHelper.generateEllipsoid(level, startPos.offset(girth/2, leafSpawn-=2, girth/2), girth + 3.875f, 2.5f, girth + 3.875f, 1.25f, leaf, FeatureHelper.EnumReplaceMode.SOFT, contour );
 
 		for (BlockPos branchEnd : contour.getBranchEnds()) {
 			FeatureHelper.generateEllipsoid(level, branchEnd, 2f + girth, 2, 2f + girth, .9f, leaf, FeatureHelper.EnumReplaceMode.SOFT, contour );
