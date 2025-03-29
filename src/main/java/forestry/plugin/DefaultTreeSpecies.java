@@ -676,6 +676,7 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_LARGE);
 					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_AVERAGE);
 					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_AVERAGE);
+					genome.set(TreeChromosomes.FRUIT, ForestryAlleles.FRUIT_COCONUT);
 				})
 				.setAuthority("Spear");
 
@@ -702,6 +703,7 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_SMALLEST);
 					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_AVERAGE);
 					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_AVERAGE);
+					genome.set(TreeChromosomes.FRUIT, ForestryAlleles.FRUIT_FEIJOA);
 				})
 				.setAuthority("Spear");
 
@@ -780,6 +782,7 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_AVERAGE);
 					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_AVERAGE);
 					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_AVERAGE);
+					genome.set(TreeChromosomes.FRUIT, ForestryAlleles.FRUIT_OLIVE);
 				})
 				.setAuthority("Spear");
 
@@ -793,6 +796,7 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_AVERAGE);
 					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_AVERAGE);
 					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_AVERAGE);
+					genome.set(TreeChromosomes.FRUIT, ForestryAlleles.FRUIT_ORANGE);
 				})
 				.setAuthority("Spear");
 
@@ -806,6 +810,7 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_AVERAGE);
 					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_AVERAGE);
 					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_AVERAGE);
+					genome.set(TreeChromosomes.FRUIT, ForestryAlleles.FRUIT_PEAR);
 				})
 				.setAuthority("Spear");
 

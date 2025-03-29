@@ -171,6 +171,11 @@ public class ForestryTags {
 		public static final TagKey<Item> PLUM = forgeTag("fruits/plum");
 		public static final TagKey<Item> DATE = forgeTag("fruits/date");
 		public static final TagKey<Item> PAPAYA = forgeTag("fruits/papaya");
+		public static final TagKey<Item> PEAR = forgeTag("fruits/pear");
+		public static final TagKey<Item> ORANGE = forgeTag("fruits/orange");
+		public static final TagKey<Item> FEIJOA = forgeTag("fruits/feijoa");
+		public static final TagKey<Item> COCONUT = forgeTag("fruits/coconut");
+		public static final TagKey<Item> OLIVE = forgeTag("fruits/olive");
 
 		public static final TagKey<Item> MINER_ALLOW = itemTag("backpack/allow/miner");
 		public static final TagKey<Item> MINER_REJECT = itemTag("backpack/reject/miner");

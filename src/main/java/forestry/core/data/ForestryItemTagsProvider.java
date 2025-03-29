@@ -117,6 +117,11 @@ public class ForestryItemTagsProvider {
 		tags.tag(ForestryTags.Items.PLUM).add(CoreItems.FRUITS.item(ItemFruit.EnumFruit.PLUM));
 		tags.tag(ForestryTags.Items.DATE).add(CoreItems.FRUITS.item(ItemFruit.EnumFruit.DATES));
 		tags.tag(ForestryTags.Items.PAPAYA).add(CoreItems.FRUITS.item(ItemFruit.EnumFruit.PAPAYA));
+		tags.tag(ForestryTags.Items.PEAR).add(CoreItems.FRUITS.item(ItemFruit.EnumFruit.PEAR));
+		tags.tag(ForestryTags.Items.ORANGE).add(CoreItems.FRUITS.item(ItemFruit.EnumFruit.ORANGE));
+		tags.tag(ForestryTags.Items.FEIJOA).add(CoreItems.FRUITS.item(ItemFruit.EnumFruit.FEIJOA));
+		tags.tag(ForestryTags.Items.COCONUT).add(CoreItems.FRUITS.item(ItemFruit.EnumFruit.COCONUT));
+		tags.tag(ForestryTags.Items.OLIVE).add(CoreItems.FRUITS.item(ItemFruit.EnumFruit.OLIVE));
 
 		tags.tag(ForestryTags.Items.DUSTS_ASH).add(CoreItems.ASH.item());
 		tags.tag(ForestryTags.Items.SAWDUST).add(CoreItems.CRAFTING_MATERIALS.item(EnumCraftingMaterial.WOOD_PULP));
