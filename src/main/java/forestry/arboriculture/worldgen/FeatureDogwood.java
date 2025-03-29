@@ -20,44 +20,39 @@ import java.util.Set;
 
 public class FeatureDogwood extends FeatureTree {
 	public FeatureDogwood(ITreeGenData tree) {
-		super(tree, 8, 8);
+		super(tree, 5, 4);
 	}
 
 	@Override
 	public Set<BlockPos> generateTrunk(LevelAccessor level, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
 		FeatureHelper.generateTreeTrunk(level, rand, wood, startPos, height, girth, 0, 0, null, 0);
-		FeatureHelper.generateSupportStems(wood, level, rand, startPos, height, girth, 0.8f, 0.3f);
 
-		return FeatureHelper.generateBranches(level, rand, wood, startPos.offset(0, height - 4, 0), girth, 0, 0.25f, 3, 2, 0.75f);
+		return FeatureHelper.generateBranches(level, rand, wood, startPos.offset(0, height-3, 0), girth, 0, 0.25f, 3, 2, 0.75f);
 	}
 
 	@Override
 	protected void generateLeaves(LevelAccessor level, RandomSource rand, TreeBlockTypeLeaf leaf, TreeContour contour, BlockPos startPos) {
+
 		for (BlockPos branchEnd : contour.getBranchEnds()) {
-			FeatureHelper.generateCylinderFromPos(level, leaf, branchEnd, 1.0f + girth, 2, FeatureHelper.EnumReplaceMode.AIR, contour);
+			FeatureHelper.generateCylinderFromPos(level, leaf, branchEnd, 2, 2, FeatureHelper.EnumReplaceMode.AIR, contour);
 		}
 
 		int leafSpawn = height + 1;
 
-		FeatureHelper.generateCylinderFromTreeStartPos(level, leaf, startPos.offset(0, leafSpawn--, 0), girth, girth, 1, FeatureHelper.EnumReplaceMode.SOFT, contour);
-		FeatureHelper.generateCylinderFromTreeStartPos(level, leaf, startPos.offset(0, leafSpawn--, 0), girth, 0.5f + girth, 1, FeatureHelper.EnumReplaceMode.SOFT, contour);
+		float radius = 1;
+		int end = rand.nextInt(1,3);
+		float radiusMod = 0.4f;
+		if (end > 2) radiusMod = 0.5f;
 
-		FeatureHelper.generateCylinderFromTreeStartPos(level, leaf, startPos.offset(0, leafSpawn--, 0), girth, 1.9f + girth, 1, FeatureHelper.EnumReplaceMode.SOFT, contour);
+		if ((height-end) * radiusMod > 5.5f) // prevent tall trees from having too wide a canopy and despawning too many leaves
+			radiusMod = 5.5f/height;
 
-		while (leafSpawn > height - 4) {
-			FeatureHelper.generateCylinderFromTreeStartPos(level, leaf, startPos.offset(0, leafSpawn--, 0), girth, 2.5f + girth, 1, FeatureHelper.EnumReplaceMode.SOFT, contour);
+		while (leafSpawn > end) {
+			FeatureHelper.generateCylinderFromTreeStartPos(level, leaf, startPos.offset(0, leafSpawn--, 0), girth, radius + Math.min(girth,2), 1, FeatureHelper.EnumReplaceMode.SOFT, contour);
+			radius += radiusMod;
 		}
-		FeatureHelper.generateCylinderFromTreeStartPos(level, leaf, startPos.offset(0, leafSpawn, 0), girth, 1.9f + girth, 1, FeatureHelper.EnumReplaceMode.SOFT, contour);
 
-		// Add some smaller twigs below for flavour
-		for (int times = 0; times < height / 4; times++) {
-			int h = 10 + rand.nextInt(Math.max(1, height - 10));
-			if (rand.nextBoolean() && h < height / 2) {
-				h = height / 2 + rand.nextInt(height / 2);
-			}
-			int x_off = -1 + rand.nextInt(3);
-			int y_off = -1 + rand.nextInt(3);
-			FeatureHelper.generateSphere(level, startPos.offset(x_off, h, y_off), 1 + rand.nextInt(1), leaf, FeatureHelper.EnumReplaceMode.AIR, contour);
-		}
+
+
 	}
 }
