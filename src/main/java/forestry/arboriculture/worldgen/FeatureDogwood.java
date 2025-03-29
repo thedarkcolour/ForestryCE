@@ -27,7 +27,7 @@ public class FeatureDogwood extends FeatureTree {
 	public Set<BlockPos> generateTrunk(LevelAccessor level, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
 		FeatureHelper.generateTreeTrunk(level, rand, wood, startPos, height, girth, 0, 0, null, 0);
 
-		return FeatureHelper.generateBranches(level, rand, wood, startPos.offset(0, height-3, 0), girth, 0, 0.25f, 3, 2, 0.75f);
+		return FeatureHelper.generateBranches(level, rand, wood, startPos.offset(0, height-3, 0), girth, 0.015f, 0.25f, 3, 2, 0.75f);
 	}
 
 	@Override
