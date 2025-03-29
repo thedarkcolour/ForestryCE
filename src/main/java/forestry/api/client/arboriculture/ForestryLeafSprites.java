@@ -22,4 +22,6 @@ public class ForestryLeafSprites {
 	public static final ILeafSprite PALM = HELPER.createLeafSprite(ForestryConstants.forestry("palm"));
 	public static final ILeafSprite AZALEA = HELPER.createLeafSprite(ForestryConstants.forestry("azalea"));
 	public static final ILeafSprite GINKGO = HELPER.createLeafSprite(ForestryConstants.forestry("ginkgo"));
+	public static final ILeafSprite JACARANDA = HELPER.createLeafSprite(ForestryConstants.forestry("jacaranda"));
+	public static final ILeafSprite DOGWOOD = HELPER.createLeafSprite(ForestryConstants.forestry("dogwood"));
 }
