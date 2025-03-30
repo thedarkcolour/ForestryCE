@@ -70,8 +70,4 @@ public class FeatureOlive extends FeatureTree {
 
 		}
 	}
-
-	public void poop(){
-		System.out.println("Hello, world!");
-	}
 }
