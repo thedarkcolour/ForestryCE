@@ -704,6 +704,7 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_AVERAGE);
 					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_AVERAGE);
 					genome.set(TreeChromosomes.FRUIT, ForestryAlleles.FRUIT_FEIJOA);
+					genome.set(TreeChromosomes.YIELD, ForestryAlleles.YIELD_HIGHER); //This is (currently) the highest yield of all trees
 				})
 				.setAuthority("Spear");
 
@@ -753,7 +754,8 @@ public class DefaultTreeSpecies {
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.MONKEY_PUZZLE).block().getStateDefinition().getPossibleStates())
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.get(ForestryLeafType.MONKEY_PUZZLE).block().getStateDefinition().getPossibleStates())
 				.setGenome(genome -> {
-					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_AVERAGE);
+					//It was a Girth 2 tree in Extra Trees, but 1x1 is more accurate to real life
+					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_LARGER);
 					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_AVERAGE);
 					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_AVERAGE);
 				})
