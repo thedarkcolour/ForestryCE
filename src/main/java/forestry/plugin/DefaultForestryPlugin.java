@@ -333,7 +333,7 @@ public class DefaultForestryPlugin implements IForestryPlugin {
 		arboriculture.registerFruit(ForestryFruits.PEAR, new RipeningFruit(true, 10, pomes, 0xD8D345, 0xE3DD9C, List.of(Product.of(CoreItems.FRUITS.item(ItemFruit.EnumFruit.PEAR)))));
 		arboriculture.registerFruit(ForestryFruits.FEIJOA, new RipeningFruit(true, 10, berries, 0x7AB15C, 0x6A7D7B, List.of(Product.of(CoreItems.FRUITS.item(ItemFruit.EnumFruit.FEIJOA))))); //What actually is a feijoa? I couldn't find the answer.
 		arboriculture.registerFruit(ForestryFruits.ORANGE, new RipeningFruit(true, 10, citrus, 0xF4842D, 0xBCA627, List.of(Product.of(CoreItems.FRUITS.item(ItemFruit.EnumFruit.ORANGE)))));
-		arboriculture.registerFruit(ForestryFruits.OLIVE, new RipeningFruit(true, 10, berries, 0xAAC348, 0x4B5427, List.of(Product.of(CoreItems.FRUITS.item(ItemFruit.EnumFruit.OLIVE))))); //Should also be a drupe
+		arboriculture.registerFruit(ForestryFruits.OLIVE, new RipeningFruit(true, 10, berries, 0xAAC348, 0x604632, List.of(Product.of(CoreItems.FRUITS.item(ItemFruit.EnumFruit.OLIVE))))); //Should also be a drupe
 
 		arboriculture.registerTreeEffect(ForestryAlleles.TREE_EFFECT_NONE.alleleId(), new DummyTreeEffect(false));
 		arboriculture.registerTreeEffect(ForestryAlleles.TREE_EFFECT_BLOSSOMING.alleleId(), new BlossomingTreeEffect());

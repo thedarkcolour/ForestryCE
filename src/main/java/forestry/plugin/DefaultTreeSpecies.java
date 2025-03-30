@@ -778,16 +778,17 @@ public class DefaultTreeSpecies {
 				.setAuthority("Spear");
 
 		// Olive
-		arboriculture.registerSpecies(ForestryTreeSpecies.OLIVE, GENUS_OLEA, SPECIES_EUROPAEA, true, TextColor.fromRgb(0x6C8031), ForestryWoodType.OLIVE)
+		arboriculture.registerSpecies(ForestryTreeSpecies.OLIVE, GENUS_OLEA, SPECIES_EUROPAEA, true, TextColor.fromRgb(0xB7B792), ForestryWoodType.OLIVE)
 				.setTreeFeature(FeatureOlive::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.OLIVE))
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.OLIVE).block().getStateDefinition().getPossibleStates())
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.get(ForestryLeafType.OLIVE).block().getStateDefinition().getPossibleStates())
 				.setGenome(genome -> {
-					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_AVERAGE);
+					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_SMALLER);
 					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_AVERAGE);
 					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_AVERAGE);
 					genome.set(TreeChromosomes.FRUIT, ForestryAlleles.FRUIT_OLIVE);
+					genome.set(TreeChromosomes.YIELD, ForestryAlleles.YIELD_AVERAGE);
 				})
 				.setAuthority("Spear");
 
