@@ -761,16 +761,19 @@ public class DefaultTreeSpecies {
 				})
 				.setAuthority("Spear");
 
-		// Monterey Cypress (May be renamed to Macrocarpa)
+		// Macrocarpa (Technically speaking it's a Monterey Cypress but I've called it Macrocarpa for two reasons:
+		// 1 - No other trees have geographical places in their name. Monterey is a place in California (I thought it was someone's name LOL)
+		// 2 - In New Zealand, we call them Macrocarpa trees, and supposedly they're known as such in other places too.
 		arboriculture.registerSpecies(ForestryTreeSpecies.CYPRESS, GENUS_HESPEROCYPARIS, SPECIES_MACROCARPA, true, TextColor.fromRgb(0x6C8031), ForestryWoodType.CYPRESS)
 				.setTreeFeature(FeatureCypress::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.CYPRESS))
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.CYPRESS).block().getStateDefinition().getPossibleStates())
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.get(ForestryLeafType.CYPRESS).block().getStateDefinition().getPossibleStates())
 				.setGenome(genome -> {
-					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_AVERAGE);
+					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_SMALL);
 					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_AVERAGE);
 					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_AVERAGE);
+					genome.set(TreeChromosomes.GIRTH, ForestryAlleles.GIRTH_2);
 				})
 				.setAuthority("Spear");
 
