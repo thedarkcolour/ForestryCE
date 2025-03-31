@@ -140,7 +140,7 @@ public class DefaultTreeSpecies {
 
 		// Cherry Blossom (East Asian Cherry)
 		// In real life, this is the same species as Hill Cherry. For the sake of keeping old content, we'll pretend they're different.
-		arboriculture.registerSpecies(ForestryTreeSpecies.CHERRY_VANILLA, GENUS_PRUNUS, SPECIES_CHERRY_VANILLA, true, TextColor.fromRgb(0xf7b9dc), VanillaWoodType.CHERRY)
+		arboriculture.registerSpecies(ForestryTreeSpecies.CHERRY_VANILLA, GENUS_PRUNUS, SPECIES_CHERRY_VANILLA, false, TextColor.fromRgb(0xf7b9dc), VanillaWoodType.CHERRY)
 				.setTreeFeature(FeatureCherryVanilla::new)
 				.setDecorativeLeaves(new ItemStack(Items.CHERRY_LEAVES))
 				.addVanillaStates(Blocks.CHERRY_LEAVES.getStateDefinition().getPossibleStates())
@@ -411,7 +411,7 @@ public class DefaultTreeSpecies {
 				.setRarity(0.0005f);
 
 		// Vanilla Acacia TODO should probably switch with desert acacia since aneura are from Australia
-		arboriculture.registerSpecies(ForestryTreeSpecies.ACACIA_VANILLA, GENUS_ACACIA, SPECIES_ACACIA, true, TextColor.fromRgb(0x616101), VanillaWoodType.ACACIA)
+		arboriculture.registerSpecies(ForestryTreeSpecies.ACACIA_VANILLA, GENUS_ACACIA, SPECIES_ACACIA, false, TextColor.fromRgb(0x616101), VanillaWoodType.ACACIA)
 				.setTreeFeature(FeatureTreeVanilla::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.ACACIA_VANILLA))
 				.addVanillaStates(Blocks.ACACIA_LEAVES.getStateDefinition().getPossibleStates())
