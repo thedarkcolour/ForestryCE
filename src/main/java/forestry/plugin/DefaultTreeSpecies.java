@@ -78,7 +78,7 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.YIELD, ForestryAlleles.YIELD_LOWER);
 				})
 				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.BIRCH, ForestryTreeSpecies.OAK, 15);
+					mutations.add(ForestryTreeSpecies.BIRCH, ForestryTreeSpecies.OAK, 0.15f);
 				})
 				.setRarity(0.005f);
 
@@ -97,7 +97,7 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.GIRTH, ForestryAlleles.GIRTH_2);
 				})
 				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.LIME, ForestryTreeSpecies.HILL_CHERRY, 10);
+					mutations.add(ForestryTreeSpecies.LIME, ForestryTreeSpecies.HILL_CHERRY, 0.10f);
 				});
 
 		// Chestnut (Spanish Chestnut)
@@ -114,8 +114,8 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.GIRTH, ForestryAlleles.GIRTH_2);
 				})
 				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.WALNUT, ForestryTreeSpecies.LIME, 10);
-					mutations.add(ForestryTreeSpecies.WALNUT, ForestryTreeSpecies.HILL_CHERRY, 10);
+					mutations.add(ForestryTreeSpecies.WALNUT, ForestryTreeSpecies.LIME, 0.10f);
+					mutations.add(ForestryTreeSpecies.WALNUT, ForestryTreeSpecies.HILL_CHERRY, 0.10f);
 				});
 
 		// Hill Cherry (East Asian Cherry)
@@ -133,8 +133,8 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_SMALLER);
 				})
 				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.LIME, ForestryTreeSpecies.OAK, 10);
-					mutations.add(ForestryTreeSpecies.LIME, ForestryTreeSpecies.BIRCH, 10);
+					mutations.add(ForestryTreeSpecies.LIME, ForestryTreeSpecies.OAK, 0.10f);
+					mutations.add(ForestryTreeSpecies.LIME, ForestryTreeSpecies.BIRCH, 0.10f);
 				})
 				.setRarity(0.0015f);
 
@@ -168,7 +168,7 @@ public class DefaultTreeSpecies {
 
 				})
 				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.LIME, ForestryTreeSpecies.HILL_CHERRY, 5);
+					mutations.add(ForestryTreeSpecies.LIME, ForestryTreeSpecies.HILL_CHERRY, 0.05f);
 				});
 
 		// Plum (Common Plum)
@@ -186,7 +186,7 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_SMALLEST);
 				})
 				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.LEMON, ForestryTreeSpecies.HILL_CHERRY, 5);
+					mutations.add(ForestryTreeSpecies.LEMON, ForestryTreeSpecies.HILL_CHERRY, 0.05f);
 				})
 				.setRarity(0.005f);
 
@@ -202,7 +202,7 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_AVERAGE);
 				})
 				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.SPRUCE, ForestryTreeSpecies.LARCH, 5);
+					mutations.add(ForestryTreeSpecies.SPRUCE, ForestryTreeSpecies.LARCH, 0.05f);
 				})
 				.setRarity(0.0025f);
 
@@ -235,8 +235,8 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_AVERAGE);
 				})
 				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.SPRUCE, ForestryTreeSpecies.BIRCH, 10);
-					mutations.add(ForestryTreeSpecies.SPRUCE, ForestryTreeSpecies.OAK, 10);
+					mutations.add(ForestryTreeSpecies.SPRUCE, ForestryTreeSpecies.BIRCH, 0.10f);
+					mutations.add(ForestryTreeSpecies.SPRUCE, ForestryTreeSpecies.OAK, 0.10f);
 				})
 				.setRarity(0.0025f);
 
@@ -253,7 +253,7 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_AVERAGE);
 				})
 				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.SPRUCE, ForestryTreeSpecies.LARCH, 10);
+					mutations.add(ForestryTreeSpecies.SPRUCE, ForestryTreeSpecies.LARCH, 0.10f);
 				})
 				.setRarity(0.0025f);
 
@@ -271,7 +271,7 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.FIREPROOF, true);
 				})
 				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.LARCH, ForestryTreeSpecies.PINE, 5);
+					mutations.add(ForestryTreeSpecies.LARCH, ForestryTreeSpecies.PINE, 0.05f);
 				});
 
 		// Giant Sequoia
@@ -321,7 +321,7 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_LOWER);
 				})
 				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.DARK_OAK, ForestryTreeSpecies.JUNGLE, 10);
+					mutations.add(ForestryTreeSpecies.DARK_OAK, ForestryTreeSpecies.JUNGLE, 0.10f);
 				})
 				.setRarity(0.0025f);
 
@@ -337,7 +337,7 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.GIRTH, ForestryAlleles.GIRTH_2);
 				})
 				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.TEAK, ForestryTreeSpecies.DARK_OAK, 10);
+					mutations.add(ForestryTreeSpecies.TEAK, ForestryTreeSpecies.DARK_OAK, 0.10f);
 				});
 
 		// Kapok
@@ -352,7 +352,7 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_SLOW);
 				})
 				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.JUNGLE, ForestryTreeSpecies.TEAK, 10);
+					mutations.add(ForestryTreeSpecies.JUNGLE, ForestryTreeSpecies.TEAK, 0.10f);
 				});
 
 		// Ebony (Myrtle Ebony)
@@ -370,7 +370,7 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.GIRTH, ForestryAlleles.GIRTH_3);
 				})
 				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.DARK_OAK, ForestryTreeSpecies.KAPOK, 10);
+					mutations.add(ForestryTreeSpecies.DARK_OAK, ForestryTreeSpecies.KAPOK, 0.10f);
 				})
 				.setRarity(0.0005f);
 
@@ -387,7 +387,7 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.GIRTH, ForestryAlleles.GIRTH_2);
 				})
 				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.EBONY, ForestryTreeSpecies.POPLAR, 5);
+					mutations.add(ForestryTreeSpecies.EBONY, ForestryTreeSpecies.POPLAR, 0.05f);
 				})
 				.setRarity(0.0005f);
 
@@ -406,7 +406,7 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.GIRTH, ForestryAlleles.GIRTH_2);
 				})
 				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.KAPOK, ForestryTreeSpecies.EBONY, 10);
+					mutations.add(ForestryTreeSpecies.KAPOK, ForestryTreeSpecies.EBONY, 0.10f);
 				})
 				.setRarity(0.0005f);
 
@@ -429,7 +429,7 @@ public class DefaultTreeSpecies {
 				.setTemperature(TemperatureType.WARM)
 				.setHumidity(HumidityType.ARID)
 				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.TEAK, ForestryTreeSpecies.BALSA, 10);
+					mutations.add(ForestryTreeSpecies.TEAK, ForestryTreeSpecies.BALSA, 0.10f);
 				})
 				.setRarity(0.005f);
 
@@ -445,7 +445,7 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_LARGE);
 				})
 				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.ACACIA_VANILLA, ForestryTreeSpecies.JUNGLE, 10);
+					mutations.add(ForestryTreeSpecies.ACACIA_VANILLA, ForestryTreeSpecies.JUNGLE, 0.10f);
 				})
 				.setRarity(0.005f);
 
@@ -463,7 +463,7 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_LARGE);
 				})
 				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.TEAK, ForestryTreeSpecies.ACACIA_VANILLA, 10);
+					mutations.add(ForestryTreeSpecies.TEAK, ForestryTreeSpecies.ACACIA_VANILLA, 0.10f);
 				})
 				.setRarity(0.0005f);
 
@@ -478,7 +478,7 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_LARGEST);
 				})
 				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.DESERT_ACACIA, ForestryTreeSpecies.DARK_OAK, 10);
+					mutations.add(ForestryTreeSpecies.DESERT_ACACIA, ForestryTreeSpecies.DARK_OAK, 0.10f);
 				})
 				.setRarity(0.0005f);
 
@@ -495,7 +495,7 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.GIRTH, ForestryAlleles.GIRTH_2);
 				})
 				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.COCOBOLO, ForestryTreeSpecies.BALSA, 10);
+					mutations.add(ForestryTreeSpecies.COCOBOLO, ForestryTreeSpecies.BALSA, 0.10f);
 				})
 				.setRarity(0.0005F);
 
@@ -514,7 +514,7 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.GIRTH, ForestryAlleles.GIRTH_3);
 				})
 				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.BALSA, ForestryTreeSpecies.WENGE, 10);
+					mutations.add(ForestryTreeSpecies.BALSA, ForestryTreeSpecies.WENGE, 0.10f);
 				})
 				.setRarity(0.005f);
 
@@ -531,7 +531,7 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_SLOWEST);
 				})
 				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.BALSA, ForestryTreeSpecies.DESERT_ACACIA, 5);
+					mutations.add(ForestryTreeSpecies.BALSA, ForestryTreeSpecies.DESERT_ACACIA, 0.05f);
 				})
 				.setRarity(0.000005f);
 
@@ -548,13 +548,13 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_FASTER);
 				})
 				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.OAK, ForestryTreeSpecies.BIRCH, 10)
+					mutations.add(ForestryTreeSpecies.OAK, ForestryTreeSpecies.BIRCH, 0.10f)
 							.restrictTemperature(TemperatureType.WARM, TemperatureType.HOT)
 							.restrictHumidity(HumidityType.DAMP);
-					mutations.add(ForestryTreeSpecies.OAK, ForestryTreeSpecies.LIME, 10)
+					mutations.add(ForestryTreeSpecies.OAK, ForestryTreeSpecies.LIME, 0.10f)
 							.restrictTemperature(TemperatureType.WARM, TemperatureType.HOT)
 							.restrictHumidity(HumidityType.DAMP);
-					mutations.add(ForestryTreeSpecies.LIME, ForestryTreeSpecies.BIRCH, 10)
+					mutations.add(ForestryTreeSpecies.LIME, ForestryTreeSpecies.BIRCH, 0.10f)
 							.restrictTemperature(TemperatureType.WARM, TemperatureType.HOT)
 							.restrictHumidity(HumidityType.DAMP);
 				})
@@ -574,7 +574,7 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_SLOW);
 				})
 				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.KAPOK, ForestryTreeSpecies.MAHOGANY, 10)
+					mutations.add(ForestryTreeSpecies.KAPOK, ForestryTreeSpecies.MAHOGANY, 0.10f)
 							.restrictTemperature(TemperatureType.WARM, TemperatureType.HOT)
 							.restrictHumidity(HumidityType.DAMP);
 				})
@@ -595,7 +595,7 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_AVERAGE);
 				})
 				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.JUNGLE, ForestryTreeSpecies.HILL_CHERRY, 5);
+					mutations.add(ForestryTreeSpecies.JUNGLE, ForestryTreeSpecies.HILL_CHERRY, 0.05f);
 				})
 				.setRarity(0.005f);
 
@@ -615,7 +615,7 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_AVERAGE);
 				})
 				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.JUNGLE, ForestryTreeSpecies.PAPAYA, 5);
+					mutations.add(ForestryTreeSpecies.JUNGLE, ForestryTreeSpecies.PAPAYA, 0.05f);
 				})
 				.setRarity(0.005f);
 
@@ -631,9 +631,9 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_SLOWER);
 				})
 				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.BIRCH, ForestryTreeSpecies.WILLOW, 5);
-					mutations.add(ForestryTreeSpecies.OAK, ForestryTreeSpecies.WILLOW, 5);
-					mutations.add(ForestryTreeSpecies.LIME, ForestryTreeSpecies.WILLOW, 5);
+					mutations.add(ForestryTreeSpecies.BIRCH, ForestryTreeSpecies.WILLOW, 0.05f);
+					mutations.add(ForestryTreeSpecies.OAK, ForestryTreeSpecies.WILLOW, 0.05f);
+					mutations.add(ForestryTreeSpecies.LIME, ForestryTreeSpecies.WILLOW, 0.05f);
 				});
 
 		// Golden Elm
