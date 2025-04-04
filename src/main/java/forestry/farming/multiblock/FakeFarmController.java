@@ -11,10 +11,10 @@
 package forestry.farming.multiblock;
 
 import javax.annotation.Nullable;
+import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Stack;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -245,11 +245,11 @@ public enum FakeFarmController implements FakeMultiblockController, IFarmControl
 		}
 
 		@Override
-		public void stowProducts(Iterable<ItemStack> harvested, Stack<ItemStack> pendingProduce) {
+		public void stowProducts(Iterable<ItemStack> harvested, ArrayDeque<ItemStack> pendingProduce) {
 		}
 
 		@Override
-		public boolean tryAddPendingProduce(Stack<ItemStack> pendingProduce) {
+		public boolean tryAddPendingProduce(ArrayDeque<ItemStack> pendingProduce) {
 			return false;
 		}
 	}

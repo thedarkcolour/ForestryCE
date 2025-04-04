@@ -25,6 +25,7 @@ public class ForestryConfig {
 		// Misc
 		public final ForgeConfigSpec.BooleanValue showParticles;
 		public final ForgeConfigSpec.BooleanValue enableHints;
+		public final ForgeConfigSpec.BooleanValue enableGlints;
 		// Mail
 		public final ForgeConfigSpec.BooleanValue mailAlertsEnabled;
 		// JEI Bees
@@ -39,6 +40,9 @@ public class ForestryConfig {
 			this.enableHints = builder
 					.comment("Whether the \"Did you know?\" ledgers are shown in Forestry menus.")
 					.define("enable_hints", true);
+			this.enableGlints = builder
+					.comment("Whether certain specimens, like Imperial Bees, will have enchantment glints on them.")
+					.define("enable_glints", true);
 
 			this.mailAlertsEnabled = builder
 					.comment("Whether alerts are enabled for Forestry's mail system.")

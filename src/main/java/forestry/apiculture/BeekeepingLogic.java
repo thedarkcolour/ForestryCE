@@ -11,12 +11,12 @@
 package forestry.apiculture;
 
 import javax.annotation.Nullable;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-import java.util.Stack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
@@ -69,7 +69,7 @@ public class BeekeepingLogic implements IBeekeepingLogic {
 	private int maxWorkThrottle = IBeekeepingLogic.DEFAULT_WORK_THROTTLE;
 	private IEffectData[] effectData = new IEffectData[2];
 
-	private final Stack<ItemStack> spawn = new Stack<>();
+	private final ArrayDeque<ItemStack> spawn = new ArrayDeque<>();
 
 	private final HasFlowersCache hasFlowersCache = new HasFlowersCache();
 	private final QueenCanWorkCache queenCanWorkCache = new QueenCanWorkCache();
@@ -103,12 +103,11 @@ public class BeekeepingLogic implements IBeekeepingLogic {
 
 		this.hasFlowersCache.write(compoundNBT);
 
-		Stack<ItemStack> spawnCopy = new Stack<>();
-		spawnCopy.addAll(this.spawn);
+		ArrayDeque<ItemStack> spawnCopy = new ArrayDeque<>(this.spawn);
 		ListTag nbttaglist = new ListTag();
 		while (!spawnCopy.isEmpty()) {
 			CompoundTag compoundNBT1 = new CompoundTag();
-			spawnCopy.pop().save(compoundNBT1);
+			spawnCopy.removeFirst().save(compoundNBT1);
 			nbttaglist.add(compoundNBT1);
 		}
 		compoundNBT.put("Offspring", nbttaglist);
@@ -323,7 +322,7 @@ public class BeekeepingLogic implements IBeekeepingLogic {
 		}
 	}
 
-	private static boolean addPendingProducts(IBeeHousingInventory beeInventory, Stack<ItemStack> spawn) {
+	private static boolean addPendingProducts(IBeeHousingInventory beeInventory, ArrayDeque<ItemStack> spawn) {
 		boolean housingHasSpace = true;
 
 		while (!spawn.isEmpty()) {
@@ -418,7 +417,7 @@ public class BeekeepingLogic implements IBeekeepingLogic {
 	 */
 	private static Collection<ItemStack> spawnOffspring(IBee queen, IBeeHousing beeHousing) {
 		Level level = beeHousing.getWorldObj();
-		Stack<ItemStack> offspring = new Stack<>();
+		ArrayDeque<ItemStack> offspring = new ArrayDeque<>();
 		IApiaristTracker breedingTracker = SpeciesUtil.BEE_TYPE.get().getBreedingTracker(level, beeHousing.getOwner());
 
 		// Princess
@@ -430,7 +429,7 @@ public class BeekeepingLogic implements IBeekeepingLogic {
 			if (heiress != null) {
 				ItemStack princess = SpeciesUtil.BEE_TYPE.get().createStack(heiress, BeeLifeStage.PRINCESS);
 				breedingTracker.registerPrincess(heiress);
-				offspring.push(princess);
+				offspring.addFirst(princess);
 			}
 		}
 
@@ -440,7 +439,7 @@ public class BeekeepingLogic implements IBeekeepingLogic {
 			ItemStack droneStack = new ItemStack(BeeLifeStage.DRONE.getItemForm());
 			drone.saveToStack(droneStack);
 			breedingTracker.registerDrone(drone);
-			offspring.push(droneStack);
+			offspring.addFirst(droneStack);
 		}
 
 		IBeeHousingInventory beeInventory = beeHousing.getBeeInventory();
@@ -448,7 +447,7 @@ public class BeekeepingLogic implements IBeekeepingLogic {
 		Collection<ItemStack> spawn = new ArrayList<>();
 
 		while (!offspring.isEmpty()) {
-			ItemStack spawned = offspring.pop();
+			ItemStack spawned = offspring.removeFirst();
 			if (!beeInventory.addProduct(spawned, true)) {
 				spawn.add(spawned);
 			}

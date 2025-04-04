@@ -13,10 +13,10 @@ package forestry.farming.logic;
 import com.google.common.base.Predicate;
 
 import javax.annotation.Nullable;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Stack;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -69,12 +69,12 @@ public abstract class FarmLogic implements IFarmLogic {
 
 	@Override
 	public Collection<ICrop> harvest(Level level, IFarmHousing housing, Direction direction, int extent, BlockPos pos) {
-		Stack<ICrop> crops = new Stack<>();
+		ArrayDeque<ICrop> crops = new ArrayDeque<>();
 		for (int i = 0; i < extent; i++) {
 			BlockPos position = translateWithOffset(pos.above(), direction, i);
 			ICrop crop = getCrop(level, position);
 			if (crop != null) {
-				crops.push(crop);
+				crops.addFirst(crop);
 			}
 		}
 		return crops;

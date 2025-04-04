@@ -11,8 +11,8 @@
 package forestry.factory.tiles;
 
 import javax.annotation.Nullable;
+import java.util.ArrayDeque;
 import java.util.Collection;
-import java.util.Stack;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -59,7 +59,7 @@ public class TileCentrifuge extends TilePowered implements ISocketable, WorldlyC
 	@Nullable
 	private ICentrifugeRecipe currentRecipe;
 
-	private final Stack<ItemStack> pendingProducts = new Stack<>();
+	private final ArrayDeque<ItemStack> pendingProducts = new ArrayDeque<>();
 
 	public TileCentrifuge(BlockPos pos, BlockState state) {
 		super(FactoryTiles.CENTRIFUGE.tileType(), pos, state, 800, Constants.MACHINE_MAX_ENERGY);
@@ -168,12 +168,12 @@ public class TileCentrifuge extends TilePowered implements ISocketable, WorldlyC
 			return false;
 		}
 
-		ItemStack next = pendingProducts.peek();
+		ItemStack next = pendingProducts.peekFirst();
 
 		boolean added = InventoryUtil.tryAddStack(this, next, InventoryCentrifuge.SLOT_PRODUCT_1, InventoryCentrifuge.SLOT_PRODUCT_COUNT, true);
 
 		if (added) {
-			pendingProducts.pop();
+			pendingProducts.removeFirst();
 			if (pendingProducts.isEmpty()) {
 				craftPreviewInventory.setItem(0, ItemStack.EMPTY);
 			}

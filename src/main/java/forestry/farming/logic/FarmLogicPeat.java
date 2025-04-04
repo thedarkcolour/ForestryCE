@@ -10,13 +10,13 @@
  ******************************************************************************/
 package forestry.farming.logic;
 
+import java.util.ArrayDeque;
 import java.util.Collection;
-import java.util.Stack;
 
-import net.minecraft.core.Direction;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 
 import forestry.api.farming.ICrop;
 import forestry.api.farming.IFarmHousing;
@@ -31,7 +31,7 @@ public class FarmLogicPeat extends FarmLogicWatered {
 
 	@Override
 	public Collection<ICrop> harvest(Level level, IFarmHousing housing, Direction direction, int extent, BlockPos pos) {
-		Stack<ICrop> crops = new Stack<>();
+		ArrayDeque<ICrop> crops = new ArrayDeque<>();
 		for (int i = 0; i < extent; i++) {
 			BlockPos position = translateWithOffset(pos, direction, i);
 			if (!level.hasChunkAt(position)) {
@@ -39,7 +39,7 @@ public class FarmLogicPeat extends FarmLogicWatered {
 			}
 			BlockState blockState = level.getBlockState(position);
 			if (CoreBlocks.PEAT.blockEqual(blockState)) {
-				crops.push(new CropPeat(level, position));
+				crops.addFirst(new CropPeat(level, position));
 			}
 		}
 		return crops;

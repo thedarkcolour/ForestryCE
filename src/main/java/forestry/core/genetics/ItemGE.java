@@ -30,10 +30,11 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import forestry.Forestry;
 import forestry.api.ForestryCapabilities;
 import forestry.api.genetics.IIndividual;
-import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.api.genetics.ILifeStage;
 import forestry.api.genetics.ISpecies;
 import forestry.api.genetics.ISpeciesType;
+import forestry.api.genetics.capability.IIndividualHandlerItem;
+import forestry.core.config.ForestryConfig;
 import forestry.core.genetics.capability.SerializableIndividualHandlerItem;
 import forestry.core.items.ItemForestry;
 import forestry.core.utils.GeneticsUtil;
@@ -86,7 +87,7 @@ public abstract class ItemGE extends ItemForestry {
 			return false;
 		}
 		ISpecies<?> species = getSpecies(stack);
-		return species.hasGlint();
+		return species.hasGlint() && ForestryConfig.CLIENT.enableGlints.get();
 	}
 
 	public static void appendGeneticsTooltip(ItemStack stack, List<Component> tooltip) {

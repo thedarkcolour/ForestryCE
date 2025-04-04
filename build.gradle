@@ -70,6 +70,11 @@ repositories {
 		content { includeGroup "dev.latvian.mods" }
 	}
 	maven {
+		name = 'Mekanism'
+		url = 'https://modmaven.dev/'
+		content { includeGroup 'mekanism' }
+	}
+	maven {
 		url "https://cursemaven.com"
 		content {
 			includeGroup "curse.maven"
@@ -98,6 +103,14 @@ dependencies {
 	runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:$patchouliVersion-FORGE")
 	// ModKit DEV ONLY
 	implementation fg.deobf('com.github.thedarkcolour:ModKit:0302f9aa42')
+
+	// Mekanism (testing)
+	def mekanism_version = '1.20.1-10.4.9.61'
+	compileOnly "mekanism:Mekanism:${mekanism_version}:api"
+	runtimeOnly fg.deobf("mekanism:Mekanism:${mekanism_version}")// Mekanism
+	runtimeOnly fg.deobf("mekanism:Mekanism:${mekanism_version}:additions")// Mekanism: Additions
+	runtimeOnly fg.deobf("mekanism:Mekanism:${mekanism_version}:generators")// Mekanism: Generators
+	runtimeOnly fg.deobf("mekanism:Mekanism:${mekanism_version}:tools")// Mekanism: Tools
 }
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }

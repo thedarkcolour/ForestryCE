@@ -44,11 +44,7 @@ public class HiveDecorator extends Feature<NoneFeatureConfiguration> {
 			return false;
 		}
 
-		if (hive.getDefinition() == HiveDefinition.AQUATIC)
-		Forestry.LOGGER.debug("Attempting to place hive {} at pos {}", hive, hivePos);
-
 		if (!hive.canReplace(world, hivePos)) {
-			Forestry.LOGGER.debug("Failed to place hive: could not replace block {}", world.getBlockState(hivePos));
 			return false;
 		}
 
@@ -61,7 +57,6 @@ public class HiveDecorator extends Feature<NoneFeatureConfiguration> {
 		}
 
 		if (!hive.isValidLocation(world, hivePos)) {
-			Forestry.LOGGER.debug("Failed to place hive: could not place block at {}", hivePos);
 			return false;
 		}
 

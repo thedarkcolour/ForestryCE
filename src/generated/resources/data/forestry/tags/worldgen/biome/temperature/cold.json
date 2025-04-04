@@ -3,7 +3,6 @@
     "#minecraft:is_end",
     "minecraft:cold_ocean",
     "minecraft:deep_ocean",
-    "minecraft:deep_cold_ocean",
-    "minecraft:deep_frozen_ocean"
+    "minecraft:deep_cold_ocean"
   ]
 }

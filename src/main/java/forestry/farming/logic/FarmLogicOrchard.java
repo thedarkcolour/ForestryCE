@@ -11,13 +11,13 @@
 package forestry.farming.logic;
 
 import javax.annotation.Nullable;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.Stack;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -49,7 +49,7 @@ public class FarmLogicOrchard extends FarmLogic {
 
 	private Collection<ICrop> getHarvestBlocks(Level world, BlockPos position) {
 		Set<BlockPos> seen = new HashSet<>();
-		Stack<ICrop> crops = new Stack<>();
+		ArrayDeque<ICrop> crops = new ArrayDeque<>();
 
 		if (!world.hasChunkAt(position)) {
 			return Collections.emptyList();
@@ -75,7 +75,7 @@ public class FarmLogicOrchard extends FarmLogic {
 		return crops;
 	}
 
-	private List<BlockPos> processHarvestBlock(Level world, Stack<ICrop> crops, Set<BlockPos> seen, BlockPos start, BlockPos position) {
+	private List<BlockPos> processHarvestBlock(Level world, ArrayDeque<ICrop> crops, Set<BlockPos> seen, BlockPos start, BlockPos position) {
 		List<BlockPos> candidates = new ArrayList<>();
 
 		// todo use MutableBlockPos
@@ -110,7 +110,7 @@ public class FarmLogicOrchard extends FarmLogic {
 
 						ICrop crop = getCropAt(world, candidate);
 						if (crop != null) {
-							crops.push(crop);
+							crops.addFirst(crop);
 						}
 					}
 				}

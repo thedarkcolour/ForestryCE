@@ -10,13 +10,13 @@
  ******************************************************************************/
 package forestry.farming.logic;
 
+import java.util.ArrayDeque;
 import java.util.Collection;
-import java.util.Stack;
 
-import net.minecraft.core.Direction;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 
 import forestry.api.farming.ICrop;
 import forestry.api.farming.IFarmHousing;
@@ -25,14 +25,13 @@ import forestry.api.farming.IFarmable;
 import forestry.core.utils.BlockUtil;
 
 public class FarmLogicInfernal extends FarmLogicHomogeneous {
-
 	public FarmLogicInfernal(IFarmType properties, boolean isManual) {
 		super(properties, isManual);
 	}
 
 	@Override
 	public Collection<ICrop> harvest(Level level, IFarmHousing housing, Direction direction, int extent, BlockPos pos) {
-		Stack<ICrop> crops = new Stack<>();
+		ArrayDeque<ICrop> crops = new ArrayDeque<>();
 		for (int i = 0; i < extent; i++) {
 			BlockPos position = translateWithOffset(pos.above(), direction, i);
 			if (!level.hasChunkAt(position)) {
@@ -45,7 +44,7 @@ public class FarmLogicInfernal extends FarmLogicHomogeneous {
 			for (IFarmable farmable : getFarmables()) {
 				ICrop crop = farmable.getCropAt(level, position, blockState);
 				if (crop != null) {
-					crops.push(crop);
+					crops.addFirst(crop);
 					break;
 				}
 			}

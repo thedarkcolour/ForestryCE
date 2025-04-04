@@ -12,11 +12,10 @@ package forestry.core;
 
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.commands.Commands;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Unit;
@@ -33,9 +32,9 @@ import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.eventbus.api.Event;
-import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.ObjectHolderRegistry;
 import net.minecraftforge.registries.RegisterEvent;
 
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -91,6 +90,8 @@ import it.unimi.dsi.fastutil.objects.Object2FloatMap;
 
 @ForestryModule
 public class ModuleCore extends BlankForestryModule {
+	private static boolean hasInit;
+
 	@Override
 	public ResourceLocation getId() {
 		return ForestryModuleIds.CORE;
@@ -100,7 +101,7 @@ public class ModuleCore extends BlankForestryModule {
 	public void registerEvents(IEventBus modBus) {
 		modBus.addListener(ModuleCore::onCommonSetup);
 		modBus.addListener(ModuleCore::registerGlobalLootModifiers);
-		modBus.addListener(EventPriority.LOWEST, ModuleCore::postItemRegistry);
+		ObjectHolderRegistry.addHandler(ModuleCore::postItemRegistry);
 
 		ModuleUtil.loadFeatureProviders();
 		MinecraftForge.EVENT_BUS.addListener(ModuleCore::onItemPickup);
@@ -154,13 +155,13 @@ public class ModuleCore extends BlankForestryModule {
 		});
 	}
 
-	// Lowest priority
-	private static void postItemRegistry(RegisterEvent event) {
-		event.register(Registries.ITEM, helper -> {
+	private static void postItemRegistry(Predicate<ResourceLocation> registryPredicate) {
+		if (!hasInit && registryPredicate.test(Registries.ITEM.location())) {
 			PluginManager.registerGenetics();
 			PluginManager.registerFarming();
 			PluginManager.registerPollen();
-		});
+			hasInit = true;
+		}
 	}
 
 	private static void onItemPickup(EntityItemPickupEvent event) {

@@ -1,23 +1,23 @@
 package forestry.farming.multiblock;
 
+import java.util.ArrayDeque;
 import java.util.List;
 import java.util.Optional;
-import java.util.Stack;
 
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.Container;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.core.Direction;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.Container;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 
-import forestry.api.IForestryApi;
-import forestry.core.config.Preference;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 
+import forestry.api.IForestryApi;
 import forestry.api.farming.IFarmHousing;
 import forestry.api.farming.IFarmLogic;
 import forestry.api.farming.IFarmable;
+import forestry.core.config.Preference;
 import forestry.core.fluids.FluidHelper;
 import forestry.core.fluids.TankManager;
 import forestry.core.inventory.InventoryAdapterRestricted;
@@ -183,7 +183,8 @@ public abstract class InventoryPlantation<H extends ILiquidTankTile & IFarmHousi
 	 */
 	public abstract boolean plantGermling(IFarmable germling, Player player, BlockPos pos);
 
-	public void stowProducts(Iterable<ItemStack> harvested, Stack<ItemStack> pendingProduce) {
+	@Override
+	public void stowProducts(Iterable<ItemStack> harvested, ArrayDeque<ItemStack> pendingProduce) {
 		for (ItemStack harvest : harvested) {
 			int added = InventoryUtil.addStack(productInventory, harvest, true);
 			harvest.shrink(added);
@@ -193,7 +194,8 @@ public abstract class InventoryPlantation<H extends ILiquidTankTile & IFarmHousi
 		}
 	}
 
-	public boolean tryAddPendingProduce(Stack<ItemStack> pendingProduce) {
+	@Override
+	public boolean tryAddPendingProduce(ArrayDeque<ItemStack> pendingProduce) {
 		Container productInventory = getProductInventory();
 
 		ItemStack next = pendingProduce.peek();
@@ -206,6 +208,7 @@ public abstract class InventoryPlantation<H extends ILiquidTankTile & IFarmHousi
 		return added;
 	}
 
+	@Override
 	public int getFertilizerValue() {
 		ItemStack fertilizerStack = getItem(config.fertilizerStart);
 		if (fertilizerStack.isEmpty()) {
@@ -219,6 +222,7 @@ public abstract class InventoryPlantation<H extends ILiquidTankTile & IFarmHousi
 		return 0;
 	}
 
+	@Override
 	public boolean useFertilizer() {
 		ItemStack fertilizer = getItem(config.fertilizerStart);
 		if (acceptsAsFertilizer(fertilizer)) {

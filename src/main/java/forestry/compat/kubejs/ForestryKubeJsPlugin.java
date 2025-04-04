@@ -2,6 +2,9 @@ package forestry.compat.kubejs;
 
 import forestry.api.IForestryApi;
 import forestry.api.client.IForestryClientApi;
+import forestry.api.core.HumidityType;
+import forestry.api.core.TemperatureType;
+import forestry.api.genetics.ForestryTaxa;
 import forestry.api.genetics.alleles.BeeChromosomes;
 import forestry.api.genetics.alleles.ForestryAlleles;
 import forestry.compat.kubejs.event.ForestryClientEvents;
@@ -26,5 +29,8 @@ public class ForestryKubeJsPlugin extends KubeJSPlugin {
 		event.add("BeeChromosomes", BeeChromosomes.class);
 		event.add("IForestryApi", IForestryApi.INSTANCE);
 		event.add("IForestryClientApi", IForestryClientApi.INSTANCE);
+		event.add("HumidityType", HumidityType.class);
+		event.add("TemperatureType", TemperatureType.class);
+		event.add("ForestryTaxa", ForestryTaxa.class);
 	}
 }

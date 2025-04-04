@@ -10,21 +10,33 @@
  ******************************************************************************/
 package forestry.apiculture.items;
 
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
+import net.minecraftforge.common.util.LazyOptional;
+
+import forestry.api.ForestryCapabilities;
 import forestry.api.ForestryConstants;
+import forestry.api.apiculture.IArmorApiarist;
+import forestry.api.apiculture.genetics.IBeeEffect;
 import forestry.apiculture.features.ApicultureItems;
 import forestry.core.config.Constants;
 import forestry.core.features.CoreItems;
 import forestry.core.items.definitions.EnumCraftingMaterial;
+
+import org.jetbrains.annotations.Nullable;
 
 public class ItemArmorApiarist extends ArmorItem {
 	public static final String TEXTURE_APIARIST_ARMOR_PRIMARY = ForestryConstants.MOD_ID + ":" + Constants.TEXTURE_PATH_ITEM + "/apiarist_armor_1.png";
@@ -32,10 +44,11 @@ public class ItemArmorApiarist extends ArmorItem {
 
 	public static final class ApiaristArmorMaterial implements ArmorMaterial {
 		private static final int[] reductions = new int[]{1, 3, 2, 1};
+		private static final int[] DURABILITY = new int[]{11*3, 16*3, 15*3, 13*3};
 
 		@Override
 		public int getDurabilityForType(ArmorItem.Type type) {
-			return 5;
+			return DURABILITY[type.ordinal()];
 		}
 
 		@Override
@@ -74,6 +87,15 @@ public class ItemArmorApiarist extends ArmorItem {
 		}
 	}
 
+	public enum ArmorApiarist implements IArmorApiarist {
+		INSTANCE;
+
+		@Override
+		public boolean protectEntity(LivingEntity entity, ItemStack armor, @Nullable IBeeEffect cause, boolean doProtect) {
+			return true;
+		}
+	}
+
 	public ItemArmorApiarist(ArmorItem.Type type) {
 		super(new ApiaristArmorMaterial(), type, new Item.Properties());
 	}
@@ -85,5 +107,15 @@ public class ItemArmorApiarist extends ArmorItem {
 		} else {
 			return TEXTURE_APIARIST_ARMOR_PRIMARY;
 		}
+	}
+
+	@Override
+	public @Nullable ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
+		return new ICapabilityProvider() {
+			@Override
+			public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side) {
+				return cap == ForestryCapabilities.ARMOR_APIARIST ? LazyOptional.of(() -> ArmorApiarist.INSTANCE).cast() : LazyOptional.empty();
+			}
+		};
 	}
 }

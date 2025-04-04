@@ -4,6 +4,7 @@ import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 
 import javax.annotation.Nullable;
+import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.EnumMap;
 import java.util.HashSet;
@@ -11,7 +12,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.Stack;
 
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
@@ -52,7 +52,7 @@ public class FarmManager implements INbtReadable, INbtWritable, IStreamable, IEx
 	@Nullable
 	private IFarmLogic harvestProvider; // The farm logic which supplied the pending crops.
 	private final List<ICrop> pendingCrops = new LinkedList<>();
-	private final Stack<ItemStack> pendingProduce = new Stack<>();
+	private final ArrayDeque<ItemStack> pendingProduce = new ArrayDeque<>();
 
 	private FarmingStage stage = FarmingStage.CULTIVATE;
 

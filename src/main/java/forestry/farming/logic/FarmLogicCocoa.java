@@ -10,12 +10,12 @@
  ******************************************************************************/
 package forestry.farming.logic;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.Stack;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -175,7 +175,7 @@ public class FarmLogicCocoa extends FarmLogicSoil {
 
 	private Collection<ICrop> getHarvestBlocks(Level world, BlockPos position) {
 		Set<BlockPos> seen = new HashSet<>();
-		Stack<ICrop> crops = new Stack<>();
+		ArrayDeque<ICrop> crops = new ArrayDeque<>();
 
 		// Determine what type we want to harvest.
 		BlockState blockState = world.getBlockState(position);
@@ -202,12 +202,11 @@ public class FarmLogicCocoa extends FarmLogicSoil {
 			candidates.addAll(temp);
 			temp.clear();
 		}
-		// Log.finest("Logic %s at %s/%s/%s has seen %s blocks.", getClass().getName(), position.x, position.y, position.z, seen.size());
 
 		return crops;
 	}
 
-	private List<BlockPos> processHarvestBlock(Level world, Stack<ICrop> crops, Set<BlockPos> seen, BlockPos start, BlockPos position) {
+	private List<BlockPos> processHarvestBlock(Level world, ArrayDeque<ICrop> crops, Set<BlockPos> seen, BlockPos start, BlockPos position) {
 		List<BlockPos> candidates = new ArrayList<>();
 
 		// Get additional candidates to return
@@ -237,7 +236,7 @@ public class FarmLogicCocoa extends FarmLogicSoil {
 					BlockState blockState = world.getBlockState(candidate);
 					ICrop crop = cocoa.getCropAt(world, candidate, blockState);
 					if (crop != null) {
-						crops.push(crop);
+						crops.addFirst(crop);
 						candidates.add(candidate);
 						seen.add(candidate);
 					} else if (blockState.is(BlockTags.LOGS)) {

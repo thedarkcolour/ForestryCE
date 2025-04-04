@@ -1,6 +1,6 @@
 package forestry.farming.multiblock;
 
-import java.util.Stack;
+import java.util.ArrayDeque;
 
 import net.minecraft.world.item.ItemStack;
 
@@ -11,7 +11,7 @@ public interface IFarmInventoryInternal extends IFarmInventory {
 
 	boolean useFertilizer();
 
-	void stowProducts(Iterable<ItemStack> harvested, Stack<ItemStack> pendingProduce);
+	void stowProducts(Iterable<ItemStack> harvested, ArrayDeque<ItemStack> pendingProduce);
 
-	boolean tryAddPendingProduce(Stack<ItemStack> pendingProduce);
+	boolean tryAddPendingProduce(ArrayDeque<ItemStack> pendingProduce);
 }
