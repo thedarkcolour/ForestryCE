@@ -20,7 +20,7 @@ import java.util.Set;
 
 public class FeatureMonkeyPuzzle extends FeatureTree {
 	public FeatureMonkeyPuzzle(ITreeGenData tree) {
-		super(tree, 8, 5);
+		super(tree, 12, 5);
 	}
 
 	@Override
