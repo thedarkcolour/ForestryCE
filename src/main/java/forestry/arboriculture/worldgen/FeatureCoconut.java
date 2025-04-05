@@ -22,7 +22,7 @@ import java.util.Set;
 
 public class FeatureCoconut extends FeatureTree {
 	public FeatureCoconut(ITreeGenData tree) {
-		super(tree, 12, 4);
+		super(tree, 8, 4);
 	}
 
 	private static final Vec3i[] leafVectors = {
