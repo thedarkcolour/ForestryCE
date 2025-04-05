@@ -12,11 +12,7 @@ package forestry.core.gui.buttons;
 
 import net.minecraft.resources.ResourceLocation;
 
-/**
- * @author CovertJaguar <http://www.railcraft.info/>
- */
 public interface IButtonTextureSet {
-
 	int getX();
 
 	int getY();

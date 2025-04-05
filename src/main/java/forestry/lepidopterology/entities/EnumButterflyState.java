@@ -11,7 +11,6 @@
 package forestry.lepidopterology.entities;
 
 public enum EnumButterflyState {
-
 	FLYING(true), GLIDING(true), RISING(true), RESTING(false), HOVER(false);
 
 	public static final EnumButterflyState[] VALUES = values();

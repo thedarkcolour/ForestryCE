@@ -23,14 +23,4 @@ public class DefaultCocoon implements IButterflyCocoon {
 	public boolean isDominant() {
 		return false;
 	}
-
-	protected static String getAgeKey(int age) {
-		if (age == 0) {
-			return "early";
-		} else if (age == 1) {
-			return "middle";
-		} else {
-			return "late";
-		}
-	}
 }

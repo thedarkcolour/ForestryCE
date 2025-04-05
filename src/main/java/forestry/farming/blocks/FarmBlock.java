@@ -33,7 +33,6 @@ public class FarmBlock extends BlockStructure implements EntityBlock {
 	private final EnumFarmBlockType type;
 	private final EnumFarmMaterial farmMaterial;
 
-	// todo replace with boolean "is_band"
 	public static final BooleanProperty BAND = BooleanProperty.create("band");
 
 	public FarmBlock(EnumFarmBlockType type, EnumFarmMaterial farmMaterial) {

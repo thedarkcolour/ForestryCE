@@ -47,13 +47,4 @@ public class ItemWrench extends ItemForestry {
 		}
 		return InteractionResult.FAIL;
 	}
-
-	//	@Override
-	//	public boolean canWrench(PlayerEntity player, Hand hand, ItemStack wrench, RayTraceResult rayTrace) {
-	//		return true;
-	//	}
-	//
-	//	@Override
-	//	public void wrenchUsed(PlayerEntity player, Hand hand, ItemStack wrench, RayTraceResult rayTrace) {
-	//	}
 }

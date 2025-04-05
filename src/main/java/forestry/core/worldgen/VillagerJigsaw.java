@@ -45,34 +45,4 @@ public class VillagerJigsaw {
 			oldPool.rawTemplates = listOfPieceEntries;
 		}
 	}
-/*
-	private static void addVillagerHouse(Registry<StructureTemplatePool> pools, Registry<StructureProcessorList> processors, String biome, int weight) {
-		// Grabs the processor list we want to use along with our piece.
-		// This is a requirement as using the ProcessorLists.EMPTY field will cause the game to throw errors.
-		// The reason why is the empty processor list in the world's registry is not the same instance as in that field once the world is started up.
-		Holder<StructureProcessorList> emptyProcessorList = processors.getHolderOrThrow(EMPTY_PROCESSOR_LIST_KEY);
-
-		// Grab the pool we want to add to
-		StructureTemplatePool pool = pools.get(new ResourceLocation("village/" + biome + "/houses"));
-		if (pool == null) return;
-
-		// Grabs the nbt piece and creates a SinglePoolElement of it that we can add to a structure's pool.
-		// Use .legacy( for villages/outposts and .single( for everything else
-		ApiaristPoolElement piece = new ApiaristPoolElement(Either.left(ForestryConstants.forestry("village/apiarist_house_" + biome + "_1")), emptyProcessorList);
-
-		// Use AccessTransformer or Accessor Mixin to make StructureTemplatePool's templates field public for us to see.
-		// Weight is handled by how many times the entry appears in this list.
-		// We do not need to worry about immutability as this field is created using Lists.newArrayList(); which makes a mutable list.
-		for (int i = 0; i < weight; i++) {
-			pool.templates.add(piece);
-		}
-
-		// Use AccessTransformer or Accessor Mixin to make StructureTemplatePool's rawTemplates field public for us to see.
-		// This list of pairs of pieces and weights is not used by vanilla by default but another mod may need it for efficiency.
-		// So lets add to this list for completeness. We need to make a copy of the array as it can be an immutable list.
-		//   NOTE: This is a com.mojang.datafixers.util.Pair. It is NOT a fastUtil pair class. Use the mojang class.
-		List<Pair<StructurePoolElement, Integer>> listOfPieceEntries = new ArrayList<>(pool.rawTemplates);
-		listOfPieceEntries.add(new Pair<>(piece, weight));
-		pool.rawTemplates = listOfPieceEntries;
-	}*/
 }

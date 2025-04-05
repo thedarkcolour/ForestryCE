@@ -12,16 +12,10 @@ package forestry.core.inventory.watchers;
 
 import net.minecraft.world.entity.player.Player;
 
-public class FakeSlotPickupWatcher implements ISlotPickupWatcher {
-
-	public static final FakeSlotPickupWatcher instance = new FakeSlotPickupWatcher();
-
-	private FakeSlotPickupWatcher() {
-
-	}
+public enum FakeSlotPickupWatcher implements ISlotPickupWatcher {
+	INSTANCE;
 
 	@Override
 	public void onTake(int slotIndex, Player player) {
-
 	}
 }

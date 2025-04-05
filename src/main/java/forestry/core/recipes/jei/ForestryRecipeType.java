@@ -9,18 +9,18 @@ import forestry.api.recipes.IFermenterRecipe;
 import forestry.api.recipes.IMoistenerRecipe;
 import forestry.api.recipes.ISqueezerRecipe;
 import forestry.api.recipes.IStillRecipe;
-import forestry.factory.MachineUIDs;
+
 import mezz.jei.api.recipe.RecipeType;
 
 public class ForestryRecipeType {
-	public static final RecipeType<ICarpenterRecipe> CARPENTER = create(MachineUIDs.CARPENTER, ICarpenterRecipe.class);
-	public static final RecipeType<ICentrifugeRecipe> CENTRIFUGE = create(MachineUIDs.CENTRIFUGE, ICentrifugeRecipe.class);
-	public static final RecipeType<IFabricatorRecipe> FABRICATOR = create(MachineUIDs.FABRICATOR, IFabricatorRecipe.class);
-	public static final RecipeType<IFermenterRecipe> FERMENTER = create(MachineUIDs.FERMENTER, IFermenterRecipe.class);
-	public static final RecipeType<IMoistenerRecipe> MOISTENER = create(MachineUIDs.MOISTENER, IMoistenerRecipe.class);
-	public static final RecipeType<RainSubstrate> RAINMAKER = create(MachineUIDs.RAINMAKER, RainSubstrate.class);
-	public static final RecipeType<ISqueezerRecipe> SQUEEZER = create(MachineUIDs.SQUEEZER, ISqueezerRecipe.class);
-	public static final RecipeType<IStillRecipe> STILL = create(MachineUIDs.STILL, IStillRecipe.class);
+	public static final RecipeType<ICarpenterRecipe> CARPENTER = create("carpenter", ICarpenterRecipe.class);
+	public static final RecipeType<ICentrifugeRecipe> CENTRIFUGE = create("centrifuge", ICentrifugeRecipe.class);
+	public static final RecipeType<IFabricatorRecipe> FABRICATOR = create("fabricator", IFabricatorRecipe.class);
+	public static final RecipeType<IFermenterRecipe> FERMENTER = create("fermenter", IFermenterRecipe.class);
+	public static final RecipeType<IMoistenerRecipe> MOISTENER = create("moistener", IMoistenerRecipe.class);
+	public static final RecipeType<RainSubstrate> RAINMAKER = create("rainmaker", RainSubstrate.class);
+	public static final RecipeType<ISqueezerRecipe> SQUEEZER = create("squeezer", ISqueezerRecipe.class);
+	public static final RecipeType<IStillRecipe> STILL = create("still", IStillRecipe.class);
 
 	private static <T> RecipeType<T> create(String uid, Class<? extends T> recipeClass) {
 		return RecipeType.create(ForestryConstants.MOD_ID, uid, recipeClass);

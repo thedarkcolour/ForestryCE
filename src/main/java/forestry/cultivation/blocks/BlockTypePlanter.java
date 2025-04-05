@@ -2,14 +2,14 @@ package forestry.cultivation.blocks;
 
 import java.util.List;
 
-import forestry.core.blocks.IBlockTypeCustom;
+import forestry.core.blocks.IBlockType;
 import forestry.core.blocks.IMachineProperties;
 import forestry.core.blocks.MachineProperties;
 import forestry.cultivation.features.CultivationTiles;
 import forestry.cultivation.tiles.TilePlanter;
 import forestry.modules.features.FeatureTileType;
 
-public enum BlockTypePlanter implements IBlockTypeCustom {
+public enum BlockTypePlanter implements IBlockType {
 	ARBORETUM(CultivationTiles.ARBORETUM, "arboretum"),
 	FARM_CROPS(CultivationTiles.CROPS, "farm_crops"),
 	FARM_MUSHROOM(CultivationTiles.MUSHROOM, "farm_mushroom"),

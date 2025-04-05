@@ -15,7 +15,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
 public class SlotWorking extends SlotForestry {
-
 	public SlotWorking(Container iinventory, int i, int j, int k) {
 		super(iinventory, i, j, k);
 		blockShift();

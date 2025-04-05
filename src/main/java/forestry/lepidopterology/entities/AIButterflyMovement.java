@@ -14,9 +14,6 @@ import javax.annotation.Nullable;
 
 import net.minecraft.world.phys.Vec3;
 
-/**
- * @author CovertJaguar <http://www.railcraft.info/>
- */
 public abstract class AIButterflyMovement extends AIButterflyBase {
 	@Nullable
 	protected Vec3 flightTarget;

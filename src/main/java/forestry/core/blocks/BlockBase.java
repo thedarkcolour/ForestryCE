@@ -56,15 +56,12 @@ public class BlockBase<P extends Enum<P> & IBlockType> extends BlockForestry imp
 
 	public final P blockType;
 
-	private static Block.Properties createProperties(IBlockType type, Block.Properties properties) {
-		if (type instanceof IBlockTypeCustom) {
-			properties = properties.noOcclusion();
-		}
+	private static Block.Properties createProperties(Block.Properties properties) {
 		return properties.strength(2.0f);
 	}
 
 	public BlockBase(P blockType, Block.Properties properties) {
-		super(createProperties(blockType, properties));
+		super(createProperties(properties));
 
 		if (getStateDefinition().any().hasProperty(FACING)) {
 			registerDefaultState(getStateDefinition().any().setValue(FACING, Direction.NORTH));

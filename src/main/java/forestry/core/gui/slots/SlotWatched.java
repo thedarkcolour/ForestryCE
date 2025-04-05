@@ -23,8 +23,8 @@ import forestry.core.inventory.watchers.ISlotPickupWatcher;
  * Slot with a watcher callbacks.
  */
 public class SlotWatched extends SlotForestry {
-	private ISlotPickupWatcher pickupWatcher = FakeSlotPickupWatcher.instance;
-	private ISlotChangeWatcher changeWatcher = FakeSlotChangeWatcher.instance;
+	private ISlotPickupWatcher pickupWatcher = FakeSlotPickupWatcher.INSTANCE;
+	private ISlotChangeWatcher changeWatcher = FakeSlotChangeWatcher.INSTANCE;
 
 	public SlotWatched(Container inventory, int slotIndex, int xPos, int yPos) {
 		super(inventory, slotIndex, xPos, yPos);
@@ -43,6 +43,7 @@ public class SlotWatched extends SlotForestry {
 	@Override
 	public void onTake(Player player, ItemStack itemStack) {
 		super.onTake(player, itemStack);
+		// todo why is this commented out? (it was my doing)
 		//if (player instanceof ServerPlayer) {
 			//pickupWatcher.onTake(getSlotIndex(), player);
 		//}

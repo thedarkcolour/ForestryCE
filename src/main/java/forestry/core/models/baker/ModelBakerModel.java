@@ -198,13 +198,4 @@ public class ModelBakerModel implements BakedModel {
 	public ModelBakerModel copy() {
 		return new ModelBakerModel(this);
 	}
-/*
-	@Override
-	public BakedModel applyTransform(TransformType transformType, PoseStack poseStack, boolean applyLeftHandTransform) {
-		Transformation transformation = transforms.getOrDefault(transformType, Transformation.identity());
-		if (!transformation.isIdentity()) {
-			poseStack.pushTransformation(transformation);
-		}
-		return this;
-	}*/
 }

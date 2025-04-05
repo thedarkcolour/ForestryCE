@@ -14,7 +14,7 @@ public class BlockPlanter extends BlockBase<BlockTypePlanter> {
 	private final boolean manual;
 
 	public BlockPlanter(BlockTypePlanter type, boolean manual) {
-		super(type, Properties.of());
+		super(type, Properties.of().noOcclusion());
 		this.manual = manual;
 	}
 

@@ -1,12 +1,10 @@
 plugins {
-	id('net.minecraftforge.gradle') version '6.+'
 	id('idea')
 	id("maven-publish")
 	id('com.modrinth.minotaur') version '2.+'
 	id('com.matthewprenger.cursegradle') version '1.4.0'
-	id('org.parchmentmc.librarian.forgegradle') version "1.+"
 	id "org.jetbrains.gradle.plugin.idea-ext" version "1.1.9"
-	//id 'io.freefair.lombok' version '8.11'
+	id 'net.neoforged.moddev.legacyforge' version '2.0.80'
 }
 
 group = "thedarkcolour.forestry"
@@ -15,36 +13,45 @@ archivesBaseName = "forestry-$minecraftVersion"
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
-minecraft {
-	mappings channel: 'parchment', version: "$mappingsVersion-$minecraftVersion"
-	accessTransformer = file("src/main/resources/META-INF/accesstransformer.cfg")
+legacyForge {
+	version = "1.20.1-$forgeVersion"
+
+	accessTransformers = files('src/main/resources/META-INF/accesstransformer.cfg')
+	// Set to false because Forge has broken access transformers
+	//validateAccessTransformers = true
+
+	// Add Parchment parameter mappings
+	parchment {
+		mappingsVersion = project.mappingsVersion
+		minecraftVersion = project.minecraftVersion
+	}
 
 	runs {
 		configureEach {
-			workingDirectory project.file("run")
-
-			property "forge.logging.console.level", "debug"
-			property "fml.earlyprogresswindow", "false"
-
-			// See https://github.com/Vazkii/Patchouli#mixin-troubleshooting
-			property "mixin.env.remapRefMap", "true"
-			property "mixin.env.refMapRemappingFile", "$projectDir/build/createSrgToMcp/output.srg"
-
-			mods {
-				forestry {
-					source sourceSets.main
-				}
-			}
+			logLevel = org.slf4j.event.Level.DEBUG
+			jvmArgument '-XX:+AllowEnhancedClassRedefinition'
+			jvmArgument '-XX:+IgnoreUnrecognizedVMOptions'
 		}
 
-		client {}
+		client {
+			client()
+		}
 
 		server {
-			workingDirectory project.file("run/server")
+			server()
+			gameDirectory.set(project.layout.projectDirectory.dir('run/server'))
+			programArgument '--nogui'
 		}
 
 		data {
-			args "--mod", "forestry", "--all", "--output", file("src/generated/resources/"), "--existing", file("src/main/resources/")
+			data()
+			programArguments.addAll("--mod", "forestry", "--all", "--output", file("src/generated/resources/").absolutePath, "--existing", file("src/main/resources/").absolutePath)
+		}
+	}
+
+	mods {
+		forestry {
+			sourceSet sourceSets.main
 		}
 	}
 }
@@ -88,29 +95,30 @@ repositories {
 }
 
 dependencies {
-	minecraft "net.minecraftforge:forge:$minecraftVersion-$forgeVersion"
-
 	// JEI OPTIONAL
-	compileOnly fg.deobf("mezz.jei:jei-$minecraftVersion-common-api:$jeiVersion")
-	compileOnly fg.deobf("mezz.jei:jei-$minecraftVersion-forge-api:$jeiVersion")
-	runtimeOnly fg.deobf("mezz.jei:jei-$minecraftVersion-forge:$jeiVersion")
+	modCompileOnly "mezz.jei:jei-$minecraftVersion-common-api:$jeiVersion"
+	modCompileOnly "mezz.jei:jei-$minecraftVersion-forge-api:$jeiVersion"
+	modRuntimeOnly "mezz.jei:jei-$minecraftVersion-forge:$jeiVersion"
 	// KubeJS OPTIONAL
-	implementation fg.deobf("dev.architectury:architectury-forge:${architectury_version}")
-	implementation fg.deobf("dev.latvian.mods:rhino-forge:${rhino_version}")
-	implementation fg.deobf("dev.latvian.mods:kubejs-forge:${kubejs_version}")
+	modImplementation "dev.architectury:architectury-forge:${architectury_version}"
+	modImplementation "dev.latvian.mods:rhino-forge:${rhino_version}"
+	modImplementation "dev.latvian.mods:kubejs-forge:${kubejs_version}"
 	// PATCHOULI REQUIRED
-	compileOnly fg.deobf("vazkii.patchouli:Patchouli:$patchouliVersion-FORGE:api")
-	runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:$patchouliVersion-FORGE")
+	modCompileOnly "vazkii.patchouli:Patchouli:$patchouliVersion-FORGE:api"
+	modRuntimeOnly "vazkii.patchouli:Patchouli:$patchouliVersion-FORGE"
 	// ModKit DEV ONLY
-	implementation fg.deobf('com.github.thedarkcolour:ModKit:0302f9aa42')
+	modImplementation 'com.github.thedarkcolour:ModKit:0302f9aa42'
 
 	// Mekanism (testing)
 	def mekanism_version = '1.20.1-10.4.9.61'
 	compileOnly "mekanism:Mekanism:${mekanism_version}:api"
-	runtimeOnly fg.deobf("mekanism:Mekanism:${mekanism_version}")// Mekanism
-	runtimeOnly fg.deobf("mekanism:Mekanism:${mekanism_version}:additions")// Mekanism: Additions
-	runtimeOnly fg.deobf("mekanism:Mekanism:${mekanism_version}:generators")// Mekanism: Generators
-	runtimeOnly fg.deobf("mekanism:Mekanism:${mekanism_version}:tools")// Mekanism: Tools
+	modRuntimeOnly "mekanism:Mekanism:${mekanism_version}" // Mekanism
+	modRuntimeOnly "mekanism:Mekanism:${mekanism_version}:additions" // Mekanism: Additions
+	modRuntimeOnly "mekanism:Mekanism:${mekanism_version}:generators" // Mekanism: Generators
+	modRuntimeOnly "mekanism:Mekanism:${mekanism_version}:tools" // Mekanism: Tools
+
+	// DEV ONLY
+	compileOnly "org.jetbrains:annotations:23.0.0"
 }
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }

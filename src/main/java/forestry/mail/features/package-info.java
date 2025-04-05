@@ -1,10 +1,4 @@
-@ParametersAreNonnullByDefault
-@FieldsAreNonnullByDefault
-@MethodsReturnNonnullByDefault
+@javax.annotation.ParametersAreNonnullByDefault
+@forestry.core.utils.FieldsAreNonnullByDefault
+@net.minecraft.MethodsReturnNonnullByDefault
 package forestry.mail.features;
-
-import javax.annotation.ParametersAreNonnullByDefault;
-
-import net.minecraft.MethodsReturnNonnullByDefault;
-
-import forestry.core.utils.FieldsAreNonnullByDefault;

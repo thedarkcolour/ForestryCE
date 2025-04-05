@@ -10,26 +10,16 @@
  ******************************************************************************/
 package forestry.core;
 
-import java.util.List;
-
-import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.worldgen.ProcessorLists;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorList;
-
-import com.mojang.datafixers.util.Either;
-import com.mojang.datafixers.util.Pair;
 
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
@@ -46,7 +36,6 @@ import forestry.api.genetics.ISpeciesType;
 import forestry.apiculture.ApiaristAI;
 import forestry.apiculture.features.ApicultureEffects;
 import forestry.apiculture.villagers.ApicultureVillagers;
-import forestry.core.worldgen.ApiaristPoolElement;
 import forestry.core.worldgen.VillagerJigsaw;
 
 @Mod.EventBusSubscriber(modid = ForestryConstants.MOD_ID)

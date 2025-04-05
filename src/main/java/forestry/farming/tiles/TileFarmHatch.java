@@ -33,8 +33,6 @@ import forestry.farming.features.FarmingTiles;
 
 public class TileFarmHatch extends TileFarm implements WorldlyContainer, IFarmComponent.Active {
 
-	private static final Direction[] dumpDirections = new Direction[]{Direction.DOWN};
-
 	private final AdjacentTileCache tileCache;
 	private final AdjacentInventoryCache inventoryCache;
 
