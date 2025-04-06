@@ -183,7 +183,7 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.FRUIT, ForestryAlleles.FRUIT_PLUM);
 					genome.set(TreeChromosomes.YIELD, ForestryAlleles.YIELD_HIGH);
 					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_AVERAGE);
-					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_SMALLEST);
+					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_SMALL);
 				})
 				.addMutations(mutations -> {
 					mutations.add(ForestryTreeSpecies.LEMON, ForestryTreeSpecies.HILL_CHERRY, 0.05f);
@@ -722,7 +722,7 @@ public class DefaultTreeSpecies {
 				.setAuthority("Spear");
 
 		// Ginkgo
-		arboriculture.registerSpecies(ForestryTreeSpecies.GINKGO, GENUS_GINKGO, SPECIES_BILBOA, true, TextColor.fromRgb(0xFFE554), ForestryWoodType.GINKGO)
+		arboriculture.registerSpecies(ForestryTreeSpecies.GINKGO, GENUS_GINKGO, SPECIES_BILBOA, true, TextColor.fromRgb(0xFCD54A), ForestryWoodType.GINKGO)
 				.setTreeFeature(FeatureGinkgo::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.GINKGO))
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.GINKGO).block().getStateDefinition().getPossibleStates())
@@ -818,6 +818,7 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_AVERAGE);
 					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_AVERAGE);
 					genome.set(TreeChromosomes.FRUIT, ForestryAlleles.FRUIT_PEAR);
+					genome.set(TreeChromosomes.YIELD, ForestryAlleles.YIELD_LOWER);
 				})
 				.setAuthority("Spear");
 
@@ -848,7 +849,7 @@ public class DefaultTreeSpecies {
 				.setAuthority("Spear");
 
 		// Rocky Mountain Juniper
-		arboriculture.registerSpecies(ForestryTreeSpecies.JUNIPER, GENUS_JUNIPERUS, SPECIES_SCOPULORUM, true, TextColor.fromRgb(0x8BC0C4), ForestryWoodType.JUNIPER)
+		arboriculture.registerSpecies(ForestryTreeSpecies.JUNIPER, GENUS_JUNIPERUS, SPECIES_SCOPULORUM, true, TextColor.fromRgb(0x9FBDCC), ForestryWoodType.JUNIPER)
 				.setTreeFeature(FeatureJuniper::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.JUNIPER))
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.JUNIPER).block().getStateDefinition().getPossibleStates())
