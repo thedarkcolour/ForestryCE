@@ -33,7 +33,7 @@ public class FeaturePear extends FeatureTree {
 	@Override
 	protected void generateLeaves(LevelAccessor level, RandomSource rand, TreeBlockTypeLeaf leaf, TreeContour contour, BlockPos startPos) {
 		for (BlockPos branchEnd : contour.getBranchEnds()) {
-			FeatureHelper.generateCylinderFromPos(level, leaf, branchEnd, 1, 2, FeatureHelper.EnumReplaceMode.AIR, contour);
+			FeatureHelper.generateCylinderFromPos(level, leaf, branchEnd, 1, 2f,2,  FeatureHelper.EnumReplaceMode.AIR, contour);
 		}
 
 		int leafSpawn = height-1;
@@ -41,15 +41,20 @@ public class FeaturePear extends FeatureTree {
 		FeatureHelper.generateEllipsoid(level, startPos.offset(girth/2, height-1, girth/2), girth, 2, girth, 1.5f, leaf, FeatureHelper.EnumReplaceMode.SOFT, contour);
 
 		int end = rand.nextIntBetweenInclusive(1, 2);
+		float heightMult = Math.max(height/5f,1);
+		float radius = heightMult+(girth/2f); //give taller trees thicker foliage
 
 		while (leafSpawn >= end){
 			int randX = rand.nextIntBetweenInclusive(-1, 1);
 			int randZ = rand.nextIntBetweenInclusive(-1, 1);
 
-			float heightMult = Math.max(height/5f,1);
-			float radius = heightMult+(girth/2f); //give taller trees thicker foliage
+			if (leafSpawn == height-1 || leafSpawn == end){
+				randX = 0;
+				randZ = 0;
+			}
 
-			FeatureHelper.generateCylinderFromTreeStartPos(level, leaf, startPos.offset(randX, leafSpawn, randZ), girth, radius, 1.5f, 1, FeatureHelper.EnumReplaceMode.SOFT, contour);
+
+			FeatureHelper.generateCylinderFromPos(level, leaf, startPos.offset((girth/2)+randX, leafSpawn, (girth/2)+randZ), radius, 1.5f, 1, FeatureHelper.EnumReplaceMode.SOFT, contour);
 
 			leafSpawn--;
 		}
