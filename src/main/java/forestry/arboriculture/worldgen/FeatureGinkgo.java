@@ -51,12 +51,12 @@ public class FeatureGinkgo extends FeatureTree {
 
 		while (leafSpawn > end){
 
-			int randx = rand.nextIntBetweenInclusive(-range,range);
-			int randz = rand.nextIntBetweenInclusive(-range,range);
+			int randX = rand.nextIntBetweenInclusive(-range,range);
+			int randZ = rand.nextIntBetweenInclusive(-range,range);
 
 			//larger trees get a bit more coverage
 			for (int i = 0; i < Math.ceil(girth/2f); i++)
-				FeatureHelper.generateCylinderFromTreeStartPos(level, leaf, startPos.offset(randx, leafSpawn, randz), girth, 3f, 1.25f, 1, FeatureHelper.EnumReplaceMode.AIR, contour);
+				FeatureHelper.generateCylinderFromPos(level, leaf, startPos.offset((girth/2)+randX, leafSpawn, (girth/2)+randZ), 3f, 1.25f, 1, FeatureHelper.EnumReplaceMode.AIR, contour);
 
 			leafSpawn--;
 		}
