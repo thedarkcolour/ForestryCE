@@ -8,24 +8,40 @@ import java.util.Locale;
 public class ItemFruit extends ItemForestryFood {
 
 	public enum EnumFruit implements IItemSubtype {
-		CHERRY,
-		WALNUT,
-		CHESTNUT,
+		CHERRY(1, 0.4f, 16),
+		WALNUT(1, 0.6f, 16),
+		CHESTNUT(1, 0.8f, 16),
 		LEMON,
 		PLUM,
-		DATES,
-		PAPAYA,
+		DATES(1, 0.2f, 16),
+		PAPAYA(4, 3.2f, 32),
 
 		PEAR,
 		ORANGE,
-		COCONUT,
-		OLIVE,
-		FEIJOA;
+		COCONUT(2, 4.2f, 64), //Not sure what the best stat is here. Low hunger, high saturation and use time seems fair???
+		OLIVE(1, 0.2f, 16),
+		FEIJOA(2, 1.2f, 16);
 
 		private final String name;
 
+		private final int heal; //the number of half-shanks to heal
+		private final float saturation;
+		private final int useTime;
+
 		EnumFruit() {
 			this.name = name().toLowerCase(Locale.ENGLISH);
+			//The default stats is the same as the vanilla apple.
+			this.heal = 4;
+			this.saturation = 2.4f;
+			this.useTime = 32;
+		}
+
+		//Constructor for overriding default values
+		EnumFruit(int h, float s, int u){
+			this.name = name().toLowerCase(Locale.ENGLISH);
+			this.heal = h;
+			this.saturation = s;
+			this.useTime = u;
 		}
 
 		@Override
@@ -35,26 +51,15 @@ public class ItemFruit extends ItemForestryFood {
 	}
 
 	private final EnumFruit type;
-
-	//TODO: Figure out how to make different fruits give different heal amounts, saturation, and consumption times
 	public ItemFruit(EnumFruit type) {
-		super(1, 0.2f, (new Item.Properties()));
-		this.type = type;
-	}
-
-	public ItemFruit(EnumFruit type, int healAmount, float saturationAmount) {
-		super(healAmount, saturationAmount, (new Item.Properties()));
-		this.type = type;
-	}
-
-	public ItemFruit(EnumFruit type, int healAmount, float saturationAmount, float consumptionTime) {
-		super(healAmount, saturationAmount, (new Item.Properties()));
+		super(type.heal, type.saturation, type.useTime);
 		this.type = type;
 	}
 
 	public EnumFruit getType() {
 		return this.type;
 	}
+
 
 	@Override
 	public boolean canBeDepleted() {
