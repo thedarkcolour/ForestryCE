@@ -1,4 +1,4 @@
-// 1.20.1	2026-02-02T12:47:31.269269809	Tags for minecraft:item mod id forestry
+// 1.20.1	2026-02-02T13:10:51.705483364	Tags for minecraft:item mod id forestry
 e550164a90c24f9d4255e205d402a80533c986dd data/curios/tags/items/head.json
 77279fa9dbfdb14e92622b6424ee1b16dab95207 data/forestry/tags/items/acacia_desert_logs.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forestry/tags/items/backpack/allow/adventurer.json
@@ -23,6 +23,7 @@ bc7896f819c64d7001e44ae623800293d1e776d3 data/forestry/tags/items/cocobolo_logs.
 9f5d66e4017fbcabe22c6702e93310cf271fe042 data/forestry/tags/items/crafting_tables.json
 0065fbab36f74fb846e11c84e9d0bfd535b7c25e data/forestry/tags/items/drop_honey.json
 6eabef4518f12701c9313cc05d8f73d9f80d0217 data/forestry/tags/items/ebony_logs.json
+738b3a66a4998641552538ec8c73163a35f2eb52 data/forestry/tags/items/elm_logs.json
 f325d2ec9a1667fbb13f65621a214b7536d09265 data/forestry/tags/items/fireproof_acacia_desert_logs.json
 6287e45cc5944b9ab030ba66d775c136ca790de4 data/forestry/tags/items/fireproof_acacia_logs.json
 ed489cef863f2aa79aea8c510a0ab988b98cb828 data/forestry/tags/items/fireproof_balsa_logs.json
@@ -34,6 +35,7 @@ abaf91ee313c8310c0db5bc8c2aca5a5794c6df2 data/forestry/tags/items/fireproof_citr
 9881ad195e77d70fad949f6f69ad9e6bb7e0376c data/forestry/tags/items/fireproof_cocobolo_logs.json
 d85ecdb527872f059eae9c01c6ed4c084c78b728 data/forestry/tags/items/fireproof_dark_oak_logs.json
 0e4ad3b99014545d1c9567db98d33a6205f37274 data/forestry/tags/items/fireproof_ebony_logs.json
+4c3e34edc3ac81029577adb1f5b0be6607c43486 data/forestry/tags/items/fireproof_elm_logs.json
 3f01869bded1b9bbb7314c2e6f86f74ff4f3cecf data/forestry/tags/items/fireproof_giganteum_logs.json
 77b0454e2271481220a59c25d51420cde70ad7aa data/forestry/tags/items/fireproof_greenheart_logs.json
 f9db4b6447db834b2c9318968d53e4e1cd262c96 data/forestry/tags/items/fireproof_hill_cherry_logs.json
@@ -88,9 +90,9 @@ c0020e6f377758179d2d7f23812e757851ba1ff2 data/forestry/tags/items/stamps.json
 a53617c07723524a62f108cef691b2adbfdbfe51 data/forestry/tags/items/zebrawood_logs.json
 e736c96d74e1d9b8799f108ba1e8b1e2173926fb data/forge/tags/items/chests.json
 997ede0ad811c9479aabe6bd63d0a5b90a75c3e6 data/forge/tags/items/dusts/ash.json
-ee1e6658ba85691c68370f191c913c187944b6b2 data/forge/tags/items/fence_gates.json
-ee1e6658ba85691c68370f191c913c187944b6b2 data/forge/tags/items/fence_gates/wooden.json
-ce6210a1da642c35100b944ac690d4e987fbd2fe data/forge/tags/items/fences.json
+08f8d9d24b7b999e580f91e6ed4a931f53221481 data/forge/tags/items/fence_gates.json
+08f8d9d24b7b999e580f91e6ed4a931f53221481 data/forge/tags/items/fence_gates/wooden.json
+3b3f6bc97c96b15cfb97ffc9edebff79c2c9c656 data/forge/tags/items/fences.json
 7f5a98d8fa19572ce1d617975f4c7d0449b04380 data/forge/tags/items/fruits.json
 364116e996f1a0fd286e6ea38477fb15cccf46bb data/forge/tags/items/fruits/cherry.json
 3c22c5eb89477aab32b100953d3e3684a5c1e20a data/forge/tags/items/fruits/chestnut.json
@@ -120,25 +122,25 @@ a50813a6215611330b9e7a32904eb8f174d3741a data/forge/tags/items/storage_blocks/br
 c74d64c654da6d15a76cd4167268fc9965ef23ca data/forge/tags/items/storage_blocks/charcoal.json
 8b3a8ecaabc2db91e27ad34b051647d52a0ad47e data/forge/tags/items/storage_blocks/raw_tin.json
 ed974f25f4057a6e2a627a4ee061decd56b7d274 data/forge/tags/items/storage_blocks/tin.json
-e91391e92a69b4d4671725791c4d18eab3a67dc5 data/minecraft/tags/items/boats.json
-fb0bd2460dbe1ab5a379bc617361df42116a0b6e data/minecraft/tags/items/chest_boats.json
+a461ded7840b9300b31df755a8824f011751dc6f data/minecraft/tags/items/boats.json
+76755832d1c715c0fa1b59ef6ef9d670abf2cc18 data/minecraft/tags/items/chest_boats.json
 6192b7352b9e9c5c454e3337140f5368ddd64f03 data/minecraft/tags/items/cluster_max_harvestables.json
 fd7f5b8d14cefaa9260c3a25ed12037ccad07bac data/minecraft/tags/items/dirt.json
-535a46aff3a61f198d4837345f5a5f16d84d4e1d data/minecraft/tags/items/doors.json
-ce6210a1da642c35100b944ac690d4e987fbd2fe data/minecraft/tags/items/fences.json
-39ce810f3b19b5efa70cab096e02ed2dc753ff60 data/minecraft/tags/items/hanging_signs.json
-67f7f6abdeb398ab237a01d47b715b183d6acb10 data/minecraft/tags/items/leaves.json
-0c36173725e75e9deff26713e3b4352f9e6e9757 data/minecraft/tags/items/logs.json
-2fa725e5e2f1586fd0ce67dbd9779aef302e6603 data/minecraft/tags/items/logs_that_burn.json
-931dd7265d2187cbb7d0310987b312520ac6515e data/minecraft/tags/items/non_flammable_wood.json
+e1efce9e2679d0ced8a9a64a3362fd0869083250 data/minecraft/tags/items/doors.json
+3b3f6bc97c96b15cfb97ffc9edebff79c2c9c656 data/minecraft/tags/items/fences.json
+c17e22dcbae02692e35bd191295be62cd1590a62 data/minecraft/tags/items/hanging_signs.json
+fe75ce221f408636787a0adfaf7dfb1561f3bbe8 data/minecraft/tags/items/leaves.json
+cf650b46923a56c0ff871f901da33a09ed92200c data/minecraft/tags/items/logs.json
+330d5b71b9dc02977518b81d8c6c3eaab816145f data/minecraft/tags/items/logs_that_burn.json
+1a3ca5e2d5521943ef6e5d1161cf24f5499d06f8 data/minecraft/tags/items/non_flammable_wood.json
 6192b7352b9e9c5c454e3337140f5368ddd64f03 data/minecraft/tags/items/pickaxes.json
-b8d8845e32db9a28a151672112321b3b2ef862c6 data/minecraft/tags/items/planks.json
+0f771184fff0724ca094b31ad35d923ff78427c1 data/minecraft/tags/items/planks.json
 08e1c8fddff888b2e2b86f112d281dcdcd9c970e data/minecraft/tags/items/saplings.json
 47160d2500c85023e8b8d89dda0eb10f5492fdfc data/minecraft/tags/items/shovels.json
-ec2b9b82d9bb7662750ec7ea524fe6aaa80e1dcf data/minecraft/tags/items/signs.json
-7490f2ef65e294f43406b0accf0563e09ef6a664 data/minecraft/tags/items/slabs.json
-aa896dcb75240a90479818bdceee0539fdb24ada data/minecraft/tags/items/stairs.json
-535a46aff3a61f198d4837345f5a5f16d84d4e1d data/minecraft/tags/items/wooden_doors.json
-ce6210a1da642c35100b944ac690d4e987fbd2fe data/minecraft/tags/items/wooden_fences.json
-7490f2ef65e294f43406b0accf0563e09ef6a664 data/minecraft/tags/items/wooden_slabs.json
-aa896dcb75240a90479818bdceee0539fdb24ada data/minecraft/tags/items/wooden_stairs.json
+cc58b9ceb924fd60b029ba7f6184c57d17c1ff52 data/minecraft/tags/items/signs.json
+fe973fb29549985ff68875ef3b000679171cb312 data/minecraft/tags/items/slabs.json
+3f095d105392886d9c6bbd5357d48c03a5acb137 data/minecraft/tags/items/stairs.json
+e1efce9e2679d0ced8a9a64a3362fd0869083250 data/minecraft/tags/items/wooden_doors.json
+3b3f6bc97c96b15cfb97ffc9edebff79c2c9c656 data/minecraft/tags/items/wooden_fences.json
+fe973fb29549985ff68875ef3b000679171cb312 data/minecraft/tags/items/wooden_slabs.json
+3f095d105392886d9c6bbd5357d48c03a5acb137 data/minecraft/tags/items/wooden_stairs.json

@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "forestry:block/elm_slab"
+    },
+    "type=double": {
+      "model": "forestry:block/elm_planks"
+    },
+    "type=top": {
+      "model": "forestry:block/elm_slab_top"
+    }
+  }
+}
