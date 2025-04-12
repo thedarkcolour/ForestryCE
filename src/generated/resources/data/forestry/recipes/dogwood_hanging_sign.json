@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": [
+      {
+        "item": "forestry:dogwood_stripped_log"
+      },
+      {
+        "item": "forestry:dogwood_fireproof_stripped_log"
+      }
+    ],
+    "X": {
+      "item": "minecraft:chain"
+    }
+  },
+  "pattern": [
+    "X X",
+    "###",
+    "###"
+  ],
+  "result": {
+    "item": "forestry:dogwood_hanging_sign"
+  },
+  "show_notification": true
+}

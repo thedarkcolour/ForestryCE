@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "ingredients": [
+    [
+      {
+        "item": "forestry:feijoa_planks"
+      },
+      {
+        "item": "forestry:feijoa_fireproof_planks"
+      }
+    ]
+  ],
+  "result": {
+    "item": "forestry:feijoa_button"
+  }
+}

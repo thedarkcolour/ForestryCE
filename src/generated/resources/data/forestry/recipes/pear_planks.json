@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    {
+      "tag": "forestry:pear_logs"
+    }
+  ],
+  "result": {
+    "count": 4,
+    "item": "forestry:pear_planks"
+  }
+}

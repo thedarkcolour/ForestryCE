@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "forestry:block/orange_slab"
+    },
+    "type=double": {
+      "model": "forestry:block/orange_planks"
+    },
+    "type=top": {
+      "model": "forestry:block/orange_slab_top"
+    }
+  }
+}

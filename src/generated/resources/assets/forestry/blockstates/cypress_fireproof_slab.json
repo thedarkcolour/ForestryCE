@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "forestry:block/cypress_slab"
+    },
+    "type=double": {
+      "model": "forestry:block/cypress_planks"
+    },
+    "type=top": {
+      "model": "forestry:block/cypress_slab_top"
+    }
+  }
+}

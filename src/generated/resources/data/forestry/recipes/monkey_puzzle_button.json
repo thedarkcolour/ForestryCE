@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "ingredients": [
+    [
+      {
+        "item": "forestry:monkey_puzzle_planks"
+      },
+      {
+        "item": "forestry:monkey_puzzle_fireproof_planks"
+      }
+    ]
+  ],
+  "result": {
+    "item": "forestry:monkey_puzzle_button"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "forestry:block/gum_slab"
+    },
+    "type=double": {
+      "model": "forestry:block/gum_planks"
+    },
+    "type=top": {
+      "model": "forestry:block/gum_slab_top"
+    }
+  }
+}

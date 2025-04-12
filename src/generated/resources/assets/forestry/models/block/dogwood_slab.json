@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab",
+  "textures": {
+    "bottom": "forestry:block/dogwood_planks",
+    "side": "forestry:block/dogwood_planks",
+    "top": "forestry:block/dogwood_planks"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "forestry:block/coconut_slab"
+    },
+    "type=double": {
+      "model": "forestry:block/coconut_planks"
+    },
+    "type=top": {
+      "model": "forestry:block/coconut_slab_top"
+    }
+  }
+}

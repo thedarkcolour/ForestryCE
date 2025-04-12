@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "forestry:block/feijoa_log",
+    "side": "forestry:block/feijoa_log"
+  }
+}

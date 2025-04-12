@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    {
+      "tag": "forestry:fir_logs"
+    }
+  ],
+  "result": {
+    "count": 4,
+    "item": "forestry:fir_planks"
+  }
+}
