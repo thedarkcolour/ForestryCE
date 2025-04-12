@@ -1,4 +1,4 @@
-// 1.20.1	2025-03-02T22:06:44.3804721	ModKit Item Models for mod 'forestry'
+// 1.20.1	2025-04-12T13:01:10.0564783	ModKit Item Models for mod 'forestry'
 5c9a34aaa9fead3fd80793cfe9596223bf8783f0 assets/forestry/models/item/acacia_desert_boat.json
 72934de9e502d03a3a3cf9f0f6d4f24e8ee34571 assets/forestry/models/item/acacia_desert_chest_boat.json
 9b0e3ae0b83b5c30fe64d5488c10a81b21c890ac assets/forestry/models/item/balsa_boat.json
@@ -15,6 +15,7 @@ f7c41c1b9acd9a22ab2613393cef16dc83f899a8 assets/forestry/models/item/ebony_boat.
 30a921a4dd835d1fecbdd09fc844f6c78377480e assets/forestry/models/item/ebony_chest_boat.json
 29df5bb380a15be6137af78792a2f9b3dcb75aae assets/forestry/models/item/elm_boat.json
 32667b27bcb06d5f0702a229bccfb40634b1acc3 assets/forestry/models/item/elm_chest_boat.json
+383a220e0fae1d10a2ac97dc0129979080ce97bd assets/forestry/models/item/experience_drop.json
 b8221965dfea87d3c50f292fb06e77cb2bd0cff7 assets/forestry/models/item/giganteum_boat.json
 ae55b61afb55fd1dc9f9b3e88c3b905b128e8a78 assets/forestry/models/item/giganteum_chest_boat.json
 b137d8c183cd262cf908fcc699596c32afa0ec8c assets/forestry/models/item/greenheart_boat.json
