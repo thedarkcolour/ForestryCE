@@ -11,29 +11,28 @@ import java.util.function.UnaryOperator;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 
-import forestry.api.storage.IBackpackDefinition;
 import net.minecraftforge.network.IContainerFactory;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.RegisterEvent;
 
 import forestry.api.core.IBlockSubtype;
 import forestry.api.core.IItemSubtype;
 import forestry.api.storage.EnumBackpackType;
-
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.RegisterEvent;
+import forestry.api.storage.IBackpackDefinition;
 
 public interface IFeatureRegistry {
 	ResourceLocation getModuleId();
@@ -98,7 +97,19 @@ public interface IFeatureRegistry {
 
 	FeatureCreativeTab creativeTab(String id, Consumer<CreativeModeTab.Builder> builder);
 
+	/**
+	 * @deprecated Use {@link #addRegistryListener(ResourceKey, Runnable)} which is more stable
+	 */
+	@Deprecated(forRemoval = true)
 	void addRegistryListener(ResourceKey<? extends Registry<?>> type, Consumer<RegisterEvent> listener);
+
+	/**
+	 * Invokes the runnable after all entries have completed registration for the given registry.
+	 *
+	 * @param type     The registry to await registration for
+	 * @param listener The action to perform once all entries from all mods have been registered
+	 */
+	void addRegistryListener(ResourceKey<? extends Registry<?>> type, Runnable listener);
 
 	<F extends IModFeature> F register(F feature);
 

@@ -37,7 +37,7 @@ public class LepidopterologyClientHandler implements IClientModuleHandler {
 		modBus.addListener(LepidopterologyClientHandler::setupLayers);
 		modBus.addListener(LepidopterologyClientHandler::registerModelLoaders);
 
-		ModFeatureRegistry.get(ForestryModuleIds.LEPIDOPTEROLOGY).addRegistryListener(Registries.ITEM, event -> {
+		ModFeatureRegistry.get(ForestryModuleIds.LEPIDOPTEROLOGY).addRegistryListener(Registries.ITEM, () -> {
 			@SuppressWarnings("deprecation")
 			ItemPropertyFunction itemPropertyFunction = (stack, clientLevel, holder, idk) -> ItemButterflyGE.getAge(stack);
 

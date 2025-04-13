@@ -16,6 +16,8 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 
+import org.apache.commons.lang3.mutable.MutableBoolean;
+
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -38,6 +40,7 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.network.IContainerFactory;
 import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ObjectHolderRegistry;
 import net.minecraftforge.registries.RegisterEvent;
 
 import forestry.api.core.IBlockSubtype;
@@ -194,9 +197,21 @@ public class ModFeatureRegistry {
 			return new FeatureRecipeType<>(this, this.moduleId, name, serializer);
 		}
 
+		// TODO REMOVE
 		@Override
 		public void addRegistryListener(ResourceKey<? extends Registry<?>> type, Consumer<RegisterEvent> listener) {
 			this.registryListeners.put(type, listener);
+		}
+
+		@Override
+		public void addRegistryListener(ResourceKey<? extends Registry<?>> type, Runnable listener) {
+			MutableBoolean hasInit = new MutableBoolean(false);
+			ObjectHolderRegistry.addHandler(predicate -> {
+				if (!hasInit.booleanValue() && predicate.test(type.location())) {
+					hasInit.setTrue();
+					listener.run();
+				}
+			});
 		}
 
 		public <F extends IModFeature> F register(F feature) {

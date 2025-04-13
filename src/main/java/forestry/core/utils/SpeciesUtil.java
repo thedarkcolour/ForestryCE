@@ -11,6 +11,7 @@ import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.level.Level;
 
 import com.mojang.authlib.GameProfile;
@@ -29,6 +30,7 @@ import forestry.api.genetics.ForestrySpeciesTypes;
 import forestry.api.genetics.IBreedingTracker;
 import forestry.api.genetics.IGenome;
 import forestry.api.genetics.IIndividual;
+import forestry.api.genetics.ILifeStage;
 import forestry.api.genetics.IMutation;
 import forestry.api.genetics.ISpecies;
 import forestry.api.genetics.ISpeciesType;
@@ -79,6 +81,22 @@ public class SpeciesUtil {
 		@SuppressWarnings("unchecked")
 		IRegistryAllele<ISpecies<?>> allele = ((IRegistryAllele<ISpecies<?>>) ForestryAlleles.REGISTRY.getAllele(id));
 		return allele == null ? null : allele.value();
+	}
+
+	/**
+	 * Adds all non-hidden species from the given species type to the creative tab.
+	 *
+	 * @param items The creative tab item output.
+	 * @param speciesTypeId The ID of the species type to use.
+	 */
+	public static void addTypeToCreativeTab(CreativeModeTab.Output items, ResourceLocation speciesTypeId) {
+		ISpeciesType<?, ?> speciesType = IForestryApi.INSTANCE.getGeneticManager().getSpeciesType(speciesTypeId);
+
+		for (ILifeStage stage : speciesType.getLifeStages()) {
+			for (ISpecies<?> species : speciesType.getAllSpecies()) {
+				items.accept(species.createStack(stage));
+			}
+		}
 	}
 
 	@Nullable

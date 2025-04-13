@@ -1,7 +1,5 @@
 package forestry.core.tab;
 
-import java.util.Collection;
-
 import net.minecraft.nbt.ByteTag;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
@@ -18,17 +16,14 @@ import net.minecraftforge.registries.ForgeRegistries;
 import forestry.api.ForestryConstants;
 import forestry.api.apiculture.ForestryBeeSpecies;
 import forestry.api.apiculture.genetics.BeeLifeStage;
-import forestry.api.apiculture.genetics.IBeeSpecies;
 import forestry.api.arboriculture.ForestryTreeSpecies;
-import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.arboriculture.IWoodAccess;
 import forestry.api.arboriculture.IWoodType;
 import forestry.api.arboriculture.WoodBlockKind;
 import forestry.api.arboriculture.genetics.TreeLifeStage;
-import forestry.api.genetics.ILifeStage;
+import forestry.api.genetics.ForestrySpeciesTypes;
 import forestry.api.lepidopterology.ForestryButterflySpecies;
 import forestry.api.lepidopterology.genetics.ButterflyLifeStage;
-import forestry.api.lepidopterology.genetics.IButterflySpecies;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.apiculture.blocks.BlockHiveType;
 import forestry.apiculture.blocks.NaturalistChestBlockType;
@@ -240,11 +235,7 @@ public class ForestryCreativeTabs {
 		items.accept(ApicultureItems.ROYAL_JELLY);
 		items.accept(ApicultureItems.EXPERIENCE_DROP);
 
-		for (ILifeStage stage : SpeciesUtil.BEE_TYPE.get().getLifeStages()) {
-			for (IBeeSpecies species : SpeciesUtil.getAllBeeSpecies()) {
-				items.accept(species.createStack(stage));
-			}
-		}
+		SpeciesUtil.addTypeToCreativeTab(items, ForestrySpeciesTypes.BEE);
 	}
 
 	private static void addArboricultureItems(CreativeModeTab.ItemDisplayParameters params, CreativeModeTab.Output items) {
@@ -281,14 +272,7 @@ public class ForestryCreativeTabs {
 		}
 
 		// Specimens
-		Collection<ILifeStage> stages = SpeciesUtil.TREE_TYPE.get().getLifeStages();
-
-		for (ILifeStage stage : stages) {
-			for (ITreeSpecies species : SpeciesUtil.getAllTreeSpecies()) {
-				items.accept(species.createStack(stage));
-			}
-		}
-
+		SpeciesUtil.addTypeToCreativeTab(items, ForestrySpeciesTypes.TREE);
 		ArboricultureBlocks.LEAVES_DECORATIVE.getItems().forEach(items::accept);
 	}
 
@@ -302,12 +286,7 @@ public class ForestryCreativeTabs {
 		items.accept(ApicultureItems.SCOOP);
 
 		// Specimens
-		Collection<ILifeStage> stages = SpeciesUtil.BUTTERFLY_TYPE.get().getLifeStages();
-		for (ILifeStage stage : stages) {
-			for (IButterflySpecies species : SpeciesUtil.getAllButterflySpecies()) {
-				items.accept(species.createStack(stage));
-			}
-		}
+		SpeciesUtil.addTypeToCreativeTab(items, ForestrySpeciesTypes.BUTTERFLY);
 	}
 
 	private static void addAgricultureItems(CreativeModeTab.ItemDisplayParameters params, CreativeModeTab.Output items) {

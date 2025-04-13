@@ -1,3 +1,6 @@
+## Forestry 2.5.2
+- Fix hybrids not producing drops of inactive species
+
 ## Forestry 2.5.1
 - Simmering comb no longer produces Phosphorus
 - Frozen Ocean is now an Icy Biome

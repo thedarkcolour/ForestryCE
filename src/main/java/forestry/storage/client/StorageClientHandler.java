@@ -37,7 +37,7 @@ public class StorageClientHandler implements IClientModuleHandler {
 
 		IFeatureRegistry registry = ModFeatureRegistry.get(ForestryModuleIds.STORAGE);
 
-		registry.addRegistryListener(Registries.ITEM, event -> {
+		registry.addRegistryListener(Registries.ITEM, () -> {
 			@SuppressWarnings("deprecation")
 			ItemPropertyFunction itemPropertyFunction = (stack, clientLevel, holder, idk) -> ItemBackpack.getMode(stack).ordinal();
 

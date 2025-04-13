@@ -349,7 +349,7 @@ public class Bee extends IndividualLiving<IBeeSpecies, IBee, IBeeSpeciesType> im
 		}
 		// / Secondary Products
 		for (var product : secondary.getProducts()) {
-			if (rand.nextFloat() < Math.round(product.chance() / 2f) * speed) {
+			if (rand.nextFloat() < (product.chance() / 2f) * speed) {
 				stacks.add(product.createRandomStack(rand));
 			}
 		}
