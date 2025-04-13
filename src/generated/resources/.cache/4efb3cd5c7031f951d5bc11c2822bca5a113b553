@@ -1,4 +1,4 @@
-// 1.20.1	2026-02-02T13:39:59.615334718	ModKit Item Models for mod 'forestry'
+// 1.20.1	2026-02-02T13:51:21.034990972	ModKit Item Models for mod 'forestry'
 5c9a34aaa9fead3fd80793cfe9596223bf8783f0 assets/forestry/models/item/acacia_desert_boat.json
 72934de9e502d03a3a3cf9f0f6d4f24e8ee34571 assets/forestry/models/item/acacia_desert_chest_boat.json
 8f2200f73d917fa31d1e154c725213fa5984fdd6 assets/forestry/models/item/axe_kit.json
@@ -35,8 +35,6 @@ f7c41c1b9acd9a22ab2613393cef16dc83f899a8 assets/forestry/models/item/ebony_boat.
 30a921a4dd835d1fecbdd09fc844f6c78377480e assets/forestry/models/item/ebony_chest_boat.json
 29df5bb380a15be6137af78792a2f9b3dcb75aae assets/forestry/models/item/elm_boat.json
 32667b27bcb06d5f0702a229bccfb40634b1acc3 assets/forestry/models/item/elm_chest_boat.json
-0b0c152db2564c4d3c437f2227a48f2e876cbf9c assets/forestry/models/item/eucalyptus_boat.json
-c2b08ca299be6f092eb89817a239496ff4dc2015 assets/forestry/models/item/eucalyptus_chest_boat.json
 383a220e0fae1d10a2ac97dc0129979080ce97bd assets/forestry/models/item/experience_drop.json
 a5e2542ae524873541ad59d72b217eee3e35e1c3 assets/forestry/models/item/feijoa_boat.json
 4bd9e8c6ef9ff56c363a0fa757966380a6aa297c assets/forestry/models/item/feijoa_chest_boat.json
@@ -48,8 +46,6 @@ ae55b61afb55fd1dc9f9b3e88c3b905b128e8a78 assets/forestry/models/item/giganteum_c
 a9c449f42d139eab9e976a982c8f69612fffeac4 assets/forestry/models/item/ginkgo_chest_boat.json
 b137d8c183cd262cf908fcc699596c32afa0ec8c assets/forestry/models/item/greenheart_boat.json
 c12e84c9b2b7ab06556c284c6e9279a0f6c0aa48 assets/forestry/models/item/greenheart_chest_boat.json
-a1fa58d6e355af6295207c70b5938734e126c55c assets/forestry/models/item/gum_boat.json
-37cb3e066a662259830cacbd5622f2d82ce144ac assets/forestry/models/item/gum_chest_boat.json
 53e6d4a4d20ba9ff3c6d07179f6d3e5888db5921 assets/forestry/models/item/hill_cherry_boat.json
 c0b69a7febbefda83b2e7399195be7de6647842c assets/forestry/models/item/hill_cherry_chest_boat.json
 2c41e589ab5aff7b821656b3632eb5c67c523ef1 assets/forestry/models/item/hoe_kit.json

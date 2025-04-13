@@ -47,9 +47,7 @@
 		"tree=cypress": { "model": "forestry:germlings/sapling.tree_cypress" },
 		"tree=olive": { "model": "forestry:germlings/sapling.tree_olive" },
 		"tree=orange": { "model": "forestry:germlings/sapling.tree_orange" },
-		"tree=eucalyptus": { "model": "forestry:germlings/sapling.tree_eucalyptus" },
 		"tree=pear": { "model": "forestry:germlings/sapling.tree_pear" },
-		"tree=gum": { "model": "forestry:germlings/sapling.tree_gum" },
 		"tree=juniper": { "model": "forestry:germlings/sapling.tree_juniper" }
 	}
 }

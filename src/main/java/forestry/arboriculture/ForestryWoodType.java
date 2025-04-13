@@ -70,8 +70,6 @@ public enum ForestryWoodType implements IWoodType {
 	OLIVE(ForestryLeafType.OLIVE),
 	ORANGE(ForestryLeafType.ORANGE),
 	PEAR(ForestryLeafType.PEAR),
-	EUCALYPTUS(ForestryLeafType.EUCALYPTUS),
-	GUM(ForestryLeafType.GUM),
 	JUNIPER(ForestryLeafType.JUNIPER),
 	ZEBRAWOOD(ForestryLeafType.ZEBRAWOOD);
 

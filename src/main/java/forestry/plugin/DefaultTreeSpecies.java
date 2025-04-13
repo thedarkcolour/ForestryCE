@@ -822,32 +822,6 @@ public class DefaultTreeSpecies {
 				})
 				.setAuthority("Spear");
 
-		// Rainbow Eucalyptus
-		arboriculture.registerSpecies(ForestryTreeSpecies.EUCALYPTUS, GENUS_EUCALYPTUS, SPECIES_DEGLUPTA, true, TextColor.fromRgb(0x70922D), ForestryWoodType.EUCALYPTUS)
-				.setTreeFeature(FeatureEucalyptus::new)
-				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.EUCALYPTUS))
-				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.EUCALYPTUS).block().getStateDefinition().getPossibleStates())
-				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.get(ForestryLeafType.EUCALYPTUS).block().getStateDefinition().getPossibleStates())
-				.setGenome(genome -> {
-					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_AVERAGE);
-					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_AVERAGE);
-					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_AVERAGE);
-				})
-				.setAuthority("Spear");
-
-		// Swamp Gum
-		arboriculture.registerSpecies(ForestryTreeSpecies.GUM, GENUS_EUCALYPTUS, SPECIES_OVATA, true, TextColor.fromRgb(0x989855), ForestryWoodType.GUM)
-				.setTreeFeature(FeatureGum::new)
-				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.GUM))
-				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.GUM).block().getStateDefinition().getPossibleStates())
-				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.get(ForestryLeafType.GUM).block().getStateDefinition().getPossibleStates())
-				.setGenome(genome -> {
-					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_AVERAGE);
-					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_AVERAGE);
-					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_AVERAGE);
-				})
-				.setAuthority("Spear");
-
 		// Rocky Mountain Juniper
 		arboriculture.registerSpecies(ForestryTreeSpecies.JUNIPER, GENUS_JUNIPERUS, SPECIES_SCOPULORUM, true, TextColor.fromRgb(0x9FBDCC), ForestryWoodType.JUNIPER)
 				.setTreeFeature(FeatureJuniper::new)

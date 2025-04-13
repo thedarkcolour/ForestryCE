@@ -64,7 +64,5 @@ public class ForestryTreeSpecies {
 	public static final ResourceLocation OLIVE = forestry("tree_olive");
 	public static final ResourceLocation ORANGE = forestry("tree_orange");
 	public static final ResourceLocation PEAR = forestry("tree_pear");
-	public static final ResourceLocation EUCALYPTUS = forestry("tree_eucalyptus");
-	public static final ResourceLocation GUM = forestry("tree_gum");
 	public static final ResourceLocation JUNIPER = forestry("tree_juniper");
 }
