@@ -667,7 +667,7 @@ public class DefaultTreeSpecies {
 				.setAuthority("Spear");
 
 		// Coconut
-		arboriculture.registerSpecies(ForestryTreeSpecies.COCONUT, GENUS_COCOS, SPECIES_NUCIFERA, true, TextColor.fromRgb(0x6C8031), ForestryWoodType.COCONUT)
+		arboriculture.registerSpecies(ForestryTreeSpecies.COCONUT, GENUS_COCOS, SPECIES_NUCIFERA, true, TextColor.fromRgb(0x4F750F), ForestryWoodType.COCONUT)
 				.setTreeFeature(FeatureCoconut::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.COCONUT))
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.COCONUT).block().getStateDefinition().getPossibleStates())
@@ -748,7 +748,7 @@ public class DefaultTreeSpecies {
 				.setAuthority("Spear");
 
 		// Monkey Puzzle
-		arboriculture.registerSpecies(ForestryTreeSpecies.MONKEY_PUZZLE, GENUS_ARAUCARIA, SPECIES_ARAUCANA, true, TextColor.fromRgb(0x6C8031), ForestryWoodType.MONKEY_PUZZLE)
+		arboriculture.registerSpecies(ForestryTreeSpecies.MONKEY_PUZZLE, GENUS_ARAUCARIA, SPECIES_ARAUCANA, true, TextColor.fromRgb(0x455419), ForestryWoodType.MONKEY_PUZZLE)
 				.setTreeFeature(FeatureMonkeyPuzzle::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.MONKEY_PUZZLE))
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.MONKEY_PUZZLE).block().getStateDefinition().getPossibleStates())
@@ -764,7 +764,7 @@ public class DefaultTreeSpecies {
 		// Macrocarpa (Technically speaking it's a Monterey Cypress but I've called it Macrocarpa for two reasons:
 		// 1 - No other trees have geographical places in their name. Monterey is a place in California (I thought it was someone's name LOL)
 		// 2 - In New Zealand, we call them Macrocarpa trees, and supposedly they're known as such in other places too.
-		arboriculture.registerSpecies(ForestryTreeSpecies.CYPRESS, GENUS_HESPEROCYPARIS, SPECIES_MACROCARPA, true, TextColor.fromRgb(0x6C8031), ForestryWoodType.CYPRESS)
+		arboriculture.registerSpecies(ForestryTreeSpecies.CYPRESS, GENUS_HESPEROCYPARIS, SPECIES_MACROCARPA, true, TextColor.fromRgb(0x5D7121), ForestryWoodType.CYPRESS)
 				.setTreeFeature(FeatureCypress::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.CYPRESS))
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.CYPRESS).block().getStateDefinition().getPossibleStates())
@@ -808,7 +808,7 @@ public class DefaultTreeSpecies {
 				.setAuthority("Spear");
 
 		// D'Anjou Pear
-		arboriculture.registerSpecies(ForestryTreeSpecies.PEAR, GENUS_PYRUS, SPECIES_COMMUNIS, true, TextColor.fromRgb(0x6C8031), ForestryWoodType.PEAR)
+		arboriculture.registerSpecies(ForestryTreeSpecies.PEAR, GENUS_PYRUS, SPECIES_COMMUNIS, true, TextColor.fromRgb(0x448944), ForestryWoodType.PEAR)
 				.setTreeFeature(FeaturePear::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.PEAR))
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.PEAR).block().getStateDefinition().getPossibleStates())
