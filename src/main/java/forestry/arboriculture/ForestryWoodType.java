@@ -42,7 +42,7 @@ public enum ForestryWoodType implements IWoodType {
 	BALSA(ForestryLeafType.BALSA, 1.0f),
 	WILLOW(ForestryLeafType.WILLOW),
 	WALNUT(ForestryLeafType.WALNUT),
-	GREENHEART(ForestryLeafType.SIPIRI, 7.5f),
+	GREENHEART(ForestryLeafType.SIPIRI, 7.5f), //TODO - 1.21.1 - Rename to Sipiri?
 	HILL_CHERRY(ForestryLeafType.HILL_CHERRY),
 
 	MAHOE(ForestryLeafType.MAHOE),
@@ -52,7 +52,7 @@ public enum ForestryWoodType implements IWoodType {
 	PINE(ForestryLeafType.PINE, 3.0f),
 	PLUM(ForestryLeafType.PLUM),
 	MAPLE(ForestryLeafType.MAPLE),
-	CITRUS(ForestryLeafType.LEMON),
+	CITRUS(ForestryLeafType.LEMON), //TODO - 1.21.1 - Change from Citrus to Lemon, as Orange is also Citrus.
 
 	GIGANTEUM(ForestryLeafType.GIANT_SEQUOIA, 4.0f),
 	IPE(ForestryLeafType.IPE),
@@ -71,7 +71,7 @@ public enum ForestryWoodType implements IWoodType {
 	ORANGE(ForestryLeafType.ORANGE),
 	PEAR(ForestryLeafType.PEAR),
 	JUNIPER(ForestryLeafType.JUNIPER),
-	ZEBRAWOOD(ForestryLeafType.ZEBRAWOOD);
+	ZEBRAWOOD(ForestryLeafType.ZEBRAWOOD); //TODO - 1.21.1 - Change to Zebrano
 
 	public static final float DEFAULT_HARDNESS = 2.0f;
 	public static final ForestryWoodType[] VALUES = values();

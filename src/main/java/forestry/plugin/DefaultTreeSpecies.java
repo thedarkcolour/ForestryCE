@@ -375,6 +375,7 @@ public class DefaultTreeSpecies {
 				.setRarity(0.0005f);
 
 		// Zebrawood (Wood is called "zebrawood" but species is glassywood. should this be changed?)
+		// Should be reclassifed as Microberlinia brazzavillensis, or Zebrano.
 		arboriculture.registerSpecies(ForestryTreeSpecies.ZEBRAWOOD, GENUS_ASTRONIUM, SPECIES_ZEBRAWOOD, false, TextColor.fromRgb(0xa2d24a), ForestryWoodType.ZEBRAWOOD)
 				.setTreeFeature(FeatureZebrawood::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.ZEBRAWOOD))
@@ -392,6 +393,7 @@ public class DefaultTreeSpecies {
 				.setRarity(0.0005f);
 
 		// Mahogany TODO taxonomy is wrong
+		// Reclassified as 'Swietenia macrophylla' - Big Leaf Mahogany - or just Mahogany
 		arboriculture.registerSpecies(ForestryTreeSpecies.MAHOGANY, GENUS_MAHOGANY, SPECIES_MAHOGONY, true, TextColor.fromRgb(0x8ab154), ForestryWoodType.MAHOGANY)
 				.setTreeFeature(FeatureMahogany::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.MAHOGANY))
