@@ -21,53 +21,47 @@ import java.util.Set;
 
 public class FeatureOlive extends FeatureTree {
 	public FeatureOlive(ITreeGenData tree) {
-		super(tree, 3, 4, 3);
+		super(tree, 5, 4);
 	}
 
 	@Override
 	public Set<BlockPos> generateTrunk(LevelAccessor level, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
-		FeatureHelper.generateTreeTrunk(level, rand, wood, startPos, height, girth, 0, 0, null, 0);
+		return FeatureHelper.generateTreeTrunk(level, rand, wood, startPos, height, girth, 0, 0, null, 0);
 
-		int branchesEnd = 1;
-		int y = height-1;
-
-		Set<BlockPos> branches = new HashSet<>();
-		while( y >= branchesEnd){
-			branches.addAll(
-					FeatureHelper.generateBranches(level, rand, wood, startPos.offset(0, y--, 0), girth, 0.225f, 0.25f, 2, 1, 0.25f)
-			);
-		}
-		return branches;
 	}
 
 	@Override
 	protected void generateLeaves(LevelAccessor level, RandomSource rand, TreeBlockTypeLeaf leaf, TreeContour contour, BlockPos startPos) {
 
+		float radius = 2+(int)(girth/2f);
+
 		//Main Canopy
-
-		FeatureHelper.generateCylinderFromTreeStartPos(level, leaf, startPos.offset(0, height,0), girth, 2+(int)(girth/2f), 1.0f, 2, FeatureHelper.EnumReplaceMode.SOFT, contour);
-		FeatureHelper.generateCylinderFromTreeStartPos(level, leaf, startPos.offset(0, height-1,0), girth, 2+(int)(girth/2f), 1.25f, 2, FeatureHelper.EnumReplaceMode.SOFT, contour);
+		FeatureHelper.generateEllipsoid(level, startPos.offset(girth/2, height, girth/2), radius, 1, radius, 1.75f, leaf, FeatureHelper.EnumReplaceMode.SOFT, contour);
 
 
-		int leafSpawn = height-2;
+		int leafSpawn = height-1;
+		int i = 0;
+
 		while (leafSpawn >= 2) {
 
-			int randX = rand.nextIntBetweenInclusive(-1,1);
-			int randY = rand.nextIntBetweenInclusive(-1,1);
-			if (leafSpawn == height-1){
-				randX = 0;
-				randY = 0;
+			int gMod = Math.round(girth/2f); //omg garry's modification reference????
+
+			int randX = rand.nextIntBetweenInclusive(-gMod,gMod);
+			int randZ = rand.nextIntBetweenInclusive(-gMod,gMod);
+
+			if (leafSpawn == 2){
+				randX /= 2;
+				randZ /= 2;
 			}
 
-			FeatureHelper.generateCylinderFromTreeStartPos(level, leaf, startPos.offset(randX, leafSpawn,randY), girth, 2+(int)(girth/2f), 1.25f, 2, FeatureHelper.EnumReplaceMode.SOFT, contour);
+			FeatureHelper.generateCylinderFromTreeStartPos(level, leaf, startPos.offset(randX, leafSpawn,randZ), girth, radius, 1.25f, 1, FeatureHelper.EnumReplaceMode.SOFT, contour);
 
-			leafSpawn-=2;
-		}
-
-		//Branches
-		for (BlockPos branchEnd: contour.getBranchEnds()){
-			FeatureHelper.generateCylinderFromPos(level, leaf, branchEnd, 1f, 2f, 2, FeatureHelper.EnumReplaceMode.SOFT, contour);
-
+			if (i >= (girth/2 + 1)){
+				i = 0;
+				leafSpawn--;
+			}
+			else
+				i++;
 		}
 	}
 }
