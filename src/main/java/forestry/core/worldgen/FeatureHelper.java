@@ -89,6 +89,50 @@ public class FeatureHelper {
 		}
 	}
 
+	/**
+	 * Generates a cylinder with blocks on the perimeter having a chance to not be placed, for a bit of variation.
+	 * Center is the bottom middle of the cylinder.
+	 * @param failChance the chance that a block isn't placed. Values higher than 1 mean blocks closer to the centre begin to not be placed.
+	 */
+	public static void generateCylinderFromPosWithChance(LevelAccessor world, ITreeBlockType block, BlockPos center, float radius, float radiusMult, int height, EnumReplaceMode replace, TreeContour contour, RandomSource rand, float failChance) {
+		BlockPos start = BlockPos.containing(center.getX() - radius, center.getY(), center.getZ() - radius);
+
+		float maxDistSqr = ((radius * radius) + 0.01f) * radiusMult;
+		float chance = failChance - (float)Math.floor(failChance);
+		float randDist = maxDistSqr - (float)(Math.ceil(failChance) * Math.ceil(failChance));
+
+		for (int x = 0; x < radius * 2 + 1; x++) {
+			for (int y = height - 1; y >= 0; y--) { // generating top-down is faster for lighting calculations
+				for (int z = 0; z < radius * 2 + 1; z++) {
+					BlockPos position = start.offset(x, y, z);
+					Vec3i treeCenter = new Vec3i(center.getX(), position.getY(), center.getZ());
+
+					float curDistSqr = (float)position.distSqr(treeCenter);
+
+					//First, check if the block is within radius
+					if (curDistSqr <= maxDistSqr) {
+
+						//Now, check based on noise.
+						if (
+							failChance <= 0 || //Always place if chance is 0 or less
+							curDistSqr <= randDist || //block is below the noise threshold
+							(
+								//block is in noise threshold
+								curDistSqr > randDist && chance <= rand.nextFloat()
+							)
+						){
+							Direction direction = VecUtil.direction(position, treeCenter);
+							block.setDirection(direction);
+							if (addBlock(world, position, block, replace)) {
+								contour.addLeaf(position);
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
 	public static void generateCircleFromTreeStartPos(LevelAccessor world, RandomSource rand, BlockPos startPos, int girth, float radius, int width, int height, ITreeBlockType block, float chance, EnumReplaceMode replace, TreeContour contour) {
 		generateCircle(world, rand, startPos.offset(girth / 2, 0, girth / 2), radius, width, height, block, chance, replace, contour);
 	}
