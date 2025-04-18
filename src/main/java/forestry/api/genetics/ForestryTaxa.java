@@ -21,66 +21,73 @@ public class ForestryTaxa {
 
 	// Phyla / Divisions
 	public static final String PHYLUM_ARTHROPODS = "arthropoda";
-	public static final String PHYLUM_FLOWERING_PLANT = "angiosperms";
-	public static final String PHYLUM_NAKED_SEED_PLANT = "gymnosperms";
+	public static final String PHYLUM_VASCULAR_PLANTS = "tracheophyta";
 
 	// Classes
 	public static final String CLASS_INSECTS = "insecta";
-	public static final String CLASS_ASTERIDS = "asterids";
 	public static final String CLASS_COMMELINIDS = "commelinids";
-	public static final String CLASS_ROSIDS = "rosids";
-	public static final String CLASS_CONIFERS = "pinopsida";
-	public static final String CLASS_DICOTYLEDONS = "magnoliopsida";
+
+	//Tree Classes
 	public static final String CLASS_GINKGOOPSIDA = "ginkgoopsida";
+	public static final String CLASS_LILIOPSIDA = "liliopsida";
+	public static final String CLASS_MAGNOLIOPSIDA = "lagnoliopsida";
+	public static final String CLASS_PINOPSIDA = "pinopsida";
+
 
 	// Orders
 	public static final String ORDER_HYMNOPTERA = "hymnoptera";
 	public static final String ORDER_LEPIDOPTERA = "lepidoptera";
-	public static final String ORDER_ERICALES = "ericales";
-	public static final String ORDER_LAMIALES = "lamiales";
+
+	//Tree Orders
+	public static final String ORDER_GINKGOALES = "ginkgoales";
 	public static final String ORDER_ARECALES = "arecales";
 	public static final String ORDER_BRASSICALES = "brassicales";
+	public static final String ORDER_CORNALES = "cornales";
+	public static final String ORDER_ERICALES = "ericales";
 	public static final String ORDER_FABALES = "fabales";
 	public static final String ORDER_FAGALES = "fagales";
-	public static final String ORDER_ROSALES = "rosales";
-	public static final String ORDER_MALVALES = "malvales";
+	public static final String ORDER_LAMIALES = "lamiales";
 	public static final String ORDER_LAURALES = "laurales";
 	public static final String ORDER_MALPIGHIALES = "malpighiales";
-	public static final String ORDER_SAPINDALES = "sapindales";
-	public static final String ORDER_PINALES = "pinales";
-	public static final String ORDER_CORNALES = "cornales";
+	public static final String ORDER_MALVALES = "malvales";
 	public static final String ORDER_MYRTALES = "myrtales";
-	public static final String ORDER_GINKGOALES = "ginkgoales";
-	public static final String ORDER_ARAUCARIALES = "arucariales";
+	public static final String ORDER_ROSALES = "rosales";
+	public static final String ORDER_SAPINDALES = "sapindales";
+	public static final String ORDER_ARAUCARIALES = "araucariales";
+	public static final String ORDER_CUPRESSALES = "cupressales";
+	public static final String ORDER_PINALES = "pinales";
 
 	// Bee Families
 	public static final String FAMILY_BEES = "apidae";
 	// Tree Families
-	public static final String FAMILY_EBENACEAE = "ebenaceae";
-	public static final String FAMILY_FABACEAE = "fabaceae";
-	public static final String FAMILY_BIGNONIACEAE = "bignoniaceae";
-	public static final String FAMILY_LAMIACEAE = "lamiaceae";
+	public static final String FAMILY_GINKGOACEAE = "ginkgoaceae";
 	public static final String FAMILY_ARECACEAE = "arecaceae";
 	public static final String FAMILY_CARICACEAE = "caricaceae";
+	public static final String FAMILY_CORNACEAE = "cornaceae";
+	public static final String FAMILY_EBENACEAE = "ebenaceae";
+	public static final String FAMILY_FABACEAE = "fabaceae";
 	public static final String FAMILY_BETULACEAE = "betulaceae";
 	public static final String FAMILY_FAGACEAE = "fagaceae";
 	public static final String FAMILY_JUGLANDACEAE = "juglandaceae";
-	public static final String FAMILY_ROSACEAE = "rosaceae";
-	public static final String FAMILY_DIPTEROCARPACEAE = "dipterocarpaceae";
-	public static final String FAMILY_MALVACEAE = "malvaceae";
-	public static final String FAMILY_SALICACEAE = "salicaceae";
+	public static final String FAMILY_BIGNONIACEAE = "bignoniaceae";
+	public static final String FAMILY_LAMIACEAE = "lamiaceae";
+	public static final String FAMILY_OLEACEAE = "oleaceae";
 	public static final String FAMILY_LAURACEAE = "lauraceae";
+	public static final String FAMILY_SALICACEAE = "salicaceae";
+	public static final String FAMILY_MALVACEAE = "malvaceae";
+	public static final String FAMILY_MYRTACEAE = "myrtaceae";
+	public static final String FAMILY_ROSACEAE = "rosaceae";
+	public static final String FAMILY_ULMACEAE = "ulmaceae";
+	public static final String FAMILY_MELIACEAE = "meliaceae";
 	public static final String FAMILY_RUTACEAE = "rutaceae";
 	public static final String FAMILY_SAPINDACEAE = "sapindaceae";
-	public static final String FAMILY_ANACARDIACEAE = "anacardiaceae";
+	public static final String FAMILY_ARAUCARIACEAE = "araucariaceae";
 	public static final String FAMILY_PINACEAE = "pinaceae";
 	public static final String FAMILY_CUPRESSACEAE = "cupressaceae";
-	public static final String FAMILY_ULMACEAE = "ulaceae";
-	public static final String FAMILY_MYRTACEAE = "myrtaceae";
-	public static final String FAMILY_CORNACEAE = "cornaceae";
-	public static final String FAMILY_GINKGOACEAE = "ginkgoaceae";
-	public static final String FAMILY_ARAUCARIACEAE = "araucariaceae";
-	public static final String FAMILY_OLEACEAE = "oleaceae";
+
+
+
+
 	// Butterfly Families
 	public static final String FAMILY_GEOMETER_MOTHS = "geometridae";
 	public static final String FAMILY_SATURNIIDS = "saturniidae";
@@ -115,51 +122,52 @@ public class ForestryTaxa {
 	public static final String GENUS_ABOMINATION = "abominatio";
 	public static final String GENUS_VANILLA = "bombus";
 	// Tree Genera
+	public static final String GENUS_GINKGO = "ginkgo";
+	public static final String GENUS_COCOS = "cocos";
+	public static final String GENUS_PHOENIX = "phoenix";
+	public static final String GENUS_CARICA = "carica";
+	public static final String GENUS_CORNUS = "cornus";
 	public static final String GENUS_DIOSPYROS = "diospyros";
 	public static final String GENUS_ACACIA = "acacia";
 	public static final String GENUS_DALBERGIA = "dalbergia";
 	public static final String GENUS_MILLETTIA = "millettia";
 	public static final String GENUS_PTEROCARPUS = "pterocarpus";
-	public static final String GENUS_HANDROANTHUS = "handroanthus";
-	public static final String GENUS_TECTONA = "tectona";
-	public static final String GENUS_PHOENIX = "phoenix";
+	public static final String GENUS_VACHELLIA = "vachellia";
 	public static final String GENUS_BETULA = "betula";
 	public static final String GENUS_CASTANEA = "castanea";
+	public static final String GENUS_FAGUS = "fagus";
+	public static final String GENUS_MICROBERLINIA = "microberlinia";
 	public static final String GENUS_QUERCUS = "quercus";
 	public static final String GENUS_JUGLANS = "juglans";
-	public static final String GENUS_PRUNUS = "prunus";
-	public static final String GENUS_MAHOGANY = "mahogany";
+	public static final String GENUS_JACARANDA = "jacaranda";
+	public static final String GENUS_HANDROANTHUS = "handroanthus";
+	public static final String GENUS_TECTONA = "tectona";
+	public static final String GENUS_OLEA = "olea";
+	public static final String GENUS_CHLOROCARDIUM = "chlorocardium";
+	public static final String GENUS_POPULUS = "populus";
+	public static final String GENUS_SALIX = "salix";
 	public static final String GENUS_ADANSONIA = "adansonia";
 	public static final String GENUS_CEIBA = "ceiba";
 	public static final String GENUS_OCHROMA = "ochroma";
 	public static final String GENUS_TALIPARITI = "talipariti";
+	public static final String GENUS_THEOBROMA = "theobroma";
 	public static final String GENUS_TILIA = "tilia";
-	public static final String GENUS_CHLOROCARDIUM = "chlorocardium";
-	public static final String GENUS_POPULUS = "populus";
-	public static final String GENUS_SALIX = "salix";
+	public static final String GENUS_FEIJOA = "feijoa";
+	public static final String GENUS_PRUNUS = "prunus";
+	public static final String GENUS_PYRUS = "pyrus";
+	public static final String GENUS_ULMUS = "ulmus";
+	public static final String GENUS_SWIETENIA = "swietenia";
 	public static final String GENUS_CITRUS = "citrus";
 	public static final String GENUS_ACER = "acer";
-	public static final String GENUS_ASTRONIUM = "astronium";
-	public static final String GENUS_PICEA = "picea";
-	public static final String GENUS_PINUS = "pinus";
+	public static final String GENUS_ARAUCARIA = "araucaria";
+	public static final String GENUS_ABIES = "abies";
 	public static final String GENUS_LARIX = "larix";
+	public static final String GENUS_PICEA = "picea";
+	public static final String GENUS_HESPEROCYPARIS = "hesperocyparis";
+	public static final String GENUS_JUNIPERUS = "juniperus";
 	public static final String GENUS_SEQUOIA = "sequoia";
 	public static final String GENUS_SEQUOIADENDRON = "sequoiadendron";
-	public static final String GENUS_CARICA = "carica";
-	public static final String GENUS_ULMUS = "ulmus";
-	public static final String GENUS_ABIES = "abies";
-	public static final String GENUS_COCOS = "cocos";
-	public static final String GENUS_FAGUS = "fagus";
-	public static final String GENUS_FEIJOA = "feijoa";
-	public static final String GENUS_CORNUS = "cornus";
-	public static final String GENUS_GINKGO = "ginkgo";
-	public static final String GENUS_JACARANDA = "jacaranda";
-	public static final String GENUS_ARAUCARIA = "araucaria";
-	public static final String GENUS_HESPEROCYPARIS = "hesperocyparis";
-	public static final String GENUS_OLEA = "olea";
-	public static final String GENUS_PYRUS = "pyrus";
-	public static final String GENUS_EUCALYPTUS = "eucalyptus";
-	public static final String GENUS_JUNIPERUS = "juniperus";
+
 	// Butterfly Genera
 	public static final String GENUS_ANTHOCHARIS = "anthocharis";
 	public static final String GENUS_ATTACUS = "attacus";
@@ -260,58 +268,58 @@ public class ForestryTaxa {
 	public static final String SPECIES_SCULK = "alieni";
 	public static final String SPECIES_VANILLA = "dinnerbonei";
 	// Tree Species
-	public static final String SPECIES_OAK = "robur";
-	public static final String SPECIES_DARK_OAK = "velutina";
-	public static final String SPECIES_BIRCH = "pendula";
-	public static final String SPECIES_LIME = "tomentosa";
-	public static final String SPECIES_WALNUT = "regia";
-	public static final String SPECIES_CHESTNUT = "sativa";
-	public static final String SPECIES_CHERRY_VANILLA = "serrulata";
-	public static final String SPECIES_HILL_CHERRY = "glandulosa";
-	public static final String SPECIES_LEMON = "limon";
-	public static final String SPECIES_PLUM = "domestica";
-	public static final String SPECIES_MAPLE = "saccharum";
-	public static final String SPECIES_SPRUCE = "abies";
-	public static final String SPECIES_LARCH = "decidua";
-	public static final String SPECIES_PINE = "sabiniana";
-	public static final String SPECIES_SEQUOIA = "sempervirens";
-	public static final String SPECIES_GIANT_SEQUOIA = "giganteum";
-	public static final String SPECIES_JUNGLE = "tectona";
-	public static final String SPECIES_TEAK = "grandis";
-	public static final String SPECIES_IPE = "serratifolius";
-	public static final String SPECIES_KAPOK = "pentandra";
+	public static final String SPECIES_GINKGO = "bilboa";
+	public static final String SPECIES_COCONUT = "nucifera";
+	public static final String SPECIES_DATE = "dactylifera";
+	public static final String SPECIES_PAPAYA = "papaya";
+	public static final String SPECIES_DOGWOOD = "florida";
 	public static final String SPECIES_EBONY = "pentamera";
-	public static final String SPECIES_ZEBRAWOOD = "graveolens";
-	public static final String SPECIES_MAHOGONY = "gibbosa";
 	public static final String SPECIES_ACACIA = "aneura";
-	public static final String SPECIES_DESERT_ACACIA = "erioloba";
-	public static final String SPECIES_PADAUK = "soyauxii";
-	public static final String SPECIES_BALSA = "pyramidale";
 	public static final String SPECIES_COCOBOLO = "retusa";
 	public static final String SPECIES_WENGE = "laurentii";
-	public static final String SPECIES_BAOBAB = "digitata";
-	public static final String SPECIES_MAHOE = "elatum";
-	public static final String SPECIES_WILLOW = "alba";
-	public static final String SPECIES_SIPIRI = "rodiei";
-	public static final String SPECIES_PAPAYA = "papaya";
-	public static final String SPECIES_DATE = "dactylifera";
+	public static final String SPECIES_PADAUK = "soyauxii";
+	public static final String SPECIES_MOKALA = "erioloba";
+	public static final String SPECIES_BIRCH = "pendula";
+	public static final String SPECIES_CHESTNUT = "sativa";
+	public static final String SPECIES_BEECH = "sylvatica";
+	public static final String SPECIES_ZEBRANO = "brazzavillensis";
+	public static final String SPECIES_OAK = "robur";
+	public static final String SPECIES_DARK_OAK = "velutina";
+	public static final String SPECIES_WALNUT = "regia";
+	public static final String SPECIES_JACARANDA = "mimosofolia";
+	public static final String SPECIES_IPE = "serratifolius";
+	public static final String SPECIES_TEAK = "grandis";
+	public static final String SPECIES_OLIVE = "europaea";
+	public static final String SPECIES_GREENHEART = "rodiei";
 	public static final String SPECIES_POPLAR = "alba";
+	public static final String SPECIES_WILLOW = "alba";
+	public static final String SPECIES_BAOBAB = "grandidieri";
+	public static final String SPECIES_KAPOK = "pentandra";
+	public static final String SPECIES_BALSA = "pyramidale";
+	public static final String SPECIES_MAHOE = "elatum";
+	public static final String SPECIES_CACAO = "cacao";
+	public static final String SPECIES_LIME = "tomentosa";
+	public static final String SPECIES_FEIJOA = "sellowiana";
+	public static final String SPECIES_PLUM = "domestica";
+	public static final String SPECIES_CHERRY_BLOSSOM = "serrulata";
+	public static final String SPECIES_HILL_CHERRY = "jamasakura";
+	public static final String SPECIES_PEAR = "communis";
 	public static final String SPECIES_ELM = "glabra";
-	public static final String SPECIES_BALSAMEA = "balsamea";
-	public static final String SPECIES_NUCIFERA = "nucifera";
-	public static final String SPECIES_SYLVATICA = "sylvatica";
-	public static final String SPECIES_SELLOWIANA = "sellowiana";
-	public static final String SPECIES_FLORIDA = "florida";
-	public static final String SPECIES_BILBOA = "bilboa";
-	public static final String SPECIES_MIMOSIFOLIA = "mimosofolia";
-	public static final String SPECIES_ARAUCANA = "araucana";
+	public static final String SPECIES_MAHOGANY = "macrophylla";
+	public static final String SPECIES_LEMON = "limon";
+	public static final String SPECIES_ORANGE = "sinensis";
+	public static final String SPECIES_MAPLE = "saccharum";
+	public static final String SPECIES_PEWEN = "araucana";
+	public static final String SPECIES_FIR = "balsamea";
+	public static final String SPECIES_LARCH = "decidua";
+	public static final String SPECIES_SPRUCE = "mariana";
+	public static final String SPECIES_PINE = "sabiniana";
 	public static final String SPECIES_MACROCARPA = "macrocarpa";
-	public static final String SPECIES_EUROPAEA = "europaea";
-	public static final String SPECIES_SINENSIS = "sinensis";
-	public static final String SPECIES_COMMUNIS = "communis";
-	public static final String SPECIES_DEGLUPTA = "deglupta";
-	public static final String SPECIES_OVATA = "ovata";
-	public static final String SPECIES_SCOPULORUM = "scopulorum";
+	public static final String SPECIES_JUNIPER = "scopulorum";
+	public static final String SPECIES_SEQUOIA = "sempervirens";
+	public static final String SPECIES_GIANT_SEQUOIA = "giganteum";
+
+
 	// Butterfly Species
 	public static final String SPECIES_CABBAGE_WHITE = "rapae";
 	public static final String SPECIES_BRIMSTONE = "rhamni";

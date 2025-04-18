@@ -24,7 +24,7 @@ import static forestry.api.genetics.ForestryTaxa.*;
 // todo fix IRL inaccuracies
 public class DefaultTreeSpecies {
 	public static void register(IArboricultureRegistration arboriculture) {
-		// Oak (English Oak)
+		// Apple Oak (English Oak) https://www.catalogueoflife.org/data/taxon/4R5YN
 		arboriculture.registerSpecies(ForestryTreeSpecies.OAK, GENUS_QUERCUS, SPECIES_OAK, false, TextColor.fromRgb(4764952), VanillaWoodType.OAK)
 				.setTreeFeature(FeatureTreeVanilla::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.OAK))
@@ -38,7 +38,7 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_FASTER);
 				});
 
-		// Dark Oak (Black Oak)
+		// Dark Oak (Black Oak) https://www.catalogueoflife.org/data/taxon/6X452
 		arboriculture.registerSpecies(ForestryTreeSpecies.DARK_OAK, GENUS_QUERCUS, SPECIES_DARK_OAK, false, TextColor.fromRgb(4764952), VanillaWoodType.DARK_OAK)
 				.setTreeFeature(FeatureTreeVanilla::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.DARK_OAK))
@@ -53,7 +53,7 @@ public class DefaultTreeSpecies {
 				})
 				.setAuthority("Binnie");
 
-		// Birch (Silver Birch)
+		// Silver Birch https://www.catalogueoflife.org/data/taxon/LPCQ
 		arboriculture.registerSpecies(ForestryTreeSpecies.BIRCH, GENUS_BETULA, SPECIES_BIRCH, false, TextColor.fromRgb(8431445), VanillaWoodType.BIRCH)
 				.setTreeFeature(FeatureTreeVanilla::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.BIRCH))
@@ -66,7 +66,7 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_FASTER);
 				});
 
-		// Silver Lime
+		// Silver Lime https://www.catalogueoflife.org/data/taxon/56WVQ
 		arboriculture.registerSpecies(ForestryTreeSpecies.LIME, GENUS_TILIA, SPECIES_LIME, true, TextColor.fromRgb(0x5ea107), ForestryWoodType.LIME)
 				.setTreeFeature(FeatureSilverLime::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.LIME))
@@ -82,7 +82,7 @@ public class DefaultTreeSpecies {
 				})
 				.setRarity(0.005f);
 
-		// Walnut (English Walnut)
+		// Common Walnut https://www.catalogueoflife.org/data/taxon/6NFN8
 		arboriculture.registerSpecies(ForestryTreeSpecies.WALNUT, GENUS_JUGLANS, SPECIES_WALNUT, true, TextColor.fromRgb(0x798c55), ForestryWoodType.WALNUT)
 				.setTreeFeature(FeatureWalnut::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.WALNUT))
@@ -100,7 +100,7 @@ public class DefaultTreeSpecies {
 					mutations.add(ForestryTreeSpecies.LIME, ForestryTreeSpecies.HILL_CHERRY, 0.10f);
 				});
 
-		// Chestnut (Spanish Chestnut)
+		// Sweet Chestnut https://www.catalogueoflife.org/data/taxon/5XCVW
 		arboriculture.registerSpecies(ForestryTreeSpecies.CHESTNUT, GENUS_CASTANEA, SPECIES_CHESTNUT, true, TextColor.fromRgb(0x5ea107), ForestryWoodType.CHESTNUT)
 				.setTreeFeature(FeatureChestnut::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.CHESTNUT))
@@ -118,8 +118,8 @@ public class DefaultTreeSpecies {
 					mutations.add(ForestryTreeSpecies.WALNUT, ForestryTreeSpecies.HILL_CHERRY, 0.10f);
 				});
 
-		// Hill Cherry (East Asian Cherry)
-		// The real life version of this tree doesn't actually produce fruit.
+		// Hill Cherry https://www.catalogueoflife.org/data/taxon/4N8WT
+		// The real life version of this tree doesn't actually produce fruit. Is too iconic to remove, however.
 		arboriculture.registerSpecies(ForestryTreeSpecies.HILL_CHERRY, GENUS_PRUNUS, SPECIES_HILL_CHERRY, true, TextColor.fromRgb(0xe691da), ForestryWoodType.HILL_CHERRY)
 				.setTreeFeature(FeatureBushCherry::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.HILL_CHERRY))
@@ -138,9 +138,9 @@ public class DefaultTreeSpecies {
 				})
 				.setRarity(0.0015f);
 
-		// Cherry Blossom (East Asian Cherry)
+		// Cherry Blossom https://www.catalogueoflife.org/data/taxon/4N97T
 		// In real life, this is the same species as Hill Cherry. For the sake of keeping old content, we'll pretend they're different.
-		arboriculture.registerSpecies(ForestryTreeSpecies.CHERRY_VANILLA, GENUS_PRUNUS, SPECIES_CHERRY_VANILLA, false, TextColor.fromRgb(0xf7b9dc), VanillaWoodType.CHERRY)
+		arboriculture.registerSpecies(ForestryTreeSpecies.CHERRY_VANILLA, GENUS_PRUNUS, SPECIES_CHERRY_BLOSSOM, false, TextColor.fromRgb(0xf7b9dc), VanillaWoodType.CHERRY)
 				.setTreeFeature(FeatureCherryVanilla::new)
 				.setDecorativeLeaves(new ItemStack(Items.CHERRY_LEAVES))
 				.addVanillaStates(Blocks.CHERRY_LEAVES.getStateDefinition().getPossibleStates())
@@ -154,7 +154,7 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.EFFECT, ForestryAlleles.TREE_EFFECT_BLOSSOMING);
 				});
 
-		// Lemon
+		// Lemon https://www.catalogueoflife.org/data/taxon/9XK4K
 		arboriculture.registerSpecies(ForestryTreeSpecies.LEMON, GENUS_CITRUS, SPECIES_LEMON, true, TextColor.fromRgb(0x88af54), ForestryWoodType.CITRUS)
 				.setTreeFeature(FeatureLemon::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.LEMON))
@@ -171,7 +171,7 @@ public class DefaultTreeSpecies {
 					mutations.add(ForestryTreeSpecies.LIME, ForestryTreeSpecies.HILL_CHERRY, 0.05f);
 				});
 
-		// Plum (Common Plum)
+		// Plum https://www.catalogueoflife.org/data/taxon/4N8SY
 		arboriculture.registerSpecies(ForestryTreeSpecies.PLUM, GENUS_PRUNUS, SPECIES_PLUM, true, TextColor.fromRgb(0x589246), ForestryWoodType.PLUM)
 				.setTreeFeature(FeaturePlum::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.PLUM))
@@ -190,7 +190,7 @@ public class DefaultTreeSpecies {
 				})
 				.setRarity(0.005f);
 
-		// Maple (Sugar Maple)
+		// Sugar Maple https://www.catalogueoflife.org/data/taxon/94JK
 		arboriculture.registerSpecies(ForestryTreeSpecies.MAPLE, GENUS_ACER, SPECIES_MAPLE, true, TextColor.fromRgb(0xd4f425), ForestryWoodType.MAPLE)
 				.setTreeFeature(FeatureMaple::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.MAPLE))
@@ -206,7 +206,7 @@ public class DefaultTreeSpecies {
 				})
 				.setRarity(0.0025f);
 
-		// Spruce (Norway Spruce)
+		// Black Spruce https://www.catalogueoflife.org/data/taxon/4HQ3K
 		arboriculture.registerSpecies(ForestryTreeSpecies.SPRUCE, GENUS_PICEA, SPECIES_SPRUCE, false, TextColor.fromRgb(6396257), VanillaWoodType.SPRUCE)
 				.setTreeFeature(FeatureSpruce::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.SPRUCE))
@@ -222,7 +222,7 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_FASTER);
 				});
 
-		// Larch (European Larch)
+		// Mundane Larch (European Larch) https://www.catalogueoflife.org/data/taxon/6NYWF
 		arboriculture.registerSpecies(ForestryTreeSpecies.LARCH, GENUS_LARIX, SPECIES_LARCH, true, TextColor.fromRgb(0x698f90), ForestryWoodType.LARCH)
 				.setTreeFeature(FeatureLarch::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.LARCH))
@@ -240,8 +240,8 @@ public class DefaultTreeSpecies {
 				})
 				.setRarity(0.0025f);
 
-		// Pine (Bull Pine)
-		arboriculture.registerSpecies(ForestryTreeSpecies.PINE, GENUS_PINUS, SPECIES_PINE, true, TextColor.fromRgb(0xfeff8f), ForestryWoodType.PINE)
+		// Bull Pine https://www.catalogueoflife.org/data/taxon/C85JD //TODO: Needs another reclassifaction. Bull Pine is a bit generic. Looking at Ponderosa Pine
+		arboriculture.registerSpecies(ForestryTreeSpecies.PINE, GENUS_PICEA, SPECIES_PINE, true, TextColor.fromRgb(0xfeff8f), ForestryWoodType.PINE)
 				.setTreeFeature(FeaturePine::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.PINE))
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.PINE).block().getStateDefinition().getPossibleStates())
@@ -257,7 +257,7 @@ public class DefaultTreeSpecies {
 				})
 				.setRarity(0.0025f);
 
-		// Sequoia (Coast Redwood)
+		// Coast Sequoia (Coast Redwood) https://www.catalogueoflife.org/data/taxon/4WSQG
 		arboriculture.registerSpecies(ForestryTreeSpecies.SEQUOIA, GENUS_SEQUOIA, SPECIES_SEQUOIA, false, TextColor.fromRgb(0x418e71), ForestryWoodType.SEQUOIA)
 				.setTreeFeature(FeatureSequoia::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.SEQUOIA))
@@ -274,7 +274,7 @@ public class DefaultTreeSpecies {
 					mutations.add(ForestryTreeSpecies.LARCH, ForestryTreeSpecies.PINE, 0.05f);
 				});
 
-		// Giant Sequoia
+		// Giant Sequoia https://www.catalogueoflife.org/data/taxon/4WSQK
 		arboriculture.registerSpecies(ForestryTreeSpecies.GIANT_SEQUOIA, GENUS_SEQUOIADENDRON, SPECIES_GIANT_SEQUOIA, false, TextColor.fromRgb(0x738434), ForestryWoodType.GIGANTEUM)
 				.setTreeFeature(FeatureGiganteum::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.GIANT_SEQUOIA))
@@ -293,8 +293,8 @@ public class DefaultTreeSpecies {
 					mutations.add(ForestryTreeSpecies.SEQUOIA, ForestryTreeSpecies.BAOBAB, 0.01f);
 				});
 
-		// Jungle (Might be based on Teak, not sure)
-		arboriculture.registerSpecies(ForestryTreeSpecies.JUNGLE, GENUS_TROPICAL, SPECIES_JUNGLE, false, TextColor.fromRgb(4764952), VanillaWoodType.JUNGLE)
+		// Jungle (Cocoa Tree) https://www.catalogueoflife.org/data/taxon/56BND
+		arboriculture.registerSpecies(ForestryTreeSpecies.JUNGLE, GENUS_THEOBROMA, SPECIES_CACAO, false, TextColor.fromRgb(4764952), VanillaWoodType.JUNGLE)
 				.setTreeFeature(FeatureJungle::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.JUNGLE))
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.JUNGLE).block().getStateDefinition().getPossibleStates())
@@ -309,7 +309,7 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_FAST);
 				});
 
-		// Teak
+		// Teak https://www.catalogueoflife.org/data/taxon/553LY
 		arboriculture.registerSpecies(ForestryTreeSpecies.TEAK, GENUS_TECTONA, SPECIES_TEAK, true, TextColor.fromRgb(0xfeff8f), ForestryWoodType.TEAK)
 				.setTreeFeature(FeatureTeak::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.TEAK))
@@ -325,7 +325,7 @@ public class DefaultTreeSpecies {
 				})
 				.setRarity(0.0025f);
 
-		// Ipe (Yellow Ipe)
+		// Ipe (Yellow Ipe) https://www.catalogueoflife.org/data/taxon/99M93
 		arboriculture.registerSpecies(ForestryTreeSpecies.IPE, GENUS_HANDROANTHUS, SPECIES_IPE, true, TextColor.fromRgb(0xfdd207), ForestryWoodType.IPE)
 				.setTreeFeature(FeatureIpe::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.IPE))
@@ -340,7 +340,7 @@ public class DefaultTreeSpecies {
 					mutations.add(ForestryTreeSpecies.TEAK, ForestryTreeSpecies.DARK_OAK, 0.10f);
 				});
 
-		// Kapok
+		// Kapok https://www.catalogueoflife.org/data/taxon/S2C6
 		arboriculture.registerSpecies(ForestryTreeSpecies.KAPOK, GENUS_CEIBA, SPECIES_KAPOK, true, TextColor.fromRgb(0x89987b), ForestryWoodType.KAPOK)
 				.setTreeFeature(FeatureKapok::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.KAPOK))
@@ -355,7 +355,7 @@ public class DefaultTreeSpecies {
 					mutations.add(ForestryTreeSpecies.JUNGLE, ForestryTreeSpecies.TEAK, 0.10f);
 				});
 
-		// Ebony (Myrtle Ebony)
+		// Myrtle Ebony https://www.catalogueoflife.org/data/taxon/6CWPR
 		arboriculture.registerSpecies(ForestryTreeSpecies.EBONY, GENUS_DIOSPYROS, SPECIES_EBONY, true, TextColor.fromRgb(0xa2d24a), ForestryWoodType.EBONY)
 				.setTreeFeature(FeatureEbony::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.EBONY))
@@ -374,9 +374,8 @@ public class DefaultTreeSpecies {
 				})
 				.setRarity(0.0005f);
 
-		// Zebrawood (Wood is called "zebrawood" but species is glassywood. should this be changed?)
-		// Should be reclassifed as Microberlinia brazzavillensis, or Zebrano.
-		arboriculture.registerSpecies(ForestryTreeSpecies.ZEBRAWOOD, GENUS_ASTRONIUM, SPECIES_ZEBRAWOOD, false, TextColor.fromRgb(0xa2d24a), ForestryWoodType.ZEBRAWOOD)
+		// Zebrano https://www.catalogueoflife.org/data/taxon/42RTY
+		arboriculture.registerSpecies(ForestryTreeSpecies.ZEBRAWOOD, GENUS_MICROBERLINIA, SPECIES_ZEBRANO, false, TextColor.fromRgb(0xa2d24a), ForestryWoodType.ZEBRAWOOD)
 				.setTreeFeature(FeatureZebrawood::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.ZEBRAWOOD))
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.ZEBRAWOOD).block().getStateDefinition().getPossibleStates())
@@ -392,9 +391,8 @@ public class DefaultTreeSpecies {
 				})
 				.setRarity(0.0005f);
 
-		// Mahogany TODO taxonomy is wrong
-		// Reclassified as 'Swietenia macrophylla' - Big Leaf Mahogany - or just Mahogany
-		arboriculture.registerSpecies(ForestryTreeSpecies.MAHOGANY, GENUS_MAHOGANY, SPECIES_MAHOGONY, true, TextColor.fromRgb(0x8ab154), ForestryWoodType.MAHOGANY)
+		// (Big-Leaf) Mahogany https://www.catalogueoflife.org/data/taxon/53K5Y
+		arboriculture.registerSpecies(ForestryTreeSpecies.MAHOGANY, GENUS_SWIETENIA, SPECIES_MAHOGANY, true, TextColor.fromRgb(0x8ab154), ForestryWoodType.MAHOGANY)
 				.setTreeFeature(FeatureMahogany::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.MAHOGANY))
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.MAHOGANY).block().getStateDefinition().getPossibleStates())
@@ -412,7 +410,7 @@ public class DefaultTreeSpecies {
 				})
 				.setRarity(0.0005f);
 
-		// Vanilla Acacia TODO should probably switch with desert acacia since aneura are from Australia
+		// Acacia https://www.catalogueoflife.org/data/taxon/BSJF7
 		arboriculture.registerSpecies(ForestryTreeSpecies.ACACIA_VANILLA, GENUS_ACACIA, SPECIES_ACACIA, false, TextColor.fromRgb(0x616101), VanillaWoodType.ACACIA)
 				.setTreeFeature(FeatureTreeVanilla::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.ACACIA_VANILLA))
@@ -422,8 +420,8 @@ public class DefaultTreeSpecies {
 				.addVanillaSapling(Items.ACACIA_SAPLING)
 				.setAuthority("Binnie");
 
-		// Desert Acacia
-		arboriculture.registerSpecies(ForestryTreeSpecies.DESERT_ACACIA, GENUS_ACACIA, SPECIES_DESERT_ACACIA, true, TextColor.fromRgb(0x748C1C), ForestryWoodType.ACACIA_DESERT)
+		// Mokala https://www.catalogueoflife.org/data/taxon/BTCD3
+		arboriculture.registerSpecies(ForestryTreeSpecies.DESERT_ACACIA, GENUS_VACHELLIA, SPECIES_MOKALA, true, TextColor.fromRgb(0x748C1C), ForestryWoodType.ACACIA_DESERT)
 				.setTreeFeature(FeatureAcacia::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.DESERT_ACACIA))
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.DESERT_ACACIA).block().getStateDefinition().getPossibleStates())
@@ -435,7 +433,7 @@ public class DefaultTreeSpecies {
 				})
 				.setRarity(0.005f);
 
-		// Padauk (African Padauk)
+		// Padauk (African Padauk) https://www.catalogueoflife.org/data/taxon/4PVKG
 		arboriculture.registerSpecies(ForestryTreeSpecies.PADAUK, GENUS_PTEROCARPUS, SPECIES_PADAUK, true, TextColor.fromRgb(0xd0df8c), ForestryWoodType.PADAUK)
 				.setTreeFeature(FeaturePadauk::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.PADAUK))
@@ -451,7 +449,7 @@ public class DefaultTreeSpecies {
 				})
 				.setRarity(0.005f);
 
-		// Balsa
+		// Balsa https://www.catalogueoflife.org/data/taxon/6SF4P
 		arboriculture.registerSpecies(ForestryTreeSpecies.BALSA, GENUS_OCHROMA, SPECIES_BALSA, true, TextColor.fromRgb(0x59ac00), ForestryWoodType.BALSA)
 				.setTreeFeature(FeatureBalsa::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.BALSA))
@@ -469,7 +467,7 @@ public class DefaultTreeSpecies {
 				})
 				.setRarity(0.0005f);
 
-		// Cocobolo
+		// Cocobolo https://www.catalogueoflife.org/data/taxon/33Z8J
 		arboriculture.registerSpecies(ForestryTreeSpecies.COCOBOLO, GENUS_DALBERGIA, SPECIES_COCOBOLO, false, TextColor.fromRgb(0x6aa17a), ForestryWoodType.COCOBOLO)
 				.setTreeFeature(FeatureCocobolo::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.COCOBOLO))
@@ -484,7 +482,7 @@ public class DefaultTreeSpecies {
 				})
 				.setRarity(0.0005f);
 
-		// Wenge
+		// Wenge https://www.catalogueoflife.org/data/taxon/43D8S
 		arboriculture.registerSpecies(ForestryTreeSpecies.WENGE, GENUS_MILLETTIA, SPECIES_WENGE, true, TextColor.fromRgb(0xada157), ForestryWoodType.WENGE)
 				.setTreeFeature(FeatureWenge::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.WENGE))
@@ -501,7 +499,7 @@ public class DefaultTreeSpecies {
 				})
 				.setRarity(0.0005F);
 
-		// Baobab
+		// Grandidier's Baobab https://www.catalogueoflife.org/data/taxon/9X66
 		arboriculture.registerSpecies(ForestryTreeSpecies.BAOBAB, GENUS_ADANSONIA, SPECIES_BAOBAB, true, TextColor.fromRgb(0xfeff8f), ForestryWoodType.BAOBAB)
 				.setTreeFeature(FeatureBaobab::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.BAOBAB))
@@ -520,7 +518,7 @@ public class DefaultTreeSpecies {
 				})
 				.setRarity(0.005f);
 
-		// Mahoe
+		// Blue Mahoe  https://www.catalogueoflife.org/data/taxon/54LNR
 		arboriculture.registerSpecies(ForestryTreeSpecies.MAHOE, GENUS_TALIPARITI, SPECIES_MAHOE, true, TextColor.fromRgb(0xa0ba1b), ForestryWoodType.MAHOE)
 				.setTreeFeature(FeatureMahoe::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.MAHOE))
@@ -537,7 +535,7 @@ public class DefaultTreeSpecies {
 				})
 				.setRarity(0.000005f);
 
-		// Willow
+		// White Willow https://www.catalogueoflife.org/data/taxon/6XCGV
 		arboriculture.registerSpecies(ForestryTreeSpecies.WILLOW, GENUS_SALIX, SPECIES_WILLOW, true, TextColor.fromRgb(0xa3b8a5), ForestryWoodType.WILLOW)
 				.setTreeFeature(FeatureWillow::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.WILLOW))
@@ -562,8 +560,8 @@ public class DefaultTreeSpecies {
 				})
 				.setRarity(0.0025f);
 
-		// Sipiri
-		arboriculture.registerSpecies(ForestryTreeSpecies.SIPIRI, GENUS_CHLOROCARDIUM, SPECIES_SIPIRI, true, TextColor.fromRgb(0x678911), ForestryWoodType.GREENHEART)
+		// Greenheart https://www.catalogueoflife.org/data/taxon/5XW95
+		arboriculture.registerSpecies(ForestryTreeSpecies.SIPIRI, GENUS_CHLOROCARDIUM, SPECIES_GREENHEART, true, TextColor.fromRgb(0x678911), ForestryWoodType.GREENHEART)
 				.setTreeFeature(FeatureGreenheart::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.SIPIRI))
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.SIPIRI).block().getStateDefinition().getPossibleStates())
@@ -582,7 +580,7 @@ public class DefaultTreeSpecies {
 				})
 				.setRarity(0.0025f);
 
-		// Papaya
+		// Papaya https://www.catalogueoflife.org/data/taxon/RCZK
 		arboriculture.registerSpecies(ForestryTreeSpecies.PAPAYA, GENUS_CARICA, SPECIES_PAPAYA, true, TextColor.fromRgb(0x6d9f58), ForestryWoodType.PAPAYA)
 				.setTreeFeature(FeaturePapaya::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.PAPAYA))
@@ -601,7 +599,8 @@ public class DefaultTreeSpecies {
 				})
 				.setRarity(0.005f);
 
-		// Date
+		// Date Palm https://www.catalogueoflife.org/data/taxon/4GKRK
+		// TODO: Should this be renamed to Date wood, or stay as Palm wood?
 		arboriculture.registerSpecies(ForestryTreeSpecies.DATE, GENUS_PHOENIX, SPECIES_DATE, true, TextColor.fromRgb(0xcbcd79), ForestryWoodType.PALM)
 				.setTreeFeature(FeatureDate::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.DATE))
@@ -621,7 +620,7 @@ public class DefaultTreeSpecies {
 				})
 				.setRarity(0.005f);
 
-		// Poplar
+		// White Poplar https://www.catalogueoflife.org/data/taxon/4LVJ5
 		arboriculture.registerSpecies(ForestryTreeSpecies.POPLAR, GENUS_POPULUS, SPECIES_POPLAR, true, TextColor.fromRgb(0xa3b8a5), ForestryWoodType.POPLAR)
 				.setTreeFeature(FeaturePoplar::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.POPLAR))
@@ -638,7 +637,7 @@ public class DefaultTreeSpecies {
 					mutations.add(ForestryTreeSpecies.LIME, ForestryTreeSpecies.WILLOW, 0.05f);
 				});
 
-		// Golden Elm
+		// Golden Elm https://www.catalogueoflife.org/data/taxon/7DFJZ
 		arboriculture.registerSpecies(ForestryTreeSpecies.ELM, GENUS_ULMUS, SPECIES_ELM, true, TextColor.fromRgb(0xDDFA52), ForestryWoodType.ELM)
 				.setTreeFeature(FeatureElm::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.ELM))
@@ -655,8 +654,8 @@ public class DefaultTreeSpecies {
 				})
 				.setAuthority("Spear");
 
-		// Balsam Fir
-		arboriculture.registerSpecies(ForestryTreeSpecies.FIR, GENUS_ABIES, SPECIES_BALSAMEA, true, TextColor.fromRgb(0x395A39), ForestryWoodType.FIR)
+		// Balsam Fir https://www.catalogueoflife.org/data/taxon/63Z6Q
+		arboriculture.registerSpecies(ForestryTreeSpecies.FIR, GENUS_ABIES, SPECIES_FIR, true, TextColor.fromRgb(0x395A39), ForestryWoodType.FIR)
 				.setTreeFeature(FeatureFir::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.FIR))
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.FIR).block().getStateDefinition().getPossibleStates())
@@ -668,8 +667,8 @@ public class DefaultTreeSpecies {
 				})
 				.setAuthority("Spear");
 
-		// Coconut
-		arboriculture.registerSpecies(ForestryTreeSpecies.COCONUT, GENUS_COCOS, SPECIES_NUCIFERA, true, TextColor.fromRgb(0x4F750F), ForestryWoodType.COCONUT)
+		// Coconut https://www.catalogueoflife.org/data/taxon/WP6H
+		arboriculture.registerSpecies(ForestryTreeSpecies.COCONUT, GENUS_COCOS, SPECIES_COCONUT, true, TextColor.fromRgb(0x4F750F), ForestryWoodType.COCONUT)
 				.setTreeFeature(FeatureCoconut::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.COCONUT))
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.COCONUT).block().getStateDefinition().getPossibleStates())
@@ -682,8 +681,8 @@ public class DefaultTreeSpecies {
 				})
 				.setAuthority("Spear");
 
-		// Copper Beech
-		arboriculture.registerSpecies(ForestryTreeSpecies.BEECH, GENUS_FAGUS, SPECIES_SYLVATICA, true, TextColor.fromRgb(0xAD301A), ForestryWoodType.BEECH)
+		// Copper Beech https://www.catalogueoflife.org/data/taxon/3DSK5
+		arboriculture.registerSpecies(ForestryTreeSpecies.BEECH, GENUS_FAGUS, SPECIES_BEECH, true, TextColor.fromRgb(0xAD301A), ForestryWoodType.BEECH)
 				.setTreeFeature(FeatureBeech::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.BEECH))
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.BEECH).block().getStateDefinition().getPossibleStates())
@@ -695,8 +694,8 @@ public class DefaultTreeSpecies {
 				})
 				.setAuthority("Spear");
 
-		// Feijoa
-		arboriculture.registerSpecies(ForestryTreeSpecies.FEIJOA, GENUS_FEIJOA, SPECIES_SELLOWIANA, true, TextColor.fromRgb(0x93A1A2), ForestryWoodType.FEIJOA)
+		// Feijoa https://www.catalogueoflife.org/data/taxon/3DXCX
+		arboriculture.registerSpecies(ForestryTreeSpecies.FEIJOA, GENUS_FEIJOA, SPECIES_FEIJOA, true, TextColor.fromRgb(0x93A1A2), ForestryWoodType.FEIJOA)
 				.setTreeFeature(FeatureFeijoa::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.FEIJOA))
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.FEIJOA).block().getStateDefinition().getPossibleStates())
@@ -710,8 +709,8 @@ public class DefaultTreeSpecies {
 				})
 				.setAuthority("Spear");
 
-		// Flowering Dogwood
-		arboriculture.registerSpecies(ForestryTreeSpecies.DOGWOOD, GENUS_CORNUS, SPECIES_FLORIDA, true, TextColor.fromRgb(0xF4F4F4), ForestryWoodType.DOGWOOD)
+		// Flowering Dogwood https://www.catalogueoflife.org/data/taxon/YGJT
+		arboriculture.registerSpecies(ForestryTreeSpecies.DOGWOOD, GENUS_CORNUS, SPECIES_DOGWOOD, true, TextColor.fromRgb(0xF4F4F4), ForestryWoodType.DOGWOOD)
 				.setTreeFeature(FeatureDogwood::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.DOGWOOD))
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.DOGWOOD).block().getStateDefinition().getPossibleStates())
@@ -723,8 +722,8 @@ public class DefaultTreeSpecies {
 				})
 				.setAuthority("Spear");
 
-		// Ginkgo
-		arboriculture.registerSpecies(ForestryTreeSpecies.GINKGO, GENUS_GINKGO, SPECIES_BILBOA, true, TextColor.fromRgb(0xFCD54A), ForestryWoodType.GINKGO)
+		// Ginkgo https://www.catalogueoflife.org/data/taxon/3G3B3
+		arboriculture.registerSpecies(ForestryTreeSpecies.GINKGO, GENUS_GINKGO, SPECIES_GINKGO, true, TextColor.fromRgb(0xFCD54A), ForestryWoodType.GINKGO)
 				.setTreeFeature(FeatureGinkgo::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.GINKGO))
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.GINKGO).block().getStateDefinition().getPossibleStates())
@@ -736,8 +735,8 @@ public class DefaultTreeSpecies {
 				})
 				.setAuthority("Spear");
 
-		// Jacaranda
-		arboriculture.registerSpecies(ForestryTreeSpecies.JACARANDA, GENUS_JACARANDA, SPECIES_MIMOSIFOLIA, true, TextColor.fromRgb(0xC18FFB), ForestryWoodType.JACARANDA)
+		// Jacaranda https://www.catalogueoflife.org/data/taxon/99NRZ
+		arboriculture.registerSpecies(ForestryTreeSpecies.JACARANDA, GENUS_JACARANDA, SPECIES_JACARANDA, true, TextColor.fromRgb(0xC18FFB), ForestryWoodType.JACARANDA)
 				.setTreeFeature(FeatureJacaranda::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.JACARANDA))
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.JACARANDA).block().getStateDefinition().getPossibleStates())
@@ -749,8 +748,8 @@ public class DefaultTreeSpecies {
 				})
 				.setAuthority("Spear");
 
-		// Monkey Puzzle
-		arboriculture.registerSpecies(ForestryTreeSpecies.MONKEY_PUZZLE, GENUS_ARAUCARIA, SPECIES_ARAUCANA, true, TextColor.fromRgb(0x455419), ForestryWoodType.MONKEY_PUZZLE)
+		// Pewen https://www.catalogueoflife.org/data/taxon/G67B
+		arboriculture.registerSpecies(ForestryTreeSpecies.MONKEY_PUZZLE, GENUS_ARAUCARIA, SPECIES_PEWEN, true, TextColor.fromRgb(0x455419), ForestryWoodType.MONKEY_PUZZLE)
 				.setTreeFeature(FeatureMonkeyPuzzle::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.MONKEY_PUZZLE))
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.MONKEY_PUZZLE).block().getStateDefinition().getPossibleStates())
@@ -763,8 +762,9 @@ public class DefaultTreeSpecies {
 				})
 				.setAuthority("Spear");
 
-		// Macrocarpa (Technically speaking it's a Monterey Cypress but I've called it Macrocarpa for two reasons:
-		// 1 - No other trees have geographical places in their name. Monterey is a place in California (I thought it was someone's name LOL)
+		// Macrocarpa (Monterey Cypress) https://www.catalogueoflife.org/data/taxon/3L5D5
+		// Technically speaking it's a Monterey Cypress but I've called it Macrocarpa for two reasons:
+		// 1 - No other trees have geographical places in their name. Monterey is a place in California
 		// 2 - In New Zealand, we call them Macrocarpa trees, and supposedly they're known as such in other places too.
 		arboriculture.registerSpecies(ForestryTreeSpecies.CYPRESS, GENUS_HESPEROCYPARIS, SPECIES_MACROCARPA, true, TextColor.fromRgb(0x5D7121), ForestryWoodType.CYPRESS)
 				.setTreeFeature(FeatureCypress::new)
@@ -779,8 +779,8 @@ public class DefaultTreeSpecies {
 				})
 				.setAuthority("Spear");
 
-		// Olive
-		arboriculture.registerSpecies(ForestryTreeSpecies.OLIVE, GENUS_OLEA, SPECIES_EUROPAEA, true, TextColor.fromRgb(0xB7B792), ForestryWoodType.OLIVE)
+		// Olive https://www.catalogueoflife.org/data/taxon/493JT
+		arboriculture.registerSpecies(ForestryTreeSpecies.OLIVE, GENUS_OLEA, SPECIES_OLIVE, true, TextColor.fromRgb(0xB7B792), ForestryWoodType.OLIVE)
 				.setTreeFeature(FeatureOlive::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.OLIVE))
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.OLIVE).block().getStateDefinition().getPossibleStates())
@@ -794,8 +794,8 @@ public class DefaultTreeSpecies {
 				})
 				.setAuthority("Spear");
 
-		// Sweet Orange
-		arboriculture.registerSpecies(ForestryTreeSpecies.ORANGE, GENUS_CITRUS, SPECIES_SINENSIS, true, TextColor.fromRgb(0x57AD3F), ForestryWoodType.ORANGE)
+		// Sweet Orange https://en.wikipedia.org/wiki/Citrus_%C3%97_sinensis
+		arboriculture.registerSpecies(ForestryTreeSpecies.ORANGE, GENUS_CITRUS, SPECIES_ORANGE, true, TextColor.fromRgb(0x57AD3F), ForestryWoodType.ORANGE)
 				.setTreeFeature(FeatureOrange::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.ORANGE))
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.ORANGE).block().getStateDefinition().getPossibleStates())
@@ -809,8 +809,8 @@ public class DefaultTreeSpecies {
 				})
 				.setAuthority("Spear");
 
-		// D'Anjou Pear
-		arboriculture.registerSpecies(ForestryTreeSpecies.PEAR, GENUS_PYRUS, SPECIES_COMMUNIS, true, TextColor.fromRgb(0x448944), ForestryWoodType.PEAR)
+		// Pear (D'Anjou) https://www.catalogueoflife.org/data/taxon/4QWMZ
+		arboriculture.registerSpecies(ForestryTreeSpecies.PEAR, GENUS_PYRUS, SPECIES_PEAR, true, TextColor.fromRgb(0x448944), ForestryWoodType.PEAR)
 				.setTreeFeature(FeaturePear::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.PEAR))
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.PEAR).block().getStateDefinition().getPossibleStates())
@@ -824,8 +824,8 @@ public class DefaultTreeSpecies {
 				})
 				.setAuthority("Spear");
 
-		// Rocky Mountain Juniper
-		arboriculture.registerSpecies(ForestryTreeSpecies.JUNIPER, GENUS_JUNIPERUS, SPECIES_SCOPULORUM, true, TextColor.fromRgb(0x9FBDCC), ForestryWoodType.JUNIPER)
+		// Rocky Mountain Juniper https://www.catalogueoflife.org/data/taxon/6NGBF (Technically the Blue Heaven cultivar)
+		arboriculture.registerSpecies(ForestryTreeSpecies.JUNIPER, GENUS_JUNIPERUS, SPECIES_JUNIPER, true, TextColor.fromRgb(0x9FBDCC), ForestryWoodType.JUNIPER)
 				.setTreeFeature(FeatureJuniper::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.JUNIPER))
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.JUNIPER).block().getStateDefinition().getPossibleStates())
