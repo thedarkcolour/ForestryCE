@@ -30,7 +30,7 @@ public class ForestryTaxa {
 	//Tree Classes
 	public static final String CLASS_GINKGOOPSIDA = "ginkgoopsida";
 	public static final String CLASS_LILIOPSIDA = "liliopsida";
-	public static final String CLASS_MAGNOLIOPSIDA = "lagnoliopsida";
+	public static final String CLASS_MAGNOLIOPSIDA = "magnoliopsida";
 	public static final String CLASS_PINOPSIDA = "pinopsida";
 
 
