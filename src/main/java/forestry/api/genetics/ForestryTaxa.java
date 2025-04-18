@@ -278,7 +278,7 @@ public class ForestryTaxa {
 	public static final String SPECIES_COCOBOLO = "retusa";
 	public static final String SPECIES_WENGE = "laurentii";
 	public static final String SPECIES_PADAUK = "soyauxii";
-	public static final String SPECIES_MOKALA = "erioloba";
+	public static final String SPECIES_CAMELTHORN = "erioloba";
 	public static final String SPECIES_BIRCH = "pendula";
 	public static final String SPECIES_CHESTNUT = "sativa";
 	public static final String SPECIES_BEECH = "sylvatica";
