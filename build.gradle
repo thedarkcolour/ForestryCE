@@ -138,8 +138,6 @@ idea.project.settings {
 }
 
 jar {
-	finalizedBy "reobfJar"
-
 	from sourceSets.main.output.classesDirs
 	from sourceSets.main.output.resourcesDir
 
@@ -262,7 +260,7 @@ if (System.getenv("CURSEFORGE_TOKEN")) {
 			addGameVersion("Forge")
 			addGameVersion("Java 17")
 
-			mainArtifact(jar.archiveFile) {
+			mainArtifact(reobfJar.archiveFile) {
 				displayName = "Forestry: Community Edition ${project.version}"
 				relations {
 					optionalDependency 'jei'
@@ -283,7 +281,7 @@ modrinth {
 	loaders = ["forge"]
 	changelog = getChangelog(project.version)
 
-	uploadFile = jar
+	uploadFile = reobfJar
 	additionalFiles.add(sourcesJar)
 	additionalFiles.add(apiJar)
 	additionalFiles.add(javadocJar)

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "P": {
+      "item": "forestry:phosphor"
+    },
+    "|": {
+      "tag": "forge:rods/wooden"
+    }
+  },
+  "pattern": [
+    " P ",
+    " | "
+  ],
+  "result": {
+    "count": 6,
+    "item": "minecraft:torch"
+  },
+  "show_notification": true
+}

@@ -225,7 +225,6 @@ public class ForestryCreativeTabs {
 		// Food
 		items.accept(ApicultureItems.HONEYED_SLICE);
 		items.accept(ApicultureItems.AMBROSIA);
-		items.accept(ApicultureItems.HONEY_POT);
 
 		// Misc items
 		ApicultureItems.BEE_COMBS.getItems().forEach(items::accept);

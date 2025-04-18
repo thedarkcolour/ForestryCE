@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "V": {
+      "item": "forestry:honey_drop"
+    }
+  },
+  "pattern": [
+    "VVV",
+    "V V",
+    "VVV"
+  ],
+  "result": {
+    "item": "minecraft:honey_block"
+  },
+  "show_notification": true
+}

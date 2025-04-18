@@ -18,7 +18,8 @@ import forestry.core.items.ItemOverlay;
 public enum EnumPropolis implements ItemOverlay.IOverlayInfo {
 	NORMAL(new Color(0xc5b24e)),
 	PULSATING(new Color(0x2ccdb1)),
-	SILKY(new Color(0xddff00));
+	SILKY(new Color(0xddff00)),
+	VOLCANIC(new Color(0xE84528));
 
 	public static final EnumPropolis[] VALUES = values();
 

@@ -14,9 +14,8 @@
       }
     },
     "pattern": [
-      "XXX",
-      "XXX",
-      "XXX"
+      "XX",
+      "XX"
     ],
     "result": {
       "item": "forestry:woven_silk"

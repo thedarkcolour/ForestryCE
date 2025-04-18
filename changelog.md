@@ -1,5 +1,28 @@
 ## Forestry 2.5.2
 - Fix hybrids not producing drops of inactive species
+- Forestry trees no longer spawn naturally by default. Can still be enabled in the config (#206)
+- Update Chinese translation to account for new additions (#205) thanks to ChuijkYahus, FridayAnubis, ZHAY10086
+- Improve Russian translation (#212) thanks to ProgramCrafter
+- Add last of EnderiumSmith's changes (#210) thanks to EnderiumSmith
+  - Add new Relic species, whose drones are dug up by Sniffers
+  - Add new Anachrone species, whose queens can shorten the lifespan of other beehives
+  - Add new Primeval species, who produces Vintage combs with lots of Honeydew
+  - Fix centering of Beehive effect radii
+  - Adjust author tag in fifth page of Analyzer
+- Implement a variety of minor changes and Vanilla integrations (#169, #187) thanks to Spearkiller:
+  - Candles can now be crafted from Forestry beeswax and string
+  - Honey Bottles can now be crafted using Forestry honey drops
+  - Woven Silk is now cheaper to make (9 silk -> 4 silk)
+  - Vanilla Honeycomb can now be centrifuged for Forestry beeswax (but not honey drops)
+  - Simmering Comb now makes new Volcanic Propolis instead of Phosphorus, which is used to create Lava
+  - Silk Wisp can no longer be made from string
+  - Ice Shards can now be crafted into Vanilla Ice block
+  - Vanilla Honey Block can now be created from Forestry honey drops
+  - Removed Honey Pot from creative tab and can no longer be crafted. Will be fully removed in 1.21
+  - Phosphor is no longer used to create Lava (replaced by Volcanic Propolis)
+  - Phosphor can now be used to craft torches in batches of 6
+  - Changed color of Simmering Comb
+  - Luxuriant species now produces Phosphor
 
 ## Forestry 2.5.1
 - Simmering comb no longer produces Phosphorus

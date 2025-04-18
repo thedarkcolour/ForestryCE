@@ -584,6 +584,7 @@ public class DefaultBeeSpecies {
 				.setTemperature(TemperatureType.WARM)
 				.setHumidity(HumidityType.DAMP)
 				.addProduct(BEE_COMBS.stack(EnumHoneyComb.HONEY), 0.55F)
+				.addProduct(CoreItems.CRAFTING_MATERIALS.stack(EnumCraftingMaterial.PHOSPHOR), 0.40f)
 				.setGenome(genome -> {
 					genome.set(BeeChromosomes.LIFESPAN, ForestryAlleles.LIFESPAN_LONG);
 					genome.set(BeeChromosomes.SPEED, ForestryAlleles.SPEED_SLOWEST);

@@ -1,4 +1,4 @@
-// 1.20.1	2025-04-14T19:55:27.9068081	Tags for minecraft:item mod id forestry
+// 1.20.1	2025-04-17T14:51:41.2594501	Tags for minecraft:item mod id forestry
 37a390e7a402ae2ce1addd2b8bbefd6229e8c7c6 data/forestry/tags/items/acacia_desert_logs.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forestry/tags/items/backpack/allow/adventurer.json
 426fdc880d77e5feaa70125d93a57b7ce21dbc2b data/forestry/tags/items/backpack/allow/builder.json
@@ -39,7 +39,7 @@ c650452f3c2c7523b5d43f7a54ddebe133610760 data/forestry/tags/items/padauk_logs.js
 24f3c0c5b75c3d2795315ab535de9a7cb30879c0 data/forestry/tags/items/pine_logs.json
 57a3ddceb21b169b8704e697fd89e03ac1c75cef data/forestry/tags/items/plum_logs.json
 1e2ec9fb02b1b3126fa83d7bc90fe335db9e48b6 data/forestry/tags/items/poplar_logs.json
-794cdff7b3d1a97e7cec2815b209d867bf747502 data/forestry/tags/items/propolis.json
+d013a58efdcf5f8209c8db9f75ede3023e29dde4 data/forestry/tags/items/propolis.json
 cf0c5a0245a3eeb822d88e53776905fa468d455c data/forestry/tags/items/scoops.json
 5001373d3cdbe55ab238e1c82b521698c299e190 data/forestry/tags/items/sequoia_logs.json
 c0020e6f377758179d2d7f23812e757851ba1ff2 data/forestry/tags/items/stamps.json

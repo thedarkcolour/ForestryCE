@@ -2,8 +2,8 @@
   "type": "forestry:squeezer",
   "chance": 0.0,
   "output": {
-    "Amount": 500,
-    "FluidName": "minecraft:lava"
+    "Amount": 800,
+    "FluidName": "forestry:honey"
   },
   "remnant": {
     "Count": 1,
@@ -11,11 +11,8 @@
   },
   "resources": [
     {
-      "item": "forestry:propolis_volcanic"
-    },
-    {
-      "item": "minecraft:cobblestone"
+      "item": "minecraft:honey_block"
     }
   ],
-  "time": 30
+  "time": 60
 }
