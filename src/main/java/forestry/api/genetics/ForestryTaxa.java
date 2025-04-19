@@ -25,7 +25,6 @@ public class ForestryTaxa {
 
 	// Classes
 	public static final String CLASS_INSECTS = "insecta";
-	public static final String CLASS_COMMELINIDS = "commelinids";
 
 	//Tree Classes
 	public static final String CLASS_GINKGOOPSIDA = "ginkgoopsida";
