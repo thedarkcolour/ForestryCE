@@ -17,47 +17,41 @@ public class FeatureAcacia extends FeatureTree {
 
 	@Override
 	public Set<BlockPos> generateTrunk(LevelAccessor level, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
-		Direction leanDirection = FeatureHelper.DirectionHelper.getRandom(rand);
-		float leanAmount = this.height / 4.0f;
+		FeatureHelper.generateTreeTrunk(level, rand, wood, startPos, this.height - 3, this.girth, 0, 0, null, 0);
 
-		Set<BlockPos> treeTops = FeatureHelper.generateTreeTrunk(level, rand, wood, startPos, this.height, this.girth, 0, 0, leanDirection, leanAmount);
-		if (this.height > 5 && rand.nextBoolean()) {
-			Direction branchDirection = FeatureHelper.DirectionHelper.getRandomOther(rand, leanDirection);
-			Set<BlockPos> treeTops2 = FeatureHelper.generateTreeTrunk(level, rand, wood, startPos, Math.round(this.height * 0.66f), this.girth, 0, 0, branchDirection, leanAmount);
-			treeTops.addAll(treeTops2);
+		Set<BlockPos> branches = new HashSet<>();
+
+		for (Direction d : FeatureHelper.DirectionHelper.VALUES) {
+			FeatureHelper.generateTreeTrunk(level, rand, wood, startPos.offset(0, this.height - 3, 0), 3, this.girth, 0, 0, d, 3);
 		}
 
-		Set<BlockPos> branchEnds = new HashSet<>();
+		int y = this.height - 5;
 
-		for (BlockPos treeTop : treeTops) {
-			int xOffset = treeTop.getX();
-			int yOffset = treeTop.getY() - startPos.getY() + 1;
-			int zOffset = treeTop.getZ();
-			float canopyMultiplier = (1.5f * this.height - yOffset + 2) / 4.0f;
-			int canopyThickness = Math.max(1, Math.round(yOffset / 10.0f));
+		if (this.height > 7) {
+			while (y >= 3) {
 
-			branchEnds.add(new BlockPos(xOffset, startPos.getY() + yOffset--, zOffset));
-			yOffset--;
+				branches.addAll(FeatureHelper.generateBranches(level, rand, wood, startPos.offset(0, y, 0), this.girth, 0.25f, 0.3f, 3, 1, 0.5f));
 
-			float canopyWidth = rand.nextBoolean() ? 3.0f : 2.5f;
-			int radius = Math.round(canopyMultiplier * canopyWidth - 4);
-			BlockPos pos = new BlockPos(xOffset, startPos.getY() + yOffset - canopyThickness, zOffset);
-			branchEnds.addAll(FeatureHelper.generateBranches(level, rand, wood, pos, this.girth, 0.0f, 0.1f, radius, 2, 1.0f));
+				y -= rand.nextIntBetweenInclusive(3, 5);
+			}
 		}
 
-		return branchEnds;
+		return branches;
 	}
 
 	@Override
 	protected void generateLeaves(LevelAccessor level, RandomSource rand, TreeBlockTypeLeaf leaf, TreeContour contour, BlockPos startPos) {
-		for (BlockPos branchEnd : contour.getBranchEnds()) {
-			int leafSpawn = branchEnd.getY() - startPos.getY();
-			int canopyThickness = Math.max(1, Math.round(leafSpawn / 10.0f));
-			float canopyMultiplier = (1.5f * this.height - leafSpawn + 2) / 4.0f;
-			float canopyWidth = rand.nextBoolean() ? 1.0f : 1.5f;
-			BlockPos center = new BlockPos(branchEnd.getX(), leafSpawn - canopyThickness + 1 + startPos.getY(), branchEnd.getZ());
-			float radius = Math.max(1, canopyMultiplier * canopyWidth + this.girth);
-			FeatureHelper.generateCylinderFromPos(level, leaf, center, radius, canopyThickness, FeatureHelper.EnumReplaceMode.AIR, contour);
+		for (int y = 1; y <= 3; y++) {
+			// These numbers may seem as if they're arbitrary. That's because they are.
+			float rad = (4f + (this.girth / 1.5f)) * (1.2f - (1f / (y)));
+			float radMult = 1.125f + (rand.nextFloat() / 2f);
+
+			FeatureHelper.generateCylinderFromTreeStartPos(level, leaf, startPos.offset(0, this.height + 2 - y, 0), this.girth, rad, radMult, 1, FeatureHelper.EnumReplaceMode.SOFT, contour);
+		}
+
+		for (BlockPos blockPos : contour.getBranchEnds()) {
+			FeatureHelper.generateCylinderFromPos(level, leaf, blockPos.offset(0, +1, 0), 1.5f, 1, FeatureHelper.EnumReplaceMode.SOFT, contour);
+			FeatureHelper.generateCylinderFromPos(level, leaf, blockPos, 2f, 1.5f, 1, FeatureHelper.EnumReplaceMode.SOFT, contour);
 		}
 	}
 }
