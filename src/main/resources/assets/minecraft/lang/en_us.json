@@ -1,0 +1,31 @@
+{
+  "block.minecraft.cherry_button": "Blossom Button",
+  "block.minecraft.cherry_door": "Blossom Door",
+  "block.minecraft.cherry_fence": "Blossom Fence",
+  "block.minecraft.cherry_fence_gate": "Blossom Fence Gate",
+  "block.minecraft.cherry_hanging_sign": "Blossom Hanging Sign",
+  "block.minecraft.cherry_leaves": "Blossom Leaves",
+  "block.minecraft.cherry_log": "Blossom Log",
+  "block.minecraft.cherry_planks": "Blossom Planks",
+  "block.minecraft.cherry_pressure_plate": "Blossom Pressure Plate",
+  "block.minecraft.cherry_sapling": "Cherry Blossom Sapling",
+  "block.minecraft.cherry_sign": "Blossom Sign",
+  "block.minecraft.cherry_slab": "Blossom Slab",
+  "block.minecraft.cherry_stairs": "Blossom Stairs",
+  "block.minecraft.cherry_trapdoor": "Blossom Trapdoor",
+  "block.minecraft.cherry_wall_hanging_sign": "Blossom Wall Hanging Sign",
+  "block.minecraft.cherry_wall_sign": "Blossom Wall Sign",
+  "block.minecraft.cherry_wood": "Blossom Wood",
+
+  "block.minecraft.potted_cherry_sapling": "Potted Cherry Blossom Sapling",
+
+  "block.minecraft.stripped_cherry_log": "Stripped Blossom Log",
+  "block.minecraft.stripped_cherry_wood": "Stripped Blossom Wood",
+
+  "entity.minecraft.cherry_boat": "Blossom Boat",
+  "entity.minecraft.cherry_chest_boat": "Blossom Boat with Chest",
+
+  "item.minecraft.cherry_boat": "Blossom Boat",
+  "item.minecraft.cherry_chest_boat": "Blossom Boat with Chest"
+  
+}

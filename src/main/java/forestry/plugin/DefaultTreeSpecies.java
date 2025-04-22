@@ -116,9 +116,9 @@ public class DefaultTreeSpecies {
 					mutations.add(ForestryTreeSpecies.WALNUT, ForestryTreeSpecies.HILL_CHERRY, 0.10f);
 				});
 
-		// Hill Cherry https://www.catalogueoflife.org/data/taxon/4N8WT
-		// The real life version of this tree doesn't actually produce fruit. Is too iconic to remove, however.
-		arboriculture.registerSpecies(ForestryTreeSpecies.HILL_CHERRY, GENUS_PRUNUS, SPECIES_HILL_CHERRY, true, TextColor.fromRgb(0xe691da), ForestryWoodType.HILL_CHERRY)
+		// Sour Cherry https://www.catalogueoflife.org/data/taxon/4N8QS
+		// Previously known as Hill Cherry, and this introduced a world of hurt.
+		arboriculture.registerSpecies(ForestryTreeSpecies.HILL_CHERRY, GENUS_PRUNUS, SPECIES_SOUR_CHERRY, true, TextColor.fromRgb(0x84AA37), ForestryWoodType.HILL_CHERRY)
 				.setTreeFeature(FeatureBushCherry::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.HILL_CHERRY))
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.HILL_CHERRY).block().getStateDefinition().getPossibleStates())
@@ -693,7 +693,7 @@ public class DefaultTreeSpecies {
 				.setAuthority("Spear");
 
 		// Feijoa https://www.catalogueoflife.org/data/taxon/3DXCX
-		arboriculture.registerSpecies(ForestryTreeSpecies.FEIJOA, GENUS_FEIJOA, SPECIES_FEIJOA, true, TextColor.fromRgb(0x93A1A2), ForestryWoodType.FEIJOA)
+		arboriculture.registerSpecies(ForestryTreeSpecies.FEIJOA, GENUS_FEIJOA, SPECIES_FEIJOA, true, TextColor.fromRgb(0x99BAA4), ForestryWoodType.FEIJOA)
 				.setTreeFeature(FeatureFeijoa::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.FEIJOA))
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.FEIJOA).block().getStateDefinition().getPossibleStates())

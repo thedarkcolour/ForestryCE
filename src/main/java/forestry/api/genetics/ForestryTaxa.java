@@ -301,7 +301,7 @@ public class ForestryTaxa {
 	public static final String SPECIES_FEIJOA = "sellowiana";
 	public static final String SPECIES_PLUM = "domestica";
 	public static final String SPECIES_CHERRY_BLOSSOM = "serrulata";
-	public static final String SPECIES_HILL_CHERRY = "jamasakura";
+	public static final String SPECIES_SOUR_CHERRY = "cerasus";
 	public static final String SPECIES_PEAR = "communis";
 	public static final String SPECIES_ELM = "glabra";
 	public static final String SPECIES_MAHOGANY = "macrophylla";
