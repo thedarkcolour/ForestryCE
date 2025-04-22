@@ -158,12 +158,12 @@ public class ForestryTaxa {
 	public static final String GENUS_SWIETENIA = "swietenia";
 	public static final String GENUS_CITRUS = "citrus";
 	public static final String GENUS_ACER = "acer";
+	public static final String GENUS_AGATHIS = "agathis";
 	public static final String GENUS_ARAUCARIA = "araucaria";
 	public static final String GENUS_ABIES = "abies";
 	public static final String GENUS_LARIX = "larix";
 	public static final String GENUS_PICEA = "picea";
 	public static final String GENUS_HESPEROCYPARIS = "hesperocyparis";
-	public static final String GENUS_JUNIPERUS = "juniperus";
 	public static final String GENUS_SEQUOIA = "sequoia";
 	public static final String GENUS_SEQUOIADENDRON = "sequoiadendron";
 
@@ -309,12 +309,12 @@ public class ForestryTaxa {
 	public static final String SPECIES_ORANGE = "sinensis";
 	public static final String SPECIES_MAPLE = "saccharum";
 	public static final String SPECIES_PEWEN = "araucana";
+	public static final String SPECIES_AUSTRALIS = "australis";
 	public static final String SPECIES_FIR = "balsamea";
 	public static final String SPECIES_LARCH = "decidua";
 	public static final String SPECIES_SPRUCE = "mariana";
 	public static final String SPECIES_PINE = "sabiniana";
 	public static final String SPECIES_MACROCARPA = "macrocarpa";
-	public static final String SPECIES_JUNIPER = "scopulorum";
 	public static final String SPECIES_SEQUOIA = "sempervirens";
 	public static final String SPECIES_GIANT_SEQUOIA = "giganteum";
 

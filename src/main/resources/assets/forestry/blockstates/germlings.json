@@ -48,6 +48,6 @@
 		"tree=olive": { "model": "forestry:germlings/sapling.tree_olive" },
 		"tree=orange": { "model": "forestry:germlings/sapling.tree_orange" },
 		"tree=pear": { "model": "forestry:germlings/sapling.tree_pear" },
-		"tree=juniper": { "model": "forestry:germlings/sapling.tree_juniper" }
+		"tree=kauri": { "model": "forestry:germlings/sapling.tree_kauri" }
 	}
 }

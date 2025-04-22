@@ -70,7 +70,7 @@ public enum ForestryWoodType implements IWoodType {
 	OLIVE(ForestryLeafType.OLIVE),
 	ORANGE(ForestryLeafType.ORANGE),
 	PEAR(ForestryLeafType.PEAR),
-	JUNIPER(ForestryLeafType.JUNIPER),
+	KAURI(ForestryLeafType.KAURI),
 	ZEBRAWOOD(ForestryLeafType.ZEBRAWOOD); //TODO - 1.21.1 - Change to Zebrano
 
 	public static final float DEFAULT_HARDNESS = 2.0f;

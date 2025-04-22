@@ -1,4 +1,4 @@
-// 1.20.1	2026-02-02T13:55:58.98269317	ModKit Item Models for mod 'forestry'
+// 1.20.1	2026-02-02T13:57:07.611227812	ModKit Item Models for mod 'forestry'
 5c9a34aaa9fead3fd80793cfe9596223bf8783f0 assets/forestry/models/item/acacia_desert_boat.json
 72934de9e502d03a3a3cf9f0f6d4f24e8ee34571 assets/forestry/models/item/acacia_desert_chest_boat.json
 8f2200f73d917fa31d1e154c725213fa5984fdd6 assets/forestry/models/item/axe_kit.json
@@ -55,10 +55,10 @@ a1bf7d720d131cf8013e3195316681359b4c3566 assets/forestry/models/item/honeyed_sli
 ee1205d9fa4e97bfef6e5297ea36ea3c675a5683 assets/forestry/models/item/ipe_chest_boat.json
 82f30a9a7c5ab81004d70cb76ba697c0f12e7fed assets/forestry/models/item/jacaranda_boat.json
 33ec8adb9b10df279f7c90bddb3bfae64a2e61b9 assets/forestry/models/item/jacaranda_chest_boat.json
-53f7df298c3770863b4dad0f4728906537f6d6d8 assets/forestry/models/item/juniper_boat.json
-32834e91ddf97012e8f27a7acbd0c98362001451 assets/forestry/models/item/juniper_chest_boat.json
 d6ef8fb90a7236af5d5dca32af05bb5923f10dc5 assets/forestry/models/item/kapok_boat.json
 37fd3743acbc5cee1d6fb8ff6afc2508ea9bb89d assets/forestry/models/item/kapok_chest_boat.json
+cb59311d41a3b2d1958fc2c9d203dda523378b89 assets/forestry/models/item/kauri_boat.json
+40c7bf5cbfcc145b65719671380a12c236475166 assets/forestry/models/item/kauri_chest_boat.json
 2b5a7b964821ad9a37e00a01fb298fb43671476b assets/forestry/models/item/kit_pickaxe.json
 defa747d19aae603d361c52d4ce12bc4abf2920a assets/forestry/models/item/kit_shovel.json
 9b2fe5ab0a195a4269b8047f2d58ef6424349528 assets/forestry/models/item/larch_boat.json

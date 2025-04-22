@@ -50,7 +50,7 @@
     "forestry:tree_olive_default_leaves_fruit",
     "forestry:tree_orange_default_leaves_fruit",
     "forestry:tree_pear_default_leaves_fruit",
-    "forestry:tree_juniper_default_leaves_fruit",
+    "forestry:tree_kauri_default_leaves_fruit",
     "forestry:tree_oak_default_leaves",
     "forestry:tree_dark_oak_default_leaves",
     "forestry:tree_birch_default_leaves",
@@ -100,7 +100,7 @@
     "forestry:tree_olive_default_leaves",
     "forestry:tree_orange_default_leaves",
     "forestry:tree_pear_default_leaves",
-    "forestry:tree_juniper_default_leaves",
+    "forestry:tree_kauri_default_leaves",
     "forestry:tree_oak_decorative_leaves",
     "forestry:tree_dark_oak_decorative_leaves",
     "forestry:tree_birch_decorative_leaves",
@@ -150,6 +150,6 @@
     "forestry:tree_olive_decorative_leaves",
     "forestry:tree_orange_decorative_leaves",
     "forestry:tree_pear_decorative_leaves",
-    "forestry:tree_juniper_decorative_leaves"
+    "forestry:tree_kauri_decorative_leaves"
   ]
 }

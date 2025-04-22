@@ -824,16 +824,17 @@ public class DefaultTreeSpecies {
 				})
 				.setAuthority("Spear");
 
-		// Rocky Mountain Juniper https://www.catalogueoflife.org/data/taxon/6NGBF (Technically the Blue Heaven cultivar)
-		arboriculture.registerSpecies(ForestryTreeSpecies.JUNIPER, GENUS_JUNIPERUS, SPECIES_JUNIPER, true, TextColor.fromRgb(0x9FBDCC), ForestryWoodType.JUNIPER)
-				.setTreeFeature(FeatureJuniper::new)
-				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.JUNIPER))
-				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.JUNIPER).block().getStateDefinition().getPossibleStates())
-				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.get(ForestryLeafType.JUNIPER).block().getStateDefinition().getPossibleStates())
+		// Kauri https://www.catalogueoflife.org/data/taxon/5TQT6
+		arboriculture.registerSpecies(ForestryTreeSpecies.KAURI, GENUS_AGATHIS, SPECIES_AUSTRALIS, true, TextColor.fromRgb(0x9FBDCC), ForestryWoodType.KAURI)
+				.setTreeFeature(FeatureKauri::new)
+				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.KAURI))
+				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.KAURI).block().getStateDefinition().getPossibleStates())
+				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.get(ForestryLeafType.KAURI).block().getStateDefinition().getPossibleStates())
 				.setGenome(genome -> {
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_AVERAGE);
 					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_AVERAGE);
 					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_AVERAGE);
+					genome.set(TreeChromosomes.GIRTH, ForestryAlleles.GIRTH_3);
 				})
 				.setAuthority("Spear");
 	}

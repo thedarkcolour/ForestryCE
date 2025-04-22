@@ -131,6 +131,7 @@ public class TreeTaxonomy {
 			phylum.defineSubTaxon(ForestryTaxa.CLASS_PINOPSIDA, klass -> {
 				klass.defineSubTaxon(ForestryTaxa.ORDER_ARAUCARIALES, order -> {
 					order.defineSubTaxon(ForestryTaxa.FAMILY_ARAUCARIACEAE, family -> {
+						family.defineSubTaxon(ForestryTaxa.GENUS_AGATHIS);
 						family.defineSubTaxon(ForestryTaxa.GENUS_ARAUCARIA);
 					});
 				});
@@ -144,7 +145,6 @@ public class TreeTaxonomy {
 				klass.defineSubTaxon(ForestryTaxa.ORDER_CUPRESSALES, order -> {
 					order.defineSubTaxon(ForestryTaxa.FAMILY_CUPRESSACEAE, family -> {
 						family.defineSubTaxon(ForestryTaxa.GENUS_HESPEROCYPARIS);
-						family.defineSubTaxon(ForestryTaxa.GENUS_JUNIPERUS);
 						family.defineSubTaxon(ForestryTaxa.GENUS_SEQUOIA);
 						family.defineSubTaxon(ForestryTaxa.GENUS_SEQUOIADENDRON);
 					});

@@ -1,7 +1,0 @@
-{
-  "parent": "minecraft:block/cube_column",
-  "textures": {
-    "end": "forestry:block/juniper_log",
-    "side": "forestry:block/juniper_log"
-  }
-}

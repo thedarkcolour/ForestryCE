@@ -71,7 +71,7 @@ public final class ForestryLeafType implements IBlockSubtype {
 	public static final ForestryLeafType OLIVE = new ForestryLeafType(ForestryTreeSpecies.OLIVE);
 	public static final ForestryLeafType ORANGE = new ForestryLeafType(ForestryTreeSpecies.ORANGE);
 	public static final ForestryLeafType PEAR = new ForestryLeafType(ForestryTreeSpecies.PEAR);
-	public static final ForestryLeafType JUNIPER = new ForestryLeafType(ForestryTreeSpecies.JUNIPER);
+	public static final ForestryLeafType KAURI = new ForestryLeafType(ForestryTreeSpecies.KAURI);
 
 	private final ResourceLocation speciesId;
 
@@ -119,7 +119,7 @@ public final class ForestryLeafType implements IBlockSubtype {
 				LEMON, PLUM, MAPLE, SPRUCE, LARCH, PINE, SEQUOIA, GIANT_SEQUOIA, JUNGLE, TEAK, IPE, KAPOK,
 				EBONY, ZEBRAWOOD, MAHOGANY, ACACIA_VANILLA, DESERT_ACACIA, PADAUK, BALSA, COCOBOLO, WENGE,
 				BAOBAB, MAHOE, WILLOW, SIPIRI, PAPAYA, DATE, POPLAR, ELM, FIR, COCONUT, BEECH, FEIJOA,
-				DOGWOOD, GINKGO, JACARANDA, MONKEY_PUZZLE, MACROCARPA, OLIVE, ORANGE, PEAR, JUNIPER);
+				DOGWOOD, GINKGO, JACARANDA, MONKEY_PUZZLE, MACROCARPA, OLIVE, ORANGE, PEAR, KAURI);
 	}
 
 	@Override
