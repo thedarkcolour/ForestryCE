@@ -11,12 +11,13 @@ import net.minecraft.core.BlockPos;
 
 import com.mojang.authlib.GameProfile;
 
+import forestry.core.inventory.IInventoryAdapter;
+
 /**
  * Basic interface for a multiblock machine component.
  * Implemented by TileEntities.
  */
 public interface IMultiblockComponent {
-
 	/**
 	 * Returns the location of this tile entity in the world.
 	 *
@@ -50,4 +51,14 @@ public interface IMultiblockComponent {
 	 * or an explosion occurred.
 	 */
 	void onMachineBroken();
+
+	/**
+	 * A component with a separate inventory, like the Alveary Swarmer or Alveary Sieve.
+	 */
+	interface HasInventory {
+		/**
+		 * Called when this part is destroyed to drop its contents.
+		 */
+		IInventoryAdapter getInternalInventory();
+	}
 }

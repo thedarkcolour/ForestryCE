@@ -42,7 +42,7 @@ import forestry.core.inventory.IInventoryAdapter;
 import forestry.core.tiles.ILiquidTankTile;
 import forestry.core.utils.RecipeUtils;
 
-public class TileAlvearyHygroregulator extends TileAlveary implements Container, ILiquidTankTile, IAlvearyComponent.Climatiser<MultiblockLogicAlveary> {
+public class TileAlvearyHygroregulator extends TileAlveary implements Container, ILiquidTankTile, IAlvearyComponent.Climatiser<MultiblockLogicAlveary>, IAlvearyComponent.HasInventory {
 	private final TankManager tankManager;
 	private final FilteredTank liquidTank;
 	private final IInventoryAdapter inventory;

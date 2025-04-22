@@ -10,12 +10,9 @@
  ******************************************************************************/
 package forestry.core.blocks;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.Container;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -24,7 +21,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 
@@ -32,11 +28,8 @@ import com.mojang.authlib.GameProfile;
 
 import forestry.api.multiblock.IMultiblockComponent;
 import forestry.api.multiblock.IMultiblockController;
-import forestry.core.circuits.ISocketable;
 import forestry.core.multiblock.MultiblockTileEntityForestry;
-import forestry.core.multiblock.MultiblockUtil;
 import forestry.core.tiles.TileUtil;
-import forestry.core.utils.InventoryUtil;
 
 public abstract class BlockStructure extends BlockForestry {
 	protected BlockStructure(Block.Properties properties) {
@@ -61,21 +54,16 @@ public abstract class BlockStructure extends BlockForestry {
 		// If the player's hands are empty and they right-click on a multiblock, they get a
 		// multiblock-debugging message if the machine is not assembled.
 		if (heldItem.isEmpty()) {
-			if (controller != null) {
-				if (!controller.isAssembled()) {
-					String validationError = controller.getLastValidationError();
-					if (validationError != null) {
-						long tick = worldIn.getGameTime();
-						if (tick > previousMessageTick + 20) {
-							playerIn.sendSystemMessage(Component.literal(validationError));
-							previousMessageTick = tick;
-						}
-						return InteractionResult.SUCCESS;
+			if (!controller.isAssembled()) {
+				String validationError = controller.getLastValidationError();
+				if (validationError != null) {
+					long tick = worldIn.getGameTime();
+					if (tick > previousMessageTick + 20) {
+						playerIn.sendSystemMessage(Component.literal(validationError));
+						previousMessageTick = tick;
 					}
+					return InteractionResult.SUCCESS;
 				}
-			} else {
-				playerIn.sendSystemMessage(Component.translatable("for.multiblock.error.notConnected"));
-				return InteractionResult.SUCCESS;
 			}
 		}
 
@@ -106,24 +94,11 @@ public abstract class BlockStructure extends BlockForestry {
 	}
 
 	@Override
-	public void playerDestroy(Level world, Player player, BlockPos pos, BlockState state, @Nullable BlockEntity te, ItemStack stack) {
-		if (world.isClientSide) {
-			return;
+	public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
+		if (level.getBlockEntity(pos) instanceof IMultiblockComponent.HasInventory component) {
+			Containers.dropContents(level, pos, component.getInternalInventory());
 		}
 
-		TileUtil.actOnTile(world, pos, IMultiblockComponent.class, tile -> {
-			// drop inventory if we're the last part remaining
-			if (MultiblockUtil.getNeighboringParts(world, tile).isEmpty()) {
-				if (tile instanceof Container) {
-					Containers.dropContents(world, pos, (Container) tile);
-				}
-				if (tile instanceof ISocketable) {
-					InventoryUtil.dropSockets((ISocketable) tile, world, pos);
-				}
-			}
-		});
-
-		super.playerDestroy(world, player, pos, state, te, stack);
+		super.onRemove(state, level, pos, newState, isMoving);
 	}
-
 }

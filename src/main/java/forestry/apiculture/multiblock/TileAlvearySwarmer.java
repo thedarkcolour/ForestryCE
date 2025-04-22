@@ -41,7 +41,7 @@ import forestry.core.inventory.IInventoryAdapter;
 import forestry.core.tiles.IActivatable;
 import forestry.core.utils.SpeciesUtil;
 
-public class TileAlvearySwarmer extends TileAlveary implements WorldlyContainer, IActivatable, IAlvearyComponent.Active<MultiblockLogicAlveary> {
+public class TileAlvearySwarmer extends TileAlveary implements WorldlyContainer, IActivatable, IAlvearyComponent.Active<MultiblockLogicAlveary>, IAlvearyComponent.HasInventory {
 	private final InventorySwarmer inventory;
 	private final ArrayDeque<ItemStack> pendingSpawns = new ArrayDeque<>();
 

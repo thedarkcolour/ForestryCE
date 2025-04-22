@@ -1,3 +1,8 @@
+## Forestry 2.5.3
+- Fences no longer attach to decorative leaves (#172)
+- Deepslate Tin and Apatite now use correct sounds (#209)
+- Fix Alveary Sieve, Hygroregulator, Swarmer not dropping contents when destroyed (#207)
+
 ## Forestry 2.5.2
 - Fix hybrids not producing drops of inactive species
 - Forestry trees no longer spawn naturally by default. Can still be enabled in the config (#206)

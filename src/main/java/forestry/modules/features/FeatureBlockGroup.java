@@ -27,6 +27,7 @@ public class FeatureBlockGroup<B extends Block, S extends IBlockSubtype> extends
 		return getList();
 	}
 
+	// todo use immutable collection?
 	public List<B> getList() {
 		ArrayList<B> blocks = new ArrayList<>(featureByType.size());
 		for (FeatureBlock<B, BlockItem> value : featureByType.values()) {
