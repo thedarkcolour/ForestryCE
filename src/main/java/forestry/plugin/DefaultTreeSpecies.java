@@ -1,7 +1,5 @@
 package forestry.plugin;
 
-import java.awt.Color;
-
 import forestry.arboriculture.worldgen.*;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.world.item.ItemStack;
@@ -766,11 +764,13 @@ public class DefaultTreeSpecies {
 		// Technically speaking it's a Monterey Cypress but I've called it Macrocarpa for two reasons:
 		// 1 - No other trees have geographical places in their name. Monterey is a place in California
 		// 2 - In New Zealand, we call them Macrocarpa trees, and supposedly they're known as such in other places too.
-		arboriculture.registerSpecies(ForestryTreeSpecies.CYPRESS, GENUS_HESPEROCYPARIS, SPECIES_MACROCARPA, true, TextColor.fromRgb(0x5D7121), ForestryWoodType.CYPRESS)
+		// So yes it should give Cypress wood as well (which would be good for addons so they don't have to add it) but
+		// we've also agreed that trees with mismatched names to their timbers are bad. So here we are.
+		arboriculture.registerSpecies(ForestryTreeSpecies.MACROCARPA, GENUS_HESPEROCYPARIS, SPECIES_MACROCARPA, true, TextColor.fromRgb(0x5D7121), ForestryWoodType.MACROCARPA)
 				.setTreeFeature(FeatureCypress::new)
-				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.CYPRESS))
-				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.CYPRESS).block().getStateDefinition().getPossibleStates())
-				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.get(ForestryLeafType.CYPRESS).block().getStateDefinition().getPossibleStates())
+				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.MACROCARPA))
+				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.MACROCARPA).block().getStateDefinition().getPossibleStates())
+				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.get(ForestryLeafType.MACROCARPA).block().getStateDefinition().getPossibleStates())
 				.setGenome(genome -> {
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_SMALL);
 					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_AVERAGE);

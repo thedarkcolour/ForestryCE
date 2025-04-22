@@ -44,7 +44,7 @@
 		"tree=ginkgo": { "model": "forestry:germlings/sapling.tree_ginkgo" },
 		"tree=jacaranda": { "model": "forestry:germlings/sapling.tree_jacaranda" },
 		"tree=monkey_puzzle": { "model": "forestry:germlings/sapling.tree_monkey_puzzle" },
-		"tree=cypress": { "model": "forestry:germlings/sapling.tree_cypress" },
+		"tree=macrocarpa": { "model": "forestry:germlings/sapling.tree_macrocarpa" },
 		"tree=olive": { "model": "forestry:germlings/sapling.tree_olive" },
 		"tree=orange": { "model": "forestry:germlings/sapling.tree_orange" },
 		"tree=pear": { "model": "forestry:germlings/sapling.tree_pear" },

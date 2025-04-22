@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "ingredients": [
+    [
+      {
+        "item": "forestry:macrocarpa_planks"
+      },
+      {
+        "item": "forestry:macrocarpa_fireproof_planks"
+      }
+    ]
+  ],
+  "result": {
+    "item": "forestry:macrocarpa_button"
+  }
+}

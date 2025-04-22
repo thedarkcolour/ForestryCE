@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "P": [
+      {
+        "item": "forestry:macrocarpa_planks"
+      },
+      {
+        "item": "forestry:macrocarpa_fireproof_planks"
+      }
+    ]
+  },
+  "pattern": [
+    "PP"
+  ],
+  "result": {
+    "item": "forestry:macrocarpa_pressure_plate"
+  },
+  "show_notification": true
+}

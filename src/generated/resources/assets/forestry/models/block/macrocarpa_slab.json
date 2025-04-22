@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab",
+  "textures": {
+    "bottom": "forestry:block/macrocarpa_planks",
+    "side": "forestry:block/macrocarpa_planks",
+    "top": "forestry:block/macrocarpa_planks"
+  }
+}

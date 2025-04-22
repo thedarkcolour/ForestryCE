@@ -1,4 +1,4 @@
-// 1.20.1	2026-02-02T13:51:21.034990972	ModKit Item Models for mod 'forestry'
+// 1.20.1	2026-02-02T13:55:58.98269317	ModKit Item Models for mod 'forestry'
 5c9a34aaa9fead3fd80793cfe9596223bf8783f0 assets/forestry/models/item/acacia_desert_boat.json
 72934de9e502d03a3a3cf9f0f6d4f24e8ee34571 assets/forestry/models/item/acacia_desert_chest_boat.json
 8f2200f73d917fa31d1e154c725213fa5984fdd6 assets/forestry/models/item/axe_kit.json
@@ -27,8 +27,6 @@ a3e3454efd85f78fccd311dfe20256c06208ce1d assets/forestry/models/item/cocobolo_bo
 1d25c48435a469879be8704f3d708de1910681a0 assets/forestry/models/item/cocobolo_chest_boat.json
 60147e2f366101b77932ef85d643bee48655cae5 assets/forestry/models/item/coconut_boat.json
 f15ed6fd8aa9b1ac39a696313ce4107db50c75b6 assets/forestry/models/item/coconut_chest_boat.json
-ce13ce0b36a3de49fafd33030f4c346ec0b18ccb assets/forestry/models/item/cypress_boat.json
-622a76cb5dacc5894f9843eff2f1b3fc6b236277 assets/forestry/models/item/cypress_chest_boat.json
 486e314ab7f01a5022ce83a888f97dc74b5bc3ae assets/forestry/models/item/dogwood_boat.json
 da18a6e99d3095c20688ac4911e82016893cf88d assets/forestry/models/item/dogwood_chest_boat.json
 f7c41c1b9acd9a22ab2613393cef16dc83f899a8 assets/forestry/models/item/ebony_boat.json
@@ -67,6 +65,8 @@ defa747d19aae603d361c52d4ce12bc4abf2920a assets/forestry/models/item/kit_shovel.
 b65d3affe0149a00cc96f8f8ea3e92b8e44b7bd6 assets/forestry/models/item/larch_chest_boat.json
 fdd3cab3bf9384a8de5f9149a62a02149eea8678 assets/forestry/models/item/lime_boat.json
 6eba053814c25f89673083019d7c471ef65067ba assets/forestry/models/item/lime_chest_boat.json
+2555682184f01487cd264dced8c434fc8f2eaf93 assets/forestry/models/item/macrocarpa_boat.json
+d476d63293cf6362d1178f51aebde99c802cff32 assets/forestry/models/item/macrocarpa_chest_boat.json
 151e0d6fa0d03f54b2a121728af27d37c4bee404 assets/forestry/models/item/mahoe_boat.json
 3e58eb67bb506f23edf8f57fda05e85cd5df21db assets/forestry/models/item/mahoe_chest_boat.json
 506f6c6def0e26ea83ba3cc2bf35c62c79ab9994 assets/forestry/models/item/mahogany_boat.json

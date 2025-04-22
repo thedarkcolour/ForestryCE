@@ -66,7 +66,7 @@ public enum ForestryWoodType implements IWoodType {
 	GINKGO(ForestryLeafType.GINKGO),
 	JACARANDA(ForestryLeafType.JACARANDA),
 	MONKEY_PUZZLE(ForestryLeafType.MONKEY_PUZZLE),
-	CYPRESS(ForestryLeafType.CYPRESS),
+	MACROCARPA(ForestryLeafType.MACROCARPA),
 	OLIVE(ForestryLeafType.OLIVE),
 	ORANGE(ForestryLeafType.ORANGE),
 	PEAR(ForestryLeafType.PEAR),
