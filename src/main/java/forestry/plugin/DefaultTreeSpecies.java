@@ -248,7 +248,7 @@ public class DefaultTreeSpecies {
 				.setGenome(genome -> {
 					genome.set(TreeChromosomes.SAPLINGS, ForestryAlleles.SAPLINGS_LOW);
 					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_LOWER);
-					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_AVERAGE);
+					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_LARGE);
 				})
 				.addMutations(mutations -> {
 					mutations.add(ForestryTreeSpecies.SPRUCE, ForestryTreeSpecies.LARCH, 0.10f);

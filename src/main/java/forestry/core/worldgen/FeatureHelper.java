@@ -188,7 +188,6 @@ public class FeatureHelper {
 	}
 
 	/**
-	 * This code has a funny bug where setting the radiusY to a whole number doesn't generate the bottom-most level of leaves. I.E. if you set the radius to 1, you'd expect it to do one thing layer, a thick layer, and then a thin layer on the bottom, but it doesn't. I would fix this but it's been used a few times as a quick way to generate an umbrella-shaped canopy. Just add .5 to the radius and it should work. I also don't quite know why I chose to use a float for the radius but it all came together in the end.
 	 * @param world The world to place the blocks in.
 	 * @param center Where the ellipsoid should be placed
 	 * @param radiusX The radius of the ellipsoid in the X direction

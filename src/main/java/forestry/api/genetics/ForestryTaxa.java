@@ -313,7 +313,7 @@ public class ForestryTaxa {
 	public static final String SPECIES_FIR = "balsamea";
 	public static final String SPECIES_LARCH = "decidua";
 	public static final String SPECIES_SPRUCE = "mariana";
-	public static final String SPECIES_PINE = "sabiniana";
+	public static final String SPECIES_PINE = "ponderosa";
 	public static final String SPECIES_MACROCARPA = "macrocarpa";
 	public static final String SPECIES_SEQUOIA = "sempervirens";
 	public static final String SPECIES_GIANT_SEQUOIA = "giganteum";
