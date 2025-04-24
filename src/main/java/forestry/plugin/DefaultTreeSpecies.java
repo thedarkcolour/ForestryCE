@@ -238,7 +238,7 @@ public class DefaultTreeSpecies {
 				})
 				.setRarity(0.0025f);
 
-		// Bull Pine https://www.catalogueoflife.org/data/taxon/C85JD //TODO: Needs another reclassifaction. Bull Pine is a bit generic. Looking at Ponderosa Pine
+		// Ponderosa Pine https://www.catalogueoflife.org/data/taxon/4J2F3
 		arboriculture.registerSpecies(ForestryTreeSpecies.PINE, GENUS_PICEA, SPECIES_PINE, true, TextColor.fromRgb(0xfeff8f), ForestryWoodType.PINE)
 				.setTreeFeature(FeaturePine::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.PINE))
