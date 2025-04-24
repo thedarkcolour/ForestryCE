@@ -16,40 +16,56 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class FeatureKauri extends FeatureTree {
 	public FeatureKauri(ITreeGenData tree) {
-		super(tree, 4, 2, 2);
+		super(tree, 15, 5);
 	}
 
 	@Override
 	public Set<BlockPos> generateTrunk(LevelAccessor level, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
 
-		return FeatureHelper.generateTreeTrunk(level, rand, wood, startPos, Math.max(height-girth, 2), girth, 0, 0, 0.4f);
+		FeatureHelper.generateTreeTrunk(level, rand, wood, startPos, height, girth, 0, 0, null, 0);
+		FeatureHelper.generateSupportStems(wood, level, rand, startPos, height, girth, 0.8f, 0.2f);
+
+		Set<BlockPos> branchPositions = new HashSet<>();
+
+		int count = rand.nextIntBetweenInclusive((int)(girth *4.5f), (int)(girth * 6.5f));
+		int branchWidth = (int)(height / 2.5f);
+
+
+		while (branchPositions.size() <= count){
+
+			//Make a nest of branches at the top of the tree. Account for very small trees.
+			int branchPos = rand.nextIntBetweenInclusive(Math.max(height-8, 2), height);
+
+			//branches closer to the top tend to climb upward more
+			float spreadMod = 0.2f * (branchPos / (float) height);
+
+			branchPositions.addAll( FeatureHelper.generateSmartBranches( level, rand, wood, startPos.offset(0,branchPos,0), girth, 0.2f + spreadMod, 0.4f, branchWidth, 1, 0.5f ) );
+
+		}
+
+		return branchPositions;
+
 	}
 
 	@Override
 	protected void generateLeaves(LevelAccessor level, RandomSource rand, TreeBlockTypeLeaf leaf, TreeContour contour, BlockPos startPos) {
 
-		int leafSpawn = height + 3;
+		for (BlockPos blockPos: contour.getBranchEnds()){
 
-		//float heightMult = Math.max(height/8f,1);
-		//float maxRadius = Math.min(6, rand.nextIntBetweenInclusive(1,3)*heightMult);
-		float maxRadius = 1.5f + rand.nextFloat() + (girth/2);
+			FeatureHelper.generateEllipsoid(level, blockPos.offset(0, 1, 0), 2, 2, 2, 1.25f, leaf, FeatureHelper.EnumReplaceMode.SOFT, contour);
+			FeatureHelper.generateCylinderFromPos(level, leaf, blockPos.offset(0, -1, 0), 2, 1.5f, 1, FeatureHelper.EnumReplaceMode.SOFT, contour);
 
-		//determines the rate of radius change as Y decreases.
-		float step = maxRadius / leafSpawn;
-		float r = 0;
-
-		//step *= (girth);
-		int canopyHeight = rand.nextIntBetweenInclusive(0,1);
-
-		while (leafSpawn >= canopyHeight) {
-			r += step;
-			FeatureHelper.generateCylinderFromTreeStartPos(level, leaf, startPos.offset(0, leafSpawn--, 0), girth, r, (4f/3), 1, FeatureHelper.EnumReplaceMode.SOFT, contour);
 		}
-		if (canopyHeight == 1)
-			FeatureHelper.generateCylinderFromTreeStartPos(level, leaf, startPos.offset(0, leafSpawn--, 0), girth, (r*0.75f),1.25f, 1, FeatureHelper.EnumReplaceMode.SOFT, contour);
+
+
+		FeatureHelper.generateEllipsoid(level, startPos.offset(girth/2, height+1, girth/2), 2+(girth/2f), 2, 2+(girth/2f), 1.25f, leaf, FeatureHelper.EnumReplaceMode.SOFT, contour);
+		FeatureHelper.generateCylinderFromPos(level, leaf, startPos.offset(girth/2, height-1, girth/2), 2+(girth/2f), 1.5f, 1, FeatureHelper.EnumReplaceMode.SOFT, contour);
+
+
 	}
 }

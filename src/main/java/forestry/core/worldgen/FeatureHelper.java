@@ -451,6 +451,119 @@ public class FeatureHelper {
 		}
 	}
 
+	/**
+	 * A new method for generating branches that is designed to be a little bit more reliable, primarily in the way branches spread out.
+	 *
+	 * @param world
+	 * @param rand
+	 * @param wood
+	 * @param startPos
+	 * @param girth
+	 * @param spreadY
+	 * @param spreadXZ
+	 * @param radius
+	 * @param count
+	 * @param chance
+	 * @return
+	 */
+	public static Set<BlockPos> generateSmartBranches(final LevelAccessor world, final RandomSource rand, final ITreeBlockType wood, final BlockPos startPos, final int girth, final float spreadY, final float spreadXZ, int radius, final int count, final float chance) {
+		Set<BlockPos> branchEnds = new HashSet<>();
+		if (radius < 1) {
+			radius = 1;
+		}
+
+		for (final Direction branchDirection : Direction.Plane.HORIZONTAL) {
+			wood.setDirection(branchDirection);
+
+			BlockPos branchStart = startPos;
+
+			int offsetX = branchDirection.getStepX();
+			int offsetZ = branchDirection.getStepZ();
+			if (offsetX > 0) {
+				branchStart = branchStart.offset(girth - offsetX, 0, 0);
+			}
+			if (offsetZ > 0) {
+				branchStart = branchStart.offset(0, 0, girth - offsetZ);
+			}
+
+			//We generate 'count' branches in every direction, with a chance of failure
+			for (int i = 0; i < count; i++) {
+				if (rand.nextFloat() > chance) {
+					continue;
+				}
+				int y = 0;
+				int x = 0;
+				int z = 0;
+
+				BlockPos branchEnd = null;
+
+				//Determines if X and Z should lean left-right
+				//This stops branches doubling back on themselves.
+				boolean xDir = rand.nextBoolean();
+				boolean zDir = rand.nextBoolean();
+
+				//Used to force branches to spread in a certain direction after a certain distance.
+				//Hopefully prevents really long branches that extend out in one direction
+				float yForce = 0;
+				float xzForce = 0;
+
+
+				for (int r = 0; r < radius; r++) {
+					if (rand.nextFloat() < spreadY || yForce >= 1) {
+						// make branches only spread up, not down
+						y++;
+						wood.setDirection(Direction.UP);
+						yForce = 0;
+
+					} else {
+
+						yForce += spreadY;
+
+						if (rand.nextFloat() < spreadXZ || xzForce >= 1) {
+
+							xzForce = 0;
+
+							if (branchDirection.getAxis() == Direction.Axis.Z) {
+								if (xDir) {
+									x++;
+								} else {
+									x--;
+								}
+								wood.setDirection(Direction.EAST);
+							} else if (branchDirection.getAxis() == Direction.Axis.X) {
+								if (zDir) {
+									z++;
+								} else {
+									z--;
+								}
+								wood.setDirection(Direction.SOUTH);
+							}
+						} else {
+							x += offsetX;
+							z += offsetZ;
+							wood.setDirection(branchDirection);
+
+							xzForce += spreadXZ;
+						}
+					}
+
+					BlockPos pos = branchStart.offset(x, y, z);
+					if (addBlock(world, pos, wood, EnumReplaceMode.SOFT)) {
+						branchEnd = pos;
+					} else {
+						break;
+					}
+				}
+
+				if (branchEnd != null) {
+					branchEnds.add(branchEnd);
+				}
+			}
+		}
+
+		return branchEnds;
+	}
+
 	public static Set<BlockPos> generateBranches(final LevelAccessor world, final RandomSource rand, final ITreeBlockType wood, final BlockPos startPos, final int girth, final float spreadY, final float spreadXZ, int radius, final int count, final float chance) {
 		Set<BlockPos> branchEnds = new HashSet<>();
 		if (radius < 1) {
