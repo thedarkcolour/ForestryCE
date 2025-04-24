@@ -9,9 +9,9 @@ import net.minecraft.world.level.LevelAccessor;
 import java.util.HashSet;
 import java.util.Set;
 
-public class FeatureBushCherry extends FeatureTree {
-	public FeatureBushCherry(ITreeGenData tree) {
-		super(tree, 4, 4);
+public class FeatureSourCherry extends FeatureTree {
+	public FeatureSourCherry(ITreeGenData tree) {
+		super(tree, 5, 4);
 	}
 
 	@Override
@@ -32,13 +32,12 @@ public class FeatureBushCherry extends FeatureTree {
 
 	@Override
 	protected void generateLeaves(LevelAccessor level, RandomSource rand, TreeBlockTypeLeaf leaf, TreeContour contour, BlockPos startPos) {
-		int leafSpawn = this.height + 2;
-		FeatureHelper.generateCylinderFromTreeStartPos(level, leaf, startPos.offset(0, leafSpawn--, 0), this.girth, this.girth, 1, FeatureHelper.EnumReplaceMode.SOFT, contour);
-		FeatureHelper.generateCylinderFromTreeStartPos(level, leaf, startPos.offset(0, leafSpawn, 0), this.girth, 1 + this.girth, 1, FeatureHelper.EnumReplaceMode.SOFT, contour);
+		int leafSpawn = this.height;
+
+		FeatureHelper.generateEllipsoid(level, startPos.offset(this.girth / 2, leafSpawn--, this.girth / 2), (this.girth / 2f) + 2, 1.5f, (this.girth / 2f) + 2, 1.5f, leaf, FeatureHelper.EnumReplaceMode.SOFT, contour);
 
 		for (BlockPos branchEnd : contour.getBranchEnds()) {
-			FeatureHelper.generateCircle(level, rand, branchEnd.above(), 3, 3, 1, leaf, 1.0f, FeatureHelper.EnumReplaceMode.AIR, contour);
-			FeatureHelper.generateCircle(level, rand, branchEnd, 4, 3, 1, leaf, 1.0f, FeatureHelper.EnumReplaceMode.AIR, contour);
+			FeatureHelper.generateEllipsoid(level, branchEnd, 2, 1.75f, 2, 1.5f, leaf, FeatureHelper.EnumReplaceMode.SOFT, contour);
 		}
 	}
 }

@@ -119,7 +119,7 @@ public class DefaultTreeSpecies {
 		// Sour Cherry https://www.catalogueoflife.org/data/taxon/4N8QS
 		// Previously known as Hill Cherry, and this introduced a world of hurt.
 		arboriculture.registerSpecies(ForestryTreeSpecies.HILL_CHERRY, GENUS_PRUNUS, SPECIES_SOUR_CHERRY, true, TextColor.fromRgb(0x84AA37), ForestryWoodType.HILL_CHERRY)
-				.setTreeFeature(FeatureBushCherry::new)
+				.setTreeFeature(FeatureSourCherry::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.HILL_CHERRY))
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.HILL_CHERRY).block().getStateDefinition().getPossibleStates())
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.get(ForestryLeafType.HILL_CHERRY).block().getStateDefinition().getPossibleStates())
