@@ -21,7 +21,7 @@ import java.util.Set;
 
 public class FeatureFir extends FeatureTree {
 	public FeatureFir(ITreeGenData tree) {
-		super(tree, 9, 4);
+		super(tree, 7, 5);
 	}
 	private int MIN_HEIGHT = 3;
 
@@ -46,14 +46,15 @@ public class FeatureFir extends FeatureTree {
 
 		int leafSpawn = height + girth + 1;
 
-		float maxRadius = 3.25f + rand.nextFloat();
+		float maxRadius = 2.25f + rand.nextFloat();
+		maxRadius *= Math.min(1f, height/6f ); //Shrink the width of smaller trees
 
 		//determines the rate of radius change as Y decreases.
 		float step = maxRadius / height;
 		float r = 0;
 
 		//step *= (girth);
-		int canopyHeight = rand.nextInt(0,MIN_HEIGHT)+1;
+		int canopyHeight = rand.nextIntBetweenInclusive(1,2);
 
         while (leafSpawn > canopyHeight) {
 			r += step;
