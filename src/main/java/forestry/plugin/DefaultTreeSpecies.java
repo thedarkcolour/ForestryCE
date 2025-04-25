@@ -410,7 +410,7 @@ public class DefaultTreeSpecies {
 
 		// Acacia https://www.catalogueoflife.org/data/taxon/BSJF7
 		arboriculture.registerSpecies(ForestryTreeSpecies.ACACIA_VANILLA, GENUS_ACACIA, SPECIES_ACACIA, false, TextColor.fromRgb(0x616101), VanillaWoodType.ACACIA)
-				.setTreeFeature(FeatureTreeVanilla::new)
+				.setTreeFeature(FeatureAcacia::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.ACACIA_VANILLA))
 				.addVanillaStates(Blocks.ACACIA_LEAVES.getStateDefinition().getPossibleStates())
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.ACACIA_VANILLA).block().getStateDefinition().getPossibleStates())
