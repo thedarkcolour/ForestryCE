@@ -7,6 +7,10 @@ import java.util.List;
 import java.util.Set;
 
 import forestry.Forestry;
+import forestry.api.genetics.alleles.TreeChromosomes;
+import forestry.arboriculture.ForestryWoodType;
+import forestry.arboriculture.features.ArboricultureBlocks;
+import forestry.arboriculture.worldgen.TreeBlockTypeLog;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
@@ -637,6 +641,20 @@ public class FeatureHelper {
 		}
 
 		return branchEnds;
+	}
+
+	/**
+	 * Returns the respective wood block when provided with a log and wood type
+	 * Used for generation to ensure wood types respect a trees fireproof status
+	 * @param log
+	 * @param woodType
+	 * @return
+	 */
+	public static TreeBlockType getWoodFromLog(TreeBlockTypeLog log, ForestryWoodType woodType){
+		if (log.getGenome().getActiveValue(TreeChromosomes.FIREPROOF) )
+			return new TreeBlockType(ArboricultureBlocks.WOOD_FIREPROOF.get(woodType).defaultState());
+		else
+			return new TreeBlockType(ArboricultureBlocks.WOOD.get(woodType).defaultState());
 	}
 
 	public enum EnumReplaceMode {
