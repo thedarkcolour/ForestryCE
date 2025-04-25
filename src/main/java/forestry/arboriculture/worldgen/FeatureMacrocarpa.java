@@ -37,7 +37,7 @@ public class FeatureMacrocarpa extends FeatureTree {
 		while( y >= branchesEnd){
 			int depth = height - y;
 			branches.addAll(
-					FeatureHelper.generateSmartBranches(level, rand, wood, startPos.offset(0,y,0), girth, 0.35f, 0.4f, (int)(depth/1.5f) + (int)Math.ceil(girth/2f), 2, 1)
+					FeatureHelper.generateBranches(level, rand, wood, startPos.offset(0,y,0), girth, 0.35f, 0.4f, (int)(depth/1.5f) + (int)Math.ceil(girth/2f), 2, 1)
 			);
 			y -= 3;
 		}

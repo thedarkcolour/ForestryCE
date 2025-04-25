@@ -20,14 +20,14 @@ public class FeatureCamelthorn extends FeatureTree {
 
 		Set<BlockPos> branches = new HashSet<>();
 
-		FeatureHelper.generateSmartBranches(level, rand, wood, startPos.offset(0, this.height - 3, 0), this.girth, 0.5f, 0.15f, 3, 1, 1);
+		FeatureHelper.generateBranches(level, rand, wood, startPos.offset(0, this.height - 3, 0), this.girth, 0.5f, 0.15f, 3, 1, 1);
 
 		int y = this.height - 5;
 
 		if (this.height > 7) {
 			while (y >= 3) {
 
-				branches.addAll(FeatureHelper.generateSmartBranches(level, rand, wood, startPos.offset(0, y, 0), this.girth, 0.25f, 0.3f, 3, 1, 0.5f));
+				branches.addAll(FeatureHelper.generateBranches(level, rand, wood, startPos.offset(0, y, 0), this.girth, 0.25f, 0.3f, 3, 1, 0.5f));
 
 				y -= rand.nextIntBetweenInclusive(3, 5);
 			}

@@ -470,7 +470,7 @@ public class FeatureHelper {
 	 * @param chance
 	 * @return
 	 */
-	public static Set<BlockPos> generateSmartBranches(final LevelAccessor world, final RandomSource rand, final ITreeBlockType wood, final BlockPos startPos, final int girth, final float spreadY, final float spreadXZ, int radius, final int count, final float chance) {
+	public static Set<BlockPos> generateBranches(final LevelAccessor world, final RandomSource rand, final ITreeBlockType wood, final BlockPos startPos, final int girth, final float spreadY, final float spreadXZ, int radius, final int count, final float chance) {
 		Set<BlockPos> branchEnds = new HashSet<>();
 		if (radius < 1) {
 			radius = 1;
@@ -560,81 +560,6 @@ public class FeatureHelper {
 							wood.setDirection(branchDirection);
 
 							xzForce += spreadXZ;
-						}
-					}
-
-					BlockPos pos = branchStart.offset(x, y, z);
-					if (addBlock(world, pos, wood, EnumReplaceMode.SOFT)) {
-						branchEnd = pos;
-					} else {
-						break;
-					}
-				}
-
-				if (branchEnd != null) {
-					branchEnds.add(branchEnd);
-				}
-			}
-		}
-
-		return branchEnds;
-	}
-
-	public static Set<BlockPos> generateBranches(final LevelAccessor world, final RandomSource rand, final ITreeBlockType wood, final BlockPos startPos, final int girth, final float spreadY, final float spreadXZ, int radius, final int count, final float chance) {
-		Set<BlockPos> branchEnds = new HashSet<>();
-		if (radius < 1) {
-			radius = 1;
-		}
-
-		for (final Direction branchDirection : Direction.Plane.HORIZONTAL) {
-			wood.setDirection(branchDirection);
-
-			BlockPos branchStart = startPos;
-
-			int offsetX = branchDirection.getStepX();
-			int offsetZ = branchDirection.getStepZ();
-			if (offsetX > 0) {
-				branchStart = branchStart.offset(girth - 1, 0, 0);
-			}
-			if (offsetZ > 0) {
-				branchStart = branchStart.offset(0, 0, girth - 1);
-			}
-
-			for (int i = 0; i < count; i++) {
-				if (rand.nextFloat() > chance) {
-					continue;
-				}
-				int y = 0;
-				int x = 0;
-				int z = 0;
-
-				BlockPos branchEnd = null;
-				for (int r = 0; r < radius; r++) {
-					if (rand.nextFloat() < spreadY) {
-						// make branches only spread up, not down
-						y++;
-						wood.setDirection(Direction.UP);
-					} else {
-						if (rand.nextFloat() < spreadXZ) {
-							if (branchDirection.getAxis() == Direction.Axis.Z) {
-								if (rand.nextBoolean()) {
-									x++;
-								} else {
-									x--;
-								}
-								wood.setDirection(Direction.EAST);
-							} else if (branchDirection.getAxis() == Direction.Axis.X) {
-								if (rand.nextBoolean()) {
-									z++;
-								} else {
-									z--;
-								}
-								wood.setDirection(Direction.SOUTH);
-							}
-						} else {
-							x += offsetX;
-							z += offsetZ;
-							wood.setDirection(branchDirection);
 						}
 					}
 

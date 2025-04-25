@@ -49,7 +49,7 @@ public class FeatureKauri extends FeatureTree {
 			//branches closer to the top tend to climb upward more
 			float spreadMod = 0.15f * (branchPos / (float) height);
 
-			branchPositions.addAll( FeatureHelper.generateSmartBranches( level, rand, bark, startPos.offset(0,branchPos,0), girth, 0.2f + spreadMod, 0.4f, branchWidth, 1, 0.5f ) );
+			branchPositions.addAll( FeatureHelper.generateBranches( level, rand, bark, startPos.offset(0,branchPos,0), girth, 0.2f + spreadMod, 0.4f, branchWidth, 1, 0.5f ) );
 
 		}
 
