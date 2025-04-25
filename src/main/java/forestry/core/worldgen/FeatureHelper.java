@@ -517,7 +517,11 @@ public class FeatureHelper {
 						// make branches only spread up, not down
 						y++;
 						wood.setDirection(Direction.UP);
-						yForce = 0;
+
+						if (yForce >= 1)
+							yForce = yForce % 1;
+						else
+							yForce = 0;
 
 					} else {
 
@@ -525,7 +529,10 @@ public class FeatureHelper {
 
 						if (rand.nextFloat() < spreadXZ || xzForce >= 1) {
 
-							xzForce = 0;
+							if (xzForce >= 1)
+								xzForce = xzForce % 1;
+							else
+								xzForce = 0;
 
 							if (branchDirection.getAxis() == Direction.Axis.Z) {
 								if (xDir) {
