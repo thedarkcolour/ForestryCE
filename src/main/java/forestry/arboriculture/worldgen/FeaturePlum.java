@@ -24,59 +24,49 @@ public class FeaturePlum extends FeatureTree {
 
 
 	public FeaturePlum(ITreeGenData tree) {
-		super(tree, 5, 3);
+		super(tree, 4, 4);
 	}
 
 	@Override
 	public Set<BlockPos> generateTrunk(LevelAccessor level, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
 		FeatureHelper.generateTreeTrunk(level, rand, wood, startPos, height, girth, 0, 0, null, 0);
 
-		int branchSpawn = height - 2;
-		int end = 2;
+		Set<BlockPos> branchCoords = new HashSet<>();
 
-		float heightMult = Math.max(height / 4f, 1);
-		float radius = heightMult + (girth / 2f); //give taller trees longer branches
-
-		Set<BlockPos> branches = new HashSet<>();
-		while (branchSpawn >= end) {
-
-			branches.addAll(
-					FeatureHelper.generateBranches(level, rand, wood, startPos.offset(0, branchSpawn, 0), girth, 0.4f, 0.15f, (int)radius, 1, 0.5f)
-			);
-			branchSpawn-=2;
+		int branchHeight = height - 1;
+		int branchWidth = height / 4;
+		while (branchHeight > 2) {
+			branchCoords.addAll(FeatureHelper.generateBranches(level, rand, wood, startPos.offset(0, branchHeight, 0), girth, 0.2f, 0.5f, branchWidth, 1, 1.0f));
+			branchHeight -= 2;
+			//branchWidth++;
+			//first (top-most) set of branches are shorter than the rest
+			branchWidth = height / 2;
 		}
-
-		return branches;
+		return branchCoords;
 	}
 
 	@Override
 	protected void generateLeaves(LevelAccessor level, RandomSource rand, TreeBlockTypeLeaf leaf, TreeContour contour, BlockPos startPos) {
+		int leafSpawn = height+2 ;
 
-		float bRadius = (float) Math.min(2, Math.ceil(girth/2f));
+		FeatureHelper.generateEllipsoid(level, startPos.offset(girth/2, leafSpawn-=2, girth/2), (girth/2f)+2, 1.5f,  (girth/2f) + 2, 1.5f, leaf, FeatureHelper.EnumReplaceMode.SOFT, contour);
+
+		int dx = 0;
+		int dz = 0;
+
+		while (leafSpawn > 4) {
+
+			FeatureHelper.generateEllipsoid(level, startPos.offset((girth/2)+dx, leafSpawn-=2, (girth/2)+dz), (girth/2f)+3, 1.5f,  (girth/2f) + 3, 1.25f, leaf, FeatureHelper.EnumReplaceMode.SOFT, contour);
+
+			dx = rand.nextIntBetweenInclusive(-1, 1);
+			dz = rand.nextIntBetweenInclusive(-1, 1);
+
+		} ;
+
+
 		for (BlockPos branchEnd : contour.getBranchEnds()) {
-			FeatureHelper.generateCylinderFromPos(level, leaf, branchEnd, bRadius, 1.5f, 2, FeatureHelper.EnumReplaceMode.AIR, contour);
-		}
 
-		int leafSpawn = height;
-
-		int end = rand.nextIntBetweenInclusive(1, 2);
-		float heightMult = Math.max(height/5f,1);
-		int hGirth = (girth/2);
-
-		while (leafSpawn >= end){
-			int randX = rand.nextIntBetweenInclusive(-1, 1);
-			int randZ = rand.nextIntBetweenInclusive(-1, 1);
-
-			float radius = heightMult+hGirth+0.5f;
-
-			if (leafSpawn == height || leafSpawn == end) {
-				radius = Math.max(1, radius * 0.5f);
-				randX = 0;
-				randZ = 0;
-			}
-			FeatureHelper.generateCylinderFromPos(level, leaf, startPos.offset(hGirth + randX, leafSpawn, hGirth + randZ), radius, 1.5f, 2, FeatureHelper.EnumReplaceMode.SOFT, contour);
-
-			leafSpawn--;
+			FeatureHelper.generateEllipsoid(level, branchEnd, 2, 1.5f,  2, 1.75f, leaf, FeatureHelper.EnumReplaceMode.SOFT, contour);
 		}
 	}
 }

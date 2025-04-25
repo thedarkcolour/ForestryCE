@@ -181,7 +181,7 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.FRUIT, ForestryAlleles.FRUIT_PLUM);
 					genome.set(TreeChromosomes.YIELD, ForestryAlleles.YIELD_HIGH);
 					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_AVERAGE);
-					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_SMALL);
+					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_SMALLER);
 				})
 				.addMutations(mutations -> {
 					mutations.add(ForestryTreeSpecies.LEMON, ForestryTreeSpecies.HILL_CHERRY, 0.05f);
