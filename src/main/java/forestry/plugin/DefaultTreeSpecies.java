@@ -767,12 +767,12 @@ public class DefaultTreeSpecies {
 		// So yes it should give Cypress wood as well (which would be good for addons so they don't have to add it) but
 		// we've also agreed that trees with mismatched names to their timbers are bad. So here we are.
 		arboriculture.registerSpecies(ForestryTreeSpecies.MACROCARPA, GENUS_HESPEROCYPARIS, SPECIES_MACROCARPA, true, TextColor.fromRgb(0x5D7121), ForestryWoodType.MACROCARPA)
-				.setTreeFeature(FeatureCypress::new)
+				.setTreeFeature(FeatureMacrocarpa::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.MACROCARPA))
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.MACROCARPA).block().getStateDefinition().getPossibleStates())
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.get(ForestryLeafType.MACROCARPA).block().getStateDefinition().getPossibleStates())
 				.setGenome(genome -> {
-					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_SMALL);
+					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_LARGE);
 					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_AVERAGE);
 					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_AVERAGE);
 					genome.set(TreeChromosomes.GIRTH, ForestryAlleles.GIRTH_2);
