@@ -490,6 +490,8 @@ public class FeatureHelper {
 				branchStart = branchStart.offset(0, 0, girth - offsetZ);
 			}
 
+			boolean firstStep = true;
+
 			//We generate 'count' branches in every direction, with a chance of failure
 			for (int i = 0; i < count; i++) {
 				if (rand.nextFloat() > chance) {
@@ -511,9 +513,9 @@ public class FeatureHelper {
 				float yForce = 0;
 				float xzForce = 0;
 
-
 				for (int r = 0; r < radius; r++) {
-					if (rand.nextFloat() < spreadY || yForce >= 1) {
+					//Stop the very first step being upwards - it's not very branchlike
+					if ((rand.nextFloat() < spreadY || yForce >= 1) && !firstStep) {
 						// make branches only spread up, not down
 						y++;
 						wood.setDirection(Direction.UP);
@@ -525,7 +527,10 @@ public class FeatureHelper {
 
 					} else {
 
-						yForce += spreadY;
+						if (!firstStep)
+							yForce += spreadY;
+
+						firstStep = false;
 
 						if (rand.nextFloat() < spreadXZ || xzForce >= 1) {
 

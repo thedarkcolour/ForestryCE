@@ -420,7 +420,7 @@ public class DefaultTreeSpecies {
 
 		// Camelthorn https://www.catalogueoflife.org/data/taxon/BTCD3
 		arboriculture.registerSpecies(ForestryTreeSpecies.DESERT_ACACIA, GENUS_VACHELLIA, SPECIES_CAMELTHORN, true, TextColor.fromRgb(0x748C1C), ForestryWoodType.ACACIA_DESERT)
-				.setTreeFeature(FeatureAcacia::new)
+				.setTreeFeature(FeatureCamelthorn::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.DESERT_ACACIA))
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.DESERT_ACACIA).block().getStateDefinition().getPossibleStates())
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.get(ForestryLeafType.DESERT_ACACIA).block().getStateDefinition().getPossibleStates())
