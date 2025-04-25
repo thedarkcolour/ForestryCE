@@ -11,7 +11,9 @@
 package forestry.arboriculture.worldgen;
 
 import forestry.api.arboriculture.ITreeGenData;
+import forestry.arboriculture.ForestryWoodType;
 import forestry.core.worldgen.FeatureHelper;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
@@ -28,12 +30,15 @@ public class FeatureKauri extends FeatureTree {
 	public Set<BlockPos> generateTrunk(LevelAccessor level, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
 
 		FeatureHelper.generateTreeTrunk(level, rand, wood, startPos, height, girth, 0, 0, null, 0);
-		FeatureHelper.generateSupportStems(wood, level, rand, startPos, height, girth, 0.8f, 0.2f);
+
+		TreeBlockType bark = FeatureHelper.getWoodFromLog(wood, ForestryWoodType.KAURI);
+
+		FeatureHelper.generateSupportStems(bark, level, rand, startPos, height, girth, 0.8f, 0.2f);
 
 		Set<BlockPos> branchPositions = new HashSet<>();
 
 		int count = rand.nextIntBetweenInclusive((int)(girth *4.5f), (int)(girth * 6.5f));
-		int branchWidth = (int)(height / 2.5f);
+		int branchWidth = (int)(height / 2f);
 
 
 		while (branchPositions.size() <= count){
@@ -42,9 +47,9 @@ public class FeatureKauri extends FeatureTree {
 			int branchPos = rand.nextIntBetweenInclusive(Math.max(height-8, 2), height);
 
 			//branches closer to the top tend to climb upward more
-			float spreadMod = 0.2f * (branchPos / (float) height);
+			float spreadMod = 0.15f * (branchPos / (float) height);
 
-			branchPositions.addAll( FeatureHelper.generateSmartBranches( level, rand, wood, startPos.offset(0,branchPos,0), girth, 0.2f + spreadMod, 0.4f, branchWidth, 1, 0.5f ) );
+			branchPositions.addAll( FeatureHelper.generateSmartBranches( level, rand, bark, startPos.offset(0,branchPos,0), girth, 0.2f + spreadMod, 0.4f, branchWidth, 1, 0.5f ) );
 
 		}
 

@@ -825,7 +825,7 @@ public class DefaultTreeSpecies {
 				.setAuthority("Spear");
 
 		// Kauri https://www.catalogueoflife.org/data/taxon/5TQT6
-		arboriculture.registerSpecies(ForestryTreeSpecies.KAURI, GENUS_AGATHIS, SPECIES_AUSTRALIS, true, TextColor.fromRgb(0x8D975A), ForestryWoodType.KAURI)
+		arboriculture.registerSpecies(ForestryTreeSpecies.KAURI, GENUS_AGATHIS, SPECIES_AUSTRALIS, true, TextColor.fromRgb(0x97AF64), ForestryWoodType.KAURI)
 				.setTreeFeature(FeatureKauri::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.KAURI))
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.KAURI).block().getStateDefinition().getPossibleStates())
