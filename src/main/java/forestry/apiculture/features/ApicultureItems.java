@@ -3,6 +3,7 @@ package forestry.apiculture.features;
 import forestry.api.apiculture.genetics.BeeLifeStage;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.apiculture.items.*;
+import forestry.core.items.ItemForestry;
 import forestry.core.items.ItemForestryFood;
 import forestry.modules.features.*;
 import net.minecraft.world.item.ArmorItem;
@@ -49,4 +50,7 @@ public class ApicultureItems {
 	// TOOLS
 	public static final FeatureItem<ItemScoop> SCOOP = REGISTRY.item(ItemScoop::new, "scoop");
 	public static final FeatureItem<ItemSmoker> SMOKER = REGISTRY.item(ItemSmoker::new, "smoker");
+
+	// MISC
+	public static final FeatureItem<ItemForestry> AMBER_DRONE = REGISTRY.item(ItemForestry::new, "amber_drone");
 }

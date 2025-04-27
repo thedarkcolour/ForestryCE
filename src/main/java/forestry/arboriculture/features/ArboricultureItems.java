@@ -6,6 +6,7 @@ import forestry.arboriculture.ForestryWoodType;
 import forestry.arboriculture.items.ItemForestryBoat;
 import forestry.arboriculture.items.ItemGermlingGE;
 import forestry.arboriculture.items.ItemGrafter;
+import forestry.core.items.ItemForestry;
 import forestry.modules.features.*;
 
 @FeatureProvider
@@ -20,4 +21,7 @@ public class ArboricultureItems {
 	// If you want to implement boats in your addon, look at ItemForestryBoat, ForestryBoat, ForestryChestBoat, and ForestryBoatRenderer
 	public static final FeatureItemGroup<ItemForestryBoat, ForestryWoodType> BOAT = REGISTRY.itemGroup(type -> new ItemForestryBoat(type, false), ForestryWoodType.VALUES).identifier("boat", FeatureGroup.IdentifierType.SUFFIX).create();
 	public static final FeatureItemGroup<ItemForestryBoat, ForestryWoodType> CHEST_BOAT = REGISTRY.itemGroup(type -> new ItemForestryBoat(type, true), ForestryWoodType.VALUES).identifier("chest_boat", FeatureGroup.IdentifierType.SUFFIX).create();
+
+	// MISC
+	public static final FeatureItem<ItemForestry> AMBER_SAPLING = REGISTRY.item(ItemForestry::new, "amber_sapling");
 }

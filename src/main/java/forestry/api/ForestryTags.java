@@ -26,6 +26,7 @@ public class ForestryTags {
 		public static final TagKey<Block> STORAGE_BLOCKS_APATITE = forgeTag("storage_blocks/apatite");
 		public static final TagKey<Block> STORAGE_BLOCKS_TIN = forgeTag("storage_blocks/tin");
 		public static final TagKey<Block> STORAGE_BLOCKS_BRONZE = forgeTag("storage_blocks/bronze");
+		public static final TagKey<Block> STORAGE_BLOCKS_AMBER = forgeTag("storage_blocks/amber");
 
 		public static final TagKey<Block> ORES_TIN = forgeTag("ores/tin");
 		public static final TagKey<Block> ORES_APATITE = forgeTag("ores/apatite");
@@ -118,10 +119,12 @@ public class ForestryTags {
 		public static final TagKey<Item> SAWDUST = forgeTag("sawdust");
 
 		public static final TagKey<Item> GEMS_APATITE = forgeTag("gems/apatite");
+		public static final TagKey<Item> GEMS_AMBER = forgeTag("gems/amber");
 
 		public static final TagKey<Item> STORAGE_BLOCKS_APATITE = forgeTag("storage_blocks/apatite");
 		public static final TagKey<Item> STORAGE_BLOCKS_TIN = forgeTag("storage_blocks/tin");
 		public static final TagKey<Item> STORAGE_BLOCKS_BRONZE = forgeTag("storage_blocks/bronze");
+		public static final TagKey<Item> STORAGE_BLOCKS_AMBER = forgeTag("storage_blocks/amber");
 
 		public static final TagKey<Item> ORES_TIN = forgeTag("ores/tin");
 		public static final TagKey<Item> RAW_MATERIALS_TIN = forgeTag("raw_materials/tin");

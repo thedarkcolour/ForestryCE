@@ -1,4 +1,4 @@
-// 1.20.1	2026-02-02T13:57:07.60547415	Loot Tables
+// 1.20.1	2026-02-02T14:09:32.284569022	Loot Tables
 41fb17dab11f0d0ac4c695eb706119b894401c59 data/forestry/loot_tables/blocks/acacia_desert_button.json
 cd06ea8f3c3db3fc055cc6b07393f6aa938e0525 data/forestry/loot_tables/blocks/acacia_desert_door.json
 0826e330e65982a3be8d6b9d0987e5fc526d62dd data/forestry/loot_tables/blocks/acacia_desert_fence.json
@@ -1083,6 +1083,7 @@ b2d23accac992f73b9ceac0e39a7c2ea8a9b86ce data/forestry/loot_tables/blocks/poplar
 bab1071eee9af10f39c0fb753554ff040b22e8ab data/forestry/loot_tables/blocks/rainmaker.json
 957e98dbe8896ba047cc9b5233eec1ce271015a1 data/forestry/loot_tables/blocks/raintank.json
 02bc9aa5a459b4c7a398384489f5d7a583974fa6 data/forestry/loot_tables/blocks/raw_tin_block.json
+3428ee3a4c70df96c22f4418c88ec089bf21c6d9 data/forestry/loot_tables/blocks/resource_storage_amber.json
 b6d24fd9185ce3f1d579c92a7b1171eb3a80ac21 data/forestry/loot_tables/blocks/resource_storage_apatite.json
 9f501aa00d431b36ac20559ae41c9bfdff72eddb data/forestry/loot_tables/blocks/resource_storage_bronze.json
 181fec5f0d0dc614cf1d512dcd1773c932b9c901 data/forestry/loot_tables/blocks/resource_storage_tin.json

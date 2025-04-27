@@ -132,6 +132,7 @@ public class TreeSpeciesType extends SpeciesType<ITreeSpecies, ITree> implements
 		return tileEntity instanceof TileTreeContainer container ? container.getTree() : null;
 	}
 
+	//TODO: Make it so this doesnt place saplings on top of blocks when you click on the side
 	@Override
 	public boolean plantSapling(Level level, ITree tree, GameProfile owner, BlockPos pos) {
 		BlockState state = ArboricultureBlocks.SAPLING_GE.defaultState();

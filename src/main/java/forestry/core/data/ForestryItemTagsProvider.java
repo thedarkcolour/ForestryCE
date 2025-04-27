@@ -76,6 +76,7 @@ public class ForestryItemTagsProvider {
 		tags.copy(ForestryTags.Blocks.STORAGE_BLOCKS_APATITE, ForestryTags.Items.STORAGE_BLOCKS_APATITE);
 		tags.copy(ForestryTags.Blocks.STORAGE_BLOCKS_TIN, ForestryTags.Items.STORAGE_BLOCKS_TIN);
 		tags.copy(ForestryTags.Blocks.STORAGE_BLOCKS_BRONZE, ForestryTags.Items.STORAGE_BLOCKS_BRONZE);
+		tags.copy(ForestryTags.Blocks.STORAGE_BLOCKS_AMBER, ForestryTags.Items.STORAGE_BLOCKS_AMBER);
 
 		tags.copy(BlockTags.DIRT, ItemTags.DIRT);
 
@@ -92,6 +93,7 @@ public class ForestryItemTagsProvider {
 
 		tags.tag(ForestryTags.Items.DUSTS_ASH).add(CoreItems.ASH.item());
 		tags.tag(ForestryTags.Items.GEMS_APATITE).add(CoreItems.APATITE.item());
+		tags.tag(ForestryTags.Items.GEMS_AMBER).add(CoreItems.AMBER.item());
 		tags.tag(ForestryTags.Items.RAW_MATERIALS_TIN).add(CoreItems.RAW_TIN.item());
 
 		tags.copy(Tags.Blocks.STORAGE_BLOCKS, Tags.Items.STORAGE_BLOCKS);
