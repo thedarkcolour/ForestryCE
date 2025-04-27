@@ -58,7 +58,7 @@ public class DefaultForestryClientRegistration implements Consumer<IClientRegist
 		client.setLeafSprite(ForestryTreeSpecies.LIME, ForestryLeafSprites.BIRCH);
 		client.setLeafSprite(ForestryTreeSpecies.WALNUT, ForestryLeafSprites.ACACIA);
 		client.setLeafSprite(ForestryTreeSpecies.CHESTNUT, ForestryLeafSprites.BIRCH);
-		client.setLeafSprite(ForestryTreeSpecies.HILL_CHERRY, ForestryLeafSprites.BIRCH);
+		client.setLeafSprite(ForestryTreeSpecies.SOUR_CHERRY, ForestryLeafSprites.BIRCH);
 		client.setLeafSprite(ForestryTreeSpecies.LEMON, ForestryLeafSprites.AZALEA);
 		client.setLeafSprite(ForestryTreeSpecies.PLUM, ForestryLeafSprites.OAK);
 		client.setLeafSprite(ForestryTreeSpecies.MAPLE, ForestryLeafSprites.MAPLE);
@@ -72,7 +72,7 @@ public class DefaultForestryClientRegistration implements Consumer<IClientRegist
 		client.setLeafSprite(ForestryTreeSpecies.EBONY, ForestryLeafSprites.JUNGLE);
 		client.setLeafSprite(ForestryTreeSpecies.ZEBRAWOOD, ForestryLeafSprites.JUNGLE);
 		client.setLeafSprite(ForestryTreeSpecies.MAHOGANY, ForestryLeafSprites.JUNGLE);
-		client.setLeafSprite(ForestryTreeSpecies.DESERT_ACACIA, ForestryLeafSprites.ACACIA);
+		client.setLeafSprite(ForestryTreeSpecies.CAMELTHORN, ForestryLeafSprites.ACACIA);
 		client.setLeafSprite(ForestryTreeSpecies.PADAUK, ForestryLeafSprites.ACACIA);
 		client.setLeafSprite(ForestryTreeSpecies.BALSA, ForestryLeafSprites.ACACIA);
 		client.setLeafSprite(ForestryTreeSpecies.COCOBOLO, ForestryLeafSprites.MANGROVE);

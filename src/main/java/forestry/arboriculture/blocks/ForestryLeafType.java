@@ -29,7 +29,7 @@ public final class ForestryLeafType implements IBlockSubtype {
 	public static final ForestryLeafType WALNUT = new ForestryLeafType(ForestryTreeSpecies.WALNUT);
 	public static final ForestryLeafType CHESTNUT = new ForestryLeafType(ForestryTreeSpecies.CHESTNUT);
 	public static final ForestryLeafType CHERRY_VANILLA = new ForestryLeafType(ForestryTreeSpecies.CHERRY_VANILLA);
-	public static final ForestryLeafType HILL_CHERRY = new ForestryLeafType(ForestryTreeSpecies.HILL_CHERRY);
+	public static final ForestryLeafType HILL_CHERRY = new ForestryLeafType(ForestryTreeSpecies.SOUR_CHERRY);
 	public static final ForestryLeafType LEMON = new ForestryLeafType(ForestryTreeSpecies.LEMON);
 	public static final ForestryLeafType PLUM = new ForestryLeafType(ForestryTreeSpecies.PLUM);
 	public static final ForestryLeafType MAPLE = new ForestryLeafType(ForestryTreeSpecies.MAPLE);
@@ -46,7 +46,7 @@ public final class ForestryLeafType implements IBlockSubtype {
 	public static final ForestryLeafType ZEBRAWOOD = new ForestryLeafType(ForestryTreeSpecies.ZEBRAWOOD);
 	public static final ForestryLeafType MAHOGANY = new ForestryLeafType(ForestryTreeSpecies.MAHOGANY);
 	public static final ForestryLeafType ACACIA_VANILLA = new ForestryLeafType(ForestryTreeSpecies.ACACIA_VANILLA);
-	public static final ForestryLeafType DESERT_ACACIA = new ForestryLeafType(ForestryTreeSpecies.DESERT_ACACIA);
+	public static final ForestryLeafType DESERT_ACACIA = new ForestryLeafType(ForestryTreeSpecies.CAMELTHORN);
 	public static final ForestryLeafType PADAUK = new ForestryLeafType(ForestryTreeSpecies.PADAUK);
 	public static final ForestryLeafType BALSA = new ForestryLeafType(ForestryTreeSpecies.BALSA);
 	public static final ForestryLeafType COCOBOLO = new ForestryLeafType(ForestryTreeSpecies.COCOBOLO);

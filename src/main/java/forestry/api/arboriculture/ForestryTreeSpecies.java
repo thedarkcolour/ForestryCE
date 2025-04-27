@@ -25,7 +25,7 @@ public class ForestryTreeSpecies {
 	public static final ResourceLocation LIME = forestry("tree_lime");
 	public static final ResourceLocation WALNUT = forestry("tree_walnut");
 	public static final ResourceLocation CHESTNUT = forestry("tree_chestnut");
-	public static final ResourceLocation HILL_CHERRY = forestry("tree_hill_cherry"); //TODO: Rename in 1.21
+	public static final ResourceLocation SOUR_CHERRY = forestry("tree_hill_cherry"); //TODO: Rename in 1.21
 	public static final ResourceLocation LEMON = forestry("tree_lemon");
 	public static final ResourceLocation PLUM = forestry("tree_plum");
 	public static final ResourceLocation MAPLE = forestry("tree_maple");
@@ -39,7 +39,7 @@ public class ForestryTreeSpecies {
 	public static final ResourceLocation EBONY = forestry("tree_ebony");
 	public static final ResourceLocation ZEBRAWOOD = forestry("tree_zebrawood"); //TODO: Rename in 1.21
 	public static final ResourceLocation MAHOGANY = forestry("tree_mahogany");
-	public static final ResourceLocation DESERT_ACACIA = forestry("tree_desert_acacia"); //TODO: Rename in 1.21
+	public static final ResourceLocation CAMELTHORN = forestry("tree_desert_acacia"); //TODO: Rename in 1.21
 	public static final ResourceLocation PADAUK = forestry("tree_padauk");
 	public static final ResourceLocation BALSA = forestry("tree_balsa");
 	public static final ResourceLocation COCOBOLO = forestry("tree_cocobolo");
