@@ -1,4 +1,4 @@
-// 1.20.1	2026-02-02T14:09:32.297635122	Recipes
+// 1.20.1	2026-02-02T14:14:22.513623071	Recipes
 6867bbb8c2b291d6e111aae900a9ce8be0cf8ebe data/forestry/advancements/recipes/building_blocks/acacia_desert_fence.json
 92d402b3f91419af71a9913fbddab9c5e9183779 data/forestry/advancements/recipes/building_blocks/acacia_desert_fence_gate.json
 756f6f4fa8d9fdc7fe1895f6bd02cb5e107c6acf data/forestry/advancements/recipes/building_blocks/acacia_desert_fireproof_fence.json
@@ -2846,13 +2846,18 @@ d705bcb3f6103cd5a9bff768dc57ac4c5e84cebf data/forestry/recipes/spruce_fireproof_
 c3f53f8e86dca10cc454f4e01d4dc039dfe1d217 data/forestry/recipes/squeezer/container/can.json
 b627309251fed349a0002deee557cfaf7f139c40 data/forestry/recipes/squeezer/container/capsule.json
 7776736ca1040cb587970b1b4bf1ec9506498072 data/forestry/recipes/squeezer/container/refractory.json
-632e47b5ad353959d8db9b3241c983b51c271e86 data/forestry/recipes/squeezer/fruit/cherry.json
-eb16482fdaf6da2a6b7cb049ec5060505c86d5cb data/forestry/recipes/squeezer/fruit/chestnut.json
+e9e5edb562bca5478a5fae4d2261d93b80c719da data/forestry/recipes/squeezer/fruit/cherry.json
+f7d52496ae19405317a78a2f03a6c9a8fb82886b data/forestry/recipes/squeezer/fruit/chestnut.json
+1c2d5c0920a8b14fde8546d2d48f0bb3786b7d0a data/forestry/recipes/squeezer/fruit/coconut.json
 d5fc1d640eb52329a0c6bccb61f95bd672af802d data/forestry/recipes/squeezer/fruit/dates.json
+379d6b5388c701d00899be95e79f88f7f309fa13 data/forestry/recipes/squeezer/fruit/feijoa.json
 444e9a43b77f224f74ddbf0a0c30100c6240e46a data/forestry/recipes/squeezer/fruit/lemon.json
+12bbbe3e9e6278f6a4a3a67f98b3a6665753d7e2 data/forestry/recipes/squeezer/fruit/olive.json
+f7b2c371c0bcf6ad2efe6d8aaccdc3b938401b87 data/forestry/recipes/squeezer/fruit/orange.json
 4ab219e61edec73f8ffeb17eb0affd40ff174e7f data/forestry/recipes/squeezer/fruit/papaya.json
+775d17c0b7ba55c1197afa0097c65a0fc7c30324 data/forestry/recipes/squeezer/fruit/pear.json
 cf3083d4175b604a08e2108551a8658effb241e6 data/forestry/recipes/squeezer/fruit/plum.json
-130d357e9b0b0639ab531f85b17fc70c2022127f data/forestry/recipes/squeezer/fruit/walnut.json
+fcf11486bd8134d07ff44f18ddde75f93f452652 data/forestry/recipes/squeezer/fruit/walnut.json
 1c4b3c30ae642729949b3ad9abb15caaf4596697 data/forestry/recipes/squeezer/honey_block.json
 73d37252a85c29137c4167e43a3d40c20299770a data/forestry/recipes/squeezer/honey_dew.json
 3062a772a152c33072770a4edac1cef9de1050bd data/forestry/recipes/squeezer/honey_drop.json

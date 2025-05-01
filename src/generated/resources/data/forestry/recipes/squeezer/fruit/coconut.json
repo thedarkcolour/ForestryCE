@@ -1,9 +1,9 @@
 {
   "type": "forestry:squeezer",
-  "chance": 0.05,
+  "chance": 0.25,
   "output": {
-    "Amount": 50,
-    "FluidName": "forestry:seed_oil"
+    "Amount": 500,
+    "FluidName": "minecraft:water"
   },
   "remnant": {
     "Count": 1,
@@ -11,8 +11,8 @@
   },
   "resources": [
     {
-      "tag": "forge:fruits/walnut"
+      "tag": "forge:fruits/coconut"
     }
   ],
-  "time": 60
+  "time": 10
 }

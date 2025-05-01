@@ -3,7 +3,7 @@
   "chance": 0.05,
   "output": {
     "Amount": 50,
-    "FluidName": "forestry:seed_oil"
+    "FluidName": "forestry:juice"
   },
   "remnant": {
     "Count": 1,
