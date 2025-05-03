@@ -194,7 +194,7 @@ public class DefaultTreeSpecies {
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.get(ForestryLeafType.ELM).block().getStateDefinition().getPossibleStates())
 				.setGenome(genome -> {
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_AVERAGE);
-					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPLINGS_LOW);
+					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_LOW);
 					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_AVERAGE);
 				})
 				.addMutations(mutations -> {
@@ -347,7 +347,7 @@ public class DefaultTreeSpecies {
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.get(ForestryLeafType.GINKGO).block().getStateDefinition().getPossibleStates())
 				.setGenome(genome -> {
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_LARGE);
-					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_AVERAGE);
+					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_HIGHER);//Highest of all trees. Best for Biofuel. Not, to my knowledge, representative of real life Ginkgo trees.
 					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_SLOW);
 					genome.set(TreeChromosomes.SAPLINGS, ForestryAlleles.SAPLINGS_LOW);
 				})
@@ -414,7 +414,7 @@ public class DefaultTreeSpecies {
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.get(ForestryLeafType.FIR).block().getStateDefinition().getPossibleStates())
 				.setGenome(genome -> {
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_LARGE);
-					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_HIGHER);
+					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_HIGH);
 					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_AVERAGE);
 				})
 				.addMutations(mutations -> {
@@ -491,7 +491,7 @@ public class DefaultTreeSpecies {
 				.setGenome(genome -> {
 					//It was a Girth 2 tree in Extra Trees, but 1x1 is more accurate to real life
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_LARGER);
-					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_HIGHER);
+					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_HIGH);
 					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_SLOWER);
 					genome.set(TreeChromosomes.SAPLINGS, ForestryAlleles.SAPLINGS_LOWER);
 				}).addMutations(mutations -> {
@@ -509,7 +509,7 @@ public class DefaultTreeSpecies {
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.get(ForestryLeafType.KAURI).block().getStateDefinition().getPossibleStates())
 				.setGenome(genome -> {
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_LARGEST);
-					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_HIGHER);
+					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_HIGH);
 					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_SLOWEST);
 					genome.set(TreeChromosomes.SAPLINGS, ForestryAlleles.SAPLINGS_LOWEST);
 					genome.set(TreeChromosomes.GIRTH, ForestryAlleles.GIRTH_3);
@@ -596,7 +596,7 @@ public class DefaultTreeSpecies {
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.get(ForestryLeafType.ORANGE).block().getStateDefinition().getPossibleStates())
 				.setGenome(genome -> {
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_SMALLER);
-					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPLINGS_LOW);
+					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_LOW);
 					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_AVERAGE);
 					genome.set(TreeChromosomes.FRUIT, ForestryAlleles.FRUIT_ORANGE);
 					genome.set(TreeChromosomes.YIELD, ForestryAlleles.YIELD_HIGH);
