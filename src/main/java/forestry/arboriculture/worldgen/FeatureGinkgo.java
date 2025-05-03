@@ -28,11 +28,16 @@ public class FeatureGinkgo extends FeatureTree {
 	public Set<BlockPos> generateTrunk(LevelAccessor level, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
 		FeatureHelper.generateTreeTrunk(level, rand, wood, startPos, height, girth, 0, 0, null, 0);
 
-		int trunkSpawn = height - 2;
+		int trunkSpawn = height - 1;
+		float baseRad = 1f;
+		float radMod = 2f;
 
 		Set<BlockPos> branchCoords = new HashSet<>();
 		while (trunkSpawn > 2) {
-			branchCoords.addAll(FeatureHelper.generateBranches(level, rand, wood, startPos.offset(0, trunkSpawn--, 0), girth, 0f, 0.3f, 2, 1, 0.5f));
+
+			float radius =baseRad + (1.0f - (float)trunkSpawn / height) * radMod;
+			branchCoords.addAll(FeatureHelper.generateBranches(level, rand, wood, startPos.offset(0, trunkSpawn, 0), girth, 0.15f, 0.3f, (int)radius, 1, 0.25f));
+			trunkSpawn-=3;
 		}
 		return branchCoords;
 	}
@@ -40,30 +45,27 @@ public class FeatureGinkgo extends FeatureTree {
 	@Override
 	protected void generateLeaves(LevelAccessor level, RandomSource rand, TreeBlockTypeLeaf leaf, TreeContour contour, BlockPos startPos) {
 
-		//FeatureHelper.generateCylinderFromTreeStartPos(level, leaf, startPos.offset(0, 2, 0), girth, 2, 1.5f, height-1, FeatureHelper.EnumReplaceMode.AIR, contour);
+		int leafSpawn = height + 2;
 
-		int leafSpawn = height + 1;
-
-		FeatureHelper.generateCylinderFromTreeStartPos(level, leaf, startPos.offset(0, height, 0), girth, 2f+(girth/2f), 1.25f, 1, FeatureHelper.EnumReplaceMode.AIR, contour);
-
-		int range = (int)Math.ceil(girth/2f);
 		int end = rand.nextIntBetweenInclusive(1,2);
+		int rAdd = 0;
+
+		float baseRad = 1f;
+		float radMod = 2f;
 
 		while (leafSpawn > end){
 
-			int randX = rand.nextIntBetweenInclusive(-range,range);
-			int randZ = rand.nextIntBetweenInclusive(-range,range);
+			//Basically this makes a slightly conic cylinder, where the top is 2 blocks thinner than the base.
+			float radius = baseRad + (1.0f - (float)leafSpawn / height) * radMod + rAdd + ((girth-1f)/2);
 
-			//larger trees get a bit more coverage
-			for (int i = 0; i < Math.ceil(girth/2f); i++)
-				FeatureHelper.generateCylinderFromPos(level, leaf, startPos.offset((girth/2)+randX, leafSpawn, (girth/2)+randZ), 3f, 1.25f, 1, FeatureHelper.EnumReplaceMode.AIR, contour);
+			FeatureHelper.generateCylinderFromTreeStartPos(level, leaf, startPos.offset(0, leafSpawn--, 0), girth, radius , 1.25f, 1, FeatureHelper.EnumReplaceMode.AIR, contour);
 
-			leafSpawn--;
+			rAdd = (rAdd == 0) ? 1 : 0;
 		}
 
 		for (BlockPos branchEnd: contour.getBranchEnds()){
 
-			FeatureHelper.generateCylinderFromPos(level, leaf, branchEnd, 2.5f, 1.25f, 2, FeatureHelper.EnumReplaceMode.AIR, contour);
+			FeatureHelper.generateCylinderFromPos(level, leaf, branchEnd, 2f, 1.25f, 2, FeatureHelper.EnumReplaceMode.AIR, contour);
 		}
 
 	}
