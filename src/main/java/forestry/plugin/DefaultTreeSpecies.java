@@ -80,6 +80,7 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.YIELD, ForestryAlleles.YIELD_AVERAGE);
 					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_LOW);
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_SMALLER);
+					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_FAST);
 				})
 				.addMutations(mutations -> {
 					mutations.add(ForestryTreeSpecies.LIME, ForestryTreeSpecies.OAK, 0.10f);
@@ -131,10 +132,10 @@ public class DefaultTreeSpecies {
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.get(ForestryLeafType.PEAR).block().getStateDefinition().getPossibleStates())
 				.setGenome(genome -> {
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_AVERAGE);
-					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_AVERAGE);
+					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_LOW);
 					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_AVERAGE);
 					genome.set(TreeChromosomes.FRUIT, ForestryAlleles.FRUIT_PEAR);
-					genome.set(TreeChromosomes.YIELD, ForestryAlleles.YIELD_LOWER);
+					genome.set(TreeChromosomes.YIELD, ForestryAlleles.YIELD_AVERAGE);
 				})
 				.addMutations(mutations -> {
 					mutations.add(ForestryTreeSpecies.SOUR_CHERRY, ForestryTreeSpecies.OAK, 0.10f);
@@ -171,9 +172,10 @@ public class DefaultTreeSpecies {
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.get(ForestryLeafType.FEIJOA).block().getStateDefinition().getPossibleStates())
 				.setGenome(genome -> {
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_SMALLEST);
-					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_AVERAGE);
+					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_LOW);
 					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_AVERAGE);
 					genome.set(TreeChromosomes.FRUIT, ForestryAlleles.FRUIT_FEIJOA);
+					genome.set(TreeChromosomes.SAPLINGS, ForestryAlleles.SAPLINGS_LOWER);
 					genome.set(TreeChromosomes.YIELD, ForestryAlleles.YIELD_HIGHER); //This is (currently) the highest yield of all trees
 				})
 				.addMutations(mutations -> {
@@ -192,9 +194,8 @@ public class DefaultTreeSpecies {
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.get(ForestryLeafType.ELM).block().getStateDefinition().getPossibleStates())
 				.setGenome(genome -> {
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_AVERAGE);
-					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_AVERAGE);
+					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPLINGS_LOW);
 					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_AVERAGE);
-					genome.set(TreeChromosomes.SAPLINGS, ForestryAlleles.SAPLINGS_LOW);
 				})
 				.addMutations(mutations -> {
 					mutations.add(ForestryTreeSpecies.LIME, ForestryTreeSpecies.BIRCH, 0.10f);
@@ -225,8 +226,8 @@ public class DefaultTreeSpecies {
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.get(ForestryLeafType.BEECH).block().getStateDefinition().getPossibleStates())
 				.setGenome(genome -> {
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_AVERAGE);
-					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_AVERAGE);
-					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_AVERAGE);
+					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_LOW);
+					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_SLOW);
 				})
 				.addMutations(mutations -> {
 					mutations.add(ForestryTreeSpecies.ELM, ForestryTreeSpecies.LIME, 0.05f);
@@ -310,8 +311,8 @@ public class DefaultTreeSpecies {
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.get(ForestryLeafType.DOGWOOD).block().getStateDefinition().getPossibleStates())
 				.setGenome(genome -> {
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_SMALL);
-					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_AVERAGE);
-					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_AVERAGE);
+					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_LOW);
+					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_FAST);
 				})
 				.addMutations(mutations -> {
 					mutations.add(ForestryTreeSpecies.LIME, ForestryTreeSpecies.CHERRY_VANILLA, 0.10f);
@@ -326,7 +327,7 @@ public class DefaultTreeSpecies {
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.get(ForestryLeafType.JACARANDA).block().getStateDefinition().getPossibleStates())
 				.setGenome(genome -> {
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_SMALL);
-					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_AVERAGE);
+					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_LOW);
 					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_AVERAGE);
 				})
 				.addMutations(mutations -> {
@@ -347,7 +348,8 @@ public class DefaultTreeSpecies {
 				.setGenome(genome -> {
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_LARGE);
 					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_AVERAGE);
-					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_AVERAGE);
+					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_SLOW);
+					genome.set(TreeChromosomes.SAPLINGS, ForestryAlleles.SAPLINGS_LOW);
 				})
 				.setAuthority("Spear");
 		//No mutations for this tree, as it comes from Sniffers.
@@ -411,8 +413,8 @@ public class DefaultTreeSpecies {
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.FIR).block().getStateDefinition().getPossibleStates())
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.get(ForestryLeafType.FIR).block().getStateDefinition().getPossibleStates())
 				.setGenome(genome -> {
-					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_AVERAGE);
-					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_AVERAGE);
+					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_LARGE);
+					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_HIGHER);
 					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_AVERAGE);
 				})
 				.addMutations(mutations -> {
@@ -434,8 +436,9 @@ public class DefaultTreeSpecies {
 				.setGenome(genome -> {
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_LARGE);
 					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_AVERAGE);
-					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_AVERAGE);
+					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_SLOW);
 					genome.set(TreeChromosomes.GIRTH, ForestryAlleles.GIRTH_2);
+					genome.set(TreeChromosomes.SAPLINGS, ForestryAlleles.SAPLINGS_LOW);
 				})
 				.addMutations(mutations -> {
 					mutations.add(ForestryTreeSpecies.PINE, ForestryTreeSpecies.FIR, 0.10f);
@@ -488,8 +491,9 @@ public class DefaultTreeSpecies {
 				.setGenome(genome -> {
 					//It was a Girth 2 tree in Extra Trees, but 1x1 is more accurate to real life
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_LARGER);
-					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_AVERAGE);
-					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_AVERAGE);
+					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_HIGHER);
+					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_SLOWER);
+					genome.set(TreeChromosomes.SAPLINGS, ForestryAlleles.SAPLINGS_LOWER);
 				}).addMutations(mutations -> {
 					mutations.add(ForestryTreeSpecies.MACROCARPA, ForestryTreeSpecies.FIR, 0.05f)
 							.restrictTemperature(TemperatureType.ICY, TemperatureType.COLD)
@@ -505,8 +509,9 @@ public class DefaultTreeSpecies {
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.get(ForestryLeafType.KAURI).block().getStateDefinition().getPossibleStates())
 				.setGenome(genome -> {
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_LARGEST);
-					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_AVERAGE);
-					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_AVERAGE);
+					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_HIGHER);
+					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_SLOWEST);
+					genome.set(TreeChromosomes.SAPLINGS, ForestryAlleles.SAPLINGS_LOWEST);
 					genome.set(TreeChromosomes.GIRTH, ForestryAlleles.GIRTH_3);
 				})
 				.addMutations(mutations -> {
@@ -591,10 +596,10 @@ public class DefaultTreeSpecies {
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.get(ForestryLeafType.ORANGE).block().getStateDefinition().getPossibleStates())
 				.setGenome(genome -> {
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_SMALLER);
-					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_AVERAGE);
+					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPLINGS_LOW);
 					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_AVERAGE);
 					genome.set(TreeChromosomes.FRUIT, ForestryAlleles.FRUIT_ORANGE);
-					genome.set(TreeChromosomes.YIELD, ForestryAlleles.YIELD_LOWER);
+					genome.set(TreeChromosomes.YIELD, ForestryAlleles.YIELD_HIGH);
 				})
 				.addMutations(mutations -> {
 					mutations.add(ForestryTreeSpecies.LIME, ForestryTreeSpecies.JUNGLE, 0.10f);
@@ -662,8 +667,8 @@ public class DefaultTreeSpecies {
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.get(ForestryLeafType.LEMON).block().getStateDefinition().getPossibleStates())
 				.setGenome(genome -> {
 					genome.set(TreeChromosomes.FRUIT, ForestryAlleles.FRUIT_LEMON);
-					genome.set(TreeChromosomes.YIELD, ForestryAlleles.YIELD_LOWER);
-					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_AVERAGE);
+					genome.set(TreeChromosomes.YIELD, ForestryAlleles.YIELD_HIGH);
+					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_LOW);
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_SMALLEST);
 
 				})
@@ -682,6 +687,8 @@ public class DefaultTreeSpecies {
 				.setGenome(genome -> {
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_LARGE);
 					genome.set(TreeChromosomes.GIRTH, ForestryAlleles.GIRTH_2);
+					genome.set(TreeChromosomes.SAPLINGS, ForestryAlleles.SAPLINGS_LOWER);
+					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_SLOW);
 				})
 				.addMutations(mutations -> {
 					mutations.add(ForestryTreeSpecies.EBONY, ForestryTreeSpecies.BALSA, 0.05f)
@@ -720,8 +727,9 @@ public class DefaultTreeSpecies {
 				.setGenome(genome -> {
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_LARGE);
 					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_AVERAGE);
-					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_AVERAGE);
+					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_FAST);
 					genome.set(TreeChromosomes.FRUIT, ForestryAlleles.FRUIT_COCONUT);
+					genome.set(TreeChromosomes.YIELD, ForestryAlleles.YIELD_HIGH);
 				})
 				.addMutations(mutations -> {
 					mutations.add(ForestryTreeSpecies.WALNUT, ForestryTreeSpecies.KAPOK, 0.05f)
@@ -771,6 +779,12 @@ public class DefaultTreeSpecies {
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.get(ForestryLeafType.DESERT_ACACIA).block().getStateDefinition().getPossibleStates())
 				.setTemperature(TemperatureType.WARM)
 				.setHumidity(HumidityType.ARID)
+				.setGenome(genome -> {
+					genome.set(TreeChromosomes.SAPLINGS, ForestryAlleles.SAPLINGS_LOWEST);
+					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_SLOWER);
+					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_SMALL);
+					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_LOW);
+				})
 				.addMutations(mutations -> {
 					mutations.add(ForestryTreeSpecies.ACACIA_VANILLA, ForestryTreeSpecies.JUNGLE, 0.15f);
 				})
@@ -895,10 +909,11 @@ public class DefaultTreeSpecies {
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.get(ForestryLeafType.OLIVE).block().getStateDefinition().getPossibleStates())
 				.setGenome(genome -> {
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_SMALLER);
-					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_AVERAGE);
-					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_AVERAGE);
+					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_LOW);
+					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_FAST);
 					genome.set(TreeChromosomes.FRUIT, ForestryAlleles.FRUIT_OLIVE);
 					genome.set(TreeChromosomes.YIELD, ForestryAlleles.YIELD_AVERAGE);
+					genome.set(TreeChromosomes.SAPLINGS, ForestryAlleles.SAPLINGS_LOWER);
 				})
 				.addMutations(mutations -> {
 					mutations.add(ForestryTreeSpecies.SOUR_CHERRY, ForestryTreeSpecies.CAMELTHORN, 0.05f)
