@@ -49,11 +49,11 @@ public class CentrifugeRecipe implements ICentrifugeRecipe {
 	}
 
 	@Override
-	public List<ItemStack> getProducts(RandomSource random) {
+	public List<ItemStack> getProducts(RandomSource random, double outputMult) {
 		ArrayList<ItemStack> products = new ArrayList<>();
 
 		for (Product entry : this.products) {
-			float probability = entry.chance();
+			double probability = entry.chance() * outputMult;
 
 			if (probability >= 1.0) {
 				products.add(entry.createStack());

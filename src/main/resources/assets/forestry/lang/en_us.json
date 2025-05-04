@@ -58,7 +58,7 @@
   "for.circuit.machine.efficiency.1": "Machine Efficiency",
   "for.circuit.machine.efficiency.1.description.1": "Decreases Power Use by 10%",
   "for.circuit.machine.fortune.1": "Fortune",
-  "for.circuit.machine.fortune.1.description.1": "Increases recipe yield chance by 5%",
+  "for.circuit.machine.fortune.1.description.1": "Multiplies output chances by 1.25x",
   "for.circuit.layout.dummy": "Not Available",
   "for.circuit.layout.dummy.usage": "Nothing",
   "for.circuit.layout.engine.tin": "Electrical Engine",

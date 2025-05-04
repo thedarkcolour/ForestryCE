@@ -21,7 +21,7 @@ public interface ICentrifugeRecipe extends IForestryRecipe {
 	/**
 	 * Returns the randomized products from processing one input item.
 	 **/
-	List<ItemStack> getProducts(RandomSource random);
+	List<ItemStack> getProducts(RandomSource random, double outputMult);
 
 	/**
 	 * Returns a list of all possible products and their estimated probabilities (0.0 to 1.0],
