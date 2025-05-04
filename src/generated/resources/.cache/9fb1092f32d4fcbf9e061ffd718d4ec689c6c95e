@@ -1,4 +1,4 @@
-// 1.20.1	2026-02-02T14:15:05.79890228	Recipes
+// 1.20.1	2026-02-02T16:32:52.182722513	Recipes
 6867bbb8c2b291d6e111aae900a9ce8be0cf8ebe data/forestry/advancements/recipes/building_blocks/acacia_desert_fence.json
 92d402b3f91419af71a9913fbddab9c5e9183779 data/forestry/advancements/recipes/building_blocks/acacia_desert_fence_gate.json
 756f6f4fa8d9fdc7fe1895f6bd02cb5e107c6acf data/forestry/advancements/recipes/building_blocks/acacia_desert_fireproof_fence.json
@@ -1603,6 +1603,7 @@ b8078710e4c560f89d6b6002953bcb1f12d2e837 data/forestry/recipes/carpenter/wood_pu
 98384b7c1dea5346c267319a35481a85b98dcb49 data/forestry/recipes/carpenter/woven_silk.json
 f30d2a71f6d1c471b28714f9e6e70aba23591eee data/forestry/recipes/catalogue.json
 8f49f1ec6e7086e48d963738ebd926ad5f1619df data/forestry/recipes/centrifuge.json
+700200d71da6fc8ceb6745cbec96b0f64f6d2896 data/forestry/recipes/centrifuge/amber_drone.json
 38c7f9f518631323cd0ef91e357a3c4af4da7e47 data/forestry/recipes/centrifuge/amber_sapling.json
 8349380b3e5512f94955e19079b2221dd5eb1112 data/forestry/recipes/centrifuge/cocoa_comb.json
 ccc151e2c5870982e9ecae00e63acfb377be6a24 data/forestry/recipes/centrifuge/comb_to_wax.json
@@ -1620,7 +1621,7 @@ b8ef95d2d012aa5bf6c0feb3daf907a5d6aed5c5 data/forestry/recipes/centrifuge/silky_
 4aec683e1075cc65d8a6426cfee12f8afd94ff31 data/forestry/recipes/centrifuge/silky_propolis.json
 3cb84e265e31c57e4a6865bf2ba90e28ef317b67 data/forestry/recipes/centrifuge/simmering_comb.json
 d1fdecaf5e2deeeae7d4af8ad515d1dcc323f1ef data/forestry/recipes/centrifuge/stringy_comb.json
-a5c5e5b080289393e6a45758072c45256757cc97 data/forestry/recipes/centrifuge/vintage_comb.json
+a369929ea2b78d59b7d0359cb778b7223c84f6ae data/forestry/recipes/centrifuge/vintage_comb.json
 f26a594d83f5c98a6647d465900f68b71fbb4203 data/forestry/recipes/centrifuge/wheaten_comb.json
 3b812faa0618ea8370303f85e9ed530f4a01a6f8 data/forestry/recipes/charcoal.json
 7165bd1f7745eba39a6438a75614785e4f5888e9 data/forestry/recipes/charcoal_from_block.json
