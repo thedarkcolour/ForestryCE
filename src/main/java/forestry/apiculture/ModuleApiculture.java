@@ -19,7 +19,6 @@ import forestry.apiculture.network.packets.PacketBeeLogicActive;
 import forestry.apiculture.network.packets.PacketHabitatBiomePointer;
 import forestry.apiculture.proxy.ApicultureClientHandler;
 import forestry.apiculture.villagers.ApicultureVillagers;
-import forestry.core.data.LootTableHelper;
 import forestry.core.network.PacketIdClient;
 import forestry.core.utils.SpeciesUtil;
 import forestry.modules.BlankForestryModule;
@@ -32,6 +31,7 @@ import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootPool;
+import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
@@ -51,21 +51,6 @@ public class ModuleApiculture extends BlankForestryModule {
 	public static boolean hiveDamageOnAttack = true;
 	public static boolean doSelfPollination = false;
 	public static int maxFlowersSpawnedPerHive = 20;
-
-	@Override
-	public ResourceLocation getId() {
-		return ForestryModuleIds.APICULTURE;
-	}
-
-	@Override
-	public void registerEvents(IEventBus modBus) {
-		modBus.addListener(ModuleApiculture::registerCapabilities);
-		modBus.addListener(ModuleApiculture::onCommonSetup);
-
-		MinecraftForge.EVENT_BUS.addListener(ApicultureVillagers::villagerTrades);
-		MinecraftForge.EVENT_BUS.addListener(ModuleApiculture::onNetherBeeMate);
-		MinecraftForge.EVENT_BUS.addListener(ModuleApiculture::modifySnifferLoot);
-	}
 
 	private static void onCommonSetup(FMLCommonSetupEvent event) {
 		// BREWING RECIPES
@@ -96,10 +81,30 @@ public class ModuleApiculture extends BlankForestryModule {
 			if (main != null) {
 				LootPoolEntryContainer[] entries = new LootPoolEntryContainer[main.entries.length + 1];
 				System.arraycopy(main.entries, 0, entries, 0, main.entries.length);
-				entries[main.entries.length] = LootTableHelper.beeLoot(ForestryBeeSpecies.RELIC).build();
+				entries[main.entries.length] = LootItem.lootTableItem(ApicultureItems.AMBER_DRONE).build();
 				main.entries = entries;
 			}
 		}
+	}
+
+	// todo config
+	public static double getSecondPrincessChance() {
+		return (float) 0;
+	}
+
+	@Override
+	public ResourceLocation getId() {
+		return ForestryModuleIds.APICULTURE;
+	}
+
+	@Override
+	public void registerEvents(IEventBus modBus) {
+		modBus.addListener(ModuleApiculture::registerCapabilities);
+		modBus.addListener(ModuleApiculture::onCommonSetup);
+
+		MinecraftForge.EVENT_BUS.addListener(ApicultureVillagers::villagerTrades);
+		MinecraftForge.EVENT_BUS.addListener(ModuleApiculture::onNetherBeeMate);
+		MinecraftForge.EVENT_BUS.addListener(ModuleApiculture::modifySnifferLoot);
 	}
 
 	@Override
@@ -117,11 +122,6 @@ public class ModuleApiculture extends BlankForestryModule {
 		registry.clientbound(PacketIdClient.BEE_LOGIC_ACTIVE, PacketBeeLogicActive.class, PacketBeeLogicActive::decode, PacketBeeLogicActive::handle);
 		registry.clientbound(PacketIdClient.HABITAT_BIOME_POINTER, PacketHabitatBiomePointer.class, PacketHabitatBiomePointer::decode, PacketHabitatBiomePointer::handle);
 		registry.clientbound(PacketIdClient.ALVERAY_CONTROLLER_CHANGE, PacketAlvearyChange.class, PacketAlvearyChange::decode, PacketAlvearyChange::handle);
-	}
-
-	// todo config
-	public static double getSecondPrincessChance() {
-		return (float) 0;
 	}
 
 	@Override

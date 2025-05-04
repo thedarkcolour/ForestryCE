@@ -26,9 +26,14 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.block.state.properties.WoodType;
+import net.minecraft.world.level.storage.loot.BuiltInLootTables;
+import net.minecraft.world.level.storage.loot.LootPool;
+import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 
@@ -48,6 +53,7 @@ public class ModuleArboriculture extends BlankForestryModule {
 		modBus.addListener(ModuleArboriculture::registerCapabilities);
 		modBus.addListener(ModuleArboriculture::commonSetup);
 		MinecraftForge.EVENT_BUS.addGenericListener(ItemStack.class, ModuleArboriculture::attachCapabilities);
+		MinecraftForge.EVENT_BUS.addListener(ModuleArboriculture::modifySnifferLoot);
 	}
 
 	private static void attachCapabilities(AttachCapabilitiesEvent<ItemStack> event) {
@@ -60,6 +66,19 @@ public class ModuleArboriculture extends BlankForestryModule {
 
 			if (individual != null) {
 				event.addCapability(IIndividual.CAPABILITY_ID, new IndividualHandlerItem(type, stack, individual, TreeLifeStage.SAPLING));
+			}
+		}
+	}
+
+	private static void modifySnifferLoot(LootTableLoadEvent event) {
+		if (event.getName().equals(BuiltInLootTables.SNIFFER_DIGGING)) {
+			LootPool main = event.getTable().getPool("main");
+
+			if (main != null) {
+				LootPoolEntryContainer[] entries = new LootPoolEntryContainer[main.entries.length + 1];
+				System.arraycopy(main.entries, 0, entries, 0, main.entries.length);
+				entries[main.entries.length] = LootItem.lootTableItem(ArboricultureItems.AMBER_SAPLING).build();
+				main.entries = entries;
 			}
 		}
 	}
