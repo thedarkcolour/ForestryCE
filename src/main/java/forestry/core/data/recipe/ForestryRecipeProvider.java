@@ -500,7 +500,6 @@ public class ForestryRecipeProvider {
 		});
 
 		recipes.shapelessCrafting("bottled_honey_drops", RecipeCategory.FOOD, Items.HONEY_BOTTLE, 1, Items.GLASS_BOTTLE, honeyDrop, honeyDrop);
-
 	}
 
 	private static void registerBackpackRecipes(MKRecipeProvider recipes) {
@@ -1870,16 +1869,16 @@ public class ForestryRecipeProvider {
 		new FabricatorRecipeBuilder()
 			.setPlan(Ingredient.EMPTY)
 			.setMolten(liquidGlass)
-				.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CoreItems.ELECTRON_TUBES.get(EnumElectronTube.AMBER), 2)
-						.pattern(" X ")
-						.pattern("#X#")
-						.pattern("XXX")
-						.define('#', Tags.Items.DUSTS_REDSTONE)
-						.define('X', ForestryTags.Items.GEMS_AMBER))
-				.build(consumer, id("fabricator", "electron_tubes", "amber"));
+			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CoreItems.ELECTRON_TUBES.get(EnumElectronTube.AMBER), 2)
+				.pattern(" X ")
+				.pattern("#X#")
+				.pattern("XXX")
+				.define('#', Tags.Items.DUSTS_REDSTONE)
+				.define('X', ForestryTags.Items.GEMS_AMBER))
+			.build(consumer, id("fabricator", "electron_tubes", "amber"));
 		new FabricatorRecipeBuilder()
-				.setPlan(Ingredient.EMPTY)
-				.setMolten(liquidGlass)
+			.setPlan(Ingredient.EMPTY)
+			.setMolten(liquidGlass)
 			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CoreItems.FLEXIBLE_CASING)
 				.pattern("#E#")
 				.pattern("B B")
