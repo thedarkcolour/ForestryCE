@@ -1,4 +1,4 @@
-// 1.20.1	2026-02-02T14:14:22.513623071	Recipes
+// 1.20.1	2026-02-02T14:15:05.79890228	Recipes
 6867bbb8c2b291d6e111aae900a9ce8be0cf8ebe data/forestry/advancements/recipes/building_blocks/acacia_desert_fence.json
 92d402b3f91419af71a9913fbddab9c5e9183779 data/forestry/advancements/recipes/building_blocks/acacia_desert_fence_gate.json
 756f6f4fa8d9fdc7fe1895f6bd02cb5e107c6acf data/forestry/advancements/recipes/building_blocks/acacia_desert_fireproof_fence.json
@@ -1603,7 +1603,7 @@ b8078710e4c560f89d6b6002953bcb1f12d2e837 data/forestry/recipes/carpenter/wood_pu
 98384b7c1dea5346c267319a35481a85b98dcb49 data/forestry/recipes/carpenter/woven_silk.json
 f30d2a71f6d1c471b28714f9e6e70aba23591eee data/forestry/recipes/catalogue.json
 8f49f1ec6e7086e48d963738ebd926ad5f1619df data/forestry/recipes/centrifuge.json
-8961a891acac335a94aa15236a5277f63a43a75f data/forestry/recipes/centrifuge/amber_sapling.json
+38c7f9f518631323cd0ef91e357a3c4af4da7e47 data/forestry/recipes/centrifuge/amber_sapling.json
 8349380b3e5512f94955e19079b2221dd5eb1112 data/forestry/recipes/centrifuge/cocoa_comb.json
 ccc151e2c5870982e9ecae00e63acfb377be6a24 data/forestry/recipes/centrifuge/comb_to_wax.json
 cf76ddd67961b94dbc685f0de62533a651717f9c data/forestry/recipes/centrifuge/dripping_comb.json
@@ -1805,6 +1805,7 @@ fd7b5fcc01286d07296c5242979c495aeb1cf4ed data/forestry/recipes/engine_clockwork.
 7345c007d4125ac17dcd07cc908de9587883523f data/forestry/recipes/engine_peat.json
 c4258e03fa0d4f7685625fe19d46acbc9881b475 data/forestry/recipes/exp_bottle_from_exp_drop.json
 b8e35ea64317a0f4019dc5abf53e0dc69fb42e0c data/forestry/recipes/fabricator.json
+eaaf019535c2c47fc6d35b42b627b6e4420e194c data/forestry/recipes/fabricator/electron_tubes/amber.json
 4f0b61db2509241fa32d8feb666a27d7297414e3 data/forestry/recipes/fabricator/electron_tubes/apatite.json
 725626b67fa684402f8a8b2336883e0e1c0f876a data/forestry/recipes/fabricator/electron_tubes/blaze.json
 3bf4eaac9bb44b9355c22d710c1a5b18501a3565 data/forestry/recipes/fabricator/electron_tubes/bronze.json
