@@ -549,6 +549,7 @@ public class DefaultTreeSpecies {
 				.setHumidity(HumidityType.DAMP)
 				.setGenome(genome -> {
 					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_LOWER);
+					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_LARGE);
 				})
 				.addMutations(mutations -> {
 					mutations.add(ForestryTreeSpecies.JUNGLE, ForestryTreeSpecies.DARK_OAK, 0.15f);
