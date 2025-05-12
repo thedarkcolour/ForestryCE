@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "forestry:citrus_log"
-            ]
+            "tag": "forestry:citrus_logs"
           }
         ]
       },

@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "forestry:mahoe_log"
-            ]
+            "tag": "forestry:mahoe_logs"
           }
         ]
       },

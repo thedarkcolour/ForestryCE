@@ -3,7 +3,7 @@
   "category": "building",
   "ingredients": [
     {
-      "item": "forestry:walnut_log"
+      "tag": "forestry:walnut_logs"
     }
   ],
   "result": {

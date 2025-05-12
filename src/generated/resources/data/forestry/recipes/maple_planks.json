@@ -3,7 +3,7 @@
   "category": "building",
   "ingredients": [
     {
-      "item": "forestry:maple_log"
+      "tag": "forestry:maple_logs"
     }
   ],
   "result": {

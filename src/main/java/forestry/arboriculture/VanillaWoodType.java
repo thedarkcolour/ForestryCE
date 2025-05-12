@@ -6,14 +6,17 @@
 package forestry.arboriculture;
 
 import java.util.Locale;
-import java.util.Random;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.Block;
 
 import com.mojang.authlib.GameProfile;
 
+import forestry.api.ForestryTags;
 import forestry.api.arboriculture.IWoodType;
 import forestry.api.genetics.IGenome;
 import forestry.arboriculture.blocks.ForestryLeafType;
@@ -33,12 +36,15 @@ public enum VanillaWoodType implements IWoodType {
 
 	private final ForestryLeafType leafType;
 
+	public final TagKey<Block> fireproofBlockTag;
+	public final TagKey<Item> fireproofItemTag;
+
 	VanillaWoodType(ForestryLeafType leafType) {
 		this.leafType = leafType;
-	}
 
-	public static VanillaWoodType getRandom(Random random) {
-		return VALUES[random.nextInt(VALUES.length)];
+		String name = name().toLowerCase(Locale.ENGLISH);
+		this.fireproofBlockTag = ForestryTags.blockTag("fireproof_" + name + "_logs");
+		this.fireproofItemTag = ForestryTags.itemTag("fireproof_" + name + "_logs");
 	}
 
 	@Override

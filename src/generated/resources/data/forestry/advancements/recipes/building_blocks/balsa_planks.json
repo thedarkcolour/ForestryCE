@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "forestry:balsa_log"
-            ]
+            "tag": "forestry:balsa_logs"
           }
         ]
       },

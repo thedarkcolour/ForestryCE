@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "forestry:wenge_log"
-            ]
+            "tag": "forestry:wenge_logs"
           }
         ]
       },

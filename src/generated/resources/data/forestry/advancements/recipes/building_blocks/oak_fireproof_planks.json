@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "forestry:oak_fireproof_log"
-            ]
+            "tag": "forestry:fireproof_oak_logs"
           }
         ]
       },

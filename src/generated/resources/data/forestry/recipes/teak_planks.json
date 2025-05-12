@@ -3,7 +3,7 @@
   "category": "building",
   "ingredients": [
     {
-      "item": "forestry:teak_log"
+      "tag": "forestry:teak_logs"
     }
   ],
   "result": {

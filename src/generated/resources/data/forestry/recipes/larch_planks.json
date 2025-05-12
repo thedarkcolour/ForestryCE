@@ -3,7 +3,7 @@
   "category": "building",
   "ingredients": [
     {
-      "item": "forestry:larch_log"
+      "tag": "forestry:larch_logs"
     }
   ],
   "result": {

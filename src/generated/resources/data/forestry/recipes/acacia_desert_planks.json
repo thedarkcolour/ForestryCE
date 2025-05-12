@@ -3,7 +3,7 @@
   "category": "building",
   "ingredients": [
     {
-      "item": "forestry:acacia_desert_log"
+      "tag": "forestry:acacia_desert_logs"
     }
   ],
   "result": {

@@ -3,7 +3,7 @@
   "category": "building",
   "ingredients": [
     {
-      "item": "forestry:chestnut_log"
+      "tag": "forestry:chestnut_logs"
     }
   ],
   "result": {

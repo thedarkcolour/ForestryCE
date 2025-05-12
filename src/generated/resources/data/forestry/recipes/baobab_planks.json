@@ -3,7 +3,7 @@
   "category": "building",
   "ingredients": [
     {
-      "item": "forestry:baobab_log"
+      "tag": "forestry:baobab_logs"
     }
   ],
   "result": {

@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "forestry:spruce_fireproof_log"
-            ]
+            "tag": "forestry:fireproof_spruce_logs"
           }
         ]
       },

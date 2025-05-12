@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "forestry:sequoia_fireproof_log"
-            ]
+            "tag": "forestry:fireproof_sequoia_logs"
           }
         ]
       },

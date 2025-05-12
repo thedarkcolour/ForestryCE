@@ -3,7 +3,7 @@
   "category": "building",
   "ingredients": [
     {
-      "item": "forestry:acacia_fireproof_log"
+      "tag": "forestry:fireproof_acacia_logs"
     }
   ],
   "result": {

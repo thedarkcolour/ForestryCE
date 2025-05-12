@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "forestry:ipe_log"
-            ]
+            "tag": "forestry:ipe_logs"
           }
         ]
       },

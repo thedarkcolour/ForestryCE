@@ -3,7 +3,7 @@
   "category": "building",
   "ingredients": [
     {
-      "item": "forestry:balsa_fireproof_log"
+      "tag": "forestry:fireproof_balsa_logs"
     }
   ],
   "result": {

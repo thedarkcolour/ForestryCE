@@ -77,6 +77,8 @@ public enum ForestryWoodType implements IWoodType {
 	private final WoodType type;
 	public final TagKey<Block> blockTag;
 	public final TagKey<Item> itemTag;
+	public final TagKey<Block> fireproofBlockTag;
+	public final TagKey<Item> fireproofItemTag;
 
 	ForestryWoodType(ForestryLeafType leafType) {
 		this(leafType, DEFAULT_HARDNESS);
@@ -91,6 +93,8 @@ public enum ForestryWoodType implements IWoodType {
 
 		this.blockTag = ForestryTags.blockTag(this.name + "_logs");
 		this.itemTag = ForestryTags.itemTag(this.name + "_logs");
+		this.fireproofBlockTag = ForestryTags.blockTag("fireproof_" + this.name + "_logs");
+		this.fireproofItemTag = ForestryTags.itemTag("fireproof_" + this.name + "_logs");
 	}
 
 	@Override

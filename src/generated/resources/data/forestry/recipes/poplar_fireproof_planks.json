@@ -3,7 +3,7 @@
   "category": "building",
   "ingredients": [
     {
-      "item": "forestry:poplar_fireproof_log"
+      "tag": "forestry:fireproof_poplar_logs"
     }
   ],
   "result": {

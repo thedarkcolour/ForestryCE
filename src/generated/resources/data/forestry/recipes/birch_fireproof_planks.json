@@ -3,7 +3,7 @@
   "category": "building",
   "ingredients": [
     {
-      "item": "forestry:birch_fireproof_log"
+      "tag": "forestry:fireproof_birch_logs"
     }
   ],
   "result": {

@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "forestry:wenge_fireproof_log"
-            ]
+            "tag": "forestry:fireproof_wenge_logs"
           }
         ]
       },

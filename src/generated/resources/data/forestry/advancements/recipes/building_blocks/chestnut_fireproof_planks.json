@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "forestry:chestnut_fireproof_log"
-            ]
+            "tag": "forestry:fireproof_chestnut_logs"
           }
         ]
       },

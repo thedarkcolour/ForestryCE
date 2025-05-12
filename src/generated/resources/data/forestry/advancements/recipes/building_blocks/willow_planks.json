@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "forestry:willow_log"
-            ]
+            "tag": "forestry:willow_logs"
           }
         ]
       },

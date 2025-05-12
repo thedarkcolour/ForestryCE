@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "forestry:kapok_log"
-            ]
+            "tag": "forestry:kapok_logs"
           }
         ]
       },

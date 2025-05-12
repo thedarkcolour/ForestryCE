@@ -1,3 +1,6 @@
+## Forestry 2.6.0
+- Fixed planks recipes for all wood types, now able to craft planks from stripped logs (#227)
+
 ## Forestry 2.5.4
 - Fixed incompatibility with ModernFix
 

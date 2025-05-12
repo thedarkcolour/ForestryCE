@@ -3,7 +3,7 @@
   "category": "building",
   "ingredients": [
     {
-      "item": "forestry:willow_fireproof_log"
+      "tag": "forestry:fireproof_willow_logs"
     }
   ],
   "result": {

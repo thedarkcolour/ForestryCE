@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "forestry:padauk_log"
-            ]
+            "tag": "forestry:padauk_logs"
           }
         ]
       },

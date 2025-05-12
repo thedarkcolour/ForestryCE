@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "forestry:cocobolo_fireproof_log"
-            ]
+            "tag": "forestry:fireproof_cocobolo_logs"
           }
         ]
       },

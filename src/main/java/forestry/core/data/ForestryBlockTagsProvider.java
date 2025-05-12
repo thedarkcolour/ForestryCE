@@ -1,7 +1,5 @@
 package forestry.core.data;
 
-import com.google.common.collect.Streams;
-
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -96,9 +94,10 @@ public final class ForestryBlockTagsProvider {
 		tags.tag(BlockTags.PLANKS).add(ArboricultureBlocks.PLANKS.blockArray());
 
 		for (ForestryWoodType woodType : ForestryWoodType.VALUES) {
-			tags.tag(woodType.blockTag).add(Streams.concat(woodType.getFireproof(), woodType.getBurnables()).map(FeatureBlock::block).toArray(Block[]::new));
-			tags.tag(BlockTags.LOGS).addTag(woodType.blockTag);
-			tags.tag(BlockTags.LOGS_THAT_BURN).add(woodType.getBurnables().map(FeatureBlock::block).toArray(Block[]::new));
+			tags.tag(woodType.blockTag).add(woodType.getBurnables().map(FeatureBlock::block).toArray(Block[]::new));
+			tags.tag(woodType.fireproofBlockTag).add(woodType.getFireproof().map(FeatureBlock::block).toArray(Block[]::new));
+			tags.tag(BlockTags.LOGS).addTags(woodType.fireproofBlockTag);
+			tags.tag(BlockTags.LOGS_THAT_BURN).addTag(woodType.blockTag);
 			tags.tag(BlockTags.OVERWORLD_NATURAL_LOGS).add(ArboricultureBlocks.LOGS.get(woodType).block());
 		}
 

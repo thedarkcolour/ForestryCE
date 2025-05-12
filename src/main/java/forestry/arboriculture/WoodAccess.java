@@ -11,12 +11,14 @@
 package forestry.arboriculture;
 
 import java.util.ArrayList;
-import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -32,12 +34,17 @@ import forestry.modules.features.FeatureBlockGroup;
 public enum WoodAccess implements IWoodAccess {
 	INSTANCE;
 
-	private final Map<WoodBlockKind, WoodMap> woodMaps = new EnumMap<>(WoodBlockKind.class);
+	private final WoodMap[] woodMaps = new WoodMap[WoodBlockKind.values().length];
 	private final List<IWoodType> registeredWoodTypes = new ArrayList<>();
+	private final Map<IWoodType, TagKey<Block>> logBlockTags = new HashMap<>();
+	private final Map<IWoodType, TagKey<Item>> logItemTags = new HashMap<>();
+	private final Map<IWoodType, TagKey<Block>> fireproofLogBlockTags = new HashMap<>();
+	private final Map<IWoodType, TagKey<Item>> fireproofLogItemTags = new HashMap<>();
 
 	WoodAccess() {
-		for (WoodBlockKind woodBlockKind : WoodBlockKind.values()) {
-			this.woodMaps.put(woodBlockKind, new WoodMap(woodBlockKind));
+		WoodBlockKind[] kind = WoodBlockKind.values();
+		for (int i = 0, length = kind.length; i < length; ++i) {
+			this.woodMaps[i] = new WoodMap(kind[i]);
 		}
 		registerVanilla();
 	}
@@ -184,6 +191,24 @@ public enum WoodAccess implements IWoodAccess {
 		register(VanillaWoodType.ACACIA, WoodBlockKind.PRESSURE_PLATE, false, Blocks.ACACIA_PRESSURE_PLATE.defaultBlockState(), () -> Items.ACACIA_PRESSURE_PLATE);
 		register(VanillaWoodType.DARK_OAK, WoodBlockKind.PRESSURE_PLATE, false, Blocks.DARK_OAK_PRESSURE_PLATE.defaultBlockState(), () -> Items.DARK_OAK_PRESSURE_PLATE);
 		register(VanillaWoodType.CHERRY, WoodBlockKind.PRESSURE_PLATE, false, Blocks.CHERRY_PRESSURE_PLATE.defaultBlockState(), () -> Items.CHERRY_PRESSURE_PLATE);
+
+		// Log tags
+		registerLogTag(VanillaWoodType.OAK, false, BlockTags.OAK_LOGS, ItemTags.OAK_LOGS);
+		registerLogTag(VanillaWoodType.SPRUCE, false, BlockTags.SPRUCE_LOGS, ItemTags.SPRUCE_LOGS);
+		registerLogTag(VanillaWoodType.BIRCH, false, BlockTags.BIRCH_LOGS, ItemTags.BIRCH_LOGS);
+		registerLogTag(VanillaWoodType.JUNGLE, false, BlockTags.JUNGLE_LOGS, ItemTags.JUNGLE_LOGS);
+		registerLogTag(VanillaWoodType.ACACIA, false, BlockTags.ACACIA_LOGS, ItemTags.ACACIA_LOGS);
+		registerLogTag(VanillaWoodType.DARK_OAK, false, BlockTags.DARK_OAK_LOGS, ItemTags.DARK_OAK_LOGS);
+		registerLogTag(VanillaWoodType.CHERRY, false, BlockTags.CHERRY_LOGS, ItemTags.CHERRY_LOGS);
+		for (VanillaWoodType type : VanillaWoodType.VALUES) {
+			registerLogTag(type, true, type.fireproofBlockTag, type.fireproofItemTag);
+		}
+
+		// Forestry log tags
+		for (ForestryWoodType type : ForestryWoodType.VALUES) {
+			registerLogTag(type, false, type.blockTag, type.itemTag);
+			registerLogTag(type, true, type.fireproofBlockTag, type.fireproofItemTag);
+		}
 	}
 
 	/**
@@ -202,7 +227,7 @@ public enum WoodAccess implements IWoodAccess {
 		if (isNonBurning(woodBlockKind)) {
 			fireproof = true;
 		}
-		WoodMap woodMap = woodMaps.get(woodBlockKind);
+		WoodMap woodMap = woodMaps[woodBlockKind.ordinal()];
 		if (!registeredWoodTypes.contains(woodType)) {
 			registeredWoodTypes.add(woodType);
 		}
@@ -211,11 +236,22 @@ public enum WoodAccess implements IWoodAccess {
 	}
 
 	@Override
+	public void registerLogTag(IWoodType woodType, boolean fireproof, TagKey<Block> logBlockTag, TagKey<Item> logItemTag) {
+		if (fireproof) {
+			this.fireproofLogBlockTags.put(woodType, logBlockTag);
+			this.fireproofLogItemTags.put(woodType, logItemTag);
+		} else {
+			this.logBlockTags.put(woodType, logBlockTag);
+			this.logItemTags.put(woodType, logItemTag);
+		}
+	}
+
+	@Override
 	public ItemStack getStack(IWoodType woodType, WoodBlockKind woodBlockKind, boolean fireproof) {
 		if (isNonBurning(woodBlockKind)) {
 			fireproof = true;
 		}
-		WoodMap woodMap = woodMaps.get(woodBlockKind);
+		WoodMap woodMap = woodMaps[woodBlockKind.ordinal()];
 		Supplier<Item> itemStack = woodMap.getItem(fireproof).get(woodType);
 		if (itemStack == null) {
 			String errMessage = String.format("No stack found for %s %s %s", woodType, woodMap.getName(), fireproof ? "fireproof" : "non-fireproof");
@@ -229,7 +265,7 @@ public enum WoodAccess implements IWoodAccess {
 		if (isNonBurning(woodBlockKind)) {
 			fireproof = true;
 		}
-		WoodMap woodMap = woodMaps.get(woodBlockKind);
+		WoodMap woodMap = woodMaps[woodBlockKind.ordinal()];
 		BlockState blockState = woodMap.getBlock(fireproof).get(woodType);
 		if (blockState == null) {
 			String errMessage = String.format("No block found for %s %s %s", woodType, woodMap.getName(), fireproof ? "fireproof" : "non-fireproof");
@@ -238,8 +274,25 @@ public enum WoodAccess implements IWoodAccess {
 		return blockState;
 	}
 
+	@Override
+	public TagKey<Block> getLogBlockTag(IWoodType kind, boolean fireproof) {
+		return (fireproof ? this.fireproofLogBlockTags : this.logBlockTags).get(kind);
+	}
+
+	@Override
+	public TagKey<Item> getLogItemTag(IWoodType kind, boolean fireproof) {
+		return (fireproof ? this.fireproofLogItemTags : this.logItemTags).get(kind);
+	}
+
 	private static boolean isNonBurning(WoodBlockKind kind) {
-		return kind == WoodBlockKind.DOOR || kind == WoodBlockKind.TRAPDOOR || kind == WoodBlockKind.BUTTON || kind == WoodBlockKind.PRESSURE_PLATE;
+		return kind == WoodBlockKind.DOOR
+				|| kind == WoodBlockKind.TRAPDOOR
+				|| kind == WoodBlockKind.BUTTON
+				|| kind == WoodBlockKind.PRESSURE_PLATE
+				|| kind == WoodBlockKind.SIGN
+				|| kind == WoodBlockKind.WALL_SIGN
+				|| kind == WoodBlockKind.HANGING_SIGN
+				|| kind == WoodBlockKind.WALL_HANGING_SIGN;
 	}
 
 	@Override

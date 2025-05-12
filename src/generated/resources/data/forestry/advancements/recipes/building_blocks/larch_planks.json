@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "forestry:larch_log"
-            ]
+            "tag": "forestry:larch_logs"
           }
         ]
       },

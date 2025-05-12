@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "forestry:poplar_log"
-            ]
+            "tag": "forestry:poplar_logs"
           }
         ]
       },

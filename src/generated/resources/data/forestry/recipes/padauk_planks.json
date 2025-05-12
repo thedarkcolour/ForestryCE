@@ -3,7 +3,7 @@
   "category": "building",
   "ingredients": [
     {
-      "item": "forestry:padauk_log"
+      "tag": "forestry:padauk_logs"
     }
   ],
   "result": {

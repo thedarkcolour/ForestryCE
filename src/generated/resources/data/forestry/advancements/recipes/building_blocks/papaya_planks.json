@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "forestry:papaya_log"
-            ]
+            "tag": "forestry:papaya_logs"
           }
         ]
       },

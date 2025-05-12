@@ -3,7 +3,7 @@
   "category": "building",
   "ingredients": [
     {
-      "item": "forestry:mahoe_fireproof_log"
+      "tag": "forestry:fireproof_mahoe_logs"
     }
   ],
   "result": {

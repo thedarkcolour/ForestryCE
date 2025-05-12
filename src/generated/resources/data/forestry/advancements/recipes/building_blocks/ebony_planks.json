@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "forestry:ebony_log"
-            ]
+            "tag": "forestry:ebony_logs"
           }
         ]
       },

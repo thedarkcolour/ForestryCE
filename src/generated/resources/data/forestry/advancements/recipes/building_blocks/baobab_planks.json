@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "forestry:baobab_log"
-            ]
+            "tag": "forestry:baobab_logs"
           }
         ]
       },

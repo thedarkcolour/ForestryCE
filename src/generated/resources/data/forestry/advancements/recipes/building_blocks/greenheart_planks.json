@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "forestry:greenheart_log"
-            ]
+            "tag": "forestry:greenheart_logs"
           }
         ]
       },

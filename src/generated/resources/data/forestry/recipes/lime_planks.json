@@ -3,7 +3,7 @@
   "category": "building",
   "ingredients": [
     {
-      "item": "forestry:lime_log"
+      "tag": "forestry:lime_logs"
     }
   ],
   "result": {

@@ -32,6 +32,7 @@ public class ForestryItemTagsProvider {
 		tags.copy(BlockTags.LOGS_THAT_BURN, ItemTags.LOGS_THAT_BURN);
 		for (ForestryWoodType type : ForestryWoodType.VALUES) {
 			tags.copy(type.blockTag, type.itemTag);
+			tags.copy(type.fireproofBlockTag, type.fireproofItemTag);
 		}
 		tags.tag(ItemTags.NON_FLAMMABLE_WOOD).add(ArboricultureBlocks.PLANKS_FIREPROOF.getItems().toArray(Item[]::new));
 		tags.tag(ItemTags.NON_FLAMMABLE_WOOD).add(ArboricultureBlocks.SLABS_FIREPROOF.getItems().toArray(Item[]::new));

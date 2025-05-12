@@ -425,11 +425,14 @@ public class ForestryRecipeProvider {
 			Block stairs = woodAccess.getBlock(woodType, WoodBlockKind.STAIRS, false).getBlock();
 			Block fireproofStairs = woodAccess.getBlock(woodType, WoodBlockKind.STAIRS, true).getBlock();
 
+			TagKey<Item> logTag = woodAccess.getLogItemTag(woodType, false);
+			TagKey<Item> fireproofLogTag = woodAccess.getLogItemTag(woodType, true);
+
 			recipes.woodenDoor(door, woodType instanceof VanillaWoodType ? Ingredient.of(fireproofPlanks) : Ingredient.of(planks, fireproofPlanks));
 
 			// Regular (Forestry)
 			if (woodType instanceof ForestryWoodType type) {
-				makeCommonWoodenSet(recipes, planks, log, wood, strippedLog, strippedWood, fence, fenceGate, slab, stairs);
+				makeCommonWoodenSet(recipes, planks, log, logTag, wood, strippedLog, strippedWood, fence, fenceGate, slab, stairs);
 
 				recipes.shapelessCrafting(RecipeCategory.MISC, ArboricultureItems.CHEST_BOAT.item(type), 1, ArboricultureItems.BOAT.item(type), Tags.Items.CHESTS_WOODEN);
 				recipes.shapedCrafting(RecipeCategory.MISC, ArboricultureItems.BOAT.item(type), recipe -> {
@@ -464,13 +467,13 @@ public class ForestryRecipeProvider {
 			}
 
 			// Fireproof (Vanilla & Forestry)
-			makeCommonWoodenSet(recipes, fireproofPlanks, fireproofLog, fireproofWood, fireproofStrippedLog, fireproofStrippedWood, fireproofFence, fireproofFenceGate, fireproofSlab, fireproofStairs);
+			makeCommonWoodenSet(recipes, fireproofPlanks, fireproofLog, fireproofLogTag, fireproofWood, fireproofStrippedLog, fireproofStrippedWood, fireproofFence, fireproofFenceGate, fireproofSlab, fireproofStairs);
 		}
 	}
 
 	// Shared between regular and fireproof recipes
-	private static void makeCommonWoodenSet(MKRecipeProvider recipes, Block planks, Block log, Block wood, Block strippedLog, Block strippedWood, Block fence, Block fenceGate, Block slab, Block stairs) {
-		recipes.shapelessCrafting(RecipeCategory.BUILDING_BLOCKS, planks, 4, "planks", log);
+	private static void makeCommonWoodenSet(MKRecipeProvider recipes, Block planks, Block log, TagKey<Item> logTag, Block wood, Block strippedLog, Block strippedWood, Block fence, Block fenceGate, Block slab, Block stairs) {
+		recipes.shapelessCrafting(RecipeCategory.BUILDING_BLOCKS, planks, 4, "planks", logTag);
 		recipes.woodenFence(fence, planks);
 		recipes.woodenFenceGate(fenceGate, planks);
 		recipes.woodenSlab(slab, planks);

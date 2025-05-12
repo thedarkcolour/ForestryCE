@@ -3,7 +3,7 @@
   "category": "building",
   "ingredients": [
     {
-      "item": "forestry:ipe_fireproof_log"
+      "tag": "forestry:fireproof_ipe_logs"
     }
   ],
   "result": {
