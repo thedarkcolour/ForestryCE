@@ -12,18 +12,23 @@ package forestry.core.utils;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 import org.apache.maven.artifact.versioning.ArtifactVersion;
 import org.apache.maven.artifact.versioning.DefaultArtifactVersion;
 import org.apache.maven.artifact.versioning.VersionRange;
 
+import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleType;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
 
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.ObjectHolderRegistry;
 
 import net.minecraftforge.fml.ModContainer;
 import net.minecraftforge.fml.ModList;
@@ -74,5 +79,30 @@ public abstract class ModUtil {
 
 	public static ResourceLocation withSuffix(ResourceLocation id, String suffix) {
 		return new ResourceLocation(id.getNamespace(), id.getPath() + suffix);
+	}
+
+	// Run code immediately after registration is completed (not applicable for data-driven registries)
+	public static void addRegistryListener(ResourceKey<? extends Registry<?>> type, Runnable listener) {
+		ObjectHolderRegistry.addHandler(new RegistryListener(type, listener));
+	}
+
+	private static class RegistryListener implements Consumer<Predicate<ResourceLocation>> {
+		private final ResourceKey<? extends Registry<?>> type;
+		private final Runnable listener;
+		private boolean hasInit;
+
+		public RegistryListener(ResourceKey<? extends Registry<?>> type, Runnable listener) {
+			this.type = type;
+			this.listener = listener;
+			this.hasInit = false;
+		}
+
+		@Override
+		public void accept(Predicate<ResourceLocation> predicate) {
+			if (!this.hasInit && predicate.test(type.location())) {
+				this.hasInit = true;
+				listener.run();
+			}
+		}
 	}
 }
