@@ -26,6 +26,7 @@ import forestry.arboriculture.VanillaWoodType;
  * @see ForestryWoodType
  * @see VanillaWoodType
  */
+// todo merge with ITreeManager in 1.21
 public interface IWoodAccess {
 	ItemStack getStack(IWoodType woodType, WoodBlockKind kind, boolean fireproof);
 

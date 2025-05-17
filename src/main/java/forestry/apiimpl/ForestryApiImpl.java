@@ -2,6 +2,8 @@ package forestry.apiimpl;
 
 import forestry.api.IForestryApi;
 import forestry.api.apiculture.hives.IHiveManager;
+import forestry.api.arboriculture.ITreeManager;
+import forestry.arboriculture.TreeManager;
 import forestry.api.circuits.ICircuitManager;
 import forestry.api.climate.IClimateManager;
 import forestry.api.core.IErrorManager;
@@ -30,6 +32,8 @@ public class ForestryApiImpl implements IForestryApi {
 	private final IClimateManager biomeManager = new ForestryClimateManager();
 	@Nullable
 	private IHiveManager hiveManager;
+	@Nullable
+	private ITreeManager treeManager;
 	private final IAlleleManager alleleRegistry = new AlleleManager();
 	@Nullable
 	private IGeneticManager geneticManager;
@@ -75,6 +79,15 @@ public class ForestryApiImpl implements IForestryApi {
 		IHiveManager manager = this.hiveManager;
 		if (manager == null) {
 			throw new IllegalStateException("IHiveManager not initialized yet");
+		}
+		return manager;
+	}
+
+	@Override
+	public ITreeManager getTreeManager() {
+		ITreeManager manager = this.treeManager;
+		if (manager == null) {
+			throw new IllegalStateException("ITreeManager not initialized yet");
 		}
 		return manager;
 	}
@@ -148,6 +161,11 @@ public class ForestryApiImpl implements IForestryApi {
 	@ApiStatus.Internal
 	public void setHiveManager(HiveManager hiveManager) {
 		this.hiveManager = hiveManager;
+	}
+
+	@ApiStatus.Internal
+	public void setTreeManager(TreeManager treeManager) {
+		this.treeManager = treeManager;
 	}
 
 	@ApiStatus.Internal

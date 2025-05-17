@@ -3,6 +3,7 @@ package forestry.api;
 import java.util.ServiceLoader;
 
 import forestry.api.apiculture.hives.IHiveManager;
+import forestry.api.arboriculture.ITreeManager;
 import forestry.api.circuits.ICircuitManager;
 import forestry.api.climate.IClimateManager;
 import forestry.api.core.IErrorManager;
@@ -35,6 +36,11 @@ public interface IForestryApi {
 	 * @see forestry.api.plugin.IApicultureRegistration#registerHive
 	 */
 	IHiveManager getHiveManager();
+
+	/**
+	 * @since 2.6.0
+	 */
+	ITreeManager getTreeManager();
 
 	/**
 	 * @return The genetic manager, used to track taxonomy, mutations, species types, and registered species.

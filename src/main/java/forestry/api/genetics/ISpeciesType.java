@@ -229,6 +229,8 @@ public interface ISpeciesType<S extends ISpecies<I>, I extends IIndividual> exte
 
 	/**
 	 * Used to register species and related data for this species type from an {@link IForestryPlugin}.
+	 * Called immediately after item registration, before FMLCommonSetupEvent.
+	 * <p>
 	 * IForestryPlugin already contains methods for each species type added by Forestry. For a modded species type,
 	 * it is recommended to offer an additional interface to be implemented by IForestryPlugins in order to handle
 	 * registration for the custom species type (ex. IBotanyPluginExtension for Binnie's flower species type) and then

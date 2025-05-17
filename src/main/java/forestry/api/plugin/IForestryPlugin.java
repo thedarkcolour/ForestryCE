@@ -31,19 +31,19 @@ public interface IForestryPlugin {
 	}
 
 	/**
-	 * Override to register bee species, effects, flower types, hives, etc. at the correct time.
+	 * Override to register bee species, effects, flower types, hives, etc. at the correct time. Called immediately after item registry.
 	 */
 	default void registerApiculture(IApicultureRegistration apiculture) {
 	}
 
 	/**
-	 * Override to register tree species, fruits, etc. at the correct time.
+	 * Override to register tree species, fruits, etc. at the correct time. Called immediately after item registry.
 	 */
 	default void registerArboriculture(IArboricultureRegistration arboriculture) {
 	}
 
 	/**
-	 * Override to register butterfly species at the correct time.
+	 * Override to register butterfly species at the correct time. Called immediately after item registry.
 	 */
 	default void registerLepidopterology(ILepidopterologyRegistration lepidopterology) {
 	}

@@ -4,6 +4,8 @@ import java.awt.Color;
 
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 
 import forestry.api.arboriculture.IWoodType;
 import forestry.api.arboriculture.genetics.IFruit;
@@ -48,4 +50,32 @@ public interface IArboricultureRegistration {
 	 * @param effect The effect object to be wrapped in an allele for use in a tree genome.
 	 */
 	void registerTreeEffect(ResourceLocation id, ITreeEffect effect);
+
+	/**
+	 * Registers a block to be waxable with Refractory Wax. In base Forestry, all planks are registered
+	 * to be waxed into their fireproof counterparts.
+	 *
+	 * @param block     The unwaxed block, such as Oak Planks
+	 * @param waxedForm The waxed block, such as Oak Planks (Fireproof)
+	 * @since 2.6.0
+	 */
+	void registerRefractoryWaxable(Block block, Block waxedForm);
+
+	/**
+	 * Registers a material for use in a Log Pile charcoal pit.
+	 *
+	 * @param state    The state used to surround a pit of burning Log Pile blocks when making charcoal.
+	 * @param charcoal The amount of charcoal produced when using this block.
+	 * @since 2.6.0
+	 */
+	void registerCharcoalPitWall(BlockState state, int charcoal);
+
+	/**
+	 * @since 2.6.0
+	 */
+	default void registerCharcoalPitWall(Block block, int charcoal) {
+		for (BlockState state : block.getStateDefinition().getPossibleStates()) {
+			registerCharcoalPitWall(state, charcoal);
+		}
+	}
 }

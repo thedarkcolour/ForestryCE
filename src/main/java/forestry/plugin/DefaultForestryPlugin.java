@@ -9,6 +9,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Blocks;
 
 import forestry.api.ForestryConstants;
 import forestry.api.ForestryTags;
@@ -358,7 +359,7 @@ public class DefaultForestryPlugin implements IForestryPlugin {
 
 		arboriculture.registerFruit(ForestryFruits.NONE, new DummyFruit(false));
 		arboriculture.registerFruit(ForestryFruits.APPLE, new RipeningFruit(false, 10, pomes, 0xff2e2e, 0xe3f49c, List.of(Product.of(Items.APPLE))));
-		// todo match vanilla cocoa and use fortune
+		// todo match vanilla cocoa and use fortune OR better yet, make pod fruits use actual loot tables
 		arboriculture.registerFruit(ForestryFruits.COCOA, new PodFruit(false, ForestryPodType.COCOA, List.of(Product.of(Items.COCOA_BEANS))));
 		arboriculture.registerFruit(ForestryFruits.CHESTNUT, new RipeningFruit(true, 6, nuts, 0x7f333d, 0xc4d24a, List.of(Product.of(CoreItems.FRUITS.item(ItemFruit.EnumFruit.CHESTNUT)))));
 		arboriculture.registerFruit(ForestryFruits.WALNUT, new RipeningFruit(true, 8, nuts, 0xfba248, 0xc4d24a, List.of(Product.of(CoreItems.FRUITS.item(ItemFruit.EnumFruit.WALNUT)))));
@@ -370,6 +371,15 @@ public class DefaultForestryPlugin implements IForestryPlugin {
 
 		arboriculture.registerTreeEffect(ForestryAlleles.TREE_EFFECT_NONE.alleleId(), new DummyTreeEffect(false));
 		arboriculture.registerTreeEffect(ForestryAlleles.TREE_EFFECT_BLOSSOMING.alleleId(), new BlossomingTreeEffect());
+
+		DefaultWoods.register(arboriculture);
+
+		arboriculture.registerCharcoalPitWall(Blocks.CLAY, 3);
+		arboriculture.registerCharcoalPitWall(Blocks.END_STONE, 6);
+		arboriculture.registerCharcoalPitWall(Blocks.END_STONE_BRICKS, 6);
+		arboriculture.registerCharcoalPitWall(Blocks.DIRT, 2);
+		arboriculture.registerCharcoalPitWall(Blocks.GRAVEL, 1);
+		arboriculture.registerCharcoalPitWall(Blocks.NETHERRACK, 3);
 	}
 
 	@Override

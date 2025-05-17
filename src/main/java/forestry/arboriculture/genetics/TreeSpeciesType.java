@@ -36,6 +36,7 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
 
+import forestry.api.IForestryApi;
 import forestry.api.arboriculture.IArboristTracker;
 import forestry.api.arboriculture.ILeafTickHandler;
 import forestry.api.arboriculture.ITreeSpecies;
@@ -54,6 +55,7 @@ import forestry.api.genetics.alleles.IKaryotype;
 import forestry.api.genetics.alleles.TreeChromosomes;
 import forestry.api.plugin.IForestryPlugin;
 import forestry.api.plugin.ISpeciesTypeBuilder;
+import forestry.apiimpl.ForestryApiImpl;
 import forestry.apiimpl.plugin.ArboricultureRegistration;
 import forestry.arboriculture.PodFruit;
 import forestry.arboriculture.blocks.BlockFruitPod;
@@ -117,6 +119,9 @@ public class TreeSpeciesType extends SpeciesType<ITreeSpecies, ITree> implements
 		// populate tree registry chromosomes
 		TreeChromosomes.EFFECT.populate(registration.getEffects());
 		TreeChromosomes.FRUIT.populate(registration.getFruits());
+
+		// initialize tree manager
+		((ForestryApiImpl) IForestryApi.INSTANCE).setTreeManager(registration.buildTreeManager());
 
 		return registration.buildAll();
 	}
