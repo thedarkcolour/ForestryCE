@@ -126,69 +126,6 @@ public class ModuleApiculture extends BlankForestryModule {
 		BeeManager.armorApiaristHelper = new ArmorApiaristHelper();
 	}
 
-/*
-
-	// todo replace with tags "acceptable flowers," "plantable flowers," where plantable is subset of acceptable
-	private void initFlowerRegistry() {
-		FlowerRegistry flowerRegistry = (FlowerRegistry) FlowerManager.flowerRegistry;
-
-		flowerRegistry.registerAcceptableFlowerRule(new EndFlowerAcceptableRule(), FlowerManager.FlowerTypeEnd);
-
-		// Register acceptable plants
-		flowerRegistry.registerAcceptableFlower(Blocks.DRAGON_EGG, FlowerManager.FlowerTypeEnd);
-		flowerRegistry.registerAcceptableFlower(Blocks.CHORUS_PLANT, FlowerManager.FlowerTypeEnd);
-		flowerRegistry.registerAcceptableFlower(Blocks.CHORUS_FLOWER, FlowerManager.FlowerTypeEnd);
-		flowerRegistry.registerAcceptableFlower(Blocks.VINE, FlowerManager.FlowerTypeJungle);
-		flowerRegistry.registerAcceptableFlower(Blocks.FERN, FlowerManager.FlowerTypeJungle);
-		flowerRegistry.registerAcceptableFlower(Blocks.WHEAT, FlowerManager.FlowerTypeWheat);
-		flowerRegistry.registerAcceptableFlower(Blocks.PUMPKIN_STEM, FlowerManager.FlowerTypeGourd);
-		flowerRegistry.registerAcceptableFlower(Blocks.MELON_STEM, FlowerManager.FlowerTypeGourd);
-		flowerRegistry.registerAcceptableFlower(Blocks.NETHER_WART, FlowerManager.FlowerTypeNether);
-		flowerRegistry.registerAcceptableFlower(Blocks.CACTUS, FlowerManager.FlowerTypeCacti);
-
-		Block[] standardFlowers = new Block[]{
-				Blocks.DANDELION,
-				Blocks.POPPY,
-				Blocks.BLUE_ORCHID,
-				Blocks.ALLIUM,
-				Blocks.AZURE_BLUET,
-				Blocks.RED_TULIP,
-				Blocks.ORANGE_TULIP,
-				Blocks.WHITE_TULIP,
-				Blocks.PINK_TULIP,
-				Blocks.OXEYE_DAISY,
-				Blocks.CORNFLOWER,
-				Blocks.WITHER_ROSE,
-				Blocks.LILY_OF_THE_VALLEY,
-		};
-		Block[] pottedStandardFlowers = new Block[]{
-				Blocks.POTTED_POPPY,
-				Blocks.POTTED_BLUE_ORCHID,
-				Blocks.POTTED_ALLIUM,
-				Blocks.POTTED_AZURE_BLUET,
-				Blocks.POTTED_RED_TULIP,
-				Blocks.POTTED_ORANGE_TULIP,
-				Blocks.POTTED_WHITE_TULIP,
-				Blocks.POTTED_PINK_TULIP,
-				Blocks.POTTED_OXEYE_DAISY,
-				Blocks.POTTED_CORNFLOWER,
-				Blocks.POTTED_LILY_OF_THE_VALLEY,
-				Blocks.POTTED_WITHER_ROSE,
-		};
-
-
-		//Flower Pots
-		for (Block standardFlower : pottedStandardFlowers) {
-			flowerRegistry.registerAcceptableFlower(standardFlower, standardTypes);
-		}
-
-		flowerRegistry.registerAcceptableFlower(Blocks.POTTED_RED_MUSHROOM, FlowerManager.FlowerTypeMushrooms);
-		flowerRegistry.registerAcceptableFlower(Blocks.POTTED_BROWN_MUSHROOM, FlowerManager.FlowerTypeMushrooms);
-
-		flowerRegistry.registerAcceptableFlower(Blocks.POTTED_CACTUS, FlowerManager.FlowerTypeCacti);
-	}
-*/
-
 	@Override
 	public void registerPackets(IPacketRegistry registry) {
 		registry.clientbound(PacketIdClient.BEE_LOGIC_ACTIVE, PacketBeeLogicActive.class, PacketBeeLogicActive::decode, PacketBeeLogicActive::handle);
