@@ -73,8 +73,8 @@ repositories {
 	}
 	maven {
 		name = 'KubeJS and Rhino'
-		url = "https://maven.saps.dev/minecraft"
-		content { includeGroup "dev.latvian.mods" }
+		url = 'https://maven.latvian.dev/releases'
+		content { includeGroup 'dev.latvian.mods' }
 	}
 	maven {
 		name = 'Mekanism'
