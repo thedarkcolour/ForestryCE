@@ -41,6 +41,7 @@ import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.ModelEvent;
 import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
+import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -78,6 +79,7 @@ import forestry.core.gui.GuiNaturalistInventory;
 import forestry.core.models.ClientManager;
 import forestry.core.models.FluidContainerModel;
 import forestry.core.models.ModelBlockCached;
+import forestry.core.particles.CoreParticles;
 import forestry.core.render.ColourProperties;
 import forestry.core.render.ForestryBewlr;
 import forestry.core.render.ForestryModelLayers;
@@ -124,6 +126,7 @@ public class CoreClientHandler implements IClientModuleHandler {
 		modBus.addListener(CoreClientHandler::registerReloadListeners);
 		modBus.addListener(CoreClientHandler::registerBlockColors);
 		modBus.addListener(CoreClientHandler::registerItemColors);
+		modBus.addListener(CoreClientHandler::registerParticleFactory);
 		MinecraftForge.EVENT_BUS.addListener(CoreClientHandler::onClientTick);
 
 		ModuleUtil.getModBus(ForestryConstants.MOD_ID).addListener(EventPriority.HIGHEST, ((ForestryClientApiImpl) IForestryClientApi.INSTANCE)::initializeTextureManager);
@@ -216,6 +219,10 @@ public class CoreClientHandler implements IClientModuleHandler {
 		event.registerReloadListener((prepBarrier, resourceManager, prepProfiler, reloadProfiler, backgroundExecutor, gameExecutor) -> {
 			return prepBarrier.wait(Unit.INSTANCE).thenRunAsync(ModelBlockCached::clear, gameExecutor);
 		});
+	}
+
+	private static void registerParticleFactory(RegisterParticleProvidersEvent event) {
+		event.registerSpriteSet(CoreParticles.REFRACTORY_WAX.get(), RefractoryWaxParticle::new);
 	}
 
 	private static void registerBlockColors(RegisterColorHandlersEvent.Block event) {

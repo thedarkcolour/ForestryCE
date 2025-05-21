@@ -9,12 +9,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.LevelEvent;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 
 import forestry.api.IForestryApi;
 import forestry.core.items.ItemForestry;
+import forestry.core.network.packets.PacketRefractoryWax;
+import forestry.core.utils.NetworkUtil;
 
 public class ItemRefractoryWax extends ItemForestry {
 	public InteractionResult useOn(UseOnContext context) {
@@ -35,8 +36,9 @@ public class ItemRefractoryWax extends ItemForestry {
 			stack.shrink(1);
 			level.setBlock(pos, waxedState, 11);
 			level.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(player, waxedState));
-			// todo make new particles
-			level.levelEvent(player, LevelEvent.PARTICLES_AND_SOUND_WAX_ON, pos, 0);
+			if (!level.isClientSide) {
+				NetworkUtil.sendNetworkPacket(new PacketRefractoryWax(pos), pos, level);
+			}
 
 			return InteractionResult.sidedSuccess(level.isClientSide);
 		}

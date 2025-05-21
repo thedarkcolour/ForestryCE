@@ -70,6 +70,7 @@ import forestry.core.network.packets.PacketGuiSelectRequest;
 import forestry.core.network.packets.PacketGuiStream;
 import forestry.core.network.packets.PacketItemStackDisplay;
 import forestry.core.network.packets.PacketPipetteClick;
+import forestry.core.network.packets.PacketRefractoryWax;
 import forestry.core.network.packets.PacketSocketUpdate;
 import forestry.core.network.packets.PacketSolderingIronClick;
 import forestry.core.network.packets.PacketTankLevelUpdate;
@@ -229,6 +230,7 @@ public class ModuleCore extends BlankForestryModule {
 		registry.clientbound(PacketIdClient.GENOME_TRACKER_UPDATE, PacketTankLevelUpdate.class, PacketTankLevelUpdate::decode, PacketTankLevelUpdate::handle);
 		registry.clientbound(PacketIdClient.TANK_LEVEL_UPDATE, PacketGenomeTrackerSync.class, PacketGenomeTrackerSync::decode, PacketGenomeTrackerSync::handle);
 		registry.clientbound(PacketIdClient.RECIPE_CACHE, RecipeCachePacket.class, RecipeCachePacket::decode, RecipeCachePacket::handle);
+		registry.clientbound(PacketIdClient.REFRACTORY_WAX_ON, PacketRefractoryWax.class, PacketRefractoryWax::decode, PacketRefractoryWax::handle);
 	}
 
 	@Override

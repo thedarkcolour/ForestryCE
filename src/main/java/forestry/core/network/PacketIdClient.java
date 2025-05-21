@@ -29,8 +29,8 @@ public class PacketIdClient {
 	// Core Tile Entities
 	public static final ResourceLocation TILE_FORESTRY_UPDATE = ForestryConstants.forestry("tile_forestry_update");
 	public static final ResourceLocation ITEMSTACK_DISPLAY = ForestryConstants.forestry("itemstack_display");
-	public static final ResourceLocation FX_SIGNAL = ForestryConstants.forestry("fx_signal");
 	public static final ResourceLocation TANK_LEVEL_UPDATE = ForestryConstants.forestry("tank_level_update");
+	public static final ResourceLocation REFRACTORY_WAX_ON = ForestryConstants.forestry("refractory_wax_on");
 	// Core Genome
 	public static final ResourceLocation GENOME_TRACKER_UPDATE = ForestryConstants.forestry("genome_tracker_update");
 	// Factory
@@ -48,10 +48,6 @@ public class PacketIdClient {
 	public static final ResourceLocation LETTER_INFO_RESPONSE_PLAYER = ForestryConstants.forestry("letter_info_response_player");
 	public static final ResourceLocation LETTER_INFO_RESPONSE_TRADER = ForestryConstants.forestry("letter_info_response_trader");
 	public static final ResourceLocation POBOX_INFO_RESPONSE = ForestryConstants.forestry("pobox_info_response");
-	// Climate
-	public static final ResourceLocation UPDATE_CLIMATE = ForestryConstants.forestry("update_climate");
-	public static final ResourceLocation CLIMATE_LISTENER_UPDATE = ForestryConstants.forestry("climate_listener_update");
-	public static final ResourceLocation CLIMATE_PLAYER = ForestryConstants.forestry("climate_player");
 	// Sorting
 	public static final ResourceLocation GUI_UPDATE_FILTER = ForestryConstants.forestry("gui_update_filter");
 	// JEI
