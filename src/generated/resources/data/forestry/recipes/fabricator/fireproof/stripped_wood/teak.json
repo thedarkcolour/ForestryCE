@@ -17,11 +17,12 @@
       }
     },
     "pattern": [
-      " # ",
-      "#X#",
-      " # "
+      "   ",
+      "X#X",
+      "   "
     ],
     "result": {
+      "count": 2,
       "item": "forestry:teak_fireproof_stripped_wood"
     },
     "show_notification": true

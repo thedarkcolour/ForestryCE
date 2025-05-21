@@ -33,9 +33,9 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 
 import forestry.api.ForestryTags;
+import forestry.api.IForestryApi;
 import forestry.api.arboriculture.IWoodAccess;
 import forestry.api.arboriculture.IWoodType;
-import forestry.api.arboriculture.TreeManager;
 import forestry.api.arboriculture.WoodBlockKind;
 import forestry.api.circuits.ICircuit;
 import forestry.apiculture.blocks.BlockAlveary;
@@ -1802,18 +1802,19 @@ public class ForestryRecipeProvider {
 		FluidStack liquidGlass = ForestryFluids.GLASS.getFluid(500);
 
 		List<WoodBlockKind> logLike = List.of(WoodBlockKind.LOG, WoodBlockKind.WOOD, WoodBlockKind.STRIPPED_LOG, WoodBlockKind.STRIPPED_WOOD);
+		IWoodAccess woodAccess = IForestryApi.INSTANCE.getTreeManager().getWoodAccess();
 
 		for (WoodBlockKind woodKind : logLike) {
 			try {
 				new FabricatorRecipeBuilder()
 						.setPlan(Ingredient.EMPTY)
 						.setMolten(liquidGlass)
-						.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, TreeManager.woodAccess.getBlock(type, woodKind, true).getBlock())
-								.pattern(" # ")
-								.pattern("#X#")
-								.pattern(" # ")
+						.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, woodAccess.getBlock(type, woodKind, true).getBlock(), 2)
+								.pattern("   ")
+								.pattern("X#X")
+								.pattern("   ")
 								.define('#', CoreItems.REFRACTORY_WAX)
-								.define('X', TreeManager.woodAccess.getBlock(type, woodKind, false).getBlock()))
+								.define('X', woodAccess.getBlock(type, woodKind, false).getBlock()))
 						.build(consumer, id("fabricator", "fireproof", woodKind.getSerializedName(), type.toString()));
 			} catch (IllegalStateException ignored) {
 			}
@@ -1822,12 +1823,12 @@ public class ForestryRecipeProvider {
 		new FabricatorRecipeBuilder()
 				.setPlan(Ingredient.EMPTY)
 				.setMolten(liquidGlass)
-				.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, TreeManager.woodAccess.getBlock(type, WoodBlockKind.PLANKS, true).getBlock(), 5)
+				.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, woodAccess.getBlock(type, WoodBlockKind.PLANKS, true).getBlock(), 8)
+						.pattern("XXX")
 						.pattern("X#X")
-						.pattern("#X#")
-						.pattern("X#X")
+						.pattern("XXX")
 						.define('#', CoreItems.REFRACTORY_WAX)
-						.define('X', TreeManager.woodAccess.getBlock(type, WoodBlockKind.PLANKS, false).getBlock()))
+						.define('X', woodAccess.getBlock(type, WoodBlockKind.PLANKS, false).getBlock()))
 				.build(consumer, id("fabricator", "fireproof", "planks", type.toString()));
 	}
 

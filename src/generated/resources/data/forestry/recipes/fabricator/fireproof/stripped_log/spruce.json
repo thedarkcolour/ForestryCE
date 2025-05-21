@@ -17,11 +17,12 @@
       }
     },
     "pattern": [
-      " # ",
-      "#X#",
-      " # "
+      "   ",
+      "X#X",
+      "   "
     ],
     "result": {
+      "count": 2,
       "item": "forestry:spruce_fireproof_stripped_log"
     },
     "show_notification": true

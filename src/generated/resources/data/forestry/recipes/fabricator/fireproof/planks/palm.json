@@ -17,12 +17,12 @@
       }
     },
     "pattern": [
+      "XXX",
       "X#X",
-      "#X#",
-      "X#X"
+      "XXX"
     ],
     "result": {
-      "count": 5,
+      "count": 8,
       "item": "forestry:palm_fireproof_planks"
     },
     "show_notification": true
