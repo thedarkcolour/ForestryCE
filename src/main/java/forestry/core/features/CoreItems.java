@@ -26,7 +26,7 @@ public class CoreItems {
 	public static final FeatureItem<ForestersManualItem> FORESTERS_MANUAL = REGISTRY.item(ForestersManualItem::new, "foresters_manual");
 
 	/* Fertilizer */
-	public static final FeatureItem<ItemForestry> COMPOST = REGISTRY.item(ItemForestry::new, "fertilizer_bio");
+	public static final FeatureItem<ItemFertilizer> COMPOST = REGISTRY.item(ItemFertilizer::new, "fertilizer_bio");
 	public static final FeatureItem<ItemFertilizer> FERTILIZER_COMPOUND = REGISTRY.item(ItemFertilizer::new, "fertilizer_compound");
 
 	/* Gems and raw ores */
@@ -92,7 +92,7 @@ public class CoreItems {
 	/* Moistener */
 	public static final FeatureItem<ItemForestry> MOULDY_WHEAT = REGISTRY.item(ItemForestry::new, "mouldy_wheat");
 	public static final FeatureItem<ItemForestry> DECAYING_WHEAT = REGISTRY.item(ItemForestry::new, "decaying_wheat");
-	public static final FeatureItem<ItemForestry> MULCH = REGISTRY.item(ItemForestry::new, "mulch");
+	public static final FeatureItem<ItemFertilizer> MULCH = REGISTRY.item(ItemFertilizer::new, "mulch");
 
 	/* Rainmaker */
 	public static final FeatureItem<ItemForestry> IODINE_CHARGE = REGISTRY.item(ItemForestry::new, "iodine_capsule");
