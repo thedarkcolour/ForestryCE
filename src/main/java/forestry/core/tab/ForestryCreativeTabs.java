@@ -184,6 +184,8 @@ public class ForestryCreativeTabs {
 		items.accept(CoreItems.ASH);
 		items.accept(CoreItems.PEAT);
 		items.accept(CoreItems.BITUMINOUS_PEAT);
+		items.accept(CoreItems.BEESWAX);
+		items.accept(CoreItems.REFRACTORY_WAX);
 		// todo merge more items into crafting materials
 		CoreItems.CRAFTING_MATERIALS.getItems().forEach(items::accept);
 	}
