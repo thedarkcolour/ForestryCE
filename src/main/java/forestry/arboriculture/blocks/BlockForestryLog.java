@@ -14,6 +14,7 @@ import forestry.api.arboriculture.IWoodType;
 import forestry.api.arboriculture.WoodBlockKind;
 import forestry.arboriculture.ForestryWoodType;
 import forestry.arboriculture.IWoodTyped;
+import forestry.arboriculture.VanillaWoodType;
 import forestry.arboriculture.features.ArboricultureBlocks;
 
 import org.jetbrains.annotations.Nullable;
@@ -75,6 +76,15 @@ public class BlockForestryLog extends RotatedPillarBlock implements IWoodTyped {
 							.get(type).defaultState().setValue(AXIS, state.getValue(AXIS));
 				} else if (this.kind == WoodBlockKind.WOOD) {
 					return (this.fireproof ? ArboricultureBlocks.STRIPPED_WOOD_FIREPROOF : ArboricultureBlocks.STRIPPED_WOOD)
+							.get(type).defaultState().setValue(AXIS, state.getValue(AXIS));
+				}
+			} else if (this.woodType instanceof VanillaWoodType type) {
+				// Only case could be that we're fireproof log or fireproof wood
+				if (this.kind == WoodBlockKind.LOG) {
+					return ArboricultureBlocks.STRIPPED_LOGS_VANILLA_FIREPROOF
+							.get(type).defaultState().setValue(AXIS, state.getValue(AXIS));
+				} else if (this.kind == WoodBlockKind.WOOD) {
+					return ArboricultureBlocks.STRIPPED_WOOD_VANILLA_FIREPROOF
 							.get(type).defaultState().setValue(AXIS, state.getValue(AXIS));
 				}
 			}
