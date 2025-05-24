@@ -281,7 +281,7 @@ public class DefaultTreeSpecies {
 				})
 				.addMutations(mutations -> {
 					mutations.add(ForestryTreeSpecies.POPLAR, ForestryTreeSpecies.DARK_OAK, 0.10f)
-							.restrictTemperature(TemperatureType.WARM, TemperatureType.HOT)
+							.restrictTemperature(TemperatureType.NORMAL)
 							.restrictHumidity(HumidityType.DAMP);
 				})
 				.setRarity(0.0025f);
@@ -332,10 +332,27 @@ public class DefaultTreeSpecies {
 				})
 				.addMutations(mutations -> {
 					mutations.add(ForestryTreeSpecies.DOGWOOD, ForestryTreeSpecies.CHERRY_VANILLA, 0.05f)
-							.restrictTemperature(TemperatureType.NORMAL, TemperatureType.HOT) // Jacaranda trees are tropical, but because they're bred from temperate trees, it seems fair to be a bit forgiving.
+							.restrictTemperature(TemperatureType.NORMAL, TemperatureType.WARM) // Jacaranda trees are tropical, but because they're bred from temperate trees, it seems fair to be a bit forgiving.
 							.restrictHumidity(HumidityType.NORMAL, HumidityType.DAMP);
 				})
 				.setAuthority("Spear");
+
+		// Ipe (Yellow Ipe) https://www.catalogueoflife.org/data/taxon/99M93
+		arboriculture.registerSpecies(ForestryTreeSpecies.IPE, GENUS_HANDROANTHUS, SPECIES_IPE, true, TextColor.fromRgb(0xfdd207), ForestryWoodType.IPE)
+				.setTreeFeature(FeatureIpe::new)
+				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.IPE))
+				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.IPE).block().getStateDefinition().getPossibleStates())
+				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.get(ForestryLeafType.IPE).block().getStateDefinition().getPossibleStates())
+				.setGenome(genome -> {
+					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_LOWER);
+					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_LARGE);
+					genome.set(TreeChromosomes.GIRTH, ForestryAlleles.GIRTH_2);
+				})
+				.addMutations(mutations -> {
+					mutations.add(ForestryTreeSpecies.DOGWOOD, ForestryTreeSpecies.TEAK, 0.05f)
+							.restrictTemperature(TemperatureType.WARM)
+							.restrictHumidity(HumidityType.DAMP);
+				});
 
 		// ANCIENT LINE
 
@@ -644,21 +661,6 @@ public class DefaultTreeSpecies {
 					mutations.add(ForestryTreeSpecies.KAPOK, ForestryTreeSpecies.TEAK, 0.05f);
 				})
 				.setRarity(0.0025f);
-
-		// Ipe (Yellow Ipe) https://www.catalogueoflife.org/data/taxon/99M93
-		arboriculture.registerSpecies(ForestryTreeSpecies.IPE, GENUS_HANDROANTHUS, SPECIES_IPE, true, TextColor.fromRgb(0xfdd207), ForestryWoodType.IPE)
-				.setTreeFeature(FeatureIpe::new)
-				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.IPE))
-				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.IPE).block().getStateDefinition().getPossibleStates())
-				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.get(ForestryLeafType.IPE).block().getStateDefinition().getPossibleStates())
-				.setGenome(genome -> {
-					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_LOWER);
-					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_LARGE);
-					genome.set(TreeChromosomes.GIRTH, ForestryAlleles.GIRTH_2);
-				})
-				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.TEAK, ForestryTreeSpecies.DARK_OAK, 0.05f);
-				});
 
 		// Lemon https://www.catalogueoflife.org/data/taxon/9XK4K
 		arboriculture.registerSpecies(ForestryTreeSpecies.LEMON, GENUS_CITRUS, SPECIES_LEMON, true, TextColor.fromRgb(0x5C8429), ForestryWoodType.CITRUS)
