@@ -1,7 +1,4 @@
-@ParametersAreNonnullByDefault
-@MethodsReturnNonnullByDefault
+@javax.annotation.ParametersAreNonnullByDefault
+@forestry.api.core.FieldsAreNonnullByDefault
+@net.minecraft.MethodsReturnNonnullByDefault
 package forestry.api.genetics.pollen;
-
-import net.minecraft.MethodsReturnNonnullByDefault;
-
-import javax.annotation.ParametersAreNonnullByDefault;

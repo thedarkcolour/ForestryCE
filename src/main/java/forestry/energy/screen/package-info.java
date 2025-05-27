@@ -1,4 +1,4 @@
 @javax.annotation.ParametersAreNonnullByDefault
-@forestry.core.utils.FieldsAreNonnullByDefault
+@forestry.api.core.FieldsAreNonnullByDefault
 @net.minecraft.MethodsReturnNonnullByDefault
 package forestry.energy.screen;

@@ -1,9 +1,4 @@
-@ParametersAreNonnullByDefault
-@MethodsReturnNonnullByDefault
-@FieldsAreNonnullByDefault
+@javax.annotation.ParametersAreNonnullByDefault
+@forestry.api.core.FieldsAreNonnullByDefault
+@net.minecraft.MethodsReturnNonnullByDefault
 package forestry.modules.features;
-
-import forestry.core.utils.FieldsAreNonnullByDefault;
-import net.minecraft.MethodsReturnNonnullByDefault;
-
-import javax.annotation.ParametersAreNonnullByDefault;
