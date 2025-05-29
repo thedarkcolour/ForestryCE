@@ -7,8 +7,7 @@ import net.neoforged.bus.api.ICancellableEvent;
 
 /**
  * Fired before a queen is created as a result of breeding a princess and a drone.
- *
- * @since 2.4.4
+ * For example, this can be used to cancel the breeding or change the resultant queen's genome (ex. to make Zombified).
  */
 public class BeeMatingEvent extends Event implements ICancellableEvent {
 	private final IBeeHousing housing;

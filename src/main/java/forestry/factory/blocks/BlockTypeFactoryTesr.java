@@ -10,7 +10,6 @@
  ******************************************************************************/
 package forestry.factory.blocks;
 
-import forestry.core.blocks.BlockBase;
 import forestry.core.blocks.IBlockType;
 import forestry.core.blocks.IMachineProperties;
 import forestry.core.blocks.MachineProperties;
@@ -23,6 +22,7 @@ import forestry.factory.tiles.*;
 import forestry.modules.features.FeatureTileType;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
@@ -53,7 +53,7 @@ public enum BlockTypeFactoryTesr implements IBlockType {
 		this.machineProperties = new MachineProperties.Builder<>(teClass, name)
 			.setServerTicker(serverTicker)
 			.setShape((state, reader, pos, context) -> {
-				Direction direction = state.getValue(BlockBase.FACING);
+				Direction direction = state.getValue(HorizontalDirectionalBlock.FACING);
 				return (direction == Direction.NORTH || direction == Direction.SOUTH) ? ns : ew;
 			})
 			.create();

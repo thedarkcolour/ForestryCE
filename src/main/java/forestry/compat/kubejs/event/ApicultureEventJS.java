@@ -1,7 +1,7 @@
 package forestry.compat.kubejs.event;
 
 import com.mojang.datafixers.util.Function3;
-import dev.latvian.mods.kubejs.event.EventJS;
+import dev.latvian.mods.kubejs.event.KubeEvent;
 import forestry.api.apiculture.IBeeHousing;
 import forestry.api.apiculture.LightPreference;
 import forestry.api.apiculture.hives.IHivePlacement;
@@ -33,7 +33,7 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.UnaryOperator;
 
-public class ApicultureEventJS extends EventJS {
+public class ApicultureEventJS implements KubeEvent {
 	private final IApicultureRegistration wrapped;
 
 	public ApicultureEventJS(IApicultureRegistration wrapped) {

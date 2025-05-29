@@ -18,7 +18,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
-import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 
 import javax.annotation.Nullable;
@@ -121,7 +120,7 @@ public class MemorizedRecipe implements INbtWritable, INbtReadable, IStreamable 
 	public List<RecipeHolder<CraftingRecipe>> getRecipes() {
 		if (this.recipes.isEmpty() && !this.recipeIds.isEmpty()) {
 			for (ResourceLocation key : this.recipeIds) {
-				RecipeHolder<CraftingRecipe> recipe = RecipeUtils.getRecipe(RecipeType.CRAFTING, key);
+				RecipeHolder<CraftingRecipe> recipe = RecipeUtils.getRecipe(key);
 				if (recipe != null) {
 					this.recipes.add(recipe);
 				}

@@ -14,7 +14,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import forestry.api.ForestryConstants;
-import forestry.core.blocks.BlockBase;
 import forestry.core.tiles.IRenderableTile;
 import forestry.core.tiles.TileBase;
 import forestry.core.utils.RenderUtil;
@@ -31,6 +30,7 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 
 import java.util.EnumMap;
 import java.util.Locale;
@@ -109,7 +109,7 @@ public class RenderMachine implements BlockEntityRenderer<TileBase> {
 	public void render(TileBase machine, float partialTick, PoseStack stack, MultiBufferSource buffers, int light, int overlay) {
 		stack.pushPose();
 		// apply direction rotation
-		Direction orientation = machine.getBlockState().getValue(BlockBase.FACING);
+		Direction orientation = machine.getBlockState().getValue(HorizontalDirectionalBlock.FACING);
 		RenderUtil.rotateByHorizontalDirection(stack, orientation);
 		// flip the machine on its side
 		stack.translate(0.5, 0.5, 0.5);

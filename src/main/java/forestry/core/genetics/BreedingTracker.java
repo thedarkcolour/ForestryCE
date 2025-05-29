@@ -3,7 +3,7 @@ package forestry.core.genetics;
 import com.google.common.collect.Iterables;
 import com.mojang.authlib.GameProfile;
 import forestry.api.IForestryApi;
-import forestry.api.event.BreedingEvent;
+import forestry.api.event.BreedingTrackerEvent;
 import forestry.api.genetics.IBreedingTracker;
 import forestry.api.genetics.IMutation;
 import forestry.api.genetics.ISpecies;
@@ -161,7 +161,7 @@ public abstract class BreedingTracker extends SavedData implements IBreedingTrac
 			setDirty();
 
 			ISpeciesType<?, ?> speciesRoot = IForestryApi.INSTANCE.getGeneticManager().getSpeciesType(this.typeId);
-			BreedingEvent.MutationDiscovered event = new BreedingEvent.MutationDiscovered(speciesRoot, this.username, mutation, this);
+			BreedingTrackerEvent.MutationDiscovered event = new BreedingTrackerEvent.MutationDiscovered(speciesRoot, this.username, mutation, this);
 			NeoForge.EVENT_BUS.post(event);
 
 			sendUpdate(List.of(), List.of(mutationString), List.of());
@@ -202,7 +202,7 @@ public abstract class BreedingTracker extends SavedData implements IBreedingTrac
             this.discoveredSpecies.add(speciesId);
 
 			ISpeciesType<?, ?> speciesType = IForestryApi.INSTANCE.getGeneticManager().getSpeciesType(this.typeId);
-			BreedingEvent.SpeciesDiscoveredEvent event = new BreedingEvent.SpeciesDiscoveredEvent(speciesType, this.username, species, this);
+			BreedingTrackerEvent.SpeciesDiscovered event = new BreedingTrackerEvent.SpeciesDiscovered(speciesType, this.username, species, this);
 			NeoForge.EVENT_BUS.post(event);
 
 			sendUpdate(List.of(speciesId), List.of(), List.of());

@@ -16,9 +16,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.model.geometry.IGeometryBakingContext;
-import net.minecraftforge.client.model.geometry.IGeometryLoader;
-import net.minecraftforge.client.model.geometry.IUnbakedGeometry;
+import net.neoforged.neoforge.client.model.geometry.IGeometryBakingContext;
+import net.neoforged.neoforge.client.model.geometry.IGeometryLoader;
+import net.neoforged.neoforge.client.model.geometry.IUnbakedGeometry;
 import org.joml.Vector3f;
 
 import javax.annotation.Nullable;
@@ -45,14 +45,14 @@ public class FilledCrateModel implements IUnbakedGeometry<FilledCrateModel> {
 
 	@SuppressWarnings("DataFlowIssue")
 	@Override
-	public BakedModel bake(IGeometryBakingContext context, ModelBaker bakery, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ItemOverrides overrides, ResourceLocation modelLocation) {
+	public BakedModel bake(IGeometryBakingContext context, ModelBaker bakery, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ItemOverrides overrides) {
 		if (cachedBaseModel == null) {
-			cachedBaseModel = bakery.getModel(Loader.FILLED_CRATE_LOCATION).bake(bakery, spriteGetter, modelState, modelLocation);
+			cachedBaseModel = bakery.getModel(Loader.FILLED_CRATE_LOCATION).bake(bakery, spriteGetter, modelState);
 			cachedTransforms = cachedBaseModel.getTransforms();
 			cachedQuads = cachedBaseModel.getQuads(null, null, RandomSource.create());
 		}
 
-		return new Baked(this.contents.bake(bakery, spriteGetter, modelState, modelLocation), cachedQuads, cachedTransforms);
+		return new Baked(this.contents.bake(bakery, spriteGetter, modelState), cachedQuads, cachedTransforms);
 	}
 
 	public static class Loader implements IGeometryLoader<FilledCrateModel> {

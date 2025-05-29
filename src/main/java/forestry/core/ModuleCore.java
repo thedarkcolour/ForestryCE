@@ -47,6 +47,7 @@ import net.neoforged.neoforge.event.AddReloadListenerEvent;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.TagsUpdatedEvent;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
+import net.neoforged.neoforge.event.tick.ServerTickEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
@@ -130,8 +131,8 @@ public class ModuleCore extends BlankForestryModule {
 		PickupHandlerCore.onItemPickup(event.getEntity(), event.getItem());
 	}
 
-	private static void onLevelTick(LevelTickEvent.Post event) {
-		TileStreamUpdateTracker.syncVisualUpdates();
+	private static void onLevelTick(ServerTickEvent.Post event) {
+		TileStreamUpdateTracker.syncVisualUpdates(event.getServer());
 	}
 
 	private static void onTagsUpdated(TagsUpdatedEvent event) {

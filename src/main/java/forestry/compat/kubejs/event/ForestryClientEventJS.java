@@ -1,13 +1,13 @@
 package forestry.compat.kubejs.event;
 
-import dev.latvian.mods.kubejs.event.EventJS;
+import dev.latvian.mods.kubejs.event.KubeEvent;
 import forestry.api.client.arboriculture.ILeafSprite;
 import forestry.api.client.arboriculture.ILeafTint;
 import forestry.api.client.plugin.IClientRegistration;
 import forestry.api.genetics.ILifeStage;
 import net.minecraft.resources.ResourceLocation;
 
-public class ForestryClientEventJS extends EventJS {
+public class ForestryClientEventJS implements KubeEvent {
 	private final IClientRegistration wrapped;
 
 	public ForestryClientEventJS(IClientRegistration wrapped) {

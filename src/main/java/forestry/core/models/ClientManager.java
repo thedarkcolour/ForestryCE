@@ -30,6 +30,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.event.ModelEvent;
+import net.neoforged.neoforge.client.event.ModelEvent;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -64,7 +65,7 @@ public enum ClientManager {
 
 	public ModelState getDefaultBlockState() {
 		if (this.defaultBlockState == null) {
-            this.defaultBlockState = ResourceUtil.loadTransform(new ResourceLocation("block/block"));
+            this.defaultBlockState = ResourceUtil.loadTransform(ResourceLocation.withDefaultNamespace("block/block"));
 		}
 		return this.defaultBlockState;
 	}
@@ -95,7 +96,7 @@ public enum ClientManager {
 
 	public void onBakeModels(ModelEvent.ModifyBakingResult event) {
 		//register custom models
-		Map<ResourceLocation, BakedModel> registry = event.getModels();
+		Map<ModelResourceLocation, BakedModel> registry = event.getModels();
 		for (final BlockModelEntry entry : this.customBlockModels) {
 			for (BlockState state : entry.states) {
 				registry.put(BlockModelShaper.stateToModelLocation(state), entry.model);

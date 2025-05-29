@@ -1,50 +1,50 @@
 package forestry.core.blocks;
 
-import forestry.core.network.NetworkHandler;
 import forestry.core.network.packets.PacketTileStream;
 import forestry.core.tiles.TileForestry;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.chunk.LevelChunk;
-import net.minecraftforge.network.PacketDistributor;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.network.PacketDistributor;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.WeakHashMap;
 
-// Based on https://github.com/thedarkcolour/ExDeorum/blob/1.20.4/src/main/java/thedarkcolour/exdeorum/network/VisualUpdateTracker.java
+// Based on https://github.com/thedarkcolour/ExDeorum/blob/1.21.1/src/main/java/thedarkcolour/exdeorum/network/VisualUpdateTracker.java
 public class TileStreamUpdateTracker {
-	private static final Map<LevelChunk, Set<BlockPos>> UPDATES = new WeakHashMap<>();
+	// Use sets to avoid duplicate updates
+	private static final Map<ResourceKey<Level>, Map<ChunkPos, Set<BlockPos>>> UPDATES = new HashMap<>();
 
 	public static void sendVisualUpdate(TileForestry tile) {
 		var level = tile.getLevel();
 
 		if (level != null && !level.isClientSide) {
-			var dimension = level.getChunkAt(tile.getBlockPos());
-			Set<BlockPos> updatesList;
-			if (!UPDATES.containsKey(dimension)) {
-				UPDATES.put(dimension, updatesList = new HashSet<>());
-			} else {
-				updatesList = UPDATES.get(dimension);
-			}
-			updatesList.add(tile.getBlockPos());
+			Map<ChunkPos, Set<BlockPos>> chunkUpdates = UPDATES.computeIfAbsent(level.dimension(), key -> new HashMap<>());
+			chunkUpdates.computeIfAbsent(new ChunkPos(tile.getBlockPos()), key -> new HashSet<>()).add(tile.getBlockPos());
 		}
 	}
 
-	public static void syncVisualUpdates() {
+	public static void syncVisualUpdates(MinecraftServer server) {
 		for (var entry : UPDATES.entrySet()) {
-			var pendingUpdates = entry.getValue();
+			var level = server.getLevel(entry.getKey());
 
-			for (var updatePos : pendingUpdates) {
-				var chunk = entry.getKey();
+			if (level != null) {
+				var pendingUpdates = entry.getValue();
 
-				if (chunk.getBlockEntity(updatePos) instanceof TileForestry blockEntity) {
-					// packet uses strong reference
-					NetworkHandler.CHANNEL.send(PacketDistributor.TRACKING_CHUNK.with(() -> chunk), new PacketTileStream(blockEntity));
+				for (var chunkUpdates : pendingUpdates.entrySet()) {
+					var chunkPos = chunkUpdates.getKey();
+
+					for (var updatePos : chunkUpdates.getValue()) {
+						if (level.getBlockEntity(updatePos) instanceof TileForestry blockEntity) {
+							PacketDistributor.sendToPlayersTrackingChunk(level, chunkPos, new PacketTileStream(blockEntity));
+						}
+					}
 				}
 			}
-
-			pendingUpdates.clear();
 		}
 	}
 }

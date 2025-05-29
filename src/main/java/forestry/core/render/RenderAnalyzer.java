@@ -13,7 +13,6 @@ package forestry.core.render;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import forestry.api.ForestryConstants;
-import forestry.core.blocks.BlockBase;
 import forestry.core.config.Constants;
 import forestry.core.tiles.TileAnalyzer;
 import forestry.core.utils.RenderUtil;
@@ -32,6 +31,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 
 // todo replace with static block model and just render the item
 public class RenderAnalyzer implements BlockEntityRenderer<TileAnalyzer> {
@@ -79,7 +79,7 @@ public class RenderAnalyzer implements BlockEntityRenderer<TileAnalyzer> {
 	@Override
 	public void render(TileAnalyzer analyzer, float partialTick, PoseStack stack, MultiBufferSource buffers, int light, int overlay) {
 		stack.pushPose();
-		Direction facing = analyzer.getBlockState().getValue(BlockBase.FACING);
+		Direction facing = analyzer.getBlockState().getValue(HorizontalDirectionalBlock.FACING);
 		RenderUtil.rotateByHorizontalDirection(stack, facing);
 
 		VertexConsumer buffer0 = buffers.getBuffer(RenderType.entityCutout(TEXTURE0));

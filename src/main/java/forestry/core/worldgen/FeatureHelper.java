@@ -1,6 +1,6 @@
 package forestry.core.worldgen;
 
-import forestry.api.arboriculture.ITreeGenData;
+import forestry.api.arboriculture.ITreeSpecies;
 import forestry.arboriculture.worldgen.ITreeBlockType;
 import forestry.arboriculture.worldgen.TreeBlockType;
 import forestry.arboriculture.worldgen.TreeContour;
@@ -210,7 +210,7 @@ public class FeatureHelper {
 		}
 	}
 
-	public static void generatePods(ITreeGenData tree, LevelAccessor level, RandomSource rand, BlockPos startPos, int height, int minHeight, int girth, EnumReplaceMode replaceMode) {
+	public static void generatePods(ITreeSpecies species, LevelAccessor level, RandomSource rand, BlockPos startPos, int height, int minHeight, int girth, EnumReplaceMode replaceMode) {
 		// todo mutable block pos
 		for (int y = height - 1; y >= minHeight; y--) { // generating top-down is faster for lighting calculations
 			for (int x = 0; x < girth; x++) {
@@ -219,16 +219,16 @@ public class FeatureHelper {
 						continue;
 					}
 
-					trySpawnPod(tree, level, rand, startPos.offset(x + 1, y, z), replaceMode);
-					trySpawnPod(tree, level, rand, startPos.offset(x - 1, y, z), replaceMode);
-					trySpawnPod(tree, level, rand, startPos.offset(x, y, z + 1), replaceMode);
-					trySpawnPod(tree, level, rand, startPos.offset(x, y, z - 1), replaceMode);
+					trySpawnPod(species, level, rand, startPos.offset(x + 1, y, z), replaceMode);
+					trySpawnPod(species, level, rand, startPos.offset(x - 1, y, z), replaceMode);
+					trySpawnPod(species, level, rand, startPos.offset(x, y, z + 1), replaceMode);
+					trySpawnPod(species, level, rand, startPos.offset(x, y, z - 1), replaceMode);
 				}
 			}
 		}
 	}
 
-	private static void trySpawnPod(ITreeGenData species, LevelAccessor level, RandomSource rand, BlockPos pos, EnumReplaceMode replaceMode) {
+	private static void trySpawnPod(ITreeSpecies species, LevelAccessor level, RandomSource rand, BlockPos pos, EnumReplaceMode replaceMode) {
 		BlockState blockState = level.getBlockState(pos);
 		if (replaceMode.canReplace(blockState, level, pos)) {
 			species.trySpawnFruitPod(level, rand, pos);

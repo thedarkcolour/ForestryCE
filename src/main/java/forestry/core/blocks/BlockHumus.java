@@ -14,8 +14,7 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
-import net.minecraftforge.common.IPlantable;
-import net.minecraftforge.common.PlantType;
+import net.neoforged.neoforge.common.util.TriState;
 
 public class BlockHumus extends Block {
 	private static final int DEGRADE_STEPS = 3;
@@ -80,8 +79,7 @@ public class BlockHumus extends Block {
 	}
 
 	@Override
-	public boolean canSustainPlant(BlockState state, BlockGetter world, BlockPos pos, Direction direction, IPlantable plantable) {
-		PlantType plantType = plantable.getPlantType(world, pos);
-		return plantType == PlantType.CROP || plantType == PlantType.PLAINS;
+	public TriState canSustainPlant(BlockState state, BlockGetter level, BlockPos soilPosition, Direction facing, BlockState plant) {
+		return plant.is(BlockTags.CROPS) ? TriState.TRUE : TriState.DEFAULT;
 	}
 }

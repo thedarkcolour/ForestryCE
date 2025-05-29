@@ -1,40 +1,18 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.storage.gui;
 
 import forestry.core.gui.ContainerItemInventory;
 import forestry.core.gui.slots.SlotFilteredInventory;
 import forestry.storage.features.BackpackMenuTypes;
 import forestry.storage.inventory.ItemInventoryBackpack;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
 public class ContainerBackpack extends ContainerItemInventory<ItemInventoryBackpack> {
-	public enum Size {
-		DEFAULT(3, 5, 44, 19),
-		T2(5, 9, 8, 8);
-
-		final int rows;
-		final int columns;
-		final int startX;
-		final int startY;
-
-		Size(int rows, int columns, int startX, int startY) {
-			this.rows = rows;
-			this.columns = columns;
-			this.startX = startX;
-			this.startY = startY;
-		}
+	public record Size(int rows, int columns, int startX, int startY) {
+		public static final Size DEFAULT = new Size(3, 5, 44, 19);
+		public static final Size T2 = new Size(5, 9, 8, 8);
 
 		public int getSize() {
 			return this.rows * this.columns;
@@ -43,9 +21,9 @@ public class ContainerBackpack extends ContainerItemInventory<ItemInventoryBackp
 
 	private final Size size;
 
-	public static ContainerBackpack fromNetwork(int windowID, Inventory inv, FriendlyByteBuf extraData) {
-		Size size = extraData.readEnum(Size.class);
-		ItemStack parent = extraData.readItem();
+	public static ContainerBackpack fromNetwork(int windowID, Inventory inv, RegistryFriendlyByteBuf extraData) {
+		Size size = extraData.readBoolean() ? Size.T2 : Size.DEFAULT;
+		ItemStack parent = ItemStack.STREAM_CODEC.decode(extraData);
 		return new ContainerBackpack(windowID, inv.player, size, parent);
 	}
 

@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.core.blocks;
 
 import com.mojang.authlib.GameProfile;
@@ -21,6 +11,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -28,6 +19,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
+
+import javax.annotation.Nullable;
 
 public abstract class BlockStructure extends BlockForestry {
 	protected BlockStructure(Block.Properties properties) {
@@ -37,47 +30,54 @@ public abstract class BlockStructure extends BlockForestry {
 	protected long previousMessageTick = 0;
 
 	@Override
-	public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player playerIn, InteractionHand hand, BlockHitResult hit) {
-		if (playerIn.isShiftKeyDown()) { //isSneaking
-			return InteractionResult.PASS;
-		}
+	protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+		if (stack.isEmpty()) {
+			MultiblockTileEntityForestry<?> part = TileUtil.getTile(level, pos, MultiblockTileEntityForestry.class);
+			if (part == null) {
+				return ItemInteractionResult.FAIL;
+			}
 
-		MultiblockTileEntityForestry part = TileUtil.getTile(worldIn, pos, MultiblockTileEntityForestry.class);
-		if (part == null) {
-			return InteractionResult.FAIL;
-		}
-		IMultiblockController controller = part.getMultiblockLogic().getController();
+			IMultiblockController controller = part.getMultiblockLogic().getController();
 
-		ItemStack heldItem = playerIn.getItemInHand(hand);
-		// If the player's hands are empty and they right-click on a multiblock, they get a
-		// multiblock-debugging message if the machine is not assembled.
-		if (heldItem.isEmpty()) {
 			if (!controller.isAssembled()) {
 				String validationError = controller.getLastValidationError();
+
 				if (validationError != null) {
-					long tick = worldIn.getGameTime();
+					long tick = level.getGameTime();
+
 					if (tick > this.previousMessageTick + 20) {
-						playerIn.sendSystemMessage(Component.literal(validationError));
-                        this.previousMessageTick = tick;
+						player.sendSystemMessage(Component.literal(validationError));
+						this.previousMessageTick = tick;
 					}
-					return InteractionResult.SUCCESS;
+
+					return ItemInteractionResult.sidedSuccess(level.isClientSide);
 				}
 			}
 		}
-
-		// Don't open the GUI if the multiblock isn't assembled
-		if (controller == null || !controller.isAssembled()) {
-			return InteractionResult.PASS;
-		}
-
-		if (!worldIn.isClientSide) {
-			part.openGui((ServerPlayer) playerIn, pos);
-		}
-		return InteractionResult.SUCCESS;
+		return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 	}
 
 	@Override
-	public void setPlacedBy(Level world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
+	protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
+		MultiblockTileEntityForestry<?> part = TileUtil.getTile(level, pos, MultiblockTileEntityForestry.class);
+		if (part == null) {
+			return InteractionResult.FAIL;
+		}
+
+		IMultiblockController controller = part.getMultiblockLogic().getController();
+
+		if (controller.isAssembled()) {
+			if (!level.isClientSide) {
+				part.openGui((ServerPlayer) player, pos);
+			}
+			return InteractionResult.sidedSuccess(level.isClientSide);
+		}
+
+		return InteractionResult.PASS;
+	}
+
+	@Override
+	public void setPlacedBy(Level world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
 		if (world.isClientSide) {
 			return;
 		}

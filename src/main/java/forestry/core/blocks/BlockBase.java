@@ -1,16 +1,5 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.core.blocks;
 
-import forestry.api.farming.HorizontalDirection;
 import forestry.core.circuits.ISocketable;
 import forestry.core.tiles.TileBase;
 import forestry.core.tiles.TileForestry;
@@ -30,28 +19,23 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.minecraftforge.fluids.FluidUtil;
+import net.neoforged.neoforge.fluids.FluidUtil;
 
 import javax.annotation.Nullable;
 
 public class BlockBase<P extends Enum<P> & IBlockType> extends BlockForestry implements EntityBlock {
-	/**
-	 * use this instead of {@link net.minecraft.world.level.block.HorizontalDirectionalBlock#FACING} so the blocks rotate in a circle instead of NSWE order.
-	 */
-	public static final EnumProperty<Direction> FACING = EnumProperty.create("facing", Direction.class, HorizontalDirection.VALUES);
-
 	public final P blockType;
 
 	private static Block.Properties createProperties(Block.Properties properties) {
@@ -61,8 +45,8 @@ public class BlockBase<P extends Enum<P> & IBlockType> extends BlockForestry imp
 	public BlockBase(P blockType, Block.Properties properties) {
 		super(createProperties(properties));
 
-		if (getStateDefinition().any().hasProperty(FACING)) {
-			registerDefaultState(getStateDefinition().any().setValue(FACING, Direction.NORTH));
+		if (getStateDefinition().any().hasProperty(HorizontalDirectionalBlock.FACING)) {
+			registerDefaultState(getStateDefinition().any().setValue(HorizontalDirectionalBlock.FACING, Direction.NORTH));
 		}
 
 		this.blockType = blockType;
@@ -72,7 +56,7 @@ public class BlockBase<P extends Enum<P> & IBlockType> extends BlockForestry imp
 
 	@Override
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-		builder.add(FACING);
+		builder.add(HorizontalDirectionalBlock.FACING);
 	}
 
 	@Override
@@ -132,7 +116,7 @@ public class BlockBase<P extends Enum<P> & IBlockType> extends BlockForestry imp
 	@Nullable
 	@Override
 	public BlockState getStateForPlacement(BlockPlaceContext context) {
-		return defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
+		return defaultBlockState().setValue(HorizontalDirectionalBlock.FACING, context.getHorizontalDirection().getOpposite());
 	}
 
 	@Override
@@ -156,7 +140,7 @@ public class BlockBase<P extends Enum<P> & IBlockType> extends BlockForestry imp
 
 	@Override
 	public BlockState rotate(BlockState state, Rotation rot) {
-		Direction facing = state.getValue(FACING);
-		return state.setValue(FACING, rot.rotate(facing));
+		Direction facing = state.getValue(HorizontalDirectionalBlock.FACING);
+		return state.setValue(HorizontalDirectionalBlock.FACING, rot.rotate(facing));
 	}
 }

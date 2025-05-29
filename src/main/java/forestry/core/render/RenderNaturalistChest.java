@@ -13,7 +13,6 @@ package forestry.core.render;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import forestry.api.ForestryConstants;
-import forestry.core.blocks.BlockBase;
 import forestry.core.config.Constants;
 import forestry.core.tiles.TileNaturalistChest;
 import forestry.core.utils.RenderUtil;
@@ -29,6 +28,7 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 
 public class RenderNaturalistChest implements BlockEntityRenderer<TileNaturalistChest> {
 	private static final String LID = "lid";
@@ -67,7 +67,7 @@ public class RenderNaturalistChest implements BlockEntityRenderer<TileNaturalist
 	public void render(TileNaturalistChest chest, float partialTick, PoseStack stack, MultiBufferSource buffers, int light, int overlay) {
 		stack.pushPose();
 
-		RenderUtil.rotateByHorizontalDirection(stack, chest.getBlockState().getValue(BlockBase.FACING));
+		RenderUtil.rotateByHorizontalDirection(stack, chest.getBlockState().getValue(HorizontalDirectionalBlock.FACING));
 
 		// calculate lid angle
 		float prevLidAngle = chest.prevLidAngle;

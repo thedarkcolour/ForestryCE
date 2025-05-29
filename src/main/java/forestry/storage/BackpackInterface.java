@@ -29,7 +29,7 @@ public class BackpackInterface implements IBackpackInterface {
 		Preconditions.checkNotNull(definition, "definition must not be null");
 		Preconditions.checkNotNull(speciesTypeId, "rootUid must not be null");
 
-		return new ItemBackpackNaturalist(speciesTypeId, definition, tab);
+		return new ItemBackpackNaturalist(speciesTypeId, definition);
 	}
 
 	@Override

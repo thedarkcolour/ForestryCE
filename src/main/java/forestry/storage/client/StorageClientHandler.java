@@ -10,20 +10,19 @@ import forestry.storage.features.BackpackMenuTypes;
 import forestry.storage.gui.ContainerNaturalistBackpack;
 import forestry.storage.gui.GuiBackpack;
 import forestry.storage.items.ItemBackpack;
-import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.client.renderer.item.ItemPropertyFunction;
 import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.client.event.ModelEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.client.event.ModelEvent;
+import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 
 public class StorageClientHandler implements IClientModuleHandler {
-	public static final ModelResourceLocation FILLED_CRATE_MODEL = new ModelResourceLocation(ForestryConstants.MOD_ID, "filled_crate", "inventory");
+	public static final ModelResourceLocation FILLED_CRATE_MODEL = new ModelResourceLocation(ForestryConstants.forestry("filled_crate"), "inventory");
 
 	@Override
 	public void registerEvents(IEventBus modBus) {
@@ -38,9 +37,9 @@ public class StorageClientHandler implements IClientModuleHandler {
 			@SuppressWarnings("deprecation")
 			ItemPropertyFunction itemPropertyFunction = (stack, clientLevel, holder, idk) -> ItemBackpack.getMode(stack).ordinal();
 
-			for (RegistryObject<Item> entry : registry.getRegistry(Registries.ITEM).getEntries()) {
-				if (entry.get() instanceof ItemBackpack) {
-					ItemProperties.register(entry.get(), new ResourceLocation("mode"), itemPropertyFunction);
+			for (Holder<Item> entry : registry.getRegistry(Registries.ITEM).getEntries()) {
+				if (entry.value() instanceof ItemBackpack backpack) {
+					ItemProperties.register(backpack, ResourceLocation.withDefaultNamespace("mode"), itemPropertyFunction);
 				}
 			}
 		});
@@ -51,7 +50,7 @@ public class StorageClientHandler implements IClientModuleHandler {
 	}
 
 	private static void registerModelLoaders(ModelEvent.RegisterGeometryLoaders event) {
-		event.register("filled_crate", new FilledCrateModel.Loader());
+		event.register(ForestryConstants.forestry("filled_crate"), new FilledCrateModel.Loader());
 	}
 
 	private static void onModelBake(ModelEvent.BakingCompleted event) {
@@ -60,10 +59,8 @@ public class StorageClientHandler implements IClientModuleHandler {
 		FilledCrateModel.cachedQuads = null;
 	}
 
-	private static void onClientSetup(FMLClientSetupEvent event) {
-		event.enqueueWork(() -> {
-			MenuScreens.register(BackpackMenuTypes.BACKPACK.menuType(), GuiBackpack::new);
-			MenuScreens.register(BackpackMenuTypes.NATURALIST_BACKPACK.menuType(), GuiNaturalistInventory<ContainerNaturalistBackpack>::new);
-		});
+	private static void onClientSetup(RegisterMenuScreensEvent event) {
+		event.register(BackpackMenuTypes.BACKPACK.menuType(), GuiBackpack::new);
+		event.register(BackpackMenuTypes.NATURALIST_BACKPACK.menuType(), GuiNaturalistInventory<ContainerNaturalistBackpack>::new);
 	}
 }

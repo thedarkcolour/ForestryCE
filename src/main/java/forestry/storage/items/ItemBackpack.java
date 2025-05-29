@@ -1,7 +1,7 @@
 package forestry.storage.items;
 
 import com.google.common.base.Preconditions;
-import forestry.api.storage.BackpackStowEvent;
+import forestry.api.event.BackpackEvent;
 import forestry.api.storage.EnumBackpackType;
 import forestry.api.storage.IBackpackDefinition;
 import forestry.core.config.ForestryConfig;
@@ -11,14 +11,13 @@ import forestry.core.inventory.StandardStackFilters;
 import forestry.core.items.ItemWithGui;
 import forestry.core.items.definitions.IColoredItem;
 import forestry.core.tiles.TileUtil;
-import forestry.core.utils.NetworkUtil;
 import forestry.storage.BackpackMode;
 import forestry.storage.gui.ContainerBackpack;
 import forestry.storage.inventory.ItemInventoryBackpack;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
@@ -35,6 +34,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.items.IItemHandler;
 
 import javax.annotation.Nullable;
@@ -59,9 +59,9 @@ public class ItemBackpack extends ItemWithGui implements IColoredItem {
 	}
 
 	@Override
-	protected void writeContainerData(ServerPlayer player, ItemStack stack, FriendlyByteBuf buffer) {
-		NetworkUtil.writeEnum(buffer, this.type == EnumBackpackType.WOVEN ? ContainerBackpack.Size.T2 : ContainerBackpack.Size.DEFAULT);
-		buffer.writeItem(stack);
+	protected void writeContainerData(ServerPlayer player, ItemStack stack, RegistryFriendlyByteBuf buffer) {
+		buffer.writeBoolean(this.type == EnumBackpackType.WOVEN);
+		ItemStack.STREAM_CODEC.encode(buffer, stack);
 	}
 
 	@Override
@@ -103,7 +103,7 @@ public class ItemBackpack extends ItemWithGui implements IColoredItem {
 		ItemBackpack backpack = (ItemBackpack) backpackStack.getItem();
 		ItemInventory inventory = new ItemInventoryBackpack(player, backpack.getBackpackSize(), backpackStack);
 
-		if (MinecraftForge.EVENT_BUS.post(new BackpackStowEvent(player, backpack.getDefinition(), inventory, stack))) {
+		if (NeoForge.EVENT_BUS.post(new BackpackEvent.Stow(player, backpack.getDefinition(), inventory, stack)).isCanceled()) {
 			return;
 		}
 		if (stack.isEmpty()) {

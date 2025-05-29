@@ -48,7 +48,6 @@ public class ModuleArboriculture extends BlankForestryModule {
 
 		modBus.addListener(ModuleArboriculture::registerCapabilities);
 		modBus.addListener(ModuleArboriculture::commonSetup);
-		NeoForge.EVENT_BUS.addGenericListener(ItemStack.class, ModuleArboriculture::attachCapabilities);
 	}
 
 	private static void attachCapabilities(AttachCapabilitiesEvent<ItemStack> event) {

@@ -1,7 +1,7 @@
 package forestry.core.network.packets;
 
 import forestry.api.IForestryApi;
-import forestry.api.event.SyncedBreedingTrackerEvent;
+import forestry.api.event.BreedingTrackerEvent;
 import forestry.api.genetics.IBreedingTracker;
 import forestry.api.genetics.ISpeciesType;
 import forestry.api.modules.IForestryPacketClient;
@@ -32,14 +32,13 @@ public record PacketGenomeTrackerSync(@Nullable CompoundTag nbt) implements IFor
 
 	public static void handle(PacketGenomeTrackerSync msg, IPayloadContext ctx) {
 		if (msg.nbt != null) {
-			String type = msg.nbt.getString(BreedingTracker.TYPE_KEY);
-			ISpeciesType<?, ?> root = IForestryApi.INSTANCE.getGeneticManager().getSpeciesTypeSafe(ResourceLocation.parse(type));
+			ISpeciesType<?, ?> type = IForestryApi.INSTANCE.getGeneticManager().getSpeciesTypeSafe(ResourceLocation.parse(msg.nbt.getString(BreedingTracker.TYPE_KEY)));
 
-			if (root != null) {
+			if (type != null) {
 				Player player = ctx.player();
-				IBreedingTracker tracker = root.getBreedingTracker(player.getCommandSenderWorld(), player.getGameProfile());
+				IBreedingTracker tracker = type.getBreedingTracker(player.getCommandSenderWorld(), player.getGameProfile());
 				tracker.readFromNbt(msg.nbt, player.registryAccess());
-				NeoForge.EVENT_BUS.post(new SyncedBreedingTrackerEvent(tracker, player));
+				NeoForge.EVENT_BUS.post(new BreedingTrackerEvent.Synced(type, tracker, player));
 			}
 		}
 	}

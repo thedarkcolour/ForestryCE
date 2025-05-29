@@ -51,11 +51,11 @@ public class SpectaclesCurioRenderer implements ICurioRenderer {
 	// HumanoidArmorLayer.renderModel (with known args inlined)
 	private void renderModel(PoseStack poseStack, MultiBufferSource buffers, int light) {
 		VertexConsumer buffer = buffers.getBuffer(RenderType.armorCutoutNoCull(TEXTURE));
-		this.armorModel.renderToBuffer(poseStack, buffer, light, OverlayTexture.NO_OVERLAY, 1f, 1f, 1f, 1f);
+		this.armorModel.renderToBuffer(poseStack, buffer, light, OverlayTexture.NO_OVERLAY);
 	}
 
 	// HumanoidArmorLayer.renderGlint (with known args inlined)
 	private void renderGlint(PoseStack poseStack, MultiBufferSource buffers, int light) {
-		this.armorModel.renderToBuffer(poseStack, buffers.getBuffer(RenderType.armorEntityGlint()), light, OverlayTexture.NO_OVERLAY, 1f, 1f, 1f, 1f);
+		this.armorModel.renderToBuffer(poseStack, buffers.getBuffer(RenderType.armorEntityGlint()), light, OverlayTexture.NO_OVERLAY);
 	}
 }

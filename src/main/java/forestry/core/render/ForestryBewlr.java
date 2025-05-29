@@ -2,7 +2,6 @@ package forestry.core.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import forestry.apiculture.blocks.NaturalistChestBlockType;
-import forestry.core.blocks.BlockBase;
 import forestry.core.blocks.BlockTypeCoreTesr;
 import forestry.core.features.CoreBlocks;
 import forestry.core.tiles.*;
@@ -23,6 +22,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -65,8 +65,8 @@ public class ForestryBewlr extends BlockEntityWithoutLevelRenderer {
 
 	private static void addTile(IdentityHashMap<Item, BlockEntity> map, FeatureBlock<?, ?> block, BiFunction<BlockPos, BlockState, BlockEntity> factory) {
 		BlockState state = block.defaultState();
-		if (state.hasProperty(BlockBase.FACING)) {
-			state = state.setValue(BlockBase.FACING, Direction.SOUTH);
+		if (state.hasProperty(HorizontalDirectionalBlock.FACING)) {
+			state = state.setValue(HorizontalDirectionalBlock.FACING, Direction.SOUTH);
 		}
 		map.put(block.item(), factory.apply(BlockPos.ZERO, state));
 	}

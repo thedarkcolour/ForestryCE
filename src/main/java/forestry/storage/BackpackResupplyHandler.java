@@ -1,6 +1,6 @@
 package forestry.storage;
 
-import forestry.api.storage.BackpackResupplyEvent;
+import forestry.api.event.BackpackEvent;
 import forestry.core.inventory.ItemInventory;
 import forestry.storage.inventory.ItemInventoryBackpack;
 import forestry.storage.items.ItemBackpack;
@@ -34,7 +34,7 @@ public class BackpackResupplyHandler {
 					ItemBackpack backpackItem = (ItemBackpack) backpack.getItem();
 					ItemInventory backpackInventory = new ItemInventoryBackpack(player, backpackItem.getBackpackSize(), backpack);
 
-					BackpackResupplyEvent event = new BackpackResupplyEvent(player, backpackItem.getDefinition(), backpackInventory);
+					BackpackEvent.Resupply event = new BackpackEvent.Resupply(player, backpackItem.getDefinition(), backpackInventory);
 					if (!NeoForge.EVENT_BUS.post(event).isCanceled()) {
 						for (int i = 0; i < backpackInventory.getContainerSize(); i++) {
 							ItemStack itemStack = backpackInventory.getItem(i);

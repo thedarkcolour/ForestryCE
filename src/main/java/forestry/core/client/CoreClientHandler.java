@@ -21,7 +21,6 @@ import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.features.ArboricultureItems;
 import forestry.core.circuits.GuiSolderingIron;
 import forestry.core.config.Constants;
-import forestry.core.config.ForestryConfig;
 import forestry.core.features.*;
 import forestry.core.fluids.ForestryFluids;
 import forestry.core.gui.*;
@@ -42,6 +41,7 @@ import forestry.storage.features.BackpackItems;
 import forestry.storage.features.CrateItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.*;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Unit;
@@ -53,8 +53,7 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
-import net.neoforged.neoforge.client.event.ModelEvent;
-import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
+import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.common.NeoForge;
 
 import java.awt.*;
@@ -128,15 +127,16 @@ public class CoreClientHandler implements IClientModuleHandler {
 			Map<IBeeSpecies, ResourceLocation> models = beeManager.getBeeModels(stage);
 
 			for (IBeeSpecies species : SpeciesUtil.getAllBeeSpecies()) {
-				event.register(models.get(species));
+				event.register(ModelResourceLocation.inventory(models.get(species)));
 			}
 		}
 
 		ITreeClientManager treeManager = IForestryClientApi.INSTANCE.getTreeManager();
 
 		for (Pair<ResourceLocation, ResourceLocation> pair : treeManager.getAllSaplingModels()) {
-			event.register(pair.getFirst());
-			event.register(pair.getSecond());
+			// wrap for now, if the need to specify model variant comes up, it can be added later
+			event.register(ModelResourceLocation.inventory(pair.getFirst()));
+			event.register(ModelResourceLocation.inventory(pair.getSecond()));
 		}
 	}
 
@@ -186,7 +186,7 @@ public class CoreClientHandler implements IClientModuleHandler {
 	}
 
 	private static void registerParticleFactory(RegisterParticleProvidersEvent event) {
-		event.registerSpriteSet(CoreParticles.REFRACTORY_WAX.get(), RefractoryWaxParticle::new);
+		event.registerSpriteSet(CoreParticles.REFRACTORY_WAX.value(), RefractoryWaxParticle::new);
 	}
 
 	private static void registerBlockColors(RegisterColorHandlersEvent.Block event) {

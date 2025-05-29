@@ -24,7 +24,7 @@ public class CarpenterProcessor implements IComponentProcessor {
 	public void setup(Level level, IVariableProvider variables) {
 		ItemStack stack = variables.get("item", level.registryAccess()).as(ItemStack.class, ItemStack.EMPTY);
 
-		this.recipe = RecipeUtils.getRecipeByOutput(FactoryRecipeTypes.CARPENTER, level.registryAccess(), stack);
+		this.recipe = RecipeUtils.getRecipeByOutput(FactoryRecipeTypes.CARPENTER, level.registryAccess(), stack).value();
 	}
 
 	@Override
@@ -49,7 +49,7 @@ public class CarpenterProcessor implements IComponentProcessor {
 			} catch (Exception e) {
 				ingredient = Ingredient.EMPTY;
 			}
-			return IVariable.from(ingredient.getItems());
+			return IVariable.from(ingredient.getItems(), level.registryAccess());
 		} else {
 			return IVariable.empty();
 		}

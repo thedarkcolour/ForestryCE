@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.core.blocks;
 
 import forestry.core.features.CoreTiles;
@@ -15,6 +5,7 @@ import forestry.core.tiles.TileAnalyzer;
 import forestry.core.tiles.TileEscritoire;
 import forestry.modules.features.FeatureTileType;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
@@ -48,7 +39,7 @@ public enum BlockTypeCoreTesr implements IBlockType {
 		};
 
 		return new MachineProperties.Builder<>(teClass, name)
-			.setShape((state, level, pos, context) -> shapes[state.getValue(BlockBase.FACING).get2DDataValue()])
+			.setShape((state, level, pos, context) -> shapes[state.getValue(HorizontalDirectionalBlock.FACING).get2DDataValue()])
 			.create();
 	}
 
