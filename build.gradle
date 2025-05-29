@@ -21,8 +21,7 @@ neoForge {
 	version = "$neoForgeVersion"
 
 	accessTransformers = files('src/main/resources/META-INF/accesstransformer.cfg')
-	// Set to false because Forge has broken access transformers
-	//validateAccessTransformers = true
+	validateAccessTransformers = true
 
 	// Add Parchment parameter mappings
 	parchment {
@@ -161,7 +160,7 @@ jar {
 
 tasks.withType(JavaCompile).configureEach {
 	options.encoding = "UTF-8"
-	options.compilerArgs << "-Xmaxerrs" << "400"
+	options.compilerArgs << "-Xmaxerrs" << "4000"
 }
 
 idea {

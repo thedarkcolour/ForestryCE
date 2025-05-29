@@ -67,7 +67,7 @@ public class MultiblockWorldRegistry {
 	public void tickStart() {
 		if (!this.controllers.isEmpty()) {
 			for (IMultiblockControllerInternal controller : this.controllers) {
-				if (controller.getWorldObj() == this.world && controller.getWorldObj().isClientSide == this.world.isClientSide) {
+				if (controller.getLevel() == this.world && controller.getLevel().isClientSide == this.world.isClientSide) {
 					if (controller.hasNoParts()) {
 						// This happens on the server when the user breaks the last block. It's fine.
 						// Mark 'er dead and move on.
@@ -110,7 +110,7 @@ public class MultiblockWorldRegistry {
 				// Process orphaned blocks
 				// These are blocks that exist in a valid chunk and require a controller
 				for (IMultiblockComponent orphan : orphansToProcess) {
-					coord = orphan.getCoordinates();
+					coord = orphan.getBlockPos();
 					if (!chunkProvider.hasChunk(coord.getX() >> 4, coord.getZ() >> 4)) {
 						continue;
 					}
@@ -310,7 +310,7 @@ public class MultiblockWorldRegistry {
 	 * @param part The part which is being added to this world.
 	 */
 	public void onPartAdded(IMultiblockComponent part) {
-		BlockPos worldLocation = part.getCoordinates();
+		BlockPos worldLocation = part.getBlockPos();
 
 		if (!this.world.getChunkSource().hasChunk(worldLocation.getX() >> 4, worldLocation.getZ() >> 4)) {
 			// Part goes into the waiting-for-chunk-load list
@@ -339,7 +339,7 @@ public class MultiblockWorldRegistry {
 	 * @param part The part which is being removed.
 	 */
 	public void onPartRemovedFromWorld(IMultiblockComponent part) {
-		BlockPos coord = part.getCoordinates();
+		BlockPos coord = part.getBlockPos();
 		long hash = ChunkPos.asLong(coord.getX() >> 4, coord.getZ() >> 4);
 
 		if (this.partsAwaitingChunkLoad.containsKey(hash)) {

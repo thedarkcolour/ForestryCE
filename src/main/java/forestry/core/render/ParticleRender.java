@@ -27,8 +27,8 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import org.joml.Vector3f;
 
 import java.util.List;
@@ -55,7 +55,7 @@ public class ParticleRender {
 	}
 
 	public static void addBeeHiveFX(IBeeHousing housing, IGenome genome, List<BlockPos> flowerPositions) {
-		LevelAccessor world1 = housing.getWorldObj();
+		LevelAccessor world1 = housing.getLevel();
 		ClientLevel world = (ClientLevel) world1;
 		if (!shouldSpawnParticle(world)) {
 			return;
@@ -83,7 +83,7 @@ public class ParticleRender {
 					LivingEntity entity = entitiesInRange.get(world.random.nextInt(entitiesInRange.size()));
 					//Particle particle = new ParticleBeeTargetEntity(world, particleStart, entity, color);
 					//effectRenderer.add(particle);
-					world.addParticle(new BeeTargetParticleData(entity, color), particleStart.x, particleStart.y, particleStart.z, 0, 0, 0);
+					world.addParticle(new BeeTargetParticleData(entity.getId(), color), particleStart.x, particleStart.y, particleStart.z, 0, 0, 0);
 					return;
 				}
 			}
@@ -96,7 +96,7 @@ public class ParticleRender {
 			world.addParticle(new BeeParticleData(ApicultureParticles.BEE_ROUND_TRIP_PARTICLE.get(), destination, color), particleStart.x, particleStart.y, particleStart.z, 0, 0, 0);
 		} else {
 			Vec3i area = Bee.getParticleArea(genome, housing);
-			Vec3i offset = housing.getCoordinates().offset(-area.getX() / 2, -area.getY() / 4, -area.getZ() / 2);
+			Vec3i offset = housing.getBlockPos().offset(-area.getX() / 2, -area.getY() / 4, -area.getZ() / 2);
 			BlockPos destination = VecUtil.getRandomPositionInArea(world.random, area).offset(offset);
 			world.addParticle(new BeeParticleData(ApicultureParticles.BEE_EXPLORER_PARTICLE.get(), destination, color), particleStart.x, particleStart.y, particleStart.z, 0, 0, 0);
 			//Particle particle = new ParticleBeeExplore(world, particleStart, destination, color);

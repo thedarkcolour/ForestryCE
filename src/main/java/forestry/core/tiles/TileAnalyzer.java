@@ -31,7 +31,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.Container;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -40,8 +40,8 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
@@ -131,7 +131,7 @@ public class TileAnalyzer extends TilePowered implements WorldlyContainer, ILiqu
 
 		setItem(InventoryAnalyzer.SLOT_ANALYZE, ItemStack.EMPTY);
 		PacketItemStackDisplay packet = new PacketItemStackDisplay(this, getIndividualOnDisplay());
-		NetworkUtil.sendNetworkPacket(packet, this.worldPosition, this.level);
+		NetworkUtil.sendToPlayersTrackingPos(packet, this.worldPosition, this.level);
 
 		return true;
 	}
@@ -149,7 +149,7 @@ public class TileAnalyzer extends TilePowered implements WorldlyContainer, ILiqu
 
 	/* Network */
 	@Override
-	public void writeData(FriendlyByteBuf data) {
+	public void writeData(RegistryFriendlyByteBuf data) {
 		super.writeData(data);
 		ItemStack displayStack = getIndividualOnDisplay();
 		data.writeItem(displayStack);
@@ -158,7 +158,7 @@ public class TileAnalyzer extends TilePowered implements WorldlyContainer, ILiqu
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void readData(FriendlyByteBuf data) {
+	public void readData(RegistryFriendlyByteBuf data) {
 		super.readData(data);
         this.individualOnDisplayClient = data.readItem();
         this.tankManager.readData(data);
@@ -238,7 +238,7 @@ public class TileAnalyzer extends TilePowered implements WorldlyContainer, ILiqu
 		}
 
 		PacketItemStackDisplay packet = new PacketItemStackDisplay(this, getIndividualOnDisplay());
-		NetworkUtil.sendNetworkPacket(packet, this.worldPosition, this.level);
+		NetworkUtil.sendToPlayersTrackingPos(packet, this.worldPosition, this.level);
 	}
 
 	public ItemStack getIndividualOnDisplay() {

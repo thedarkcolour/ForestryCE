@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.arboriculture.items;
 
 import forestry.api.ForestryTags;
@@ -36,15 +26,15 @@ public class ItemGrafter extends ItemForestry implements IToolGrafter {
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> tooltip, TooltipFlag advanced) {
-		super.appendHoverText(stack, world, tooltip, advanced);
+	public void appendHoverText(ItemStack stack, TooltipContext ctx, List<Component> tooltip, TooltipFlag advanced) {
+		super.appendHoverText(stack, ctx, tooltip, advanced);
 		if (!stack.isDamaged()) {
 			tooltip.add(Component.translatable("item.forestry.uses", stack.getMaxDamage() + 1).withStyle(ChatFormatting.GRAY));
 		}
 	}
 
 	@Override
-	public boolean isCorrectToolForDrops(BlockState state) {
+	public boolean isCorrectToolForDrops(ItemStack stack, BlockState state) {
 		return state.getBlock() instanceof LeavesBlock || state.is(BlockTags.LEAVES) || super.isCorrectToolForDrops(state);
 	}
 
@@ -57,10 +47,11 @@ public class ItemGrafter extends ItemForestry implements IToolGrafter {
 		}
 	}
 
+	// mostly copied from ShearsItem.mineBlock
 	@Override
 	public boolean mineBlock(ItemStack stack, Level world, BlockState state, BlockPos pos, LivingEntity entity) {
 		if (!world.isClientSide && !state.is(BlockTags.FIRE)) {
-			stack.hurtAndBreak(1, entity, living -> living.broadcastBreakEvent(EquipmentSlot.MAINHAND));
+			stack.hurtAndBreak(1, entity, EquipmentSlot.MAINHAND);
 		}
 		return state.is(BlockTags.LEAVES);
 	}

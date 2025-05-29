@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.apiculture.tiles;
 
 import com.google.common.base.Predicate;
@@ -23,11 +13,11 @@ import forestry.api.core.ISpectacleBlock;
 import forestry.api.core.TemperatureType;
 import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.api.util.TickHelper;
-import forestry.apiculture.ModuleApiculture;
 import forestry.apiculture.WorldgenBeekeepingLogic;
 import forestry.apiculture.blocks.BlockBeeHive;
 import forestry.apiculture.features.ApicultureTiles;
 import forestry.apiculture.genetics.effects.ThrottledBeeEffect;
+import forestry.core.config.ForestryConfig;
 import forestry.core.damage.CoreDamageTypes;
 import forestry.core.inventory.InventoryAdapter;
 import forestry.core.network.packets.PacketActiveUpdate;
@@ -38,9 +28,11 @@ import forestry.core.utils.NetworkUtil;
 import forestry.core.utils.SpeciesUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.LivingEntity;
@@ -93,12 +85,12 @@ public class TileHive extends BlockEntity implements IHiveTile, IActivatable, IB
 	}
 
 	public void tick(Level level) {
-        this.tickHelper.onTick();
+		this.tickHelper.onTick();
 
 		if (level.isClientSide) {
 			if (this.active && this.tickHelper.updateOnInterval(4)) {
 				if (this.beeLogic.canDoBeeFX()) {
-                    this.beeLogic.doBeeFX();
+					this.beeLogic.doBeeFX();
 				}
 			}
 		} else {
@@ -107,21 +99,21 @@ public class TileHive extends BlockEntity implements IHiveTile, IActivatable, IB
 			if (this.tickHelper.updateOnInterval(this.angry ? 10 : 200)) {
 				if (this.calmTime == 0) {
 					if (canWork) {
-						if (this.angry && ModuleApiculture.hiveDamageOnAttack && (level.getLevelData().getDifficulty() != Difficulty.PEACEFUL || ModuleApiculture.hivesDamageOnPeaceful)) {
+						if (this.angry && ForestryConfig.SERVER.hiveDamageOnAttack.get() && (level.getLevelData().getDifficulty() != Difficulty.PEACEFUL || ForestryConfig.SERVER.hivesDamageOnPeaceful.get())) {
 							AABB boundingBox = ThrottledBeeEffect.getBounding(this, getContainedBee().getGenome());
 							List<LivingEntity> entities = level.getEntitiesOfClass(LivingEntity.class, boundingBox, this.beeTargetPredicate);
 							if (!entities.isEmpty()) {
 								Collections.shuffle(entities);
 								LivingEntity entity = entities.get(0);
-								if ((entity instanceof Player || !ModuleApiculture.hivesDamageOnlyPlayers) && (!entity.isInWater() || ModuleApiculture.hivesDamageUnderwater)) {
+								if ((entity instanceof Player || !ForestryConfig.SERVER.hivesDamageOnlyPlayers.get()) && (!entity.isInWater() || ForestryConfig.SERVER.hivesDamageUnderwater.get())) {
 									attack(entity, 2);
 								}
 							}
 						}
-                        this.beeLogic.doWork();
+						this.beeLogic.doWork();
 					}
 				} else {
-                    this.calmTime--;
+					this.calmTime--;
 				}
 			}
 
@@ -154,24 +146,24 @@ public class TileHive extends BlockEntity implements IHiveTile, IActivatable, IB
 	}
 
 	@Override
-	public void load(CompoundTag compoundNBT) {
-		super.load(compoundNBT);
-        this.contained.read(compoundNBT);
-        this.beeLogic.read(compoundNBT);
+	public void loadAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+		super.loadAdditional(nbt, registries);
+		this.contained.read(nbt);
+		this.beeLogic.read(nbt);
 	}
 
 
 	@Override
-	public void saveAdditional(CompoundTag compoundNBT) {
-		super.saveAdditional(compoundNBT);
-        this.contained.write(compoundNBT);
-        this.beeLogic.write(compoundNBT);
+	public void saveAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+		super.saveAdditional(nbt, registries);
+		this.contained.write(nbt);
+		this.beeLogic.write(nbt);
 	}
 
 	@Override
 	public void calmBees() {
-        this.calmTime = 5;
-        this.angry = false;
+		this.calmTime = 5;
+		this.angry = false;
 		setActive(false);
 	}
 
@@ -183,7 +175,7 @@ public class TileHive extends BlockEntity implements IHiveTile, IActivatable, IB
 	@Override
 	public void onAttack(Level world, BlockPos pos, Player player) {
 		if (this.calmTime == 0) {
-            this.angry = true;
+			this.angry = true;
 		}
 	}
 
@@ -227,8 +219,8 @@ public class TileHive extends BlockEntity implements IHiveTile, IActivatable, IB
 		}
 		this.active = active;
 
-		if (!this.level.isClientSide) {
-			NetworkUtil.sendNetworkPacket(new PacketActiveUpdate(this), this.worldPosition, this.level);
+		if (this.level instanceof ServerLevel serverLevel) {
+			NetworkUtil.sendToPlayersTrackingPos(new PacketActiveUpdate(this), this.worldPosition, serverLevel);
 		}
 	}
 
@@ -238,8 +230,8 @@ public class TileHive extends BlockEntity implements IHiveTile, IActivatable, IB
 	}
 
 	@Override
-	public CompoundTag getUpdateTag() {
-		CompoundTag nbt = super.getUpdateTag();
+	public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+		CompoundTag nbt = super.getUpdateTag(registries);
 		nbt.putBoolean("active", this.calmTime == 0);
 		this.beeLogic.write(nbt);
 		return nbt;
@@ -247,17 +239,17 @@ public class TileHive extends BlockEntity implements IHiveTile, IActivatable, IB
 
 	// todo wtf are these two methods (loading from NBT several times per packet)
 	@Override
-	public void handleUpdateTag(CompoundTag tag) {
-		super.handleUpdateTag(tag);
+	public void handleUpdateTag(CompoundTag tag, HolderLookup.Provider registries) {
+		super.handleUpdateTag(tag, registries);
 		setActive(tag.getBoolean("active"));
 		this.beeLogic.read(tag);
 	}
 
 	@Override
-	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
-		super.onDataPacket(net, pkt);
+	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt, HolderLookup.Provider registries) {
+		super.onDataPacket(net, pkt, registries);
 		CompoundTag nbt = pkt.getTag();
-		handleUpdateTag(nbt);
+		handleUpdateTag(nbt, registries);
 	}
 
 	@Override
@@ -282,12 +274,12 @@ public class TileHive extends BlockEntity implements IHiveTile, IActivatable, IB
 
 	@Override
 	public TemperatureType temperature() {
-		return IForestryApi.INSTANCE.getClimateManager().getTemperature(getBiome());
+		return IForestryApi.INSTANCE.getClimateManager().getTemperature(getBiome(this.level.registryAccess()));
 	}
 
 	@Override
 	public HumidityType humidity() {
-		return IForestryApi.INSTANCE.getClimateManager().getHumidity(getBiome());
+		return IForestryApi.INSTANCE.getClimateManager().getHumidity(getBiome(this.level.registryAccess()));
 	}
 
 	@Override
@@ -306,12 +298,12 @@ public class TileHive extends BlockEntity implements IHiveTile, IActivatable, IB
 	}
 
 	@Override
-	public @Nullable Level getWorldObj() {
+	public @Nullable Level getLevel() {
 		return this.level;
 	}
 
 	@Override
-	public Holder<Biome> getBiome() {
+	public Holder<Biome> getBiome(HolderLookup.Provider registries) {
 		return this.level.getBiome(this.worldPosition);
 	}
 
@@ -333,7 +325,7 @@ public class TileHive extends BlockEntity implements IHiveTile, IActivatable, IB
 	}
 
 	@Override
-	public BlockPos getCoordinates() {
+	public BlockPos getBlockPos() {
 		return this.worldPosition;
 	}
 

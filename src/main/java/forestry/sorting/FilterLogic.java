@@ -9,7 +9,7 @@ import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.api.genetics.filter.FilterData;
 import forestry.api.genetics.filter.IFilterLogic;
 import forestry.api.genetics.filter.IFilterRuleType;
-import forestry.core.utils.NetworkUtil;
+import forestry.api.modules.IForestryPacketServer;
 import forestry.core.utils.SpeciesUtil;
 import forestry.sorting.network.packets.PacketFilterChangeGenome;
 import forestry.sorting.network.packets.PacketFilterChangeRule;
@@ -20,6 +20,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import javax.annotation.Nullable;
 
@@ -248,13 +249,15 @@ public class FilterLogic implements IFilterLogic {
 
 	@Override
 	public void sendToServer(Direction facing, int index, boolean active, @Nullable ISpecies<?> allele) {
-		NetworkUtil.sendToServer(new PacketFilterChangeGenome(this.locatable.getCoordinates(), facing, (short) index, active, allele));
-	}
+        IForestryPacketServer packet = new PacketFilterChangeGenome(this.locatable.getBlockPos(), facing, (short) index, active, allele);
+        PacketDistributor.sendToServer(packet);
+    }
 
 	@Override
 	public void sendToServer(Direction facing, IFilterRuleType rule) {
-		NetworkUtil.sendToServer(new PacketFilterChangeRule(this.locatable.getCoordinates(), facing, rule));
-	}
+        IForestryPacketServer packet = new PacketFilterChangeRule(this.locatable.getBlockPos(), facing, rule);
+        PacketDistributor.sendToServer(packet);
+    }
 
 	public PacketGuiFilterUpdate createGuiUpdatePacket(BlockPos pos) {
 		return new PacketGuiFilterUpdate(pos, this.filterRules, this.genomeFilter);

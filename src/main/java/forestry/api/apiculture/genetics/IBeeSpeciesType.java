@@ -8,7 +8,6 @@ import net.minecraft.world.level.LevelAccessor;
 
 import javax.annotation.Nullable;
 
-// todo reimplement beekeeping mode
 public interface IBeeSpeciesType extends ISpeciesType<IBeeSpecies, IBee> {
 	/**
 	 * @return {@link IApiaristTracker} associated with the passed world.

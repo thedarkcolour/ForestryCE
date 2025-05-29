@@ -10,6 +10,7 @@ import forestry.api.genetics.alleles.IKaryotype;
 import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.api.plugin.IApicultureRegistration;
 import forestry.api.plugin.IForestryPlugin;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -71,7 +72,7 @@ public interface ISpeciesType<S extends ISpecies<I>, I extends IIndividual> exte
 	 * @throws IllegalStateException If not all species have been registered yet.
 	 */
 	@Nullable
-	S getSpeciesSafe(ResourceLocation id);
+	S getSpeciesSafe(@Nullable ResourceLocation id);
 
 	/**
 	 * @return A random species from all registered species of this type.
@@ -101,13 +102,11 @@ public interface ISpeciesType<S extends ISpecies<I>, I extends IIndividual> exte
 
 	/**
 	 * @return The translation key for this species type. Ex. "species_type.forestry.bee" -> "Bee"
-	 * @since 2.2.0
 	 */
 	String getTranslationKey();
 
 	/**
 	 * @return The display name for this species type. Ex. "Bee" or "Butterfly"
-	 * @since 2.2.0
 	 */
 	default MutableComponent getDisplayName() {
 		return Component.translatable(getTranslationKey());
@@ -165,9 +164,8 @@ public interface ISpeciesType<S extends ISpecies<I>, I extends IIndividual> exte
 	 */
 	boolean isMember(IIndividual individual);
 
-	@SuppressWarnings({"DataFlowIssue", "ConstantValue"})
 	default boolean isMember(ItemStack stack) {
-		IIndividualHandlerItem individual = stack.getCapability(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM).orElse(null);
+		IIndividualHandlerItem individual = stack.getCapability(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM);
 		return individual != null && isMember(individual.getIndividual());
 	}
 
@@ -208,7 +206,7 @@ public interface ISpeciesType<S extends ISpecies<I>, I extends IIndividual> exte
 	/**
 	 * @return A breeding tracker with data loaded from a previous save file.
 	 */
-	IBreedingTracker createBreedingTracker(CompoundTag nbt);
+	IBreedingTracker createBreedingTracker(CompoundTag nbt, HolderLookup.Provider registries);
 
 	/**
 	 * @return A new individual of a random species using the default genome of the chosen species.
@@ -251,6 +249,7 @@ public interface ISpeciesType<S extends ISpecies<I>, I extends IIndividual> exte
 	/**
 	 * @return This species type casted to a subclass of ISpeciesType.
 	 */
+	@SuppressWarnings("unchecked")
 	default <T extends ISpeciesType<?, ?>> T cast() {
 		return (T) this;
 	}

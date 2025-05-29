@@ -19,7 +19,6 @@ import forestry.core.gui.GuiTextBox;
 import forestry.core.gui.widgets.ItemStackWidget;
 import forestry.core.gui.widgets.Widget;
 import forestry.core.render.ColourProperties;
-import forestry.core.utils.NetworkUtil;
 import forestry.mail.carriers.PostalCarriers;
 import forestry.mail.inventory.ItemInventoryLetter;
 import forestry.mail.network.packets.PacketLetterInfoRequest;
@@ -29,8 +28,9 @@ import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.network.PacketDistributor;
 import org.apache.commons.lang3.StringUtils;
 import org.lwjgl.glfw.GLFW;
 
@@ -254,8 +254,8 @@ public class GuiLetter extends GuiForestry<ContainerLetter> {
 		}
 
 		PacketLetterInfoRequest packet = new PacketLetterInfoRequest(recipientName, carrier);
-		NetworkUtil.sendToServer(packet);
-	}
+        PacketDistributor.sendToServer(packet);
+    }
 
 	@OnlyIn(Dist.CLIENT)
 	private void setText() {

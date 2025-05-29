@@ -2,6 +2,7 @@ package forestry.arboriculture;
 
 import forestry.api.arboriculture.ITreeGenerator;
 import forestry.api.arboriculture.ITreeSpecies;
+import forestry.api.arboriculture.genetics.IPodFruit;
 import forestry.api.arboriculture.genetics.ITree;
 import forestry.api.arboriculture.genetics.ITreeSpeciesType;
 import forestry.api.arboriculture.genetics.TreeLifeStage;
@@ -99,12 +100,7 @@ public class TreeSpecies extends Species<ITreeSpeciesType, ITree> implements ITr
 		return new Tree(genome);
 	}
 
-	@Override
-	public int getEscritoireColor() {
-		return this.escritoireColor;
-	}
-
-	@Override
+    @Override
 	public float getRarity() {
 		return this.rarity;
 	}
@@ -117,6 +113,13 @@ public class TreeSpecies extends Species<ITreeSpeciesType, ITree> implements ITr
 	@Override
 	public float getHeightModifier(IGenome genome) {
 		return genome.getActiveValue(TreeChromosomes.HEIGHT);
+	}
+
+	@Override
+	public Component getItemDisplayName(ILifeStage stage) {
+		Component speciesName = getDisplayName();
+		Component typeName = Component.translatable("for.trees.grammar." + stage.getSerializedName() + ".type");
+		return Component.translatable("for.trees.grammar." + stage.getSerializedName(), speciesName, typeName);
 	}
 
 	@Override
@@ -212,13 +215,15 @@ public class TreeSpecies extends Species<ITreeSpeciesType, ITree> implements ITr
 	}
 
 	@Override
-	public boolean allowsFruitBlocks(IGenome genome) {
-		return genome.getActiveValue(TreeChromosomes.FRUIT).requiresFruitBlocks();
-	}
+	public void trySpawnFruitPod(LevelAccessor level, RandomSource rand, BlockPos pos) {
+		IPodFruit fruit = (IPodFruit) this.defaultGenome.getActiveValue(TreeChromosomes.FRUIT);
 
-	@Override
-	public boolean trySpawnFruitBlock(LevelAccessor level, RandomSource rand, BlockPos pos) {
-		return this.defaultGenome.getActiveValue(TreeChromosomes.FRUIT).trySpawnFruitBlock(this.defaultGenome, level, rand, pos);
+		if (rand.nextFloat() > fruit.getFruitChance(this.defaultGenome, level)) {
+			return;
+		}
+
+		// return value is unused. does this matter?
+		fruit.tryPlace(level, pos, this.defaultGenome);
 	}
 
 	@Override

@@ -13,15 +13,14 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.Container;
-import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fml.loading.FMLEnvironment;
-import net.minecraftforge.server.ServerLifecycleHooks;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.server.ServerLifecycleHooks;
 
 import javax.annotation.Nullable;
 import java.util.Collections;
@@ -53,7 +52,7 @@ public class RecipeUtils {
 	}
 
 	@Nullable
-	public static <C extends Container, T extends Recipe<C>> Recipe<C> getRecipe(RecipeType<T> recipeType, ResourceLocation name) {
+	public static <I extends RecipeInput, T extends Recipe<I>> RecipeHolder<T> getRecipe(RecipeType<T> recipeType, ResourceLocation name) {
 		RecipeManager manager = getRecipeManager();
 		if (manager == null) {
 			return null;
@@ -61,7 +60,7 @@ public class RecipeUtils {
 		return manager.byType(recipeType).get(name);
 	}
 
-	public static <C extends Container, T extends Recipe<C>> List<T> getRecipes(RecipeType<T> recipeType, C inventory, @Nullable Level world) {
+	public static <I extends RecipeInput, T extends Recipe<I>> List<RecipeHolder<T>> getRecipes(RecipeType<T> recipeType, I inventory, @Nullable Level world) {
 		RecipeManager manager = getRecipeManager();
 		if (manager == null || world == null) {
 			return Collections.emptyList();
@@ -69,18 +68,20 @@ public class RecipeUtils {
 		return manager.getRecipesFor(recipeType, inventory, world);
 	}
 
-	public static List<CraftingRecipe> findMatchingRecipes(CraftingContainer inventory, Level level) {
+	public static List<RecipeHolder<CraftingRecipe>> findMatchingRecipes(CraftingInput inventory, Level level) {
 		return level.getRecipeManager().getRecipesFor(RecipeType.CRAFTING, inventory, level);
 	}
 
 	// Returns a crafting matrix for a certain recipe using available items
 	@Nullable
 	public static WorktableCraftingContainer getUsedMatrix(WorktableCraftingContainer originalMatrix, NonNullList<ItemStack> availableItems, Level level, CraftingRecipe recipe) {
-		if (!recipe.matches(originalMatrix, level)) {
+		CraftingInput input = originalMatrix.asCraftInput();
+
+		if (!recipe.matches(input, level)) {
 			return null;
 		}
 
-		ItemStack expectedOutput = recipe.assemble(originalMatrix, level.registryAccess());
+		ItemStack expectedOutput = recipe.assemble(input, level.registryAccess());
 		if (expectedOutput.isEmpty()) {
 			return null;
 		}
@@ -101,8 +102,10 @@ public class RecipeUtils {
 			}
 		}
 
-		if (recipe.matches(usedMatrix, level)) {
-			ItemStack output = recipe.assemble(usedMatrix, level.registryAccess());
+		CraftingInput usedInput = usedMatrix.asCraftInput();
+
+		if (recipe.matches(usedInput, level)) {
+			ItemStack output = recipe.assemble(usedInput, level.registryAccess());
 			if (ItemStack.matches(output, expectedOutput)) {
 				return usedMatrix;
 			}
@@ -113,14 +116,16 @@ public class RecipeUtils {
 
 	private static ItemStack getCraftingEquivalent(List<ItemStack> stockCopy, WorktableCraftingContainer originalMatrix, int slot, Level level, CraftingRecipe recipe, ItemStack expectedOutput) {
 		ItemStack originalStack = originalMatrix.getItem(slot);
+		CraftingInput input = originalMatrix.asCraftInput();
+
 		for (ItemStack stockStack : stockCopy) {
 			if (!stockStack.isEmpty()) {
 				ItemStack singleStockStack = stockStack.copy();
 				singleStockStack.setCount(1);
 				originalMatrix.setItem(slot, singleStockStack);
 
-				if (recipe.matches(originalMatrix, level)) {
-					ItemStack output = recipe.assemble(originalMatrix, level.registryAccess());
+				if (recipe.matches(input, level)) {
+					ItemStack output = recipe.assemble(input, level.registryAccess());
 					if (ItemStack.matches(output, expectedOutput)) {
 						originalMatrix.setItem(slot, originalStack);
 						return stockStack.split(1);
@@ -134,7 +139,7 @@ public class RecipeUtils {
 
 	@Nullable
 	public static IHygroregulatorRecipe getHygroRegulatorRecipe(RecipeManager manager, FluidStack input) {
-		return getMatchingRecipe(manager, FactoryRecipeTypes.HYGROREGULATOR, recipe -> recipe.getInputFluid().isFluidEqual(input));
+		return getMatchingRecipe(manager, FactoryRecipeTypes.HYGROREGULATOR, recipe -> FluidStack.isSameFluidSameComponents(recipe.getInputFluid(), input));
 	}
 
 	@Nullable

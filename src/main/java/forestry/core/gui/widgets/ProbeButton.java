@@ -11,12 +11,13 @@
 package forestry.core.gui.widgets;
 
 import forestry.api.core.tooltips.ToolTip;
+import forestry.api.modules.IForestryPacketServer;
 import forestry.core.gui.GuiEscritoire;
 import forestry.core.network.packets.PacketGuiSelectRequest;
-import forestry.core.utils.NetworkUtil;
 import forestry.core.utils.SoundUtil;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 public class ProbeButton extends Widget {
 
@@ -46,8 +47,9 @@ public class ProbeButton extends Widget {
 	@Override
 	public void handleMouseClick(double mouseX, double mouseY, int mouseButton) {
         this.pressed = true;
-		NetworkUtil.sendToServer(new PacketGuiSelectRequest(-1, 0));
-		SoundUtil.playButtonClick();
+        IForestryPacketServer packet = new PacketGuiSelectRequest(-1, 0);
+        PacketDistributor.sendToServer(packet);
+        SoundUtil.playButtonClick();
 	}
 
 	@Override

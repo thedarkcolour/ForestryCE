@@ -1,16 +1,6 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.arboriculture.worldgen;
 
-import forestry.api.arboriculture.ITreeGenData;
+import forestry.api.arboriculture.ITreeSpecies;
 import forestry.core.worldgen.FeatureHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
@@ -19,8 +9,7 @@ import net.minecraft.world.level.LevelAccessor;
 import java.util.Set;
 
 public class FeatureChestnut extends FeatureTree {
-
-	public FeatureChestnut(ITreeGenData tree) {
+	public FeatureChestnut(ITreeSpecies tree) {
 		super(tree, 7, 3);
 	}
 

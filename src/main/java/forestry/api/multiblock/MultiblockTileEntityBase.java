@@ -1,19 +1,17 @@
 package forestry.api.multiblock;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 /**
  * Base logic class for Multiblock-connected tile entities.
  * Most multiblock components should derive from this.
- * Supply it an IMultiblockLogic from MultiblockManager.logicFactory
  */
 public abstract class MultiblockTileEntityBase<T extends IMultiblockLogic> extends BlockEntity implements IMultiblockComponent {
 	private final T multiblockLogic;
@@ -21,11 +19,6 @@ public abstract class MultiblockTileEntityBase<T extends IMultiblockLogic> exten
 	public MultiblockTileEntityBase(BlockEntityType<?> tileEntityType, BlockPos pos, BlockState state, T multiblockLogic) {
 		super(tileEntityType, pos, state);
 		this.multiblockLogic = multiblockLogic;
-	}
-
-	@Override
-	public BlockPos getCoordinates() {
-		return getBlockPos();
 	}
 
 	@Override
@@ -40,33 +33,33 @@ public abstract class MultiblockTileEntityBase<T extends IMultiblockLogic> exten
 	public abstract void onMachineBroken();
 
 	@Override
-	public void load(CompoundTag data) {
-		super.load(data);
-        this.multiblockLogic.readFromNBT(data);
+	public void loadAdditional(CompoundTag data, HolderLookup.Provider registries) {
+		super.loadAdditional(data, registries);
+		this.multiblockLogic.readFromNBT(data);
 	}
 
 	@Override
-	public void saveAdditional(CompoundTag data) {
-		super.saveAdditional(data);
-        this.multiblockLogic.write(data);
+	public void saveAdditional(CompoundTag data, HolderLookup.Provider registries) {
+		super.saveAdditional(data, registries);
+		this.multiblockLogic.write(data);
 	}
 
 	@Override
 	public void setRemoved() {
 		super.setRemoved();
-        this.multiblockLogic.invalidate(this.level, this);
+		this.multiblockLogic.invalidate(this.level, this);
 	}
 
 	@Override
 	public void onChunkUnloaded() {
 		super.onChunkUnloaded();
-        this.multiblockLogic.onChunkUnload(this.level, this);
+		this.multiblockLogic.onChunkUnload(this.level, this);
 	}
 
 	@Override
 	public void onLoad() {
 		super.onLoad();
-        this.multiblockLogic.validate(this.level, this);
+		this.multiblockLogic.validate(this.level, this);
 	}
 
 	/* Network Communication */
@@ -77,28 +70,27 @@ public abstract class MultiblockTileEntityBase<T extends IMultiblockLogic> exten
 	}
 
 	@Override
-	public CompoundTag getUpdateTag() {
-		CompoundTag updateTag = super.getUpdateTag();
-        this.multiblockLogic.encodeDescriptionPacket(updateTag);
+	public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+		CompoundTag updateTag = super.getUpdateTag(registries);
+		this.multiblockLogic.encodeDescriptionPacket(updateTag);
 		this.encodeDescriptionPacket(updateTag);
 		return updateTag;
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
-	public final void onDataPacket(Connection network, ClientboundBlockEntityDataPacket packet) {
-		super.onDataPacket(network, packet);
+	public final void onDataPacket(Connection network, ClientboundBlockEntityDataPacket packet, HolderLookup.Provider registries) {
+		super.onDataPacket(network, packet, registries);
 		CompoundTag nbtData = packet.getTag();
 		if (nbtData != null) {
-            this.multiblockLogic.decodeDescriptionPacket(nbtData);
+			this.multiblockLogic.decodeDescriptionPacket(nbtData);
 			this.decodeDescriptionPacket(nbtData);
 		}
 	}
 
 	@Override
-	public void handleUpdateTag(CompoundTag tag) {
-		super.handleUpdateTag(tag);
-        this.multiblockLogic.decodeDescriptionPacket(tag);
+	public void handleUpdateTag(CompoundTag tag, HolderLookup.Provider registries) {
+		super.handleUpdateTag(tag, registries);
+		this.multiblockLogic.decodeDescriptionPacket(tag);
 		this.decodeDescriptionPacket(tag);
 	}
 
@@ -106,13 +98,11 @@ public abstract class MultiblockTileEntityBase<T extends IMultiblockLogic> exten
 	 * Used to write tileEntity-specific data to the descriptionPacket
 	 */
 	protected void encodeDescriptionPacket(CompoundTag packetData) {
-
 	}
 
 	/**
 	 * Used to read tileEntity-specific data from the descriptionPacket (onDataPacket)
 	 */
 	protected void decodeDescriptionPacket(CompoundTag packetData) {
-
 	}
 }

@@ -108,9 +108,9 @@ public class AlleleManager implements IAlleleManager {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <V extends IRegistryAlleleValue> IRegistryAllele<V> registryAllele(ResourceLocation id, IRegistryChromosome<V> chromosome) {
+	public <V extends IRegistryAlleleValue, T extends V> IRegistryAllele<T> registryAllele(ResourceLocation id, IRegistryChromosome<V> chromosome) {
 		checkAlleleRegistration();
-		return (IRegistryAllele<V>) this.allelesByName.computeIfAbsent(id, key -> new RegistryAllele<>(key, chromosome));
+		return (IRegistryAllele<T>) this.allelesByName.computeIfAbsent(id, key -> new RegistryAllele<>(key, chromosome));
 	}
 
 	@Override

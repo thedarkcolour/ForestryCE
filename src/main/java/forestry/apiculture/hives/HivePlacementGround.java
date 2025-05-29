@@ -1,6 +1,6 @@
 package forestry.apiculture.hives;
 
-import forestry.api.apiculture.hives.IHiveGen;
+import forestry.api.apiculture.hives.IHivePlacement;
 import forestry.core.utils.BlockUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -10,10 +10,10 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 
-public class HiveGenGround implements IHiveGen {
+public class HivePlacementGround implements IHivePlacement {
 	private final TagKey<Block> blocks;
 
-	public HiveGenGround(TagKey<Block> blocks) {
+	public HivePlacementGround(TagKey<Block> blocks) {
 		this.blocks = blocks;
 	}
 
@@ -47,7 +47,7 @@ public class HiveGenGround implements IHiveGen {
 
 	@Override
 	public boolean canReplace(BlockState blockState, WorldGenLevel world, BlockPos pos) {
-		return IHiveGen.isTreeBlock(blockState) || BlockUtil.canReplace(blockState, world, pos);
+		return IHivePlacement.isTreeBlock(blockState) || BlockUtil.canReplace(blockState, world, pos);
 	}
 
 	@Override

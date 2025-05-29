@@ -8,8 +8,8 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 
-public class HiveGenOcean extends HiveGenGround {
-	public HiveGenOcean(TagKey<Block> blocks) {
+public class HivePlacementOcean extends HivePlacementGround {
+	public HivePlacementOcean(TagKey<Block> blocks) {
 		super(blocks);
 	}
 

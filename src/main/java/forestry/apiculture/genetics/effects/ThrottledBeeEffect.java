@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.apiculture.genetics.effects;
 
 import forestry.api.IForestryApi;
@@ -42,7 +32,7 @@ public abstract class ThrottledBeeEffect extends DummyBeeEffect implements IBeeE
 		IBeeModifier beeModifier = IForestryApi.INSTANCE.getHiveManager().createBeeHousingModifier(housing);
 		Vec3i territory = Bee.getAdjustedTerritory(genome, beeModifier);
 
-		BlockPos min = housing.getCoordinates().offset(VecUtil.center(territory));
+		BlockPos min = housing.getBlockPos().offset(VecUtil.center(territory));
 		BlockPos max = min.offset(territory);
 
 		return new AABB(min.getX(), min.getY(), min.getZ(), max.getX(), max.getY(), max.getZ());
@@ -50,7 +40,7 @@ public abstract class ThrottledBeeEffect extends DummyBeeEffect implements IBeeE
 
 	public static <T extends Entity> List<T> getEntitiesInRange(IGenome genome, IBeeHousing housing, Class<T> entityClass) {
 		AABB boundingBox = getBounding(housing, genome);
-		return housing.getWorldObj().getEntitiesOfClass(entityClass, boundingBox);
+		return housing.getLevel().getEntitiesOfClass(entityClass, boundingBox);
 	}
 
 	@Override

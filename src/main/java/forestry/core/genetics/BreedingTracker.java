@@ -1,25 +1,15 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.core.genetics;
 
 import com.google.common.collect.Iterables;
 import com.mojang.authlib.GameProfile;
 import forestry.api.IForestryApi;
-import forestry.api.core.ForestryEvent;
+import forestry.api.event.BreedingEvent;
 import forestry.api.genetics.IBreedingTracker;
 import forestry.api.genetics.IMutation;
 import forestry.api.genetics.ISpecies;
 import forestry.api.genetics.ISpeciesType;
 import forestry.core.network.packets.PacketGenomeTrackerSync;
-import forestry.core.utils.NetworkUtil;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
@@ -29,8 +19,8 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.saveddata.SavedData;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.util.FakePlayer;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import javax.annotation.Nullable;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
@@ -73,12 +63,12 @@ public abstract class BreedingTracker extends SavedData implements IBreedingTrac
 
 	@Override
 	public void syncToPlayer(Player player) {
-		if (player instanceof ServerPlayer && !(player instanceof FakePlayer)) {
+		if (player instanceof ServerPlayer && !player.isFakePlayer()) {
 			CompoundTag nbt = new CompoundTag();
 			writeToNbt(nbt);
 			PacketGenomeTrackerSync packet = new PacketGenomeTrackerSync(nbt);
-			NetworkUtil.sendToPlayer(packet, (ServerPlayer) player);
-		}
+            PacketDistributor.sendToPlayer((ServerPlayer) player, packet);
+        }
 	}
 
 	// Sends the given species and mutations to client. Use to sync serverside breeding updates to the client.
@@ -86,18 +76,18 @@ public abstract class BreedingTracker extends SavedData implements IBreedingTrac
 		if (this.level != null && this.username != null && this.username.getName() != null) {
 			Player player = this.level.getPlayerByUUID(this.username.getId());
 
-			if (player instanceof ServerPlayer && !(player instanceof FakePlayer)) {
+			if (player instanceof ServerPlayer && !player.isFakePlayer()) {
 				CompoundTag nbt = new CompoundTag();
 				writeAllValues(nbt, discoveredSpecies, discoveredMutations, researchedMutations);
 				writeUpdateData(nbt);
 				PacketGenomeTrackerSync packet = new PacketGenomeTrackerSync(nbt);
-				NetworkUtil.sendToPlayer(packet, (ServerPlayer) player);
-			}
+                PacketDistributor.sendToPlayer((ServerPlayer) player, packet);
+            }
 		}
 	}
 
 	@Override
-	public final CompoundTag save(CompoundTag nbt) {
+	public final CompoundTag save(CompoundTag nbt, HolderLookup.Provider registries) {
 		writeToNbt(nbt);
 		return nbt;
 	}
@@ -115,8 +105,13 @@ public abstract class BreedingTracker extends SavedData implements IBreedingTrac
 
 	@OverridingMethodsMustInvokeSuper
 	@Override
-	public void readFromNbt(CompoundTag nbt) {
-		readValuesFromNBT(nbt, value -> this.discoveredSpecies.add(new ResourceLocation(value)), SPECIES_KEY);
+	public void readFromNbt(CompoundTag nbt, HolderLookup.Provider registries) {
+		readValuesFromNBT(nbt, value -> {
+			ResourceLocation id = ResourceLocation.tryParse(value);
+			if (id != null) {
+                this.discoveredSpecies.add(id);
+            }
+        }, SPECIES_KEY);
 		readValuesFromNBT(nbt, this.discoveredMutations::add, MUTATIONS_KEY);
 		readValuesFromNBT(nbt, this.researchedMutations::add, RESEARCHED_KEY);
 	}
@@ -166,8 +161,8 @@ public abstract class BreedingTracker extends SavedData implements IBreedingTrac
 			setDirty();
 
 			ISpeciesType<?, ?> speciesRoot = IForestryApi.INSTANCE.getGeneticManager().getSpeciesType(this.typeId);
-			ForestryEvent event = new ForestryEvent.MutationDiscovered(speciesRoot, this.username, mutation, this);
-			MinecraftForge.EVENT_BUS.post(event);
+			BreedingEvent.MutationDiscovered event = new BreedingEvent.MutationDiscovered(speciesRoot, this.username, mutation, this);
+			NeoForge.EVENT_BUS.post(event);
 
 			sendUpdate(List.of(), List.of(mutationString), List.of());
 		}
@@ -207,8 +202,8 @@ public abstract class BreedingTracker extends SavedData implements IBreedingTrac
             this.discoveredSpecies.add(speciesId);
 
 			ISpeciesType<?, ?> speciesType = IForestryApi.INSTANCE.getGeneticManager().getSpeciesType(this.typeId);
-			ForestryEvent event = new ForestryEvent.SpeciesDiscovered(speciesType, this.username, species, this);
-			MinecraftForge.EVENT_BUS.post(event);
+			BreedingEvent.SpeciesDiscoveredEvent event = new BreedingEvent.SpeciesDiscoveredEvent(speciesType, this.username, species, this);
+			NeoForge.EVENT_BUS.post(event);
 
 			sendUpdate(List.of(speciesId), List.of(), List.of());
 		}

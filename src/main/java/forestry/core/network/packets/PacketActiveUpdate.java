@@ -23,7 +23,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 
 public record PacketActiveUpdate(BlockPos pos, boolean active) implements IForestryPacketClient {
 	public PacketActiveUpdate(IActivatable tile) {
-		this(tile.getCoordinates(), tile.isActive());
+		this(tile.getBlockPos(), tile.isActive());
 	}
 
 	@Override

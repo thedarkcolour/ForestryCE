@@ -21,7 +21,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.*;
-import net.minecraft.world.level.Level;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
@@ -42,8 +41,8 @@ public class ItemSpectacles extends ArmorItem {
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag advanced) {
-		ItemTooltipUtil.addInformation(stack, level, tooltip, advanced);
+	public void appendHoverText(ItemStack stack, List<Component> tooltip) {
+		ItemTooltipUtil.addInformation(stack, tooltip);
 	}
 
 	@Override
@@ -51,7 +50,7 @@ public class ItemSpectacles extends ArmorItem {
 		return new ICapabilityProvider() {
 			@Override
 			public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side) {
-				return cap == ForestryCapabilities.ARMOR_NATURALIST ? LazyOptional.of(() -> ArmorNaturalist.INSTANCE).cast() : LazyOptional.empty();
+				return cap == ForestryCapabilities.SPECTACLE_VISION ? LazyOptional.of(() -> ArmorNaturalist.INSTANCE).cast() : LazyOptional.empty();
 			}
 		};
 	}

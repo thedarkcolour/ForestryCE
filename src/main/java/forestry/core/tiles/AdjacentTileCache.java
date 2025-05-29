@@ -78,7 +78,7 @@ public final class AdjacentTileCache {
 	}
 
 	public void refresh() {
-		for (Direction side : Direction.values()) {
+		for (Direction side : Direction.VALUES) {
 			getTileOnSide(side);
 		}
 	}

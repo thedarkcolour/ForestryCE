@@ -1,22 +1,16 @@
 package forestry.core.genetics.capability;
 
-import forestry.api.ForestryCapabilities;
 import forestry.api.genetics.IIndividual;
 import forestry.api.genetics.ILifeStage;
 import forestry.api.genetics.ISpeciesType;
 import forestry.api.genetics.capability.IIndividualHandlerItem;
-import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.common.util.LazyOptional;
+import net.neoforged.neoforge.capabilities.ICapabilityProvider;
 
 import javax.annotation.Nullable;
 
 // Used for Vanilla sapling items.
-public class IndividualHandlerItem implements ICapabilityProvider, IIndividualHandlerItem {
-	private final LazyOptional<IIndividualHandlerItem> holder = LazyOptional.of(() -> this);
-
+public class IndividualHandlerItem implements ICapabilityProvider<ItemStack, Void, IIndividualHandlerItem>, IIndividualHandlerItem {
 	protected final ISpeciesType<?, ?> speciesType;
 	protected final ItemStack container;
 	protected IIndividual individual;
@@ -54,7 +48,7 @@ public class IndividualHandlerItem implements ICapabilityProvider, IIndividualHa
 	}
 
 	@Override
-	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction side) {
-		return ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM.orEmpty(capability, this.holder);
+	public IIndividualHandlerItem getCapability(ItemStack stack, @Nullable Void v) {
+		return this;
 	}
 }

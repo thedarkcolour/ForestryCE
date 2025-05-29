@@ -7,13 +7,10 @@ import forestry.api.genetics.IGenome;
 import forestry.api.genetics.IIndividualLiving;
 import forestry.api.genetics.pollen.IPollen;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
-import net.minecraft.core.Registry;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
 import java.util.Iterator;
@@ -51,8 +48,6 @@ public interface IBee extends IIndividualLiving {
 	 * @return an empty set if the queen can work, a set of error states if the queen can not work
 	 */
 	Set<IError> getCanWork(IBeeHousing housing);
-
-	List<Holder.Reference<Biome>> getSuitableBiomes(Registry<Biome> registry);
 
 	/**
 	 * @return A list of item stacks used for displaying this bee's products in the Analyzer GUI.

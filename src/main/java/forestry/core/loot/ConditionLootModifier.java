@@ -1,6 +1,7 @@
 package forestry.core.loot;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import forestry.api.ForestryConstants;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
@@ -9,9 +10,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
-import net.minecraftforge.common.loot.IGlobalLootModifier;
-import net.minecraftforge.common.loot.LootModifier;
-import net.minecraftforge.common.loot.LootTableIdCondition;
+import net.neoforged.neoforge.common.loot.IGlobalLootModifier;
+import net.neoforged.neoforge.common.loot.LootModifier;
+import net.neoforged.neoforge.common.loot.LootTableIdCondition;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,7 +22,7 @@ import java.util.function.Consumer;
  * A global loot modifier used by forestry to inject the additional chest loot to the vanilla loot tables.
  */
 public class ConditionLootModifier extends LootModifier {
-	public static final Codec<ConditionLootModifier> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+	public static final MapCodec<ConditionLootModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
 		LOOT_CONDITIONS_CODEC.fieldOf("conditions").forGetter(lm -> lm.conditions),
 		ResourceLocation.CODEC.fieldOf("table").forGetter(lm -> lm.tableLocation),
 		Codec.list(Codec.STRING).fieldOf("extensions").forGetter(o -> o.extensions)
@@ -65,7 +66,7 @@ public class ConditionLootModifier extends LootModifier {
 			return generatedLoot;
 		}
 
-        this.operates = true;
+		this.operates = true;
 
 		for (String extension : this.extensions) {
 			ResourceLocation location = ForestryConstants.forestry(this.tableLocation.getPath() + "/" + extension);
@@ -76,12 +77,13 @@ public class ConditionLootModifier extends LootModifier {
 			}
 		}
 
-        this.operates = false;
+		this.operates = false;
+
 		return generatedLoot;
 	}
 
 	@Override
-	public Codec<? extends IGlobalLootModifier> codec() {
+	public MapCodec<? extends IGlobalLootModifier> codec() {
 		return CODEC;
 	}
 }

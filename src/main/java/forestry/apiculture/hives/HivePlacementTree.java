@@ -1,16 +1,6 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.apiculture.hives;
 
-import forestry.api.apiculture.hives.IHiveGen;
+import forestry.api.apiculture.hives.IHivePlacement;
 import forestry.core.utils.BlockUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -19,7 +9,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.levelgen.Heightmap;
 
-public enum HiveGenTree implements IHiveGen {
+public enum HivePlacementTree implements IHivePlacement {
 	INSTANCE;
 
 	@Override
@@ -31,7 +21,7 @@ public enum HiveGenTree implements IHiveGen {
 	public boolean isValidLocation(WorldGenLevel world, BlockPos pos) {
 		BlockPos posAbove = pos.above();
 		BlockState blockStateAbove = world.getBlockState(posAbove);
-		if (!IHiveGen.isTreeBlock(blockStateAbove)) {
+		if (!IHivePlacement.isTreeBlock(blockStateAbove)) {
 			return false;
 		}
 
@@ -56,7 +46,7 @@ public enum HiveGenTree implements IHiveGen {
 		BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos(posX, height, posZ);
 		BlockState state = chunk.getBlockState(pos);
 
-		if (!IHiveGen.isTreeBlock(state)) {
+		if (!IHivePlacement.isTreeBlock(state)) {
 			return null;
 		}
 
@@ -64,7 +54,7 @@ public enum HiveGenTree implements IHiveGen {
 		do {
 			pos.move(Direction.DOWN);
 			state = chunk.getBlockState(pos);
-		} while (IHiveGen.isTreeBlock(state));
+		} while (IHivePlacement.isTreeBlock(state));
 
 		return pos.immutable();
 	}

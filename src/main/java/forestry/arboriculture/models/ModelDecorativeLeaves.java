@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.arboriculture.models;
 
 import com.google.common.base.Preconditions;
@@ -29,7 +19,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.model.data.ModelData;
+import net.neoforged.neoforge.client.model.data.ModelData;
 
 public class ModelDecorativeLeaves<B extends Block> extends ModelBlockCached<B, ModelDefaultLeaves.Key> {
 	public ModelDecorativeLeaves(Class<B> blockClass) {
@@ -83,7 +73,7 @@ public class ModelDecorativeLeaves<B extends Block> extends ModelBlockCached<B, 
 
 		bakeBlock(block, extraData, key, baker, false);
 
-        this.blockModel = baker.bake(false);
+		this.blockModel = baker.bake(false);
 		onCreateModel(this.blockModel);
 		return this.blockModel;
 	}

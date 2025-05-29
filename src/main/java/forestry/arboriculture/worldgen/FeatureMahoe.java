@@ -10,7 +10,7 @@
  ******************************************************************************/
 package forestry.arboriculture.worldgen;
 
-import forestry.api.arboriculture.ITreeGenData;
+import forestry.api.arboriculture.ITreeSpecies;
 import forestry.core.worldgen.FeatureHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
@@ -20,7 +20,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class FeatureMahoe extends FeatureTree {
-	public FeatureMahoe(ITreeGenData tree) {
+	public FeatureMahoe(ITreeSpecies tree) {
 		super(tree, 6, 3);
 	}
 

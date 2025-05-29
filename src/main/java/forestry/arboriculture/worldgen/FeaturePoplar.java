@@ -10,7 +10,7 @@
  ******************************************************************************/
 package forestry.arboriculture.worldgen;
 
-import forestry.api.arboriculture.ITreeGenData;
+import forestry.api.arboriculture.ITreeSpecies;
 import forestry.core.worldgen.FeatureHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
@@ -18,7 +18,7 @@ import net.minecraft.world.level.LevelAccessor;
 
 public class FeaturePoplar extends FeatureTree {
 
-	public FeaturePoplar(ITreeGenData tree) {
+	public FeaturePoplar(ITreeSpecies tree) {
 		super(tree, 8, 3);
 	}
 

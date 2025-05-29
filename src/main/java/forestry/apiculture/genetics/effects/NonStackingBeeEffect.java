@@ -20,8 +20,8 @@ import net.minecraft.core.Vec3i;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.TickEvent;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.tick.LevelTickEvent;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -37,14 +37,14 @@ public abstract class NonStackingBeeEffect implements IBeeEffect {
 		this.dominant = dominant;
 		this.trackedOwners = new HashMap<>();
 
-		MinecraftForge.EVENT_BUS.addListener(this::performGlobalEffect);
+		NeoForge.EVENT_BUS.addListener(this::performGlobalEffect);
 	}
 
 	@Override
 	public IEffectData doEffect(IGenome genome, IEffectData storedData, IBeeHousing housing) {
 		// Don't spam adding to the set
-		if ((housing.getWorldObj().getGameTime() & 64L) == 0) {
-			this.trackedOwners.computeIfAbsent(housing.getWorldObj().dimension(), key -> new HashSet<>()).add(housing.getCoordinates());
+		if ((housing.getLevel().getGameTime() & 64L) == 0) {
+			this.trackedOwners.computeIfAbsent(housing.getLevel().dimension(), key -> new HashSet<>()).add(housing.getBlockPos());
 		}
 		return IBeeEffect.super.doEffect(genome, storedData, housing);
 	}
@@ -54,12 +54,8 @@ public abstract class NonStackingBeeEffect implements IBeeEffect {
 		return this.dominant;
 	}
 
-	private void performGlobalEffect(TickEvent.LevelTickEvent event) {
-		if (event.phase != TickEvent.Phase.START) {
-			return;
-		}
-
-		Level level = event.level;
+	private void performGlobalEffect(LevelTickEvent.Pre event) {
+		Level level = event.getLevel();
 
 		if (level.isClientSide || level.getGameTime() % IBeekeepingLogic.DEFAULT_WORK_THROTTLE != 0) {
 			return;

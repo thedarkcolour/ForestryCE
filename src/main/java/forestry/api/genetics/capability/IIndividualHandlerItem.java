@@ -17,7 +17,6 @@ import java.util.function.Predicate;
  * The individual handler manages an item's genetic information.
  * It contains the {@link IIndividual} and {@link ILifeStage} of the item.
  * This class can be thought of as the {@link IIndividual} analog of IFluidItemHandler.
- * In 1.21, this will be replaced by Components.
  */
 public interface IIndividualHandlerItem {
 	/**
@@ -46,22 +45,24 @@ public interface IIndividualHandlerItem {
 	boolean isGeneticForm();
 
 	static void ifPresent(ItemStack stack, BiConsumer<IIndividual, ILifeStage> action) {
-		if (!stack.isEmpty()) {
-			stack.getCapability(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM, null).ifPresent(handler -> action.accept(handler.getIndividual(), handler.getStage()));
+		IIndividualHandlerItem handler = stack.getCapability(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM, null);
+		if (handler != null) {
+			action.accept(handler.getIndividual(), handler.getStage());
 		}
 	}
 
 	static void ifPresent(ItemStack stack, Consumer<IIndividual> action) {
-		if (!stack.isEmpty()) {
-			stack.getCapability(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM, null).ifPresent(handler -> action.accept(handler.getIndividual()));
+		IIndividualHandlerItem handler = stack.getCapability(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM, null);
+		if (handler != null) {
+			action.accept(handler.getIndividual());
 		}
 	}
 
 	/**
-	 * @return Whether the given item has an individual capability. (Vanilla saplings have a capability too)
+	 * @return Whether the given item has genetic data. (Vanilla saplings will return true too)
 	 */
 	static boolean isIndividual(ItemStack stack) {
-		return !stack.isEmpty() && stack.getCapability(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM).isPresent();
+		return stack.getCapability(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM) != null;
 	}
 
 	/**
@@ -69,23 +70,15 @@ public interface IIndividualHandlerItem {
 	 *
 	 * @param stack     The item to retrieve the individual from.
 	 * @param predicate The predicate to test on the individual.
-	 * @return {@code true} if the individual was present and the predicate returned true, false otherwise.
+	 * @return {@code true} if the individual was present and the predicate returned true, {@code false} otherwise.
 	 */
-	@SuppressWarnings({"ConstantValue", "DataFlowIssue"})
 	static boolean filter(ItemStack stack, Predicate<IIndividual> predicate) {
-		if (stack.isEmpty()) {
-			return false;
-		}
-		IIndividualHandlerItem handler = stack.getCapability(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM, null).orElse(null);
+		IIndividualHandlerItem handler = stack.getCapability(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM, null);
 		return handler != null && predicate.test(handler.getIndividual());
 	}
 
-	@SuppressWarnings({"ConstantValue", "DataFlowIssue"})
 	static boolean filter(ItemStack stack, BiPredicate<IIndividual, ILifeStage> predicate) {
-		if (stack.isEmpty()) {
-			return false;
-		}
-		IIndividualHandlerItem handler = stack.getCapability(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM, null).orElse(null);
+		IIndividualHandlerItem handler = stack.getCapability(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM, null);
 		return handler != null && predicate.test(handler.getIndividual(), handler.getStage());
 	}
 
@@ -96,26 +89,20 @@ public interface IIndividualHandlerItem {
 	 * @return The individual handler for this item, or null if none was found.
 	 */
 	@Nullable
-	@SuppressWarnings("DataFlowIssue")
 	static IIndividualHandlerItem get(ItemStack stack) {
-		return stack.isEmpty() ? null : stack.getCapability(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM, null).orElse(null);
+		return stack.getCapability(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM, null);
 	}
 
 	@Nullable
-	@SuppressWarnings({"ConstantValue", "DataFlowIssue"})
 	static IIndividual getIndividual(ItemStack stack) {
-		if (stack.isEmpty()) {
-			return null;
-		}
-		// hack fix for creative tabs
-		stack.reviveCaps();
-		IIndividualHandlerItem handler = stack.getCapability(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM, null).orElse(null);
+		IIndividualHandlerItem handler = stack.getCapability(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM, null);
 		return handler != null ? handler.getIndividual() : null;
 	}
 
 	/**
 	 * Gets the species of the current item stack, or returns the default species for the species type.
 	 */
+	@SuppressWarnings("unchecked")
 	static <S extends ISpecies<?>> S getSpecies(ItemStack stack, ISpeciesType<S, ?> type) {
 		IIndividual individual = getIndividual(stack);
 		return individual != null ? (S) individual.getSpecies() : type.getDefaultSpecies();

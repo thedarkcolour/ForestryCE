@@ -1,19 +1,10 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.core.fluids;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
 import forestry.api.core.INbtReadable;
 import forestry.api.core.INbtWritable;
+import forestry.api.modules.IForestryPacketClient;
 import forestry.core.network.IStreamable;
 import forestry.core.network.packets.PacketTankLevelUpdate;
 import forestry.core.tiles.ILiquidTankTile;
@@ -22,12 +13,13 @@ import forestry.core.utils.NetworkUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.IFluidTank;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -93,14 +85,14 @@ public class TankManager implements ITankManager, ITankUpdateHandler, IStreamabl
 	}
 
 	@Override
-	public void writeData(FriendlyByteBuf data) {
+	public void writeData(RegistryFriendlyByteBuf data) {
 		for (StandardTank tank : this.tanks) {
 			tank.writeData(data);
 		}
 	}
 
 	@Override
-	public void readData(FriendlyByteBuf data) {
+	public void readData(RegistryFriendlyByteBuf data) {
 		for (StandardTank tank : this.tanks) {
 			tank.readData(data);
 		}
@@ -116,7 +108,7 @@ public class TankManager implements ITankManager, ITankUpdateHandler, IStreamabl
 	@Override
 	public void onClosed(AbstractContainerMenu container) {
 		for (StandardTank tank : this.tanks) {
-            this.prevFluidStacks.remove(container, tank.getTankIndex());
+			this.prevFluidStacks.remove(container, tank.getTankIndex());
 		}
 	}
 
@@ -149,12 +141,13 @@ public class TankManager implements ITankManager, ITankUpdateHandler, IStreamabl
 		if (this.tile != null) {
 			int tankIndex = tank.getTankIndex();
 			FluidStack fluid = tank.getFluid();
-			NetworkUtil.sendToPlayer(new PacketTankLevelUpdate(this.tile, tankIndex, fluid), player);
+			IForestryPacketClient packet = new PacketTankLevelUpdate(this.tile, tankIndex, fluid);
+			PacketDistributor.sendToPlayer(player, packet);
 
 			if (fluid.isEmpty()) {
-                this.prevFluidStacks.remove(container, tankIndex);
+				this.prevFluidStacks.remove(container, tankIndex);
 			} else {
-                this.prevFluidStacks.put(container, tankIndex, fluid.copy());
+				this.prevFluidStacks.put(container, tankIndex, fluid.copy());
 			}
 		}
 	}
@@ -236,13 +229,13 @@ public class TankManager implements ITankManager, ITankUpdateHandler, IStreamabl
 			return;
 		}
 
-		Level world = this.tile.getWorldObj();
+		Level world = this.tile.getLevel();
 		if (world == null || world.isClientSide)
 			return;
 
 		int tankIndex = tank.getTankIndex();
 		PacketTankLevelUpdate tankLevelUpdate = new PacketTankLevelUpdate(this.tile, tankIndex, tank.getFluid());
-		NetworkUtil.sendNetworkPacket(tankLevelUpdate, this.tile.getCoordinates(), world);
+		NetworkUtil.sendToPlayersTrackingPos(tankLevelUpdate, this.tile.getBlockPos(), world);
 	}
 
 	@Override

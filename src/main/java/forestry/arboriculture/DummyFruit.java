@@ -11,14 +11,11 @@
 package forestry.arboriculture;
 
 import forestry.api.arboriculture.genetics.IFruit;
-import forestry.api.arboriculture.genetics.ITreeSpeciesType;
 import forestry.api.core.IProduct;
 import forestry.api.genetics.IGenome;
 import forestry.api.genetics.alleles.TreeChromosomes;
-import forestry.core.utils.SpeciesUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -45,17 +42,7 @@ public class DummyFruit implements IFruit {
 	}
 
 	@Override
-	public boolean requiresFruitBlocks() {
-		return false;
-	}
-
-	@Override
-	public boolean trySpawnFruitBlock(IGenome genome, LevelAccessor world, RandomSource rand, BlockPos pos) {
-		return false;
-	}
-
-	@Override
-	public int getColour(IGenome genome, BlockGetter world, BlockPos pos, int ripeningTime) {
+	public int getColour(IGenome genome, BlockGetter level, BlockPos pos, int ripeningTime) {
 		return 0xffffff;
 	}
 
@@ -71,12 +58,7 @@ public class DummyFruit implements IFruit {
 
 	@Override
 	public float getFruitChance(IGenome genome, LevelAccessor level) {
-		ITreeSpeciesType treeRoot = SpeciesUtil.TREE_TYPE.get();
-		if (treeRoot == null) {
-			return 0f;
-		}
-		//float yieldModifier = treeRoot.getTreekeepingMode(level).getYieldModifier(genome, 1.0F);
-		return genome.getActiveValue(TreeChromosomes.YIELD) * 2.5F;// * yieldModifier;
+        return genome.getActiveValue(TreeChromosomes.YIELD) * 2.5f;
 	}
 
 	@Override
@@ -96,7 +78,7 @@ public class DummyFruit implements IFruit {
 
 	@Nullable
 	@Override
-	public ResourceLocation getSprite(IGenome genome, BlockGetter world, BlockPos pos, int ripeningTime) {
+	public ResourceLocation getSprite(IGenome genome, BlockGetter level, BlockPos pos, int ripeningTime) {
 		return getDecorativeSprite();
 	}
 

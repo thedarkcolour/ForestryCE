@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.core.client;
 
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
@@ -31,6 +21,7 @@ import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.features.ArboricultureItems;
 import forestry.core.circuits.GuiSolderingIron;
 import forestry.core.config.Constants;
+import forestry.core.config.ForestryConfig;
 import forestry.core.features.*;
 import forestry.core.fluids.ForestryFluids;
 import forestry.core.gui.*;
@@ -50,7 +41,6 @@ import forestry.modules.ModuleUtil;
 import forestry.storage.features.BackpackItems;
 import forestry.storage.features.CrateItems;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
@@ -60,18 +50,18 @@ import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.client.event.*;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.neoforge.client.event.ModelEvent;
+import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
+import net.neoforged.neoforge.common.NeoForge;
 
 import java.awt.*;
 import java.util.Map;
 import java.util.OptionalDouble;
 
 public class CoreClientHandler implements IClientModuleHandler {
-	public static BlockEntityWithoutLevelRenderer bewlr;
 	// Copied from RenderStateShard.java (just LINES but with NO_DEPTH_TEST)
 	public static final RenderType RENDER_TYPE_LINES_XRAY = RenderType.create("lines_xray", DefaultVertexFormat.POSITION_COLOR_NORMAL, VertexFormat.Mode.LINES, 256, false, false, RenderType.CompositeState.builder()
 		.setShaderState(RenderStateShard.RENDERTYPE_LINES_SHADER)
@@ -84,9 +74,12 @@ public class CoreClientHandler implements IClientModuleHandler {
 		.setDepthTestState(RenderStateShard.NO_DEPTH_TEST)
 		.createCompositeState(false));
 
+	public static BlockEntityWithoutLevelRenderer bewlr;
+
 	@Override
 	public void registerEvents(IEventBus modBus) {
 		modBus.addListener(CoreClientHandler::onClientSetup);
+		modBus.addListener(CoreClientHandler::registerMenus);
 		modBus.addListener(CoreClientHandler::registerModelLoaders);
 		modBus.addListener(CoreClientHandler::additionalBakedModels);
 		modBus.addListener(CoreClientHandler::bakeModels);
@@ -96,7 +89,7 @@ public class CoreClientHandler implements IClientModuleHandler {
 		modBus.addListener(CoreClientHandler::registerBlockColors);
 		modBus.addListener(CoreClientHandler::registerItemColors);
 		modBus.addListener(CoreClientHandler::registerParticleFactory);
-		MinecraftForge.EVENT_BUS.addListener(CoreClientHandler::onClientTick);
+		NeoForge.EVENT_BUS.addListener(CoreClientHandler::onClientTick);
 
 		ModuleUtil.getModBus(ForestryConstants.MOD_ID).addListener(EventPriority.HIGHEST, ((ForestryClientApiImpl) IForestryClientApi.INSTANCE)::initializeTextureManager);
 	}
@@ -109,19 +102,21 @@ public class CoreClientHandler implements IClientModuleHandler {
 				ItemBlockRenderTypes.setRenderLayer(fluid.getFluid(), RenderType.translucent());
 				ItemBlockRenderTypes.setRenderLayer(fluid.getFlowing(), RenderType.translucent());
 			}
-
-			MenuScreens.register(CoreMenuTypes.ALYZER.menuType(), GuiAlyzer::new);
-			MenuScreens.register(CoreMenuTypes.ANALYZER.menuType(), GuiAnalyzer::new);
-			MenuScreens.register(CoreMenuTypes.NATURALIST_INVENTORY.menuType(), GuiNaturalistInventory<ContainerNaturalistInventory>::new);
-			MenuScreens.register(CoreMenuTypes.ESCRITOIRE.menuType(), GuiEscritoire::new);
-			MenuScreens.register(CoreMenuTypes.SOLDERING_IRON.menuType(), GuiSolderingIron::new);
 		});
 
 		bewlr = new ForestryBewlr(Minecraft.getInstance().getBlockEntityRenderDispatcher());
 	}
 
+	private static void registerMenus(RegisterMenuScreensEvent event) {
+		event.register(CoreMenuTypes.ALYZER.menuType(), GuiAlyzer::new);
+		event.register(CoreMenuTypes.ANALYZER.menuType(), GuiAnalyzer::new);
+		event.register(CoreMenuTypes.NATURALIST_INVENTORY.menuType(), GuiNaturalistInventory<ContainerNaturalistInventory>::new);
+		event.register(CoreMenuTypes.ESCRITOIRE.menuType(), GuiEscritoire::new);
+		event.register(CoreMenuTypes.SOLDERING_IRON.menuType(), GuiSolderingIron::new);
+	}
+
 	private static void registerModelLoaders(ModelEvent.RegisterGeometryLoaders event) {
-		event.register("fluid_container", FluidContainerModel.Loader.INSTANCE);
+		event.register(ForestryConstants.forestry("fluid_container"), FluidContainerModel.Loader.INSTANCE);
 
 		PluginManager.registerClient();
 	}

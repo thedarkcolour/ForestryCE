@@ -15,6 +15,6 @@ public class ForestryConstants {
 	 * @return A new resource location under the Forestry namespace. In most cases, mods should use their own namespace instead.
 	 */
 	public static ResourceLocation forestry(String path) {
-		return new ResourceLocation(MOD_ID, path);
+		return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
 	}
 }

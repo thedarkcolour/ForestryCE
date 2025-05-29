@@ -129,7 +129,7 @@ public abstract class MultiblockLogic<T extends IMultiblockControllerInternal> i
 
 	public final void assertDetached(IMultiblockComponent part) {
 		if (this.controller != null) {
-			BlockPos coords = part.getCoordinates();
+			BlockPos coords = part.getBlockPos();
 			Forestry.LOGGER.info("[assert] Part @ ({}, {}, {}) should be detached already, but detected that it was not. This is not a fatal error, and will be repaired, but is unusual.", coords.getX(), coords.getY(), coords.getZ());
 			this.controller = null;
 		}

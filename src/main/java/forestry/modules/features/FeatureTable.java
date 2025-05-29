@@ -89,7 +89,7 @@ public abstract class FeatureTable<B extends FeatureTable.Builder<R, C, ? extend
 		protected final Set<R> rowTypes = new LinkedHashSet<>();
 		protected final Set<C> columnTypes = new LinkedHashSet<>();
 		protected IdentifierType identifierType = IdentifierType.TYPE_ONLY;
-		protected String identifier = StringUtils.EMPTY;
+		protected String identifier = "";
 
 		public Builder(IFeatureRegistry registry) {
 			this.registry = registry;

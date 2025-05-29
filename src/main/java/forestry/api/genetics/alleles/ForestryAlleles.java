@@ -6,6 +6,7 @@ import forestry.api.apiculture.*;
 import forestry.api.apiculture.genetics.IBeeEffect;
 import forestry.api.arboriculture.ForestryFruits;
 import forestry.api.arboriculture.genetics.IFruit;
+import forestry.api.arboriculture.genetics.IPodFruit;
 import forestry.api.arboriculture.genetics.ITreeEffect;
 import forestry.api.core.ToleranceType;
 import forestry.api.lepidopterology.ForestryButterflyEffects;
@@ -227,12 +228,12 @@ public class ForestryAlleles {
 	// Fruits
 	public static final IRegistryAllele<IFruit> FRUIT_NONE = REGISTRY.registryAllele(ForestryFruits.NONE, TreeChromosomes.FRUIT);
 	public static final IRegistryAllele<IFruit> FRUIT_APPLE = REGISTRY.registryAllele(ForestryFruits.APPLE, TreeChromosomes.FRUIT);
-	public static final IRegistryAllele<IFruit> FRUIT_COCOA = REGISTRY.registryAllele(ForestryFruits.COCOA, TreeChromosomes.FRUIT);
+	public static final IRegistryAllele<IPodFruit> FRUIT_COCOA = REGISTRY.registryAllele(ForestryFruits.COCOA, TreeChromosomes.FRUIT);
 	public static final IRegistryAllele<IFruit> FRUIT_CHESTNUT = REGISTRY.registryAllele(ForestryFruits.CHESTNUT, TreeChromosomes.FRUIT);
 	public static final IRegistryAllele<IFruit> FRUIT_WALNUT = REGISTRY.registryAllele(ForestryFruits.WALNUT, TreeChromosomes.FRUIT);
 	public static final IRegistryAllele<IFruit> FRUIT_CHERRY = REGISTRY.registryAllele(ForestryFruits.CHERRY, TreeChromosomes.FRUIT);
-	public static final IRegistryAllele<IFruit> FRUIT_DATES = REGISTRY.registryAllele(ForestryFruits.DATES, TreeChromosomes.FRUIT);
-	public static final IRegistryAllele<IFruit> FRUIT_PAPAYA = REGISTRY.registryAllele(ForestryFruits.PAPAYA, TreeChromosomes.FRUIT);
+	public static final IRegistryAllele<IPodFruit> FRUIT_DATES = REGISTRY.registryAllele(ForestryFruits.DATES, TreeChromosomes.FRUIT);
+	public static final IRegistryAllele<IPodFruit> FRUIT_PAPAYA = REGISTRY.registryAllele(ForestryFruits.PAPAYA, TreeChromosomes.FRUIT);
 	public static final IRegistryAllele<IFruit> FRUIT_LEMON = REGISTRY.registryAllele(ForestryFruits.LEMON, TreeChromosomes.FRUIT);
 	public static final IRegistryAllele<IFruit> FRUIT_PLUM = REGISTRY.registryAllele(ForestryFruits.PLUM, TreeChromosomes.FRUIT);
 

@@ -24,13 +24,14 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.wrapper.InvWrapper;
 
 import javax.annotation.Nullable;
 import java.util.Random;
 
-public abstract class ItemInventory implements Container, IFilterSlotDelegate, ICapabilityProvider {
+public abstract class ItemInventory implements Container, IFilterSlotDelegate {
 	private static final String KEY_SLOTS = "Slots";
 	private static final String KEY_UID = "UID";
 	private static final Random rand = new Random();
@@ -38,7 +39,7 @@ public abstract class ItemInventory implements Container, IFilterSlotDelegate, I
 	private final IItemHandler itemHandler = new InvWrapper(this);
 
 	protected final Player player;
-	private ItemStack parent;    //TODO not final any more. Is this a problem
+	private ItemStack parent;
 	private final NonNullList<ItemStack> inventoryStacks;
 
 	public ItemInventory(Player player, int size, ItemStack parent) {
@@ -61,9 +62,9 @@ public abstract class ItemInventory implements Container, IFilterSlotDelegate, I
 			if (nbtSlots.contains(slotKey)) {
 				CompoundTag itemNbt = nbtSlots.getCompound(slotKey);
 				ItemStack itemStack = ItemStack.of(itemNbt);
-                this.inventoryStacks.set(i, itemStack);
+				this.inventoryStacks.set(i, itemStack);
 			} else {
-                this.inventoryStacks.set(i, ItemStack.EMPTY);
+				this.inventoryStacks.set(i, ItemStack.EMPTY);
 			}
 		}
 	}
@@ -197,7 +198,7 @@ public abstract class ItemInventory implements Container, IFilterSlotDelegate, I
 
 	@Override
 	public void setItem(int index, ItemStack itemstack) {
-        this.inventoryStacks.set(index, itemstack);
+		this.inventoryStacks.set(index, itemstack);
 
 		ItemStack parent = getParent();
 
@@ -287,14 +288,8 @@ public abstract class ItemInventory implements Container, IFilterSlotDelegate, I
 		return false;
 	}
 
-	/* Fields */
-
-	@Override
-	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing) {
-		if (capability == ForgeCapabilities.ITEM_HANDLER) {
-			return LazyOptional.of(() -> this.itemHandler).cast();
-		}
-		return LazyOptional.empty();
+	public static IItemHandler getCapability(ItemStack stack, Void unused) {
+		return new ItemInventory();
 	}
 
 	public IItemHandler getItemHandler() {

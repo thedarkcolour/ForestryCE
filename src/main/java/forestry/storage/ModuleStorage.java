@@ -12,11 +12,10 @@ import forestry.modules.BlankForestryModule;
 import forestry.storage.client.StorageClientHandler;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
-import net.minecraftforge.eventbus.api.Event;
-import net.minecraftforge.eventbus.api.IEventBus;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.entity.player.ItemEntityPickupEvent;
+import net.neoforged.neoforge.event.tick.LevelTickEvent;
 
 import java.util.function.Consumer;
 
@@ -41,29 +40,28 @@ public class ModuleStorage extends BlankForestryModule {
 
 	@Override
 	public void registerEvents(IEventBus modBus) {
-		MinecraftForge.EVENT_BUS.addListener(ModuleStorage::onItemPickup);
-		MinecraftForge.EVENT_BUS.addListener(ModuleStorage::onLevelTick);
+		NeoForge.EVENT_BUS.addListener(ModuleStorage::onItemPickup);
+		NeoForge.EVENT_BUS.addListener(ModuleStorage::onLevelTick);
 	}
 
-	private static void onLevelTick(TickEvent.LevelTickEvent event) {
+	private static void onLevelTick(LevelTickEvent.Post event) {
 		// todo use register/unregister on the IEventBus
 		if (ForestryConfig.SERVER.enableBackpackResupply.get()) {
-			if (event.phase == TickEvent.Phase.END) {
-				for (Player player : event.level.players()) {
-					BackpackResupplyHandler.resupply(player);
-				}
+			for (Player player : event.getLevel().players()) {
+				BackpackResupplyHandler.resupply(player);
 			}
 		}
 	}
 
-	private static void onItemPickup(EntityItemPickupEvent event) {
-		if (event.isCanceled() || event.getResult() == Event.Result.ALLOW) {
-			return;
-		}
-
-		if (PickupHandlerStorage.onItemPickup(event.getEntity(), event.getItem())) {
-			event.setResult(Event.Result.ALLOW);
-		}
+	// TODO TEST
+	private static void onItemPickup(ItemEntityPickupEvent.Pre event) {
+//		if (/* previous event consumed the item */) {
+//			return;
+//		}
+//
+//		if (PickupHandlerStorage.onItemPickup(event.getEntity(), event.getItem())) {
+//			event.setCanPickup(/* item should be removed from world, but NOT added to inventory */);
+//		}
 	}
 
 	@Override

@@ -1,9 +1,8 @@
 package forestry.arboriculture.blocks;
 
-import com.google.common.base.Preconditions;
+import forestry.api.IForestryApi;
 import forestry.api.arboriculture.ICharcoalManager;
 import forestry.api.arboriculture.ICharcoalPileWall;
-import forestry.api.arboriculture.TreeManager;
 import forestry.arboriculture.charcoal.CharcoalManager;
 import forestry.arboriculture.features.CharcoalBlocks;
 import net.minecraft.core.BlockPos;
@@ -25,8 +24,6 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class LogPileBlock extends Block {
 	public static final BooleanProperty IS_ACTIVE = BooleanProperty.create("active");
@@ -134,7 +131,6 @@ public class LogPileBlock extends Block {
 		return super.getLightEmission(state, world, pos);
 	}
 
-	@OnlyIn(Dist.CLIENT)
 	@Override
 	public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource rand) {
 		if (state.getValue(IS_ACTIVE)) {
@@ -154,7 +150,6 @@ public class LogPileBlock extends Block {
 		}
 	}
 
-	//TODO: Precalculate, like leaf distance
 	private float getCharcoalAmount(Level world, BlockPos pos) {
 		float charcoalAmount = 0F;
 		for (Direction facing : Direction.VALUES) {
@@ -164,7 +159,7 @@ public class LogPileBlock extends Block {
 	}
 
 	private int getCharcoalFaceAmount(Level world, BlockPos pos, Direction facing) {
-		ICharcoalManager charcoalManager = Preconditions.checkNotNull(TreeManager.charcoalManager);
+		ICharcoalManager charcoalManager = IForestryApi.INSTANCE.getTreeManager().getWalls();
 
 		BlockPos.MutableBlockPos testPos = pos.mutable();
 		testPos.move(facing);

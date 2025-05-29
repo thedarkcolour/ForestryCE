@@ -20,12 +20,12 @@ public class SifterBeeEffect extends ThrottledBeeEffect {
 
 	@Override
 	IEffectData doEffectThrottled(IGenome genome, IEffectData storedData, IBeeHousing housing) {
-		Level level = housing.getWorldObj();
+		Level level = housing.getLevel();
 		Vec3i area = Bee.getParticleArea(genome, housing);
 
 		BlockPos randomPos = VecUtil.getRandomPositionInArea(level.random, area);
 
-		BlockPos posBlock = randomPos.offset(housing.getCoordinates()).offset(VecUtil.center(area));
+		BlockPos posBlock = randomPos.offset(housing.getBlockPos()).offset(VecUtil.center(area));
 
 		if (level.hasChunkAt(posBlock)) {
 			BlockState state = level.getBlockState(posBlock);

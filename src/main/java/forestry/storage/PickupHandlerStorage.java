@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.storage;
 
 import forestry.api.storage.IBackpackDefinition;
@@ -70,7 +60,7 @@ public class PickupHandlerStorage {
 				continue;
 			}
 
-			if (ItemStack.isSameItemSameTags(inventoryStack, itemstack)) {
+			if (ItemStack.isSameItemSameComponents(inventoryStack, itemstack)) {
 				int space = inventoryStack.getMaxStackSize() - inventoryStack.getCount();
 
 				if (space > itemstack.getCount()) {

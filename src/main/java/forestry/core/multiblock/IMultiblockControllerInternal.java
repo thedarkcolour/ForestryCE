@@ -112,7 +112,7 @@ public interface IMultiblockControllerInternal extends IMultiblockController, IN
 	 */
 	void decodeDescriptionPacket(CompoundTag data);
 
-	Level getWorldObj();
+	Level getLevel();
 
 	/**
 	 * @return True if this controller has no associated blocks, false otherwise

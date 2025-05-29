@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.core.tiles;
 
 import com.google.common.base.Preconditions;
@@ -23,8 +13,9 @@ import forestry.core.network.IStreamable;
 import forestry.core.utils.NBTUtilForestry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
@@ -36,11 +27,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.wrapper.InvWrapper;
-import net.minecraftforge.items.wrapper.SidedInvWrapper;
 
 import javax.annotation.Nullable;
 
@@ -92,14 +78,14 @@ public abstract class TileForestry extends BlockEntity implements IStreamable, I
 
 	// / SAVING & LOADING
 	@Override
-	public void load(CompoundTag data) {
-		super.load(data);
+	public void loadAdditional(CompoundTag data, HolderLookup.Provider registries) {
+		super.loadAdditional(data, registries);
         this.inventory.read(data);
 	}
 
 	@Override
-	public void saveAdditional(CompoundTag data) {
-		super.saveAdditional(data);
+	public void saveAdditional(CompoundTag data, HolderLookup.Provider registries) {
+		super.saveAdditional(data, registries);
         this.inventory.write(data);
 	}
 
@@ -110,14 +96,14 @@ public abstract class TileForestry extends BlockEntity implements IStreamable, I
 	}
 
 	@Override
-	public CompoundTag getUpdateTag() {
-		CompoundTag tag = super.getUpdateTag();
+	public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+		CompoundTag tag = super.getUpdateTag(registries);
 		return NBTUtilForestry.writeStreamableToNbt(this, tag);
 	}
 
 	@Override
-	public void handleUpdateTag(CompoundTag tag) {
-		super.handleUpdateTag(tag);
+	public void handleUpdateTag(CompoundTag tag, HolderLookup.Provider registries) {
+		super.handleUpdateTag(tag, registries);
 		NBTUtilForestry.readStreamableFromNbt(this, tag);
 	}
 
@@ -128,21 +114,15 @@ public abstract class TileForestry extends BlockEntity implements IStreamable, I
 
 	/* IStreamable */
 	@Override
-	public void writeData(FriendlyByteBuf data) {
+	public void writeData(RegistryFriendlyByteBuf data) {
 	}
 
 	@Override
-	public void readData(FriendlyByteBuf data) {
+	public void readData(RegistryFriendlyByteBuf data) {
 	}
 
 	// serverside only, called when the block is destroyed and its inventory is spilled into the world
 	public void onDropContents(ServerLevel level) {
-	}
-
-	@Nullable
-	@Override
-	public Level getWorldObj() {
-		return this.level;
 	}
 
 	// / REDSTONE INFO
@@ -258,7 +238,7 @@ public abstract class TileForestry extends BlockEntity implements IStreamable, I
 	}
 
 	@Override
-	public final BlockPos getCoordinates() {
+	public final BlockPos getBlockPos() {
 		return getBlockPos();
 	}
 

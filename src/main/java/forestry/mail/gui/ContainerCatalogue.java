@@ -11,8 +11,8 @@
 package forestry.mail.gui;
 
 import forestry.api.mail.*;
+import forestry.api.modules.IForestryPacketClient;
 import forestry.core.gui.IGuiSelectable;
-import forestry.core.utils.NetworkUtil;
 import forestry.mail.carriers.trading.TradeStationRegistry;
 import forestry.mail.features.MailMenuTypes;
 import forestry.mail.network.packets.PacketLetterInfoResponseTrader;
@@ -24,6 +24,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.DataSlot;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -165,7 +166,8 @@ public class ContainerCatalogue extends AbstractContainerMenu implements IGuiSel
 		super.broadcastChanges();
 
 		if (this.needsSync) {
-			NetworkUtil.sendToPlayer(new PacketLetterInfoResponseTrader(this.currentTrade), (ServerPlayer) this.player);
+            IForestryPacketClient packet = new PacketLetterInfoResponseTrader(this.currentTrade);
+            PacketDistributor.sendToPlayer((ServerPlayer) this.player, packet);
             this.needsSync = false;
 		}
 	}

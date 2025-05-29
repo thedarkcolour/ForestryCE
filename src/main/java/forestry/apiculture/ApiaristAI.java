@@ -41,7 +41,6 @@ public class ApiaristAI extends MoveToBlockGoal {
 		return super.canUse();
 	}
 
-	//TODO - now tick?
 	@Override
 	public void tick() {
 		super.tick();

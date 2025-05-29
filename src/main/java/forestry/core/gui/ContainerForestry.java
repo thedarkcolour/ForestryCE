@@ -13,7 +13,6 @@ package forestry.core.gui;
 import forestry.api.modules.IForestryPacketClient;
 import forestry.core.gui.slots.SlotForestry;
 import forestry.core.gui.slots.SlotLocked;
-import forestry.core.utils.NetworkUtil;
 import forestry.core.utils.SlotUtil;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
@@ -23,6 +22,7 @@ import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import javax.annotation.Nullable;
 
@@ -120,7 +120,7 @@ public abstract class ContainerForestry extends AbstractContainerMenu {
 
 	protected final void sendPacketToListeners(IForestryPacketClient packet) {
 		if (this.player != null) {
-			NetworkUtil.sendToPlayer(packet, this.player);
-		}
+            PacketDistributor.sendToPlayer(this.player, packet);
+        }
 	}
 }

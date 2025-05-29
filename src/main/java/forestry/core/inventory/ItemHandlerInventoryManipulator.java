@@ -1,17 +1,7 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.core.inventory;
 
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.items.IItemHandler;
+import net.neoforged.neoforge.items.IItemHandler;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -19,11 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.function.Predicate;
 
-/**
- * @author CovertJaguar <http://www.railcraft.info>
- */
 public class ItemHandlerInventoryManipulator implements Iterable<IInvSlot> {
-
 	private final IItemHandler inv;
 
 	public ItemHandlerInventoryManipulator(IItemHandler inv) {

@@ -17,7 +17,6 @@ import forestry.api.fuels.MoistenerFuel;
 import forestry.api.fuels.RainSubstrate;
 import forestry.api.modules.ForestryModule;
 import forestry.api.modules.ForestryModuleIds;
-import forestry.api.modules.IPacketRegistry;
 import forestry.core.config.Preference;
 import forestry.core.features.CoreItems;
 import forestry.core.network.PacketIdClient;
@@ -27,10 +26,12 @@ import forestry.factory.client.FactoryClientHandler;
 import forestry.factory.network.packets.PacketRecipeTransferRequest;
 import forestry.factory.network.packets.PacketRecipeTransferUpdate;
 import forestry.modules.BlankForestryModule;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
 import java.util.function.Consumer;
 
@@ -84,8 +85,8 @@ public class ModuleFactory extends BlankForestryModule {
 	}
 
 	@Override
-	public void registerPackets(IPacketRegistry registry) {
-		registry.serverbound(PacketIdServer.RECIPE_TRANSFER_REQUEST, PacketRecipeTransferRequest.class, PacketRecipeTransferRequest::decode, PacketRecipeTransferRequest::handle);
-		registry.clientbound(PacketIdClient.RECIPE_TRANSFER_UPDATE, PacketRecipeTransferUpdate.class, PacketRecipeTransferUpdate::decode, PacketRecipeTransferUpdate::handle);
+	public void registerPackets(PayloadRegistrar registrar) {
+		registrar.playToServer(PacketIdServer.RECIPE_TRANSFER_REQUEST, StreamCodec.of(PacketRecipeTransferRequest::encode, PacketRecipeTransferRequest::decode), PacketRecipeTransferRequest::handle);
+		registrar.playToClient(PacketIdClient.RECIPE_TRANSFER_UPDATE, StreamCodec.of(PacketRecipeTransferUpdate::encode, PacketRecipeTransferUpdate::decode), PacketRecipeTransferUpdate::handle);
 	}
 }

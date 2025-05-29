@@ -1,7 +1,14 @@
 package forestry.apiculture.items;
 
-import java.util.List;
-
+import forestry.api.apiculture.IBeeHousing;
+import forestry.api.apiculture.IBeeModifier;
+import forestry.api.apiculture.genetics.IBee;
+import forestry.api.apiculture.genetics.IBeeSpecies;
+import forestry.api.apiculture.hives.IHiveFrame;
+import forestry.api.core.IItemSubtype;
+import forestry.api.genetics.IGenome;
+import forestry.api.genetics.IMutation;
+import forestry.core.items.ItemForestry;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
@@ -9,24 +16,29 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-
-import forestry.api.apiculture.IBeeHousing;
-import forestry.api.apiculture.IBeeModifier;
-import forestry.api.apiculture.genetics.IBee;
-import forestry.api.apiculture.genetics.IBeeSpecies;
-import forestry.api.apiculture.hives.IHiveFrame;
-import forestry.api.genetics.IGenome;
-import forestry.api.genetics.IMutation;
-import forestry.core.items.ItemForestry;
-
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
+import java.util.Locale;
 
 // 100% mutation chance. 100% production chance. 0% lifespan.
 public class ItemCreativeHiveFrame extends ItemForestry implements IHiveFrame {
-	public static final String NBT_FORCE_MUTATIONS = "force_mutations";
+	private final Variant variant;
 
-	public ItemCreativeHiveFrame() {
+	public enum Variant implements IItemSubtype {
+		FRAME_CREATIVE,
+		FRAME_CREATIVE_FORCE_MUTATIONS;
+
+		@Override
+		public String getSerializedName() {
+			return name().toLowerCase(Locale.ENGLISH);
+		}
+	}
+
+	public ItemCreativeHiveFrame(Variant variant) {
 		super(new Item.Properties().rarity(Rarity.EPIC));
+
+		this.variant = variant;
 	}
 
 	@Override
@@ -41,7 +53,7 @@ public class ItemCreativeHiveFrame extends ItemForestry implements IHiveFrame {
 		tooltip.add(Component.translatable("item.forestry.bee.modifier.production", Modifier.PRODUCTION));
 		tooltip.add(Component.translatable("item.forestry.bee.modifier.genetic.decay", Modifier.GENETIC_DECAY));
 
-		if (hasForceMutations(stack)) {
+		if (hasForceMutations()) {
 			tooltip.add(Component.literal("Maximum mutation chances").withStyle(ChatFormatting.LIGHT_PURPLE));
 		} else {
 			tooltip.add(Component.literal("Base mutation chances").withStyle(ChatFormatting.GRAY));
@@ -50,11 +62,11 @@ public class ItemCreativeHiveFrame extends ItemForestry implements IHiveFrame {
 
 	@Override
 	public IBeeModifier getBeeModifier(ItemStack frame) {
-		return hasForceMutations(frame) ? Modifier.FORCE_MUTATIONS : Modifier.BASE_MUTATIONS;
+		return hasForceMutations() ? Modifier.FORCE_MUTATIONS : Modifier.BASE_MUTATIONS;
 	}
 
-	public static boolean hasForceMutations(ItemStack stack) {
-		return stack.getTag() != null && stack.getTag().contains(NBT_FORCE_MUTATIONS);
+	public boolean hasForceMutations() {
+		return this.variant == Variant.FRAME_CREATIVE_FORCE_MUTATIONS;
 	}
 
 	private enum Modifier implements IBeeModifier {

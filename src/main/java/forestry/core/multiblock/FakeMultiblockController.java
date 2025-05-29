@@ -20,7 +20,7 @@ import forestry.core.owner.FakeOwnerHandler;
 import forestry.core.owner.IOwnerHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.level.Level;
 
 import java.util.Collection;
@@ -74,7 +74,7 @@ public interface FakeMultiblockController extends IMultiblockControllerInternal,
 	}
 
 	@Override
-	default Level getWorldObj() {
+	default Level getLevel() {
 		return null;
 	}
 
@@ -156,10 +156,10 @@ public interface FakeMultiblockController extends IMultiblockControllerInternal,
 	}
 
 	@Override
-	default void writeGuiData(FriendlyByteBuf data) {
+	default void writeGuiData(RegistryFriendlyByteBuf data) {
 	}
 
 	@Override
-	default void readGuiData(FriendlyByteBuf data) {
+	default void readGuiData(RegistryFriendlyByteBuf data) {
 	}
 }

@@ -7,9 +7,8 @@ import forestry.core.utils.NetworkUtil;
 import forestry.worktable.recipes.MemorizedRecipe;
 import forestry.worktable.tiles.WorktableTile;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 import javax.annotation.Nullable;
 
@@ -20,21 +19,20 @@ public record PacketWorktableRecipeUpdate(BlockPos pos,
 	}
 
 	@Override
-	public ResourceLocation id() {
+	public Type<?> type() {
 		return PacketIdClient.WORKTABLE_CRAFTING_UPDATE;
 	}
 
-	@Override
-	public void write(FriendlyByteBuf buffer) {
-		buffer.writeBlockPos(this.pos);
-		NetworkUtil.writeStreamable(buffer, this.recipe);
+	public static void encode(RegistryFriendlyByteBuf buffer, PacketWorktableRecipeUpdate msg) {
+		buffer.writeBlockPos(msg.pos);
+		NetworkUtil.writeStreamable(buffer, msg.recipe);
 	}
 
-	public static PacketWorktableRecipeUpdate decode(FriendlyByteBuf buffer) {
+	public static PacketWorktableRecipeUpdate decode(RegistryFriendlyByteBuf buffer) {
 		return new PacketWorktableRecipeUpdate(buffer.readBlockPos(), NetworkUtil.readStreamable(buffer, MemorizedRecipe::new));
 	}
 
-	public static void handle(PacketWorktableRecipeUpdate msg, Player player) {
-		TileUtil.actOnTile(player.level(), msg.pos, WorktableTile.class, tile -> tile.setCurrentRecipe(msg.recipe));
+	public static void handle(PacketWorktableRecipeUpdate msg, IPayloadContext ctx) {
+		TileUtil.actOnTile(ctx.player().level(), msg.pos, WorktableTile.class, tile -> tile.setCurrentRecipe(msg.recipe));
 	}
 }

@@ -1,34 +1,31 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.arboriculture;
 
-import forestry.api.ForestryTags;
+import forestry.api.IForestryApi;
+import forestry.api.arboriculture.IWoodAccess;
+import forestry.api.arboriculture.IWoodType;
 import forestry.api.arboriculture.genetics.IFruit;
+import forestry.api.arboriculture.genetics.IPodFruit;
 import forestry.api.core.IProduct;
 import forestry.api.genetics.IGenome;
 import forestry.api.genetics.alleles.TreeChromosomes;
+import forestry.arboriculture.blocks.BlockFruitPod;
 import forestry.arboriculture.blocks.ForestryPodType;
-import forestry.core.utils.BlockUtil;
-import forestry.core.utils.SpeciesUtil;
+import forestry.arboriculture.features.ArboricultureBlocks;
+import forestry.arboriculture.tiles.TileFruitPod;
+import forestry.core.ClientsideCode;
 import net.minecraft.core.BlockPos;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.TagKey;
-import net.minecraft.util.RandomSource;
+import net.minecraft.core.Direction;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 // Fruits that grow on the side of a tree's trunk, like cocoa beans
-public class PodFruit extends Fruit {
+// todo use loot tables like Vanilla
+public class PodFruit extends Fruit implements IPodFruit {
 	private final ForestryPodType type;
 
 	public PodFruit(boolean dominant, ForestryPodType type, List<IProduct> products) {
@@ -38,31 +35,61 @@ public class PodFruit extends Fruit {
 	}
 
 	@Override
-	public boolean requiresFruitBlocks() {
-		return true;
+	public boolean canSurviveOn(BlockState state) {
+		IWoodAccess manager = IForestryApi.INSTANCE.getTreeManager().getWoodAccess();
+
+		IWoodType woodType = switch (this.type) {
+			case DATES -> ForestryWoodType.PALM;
+			case PAPAYA -> ForestryWoodType.PAPAYA;
+			default -> VanillaWoodType.JUNGLE;
+		};
+
+		return state.is(manager.getLogBlockTag(woodType, false)) || state.is(manager.getLogBlockTag(woodType, true));
+	}
+
+	public static boolean isValidPodLocation(LevelReader world, BlockPos pos, Direction direction, IPodFruit fruit) {
+		pos = pos.relative(direction);
+		if (!world.hasChunkAt(pos)) {
+			return false;
+		}
+		return fruit.canSurviveOn(world.getBlockState(pos));
+	}
+
+	@Nullable
+	public static Direction getValidPodFacing(LevelAccessor world, BlockPos pos, IFruit fruit) {
+		if (!(fruit instanceof IPodFruit podFruit)) {
+			return null;
+		}
+		for (Direction facing : Direction.Plane.HORIZONTAL) {
+			if (isValidPodLocation(world, pos, facing, podFruit)) {
+				return facing;
+			}
+		}
+		return null;
 	}
 
 	@Override
-	public boolean trySpawnFruitBlock(IGenome genome, LevelAccessor world, RandomSource rand, BlockPos pos) {
-		if (rand.nextFloat() > getFruitChance(genome, world)) {
+	public boolean tryPlace(LevelAccessor level, BlockPos pos, IGenome genome) {
+		Direction facing = getValidPodFacing(level, pos, this);
+		if (facing == null) {
 			return false;
 		}
 
-		if (this.type == ForestryPodType.COCOA) {
-			return BlockUtil.tryPlantCocoaPod(world, pos);
-		} else {
-			IFruit activeAllele = genome.getActiveValue(TreeChromosomes.FRUIT);
-			return SpeciesUtil.TREE_TYPE.get().setFruitBlock(world, genome, activeAllele, genome.getActiveValue(TreeChromosomes.YIELD), pos);
-		}
-	}
+		BlockState state = ArboricultureBlocks.PODS.get(this.type).defaultState().setValue(BlockFruitPod.FACING, facing);
 
-	@Override
-	public TagKey<Block> getLogTag() {
-		return switch (this.type) {
-			case DATES -> ForestryTags.Blocks.PALM_LOGS;
-			case PAPAYA -> ForestryTags.Blocks.PAPAYA_LOGS;
-			default -> BlockTags.JUNGLE_LOGS;
-		};
+		if (level.setBlock(pos, state, Block.UPDATE_CLIENTS | Block.UPDATE_KNOWN_SHAPE)) {
+			if (level.getBlockEntity(pos) instanceof TileFruitPod pod) {
+				pod.setProperties(genome, this, genome.getActiveValue(TreeChromosomes.YIELD));
+
+				if (level.isClientSide()) {
+					ClientsideCode.markForUpdate(pos);
+				}
+
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	public ForestryPodType getType() {

@@ -23,18 +23,18 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class FeatureHelper {
-	public static boolean addBlock(LevelAccessor world, BlockPos pos, ITreeBlockType type, EnumReplaceMode replaceMode) {
-		return addBlock(world, pos, type, replaceMode, TreeContour.EMPTY);
+	public static boolean addBlock(LevelAccessor level, BlockPos pos, ITreeBlockType type, EnumReplaceMode replaceMode) {
+		return addBlock(level, pos, type, replaceMode, TreeContour.EMPTY);
 	}
 
-	public static boolean addBlock(LevelAccessor world, BlockPos pos, ITreeBlockType type, EnumReplaceMode replaceMode, TreeContour contour) {
-		if (!world.hasChunkAt(pos)) {
+	public static boolean addBlock(LevelAccessor level, BlockPos pos, ITreeBlockType type, EnumReplaceMode replaceMode, TreeContour contour) {
+		if (!level.hasChunkAt(pos)) {
 			return false;
 		}
 
-		BlockState blockState = world.getBlockState(pos);
-		if (replaceMode.canReplace(blockState, world, pos)) {
-			type.setBlock(world, pos);
+		BlockState blockState = level.getBlockState(pos);
+		if (replaceMode.canReplace(blockState, level, pos)) {
+			type.setBlock(level, pos);
 			contour.addLeaf(pos);
 			return true;
 		}
@@ -44,14 +44,14 @@ public class FeatureHelper {
 	/**
 	 * Uses centerPos and girth of a tree to calculate the center
 	 */
-	public static void generateCylinderFromTreeStartPos(LevelAccessor world, ITreeBlockType block, BlockPos startPos, int girth, float radius, int height, EnumReplaceMode replace, TreeContour contour) {
-		generateCylinderFromPos(world, block, startPos.offset(girth / 2, 0, girth / 2), radius, height, replace, contour);
+	public static void generateCylinderFromTreeStartPos(LevelAccessor level, ITreeBlockType block, BlockPos startPos, int girth, float radius, int height, EnumReplaceMode replace, TreeContour contour) {
+		generateCylinderFromPos(level, block, startPos.offset(girth / 2, 0, girth / 2), radius, height, replace, contour);
 	}
 
 	/**
 	 * Center is the bottom middle of the cylinder
 	 */
-	public static void generateCylinderFromPos(LevelAccessor world, ITreeBlockType block, BlockPos center, float radius, int height, EnumReplaceMode replace, TreeContour contour) {
+	public static void generateCylinderFromPos(LevelAccessor level, ITreeBlockType block, BlockPos center, float radius, int height, EnumReplaceMode replace, TreeContour contour) {
 		BlockPos start = BlockPos.containing(center.getX() - radius, center.getY(), center.getZ() - radius);
 		for (int x = 0; x < radius * 2 + 1; x++) {
 			for (int y = height - 1; y >= 0; y--) { // generating top-down is faster for lighting calculations
@@ -61,7 +61,7 @@ public class FeatureHelper {
 					if (position.distSqr(treeCenter) <= radius * radius + 0.01) {
 						Direction direction = VecUtil.direction(position, treeCenter);
 						block.setDirection(direction);
-						if (addBlock(world, position, block, replace)) {
+						if (addBlock(level, position, block, replace)) {
 							contour.addLeaf(position);
 						}
 					}
@@ -70,11 +70,11 @@ public class FeatureHelper {
 		}
 	}
 
-	public static void generateCircleFromTreeStartPos(LevelAccessor world, RandomSource rand, BlockPos startPos, int girth, float radius, int width, int height, ITreeBlockType block, float chance, EnumReplaceMode replace, TreeContour contour) {
-		generateCircle(world, rand, startPos.offset(girth / 2, 0, girth / 2), radius, width, height, block, chance, replace, contour);
+	public static void generateCircleFromTreeStartPos(LevelAccessor level, RandomSource rand, BlockPos startPos, int girth, float radius, int width, int height, ITreeBlockType block, float chance, EnumReplaceMode replace, TreeContour contour) {
+		generateCircle(level, rand, startPos.offset(girth / 2, 0, girth / 2), radius, width, height, block, chance, replace, contour);
 	}
 
-	public static void generateCircle(LevelAccessor world, RandomSource rand, BlockPos center, float radius, int width, int height, ITreeBlockType block, float chance, EnumReplaceMode replace, TreeContour contour) {
+	public static void generateCircle(LevelAccessor level, RandomSource rand, BlockPos center, float radius, int width, int height, ITreeBlockType block, float chance, EnumReplaceMode replace, TreeContour contour) {
 		BlockPos start = BlockPos.containing(center.getX() - radius, center.getY(), center.getZ() - radius);
 		BlockPos area = BlockPos.containing(radius * 2 + 1, height, radius * 2 + 1);
 
@@ -89,7 +89,7 @@ public class FeatureHelper {
 
 					double distance = mutablePos.set(x, y, z).distToLowCornerSqr(center.getX(), y, center.getZ());
 					if ((radius - width - 0.01) * (radius - width - 0.01) < distance && distance <= (radius + 0.01) * (radius + 0.01)) {
-						if (addBlock(world, mutablePos, block, replace)) {
+						if (addBlock(level, mutablePos, block, replace)) {
 							contour.addLeaf(mutablePos);
 						}
 					}
@@ -98,11 +98,11 @@ public class FeatureHelper {
 		}
 	}
 
-	public static void generateSphereFromTreeStartPos(LevelAccessor world, BlockPos startPos, int girth, int radius, ITreeBlockType block, EnumReplaceMode replace, TreeContour contour) {
-		generateSphere(world, startPos.offset(girth / 2, 0, girth / 2), radius, block, replace, contour);
+	public static void generateSphereFromTreeStartPos(LevelAccessor level, BlockPos startPos, int girth, int radius, ITreeBlockType block, EnumReplaceMode replace, TreeContour contour) {
+		generateSphere(level, startPos.offset(girth / 2, 0, girth / 2), radius, block, replace, contour);
 	}
 
-	public static void generateSphere(LevelAccessor world, BlockPos center, int radius, ITreeBlockType block, EnumReplaceMode replace, TreeContour contour) {
+	public static void generateSphere(LevelAccessor level, BlockPos center, int radius, ITreeBlockType block, EnumReplaceMode replace, TreeContour contour) {
 		Vec3i start = new Vec3i(center.getX() - radius, center.getY() - radius, center.getZ() - radius);
 		Vec3i area = new Vec3i(radius * 2 + 1, radius * 2 + 1, radius * 2 + 1);
 		BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
@@ -111,7 +111,7 @@ public class FeatureHelper {
 			for (int y = start.getY() + area.getY() - 1; y >= start.getY(); y--) { // generating top-down is faster for lighting calculations
 				for (int z = start.getZ(); z < start.getZ() + area.getZ(); z++) {
 					if (center.closerThan(mutablePos.set(x, y, z), radius + 0.01)) {
-						if (addBlock(world, mutablePos, block, replace)) {
+						if (addBlock(level, mutablePos, block, replace)) {
 							contour.addLeaf(mutablePos);
 						}
 					}
@@ -187,56 +187,55 @@ public class FeatureHelper {
 		return treeTops;
 	}
 
-	protected static void addVines(LevelAccessor world, RandomSource rand, BlockPos pos, float chance) {
+	protected static void addVines(LevelAccessor level, RandomSource rand, BlockPos pos, float chance) {
 		if (chance <= 0) {
 			return;
 		}
 
 		if (rand.nextFloat() < chance) {
 			BlockState blockState = Blocks.VINE.defaultBlockState().setValue(VineBlock.EAST, true);
-			addBlock(world, pos.west(), new TreeBlockType(blockState), EnumReplaceMode.AIR);
+			addBlock(level, pos.west(), new TreeBlockType(blockState), EnumReplaceMode.AIR);
 		}
 		if (rand.nextFloat() < chance) {
 			BlockState blockState = Blocks.VINE.defaultBlockState().setValue(VineBlock.WEST, true);
-			addBlock(world, pos.east(), new TreeBlockType(blockState), EnumReplaceMode.AIR);
+			addBlock(level, pos.east(), new TreeBlockType(blockState), EnumReplaceMode.AIR);
 		}
 		if (rand.nextFloat() < chance) {
 			BlockState blockState = Blocks.VINE.defaultBlockState().setValue(VineBlock.SOUTH, true);
-			addBlock(world, pos.north(), new TreeBlockType(blockState), EnumReplaceMode.AIR);
+			addBlock(level, pos.north(), new TreeBlockType(blockState), EnumReplaceMode.AIR);
 		}
 		if (rand.nextFloat() < chance) {
 			BlockState blockState = Blocks.VINE.defaultBlockState().setValue(VineBlock.NORTH, true);
-			addBlock(world, pos.south(), new TreeBlockType(blockState), EnumReplaceMode.AIR);
+			addBlock(level, pos.south(), new TreeBlockType(blockState), EnumReplaceMode.AIR);
 		}
 	}
 
-	public static void generatePods(ITreeGenData tree, LevelAccessor world, RandomSource rand, BlockPos startPos, int height, int minHeight, int girth, EnumReplaceMode replaceMode) {
+	public static void generatePods(ITreeGenData tree, LevelAccessor level, RandomSource rand, BlockPos startPos, int height, int minHeight, int girth, EnumReplaceMode replaceMode) {
+		// todo mutable block pos
 		for (int y = height - 1; y >= minHeight; y--) { // generating top-down is faster for lighting calculations
 			for (int x = 0; x < girth; x++) {
 				for (int z = 0; z < girth; z++) {
-
 					if (x > 0 && z > 0) {
 						continue;
 					}
 
-					trySpawnFruitBlock(tree, world, rand, startPos.offset(x + 1, y, z), replaceMode);
-					trySpawnFruitBlock(tree, world, rand, startPos.offset(x - 1, y, z), replaceMode);
-					trySpawnFruitBlock(tree, world, rand, startPos.offset(x, y, z + 1), replaceMode);
-					trySpawnFruitBlock(tree, world, rand, startPos.offset(x, y, z - 1), replaceMode);
+					trySpawnPod(tree, level, rand, startPos.offset(x + 1, y, z), replaceMode);
+					trySpawnPod(tree, level, rand, startPos.offset(x - 1, y, z), replaceMode);
+					trySpawnPod(tree, level, rand, startPos.offset(x, y, z + 1), replaceMode);
+					trySpawnPod(tree, level, rand, startPos.offset(x, y, z - 1), replaceMode);
 				}
 			}
 		}
 	}
 
-	private static void trySpawnFruitBlock(ITreeGenData tree, LevelAccessor world, RandomSource rand, BlockPos pos, EnumReplaceMode replaceMode) {
-		BlockState blockState = world.getBlockState(pos);
-		if (replaceMode.canReplace(blockState, world, pos)) {
-			tree.trySpawnFruitBlock(world, rand, pos);
+	private static void trySpawnPod(ITreeGenData species, LevelAccessor level, RandomSource rand, BlockPos pos, EnumReplaceMode replaceMode) {
+		BlockState blockState = level.getBlockState(pos);
+		if (replaceMode.canReplace(blockState, level, pos)) {
+			species.trySpawnFruitPod(level, rand, pos);
 		}
 	}
 
-	public static void generateSupportStems(ITreeBlockType wood, LevelAccessor world, RandomSource rand, BlockPos startPos, int height, int girth, float chance, float maxHeight) {
-
+	public static void generateSupportStems(ITreeBlockType wood, LevelAccessor level, RandomSource rand, BlockPos startPos, int height, int girth, float chance, float maxHeight) {
 		final int min = -1;
 
 		for (int x = min; x <= girth; x++) {
@@ -250,14 +249,14 @@ public class FeatureHelper {
 				int stemHeight = rand.nextInt(Math.round(height * maxHeight));
 				if (rand.nextFloat() < chance) {
 					for (int y = 0; y < stemHeight; y++) {
-						addBlock(world, startPos.offset(x, y, z), wood, EnumReplaceMode.SOFT);
+						addBlock(level, startPos.offset(x, y, z), wood, EnumReplaceMode.SOFT);
 					}
 				}
 			}
 		}
 	}
 
-	public static Set<BlockPos> generateBranches(final LevelAccessor world, final RandomSource rand, final ITreeBlockType wood, final BlockPos startPos, final int girth, final float spreadY, final float spreadXZ, int radius, final int count, final float chance) {
+	public static Set<BlockPos> generateBranches(final LevelAccessor level, final RandomSource rand, final ITreeBlockType wood, final BlockPos startPos, final int girth, final float spreadY, final float spreadXZ, int radius, final int count, final float chance) {
 		Set<BlockPos> branchEnds = new HashSet<>();
 		if (radius < 1) {
 			radius = 1;
@@ -316,7 +315,7 @@ public class FeatureHelper {
 					}
 
 					BlockPos pos = branchStart.offset(x, y, z);
-					if (addBlock(world, pos, wood, EnumReplaceMode.SOFT)) {
+					if (addBlock(level, pos, wood, EnumReplaceMode.SOFT)) {
 						branchEnd = pos;
 					} else {
 						break;

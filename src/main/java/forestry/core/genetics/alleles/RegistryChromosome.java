@@ -41,8 +41,9 @@ public class RegistryChromosome<V extends IRegistryAlleleValue> extends ValueChr
 
 	@Nullable
 	@Override
-	public V getSafe(ResourceLocation id) {
+	public V getSafe(@Nullable ResourceLocation id) {
 		Preconditions.checkState(this.registry != null, "Registry not yet populated");
+
 		return this.registry.get(id);
 	}
 

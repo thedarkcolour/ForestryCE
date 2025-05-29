@@ -1,7 +1,8 @@
 package forestry.apiimpl.plugin;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import forestry.api.arboriculture.ICharcoalManager;
+import forestry.api.arboriculture.ICharcoalPileWall;
 import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.arboriculture.IWoodType;
 import forestry.api.arboriculture.genetics.IFruit;
@@ -10,7 +11,7 @@ import forestry.api.genetics.ISpeciesType;
 import forestry.api.plugin.IArboricultureRegistration;
 import forestry.api.plugin.ITreeSpeciesBuilder;
 import forestry.arboriculture.TreeManager;
-import forestry.arboriculture.charcoal.CharcoalManager;
+import forestry.arboriculture.charcoal.CharcoalPileWall;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
@@ -20,7 +21,7 @@ public class ArboricultureRegistration extends SpeciesRegistration<ITreeSpeciesB
 	private final Registrar<ResourceLocation, IFruit, IFruit> fruits = new Registrar<>(IFruit.class);
 	private final Registrar<ResourceLocation, ITreeEffect, ITreeEffect> effects = new Registrar<>(ITreeEffect.class);
 	private final ImmutableMap.Builder<Block, Block> refractoryWaxables = ImmutableMap.builder();
-	private final ICharcoalManager charcoalPitWalls = new CharcoalManager();
+	private final ImmutableList.Builder<ICharcoalPileWall> charcoalPitWalls = ImmutableList.builder();
 
 	public ArboricultureRegistration(ISpeciesType<ITreeSpecies, ?> type) {
 		super(type);
@@ -56,7 +57,17 @@ public class ArboricultureRegistration extends SpeciesRegistration<ITreeSpeciesB
 
 	@Override
 	public void registerCharcoalPitWall(BlockState state, int charcoal) {
-		this.charcoalPitWalls.registerWall(state, charcoal);
+		this.charcoalPitWalls.add(new CharcoalPileWall(state, charcoal));
+	}
+
+	@Override
+	public void registerCharcoalPitWall(Block block, int charcoal) {
+		this.charcoalPitWalls.add(new CharcoalPileWall(block, charcoal));
+	}
+
+	@Override
+	public void registerCharcoalPitWall(ICharcoalPileWall wall) {
+		this.charcoalPitWalls.add(wall);
 	}
 
 	public ImmutableMap<ResourceLocation, IFruit> getFruits() {
@@ -68,6 +79,6 @@ public class ArboricultureRegistration extends SpeciesRegistration<ITreeSpeciesB
 	}
 
 	public TreeManager buildTreeManager() {
-		return new TreeManager(this.refractoryWaxables.build(), new CharcoalManager());
+		return new TreeManager(this.refractoryWaxables.build(), this.charcoalPitWalls.build());
 	}
 }

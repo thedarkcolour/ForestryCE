@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.core;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
@@ -17,9 +7,7 @@ import forestry.api.client.IClientModuleHandler;
 import forestry.api.modules.ForestryModule;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.api.modules.IForestryModule;
-import forestry.api.modules.IPacketRegistry;
 import forestry.apiculture.features.ApicultureItems;
-import forestry.apiculture.items.ItemPollenCluster;
 import forestry.apiimpl.plugin.PluginManager;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.features.ArboricultureItems;
@@ -38,32 +26,31 @@ import forestry.core.network.packets.*;
 import forestry.core.owner.GameProfileDataSerializer;
 import forestry.core.recipes.RecipeManagers;
 import forestry.core.utils.ModUtil;
-import forestry.core.utils.NetworkUtil;
 import forestry.lepidopterology.features.LepidopterologyItems;
 import forestry.modules.BlankForestryModule;
-import forestry.modules.ForestryModuleManager;
 import forestry.modules.ModuleUtil;
 import forestry.modules.features.FeatureItem;
 import it.unimi.dsi.fastutil.objects.Object2FloatMap;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Unit;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.ComposterBlock;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.AddReloadListenerEvent;
-import net.minecraftforge.event.RegisterCommandsEvent;
-import net.minecraftforge.event.TagsUpdatedEvent;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
-import net.minecraftforge.eventbus.api.Event;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegisterEvent;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.AddReloadListenerEvent;
+import net.neoforged.neoforge.event.RegisterCommandsEvent;
+import net.neoforged.neoforge.event.TagsUpdatedEvent;
+import net.neoforged.neoforge.event.tick.LevelTickEvent;
+import net.neoforged.neoforge.network.PacketDistributor;
+import net.neoforged.neoforge.network.registration.PayloadRegistrar;
+import net.neoforged.neoforge.registries.NeoForgeRegistries;
+import net.neoforged.neoforge.registries.RegisterEvent;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -82,18 +69,15 @@ public class ModuleCore extends BlankForestryModule {
 		ModUtil.addRegistryListener(Registries.ITEM, ModuleCore::postItemRegistry);
 
 		ModuleUtil.loadFeatureProviders();
-		MinecraftForge.EVENT_BUS.addListener(ModuleCore::onItemPickup);
-		MinecraftForge.EVENT_BUS.addListener(ModuleCore::onLevelTick);
-		MinecraftForge.EVENT_BUS.addListener(ModuleCore::onTagsUpdated);
-		MinecraftForge.EVENT_BUS.addListener(ModuleCore::registerReloadListeners);
-		MinecraftForge.EVENT_BUS.addListener(ModuleCore::registerCommands);
-
-		PluginManager.registerAsyncException(modBus);
+		NeoForge.EVENT_BUS.addListener(ModuleCore::onItemPickup);
+		NeoForge.EVENT_BUS.addListener(ModuleCore::onLevelTick);
+		NeoForge.EVENT_BUS.addListener(ModuleCore::onTagsUpdated);
+		NeoForge.EVENT_BUS.addListener(ModuleCore::registerReloadListeners);
+		NeoForge.EVENT_BUS.addListener(ModuleCore::registerCommands);
 	}
 
 	private static void onCommonSetup(FMLCommonSetupEvent event) {
 		event.enqueueWork(() -> {
-			((ForestryModuleManager) IForestryApi.INSTANCE.getModuleManager()).setupApi();
 			PluginManager.registerCircuits();
 			EntityDataSerializers.registerSerializer(GameProfileDataSerializer.INSTANCE);
 			registerComposts();
@@ -115,7 +99,7 @@ public class ModuleCore extends BlankForestryModule {
 		composts.put(CoreItems.CRAFTING_MATERIALS.item(EnumCraftingMaterial.WOOD_PULP), 0.65f);
 		composts.put(CoreItems.PEAT.item(), 0.75f);
 		composts.put(CoreItems.COMPOST.item(), 1f);
-		for (ItemPollenCluster pollen : ApicultureItems.POLLEN_CLUSTER.getItems()) {
+		for (Item pollen : ApicultureItems.POLLEN_CLUSTER.getItems()) {
 			composts.put(pollen, 0.3f);
 		}
 		composts.put(ArboricultureItems.SAPLING.item(), 0.3f);
@@ -127,7 +111,7 @@ public class ModuleCore extends BlankForestryModule {
 	}
 
 	private static void registerGlobalLootModifiers(RegisterEvent event) {
-		event.register(ForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, helper -> {
+		event.register(NeoForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, helper -> {
 			helper.register(ForestryConstants.forestry("condition_modifier"), ConditionLootModifier.CODEC);
 			helper.register(ForestryConstants.forestry("grafter_modifier"), GrafterLootModifier.CODEC);
 		});
@@ -146,10 +130,8 @@ public class ModuleCore extends BlankForestryModule {
 		PickupHandlerCore.onItemPickup(event.getEntity(), event.getItem());
 	}
 
-	private static void onLevelTick(TickEvent.LevelTickEvent event) {
-		if (event.phase == TickEvent.Phase.END) {
-			TileStreamUpdateTracker.syncVisualUpdates();
-		}
+	private static void onLevelTick(LevelTickEvent.Post event) {
+		TileStreamUpdateTracker.syncVisualUpdates();
 	}
 
 	private static void onTagsUpdated(TagsUpdatedEvent event) {
@@ -162,7 +144,7 @@ public class ModuleCore extends BlankForestryModule {
 		event.addListener((prepBarrier, resourceManager, prepProfiler, reloadProfiler, backgroundExecutor, gameExecutor) -> {
 			return prepBarrier.wait(Unit.INSTANCE).thenRunAsync(() -> {
 				RecipeManagers.invalidateCaches();
-				NetworkUtil.sendToAllPlayers(new RecipeCachePacket());
+				PacketDistributor.sendToAllPlayers(new RecipeCachePacket());
 			});
 		});
 	}
@@ -193,24 +175,24 @@ public class ModuleCore extends BlankForestryModule {
 	}
 
 	@Override
-	public void registerPackets(IPacketRegistry registry) {
-		registry.serverbound(PacketIdServer.GUI_SELECTION_REQUEST, PacketGuiSelectRequest.class, PacketGuiSelectRequest::decode, PacketGuiSelectRequest::handle);
-		registry.serverbound(PacketIdServer.PIPETTE_CLICK, PacketPipetteClick.class, PacketPipetteClick::decode, PacketPipetteClick::handle);
-		registry.serverbound(PacketIdServer.CHIPSET_CLICK, PacketChipsetClick.class, PacketChipsetClick::decode, PacketChipsetClick::handle);
-		registry.serverbound(PacketIdServer.SOLDERING_IRON_CLICK, PacketSolderingIronClick.class, PacketSolderingIronClick::decode, PacketSolderingIronClick::handle);
+	public void registerPackets(PayloadRegistrar registrar) {
+		registrar.playToServer(PacketIdServer.GUI_SELECTION_REQUEST, StreamCodec.of(PacketGuiSelectRequest::encode, PacketGuiSelectRequest::decode), PacketGuiSelectRequest::handle);
+		registrar.playToServer(PacketIdServer.PIPETTE_CLICK, StreamCodec.of(PacketPipetteClick::encode, PacketPipetteClick::decode), PacketPipetteClick::handle);
+		registrar.playToServer(PacketIdServer.CHIPSET_CLICK, StreamCodec.of(PacketChipsetClick::encode, PacketChipsetClick::decode), PacketChipsetClick::handle);
+		registrar.playToServer(PacketIdServer.SOLDERING_IRON_CLICK, StreamCodec.of(PacketSolderingIronClick::encode, PacketSolderingIronClick::decode), PacketSolderingIronClick::handle);
 
-		registry.clientbound(PacketIdClient.ERROR_UPDATE, PacketErrorUpdate.class, PacketErrorUpdate::decode, PacketErrorUpdate::handle);
-		registry.clientbound(PacketIdClient.GUI_UPDATE, PacketGuiStream.class, PacketGuiStream::decode, PacketGuiStream::handle);
-		registry.clientbound(PacketIdClient.GUI_LAYOUT_SELECT, PacketGuiLayoutSelect.class, PacketGuiLayoutSelect::decode, PacketGuiLayoutSelect::handle);
-		registry.clientbound(PacketIdClient.GUI_ENERGY, PacketGuiEnergy.class, PacketGuiEnergy::decode, PacketGuiEnergy::handle);
-		registry.clientbound(PacketIdClient.SOCKET_UPDATE, PacketSocketUpdate.class, PacketSocketUpdate::decode, PacketSocketUpdate::handle);
-		registry.clientbound(PacketIdClient.TILE_FORESTRY_UPDATE, PacketTileStream.class, PacketTileStream::decode, PacketTileStream::handle);
-		registry.clientbound(PacketIdClient.TILE_FORESTRY_ACTIVE, PacketActiveUpdate.class, PacketActiveUpdate::decode, PacketActiveUpdate::handle);
-		registry.clientbound(PacketIdClient.ITEMSTACK_DISPLAY, PacketItemStackDisplay.class, PacketItemStackDisplay::decode, PacketItemStackDisplay::handle);
-		registry.clientbound(PacketIdClient.GENOME_TRACKER_UPDATE, PacketTankLevelUpdate.class, PacketTankLevelUpdate::decode, PacketTankLevelUpdate::handle);
-		registry.clientbound(PacketIdClient.TANK_LEVEL_UPDATE, PacketGenomeTrackerSync.class, PacketGenomeTrackerSync::decode, PacketGenomeTrackerSync::handle);
-		registry.clientbound(PacketIdClient.RECIPE_CACHE, RecipeCachePacket.class, RecipeCachePacket::decode, RecipeCachePacket::handle);
-		registry.clientbound(PacketIdClient.REFRACTORY_WAX_ON, PacketRefractoryWax.class, PacketRefractoryWax::decode, PacketRefractoryWax::handle);
+		registrar.playToClient(PacketIdClient.ERROR_UPDATE, StreamCodec.of(PacketErrorUpdate::encode, PacketErrorUpdate::decode), PacketErrorUpdate::handle);
+		registrar.playToClient(PacketIdClient.GUI_UPDATE, StreamCodec.of(PacketGuiStream::encode, PacketGuiStream::decode), PacketGuiStream::handle);
+		registrar.playToClient(PacketIdClient.GUI_LAYOUT_SELECT, StreamCodec.of(PacketGuiLayoutSelect::encode, PacketGuiLayoutSelect::decode), PacketGuiLayoutSelect::handle);
+		registrar.playToClient(PacketIdClient.GUI_ENERGY, StreamCodec.of(PacketGuiEnergy::encode, PacketGuiEnergy::decode), PacketGuiEnergy::handle);
+		registrar.playToClient(PacketIdClient.SOCKET_UPDATE, StreamCodec.of(PacketSocketUpdate::encode, PacketSocketUpdate::decode), PacketSocketUpdate::handle);
+		registrar.playToClient(PacketIdClient.TILE_FORESTRY_UPDATE, StreamCodec.of(PacketTileStream::encode, PacketTileStream::decode), PacketTileStream::handle);
+		registrar.playToClient(PacketIdClient.TILE_FORESTRY_ACTIVE, StreamCodec.of(PacketActiveUpdate::encode, PacketActiveUpdate::decode), PacketActiveUpdate::handle);
+		registrar.playToClient(PacketIdClient.ITEMSTACK_DISPLAY, StreamCodec.of(PacketItemStackDisplay::encode, PacketItemStackDisplay::decode), PacketItemStackDisplay::handle);
+		registrar.playToClient(PacketIdClient.GENOME_TRACKER_UPDATE, StreamCodec.of(PacketTankLevelUpdate::encode, PacketTankLevelUpdate::decode), PacketTankLevelUpdate::handle);
+		registrar.playToClient(PacketIdClient.TANK_LEVEL_UPDATE, StreamCodec.of(PacketGenomeTrackerSync::encode, PacketGenomeTrackerSync::decode), PacketGenomeTrackerSync::handle);
+		registrar.playToClient(PacketIdClient.RECIPE_CACHE, StreamCodec.of(RecipeCachePacket::encode, RecipeCachePacket::decode), RecipeCachePacket::handle);
+		registrar.playToClient(PacketIdClient.REFRACTORY_WAX_ON, StreamCodec.of(PacketRefractoryWax::encode, PacketRefractoryWax::decode), PacketRefractoryWax::handle);
 	}
 
 	@Override

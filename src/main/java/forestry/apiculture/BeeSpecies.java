@@ -12,6 +12,7 @@ import forestry.api.core.IProduct;
 import forestry.api.core.TemperatureType;
 import forestry.api.genetics.ClimateHelper;
 import forestry.api.genetics.IGenome;
+import forestry.api.genetics.ILifeStage;
 import forestry.api.genetics.alleles.BeeChromosomes;
 import forestry.api.genetics.alleles.ForestryAlleles;
 import forestry.api.genetics.alleles.IValueAllele;
@@ -22,6 +23,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Rarity;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -98,6 +100,13 @@ public class BeeSpecies extends Species<IBeeSpeciesType, IBee> implements IBeeSp
 	@Override
 	public int getEscritoireColor() {
 		return this.escritoireColor == -1 ? this.outline : this.escritoireColor;
+	}
+
+	@Override
+	public Component getItemDisplayName(ILifeStage stage) {
+		Component speciesName = getDisplayName();
+		Component typeName = Component.translatable("for.bees.grammar." + stage.getSerializedName() + ".type");
+		return Component.translatable("for.bees.grammar." + stage.getSerializedName(), speciesName, typeName);
 	}
 
 	@Override

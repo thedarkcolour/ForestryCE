@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.mojang.datafixers.util.Either;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import forestry.api.IForestryApi;
 import forestry.api.apiculture.genetics.BeeLifeStage;
@@ -50,7 +51,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ApiaristPoolElement extends SinglePoolElement {
-	public static final Codec<ApiaristPoolElement> CODEC = RecordCodecBuilder.create(instance -> {
+	public static final MapCodec<ApiaristPoolElement> CODEC = RecordCodecBuilder.mapCodec(instance -> {
 		return instance.group(templateCodec(), processorsCodec()).apply(instance, ApiaristPoolElement::new);
 	});
 

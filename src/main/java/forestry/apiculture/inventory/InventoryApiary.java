@@ -1,28 +1,15 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.apiculture.inventory;
 
 import forestry.api.apiculture.IBeeHousing;
 import forestry.api.apiculture.genetics.IBee;
 import forestry.api.apiculture.hives.IHiveFrame;
-import forestry.api.genetics.IIndividual;
 import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.apiculture.InventoryBeeHousing;
 import forestry.core.utils.SlotUtil;
-import net.minecraft.util.Tuple;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.function.BiConsumer;
 
 public class InventoryApiary extends InventoryBeeHousing implements IApiaryInventory {
 	public static final int SLOT_FRAMES_1 = 9;
@@ -48,34 +35,26 @@ public class InventoryApiary extends InventoryBeeHousing implements IApiaryInven
 			super.canPlaceItem(slotIndex, itemStack);
 	}
 
-	public Collection<Tuple<IHiveFrame, ItemStack>> getFrames() {
-		Collection<Tuple<IHiveFrame, ItemStack>> hiveFrames = new ArrayList<>(SLOT_FRAMES_COUNT);
-
+	public void forEachFrame(BiConsumer<IHiveFrame, ItemStack> action) {
 		for (int i = SLOT_FRAMES_1; i < SLOT_FRAMES_1 + SLOT_FRAMES_COUNT; i++) {
 			ItemStack stackInSlot = getItem(i);
 			Item itemInSlot = stackInSlot.getItem();
+
 			if (itemInSlot instanceof IHiveFrame frame) {
-				hiveFrames.add(new Tuple<>(frame, stackInSlot.copy()));
+				action.accept(frame, stackInSlot);
 			}
 		}
-
-		return hiveFrames;
 	}
 
 	@Override
 	public void wearOutFrames(IBeeHousing beeHousing, int amount) {
-		//IBeekeepingMode beekeepingMode = SpeciesUtil.BEE_TYPE.get().getBeekeepingMode(beeHousing.getWorldObj());
-		int wear = amount; /* Math.round(amount * beekeepingMode.getWearModifier())*/
+		if (IIndividualHandlerItem.getIndividual(getQueen()) instanceof IBee queen) {
+			for (int i = SLOT_FRAMES_1; i < SLOT_FRAMES_1 + SLOT_FRAMES_COUNT; i++) {
+				ItemStack hiveFrameStack = getItem(i);
+				Item hiveFrameItem = hiveFrameStack.getItem();
 
-		for (int i = SLOT_FRAMES_1; i < SLOT_FRAMES_1 + SLOT_FRAMES_COUNT; i++) {
-			ItemStack hiveFrameStack = getItem(i);
-			Item hiveFrameItem = hiveFrameStack.getItem();
-
-			if (hiveFrameItem instanceof IHiveFrame hiveFrame) {
-				IIndividual queen = IIndividualHandlerItem.getIndividual(getQueen());
-
-				if (queen != null) {
-					ItemStack usedFrame = hiveFrame.frameUsed(beeHousing, hiveFrameStack, (IBee) queen, wear);
+				if (hiveFrameItem instanceof IHiveFrame hiveFrame) {
+					ItemStack usedFrame = hiveFrame.frameUsed(beeHousing, hiveFrameStack, queen, amount);
 					setItem(i, usedFrame);
 				}
 			}

@@ -20,16 +20,6 @@ public interface IMutationsRegistration {
 	IMutationBuilder add(ResourceLocation firstParent, ResourceLocation secondParent, float chance);
 
 	/**
-	 * Shortcut method for using legacy chance values. Chance must be between 0 and 100, inclusive.
-	 *
-	 * @deprecated Use the overload that takes a float instead.
-	 */
-	@Deprecated
-	default IMutationBuilder add(ResourceLocation firstParent, ResourceLocation secondParent, int chance) {
-		return add(firstParent, secondParent, chance / 100.0f);
-	}
-
-	/**
 	 * Retrieves an already existing mutation so that it can be further customized.
 	 *
 	 * @return A mutation builder for an already registered mutation between these two parents.

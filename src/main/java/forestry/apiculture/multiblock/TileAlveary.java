@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.apiculture.multiblock;
 
 import forestry.api.apiculture.*;
@@ -30,7 +20,8 @@ import forestry.core.tiles.ITitled;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -40,8 +31,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
@@ -97,8 +88,8 @@ public class TileAlveary extends MultiblockTileEntityForestry<MultiblockLogicAlv
 
 	/* IHousing */
 	@Override
-	public Holder<Biome> getBiome() {
-		return getMultiblockLogic().getController().getBiome();
+	public Holder<Biome> getBiome(HolderLookup.Provider registries) {
+		return getMultiblockLogic().getController().getBiome(registries);
 	}
 
 	/* IBeeHousing */
@@ -175,13 +166,13 @@ public class TileAlveary extends MultiblockTileEntityForestry<MultiblockLogicAlv
 
 	/* IStreamableGui */
 	@Override
-	public void writeGuiData(FriendlyByteBuf data) {
+	public void writeGuiData(RegistryFriendlyByteBuf data) {
 		getMultiblockLogic().getController().writeGuiData(data);
 	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void readGuiData(FriendlyByteBuf data) {
+	public void readGuiData(RegistryFriendlyByteBuf data) {
 		getMultiblockLogic().getController().readGuiData(data);
 	}
 

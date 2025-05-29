@@ -48,7 +48,7 @@ public class TreeSpeciesBuilder extends SpeciesBuilder<ITreeSpeciesType, ITreeSp
 	}
 
 	@Override
-	public ITreeSpeciesBuilder setTreeFeature(Function<ITreeGenData, Feature<NoneFeatureConfiguration>> factory) {
+	public ITreeSpeciesBuilder setTreeFeature(Function<ITreeSpecies, Feature<NoneFeatureConfiguration>> factory) {
 		Preconditions.checkState(this.woodType != null, "Must call setWoodType before setTreeFeature");
 
 		return setGenerator(new DefaultTreeGenerator(factory, this.woodType));

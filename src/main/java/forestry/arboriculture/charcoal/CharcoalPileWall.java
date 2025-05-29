@@ -1,26 +1,15 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.arboriculture.charcoal;
 
-import com.google.common.base.Preconditions;
 import forestry.api.arboriculture.ICharcoalPileWall;
-import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nullable;
+import java.util.Collections;
+import java.util.List;
 
 public class CharcoalPileWall implements ICharcoalPileWall {
-
 	@Nullable
 	private final BlockState blockState;
 	@Nullable
@@ -50,15 +39,12 @@ public class CharcoalPileWall implements ICharcoalPileWall {
 	}
 
 	@Override
-	public NonNullList<ItemStack> getDisplayItems() {
+	public List<ItemStack> getDisplayItems() {
 		if (this.block == null) {
-			Preconditions.checkNotNull(this.blockState);
-			return NonNullList.withSize(1, new ItemStack(this.blockState.getBlock()));    //TODO loss of properties?
+			return Collections.singletonList(new ItemStack(this.blockState.getBlock()));
 		} else if (this.blockState == null) {
-			Preconditions.checkNotNull(this.block);
-			return NonNullList.withSize(1, new ItemStack(this.block));
+			return Collections.singletonList(new ItemStack(this.block));
 		}
-		return NonNullList.create();
+		return List.of();
 	}
-
 }

@@ -14,17 +14,18 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import forestry.api.client.ForestrySprites;
 import forestry.api.client.IForestryClientApi;
 import forestry.api.core.tooltips.ToolTip;
+import forestry.api.modules.IForestryPacketServer;
 import forestry.core.gui.GuiUtil;
 import forestry.core.network.packets.PacketGuiSelectRequest;
 import forestry.core.tiles.EscritoireGame;
 import forestry.core.tiles.EscritoireGameToken;
-import forestry.core.utils.NetworkUtil;
 import forestry.core.utils.SoundUtil;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import javax.annotation.Nullable;
 
@@ -98,7 +99,8 @@ public class GameTokenWidget extends Widget {
 	@Override
 	public void handleMouseClick(double mouseX, double mouseY, int mouseButton) {
         this.game.choose(this.index);
-		NetworkUtil.sendToServer(new PacketGuiSelectRequest(this.index, 0));
-		SoundUtil.playButtonClick();
+        IForestryPacketServer packet = new PacketGuiSelectRequest(this.index, 0);
+        PacketDistributor.sendToServer(packet);
+        SoundUtil.playButtonClick();
 	}
 }

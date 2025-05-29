@@ -44,7 +44,7 @@ public class TileFarmControl extends TileFarm implements IFarmComponent.Listener
 		public boolean cancelTask(IFarmLogic logic, Direction direction) {
 			for (Direction facing : new Direction[]{Direction.UP, Direction.DOWN, direction}) {
 				BlockPos pos = this.tile.getBlockPos();
-				Level world = this.tile.getWorldObj();
+				Level world = this.tile.getLevel();
 				BlockState blockState = world.getBlockState(pos.relative(facing));
 				if (!(blockState.getBlock() instanceof FarmBlock) && world.getSignal(pos, facing) > 0) {
 					return true;

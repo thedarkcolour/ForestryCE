@@ -1,17 +1,10 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.arboriculture.worldgen;
 
-import forestry.api.arboriculture.ITreeGenData;
+import forestry.api.arboriculture.ITreeSpecies;
+import forestry.api.arboriculture.ITreeSpecies;
+import forestry.api.arboriculture.genetics.IPodFruit;
 import forestry.api.genetics.IGenome;
+import forestry.api.genetics.alleles.TreeChromosomes;
 import forestry.core.worldgen.FeatureHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
@@ -30,8 +23,8 @@ public abstract class FeatureTree extends FeatureArboriculture {
 	protected int girth;
 	protected int height;
 
-	protected FeatureTree(ITreeGenData tree, int baseHeight, int heightVariation) {
-		super(tree);
+	protected FeatureTree(ITreeSpecies species, int baseHeight, int heightVariation) {
+		super(species);
 		this.baseHeight = baseHeight;
 		this.heightVariation = heightVariation;
 	}
@@ -52,34 +45,34 @@ public abstract class FeatureTree extends FeatureArboriculture {
 	}
 
 	@Override
-	protected void generateExtras(LevelAccessor level, RandomSource rand, BlockPos startPos) {
-		if (hasPods()) {
-			FeatureHelper.generatePods(this.tree, level, rand, startPos, this.height, minPodHeight, this.girth, FeatureHelper.EnumReplaceMode.AIR);
+	protected void generateExtras(LevelAccessor level, RandomSource rand, IGenome genome, BlockPos startPos) {
+		if (genome.getActiveValue(TreeChromosomes.FRUIT) instanceof IPodFruit || genome.getInactiveValue(TreeChromosomes.FRUIT) instanceof IPodFruit) {
+			FeatureHelper.generatePods(this.species, level, rand, startPos, this.height, minPodHeight, this.girth, FeatureHelper.EnumReplaceMode.AIR);
 		}
 	}
 
 	@Override
 	@Nullable
 	public BlockPos getValidGrowthPos(LevelAccessor level, BlockPos pos) {
-		return this.tree.getGrowthPos(this.tree.getDefaultGenome(), level, pos, this.girth, this.height);
+		return this.species.getGrowthPos(this.species.getDefaultGenome(), level, pos, this.girth, this.height);
 	}
 
 	@Override
 	public final void preGenerate(IGenome genome, LevelAccessor level, RandomSource rand, BlockPos startPos) {
 		this.height = determineHeight(level, rand, genome, this.baseHeight, this.heightVariation);
-		this.girth = this.tree.getGirth(genome);
+		this.girth = this.species.getGirth(genome);
 	}
 
 	protected int modifyByHeight(LevelAccessor world, int val, int min, int max) {
 		//ITreeModifier treeModifier = SpeciesUtil.TREE_TYPE.get().getTreekeepingMode(world);
-		int determined = Math.round(val * this.tree.getHeightModifier(this.tree.getDefaultGenome()));/* * treeModifier.getHeightModifier(tree.getGenome(), 1f)*/
+		int determined = Math.round(val * this.species.getHeightModifier(this.species.getDefaultGenome()));/* * treeModifier.getHeightModifier(tree.getGenome(), 1f)*/
 		return determined < min ? min : Math.min(determined, max);
 	}
 
 	protected int determineHeight(LevelAccessor world, RandomSource rand, IGenome genome, int baseHeight, int heightVariation) {
 		//ITreeModifier treeModifier = SpeciesUtil.TREE_TYPE.get().getTreekeepingMode(world);
 		int height = baseHeight + rand.nextInt(heightVariation);
-		int adjustedHeight = Math.round(height * this.tree.getHeightModifier(genome));/* * treeModifier.getHeightModifier(tree.getGenome(), 1f)*/
+		int adjustedHeight = Math.round(height * this.species.getHeightModifier(genome));/* * treeModifier.getHeightModifier(tree.getGenome(), 1f)*/
 		return adjustedHeight < minHeight ? minHeight : Math.min(adjustedHeight, maxHeight);
 	}
 }

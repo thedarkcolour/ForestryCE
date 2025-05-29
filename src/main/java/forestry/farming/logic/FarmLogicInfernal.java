@@ -62,7 +62,7 @@ public class FarmLogicInfernal extends FarmLogicHomogeneous {
 			}
 
 			BlockState blockState = world.getBlockState(position);
-			if (!world.isEmptyBlock(position) && !BlockUtil.isReplaceableBlock(blockState, world, position)) {
+			if (!world.isEmptyBlock(position) && !BlockUtil.isReplaceableBlock(world, position)) {
 				continue;
 			}
 

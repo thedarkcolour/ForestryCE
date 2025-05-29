@@ -90,7 +90,7 @@ public class FarmLogicEnder extends FarmLogicHomogeneous {
 		for (int i = 0; i < extent; i++) {
 			BlockPos position = translateWithOffset(pos, direction, i);
 			BlockState state = world.getBlockState(position);
-			if (!world.isEmptyBlock(position) && !BlockUtil.isReplaceableBlock(state, world, position)) {
+			if (!world.isEmptyBlock(position) && !BlockUtil.isReplaceableBlock(world, position)) {
 				continue;
 			}
 

@@ -1,18 +1,8 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.apiculture.hives;
 
 import forestry.api.ForestryTags;
 import forestry.api.apiculture.hives.IHiveDefinition;
-import forestry.api.apiculture.hives.IHiveGen;
+import forestry.api.apiculture.hives.IHivePlacement;
 import forestry.api.core.HumidityType;
 import forestry.api.core.TemperatureType;
 import forestry.apiculture.blocks.BlockHiveType;
@@ -38,8 +28,8 @@ public class HiveDefinitionSwarmer implements IHiveDefinition {
 	}
 
 	@Override
-	public IHiveGen getHiveGen() {
-		return new HiveGenGround(ForestryTags.Blocks.SWARM_BEE_GROUND);
+	public IHivePlacement getHiveGen() {
+		return new HivePlacementGround(ForestryTags.Blocks.SWARM_BEE_GROUND);
 	}
 
 	@Override

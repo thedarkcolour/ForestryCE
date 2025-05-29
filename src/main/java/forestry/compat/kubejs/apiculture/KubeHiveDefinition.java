@@ -1,7 +1,7 @@
 package forestry.compat.kubejs.apiculture;
 
 import forestry.api.apiculture.hives.IHiveDefinition;
-import forestry.api.apiculture.hives.IHiveGen;
+import forestry.api.apiculture.hives.IHivePlacement;
 import forestry.api.core.HumidityType;
 import forestry.api.core.TemperatureType;
 import net.minecraft.core.BlockPos;
@@ -14,11 +14,11 @@ import net.minecraft.world.level.block.state.BlockState;
 import java.util.function.Predicate;
 
 // I was told that KubeJS cannot make classes that implement an interface with more than one method. So...
-public record KubeHiveDefinition(IHiveGen placement, BlockState hiveState, Predicate<Holder<Biome>> isGoodBiome,
-								 Predicate<HumidityType> isGoodHumidity, Predicate<TemperatureType> isGoodTemperature,
-								 float genChance, PostGenFunction postGen) implements IHiveDefinition {
+public record KubeHiveDefinition(IHivePlacement placement, BlockState hiveState, Predicate<Holder<Biome>> isGoodBiome,
+                                 Predicate<HumidityType> isGoodHumidity, Predicate<TemperatureType> isGoodTemperature,
+                                 float genChance, PostGenFunction postGen) implements IHiveDefinition {
 	@Override
-	public IHiveGen getHiveGen() {
+	public IHivePlacement getHiveGen() {
 		return this.placement;
 	}
 

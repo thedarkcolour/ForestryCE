@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.arboriculture.blocks;
 
 import forestry.api.arboriculture.genetics.ITree;
@@ -98,7 +88,7 @@ public class BlockSapling extends Block implements BonemealableBlock, EntityBloc
 	}
 
 	@Override
-	public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter level, BlockPos pos, Player player) {
+	public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player) {
 		TileSapling sapling = TileUtil.getTile(level, pos, TileSapling.class);
 		if (sapling == null || sapling.getTree() == null) {
 			return ItemStack.EMPTY;
@@ -118,7 +108,7 @@ public class BlockSapling extends Block implements BonemealableBlock, EntityBloc
 	}
 
 	@Override
-	public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state, boolean isClient) {
+	public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state) {
 		return true;
 	}
 

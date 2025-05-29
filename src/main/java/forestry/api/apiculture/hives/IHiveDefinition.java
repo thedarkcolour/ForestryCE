@@ -17,7 +17,7 @@ public interface IHiveDefinition {
 	/**
 	 * The hive generator for this hive.
 	 */
-	IHiveGen getHiveGen();
+	IHivePlacement getHiveGen();
 
 	/**
 	 * The hive block to be placed in the world.

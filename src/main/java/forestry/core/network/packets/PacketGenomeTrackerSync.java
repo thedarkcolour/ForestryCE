@@ -1,54 +1,45 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.core.network.packets;
 
 import forestry.api.IForestryApi;
-import forestry.api.core.ForestryEvent;
+import forestry.api.event.SyncedBreedingTrackerEvent;
 import forestry.api.genetics.IBreedingTracker;
 import forestry.api.genetics.ISpeciesType;
 import forestry.api.modules.IForestryPacketClient;
 import forestry.core.genetics.BreedingTracker;
 import forestry.core.network.PacketIdClient;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.common.MinecraftForge;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 import javax.annotation.Nullable;
 
 public record PacketGenomeTrackerSync(@Nullable CompoundTag nbt) implements IForestryPacketClient {
 	@Override
-	public ResourceLocation id() {
+	public Type<?> type() {
 		return PacketIdClient.GENOME_TRACKER_UPDATE;
 	}
 
-	@Override
-	public void write(FriendlyByteBuf buffer) {
-		buffer.writeNbt(this.nbt);
+	public static void encode(RegistryFriendlyByteBuf buffer, PacketGenomeTrackerSync msg) {
+		buffer.writeNbt(msg.nbt);
 	}
 
-	public static PacketGenomeTrackerSync decode(FriendlyByteBuf buffer) {
+	public static PacketGenomeTrackerSync decode(RegistryFriendlyByteBuf buffer) {
 		return new PacketGenomeTrackerSync(buffer.readNbt());
 	}
 
-	public static void handle(PacketGenomeTrackerSync msg, Player player) {
+	public static void handle(PacketGenomeTrackerSync msg, IPayloadContext ctx) {
 		if (msg.nbt != null) {
 			String type = msg.nbt.getString(BreedingTracker.TYPE_KEY);
-			ISpeciesType<?, ?> root = IForestryApi.INSTANCE.getGeneticManager().getSpeciesTypeSafe(new ResourceLocation(type));
+			ISpeciesType<?, ?> root = IForestryApi.INSTANCE.getGeneticManager().getSpeciesTypeSafe(ResourceLocation.parse(type));
 
 			if (root != null) {
+				Player player = ctx.player();
 				IBreedingTracker tracker = root.getBreedingTracker(player.getCommandSenderWorld(), player.getGameProfile());
-				tracker.readFromNbt(msg.nbt);
-				MinecraftForge.EVENT_BUS.post(new ForestryEvent.SyncedBreedingTracker(tracker, player));
+				tracker.readFromNbt(msg.nbt, player.registryAccess());
+				NeoForge.EVENT_BUS.post(new SyncedBreedingTrackerEvent(tracker, player));
 			}
 		}
 	}

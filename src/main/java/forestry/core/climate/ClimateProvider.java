@@ -17,6 +17,7 @@ import forestry.api.core.HumidityType;
 import forestry.api.core.TemperatureType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.biome.Biome;
 
@@ -28,7 +29,7 @@ public class ClimateProvider implements IClimateProvider, IBiomeProvider {
 	}
 
 	@Override
-	public Holder<Biome> getBiome() {
+	public Holder<Biome> getBiome(HolderLookup.Provider registries) {
 		return this.biome;
 	}
 

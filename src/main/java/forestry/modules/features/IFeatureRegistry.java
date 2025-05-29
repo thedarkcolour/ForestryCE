@@ -20,9 +20,8 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraftforge.network.IContainerFactory;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.RegisterEvent;
+import net.neoforged.neoforge.network.IContainerFactory;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
@@ -51,7 +50,6 @@ public interface IFeatureRegistry {
 
 	<B extends Block, S extends IBlockSubtype> FeatureBlockGroup.Builder<B, S> blockGroup(Function<S, B> constructor, Collection<S> types);
 
-	// Note: use the Collection variant whenever possible
 	<B extends Block, S extends IBlockSubtype> FeatureBlockGroup.Builder<B, S> blockGroup(Function<S, B> constructor, S[] types);
 
 	<I extends Item> FeatureItem<I> item(Supplier<I> constructor, String identifier);
@@ -66,7 +64,6 @@ public interface IFeatureRegistry {
 
 	<I extends Item, S extends IItemSubtype> FeatureItemGroup<I, S> itemGroup(Function<S, I> constructor, String identifier, S[] subTypes);
 
-	// Note: use the Collection variant whenever possible
 	<I extends Item, S extends IItemSubtype> FeatureItemGroup.Builder<I, S> itemGroup(Function<S, I> constructor, S[] subTypes);
 
 	<I extends Item, R extends IItemSubtype, C extends IItemSubtype> FeatureItemTable<I, R, C> itemTable(BiFunction<R, C, I> constructor, R[] rowTypes, C[] columnTypes, String identifier);
@@ -90,12 +87,6 @@ public interface IFeatureRegistry {
 	<R extends Recipe<?>> FeatureRecipeType<R> recipeType(String name, Supplier<RecipeSerializer<? extends R>> serializer);
 
 	FeatureCreativeTab creativeTab(String id, Consumer<CreativeModeTab.Builder> builder);
-
-	/**
-	 * @deprecated Use {@link #addRegistryListener(ResourceKey, Runnable)} which is more stable
-	 */
-	@Deprecated(forRemoval = true)
-	void addRegistryListener(ResourceKey<? extends Registry<?>> type, Consumer<RegisterEvent> listener);
 
 	/**
 	 * Invokes the runnable after all entries have completed registration for the given registry.

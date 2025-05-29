@@ -1,6 +1,6 @@
 package forestry.api.client;
 
-import net.minecraftforge.eventbus.api.IEventBus;
+import net.neoforged.bus.api.IEventBus;
 
 /**
  * Used to separate client-only code and events from a {@link forestry.api.modules.IForestryModule}.

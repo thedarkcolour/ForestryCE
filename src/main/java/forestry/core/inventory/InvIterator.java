@@ -1,6 +1,6 @@
 package forestry.core.inventory;
 
-import net.minecraftforge.items.IItemHandler;
+import net.neoforged.neoforge.items.IItemHandler;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;

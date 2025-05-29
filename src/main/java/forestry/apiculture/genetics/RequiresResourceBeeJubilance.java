@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.apiculture.genetics;
 
 import forestry.api.apiculture.IBeeHousing;
@@ -23,6 +13,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import java.util.Collections;
 import java.util.HashSet;
 
+// todo expose in IForestryApi
 public class RequiresResourceBeeJubilance implements IBeeJubilance {
 	private final HashSet<BlockState> acceptedBlockStates = new HashSet<>();
 
@@ -32,17 +23,16 @@ public class RequiresResourceBeeJubilance implements IBeeJubilance {
 
 	@Override
 	public boolean isJubilant(IBeeSpecies species, IGenome genome, IBeeHousing housing) {
-		Level level = housing.getWorldObj();
-		BlockPos pos = housing.getCoordinates();
+		Level level = housing.getLevel();
+		BlockPos pos = housing.getBlockPos();
 
 		BlockEntity tile;
 		do {
 			pos = pos.below();
 			tile = TileUtil.getTile(level, pos);
-		} while (tile instanceof IBeeHousing && pos.getY() > 0);
+		} while (tile instanceof IBeeHousing && pos.getY() > level.dimensionType().minY());
 
 		BlockState blockState = level.getBlockState(pos);
 		return this.acceptedBlockStates.contains(blockState);
 	}
-
 }

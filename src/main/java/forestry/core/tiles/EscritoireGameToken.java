@@ -21,6 +21,7 @@ import forestry.core.utils.ColourUtil;
 import forestry.core.utils.NetworkUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -169,7 +170,7 @@ public class EscritoireGameToken implements INbtWritable, IStreamable {
 	}
 
 	@Override
-	public void writeData(FriendlyByteBuf data) {
+	public void writeData(RegistryFriendlyByteBuf data) {
 		NetworkUtil.writeEnum(data, this.state);
 		if (this.tokenIndividual != null && this.tokenType != null) {
 			data.writeBoolean(true);
@@ -181,7 +182,7 @@ public class EscritoireGameToken implements INbtWritable, IStreamable {
 	}
 
 	@Override
-	public void readData(FriendlyByteBuf data) {
+	public void readData(RegistryFriendlyByteBuf data) {
         this.state = NetworkUtil.readEnum(data, State.VALUES);
 		if (data.readBoolean()) {
 			ResourceLocation speciesId = data.readResourceLocation();

@@ -4,7 +4,6 @@ import forestry.api.client.IClientModuleHandler;
 import forestry.api.genetics.filter.IFilterLogic;
 import forestry.api.modules.ForestryModule;
 import forestry.api.modules.ForestryModuleIds;
-import forestry.api.modules.IPacketRegistry;
 import forestry.core.network.PacketIdClient;
 import forestry.core.network.PacketIdServer;
 import forestry.modules.BlankForestryModule;
@@ -15,6 +14,7 @@ import forestry.sorting.network.packets.PacketGuiFilterUpdate;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
 import java.util.function.Consumer;
 
@@ -31,11 +31,11 @@ public class ModuleSorting extends BlankForestryModule {
 	}
 
 	@Override
-	public void registerPackets(IPacketRegistry registry) {
-		registry.serverbound(PacketIdServer.FILTER_CHANGE_RULE, PacketFilterChangeRule.class, PacketFilterChangeRule::decode, PacketFilterChangeRule::handle);
-		registry.serverbound(PacketIdServer.FILTER_CHANGE_GENOME, PacketFilterChangeGenome.class, PacketFilterChangeGenome::decode, PacketFilterChangeGenome::handle);
+	public void registerPackets(PayloadRegistrar registrar) {
+		registrar.serverbound(PacketIdServer.FILTER_CHANGE_RULE, PacketFilterChangeRule.class, PacketFilterChangeRule::decode, PacketFilterChangeRule::handle);
+		registrar.serverbound(PacketIdServer.FILTER_CHANGE_GENOME, PacketFilterChangeGenome.class, PacketFilterChangeGenome::decode, PacketFilterChangeGenome::handle);
 
-		registry.clientbound(PacketIdClient.GUI_UPDATE_FILTER, PacketGuiFilterUpdate.class, PacketGuiFilterUpdate::decode, PacketGuiFilterUpdate::handle);
+		registrar.clientbound(PacketIdClient.GUI_UPDATE_FILTER, PacketGuiFilterUpdate.class, PacketGuiFilterUpdate::decode, PacketGuiFilterUpdate::handle);
 	}
 
 	public static void registerCapabilities(RegisterCapabilitiesEvent consumer) {

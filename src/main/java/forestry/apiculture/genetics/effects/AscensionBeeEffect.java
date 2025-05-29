@@ -19,10 +19,10 @@ public class AscensionBeeEffect extends PotionBeeEffect {
 	@Override
 	public IEffectData doFX(IGenome genome, IEffectData storedData, IBeeHousing housing) {
 		super.doFX(genome, storedData, housing);
-		RandomSource rand = housing.getWorldObj().random;
+		RandomSource rand = housing.getLevel().random;
 		Vec3i area = Bee.getParticleArea(genome, housing);
-		BlockPos coordinates = housing.getCoordinates().offset(VecUtil.center(area));
-		housing.getWorldObj().addParticle(ParticleTypes.END_ROD, coordinates.getX() + rand.nextFloat() * area.getX(), coordinates.getY() + rand.nextFloat() * area.getY(), coordinates.getZ() + rand.nextFloat() * area.getZ(), 0D, 0.5D * rand.nextFloat(), 0D);
+		BlockPos coordinates = housing.getBlockPos().offset(VecUtil.center(area));
+		housing.getLevel().addParticle(ParticleTypes.END_ROD, coordinates.getX() + rand.nextFloat() * area.getX(), coordinates.getY() + rand.nextFloat() * area.getY(), coordinates.getZ() + rand.nextFloat() * area.getZ(), 0D, 0.5D * rand.nextFloat(), 0D);
 		return storedData;
 	}
 }

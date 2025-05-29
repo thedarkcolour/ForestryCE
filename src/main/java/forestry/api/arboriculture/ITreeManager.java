@@ -1,8 +1,11 @@
 package forestry.api.arboriculture;
 
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nullable;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * @since 2.6.0
@@ -17,9 +20,15 @@ public interface ITreeManager {
 	Block getRefractoryWaxed(Block block);
 
 	/**
-	 * This getter will be replaced by separate methods in 1.21, as ICharcoalManager will be removed
+	 * @return Read-only view of all registered charcoal pit wall types.
 	 */
-	ICharcoalManager getCharcoalManager();
+	List<ICharcoalPileWall> getWalls();
+
+	/**
+	 * @return Information about the block in a charcoal pit wall, {@code null} if not a valid charcoal pit wall.
+	 */
+	@Nullable
+	ICharcoalPileWall getWall(BlockState state);
 
 	IWoodAccess getWoodAccess();
 }

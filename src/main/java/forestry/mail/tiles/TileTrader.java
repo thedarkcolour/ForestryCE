@@ -32,7 +32,7 @@ import forestry.mail.inventory.InventoryTradeStation;
 import forestry.mail.network.packets.PacketTraderAddressResponse;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
@@ -42,8 +42,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 public class TileTrader extends TileBase implements IOwnedTile {
 	private final OwnerHandler ownerHandler = new OwnerHandler();
@@ -92,7 +92,7 @@ public class TileTrader extends TileBase implements IOwnedTile {
 	/* NETWORK */
 
 	@Override
-	public void writeData(FriendlyByteBuf data) {
+	public void writeData(RegistryFriendlyByteBuf data) {
 		super.writeData(data);
         this.ownerHandler.writeData(data);
 		String addressName = this.address.getName();
@@ -101,7 +101,7 @@ public class TileTrader extends TileBase implements IOwnedTile {
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void readData(FriendlyByteBuf data) {
+	public void readData(RegistryFriendlyByteBuf data) {
 		super.readData(data);
         this.ownerHandler.readData(data);
 		String addressName = data.readUtf();
@@ -253,7 +253,7 @@ public class TileTrader extends TileBase implements IOwnedTile {
 
 		if (updated) {
 			PacketTraderAddressResponse packetResponse = new PacketTraderAddressResponse(this.worldPosition, address);
-			NetworkUtil.sendNetworkPacket(packetResponse, this.worldPosition, this.level);
+			NetworkUtil.sendToPlayersTrackingPos(packetResponse, this.worldPosition, this.level);
 		}
 
 		return updated;

@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.apiculture.blocks;
 
 import forestry.apiculture.multiblock.*;
@@ -21,8 +11,10 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
@@ -34,8 +26,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -152,24 +142,24 @@ public class BlockAlveary extends BlockStructure implements EntityBlock {
 	}
 
 	@Override
-	public void neighborChanged(BlockState state, Level worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean p_220069_6_) {
-		TileUtil.actOnTile(worldIn, pos, TileAlveary.class, tileAlveary -> {
+	public void neighborChanged(BlockState state, Level level, BlockPos pos, Block blockIn, BlockPos fromPos, boolean movedByPiston) {
+		TileUtil.actOnTile(level, pos, TileAlveary.class, tileAlveary -> {
 			// We must check that the slabs on top were not removed
 			IAlvearyControllerInternal alveary = tileAlveary.getMultiblockLogic().getController();
 			alveary.reassemble();
 			BlockPos referenceCoord = alveary.getReferenceCoord();
-			NetworkUtil.sendNetworkPacket(new PacketAlvearyChange(referenceCoord), referenceCoord, worldIn);
+			if (level instanceof ServerLevel serverLevel) {
+				NetworkUtil.sendToPlayersTrackingPos(new PacketAlvearyChange(referenceCoord), referenceCoord, serverLevel);
+			}
 		});
 	}
 
-	// todo this method isn't client only
-	@OnlyIn(Dist.CLIENT)
 	@Override
-	public void appendHoverText(ItemStack stack, @Nullable BlockGetter world, List<Component> tooltip, TooltipFlag flag) {
+	public void appendHoverText(ItemStack stack, Item.TooltipContext level, List<Component> tooltip, TooltipFlag flag) {
 		if (Screen.hasShiftDown()) {
 			tooltip.add(Component.translatable("block.forestry.alveary_tooltip"));
 		} else {
-			ItemTooltipUtil.addShiftInformation(stack, world, tooltip, flag);
+			ItemTooltipUtil.addShiftInformation(tooltip);
 		}
 	}
 }

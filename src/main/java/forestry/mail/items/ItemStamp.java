@@ -10,7 +10,6 @@
  ******************************************************************************/
 package forestry.mail.items;
 
-import forestry.api.core.ItemGroups;
 import forestry.api.mail.EnumPostage;
 import forestry.api.mail.IStamps;
 import forestry.core.items.ItemOverlay;
@@ -20,7 +19,7 @@ public class ItemStamp extends ItemOverlay implements IStamps {
 	private final EnumStampDefinition def;
 
 	public ItemStamp(EnumStampDefinition def) {
-		super(ItemGroups.tabForestry, def);
+		super(def);
 		this.def = def;
 	}
 

@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.apiculture.genetics.effects;
 
 import forestry.api.apiculture.BeeManager;
@@ -19,8 +9,8 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 import java.util.List;
 
@@ -34,7 +24,7 @@ public class IgnitionBeeEffect extends ThrottledBeeEffect {
 
 	@Override
 	public IEffectData doEffectThrottled(IGenome genome, IEffectData storedData, IBeeHousing housing) {
-		Level level = housing.getWorldObj();
+		Level level = housing.getLevel();
 		List<LivingEntity> entities = ThrottledBeeEffect.getEntitiesInRange(genome, housing, LivingEntity.class);
 		for (LivingEntity entity : entities) {
 			int chance = ignitionChance;
@@ -59,7 +49,7 @@ public class IgnitionBeeEffect extends ThrottledBeeEffect {
 				continue;
 			}
 
-			entity.setSecondsOnFire(duration);
+			entity.igniteForSeconds(duration);
 		}
 
 		return storedData;
@@ -68,7 +58,7 @@ public class IgnitionBeeEffect extends ThrottledBeeEffect {
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public IEffectData doFX(IGenome genome, IEffectData storedData, IBeeHousing housing) {
-		ClientLevel level = (ClientLevel) housing.getWorldObj();
+		ClientLevel level = (ClientLevel) housing.getLevel();
 		if (level.random.nextInt(2) != 0) {
 			super.doFX(genome, storedData, housing);
 		} else {

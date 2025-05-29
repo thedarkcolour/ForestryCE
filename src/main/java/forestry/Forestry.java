@@ -5,13 +5,12 @@ import forestry.api.IForestryApi;
 import forestry.apiimpl.plugin.PluginManager;
 import forestry.core.EventHandlerCore;
 import forestry.core.config.ForestryConfig;
-import forestry.core.network.NetworkHandler;
 import forestry.modules.ForestryModuleManager;
-import net.minecraftforge.common.ForgeMod;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.ModList;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.common.NeoForgeMod;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -25,17 +24,18 @@ public class Forestry {
 	public static final boolean DEBUG = ModList.get().isLoaded("modkit");
 	public static final Logger LOGGER = LogManager.getLogger(ForestryConstants.MOD_ID);
 
-	public Forestry() {
+	public Forestry(ModContainer container) {
+		// IForestryModule - registration of game objects
 		ForestryModuleManager moduleManager = (ForestryModuleManager) IForestryApi.INSTANCE.getModuleManager();
 		moduleManager.init();
-		NetworkHandler.register();
-		MinecraftForge.EVENT_BUS.register(EventHandlerCore.class);
+		NeoForge.EVENT_BUS.register(EventHandlerCore.class);
 
+		// IForestryPlugin - registration of Forestry data
 		PluginManager.loadPlugins();
 		PluginManager.registerErrors();
 
-		ForestryConfig.register(ModLoadingContext.get());
+		ForestryConfig.register(container);
 
-		ForgeMod.enableMilkFluid();
+		NeoForgeMod.enableMilkFluid();
 	}
 }

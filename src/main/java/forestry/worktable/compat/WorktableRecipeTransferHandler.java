@@ -17,12 +17,13 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.inventory.TransientCraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingRecipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
 
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Optional;
 
-class WorktableRecipeTransferHandler implements IRecipeTransferHandler<WorktableMenu, CraftingRecipe> {
+class WorktableRecipeTransferHandler implements IRecipeTransferHandler<WorktableMenu, RecipeHolder<CraftingRecipe>> {
 	@Override
 	public Class<WorktableMenu> getContainerClass() {
 		return WorktableMenu.class;
@@ -34,13 +35,13 @@ class WorktableRecipeTransferHandler implements IRecipeTransferHandler<Worktable
 	}
 
 	@Override
-	public RecipeType<CraftingRecipe> getRecipeType() {
+	public RecipeType<RecipeHolder<CraftingRecipe>> getRecipeType() {
 		return RecipeTypes.CRAFTING;
 	}
 
 	@Nullable
 	@Override
-	public IRecipeTransferError transferRecipe(WorktableMenu container, CraftingRecipe recipe, IRecipeSlotsView recipeSlots, Player player, boolean maxTransfer, boolean doTransfer) {
+	public IRecipeTransferError transferRecipe(WorktableMenu container, RecipeHolder<CraftingRecipe> recipe, IRecipeSlotsView recipeSlots, Player player, boolean maxTransfer, boolean doTransfer) {
 		if (doTransfer) {
 			CraftingContainer inventory = new TransientCraftingContainer(container, 3, 3);
 
@@ -50,7 +51,7 @@ class WorktableRecipeTransferHandler implements IRecipeTransferHandler<Worktable
 				inventory.setItem(i, firstItemStack);
 			}
 
-			List<CraftingRecipe> matchingRecipes = RecipeUtils.findMatchingRecipes(inventory, player.level());
+			List<RecipeHolder<CraftingRecipe>> matchingRecipes = RecipeUtils.findMatchingRecipes(inventory.asCraftInput(), player.level());
 			if (!matchingRecipes.isEmpty()) {
 				MemorizedRecipe memorizedRecipe = new MemorizedRecipe(inventory, matchingRecipes);
 				container.sendWorktableRecipeRequest(memorizedRecipe);

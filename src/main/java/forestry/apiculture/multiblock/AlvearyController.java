@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.apiculture.multiblock;
 
 import com.mojang.authlib.GameProfile;
@@ -27,14 +17,16 @@ import forestry.apiculture.InventoryBeeHousing;
 import forestry.core.inventory.FakeInventoryAdapter;
 import forestry.core.inventory.IInventoryAdapter;
 import forestry.core.multiblock.IMultiblockControllerInternal;
+import forestry.core.multiblock.MultiblockSizeLimits;
 import forestry.core.multiblock.MultiblockValidationException;
 import forestry.core.multiblock.RectangularMultiblockControllerBase;
 import forestry.core.render.ParticleRender;
 import forestry.core.utils.NetworkUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.BlockTags;
@@ -43,13 +35,15 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 import java.util.HashSet;
 import java.util.Set;
 
 public class AlvearyController extends RectangularMultiblockControllerBase implements IAlvearyControllerInternal, IClimateControlled {
+	private static final MultiblockSizeLimits ALVEARY_LIMITS = new MultiblockSizeLimits(27, 3, 3, 3, 3, 3, 3);
+
 	private final InventoryBeeHousing inventory;
 	private final IBeekeepingLogic beekeepingLogic;
 	private IClimateProvider climate = IForestryApi.INSTANCE.getClimateManager().createDummyClimateProvider();
@@ -60,14 +54,14 @@ public class AlvearyController extends RectangularMultiblockControllerBase imple
 	// PARTS
 	private final Set<IBeeModifier> beeModifiers = new HashSet<>();
 	private final Set<IBeeListener> beeListeners = new HashSet<>();
-	private final Set<IAlvearyComponent.Climatiser> climatisers = new HashSet<>();
-	private final Set<IAlvearyComponent.Active> activeComponents = new HashSet<>();
+	private final Set<IAlvearyComponent.Climatiser<?>> climatisers = new HashSet<>();
+	private final Set<IAlvearyComponent.Active<?>> activeComponents = new HashSet<>();
 
 	// CLIENT
 	private int breedingProgressPercent = 0;
 
 	public AlvearyController(Level world) {
-		super(world, AlvearyMultiblockSizeLimits.instance);
+		super(world, ALVEARY_LIMITS);
 		this.inventory = new InventoryBeeHousing(9);
 		this.beekeepingLogic = IForestryApi.INSTANCE.getHiveManager().createBeekeepingLogic(this);
 
@@ -111,22 +105,22 @@ public class AlvearyController extends RectangularMultiblockControllerBase imple
 	@Override
 	protected void onBlockAdded(IMultiblockComponent newPart) {
 		if (newPart instanceof IAlvearyComponent) {
-			if (newPart instanceof IAlvearyComponent.BeeModifier alvearyBeeModifier) {
+			if (newPart instanceof IAlvearyComponent.BeeModifier<?> alvearyBeeModifier) {
 				IBeeModifier beeModifier = alvearyBeeModifier.getBeeModifier();
-                this.beeModifiers.add(beeModifier);
+				this.beeModifiers.add(beeModifier);
 			}
 
-			if (newPart instanceof IAlvearyComponent.BeeListener beeListenerSource) {
+			if (newPart instanceof IAlvearyComponent.BeeListener<?> beeListenerSource) {
 				IBeeListener beeListener = beeListenerSource.getBeeListener();
-                this.beeListeners.add(beeListener);
+				this.beeListeners.add(beeListener);
 			}
 
-			if (newPart instanceof IAlvearyComponent.Climatiser) {
-                this.climatisers.add((IAlvearyComponent.Climatiser) newPart);
+			if (newPart instanceof IAlvearyComponent.Climatiser<?> climatiser) {
+				this.climatisers.add(climatiser);
 			}
 
-			if (newPart instanceof IAlvearyComponent.Active) {
-                this.activeComponents.add((IAlvearyComponent.Active) newPart);
+			if (newPart instanceof IAlvearyComponent.Active<?> active) {
+				this.activeComponents.add(active);
 			}
 		}
 	}
@@ -134,22 +128,22 @@ public class AlvearyController extends RectangularMultiblockControllerBase imple
 	@Override
 	protected void onBlockRemoved(IMultiblockComponent oldPart) {
 		if (oldPart instanceof IAlvearyComponent) {
-			if (oldPart instanceof IAlvearyComponent.BeeModifier alvearyBeeModifier) {
+			if (oldPart instanceof IAlvearyComponent.BeeModifier<?> alvearyBeeModifier) {
 				IBeeModifier beeModifier = alvearyBeeModifier.getBeeModifier();
-                this.beeModifiers.remove(beeModifier);
+				this.beeModifiers.remove(beeModifier);
 			}
 
-			if (oldPart instanceof IAlvearyComponent.BeeListener beeListenerSource) {
+			if (oldPart instanceof IAlvearyComponent.BeeListener<?> beeListenerSource) {
 				IBeeListener beeListener = beeListenerSource.getBeeListener();
-                this.beeListeners.remove(beeListener);
+				this.beeListeners.remove(beeListener);
 			}
 
 			if (oldPart instanceof IAlvearyComponent.Climatiser) {
-                this.climatisers.remove(oldPart);
+				this.climatisers.remove(oldPart);
 			}
 
 			if (oldPart instanceof IAlvearyComponent.Active) {
-                this.activeComponents.remove(oldPart);
+				this.activeComponents.remove(oldPart);
 			}
 		}
 	}
@@ -227,20 +221,20 @@ public class AlvearyController extends RectangularMultiblockControllerBase imple
 
 	@Override
 	protected boolean serverTick(int tickCount) {
-		for (IAlvearyComponent.Active activeComponent : this.activeComponents) {
+		for (IAlvearyComponent.Active<?> activeComponent : this.activeComponents) {
 			activeComponent.updateServer(tickCount);
 		}
 
 		final boolean canWork = this.beekeepingLogic.canWork();
 		if (canWork) {
-            this.beekeepingLogic.doWork();
+			this.beekeepingLogic.doWork();
 		}
 
 		// the old equalizeChange would cap out the climate increases from the climate blocks
 		this.temperatureSteps = 0;
 		this.humiditySteps = 0;
 		// climate blocks will increase climate every tick and must go before the canWork check
-		for (IAlvearyComponent.Climatiser climatiser : this.climatisers) {
+		for (IAlvearyComponent.Climatiser<?> climatiser : this.climatisers) {
 			climatiser.changeClimate(tickCount, this);
 		}
 
@@ -255,12 +249,12 @@ public class AlvearyController extends RectangularMultiblockControllerBase imple
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	protected void clientTick(int tickCount) {
-		for (IAlvearyComponent.Active activeComponent : this.activeComponents) {
+		for (IAlvearyComponent.Active<?> activeComponent : this.activeComponents) {
 			activeComponent.updateClient(tickCount);
 		}
 
 		if (this.beekeepingLogic.canDoBeeFX() && updateOnInterval(2)) {
-            this.beekeepingLogic.doBeeFX();
+			this.beekeepingLogic.doBeeFX();
 
 			if (updateOnInterval(50)) {
 				BlockPos center = getCenterCoord();
@@ -289,8 +283,8 @@ public class AlvearyController extends RectangularMultiblockControllerBase imple
 		data.putByte("temperatureSteps", this.temperatureSteps);
 		data.putByte("humiditySteps", this.humiditySteps);
 
-        this.beekeepingLogic.write(data);
-        this.inventory.write(data);
+		this.beekeepingLogic.write(data);
+		this.inventory.write(data);
 		return data;
 	}
 
@@ -301,26 +295,26 @@ public class AlvearyController extends RectangularMultiblockControllerBase imple
 		this.temperatureSteps = data.getByte("temperatureSteps");
 		this.humiditySteps = data.getByte("humiditySteps");
 
-        this.beekeepingLogic.read(data);
-        this.inventory.read(data);
+		this.beekeepingLogic.read(data);
+		this.inventory.read(data);
 	}
 
 	@Override
 	public void formatDescriptionPacket(CompoundTag data) {
 		this.write(data);
-        this.beekeepingLogic.write(data);
+		this.beekeepingLogic.write(data);
 	}
 
 	@Override
 	public void decodeDescriptionPacket(CompoundTag data) {
 		this.read(data);
-        this.beekeepingLogic.read(data);
+		this.beekeepingLogic.read(data);
 	}
 
 	/* IActivatable */
 
 	@Override
-	public BlockPos getCoordinates() {
+	public BlockPos getBlockPos() {
 		BlockPos coord = getCenterCoord();
 		return coord.offset(0, 1, 0);
 	}
@@ -339,7 +333,7 @@ public class AlvearyController extends RectangularMultiblockControllerBase imple
 	@Override
 	public TemperatureType temperature() {
 		IBeeModifier beeModifier = IForestryApi.INSTANCE.getHiveManager().createBeeHousingModifier(this);
-		if (beeModifier.isHellish() || getBiome().is(BiomeTags.IS_NETHER)) {
+		if (beeModifier.isHellish() || getBiome(this.level.registryAccess()).is(BiomeTags.IS_NETHER)) {
 			if (this.temperatureSteps >= 0) {
 				return TemperatureType.HELLISH;
 			}
@@ -359,7 +353,7 @@ public class AlvearyController extends RectangularMultiblockControllerBase imple
 	}
 
 	@Override
-	public Holder<Biome> getBiome() {
+	public Holder<Biome> getBiome(HolderLookup.Provider registries) {
 		return this.level.getBiome(getReferenceCoord());
 	}
 
@@ -398,7 +392,7 @@ public class AlvearyController extends RectangularMultiblockControllerBase imple
 	}
 
 	@Override
-	public void writeGuiData(FriendlyByteBuf data) {
+	public void writeGuiData(RegistryFriendlyByteBuf data) {
 		data.writeVarInt(this.beekeepingLogic.getBeeProgressPercent());
 		NetworkUtil.writeClimateState(data, this.climate.temperature(), this.climate.humidity());
 		data.writeByte(this.temperatureSteps);
@@ -406,7 +400,7 @@ public class AlvearyController extends RectangularMultiblockControllerBase imple
 	}
 
 	@Override
-	public void readGuiData(FriendlyByteBuf data) {
+	public void readGuiData(RegistryFriendlyByteBuf data) {
 		this.breedingProgressPercent = data.readVarInt();
 		this.climate = NetworkUtil.readClimateState(data);
 		this.temperatureSteps = data.readByte();

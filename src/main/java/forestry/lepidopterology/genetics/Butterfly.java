@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.lepidopterology.genetics;
 
 import com.google.common.collect.ImmutableList;
@@ -110,12 +100,12 @@ public class Butterfly extends IndividualLiving<IButterflySpecies, IButterfly, I
 		}
 
 		SpeciesUtil.ISpeciesMutator mutator = (p1, p2) -> mutateSpecies(nursery, p1, p2);
-		return SpeciesUtil.createOffspring(nursery.getWorldObj().random, this.genome, this.mate, mutator, Butterfly::new);
+		return SpeciesUtil.createOffspring(nursery.getLevel().random, this.genome, this.mate, mutator, Butterfly::new);
 	}
 
 	@Nullable
 	private static ImmutableList<AllelePair<?>> mutateSpecies(IButterflyNursery nursery, IGenome parent1, IGenome parent2) {
-		return SpeciesUtil.mutateSpecies(nursery.getWorldObj(), nursery.getCoordinates(), null, parent1, parent2, ButterflyChromosomes.SPECIES, Mutation::getChance);
+		return SpeciesUtil.mutateSpecies(nursery.getLevel(), nursery.getBlockPos(), null, parent1, parent2, ButterflyChromosomes.SPECIES, Mutation::getChance);
 	}
 
 	private boolean isActiveThisTime(boolean isDayTime) {

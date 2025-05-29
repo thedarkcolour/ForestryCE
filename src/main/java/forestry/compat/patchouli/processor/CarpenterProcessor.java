@@ -5,6 +5,7 @@ import forestry.api.recipes.ICarpenterRecipe;
 import forestry.core.utils.ModUtil;
 import forestry.core.utils.RecipeUtils;
 import forestry.factory.features.FactoryRecipeTypes;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
@@ -21,7 +22,7 @@ public class CarpenterProcessor implements IComponentProcessor {
 
 	@Override
 	public void setup(Level level, IVariableProvider variables) {
-		ItemStack stack = variables.get("item").as(ItemStack.class, ItemStack.EMPTY);
+		ItemStack stack = variables.get("item", level.registryAccess()).as(ItemStack.class, ItemStack.EMPTY);
 
 		this.recipe = RecipeUtils.getRecipeByOutput(FactoryRecipeTypes.CARPENTER, level.registryAccess(), stack);
 	}
@@ -30,7 +31,8 @@ public class CarpenterProcessor implements IComponentProcessor {
 	public IVariable process(Level level, String key) {
 		Preconditions.checkNotNull(this.recipe);
 		if (key.equals("output")) {
-			return IVariable.from(this.recipe.getResultItem(level.registryAccess()));
+			RegistryAccess lookup = level.registryAccess();
+			return IVariable.from(this.recipe.getResultItem(lookup), lookup);
 		} else if (key.equals("fluid")) {
 			return IVariable.wrap(ModUtil.getRegistryName(this.recipe.getInputFluid().getFluid()).toString());
 		} else if (key.equals("fluidAmount")) {

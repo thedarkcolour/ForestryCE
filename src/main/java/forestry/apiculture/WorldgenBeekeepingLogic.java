@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.apiculture;
 
 import forestry.api.apiculture.IActivityType;
@@ -16,6 +6,7 @@ import forestry.api.apiculture.genetics.IBee;
 import forestry.api.genetics.IEffectData;
 import forestry.api.genetics.IGenome;
 import forestry.api.genetics.alleles.BeeChromosomes;
+import forestry.api.modules.IForestryPacketClient;
 import forestry.api.util.TickHelper;
 import forestry.apiculture.network.packets.PacketBeeLogicActive;
 import forestry.apiculture.tiles.TileHive;
@@ -24,10 +15,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.List;
 
@@ -96,7 +89,7 @@ public class WorldgenBeekeepingLogic implements IBeekeepingLogic {
 		if (this.tickHelper.updateOnInterval(200)) {
 			IBee queen = this.housing.getContainedBee();
             this.hasFlowersCache.update(queen, this.housing);
-			Level level = this.housing.getWorldObj();
+			Level level = this.housing.getLevel();
 			IGenome genome = queen.getGenome();
 			boolean canWork = genome.getActiveValue(BeeChromosomes.ACTIVITY).isActive(level.getGameTime(), IActivityType.getBeeDayTime(level), this.housing.getBlockPos()) &&
 				(!this.housing.isRaining() || genome.getActiveValue(BeeChromosomes.TOLERATES_RAIN));
@@ -126,17 +119,17 @@ public class WorldgenBeekeepingLogic implements IBeekeepingLogic {
 
 	@Override
 	public void syncToClient() {
-		Level world = this.housing.getWorldObj();
-		if (world != null && !world.isClientSide) {
-			NetworkUtil.sendNetworkPacket(new PacketBeeLogicActive(this.housing), this.housing.getCoordinates(), world);
+		if (this.housing.getLevel() instanceof ServerLevel level) {
+			NetworkUtil.sendToPlayersTrackingPos(new PacketBeeLogicActive(this.housing), this.housing.getBlockPos(), level);
 		}
 	}
 
 	@Override
 	public void syncToClient(ServerPlayer player) {
-		Level world = this.housing.getWorldObj();
+		Level world = this.housing.getLevel();
 		if (world != null && !world.isClientSide) {
-			NetworkUtil.sendToPlayer(new PacketBeeLogicActive(this.housing), player);
+			IForestryPacketClient packet = new PacketBeeLogicActive(this.housing);
+			PacketDistributor.sendToPlayer(player, packet);
 		}
 	}
 

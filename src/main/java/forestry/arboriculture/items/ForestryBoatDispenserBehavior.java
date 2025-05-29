@@ -4,13 +4,14 @@ import forestry.arboriculture.ForestryWoodType;
 import forestry.arboriculture.entities.ForestryBoat;
 import forestry.arboriculture.entities.ForestryChestBoat;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.BlockSource;
 import net.minecraft.core.Direction;
+import net.minecraft.core.dispenser.BlockSource;
 import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DispenserBlock;
+import net.minecraft.world.phys.Vec3;
 
 public class ForestryBoatDispenserBehavior extends DefaultDispenseItemBehavior {
 	private final DefaultDispenseItemBehavior defaultDispenseItemBehavior = new DefaultDispenseItemBehavior();
@@ -24,13 +25,14 @@ public class ForestryBoatDispenserBehavior extends DefaultDispenseItemBehavior {
 
 	@Override
 	public ItemStack execute(BlockSource source, ItemStack stack) {
-		Direction direction = source.getBlockState().getValue(DispenserBlock.FACING);
-		Level level = source.getLevel();
+		Direction direction = source.state().getValue(DispenserBlock.FACING);
+		ServerLevel level = source.level();
 		double x = 0.5625D + (double) EntityType.BOAT.getWidth() / 2.0D;
-		double y = source.x() + (double) direction.getStepX() * x;
-		double z = source.y() + (double) ((float) direction.getStepY() * 1.125F);
-		double d3 = source.z() + (double) direction.getStepZ() * x;
-		BlockPos blockpos = source.getPos().relative(direction);
+		Vec3 center = source.center();
+		double y = center.x() + (double) direction.getStepX() * x;
+		double z = center.y() + (double) ((float) direction.getStepY() * 1.125F);
+		double d3 = center.z() + (double) direction.getStepZ() * x;
+		BlockPos blockpos = source.pos().relative(direction);
 		ForestryBoat boat = (this.hasChest ? new ForestryChestBoat(level, x, y, z) : new ForestryBoat(level, x, y, z));
 		boat.setWoodType(this.type);
 		boat.setYRot(direction.toYRot());
@@ -53,6 +55,6 @@ public class ForestryBoatDispenserBehavior extends DefaultDispenseItemBehavior {
 
 	@Override
 	protected void playSound(BlockSource source) {
-		source.getLevel().levelEvent(1000, source.getPos(), 0);
+		source.level().levelEvent(1000, source.pos(), 0);
 	}
 }

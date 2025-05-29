@@ -10,7 +10,7 @@
  ******************************************************************************/
 package forestry.arboriculture.worldgen;
 
-import forestry.api.arboriculture.ITreeGenData;
+import forestry.api.arboriculture.ITreeSpecies;
 import forestry.core.worldgen.FeatureHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -23,7 +23,7 @@ import java.util.Set;
 
 public class FeaturePadauk extends FeatureTree {
 
-	public FeaturePadauk(ITreeGenData tree) {
+	public FeaturePadauk(ITreeSpecies tree) {
 		super(tree, 6, 6);
 	}
 

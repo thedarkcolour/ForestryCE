@@ -21,7 +21,7 @@ import forestry.energy.inventory.InventoryEnginePeat;
 import forestry.energy.menu.PeatEngineMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -257,14 +257,14 @@ public class PeatEngineBlockEntity extends EngineBlockEntity implements WorldlyC
 	}
 
 	@Override
-	public void writeGuiData(FriendlyByteBuf data) {
+	public void writeGuiData(RegistryFriendlyByteBuf data) {
 		super.writeGuiData(data);
 		data.writeInt(this.burnTime);
 		data.writeInt(this.totalBurnTime);
 	}
 
 	@Override
-	public void readGuiData(FriendlyByteBuf data) {
+	public void readGuiData(RegistryFriendlyByteBuf data) {
 		super.readGuiData(data);
         this.burnTime = data.readInt();
         this.totalBurnTime = data.readInt();

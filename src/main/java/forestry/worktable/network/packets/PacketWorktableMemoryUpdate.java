@@ -7,8 +7,9 @@ import forestry.worktable.recipes.RecipeMemory;
 import forestry.worktable.tiles.WorktableTile;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.entity.player.Player;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public record PacketWorktableMemoryUpdate(BlockPos pos, RecipeMemory memory) implements IForestryPacketClient {
 	public PacketWorktableMemoryUpdate(WorktableTile worktable) {
@@ -16,22 +17,21 @@ public record PacketWorktableMemoryUpdate(BlockPos pos, RecipeMemory memory) imp
 	}
 
 	@Override
-	public ResourceLocation id() {
+	public Type<?> type() {
 		return PacketIdClient.WORKTABLE_MEMORY_UPDATE;
 	}
 
-	@Override
-	public void write(FriendlyByteBuf buffer) {
-		buffer.writeBlockPos(this.pos);
-        this.memory.writeData(buffer);
+	public static void encode(RegistryFriendlyByteBuf buffer, PacketWorktableMemoryUpdate msg) {
+		buffer.writeBlockPos(msg.pos);
+		msg.memory.writeData(buffer);
 	}
 
-	public static PacketWorktableMemoryUpdate decode(FriendlyByteBuf buffer) {
+	public static PacketWorktableMemoryUpdate decode(RegistryFriendlyByteBuf buffer) {
 		return new PacketWorktableMemoryUpdate(buffer.readBlockPos(), new RecipeMemory(buffer));
 	}
 
-	public static void handle(PacketWorktableMemoryUpdate msg, Player player) {
-		WorktableTile tile = TileUtil.getTile(player.level(), msg.pos, WorktableTile.class);
+	public static void handle(PacketWorktableMemoryUpdate msg, IPayloadContext context) {
+		WorktableTile tile = TileUtil.getTile(context.player().level(), msg.pos, WorktableTile.class);
 		if (tile != null) {
 			tile.getMemory().copy(msg.memory);
 		}

@@ -11,12 +11,13 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.CraftingRecipe;
-import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 
@@ -26,13 +27,13 @@ import java.util.List;
 
 public class MemorizedRecipe implements INbtWritable, INbtReadable, IStreamable {
 	private WorktableCraftingContainer craftMatrix = new WorktableCraftingContainer();
-	private List<CraftingRecipe> recipes = new ArrayList<>();
+	private List<RecipeHolder<CraftingRecipe>> recipes = new ArrayList<>();
 	private final List<ResourceLocation> recipeIds = new ArrayList<>();
 	private int selectedRecipe;
 	private long lastUsed;
 	private boolean locked;
 
-	public MemorizedRecipe(FriendlyByteBuf buffer) {
+	public MemorizedRecipe(RegistryFriendlyByteBuf buffer) {
 		readData(buffer);
 	}
 
@@ -40,11 +41,11 @@ public class MemorizedRecipe implements INbtWritable, INbtReadable, IStreamable 
 		read(nbt);
 	}
 
-	public MemorizedRecipe(CraftingContainer craftMatrix, List<CraftingRecipe> recipes) {
+	public MemorizedRecipe(CraftingContainer craftMatrix, List<RecipeHolder<CraftingRecipe>> recipes) {
 		InventoryUtil.deepCopyInventoryContents(craftMatrix, this.craftMatrix);
 		this.recipes = recipes;
-		for (CraftingRecipe recipe : recipes) {
-            this.recipeIds.add(recipe.getId());
+		for (RecipeHolder<CraftingRecipe> recipe : recipes) {
+			this.recipeIds.add(recipe.id());
 		}
 	}
 
@@ -57,16 +58,16 @@ public class MemorizedRecipe implements INbtWritable, INbtReadable, IStreamable 
 	}
 
 	public void incrementRecipe() {
-        this.selectedRecipe++;
+		this.selectedRecipe++;
 		if (this.selectedRecipe >= this.recipes.size()) {
-            this.selectedRecipe = 0;
+			this.selectedRecipe = 0;
 		}
 	}
 
 	public void decrementRecipe() {
-        this.selectedRecipe--;
+		this.selectedRecipe--;
 		if (this.selectedRecipe < 0) {
-            this.selectedRecipe = this.recipes.size() - 1;
+			this.selectedRecipe = this.recipes.size() - 1;
 		}
 	}
 
@@ -75,16 +76,16 @@ public class MemorizedRecipe implements INbtWritable, INbtReadable, IStreamable 
 	}
 
 	public void removeRecipeConflicts() {
-		CraftingRecipe recipe = getSelectedRecipe();
-        this.recipes.clear();
-        this.recipes.add(recipe);
-        this.selectedRecipe = 0;
+		RecipeHolder<CraftingRecipe> recipe = getSelectedRecipe();
+		this.recipes.clear();
+		this.recipes.add(recipe);
+		this.selectedRecipe = 0;
 	}
 
 	public ItemStack getOutputIcon(Level level) {
-		CraftingRecipe selectedRecipe = getSelectedRecipe();
+		RecipeHolder<CraftingRecipe> selectedRecipe = getSelectedRecipe();
 		if (selectedRecipe != null) {
-			ItemStack recipeOutput = selectedRecipe.assemble(this.craftMatrix, level.registryAccess());
+			ItemStack recipeOutput = selectedRecipe.value().assemble(this.craftMatrix.asCraftInput(), level.registryAccess());
 			if (!recipeOutput.isEmpty()) {
 				return recipeOutput;
 			}
@@ -92,14 +93,20 @@ public class MemorizedRecipe implements INbtWritable, INbtReadable, IStreamable 
 		return ItemStack.EMPTY;
 	}
 
-	public ItemStack getCraftingResult(CraftingContainer inventory, Level level) {
-		CraftingRecipe selectedRecipe = getSelectedRecipe();
-		if (selectedRecipe != null && selectedRecipe.matches(inventory, level)) {
-			ItemStack recipeOutput = selectedRecipe.assemble(inventory, level.registryAccess());
-			if (!recipeOutput.isEmpty()) {
-				return recipeOutput;
+	public ItemStack getCraftingResult(CraftingInput input, Level level) {
+		RecipeHolder<CraftingRecipe> selectedRecipe = getSelectedRecipe();
+
+		if (selectedRecipe != null) {
+			CraftingRecipe recipe = selectedRecipe.value();
+
+			if (recipe.matches(input, level)) {
+				ItemStack recipeOutput = recipe.assemble(input, level.registryAccess());
+				if (!recipeOutput.isEmpty()) {
+					return recipeOutput;
+				}
 			}
 		}
+
 		return ItemStack.EMPTY;
 	}
 
@@ -111,24 +118,24 @@ public class MemorizedRecipe implements INbtWritable, INbtReadable, IStreamable 
 		return hasRecipes() && this.selectedRecipe >= 0 && this.recipeIds.size() > this.selectedRecipe && this.recipeIds.get(this.selectedRecipe) != null;
 	}
 
-	public List<CraftingRecipe> getRecipes() {
+	public List<RecipeHolder<CraftingRecipe>> getRecipes() {
 		if (this.recipes.isEmpty() && !this.recipeIds.isEmpty()) {
 			for (ResourceLocation key : this.recipeIds) {
-				Recipe<CraftingContainer> recipe = RecipeUtils.getRecipe(RecipeType.CRAFTING, key);
-				if (recipe instanceof CraftingRecipe) {
-                    this.recipes.add((CraftingRecipe) recipe);
+				RecipeHolder<CraftingRecipe> recipe = RecipeUtils.getRecipe(RecipeType.CRAFTING, key);
+				if (recipe != null) {
+					this.recipes.add(recipe);
 				}
 			}
 			if (this.selectedRecipe > this.recipes.size()) {
-                this.selectedRecipe = 0;
+				this.selectedRecipe = 0;
 			}
 		}
 		return this.recipes;
 	}
 
 	@Nullable
-	public CraftingRecipe getSelectedRecipe() {
-		List<CraftingRecipe> recipes = getRecipes();
+	public RecipeHolder<CraftingRecipe> getSelectedRecipe() {
+		List<RecipeHolder<CraftingRecipe>> recipes = getRecipes();
 		if (recipes.isEmpty()) {
 			return null;
 		} else {
@@ -136,7 +143,7 @@ public class MemorizedRecipe implements INbtWritable, INbtReadable, IStreamable 
 		}
 	}
 
-	public boolean hasRecipe(@Nullable CraftingRecipe recipe) {
+	public boolean hasRecipe(@Nullable RecipeHolder<CraftingRecipe> recipe) {
 		return getRecipes().contains(recipe);
 	}
 
@@ -149,7 +156,7 @@ public class MemorizedRecipe implements INbtWritable, INbtReadable, IStreamable 
 	}
 
 	public void toggleLock() {
-        this.locked = !this.locked;
+		this.locked = !this.locked;
 	}
 
 	public boolean isLocked() {
@@ -157,25 +164,29 @@ public class MemorizedRecipe implements INbtWritable, INbtReadable, IStreamable 
 	}
 
 	@Override
-	public final void read(CompoundTag compoundNBT) {
+	public void read(CompoundTag compoundNBT) {
 		InventoryUtil.readFromNBT(this.craftMatrix, "inventory", compoundNBT);
-        this.lastUsed = compoundNBT.getLong("LastUsed");
-        this.locked = compoundNBT.getBoolean("Locked");
+		this.lastUsed = compoundNBT.getLong("LastUsed");
+		this.locked = compoundNBT.getBoolean("Locked");
 
 		if (compoundNBT.contains("SelectedRecipe")) {
-            this.selectedRecipe = compoundNBT.getInt("SelectedRecipe");
+			this.selectedRecipe = compoundNBT.getInt("SelectedRecipe");
 		}
 
-        this.recipes.clear();
-        this.recipeIds.clear();
+		this.recipes.clear();
+		this.recipeIds.clear();
 		ListTag recipesNbt = compoundNBT.getList("Recipes", Tag.TAG_STRING);
 		for (int i = 0; i < recipesNbt.size(); i++) {
 			String recipeKey = recipesNbt.getString(i);
-            this.recipeIds.add(new ResourceLocation(recipeKey));
+			ResourceLocation recipeId = ResourceLocation.tryParse(recipeKey);
+
+			if (recipeId != null) {
+				this.recipeIds.add(recipeId);
+			}
 		}
 
 		if (this.selectedRecipe > this.recipeIds.size()) {
-            this.selectedRecipe = 0;
+			this.selectedRecipe = 0;
 		}
 	}
 
@@ -196,7 +207,7 @@ public class MemorizedRecipe implements INbtWritable, INbtReadable, IStreamable 
 	}
 
 	@Override
-	public void writeData(FriendlyByteBuf data) {
+	public void writeData(RegistryFriendlyByteBuf data) {
 		NetworkUtil.writeInventory(data, this.craftMatrix);
 		data.writeBoolean(this.locked);
 		data.writeVarInt(this.selectedRecipe);
@@ -208,17 +219,17 @@ public class MemorizedRecipe implements INbtWritable, INbtReadable, IStreamable 
 	}
 
 	@Override
-	public void readData(FriendlyByteBuf data) {
+	public void readData(RegistryFriendlyByteBuf data) {
 		NetworkUtil.readInventory(data, this.craftMatrix);
-        this.locked = data.readBoolean();
-        this.selectedRecipe = data.readVarInt();
+		this.locked = data.readBoolean();
+		this.selectedRecipe = data.readVarInt();
 
-        this.recipes.clear();
-        this.recipeIds.clear();
+		this.recipes.clear();
+		this.recipeIds.clear();
 		int recipeCount = data.readVarInt();
 		for (int i = 0; i < recipeCount; i++) {
 			ResourceLocation recipeId = data.readResourceLocation();
-            this.recipeIds.add(recipeId);
+			this.recipeIds.add(recipeId);
 		}
 	}
 }

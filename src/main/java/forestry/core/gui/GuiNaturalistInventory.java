@@ -15,12 +15,12 @@ import forestry.api.apiculture.IApiaristTracker;
 import forestry.api.genetics.*;
 import forestry.api.genetics.alleles.IRegistryChromosome;
 import forestry.api.genetics.capability.IIndividualHandlerItem;
+import forestry.api.modules.IForestryPacketServer;
 import forestry.core.config.Constants;
 import forestry.core.gui.buttons.GuiBetterButton;
 import forestry.core.gui.buttons.StandardButtonTextureSets;
 import forestry.core.network.packets.PacketGuiSelectRequest;
 import forestry.core.render.ColourProperties;
-import forestry.core.utils.NetworkUtil;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -28,6 +28,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import javax.annotation.Nullable;
 import java.util.Collections;
@@ -111,8 +112,9 @@ public class GuiNaturalistInventory<C extends AbstractContainerMenu & INaturalis
 
 	private void flipPage(int page) {
         this.menu.onFlipPage();
-		NetworkUtil.sendToServer(new PacketGuiSelectRequest(page, 0));
-	}
+        IForestryPacketServer packet = new PacketGuiSelectRequest(page, 0);
+        PacketDistributor.sendToServer(packet);
+    }
 
 	@Nullable
 	private IIndividual getHoveredIndividual() {

@@ -11,7 +11,6 @@ import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.core.utils.BlockUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -23,9 +22,9 @@ import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.items.ItemHandlerHelper;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.items.ItemHandlerHelper;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -42,34 +41,28 @@ public class BlockDefaultLeavesFruit extends BlockAbstractLeaves {
 	}
 
 	@Override
-	public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult traceResult) {
-		ItemStack mainHand = player.getItemInHand(InteractionHand.MAIN_HAND);
-		ItemStack offHand = player.getItemInHand(InteractionHand.OFF_HAND);
-		if (mainHand.isEmpty() && offHand.isEmpty()) {
-			ITree tree = getTree(level, pos);
-			if (tree == null) {
-				return InteractionResult.FAIL;
-			}
-			if (level.isClientSide) {
-				return InteractionResult.SUCCESS;
-			}
-			BlockUtil.sendDestroyEffects(level, pos, state);
-			IFruit fruitProvider = tree.getGenome().getActiveValue(TreeChromosomes.FRUIT);
-			List<ItemStack> products = tree.produceStacks(level, pos, fruitProvider.getRipeningPeriod());
-			level.setBlock(pos, ArboricultureBlocks.LEAVES_DEFAULT.get(this.type).defaultState()
-				.setValue(LeavesBlock.PERSISTENT, state.getValue(LeavesBlock.PERSISTENT))
-				.setValue(LeavesBlock.DISTANCE, state.getValue(LeavesBlock.DISTANCE)), Block.UPDATE_CLIENTS);
-			for (ItemStack fruit : products) {
-				ItemHandlerHelper.giveItemToPlayer(player, fruit);
-			}
-			return InteractionResult.CONSUME;
+	protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
+		ITree tree = getTree(level, pos);
+		if (tree == null) {
+			return InteractionResult.PASS;
 		}
-
-		return InteractionResult.PASS;
+		if (level.isClientSide) {
+			return InteractionResult.SUCCESS;
+		}
+		BlockUtil.sendDestroyEffects(level, pos, state);
+		IFruit fruitProvider = tree.getGenome().getActiveValue(TreeChromosomes.FRUIT);
+		List<ItemStack> products = tree.produceStacks(level, pos, fruitProvider.getRipeningPeriod());
+		level.setBlock(pos, ArboricultureBlocks.LEAVES_DEFAULT.get(this.type).defaultState()
+			.setValue(LeavesBlock.PERSISTENT, state.getValue(LeavesBlock.PERSISTENT))
+			.setValue(LeavesBlock.DISTANCE, state.getValue(LeavesBlock.DISTANCE)), Block.UPDATE_CLIENTS);
+		for (ItemStack fruit : products) {
+			ItemHandlerHelper.giveItemToPlayer(player, fruit);
+		}
+		return InteractionResult.CONSUME;
 	}
 
 	@Override
-	protected void getLeafDrop(List<ItemStack> drops, Level level, @Nullable BlockPos pos, @Nullable GameProfile profile, float saplingModifier, int fortune, LootParams.Builder context) {
+	protected void getLeafDrop(List<ItemStack> drops, Level level, BlockPos pos, @Nullable GameProfile profile, float saplingModifier, int fortune, LootParams.Builder context) {
 		ITree tree = this.type.getIndividual();
 
 		// Add saplings

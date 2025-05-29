@@ -31,11 +31,10 @@ import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.trading.ItemCost;
 import net.minecraft.world.item.trading.MerchantOffer;
-import net.minecraftforge.event.village.VillagerTradesEvent;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.RegistryObject;
-import net.minecraftforge.server.ServerLifecycleHooks;
+import net.neoforged.neoforge.event.village.VillagerTradesEvent;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.List;
 import java.util.Objects;
@@ -49,18 +48,18 @@ public class ApicultureVillagers {
 	private static final DeferredRegister<PoiType> POINTS_OF_INTEREST = REGISTRY.getRegistry(Registries.POINT_OF_INTEREST_TYPE);
 	private static final DeferredRegister<VillagerProfession> PROFESSIONS = REGISTRY.getRegistry(Registries.VILLAGER_PROFESSION);
 
-	public static final RegistryObject<PoiType> POI_ESCRITOIRE = POINTS_OF_INTEREST.register("escritoire", () -> new PoiType(Set.copyOf(CoreBlocks.BASE.get(BlockTypeCoreTesr.ESCRITOIRE).block().getStateDefinition().getPossibleStates()), 1, 1));
-	public static final RegistryObject<VillagerProfession> PROF_BEEKEEPER = PROFESSIONS.register("beekeeper", () -> {
+	public static final Holder<PoiType> POI_ESCRITOIRE = POINTS_OF_INTEREST.register("escritoire", () -> new PoiType(Set.copyOf(CoreBlocks.BASE.get(BlockTypeCoreTesr.ESCRITOIRE).block().getStateDefinition().getPossibleStates()), 1, 1));
+	public static final Holder<VillagerProfession> PROF_BEEKEEPER = PROFESSIONS.register("beekeeper", () -> {
 		ResourceKey<PoiType> key = Objects.requireNonNull(POI_ESCRITOIRE.getKey());
 		Predicate<Holder<PoiType>> jobSitePredicate = e -> e.is(key);
 		return new VillagerProfession("beekeeper", jobSitePredicate, jobSitePredicate, ImmutableSet.of(), ImmutableSet.of(), SoundEvents.VILLAGER_WORK_LIBRARIAN);
 	});
 
 	public static void villagerTrades(VillagerTradesEvent event) {
-		if (event.getType().equals(PROF_BEEKEEPER.get())) {
+		if (event.getType().equals(PROF_BEEKEEPER.value())) {
 			Int2ObjectMap<List<VillagerTrades.ItemListing>> trades = event.getTrades();
-			List<Item> combs = ServerLifecycleHooks.getCurrentServer().registryAccess().registryOrThrow(Registries.ITEM).getTag(ForestryTags.Items.VILLAGE_COMBS).get().stream()
-				.map(Holder::get)
+			List<Item> combs = event.getRegistryAccess().registryOrThrow(Registries.ITEM).getTag(ForestryTags.Items.VILLAGE_COMBS).get().stream()
+				.map(Holder::value)
 				.toList();
 
 			trades.get(1).add(new GiveHoneyCombForItem(combs, Items.WHEAT, new VillagerTrade.PriceInterval(2, 4), new VillagerTrade.PriceInterval(8, 12), 8, 2, 0F));
@@ -89,7 +88,7 @@ public class ApicultureVillagers {
 
 		@Override
 		public MerchantOffer getOffer(Entity trader, RandomSource rand) {
-			ItemStack buy = new ItemStack(this.buying, this.buyingPriceInfo.getPrice(rand));
+			ItemCost buy = new ItemCost(this.buying, this.buyingPriceInfo.getPrice(rand));
 			ItemStack sell = new ItemStack(this.itemHoneyCombs.get(rand.nextInt(this.itemHoneyCombs.size())), this.sellingPriceInfo.getPrice(rand));
 			return new MerchantOffer(buy, sell, this.maxUses, this.xp, this.priceMult);
 		}
@@ -105,7 +104,7 @@ public class ApicultureVillagers {
 			ItemStack randomHiveDrone = SpeciesUtil.getBeeSpecies(forestryMundane[rand.nextInt(forestryMundane.length)]).createStack(BeeLifeStage.DRONE);
 			randomHiveDrone.setCount(this.sellingPriceInfo.getPrice(rand));
 
-			return new MerchantOffer(new ItemStack(this.buying, this.buyingPriceInfo.getPrice(rand)), randomHiveDrone, this.maxUses, this.xp, this.priceMult);
+			return new MerchantOffer(new ItemCost(this.buying, this.buyingPriceInfo.getPrice(rand)), randomHiveDrone, this.maxUses, this.xp, this.priceMult);
 		}
 	}
 }

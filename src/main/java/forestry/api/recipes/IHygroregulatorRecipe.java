@@ -1,6 +1,6 @@
 package forestry.api.recipes;
 
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 public interface IHygroregulatorRecipe extends IForestryRecipe {
 	/**

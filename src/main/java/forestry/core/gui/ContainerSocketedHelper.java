@@ -12,18 +12,19 @@ package forestry.core.gui;
 
 import forestry.api.IForestryApi;
 import forestry.api.circuits.ICircuitBoard;
+import forestry.api.modules.IForestryPacketServer;
 import forestry.core.circuits.ISocketable;
 import forestry.core.circuits.ISolderingIron;
 import forestry.core.network.packets.PacketChipsetClick;
 import forestry.core.network.packets.PacketSocketUpdate;
 import forestry.core.network.packets.PacketSolderingIronClick;
 import forestry.core.utils.InventoryUtil;
-import forestry.core.utils.NetworkUtil;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 public class ContainerSocketedHelper<T extends BlockEntity & ISocketable> implements IContainerSocketed {
 
@@ -36,7 +37,8 @@ public class ContainerSocketedHelper<T extends BlockEntity & ISocketable> implem
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void handleChipsetClick(int slot) {
-		NetworkUtil.sendToServer(new PacketChipsetClick(slot));
+		IForestryPacketServer packet = new PacketChipsetClick(slot);
+		PacketDistributor.sendToServer(packet);
 	}
 
 	@Override
@@ -67,13 +69,14 @@ public class ContainerSocketedHelper<T extends BlockEntity & ISocketable> implem
 		player.containerMenu.broadcastChanges();
 
 		PacketSocketUpdate packet = PacketSocketUpdate.create(this.tile);
-		NetworkUtil.sendToPlayer(packet, player);
-	}
+        PacketDistributor.sendToPlayer(player, packet);
+    }
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void handleSolderingIronClick(int slot) {
-		NetworkUtil.sendToServer(new PacketSolderingIronClick(slot));
+		IForestryPacketServer packet = new PacketSolderingIronClick(slot);
+		PacketDistributor.sendToServer(packet);
 	}
 
 	@Override
@@ -94,6 +97,6 @@ public class ContainerSocketedHelper<T extends BlockEntity & ISocketable> implem
 		player.inventoryMenu.broadcastChanges();
 
 		PacketSocketUpdate packet = PacketSocketUpdate.create(this.tile);
-		NetworkUtil.sendToPlayer(packet, player);
-	}
+        PacketDistributor.sendToPlayer(player, packet);
+    }
 }

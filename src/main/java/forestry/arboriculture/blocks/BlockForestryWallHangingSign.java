@@ -6,6 +6,7 @@ import forestry.arboriculture.ForestryWoodType;
 import forestry.arboriculture.IWoodTyped;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.features.ArboricultureTiles;
+import forestry.arboriculture.tiles.TileForestryHangingSign;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.WallHangingSignBlock;
@@ -23,7 +24,7 @@ public class BlockForestryWallHangingSign extends WallHangingSignBlock implement
 	private final ForestryWoodType type;
 
 	public BlockForestryWallHangingSign(ForestryWoodType type) {
-		super(Properties.of().mapColor(MapColor.WOOD).forceSolidOn().instrument(NoteBlockInstrument.BASS).noCollission().strength(1.0F).lootFrom(ArboricultureBlocks.HANGING_SIGN.get(type)::block).ignitedByLava(), type.getWoodType());
+		super(type.getWoodType(), Properties.of().mapColor(MapColor.WOOD).forceSolidOn().instrument(NoteBlockInstrument.BASS).noCollission().strength(1.0F).lootFrom(ArboricultureBlocks.HANGING_SIGN.get(type)::block).ignitedByLava());
 
 		this.type = type;
 	}
@@ -51,6 +52,6 @@ public class BlockForestryWallHangingSign extends WallHangingSignBlock implement
 
 	@Override
 	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-		return new HangingSignBlockEntity(ArboricultureTiles.HANGING_SIGN.tileType(), pos, state);
+		return new TileForestryHangingSign(pos, state);
 	}
 }

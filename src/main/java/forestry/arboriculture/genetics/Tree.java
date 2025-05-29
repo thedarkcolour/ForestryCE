@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.arboriculture.genetics;
 
 import com.google.common.collect.ImmutableList;
@@ -23,6 +13,7 @@ import forestry.api.genetics.IEffectData;
 import forestry.api.genetics.IGenome;
 import forestry.api.genetics.alleles.AllelePair;
 import forestry.api.genetics.alleles.TreeChromosomes;
+import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.core.genetics.Individual;
 import forestry.core.genetics.mutations.Mutation;
 import forestry.core.utils.SpeciesUtil;
@@ -36,15 +27,13 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import net.minecraftforge.common.IPlantable;
-import net.minecraftforge.common.PlantType;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class Tree extends Individual<ITreeSpecies, ITree, ITreeSpeciesType> implements ITree, IPlantable {
+public class Tree extends Individual<ITreeSpecies, ITree, ITreeSpeciesType> implements ITree {
 	public static final Codec<Tree> CODEC = RecordCodecBuilder.create(instance -> {
 		Codec<IGenome> genomeCodec = SpeciesUtil.TREE_TYPE.get().getKaryotype().getGenomeCodec();
 
@@ -103,19 +92,7 @@ public class Tree extends Individual<ITreeSpecies, ITree, ITreeSpeciesType> impl
 		BlockState state = level.getBlockState(below);
 
 		Block block = state.getBlock();
-		return block.canSustainPlant(state, level, below, Direction.UP, this);
-	}
-
-	// IPlantable
-	@Override
-	public BlockState getPlant(BlockGetter level, BlockPos pos) {
-		return level.getBlockState(pos);
-	}
-
-	// IPlantable
-	@Override
-	public PlantType getPlantType(BlockGetter level, BlockPos pos) {
-		return PlantType.PLAINS;
+		return !block.canSustainPlant(state, level, below, Direction.UP, ArboricultureBlocks.SAPLING_GE.defaultState()).isFalse();
 	}
 
 	@Override
@@ -129,7 +106,6 @@ public class Tree extends Individual<ITreeSpecies, ITree, ITreeSpeciesType> impl
 		return (Math.max(base, 1)) * 10;
 	}
 
-	/* REPRODUCTION */
 	@Override
 	public List<ITree> getSaplings(Level level, BlockPos pos, @Nullable GameProfile playerProfile, float modifier) {
 		List<ITree> prod = new ArrayList<>();

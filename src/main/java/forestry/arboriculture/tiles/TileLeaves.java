@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.arboriculture.tiles;
 
 import forestry.api.IForestryApi;
@@ -39,20 +29,22 @@ import forestry.core.utils.NetworkUtil;
 import forestry.core.utils.SpeciesUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.model.data.ModelData;
-import net.minecraftforge.client.model.data.ModelProperty;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.client.model.data.ModelData;
+import net.neoforged.neoforge.client.model.data.ModelProperty;
 
 import javax.annotation.Nullable;
 import java.util.IdentityHashMap;
@@ -161,16 +153,14 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 		}
 
 		if (this.damage > 0) {
-            this.damage--;
+			this.damage--;
 		}
 
 		if (hasFruit() && getRipeningTime() < this.ripeningPeriod) {
-			//ITreekeepingMode treekeepingMode = SpeciesUtil.TREE_TYPE.get().getTreekeepingMode(level);
-			//float sappinessModifier = treekeepingMode.getSappinessModifier(genome, 1f);
-			float sappiness = genome.getActiveValue(TreeChromosomes.SAPPINESS);// * sappinessModifier;
+			float sappiness = genome.getActiveValue(TreeChromosomes.SAPPINESS);
 
 			if (rand.nextFloat() < sappiness) {
-                this.ripeningTime++;
+				this.ripeningTime++;
 				sendNetworkUpdateRipening();
 			}
 		}
@@ -179,7 +169,7 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 			matureCaterpillar();
 		}
 
-        this.effectData = tree.doEffect(this.effectData, this.level, getBlockPos());
+		this.effectData = tree.doEffect(this.effectData, this.level, getBlockPos());
 	}
 
 	@Override
@@ -248,7 +238,7 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 
 	public int getFruitColour() {
 		if (this.colourFruits == 0 && hasFruit()) {
-            this.colourFruits = determineFruitColour();
+			this.colourFruits = determineFruitColour();
 		}
 		return this.colourFruits;
 	}
@@ -283,9 +273,8 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 		}
 	}
 
-	/* NETWORK */
 	public void sendNetworkUpdate() {
-		NetworkUtil.sendNetworkPacket(new PacketTileStream(this), this.worldPosition, this.level);
+		NetworkUtil.sendToPlayersTrackingPos(new PacketTileStream(this), this.worldPosition, (ServerLevel) this.level);
 	}
 
 	private void sendNetworkUpdateRipening() {
@@ -296,10 +285,12 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 		if (newColourFruits == this.colourFruits) {
 			return;
 		}
-        this.colourFruits = newColourFruits;
+		this.colourFruits = newColourFruits;
 
-		PacketRipeningUpdate ripeningUpdate = new PacketRipeningUpdate(this);
-		NetworkUtil.sendNetworkPacket(ripeningUpdate, this.worldPosition, this.level);
+		if (this.level instanceof ServerLevel serverLevel) {
+			PacketRipeningUpdate ripeningUpdate = new PacketRipeningUpdate(this);
+			NetworkUtil.sendToPlayersTrackingPos(ripeningUpdate, this.worldPosition, serverLevel);
+		}
 		setChanged();
 	}
 
@@ -310,7 +301,7 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 	private static final short FLAG_HAS_INACTIVE_EFFECT = 1 << 3;
 
 	@Override
-	public void writeData(FriendlyByteBuf data) {
+	public void writeData(RegistryFriendlyByteBuf data) {
 		super.writeData(data);
 
 		byte leafState = 0;
@@ -355,7 +346,7 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 	}
 
 	@Override
-	public void readData(FriendlyByteBuf data) {
+	public void readData(RegistryFriendlyByteBuf data) {
 		ResourceLocation speciesId = null;
 		if (data.readBoolean()) {
 			speciesId = data.readResourceLocation(); // this is called instead of super.readData, be careful!
@@ -370,7 +361,7 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 
 		if (this.isFruitLeaf) {
 			fruitId = data.readResourceLocation();
-            this.colourFruits = data.readInt();
+			this.colourFruits = data.readInt();
 		}
 
 		ResourceLocation activeEffectAlleleId = hasActiveEffect ? data.readResourceLocation() : null;
@@ -411,7 +402,7 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 		if (newColourFruits == this.colourFruits) {
 			return;
 		}
-        this.colourFruits = newColourFruits;
+		this.colourFruits = newColourFruits;
 		ClientsideCode.markForUpdate(this.worldPosition);
 	}
 
@@ -424,7 +415,7 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 		}
 
 		List<ItemStack> produceStacks = tree.produceStacks(this.level, this.worldPosition, getRipeningTime());
-        this.ripeningTime = 0;
+		this.ripeningTime = 0;
 		sendNetworkUpdateRipening();
 		return produceStacks;
 	}
@@ -460,11 +451,11 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 		if (this.caterpillar == null) {
 			return;
 		}
-        this.maturationTime++;
+		this.maturationTime++;
 
 		ITree tree = getTree();
 		boolean wasDestroyed = isDestroyed(tree, this.damage);
-        this.damage += this.caterpillar.getGenome().getActiveValue(ButterflyChromosomes.METABOLISM);
+		this.damage += this.caterpillar.getGenome().getActiveValue(ButterflyChromosomes.METABOLISM);
 
 		IGenome caterpillarGenome = this.caterpillar.getGenome();
 		int caterpillarMatureTime = Math.round((float) caterpillarGenome.getActiveValue(ButterflyChromosomes.LIFESPAN) / (caterpillarGenome.getActiveValue(ButterflyChromosomes.FERTILITY) * 2));
@@ -478,7 +469,7 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 	}
 
 	@Override
-	public BlockPos getCoordinates() {
+	public BlockPos getBlockPos() {
 		return getBlockPos();
 	}
 
@@ -495,7 +486,7 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 
 	@Override
 	public void setCaterpillar(@Nullable IButterfly caterpillar) {
-        this.maturationTime = 0;
+		this.maturationTime = 0;
 		this.caterpillar = caterpillar;
 		sendNetworkUpdate();
 	}
@@ -507,22 +498,22 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 	}
 
 	@Override
-	public Holder<Biome> getBiome() {
+	public Holder<Biome> getBiome(HolderLookup.Provider registries) {
 		return this.level.getBiome(this.worldPosition);
 	}
 
 	@Override
 	public TemperatureType temperature() {
-		return IForestryApi.INSTANCE.getClimateManager().getTemperature(getBiome());
+		return IForestryApi.INSTANCE.getClimateManager().getTemperature(getBiome(this.level.registryAccess()));
 	}
 
 	@Override
 	public HumidityType humidity() {
-		return IForestryApi.INSTANCE.getClimateManager().getHumidity(getBiome());
+		return IForestryApi.INSTANCE.getClimateManager().getHumidity(getBiome(this.level.registryAccess()));
 	}
 
 	@Override
-	public Level getWorldObj() {
+	public Level getLevel() {
 		return this.level;
 	}
 

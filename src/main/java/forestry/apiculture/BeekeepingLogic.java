@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.apiculture;
 
 import forestry.api.IForestryApi;
@@ -15,16 +5,18 @@ import forestry.api.apiculture.*;
 import forestry.api.apiculture.genetics.BeeLifeStage;
 import forestry.api.apiculture.genetics.IBee;
 import forestry.api.core.ForestryError;
-import forestry.api.core.ForestryEvent;
 import forestry.api.core.IError;
 import forestry.api.core.IErrorLogic;
+import forestry.api.event.BeeMatingEvent;
 import forestry.api.genetics.IEffectData;
 import forestry.api.genetics.IGenome;
 import forestry.api.genetics.ILifeStage;
 import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.api.genetics.pollen.IPollen;
+import forestry.api.modules.IForestryPacketClient;
 import forestry.apiculture.network.packets.PacketBeeLogicActive;
 import forestry.core.config.Constants;
+import forestry.core.config.ForestryConfig;
 import forestry.core.utils.NetworkUtil;
 import forestry.core.utils.SpeciesUtil;
 import net.minecraft.client.Minecraft;
@@ -36,9 +28,9 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.MinecraftForge;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -249,7 +241,7 @@ public class BeekeepingLogic implements IBeekeepingLogic {
 
 	@Override
 	public void clearCachedValues() {
-		if (!this.housing.getWorldObj().isClientSide) {
+		if (!this.housing.getLevel().isClientSide) {
 			this.queenCanWorkCache.clear();
 			canWork();
 			if (this.queen != null) {
@@ -274,9 +266,9 @@ public class BeekeepingLogic implements IBeekeepingLogic {
 			this.workThrottleCounter = 0;
 
 			doProduction(queen, this.housing, this.beeListener);
-			Level world = this.housing.getWorldObj();
+			Level world = this.housing.getLevel();
 			List<BlockState> flowers = this.hasFlowersCache.getFlowers(world);
-			if (flowers.size() < ModuleApiculture.maxFlowersSpawnedPerHive) {
+			if (flowers.size() < ForestryConfig.SERVER.maxFlowersSpawnedPerHive.get()) {
 				BlockPos blockPos = queen.plantFlowerRandom(this.housing, flowers);
 				if (blockPos != null) {
 					this.hasFlowersCache.addFlowerPos(blockPos);
@@ -355,7 +347,7 @@ public class BeekeepingLogic implements IBeekeepingLogic {
 		IGenome originalMate = princess.getMate();
 		princess.setMate(drone.getGenome());
 
-		ForestryEvent.BeeMatingEvent event = new ForestryEvent.BeeMatingEvent(this.housing, princess, drone);
+		BeeMatingEvent event = new BeeMatingEvent(this.housing, princess, drone);
 
 		if (MinecraftForge.EVENT_BUS.post(event)) {
 			princess.setMate(originalMate);
@@ -369,7 +361,7 @@ public class BeekeepingLogic implements IBeekeepingLogic {
 		beeInventory.setQueen(this.queenStack);
 
 		// Register the new queen with the breeding tracker
-		SpeciesUtil.BEE_TYPE.get().getBreedingTracker(this.housing.getWorldObj(), this.housing.getOwner()).registerQueen(princess);
+		SpeciesUtil.BEE_TYPE.get().getBreedingTracker(this.housing.getLevel(), this.housing.getOwner()).registerQueen(princess);
 
 		// Remove drone
 		droneStack.shrink(1);
@@ -404,12 +396,12 @@ public class BeekeepingLogic implements IBeekeepingLogic {
 	 * Creates the succeeding princess and between one and three drones.
 	 */
 	private static Collection<ItemStack> spawnOffspring(IBee queen, IBeeHousing beeHousing) {
-		Level level = beeHousing.getWorldObj();
+		Level level = beeHousing.getLevel();
 		ArrayDeque<ItemStack> offspring = new ArrayDeque<>();
 		IApiaristTracker breedingTracker = SpeciesUtil.BEE_TYPE.get().getBreedingTracker(level, beeHousing.getOwner());
 
 		// Princess
-		boolean secondPrincess = level.random.nextInt(10000) < ModuleApiculture.getSecondPrincessChance() * 100;
+		boolean secondPrincess = level.random.nextInt(10000) < ForestryConfig.SERVER.secondPrincessChance.get() * 100;
 		int count = secondPrincess ? 2 : 1;
 		while (count > 0) {
 			count--;
@@ -447,17 +439,18 @@ public class BeekeepingLogic implements IBeekeepingLogic {
 	/* CLIENT */
 	@Override
 	public void syncToClient() {
-		Level level = this.housing.getWorldObj();
+		Level level = this.housing.getLevel();
 		if (level != null && !level.isClientSide) {
-			NetworkUtil.sendNetworkPacket(new PacketBeeLogicActive(this.housing), this.housing.getCoordinates(), level);
+			NetworkUtil.sendToPlayersTrackingPos(new PacketBeeLogicActive(this.housing), this.housing.getBlockPos(), level);
 		}
 	}
 
 	@Override
 	public void syncToClient(ServerPlayer player) {
-		Level level = this.housing.getWorldObj();
+		Level level = this.housing.getLevel();
 		if (level != null && !level.isClientSide) {
-			NetworkUtil.sendToPlayer(new PacketBeeLogicActive(this.housing), player);
+			IForestryPacketClient packet = new PacketBeeLogicActive(this.housing);
+			PacketDistributor.sendToPlayer(player, packet);
 		}
 	}
 

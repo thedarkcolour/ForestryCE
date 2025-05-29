@@ -8,12 +8,12 @@ import net.minecraft.world.item.ItemStack;
 import javax.annotation.Nullable;
 
 class HiveBeeHousingInventory implements IBeeHousingInventory {
+	private final TileHive hive;
+
 	@Nullable
 	private ItemStack queen;
 	@Nullable
 	private ItemStack drone;
-
-	private final TileHive hive;
 
 	public HiveBeeHousingInventory(TileHive hive) {
 		this.hive = hive;

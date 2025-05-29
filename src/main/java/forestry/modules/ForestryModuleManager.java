@@ -16,10 +16,11 @@ import forestry.api.modules.IForestryModule;
 import forestry.api.modules.IModuleManager;
 import forestry.core.utils.ModUtil;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.loading.FMLEnvironment;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModList;
+import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import org.objectweb.asm.Type;
 
 import java.util.*;
@@ -113,6 +114,7 @@ public class ForestryModuleManager implements IModuleManager {
 			IForestryModule module = entry.getValue();
 
 			module.registerEvents(modBus);
+			modBus.addListener((RegisterPayloadHandlersEvent event) -> module.registerPackets(event.registrar(module.getId().getNamespace())));
 
 			if (FMLEnvironment.dist == Dist.CLIENT) {
 				module.registerClientHandler(handler -> handler.registerEvents(modBus));
@@ -145,24 +147,12 @@ public class ForestryModuleManager implements IModuleManager {
 			List<IForestryModule> modModules = modules.computeIfAbsent(modId, k -> new ArrayList<>());
 			// Core modules load first
 			if (module.isCore()) {
-				modModules.add(0, module);
+				modModules.addFirst(module);
 			} else {
 				modModules.add(module);
 			}
 		});
 
 		return modules;
-	}
-
-	public void setupApi() {
-		for (IForestryModule module : getLoadedModules()) {
-			try {
-				module.setupApi();
-			} catch (Throwable t) {
-				// this exception normally gets swallowed, so log it and rethrow
-				Forestry.LOGGER.fatal("Module {} threw an error in its IForestryModule.setupApi method", module.getId(), t);
-				throw new RuntimeException(t);
-			}
-		}
 	}
 }

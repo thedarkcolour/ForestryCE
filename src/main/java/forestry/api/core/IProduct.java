@@ -1,6 +1,7 @@
 package forestry.api.core;
 
 import it.unimi.dsi.fastutil.Hash;
+import net.minecraft.core.Holder;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -29,8 +30,6 @@ public interface IProduct {
 		}
 	};
 
-	// todo should this be replaced with is(ItemStack) and getIconStack() methods instead?
-
 	/**
 	 * Gets the item this product contains. In the case of a dynamic product, return an item that might
 	 * be used to display it in a screen or for equality purposes in {@link #ITEM_ONLY_STRATEGY}.
@@ -38,6 +37,13 @@ public interface IProduct {
 	 * @return The item this product represents.
 	 */
 	Item item();
+
+	/**
+	 * @return The holder if the item this product contains, just like {@link #item}.
+	 */
+	default Holder<Item> itemHolder() {
+		return item().builtInRegistryHolder();
+	}
 
 	/**
 	 * @return The set chance of this product being produced.

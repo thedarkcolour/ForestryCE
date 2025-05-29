@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.arboriculture.worldgen;
 
 import forestry.api.IForestryApi;
@@ -16,7 +6,7 @@ import forestry.api.arboriculture.genetics.ITree;
 import forestry.api.climate.IClimateManager;
 import forestry.api.core.HumidityType;
 import forestry.api.core.TemperatureType;
-import forestry.arboriculture.commands.TreeGenHelper;
+import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.core.config.ForestryConfig;
 import forestry.core.utils.BlockUtil;
 import forestry.core.utils.SpeciesUtil;
@@ -33,7 +23,6 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import net.minecraftforge.common.IPlantable;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -48,7 +37,7 @@ public class TreeDecorator extends Feature<NoneFeatureConfiguration> {
 	}
 
 	@Nullable
-	private static BlockPos getValidPos(WorldGenLevel world, int x, int z, ITree tree) {
+	private static BlockPos getValidPos(WorldGenLevel world, int x, int z) {
 		// get to the ground
 		final BlockPos topPos = world.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, new BlockPos(x, 0, z));
 		if (topPos.getY() == 0) {
@@ -67,7 +56,7 @@ public class TreeDecorator extends Feature<NoneFeatureConfiguration> {
 			blockState = world.getBlockState(pos);
 		}
 
-		if (tree instanceof IPlantable plantable && blockState.getBlock().canSustainPlant(blockState, world, pos, Direction.UP, plantable)) {
+		if (!blockState.getBlock().canSustainPlant(blockState, world, pos, Direction.UP, ArboricultureBlocks.SAPLING_GE.defaultState()).isFalse()) {
 			return pos.above();
 		}
 
@@ -125,7 +114,7 @@ public class TreeDecorator extends Feature<NoneFeatureConfiguration> {
 			for (ITree tree : trees) {
 				ITreeSpecies species = tree.getSpecies();
 				if (species.getRarity() * globalRarity >= rand.nextFloat()) {
-					BlockPos validPos = getValidPos(level, x, z, tree);
+					BlockPos validPos = getValidPos(level, x, z);
 					if (validPos == null) {
 						continue;
 					}

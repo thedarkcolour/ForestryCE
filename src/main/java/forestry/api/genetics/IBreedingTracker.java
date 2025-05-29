@@ -1,6 +1,7 @@
 package forestry.api.genetics;
 
 import forestry.api.genetics.alleles.IAllele;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
@@ -76,8 +77,7 @@ public interface IBreedingTracker {
 	void syncToPlayer(Player player);
 
 	// todo replace these with "save" and "load" in 1.21
-	void readFromNbt(CompoundTag nbt);
+	void readFromNbt(CompoundTag nbt, HolderLookup.Provider registries);
 
 	void writeToNbt(CompoundTag nbt);
-
 }

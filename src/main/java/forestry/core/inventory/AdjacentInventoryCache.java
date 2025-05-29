@@ -15,6 +15,7 @@ import forestry.core.tiles.TileUtil;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.items.IItemHandler;
+import net.neoforged.neoforge.items.IItemHandler;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -86,7 +87,7 @@ public final class AdjacentInventoryCache implements AdjacentTileCache.ICacheLis
 		if (this.changed) {
             this.changed = false;
 			purge();
-			for (Direction side : Direction.values()) {
+			for (Direction side : Direction.VALUES) {
 				BlockEntity tile = this.cache.getTileOnSide(side);
 				if (tile != null && (this.filter == null || this.filter.matches(tile))) {
 					IItemHandler inv = TileUtil.getInventoryFromTile(tile, side.getOpposite());

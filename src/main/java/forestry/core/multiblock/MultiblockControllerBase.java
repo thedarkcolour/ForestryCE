@@ -11,8 +11,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.chunk.ChunkSource;
 import net.minecraft.world.level.chunk.LevelChunk;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -107,7 +107,7 @@ public abstract class MultiblockControllerBase implements IMultiblockControllerI
 
 	@Override
 	public void attachBlock(IMultiblockComponent part) {
-		BlockPos coord = part.getCoordinates();
+		BlockPos coord = part.getBlockPos();
 
 		if (!this.connectedParts.add(part)) {
 			Forestry.LOGGER.warn("[{}] Controller {} is double-adding part {} @ {}. This is unusual. " +
@@ -227,7 +227,7 @@ public abstract class MultiblockControllerBase implements IMultiblockControllerI
 
         this.minimumCoord = this.maximumCoord = null;
 
-		if (this.referenceCoord != null && this.referenceCoord.equals(part.getCoordinates())) {
+		if (this.referenceCoord != null && this.referenceCoord.equals(part.getBlockPos())) {
             this.referenceCoord = null;
 		}
 
@@ -245,7 +245,7 @@ public abstract class MultiblockControllerBase implements IMultiblockControllerI
 		// Strip out this part
 		onDetachBlock(part);
 		if (!this.connectedParts.remove(part)) {
-			BlockPos partCoords = part.getCoordinates();
+			BlockPos partCoords = part.getBlockPos();
 			Forestry.LOGGER.warn("[{}] Double-removing part ({}) @ {}, {}, {}, this is unexpected and may cause problems. " +
 					"If you encounter anomalies, please tear down the reactor and rebuild it.",
                     this.level.isClientSide() ? "CLIENT" : "SERVER", part.hashCode(), partCoords.getX(), partCoords.getY(), partCoords.getZ());
@@ -516,7 +516,7 @@ public abstract class MultiblockControllerBase implements IMultiblockControllerI
         this.maximumCoord = new BlockPos(Integer.MIN_VALUE, Integer.MIN_VALUE, Integer.MIN_VALUE);
 
 		for (IMultiblockComponent part : this.connectedParts) {
-			BlockPos partCoords = part.getCoordinates();
+			BlockPos partCoords = part.getBlockPos();
 			int minX = this.minimumCoord.getX();
 			int minY = this.minimumCoord.getY();
 			int minZ = this.minimumCoord.getZ();
@@ -656,7 +656,7 @@ public abstract class MultiblockControllerBase implements IMultiblockControllerI
 			if (!first) {
 				sb.append(", ");
 			}
-			BlockPos partCoord = part.getCoordinates();
+			BlockPos partCoord = part.getBlockPos();
 			sb.append(String.format("(%d: %d, %d, %d)", part.hashCode(), partCoord.getX(), partCoord.getY(), partCoord.getZ()));
 			first = false;
 		}
@@ -668,7 +668,7 @@ public abstract class MultiblockControllerBase implements IMultiblockControllerI
 	public void auditParts() {
 		HashSet<IMultiblockComponent> deadParts = new HashSet<>();
 		for (IMultiblockComponent part : this.connectedParts) {
-			BlockPos partCoord = part.getCoordinates();
+			BlockPos partCoord = part.getBlockPos();
 			if (isInvalid(part) || TileUtil.getTile(this.level, partCoord) != part) {
 				onDetachBlock(part);
 				deadParts.add(part);
@@ -705,7 +705,7 @@ public abstract class MultiblockControllerBase implements IMultiblockControllerI
 
 		for (IMultiblockComponent part : this.connectedParts) {
 			// This happens during chunk unload.
-			BlockPos partCoord = part.getCoordinates();
+			BlockPos partCoord = part.getBlockPos();
 			if (chunkProvider.getChunkNow(partCoord.getX() >> 4, partCoord.getZ() >> 4) == null || isInvalid(part)) {
 				deadParts.add(part);
 				onDetachBlock(part);
@@ -723,7 +723,7 @@ public abstract class MultiblockControllerBase implements IMultiblockControllerI
 			logic.setUnvisited();
 			logic.forfeitMultiblockSaveDelegate();
 
-			c = part.getCoordinates();
+			c = part.getBlockPos();
 			if (this.referenceCoord == null) {
                 this.referenceCoord = c;
 				referencePart = part;
@@ -805,7 +805,7 @@ public abstract class MultiblockControllerBase implements IMultiblockControllerI
 	public Set<IMultiblockComponent> detachAllBlocks() {
 		ChunkSource chunkProvider = this.level.getChunkSource();
 		for (IMultiblockComponent part : this.connectedParts) {
-			BlockPos partCoord = part.getCoordinates();
+			BlockPos partCoord = part.getBlockPos();
 			if (chunkProvider.getChunkNow(partCoord.getX() >> 4, partCoord.getZ() >> 4) != null) {
 				onDetachBlock(part);
 			}
@@ -831,14 +831,14 @@ public abstract class MultiblockControllerBase implements IMultiblockControllerI
         this.referenceCoord = null;
 
 		for (IMultiblockComponent part : this.connectedParts) {
-			BlockPos partCoord = part.getCoordinates();
+			BlockPos partCoord = part.getBlockPos();
 			if (isInvalid(part) || chunkProvider.getChunkNow(partCoord.getX() >> 4, partCoord.getZ() >> 4) == null) {
 				// Chunk is unloading, skip this coord to prevent chunk thrashing
 				continue;
 			}
 
 			if (this.referenceCoord == null || this.referenceCoord.compareTo(partCoord) > 0) {
-                this.referenceCoord = part.getCoordinates();
+                this.referenceCoord = part.getBlockPos();
 				theChosenOne = part;
 			}
 		}

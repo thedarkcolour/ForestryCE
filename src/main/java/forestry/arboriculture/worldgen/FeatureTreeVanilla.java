@@ -10,10 +10,10 @@
  ******************************************************************************/
 package forestry.arboriculture.worldgen;
 
-import forestry.api.arboriculture.ITreeGenData;
+import forestry.api.arboriculture.ITreeSpecies;
 
 public class FeatureTreeVanilla extends FeatureTree {
-	public FeatureTreeVanilla(ITreeGenData tree) {
+	public FeatureTreeVanilla(ITreeSpecies tree) {
 		super(tree, 5, 2);
 	}
 }

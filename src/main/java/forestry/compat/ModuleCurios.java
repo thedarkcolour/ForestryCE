@@ -4,9 +4,9 @@ import forestry.api.client.IClientModuleHandler;
 import forestry.api.modules.ForestryModule;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.api.modules.IForestryModule;
+import forestry.compat.curios.CuriosCompat;
 import forestry.compat.curios.client.CuriosClientHandler;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.fml.ModList;
 
 import java.util.function.Consumer;
 
@@ -19,7 +19,7 @@ public class ModuleCurios implements IForestryModule {
 
 	@Override
 	public void registerClientHandler(Consumer<IClientModuleHandler> registrar) {
-		if (ModList.get().isLoaded("curios")) {
+		if (CuriosCompat.IS_LOADED) {
 			registrar.accept(new CuriosClientHandler());
 		}
 	}

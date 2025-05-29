@@ -1,4 +1,4 @@
 @javax.annotation.ParametersAreNonnullByDefault
 @forestry.api.core.FieldsAreNonnullByDefault
 @net.minecraft.MethodsReturnNonnullByDefault
-package forestry.arboriculture.charcoal.jei;
+package forestry.core.genetics.capability;

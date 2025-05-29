@@ -13,13 +13,13 @@ package forestry.mail.gui;
 import forestry.core.config.Constants;
 import forestry.core.gui.GuiForestry;
 import forestry.core.render.ColourProperties;
-import forestry.core.utils.NetworkUtil;
 import forestry.mail.network.packets.PacketTraderAddressRequest;
 import forestry.mail.tiles.TileTrader;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
+import net.neoforged.neoforge.network.PacketDistributor;
 import org.apache.commons.lang3.StringUtils;
 import org.lwjgl.glfw.GLFW;
 
@@ -83,8 +83,8 @@ public class GuiTradeName extends GuiForestry<ContainerTradeName> {
 		String address = this.addressNameField.getValue();
 		if (StringUtils.isNotBlank(address)) {
 			PacketTraderAddressRequest packet = new PacketTraderAddressRequest(this.tile, address);
-			NetworkUtil.sendToServer(packet);
-		}
+            PacketDistributor.sendToServer(packet);
+        }
 	}
 
 	@Override

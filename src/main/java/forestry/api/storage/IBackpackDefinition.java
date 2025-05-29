@@ -1,6 +1,5 @@
 package forestry.api.storage;
 
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.function.Predicate;
@@ -10,10 +9,6 @@ import java.util.function.Predicate;
  * {@link IBackpackInterface#registerBackpackDefinition(String, IBackpackDefinition)}.
  */
 public interface IBackpackDefinition {
-	/**
-	 * @return Human-readable name of the backpack.
-	 */
-	Component getName(ItemStack backpack);
 
 	/**
 	 * @return Primary color for the backpack icon.

@@ -60,7 +60,7 @@ public class ApicultureJeiPlugin implements IModPlugin {
 	public void registerItemSubtypes(ISubtypeRegistration registry) {
 		JeiUtil.registerItemSubtypes(registry, BeeChromosomes.SPECIES, SpeciesUtil.BEE_TYPE.get());
 		// show both creative frames in JEI
-		registry.registerSubtypeInterpreter(ApicultureItems.FRAME_CREATIVE.item(), (stack, context) -> String.valueOf(ItemCreativeHiveFrame.hasForceMutations(stack)));
+		registry.registerSubtypeInterpreter(ApicultureItems.FRAME_CREATIVE.item(), (stack, context) -> String.valueOf(ItemCreativeHiveFrame.hasForceMutations()));
 	}
 
 	@Override

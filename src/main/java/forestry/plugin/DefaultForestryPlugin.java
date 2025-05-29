@@ -29,10 +29,7 @@ import forestry.apiculture.genetics.BeeSpeciesType;
 import forestry.apiculture.genetics.effects.*;
 import forestry.apiculture.hives.HiveDefinition;
 import forestry.apiculture.items.EnumHoneyComb;
-import forestry.arboriculture.ArboricultureFilterRuleType;
-import forestry.arboriculture.DummyFruit;
-import forestry.arboriculture.PodFruit;
-import forestry.arboriculture.RipeningFruit;
+import forestry.arboriculture.*;
 import forestry.arboriculture.blocks.ForestryPodType;
 import forestry.arboriculture.genetics.BlossomingTreeEffect;
 import forestry.arboriculture.genetics.DummyTreeEffect;
@@ -282,7 +279,7 @@ public class DefaultForestryPlugin implements IForestryPlugin {
 		apiculture.registerBeeEffect(ForestryBeeEffects.FERTILE, new FertileBeeEffect());
 		apiculture.registerBeeEffect(ForestryBeeEffects.MYCOPHILIC, new FungificationBeeEffect());
 		apiculture.registerBeeEffect(ForestryBeeEffects.SIFTER, new SifterBeeEffect());
-		apiculture.registerBeeEffect(ForestryBeeEffects.HAKUNA_MATATA, new PotionBeeEffectExclusive(false, ApicultureEffects.HAKUNA_MATATA.get(), 20 * 60 * 3, 100, 1.0f, ApicultureEffects.MATATA.get()));
+		apiculture.registerBeeEffect(ForestryBeeEffects.HAKUNA_MATATA, new PotionBeeEffectExclusive(false, ApicultureEffects.HAKUNA_MATATA, 20 * 60 * 3, 100, 1.0f, ApicultureEffects.MATATA));
 		apiculture.registerBeeEffect(ForestryBeeEffects.GLOW_BERRY_GROW, new GlowBerryGrowEffect());
 		apiculture.registerBeeEffect(ForestryBeeEffects.REJUVENATION, new AgingBeeEffect(false, false));
 		apiculture.registerBeeEffect(ForestryBeeEffects.CHRONOPHAGE, new AgingBeeEffect(false, true));
@@ -316,8 +313,7 @@ public class DefaultForestryPlugin implements IForestryPlugin {
 
 		arboriculture.registerFruit(ForestryFruits.NONE, new DummyFruit(false));
 		arboriculture.registerFruit(ForestryFruits.APPLE, new RipeningFruit(false, 10, pomes, 0xff2e2e, 0xe3f49c, List.of(Product.of(Items.APPLE))));
-		// todo match vanilla cocoa and use fortune OR better yet, make pod fruits use actual loot tables
-		arboriculture.registerFruit(ForestryFruits.COCOA, new PodFruit(false, ForestryPodType.COCOA, List.of(Product.of(Items.COCOA_BEANS))));
+		arboriculture.registerFruit(ForestryFruits.COCOA, new VanillaCocoaPodFruit(List.of(Product.of(Items.COCOA_BEANS))));
 		arboriculture.registerFruit(ForestryFruits.CHESTNUT, new RipeningFruit(true, 6, nuts, 0x7f333d, 0xc4d24a, List.of(Product.of(CoreItems.FRUITS.item(ItemFruit.EnumFruit.CHESTNUT)))));
 		arboriculture.registerFruit(ForestryFruits.WALNUT, new RipeningFruit(true, 8, nuts, 0xfba248, 0xc4d24a, List.of(Product.of(CoreItems.FRUITS.item(ItemFruit.EnumFruit.WALNUT)))));
 		arboriculture.registerFruit(ForestryFruits.CHERRY, new RipeningFruit(true, 10, berries, 0xff2e2e, 0xc4d24a, List.of(Product.of(CoreItems.FRUITS.item(ItemFruit.EnumFruit.CHERRY)))));

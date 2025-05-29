@@ -8,20 +8,18 @@ import forestry.api.genetics.alleles.IRegistryAlleleValue;
 import forestry.api.genetics.alleles.TreeChromosomes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.block.Block;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
 /**
- * Provides all information that is needed to spawn a fruit leaves / pod block in the world.
+ * Provides all information that is needed to spawn a fruit leaves in the world.
+ * If your fruit is a pod fruit, like Cocoa, Dates, or Papaya, use the more sensitive {@link IPodFruit}.
  */
 public interface IFruit extends IRegistryAlleleValue, IProductProducer, ISpecialtyProducer {
 	/**
@@ -30,7 +28,7 @@ public interface IFruit extends IRegistryAlleleValue, IProductProducer, ISpecial
 	 * @param genome       The genome of the tree of the pod / leaves block.
 	 * @param ripeningTime The ripening time of the leaves / pod block. From 0 to {@link #getRipeningPeriod()}.
 	 */
-	int getColour(IGenome genome, BlockGetter world, BlockPos pos, int ripeningTime);
+	int getColour(IGenome genome, BlockGetter level, BlockPos pos, int ripeningTime);
 
 	/**
 	 * return the color to use for decorative leaves. Usually the ripe color.
@@ -85,34 +83,10 @@ public interface IFruit extends IRegistryAlleleValue, IProductProducer, ISpecial
 	 * @return ResourceLocation of the texture to overlay on the leaf block.
 	 */
 	@Nullable
-	ResourceLocation getSprite(IGenome genome, BlockGetter world, BlockPos pos, int ripeningTime);
+	ResourceLocation getSprite(IGenome genome, BlockGetter level, BlockPos pos, int ripeningTime);
 
 	@Nullable
 	default ResourceLocation getDecorativeSprite() {
 		return null;
-	}
-
-	/**
-	 * @return true if this fruit provider requires fruit blocks to spawn, false otherwise.
-	 */
-	boolean requiresFruitBlocks();
-
-	/**
-	 * Tries to spawn a fruit block at the potential position when the tree generates.
-	 * Spawning a fruit has a random chance of success based on {@link TreeChromosomes#SAPPINESS}.
-	 *
-	 * @return true if a fruit block was spawned, false otherwise.
-	 */
-	boolean trySpawnFruitBlock(IGenome genome, LevelAccessor world, RandomSource rand, BlockPos pos);
-
-	// Replaced with atlas JSONs pointing to the BLOCK atlas.
-	//default void registerSprites(TextureStitchEvent.Pre event) {
-	//}
-
-	/**
-	 * Tag for the log that a pod fruit is placed on
-	 */
-	default TagKey<Block> getLogTag() {
-		return BlockTags.JUNGLE_LOGS;
 	}
 }

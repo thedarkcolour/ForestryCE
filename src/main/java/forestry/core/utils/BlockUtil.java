@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.core.utils;
 
 import forestry.core.tiles.TileUtil;
@@ -16,15 +6,11 @@ import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.LevelEvent;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -43,96 +29,61 @@ public abstract class BlockUtil {
 	public static final BlockBehaviour.StateArgumentPredicate<EntityType<?>> IS_PARROT_OR_OCELOT = (a, b, c, entityType) -> entityType == EntityType.OCELOT || entityType == EntityType.PARROT;
 
 	public static List<ItemStack> getBlockDrops(LevelAccessor level, BlockPos pos) {
-		//TODO - this call needs sorting
 		return Block.getDrops(level.getBlockState(pos), (ServerLevel) level, pos, TileUtil.getTile(level, pos));
-
 	}
 
-	public static boolean tryPlantCocoaPod(LevelAccessor world, BlockPos pos) {
-		Direction facing = getValidPodFacing(world, pos, BlockTags.JUNGLE_LOGS);
-		if (facing == null) {
-			return false;
-		}
-
-		BlockState state = Blocks.COCOA.defaultBlockState().setValue(HorizontalDirectionalBlock.FACING, facing);
-		world.setBlock(pos, state, 18);
-		return true;
+	public static boolean isBreakableBlock(Level level, BlockPos pos) {
+		BlockState blockState = level.getBlockState(pos);
+		return isBreakableBlock(blockState, level, pos);
 	}
 
-	@Nullable
-	public static Direction getValidPodFacing(LevelAccessor world, BlockPos pos, TagKey<Block> logTag) {
-		for (Direction facing : Direction.Plane.HORIZONTAL) {
-			if (isValidPodLocation(world, pos, facing, logTag)) {
-				return facing;
-			}
-		}
-		return null;
+	public static boolean isBreakableBlock(BlockState state, Level level, BlockPos pos) {
+		return state.getDestroySpeed(level, pos) >= 0.0F;
 	}
 
-	public static boolean isValidPodLocation(LevelReader world, BlockPos pos, Direction direction, TagKey<Block> logTag) {
-		pos = pos.relative(direction);
-		if (!world.hasChunkAt(pos)) {
-			return false;
-		}
-		BlockState state = world.getBlockState(pos);
-		return state.is(logTag);
+	public static boolean isReplaceableBlock(Level level, BlockPos pos) {
+		return level.getBlockState(pos).canBeReplaced();
 	}
 
-	public static boolean isBreakableBlock(Level world, BlockPos pos) {
-		BlockState blockState = world.getBlockState(pos);
-		return isBreakableBlock(blockState, world, pos);
+	public static boolean canReplace(BlockState state, LevelAccessor level, BlockPos pos) {
+		return level.getBlockState(pos).canBeReplaced() && !state.liquid();
 	}
 
-	public static boolean isBreakableBlock(BlockState blockState, Level world, BlockPos pos) {
-		return blockState.getDestroySpeed(world, pos) >= 0.0F;
-	}
-
-	public static boolean isReplaceableBlock(BlockState blockState, Level world, BlockPos pos) {
-		Block block = blockState.getBlock();
-		return world.getBlockState(pos).canBeReplaced();//!(block instanceof BlockStaticLiquid);
-	}
-
-	/* CHUNKS */
-
-	public static boolean canReplace(BlockState blockState, LevelAccessor world, BlockPos pos) {
-		return world.getBlockState(pos).canBeReplaced() && !blockState.liquid();
-	}
-
-	public static boolean canPlaceTree(BlockState state, LevelAccessor world, BlockPos pos) {
+	public static boolean canPlaceTree(BlockState state, LevelAccessor level, BlockPos pos) {
 		BlockPos downPos = pos.below();
-		BlockState belowState = world.getBlockState(downPos);
-		return !(world.getBlockState(pos).canBeReplaced() && state.liquid()) &&
+		BlockState belowState = level.getBlockState(downPos);
+		return !(level.getBlockState(pos).canBeReplaced() && state.liquid()) &&
 			!belowState.is(BlockTags.LEAVES) &&
 			!belowState.is(BlockTags.LOGS);
 	}
 
-	public static BlockPos getNextReplaceableUpPos(Level world, BlockPos pos) {
-		BlockPos topPos = world.getHeightmapPos(Heightmap.Types.WORLD_SURFACE_WG, pos);
+	public static BlockPos getNextReplaceableUpPos(Level level, BlockPos pos) {
+		BlockPos topPos = level.getHeightmapPos(Heightmap.Types.WORLD_SURFACE_WG, pos);
 		final BlockPos.MutableBlockPos newPos = new BlockPos.MutableBlockPos();
-		BlockState blockState = world.getBlockState(newPos.set(pos));
+		BlockState blockState = level.getBlockState(newPos.set(pos));
 
-		while (!BlockUtil.canReplace(blockState, world, newPos)) {
+		while (!BlockUtil.canReplace(blockState, level, newPos)) {
 			newPos.move(Direction.UP);
 			if (newPos.getY() > topPos.getY()) {
 				return null;
 			}
-			blockState = world.getBlockState(newPos);
+			blockState = level.getBlockState(newPos);
 		}
 
 		return newPos.below();
 	}
 
 	@Nullable
-	public static BlockPos getNextSolidDownPos(Level world, BlockPos pos) {
+	public static BlockPos getNextSolidDownPos(Level level, BlockPos pos) {
 		final BlockPos.MutableBlockPos newPos = new BlockPos.MutableBlockPos();
 
-		BlockState blockState = world.getBlockState(newPos.set(pos));
-		while (canReplace(blockState, world, newPos)) {
+		BlockState blockState = level.getBlockState(newPos.set(pos));
+		while (canReplace(blockState, level, newPos)) {
 			newPos.move(Direction.DOWN);
 			if (newPos.getY() <= 0) {
 				return null;
 			}
-			blockState = world.getBlockState(newPos);
+			blockState = level.getBlockState(newPos);
 		}
 		return newPos.above();
 	}

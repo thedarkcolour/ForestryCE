@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.core.gui;
 
 import forestry.api.core.IError;
@@ -23,8 +13,8 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
 import java.util.Set;
@@ -76,17 +66,17 @@ public abstract class ContainerTile<T extends BlockEntity> extends ContainerFore
 				sendPacketToListeners(packet);
 			}
 
-            this.previousErrorStates = Set.copyOf(errorStates);
+			this.previousErrorStates = Set.copyOf(errorStates);
 		}
 
-		if (this.tile instanceof IPowerHandler) {
-			ForestryEnergyStorage energyStorage = ((IPowerHandler) this.tile).getEnergyManager();
+		if (this.tile instanceof IPowerHandler power) {
+			ForestryEnergyStorage energyStorage = power.getEnergyManager();
 			int energyManagerData = energyStorage.getEnergyStored();
 			if (energyManagerData != this.previousEnergyManagerData) {
 				PacketGuiEnergy packet = new PacketGuiEnergy(this.containerId, energyManagerData);
 				sendPacketToListeners(packet);
 
-                this.previousEnergyManagerData = energyManagerData;
+				this.previousEnergyManagerData = energyManagerData;
 			}
 		}
 
@@ -96,13 +86,13 @@ public abstract class ContainerTile<T extends BlockEntity> extends ContainerFore
 			int workCounter = tilePowered.getWorkCounter();
 			if (workCounter != this.previousWorkCounter) {
 				guiNeedsUpdate = true;
-                this.previousWorkCounter = workCounter;
+				this.previousWorkCounter = workCounter;
 			}
 
 			int ticksPerWorkCycle = tilePowered.getTicksPerWorkCycle();
 			if (ticksPerWorkCycle != this.previousTicksPerWorkCycle) {
 				guiNeedsUpdate = true;
-                this.previousTicksPerWorkCycle = ticksPerWorkCycle;
+				this.previousTicksPerWorkCycle = ticksPerWorkCycle;
 			}
 
 			if (guiNeedsUpdate) {

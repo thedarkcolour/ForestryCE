@@ -6,8 +6,8 @@ import forestry.api.genetics.IBreedingTrackerManager;
 import forestry.api.genetics.ISpeciesType;
 import forestry.core.ClientsideCode;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.loading.FMLEnvironment;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.fml.loading.FMLEnvironment;
 
 import javax.annotation.Nullable;
 

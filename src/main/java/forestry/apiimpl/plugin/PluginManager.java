@@ -43,10 +43,7 @@ import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2ShortOpenHashMap;
 import it.unimi.dsi.fastutil.shorts.Short2ObjectOpenHashMap;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 
-import javax.annotation.Nullable;
 import java.util.*;
 
 public class PluginManager {
@@ -59,7 +56,7 @@ public class PluginManager {
 		serviceLoader.stream().map(ServiceLoader.Provider::get).sorted(Comparator.comparing(IForestryPlugin::id)).forEachOrdered(plugin -> {
 			if (plugin.shouldLoad()) {
 				if (plugin.getClass() == DefaultForestryPlugin.class) {
-					LOADED_PLUGINS.add(0, plugin);
+					LOADED_PLUGINS.addFirst(plugin);
 				} else {
 					LOADED_PLUGINS.add(plugin);
 				}
@@ -100,14 +97,7 @@ public class PluginManager {
 		CircuitRegistration registration = new CircuitRegistration();
 
 		for (IForestryPlugin plugin : LOADED_PLUGINS) {
-			// TODO remove in 1.20 when FMLCommonSetupEvent throws
-			// rethrow swallowed exception
-			try {
-				plugin.registerCircuits(registration);
-			} catch (Throwable e) {
-				asyncThrown = new RuntimeException("An error was thrown by plugin " + plugin.id() + " during IForestryPlugin.registerCircuits", e);
-				Forestry.LOGGER.fatal(asyncThrown);
-			}
+			plugin.registerCircuits(registration);
 		}
 
 		ArrayList<CircuitLayout> layouts = registration.getLayouts();
@@ -239,20 +229,6 @@ public class PluginManager {
 		((ForestryApiImpl) IForestryApi.INSTANCE).setPollenManager(new PollenManager(ImmutableMap.copyOf(pollenTypes)));
 	}
 
-	// Todo remove in 1.20 when FMLCommonSetupEvent throws exceptions again
-	@Nullable
-	@Deprecated
-	private static RuntimeException asyncThrown = null;
-
-	@Deprecated
-	public static void registerAsyncException(IEventBus modBus) {
-		modBus.addListener((FMLLoadCompleteEvent event) -> {
-			if (asyncThrown != null) {
-				throw asyncThrown;
-			}
-		});
-	}
-
 	public static void registerClient() {
 		ClientRegistration registration = new ClientRegistration();
 
@@ -309,8 +285,8 @@ public class PluginManager {
 				// default sapling block and item models (removes the "tree_" prefix)
 				String path = id.getPath().replace("tree_", "");
 				models.put(species, Pair.of(
-					new ResourceLocation(id.getNamespace(), "block/sapling/" + path),
-					new ResourceLocation(id.getNamespace(), "item/sapling/" + path)
+					ResourceLocation.fromNamespaceAndPath(id.getNamespace(), "block/sapling/" + path),
+					ResourceLocation.fromNamespaceAndPath(id.getNamespace(), "item/sapling/" + path)
 				));
 			}
 		}
@@ -332,8 +308,8 @@ public class PluginManager {
 				// default butterfly item and entity textures
 				String path = id.getPath().replace("butterfly_", "");
 				butterflyTextures.put(species, butterflyTexturesById.getOrDefault(id, Pair.of(
-					new ResourceLocation(id.getNamespace(), "item/butterfly/" + path),
-					new ResourceLocation(id.getNamespace(), "textures/entity/butterfly/" + path + ".png")
+					ResourceLocation.fromNamespaceAndPath(id.getNamespace(), "item/butterfly/" + path),
+					ResourceLocation.fromNamespaceAndPath(id.getNamespace(), "textures/entity/butterfly/" + path + ".png")
 				)));
 			}
 		}

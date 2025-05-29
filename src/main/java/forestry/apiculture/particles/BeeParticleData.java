@@ -1,84 +1,51 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.apiculture.particles;
 
-import com.mojang.brigadier.StringReader;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import forestry.core.utils.ModUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleType;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 
-import javax.annotation.Nonnull;
-import java.util.Locale;
-
-public class BeeParticleData implements ParticleOptions {
-
-	public static final Deserializer<BeeParticleData> DESERIALIZER = new Deserializer<>() {
-		@Nonnull
-		@Override
-		public BeeParticleData fromCommand(@Nonnull ParticleType<BeeParticleData> type, @Nonnull StringReader reader) throws CommandSyntaxException {
-			reader.expect(' ');
-			long direction = reader.readLong();
-			reader.expect(' ');
-			int color = reader.readInt();
-			return new BeeParticleData(type, direction, color);
-		}
-
-		@Override
-		public BeeParticleData fromNetwork(@Nonnull ParticleType<BeeParticleData> type, FriendlyByteBuf buf) {
-			return new BeeParticleData(type, buf.readLong(), buf.readInt());
-		}
-	};
-
-	public static Codec<BeeParticleData> createCodec(ParticleType<BeeParticleData> type) {
-		return RecordCodecBuilder.create(val -> val.group(Codec.LONG.fieldOf("direction").forGetter(data -> data.destination.asLong()), Codec.INT.fieldOf("color").forGetter(data -> data.color)).apply(val, (destination1, color1) -> new BeeParticleData(type, destination1, color1)));
-	}
-
-	public final ParticleType<BeeParticleData> type;
-	public final BlockPos destination;
-	public final int color;
-
-	public BeeParticleData(ParticleType<BeeParticleData> type, long destination, int color) {
-		this.type = type;
-		this.destination = BlockPos.of(destination);
-		this.color = color;
-	}
-
-	public BeeParticleData(ParticleType<BeeParticleData> type, BlockPos destination, int color) {
-		this.type = type;
-		this.destination = destination;
-		this.color = color;
-	}
-
-	@Nonnull
+public record BeeParticleData(ParticleType<BeeParticleData> type, BlockPos destination, int color) implements ParticleOptions {
 	@Override
 	public ParticleType<?> getType() {
 		return this.type;
 	}
 
-	@Override
-	public void writeToNetwork(@Nonnull FriendlyByteBuf buffer) {
-		buffer.writeRegistryId(ForgeRegistries.PARTICLE_TYPES, this.type);
-		buffer.writeLong(this.destination.asLong());
-		buffer.writeInt(this.color);
-	}
+	public static class Type extends ParticleType<BeeParticleData> implements StreamCodec<RegistryFriendlyByteBuf, BeeParticleData> {
+		private final MapCodec<BeeParticleData> codec;
 
-	@Nonnull
-	@Override
-	public String writeToString() {
-		return String.format(Locale.ROOT, "%s %d %d %d %d", ModUtil.getRegistryName(getType()), this.destination.getX(), this.destination.getY(), this.destination.getZ(), this.color);
+		public Type() {
+			super(false);
+
+			this.codec = RecordCodecBuilder.mapCodec(instance -> instance.group(
+				BlockPos.CODEC.fieldOf("destination").forGetter(BeeParticleData::destination),
+				Codec.INT.fieldOf("color").forGetter(BeeParticleData::color)
+			).apply(instance, (destination, color) -> new BeeParticleData(this, destination, color)));
+		}
+
+		@Override
+		public MapCodec<BeeParticleData> codec() {
+			return this.codec;
+		}
+
+		@Override
+		public StreamCodec<? super RegistryFriendlyByteBuf, BeeParticleData> streamCodec() {
+			return this;
+		}
+
+		@Override
+		public void encode(RegistryFriendlyByteBuf buffer, BeeParticleData msg) {
+			buffer.writeBlockPos(msg.destination);
+			buffer.writeInt(msg.color);
+		}
+
+		@Override
+		public BeeParticleData decode(RegistryFriendlyByteBuf buffer) {
+			return new BeeParticleData(this, buffer.readBlockPos(), buffer.readInt());
+		}
 	}
 }

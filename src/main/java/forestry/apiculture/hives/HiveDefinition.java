@@ -1,20 +1,10 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.apiculture.hives;
 
 import forestry.api.ForestryTags;
 import forestry.api.apiculture.ForestryBeeSpecies;
 import forestry.api.apiculture.genetics.IBeeSpecies;
 import forestry.api.apiculture.hives.IHiveDefinition;
-import forestry.api.apiculture.hives.IHiveGen;
+import forestry.api.apiculture.hives.IHivePlacement;
 import forestry.api.core.HumidityType;
 import forestry.api.core.TemperatureType;
 import forestry.api.core.ToleranceType;
@@ -38,7 +28,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraftforge.common.Tags;
+import net.neoforged.neoforge.common.Tags;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -46,7 +36,7 @@ import java.util.List;
 
 // todo this should be data driven
 public enum HiveDefinition implements IHiveDefinition {
-	FOREST(ApicultureBlocks.BEEHIVE.get(BlockHiveType.FOREST).defaultState(), 6.0f, ForestryBeeSpecies.FOREST, HiveGenTree.INSTANCE) {
+	FOREST(ApicultureBlocks.BEEHIVE.get(BlockHiveType.FOREST).defaultState(), 6.0f, ForestryBeeSpecies.FOREST, HivePlacementTree.INSTANCE) {
 		@Override
 		public void postGen(WorldGenLevel level, RandomSource rand, BlockPos pos) {
 			postGenFlowers(level, rand, pos, flowerStates);
@@ -58,7 +48,7 @@ public enum HiveDefinition implements IHiveDefinition {
 			return super.isGoodBiome(biome) && !biome.is(Tags.Biomes.IS_SNOWY);
 		}
 	},
-	MEADOWS(ApicultureBlocks.BEEHIVE.get(BlockHiveType.MEADOWS).defaultState(), 1.0f, ForestryBeeSpecies.MEADOWS, new HiveGenGround(BlockTags.DIRT)) {
+	MEADOWS(ApicultureBlocks.BEEHIVE.get(BlockHiveType.MEADOWS).defaultState(), 1.0f, ForestryBeeSpecies.MEADOWS, new HivePlacementGround(BlockTags.DIRT)) {
 		@Override
 		public void postGen(WorldGenLevel level, RandomSource rand, BlockPos pos) {
 			postGenFlowers(level, rand, pos, flowerStates);
@@ -70,20 +60,20 @@ public enum HiveDefinition implements IHiveDefinition {
 			return super.isGoodBiome(biome) && !biome.is(BiomeTags.IS_FOREST);
 		}
 	},
-	DESERT(ApicultureBlocks.BEEHIVE.get(BlockHiveType.DESERT).defaultState(), 1.0f, ForestryBeeSpecies.MODEST, new HiveGenGround(ForestryTags.Blocks.MODEST_BEE_GROUND)) {
+	DESERT(ApicultureBlocks.BEEHIVE.get(BlockHiveType.DESERT).defaultState(), 1.0f, ForestryBeeSpecies.MODEST, new HivePlacementGround(ForestryTags.Blocks.MODEST_BEE_GROUND)) {
 		@Override
 		public void postGen(WorldGenLevel level, RandomSource rand, BlockPos pos) {
 			postGenFlowers(level, rand, pos, cactusStates);
 		}
 	},
-	JUNGLE(ApicultureBlocks.BEEHIVE.get(BlockHiveType.JUNGLE).defaultState(), 6.0f, ForestryBeeSpecies.TROPICAL, HiveGenTree.INSTANCE),
-	END(ApicultureBlocks.BEEHIVE.get(BlockHiveType.END).defaultState(), 2.0f, ForestryBeeSpecies.ENDED, new HiveGenGround(ForestryTags.Blocks.ENDED_BEE_GROUND)) {
+	JUNGLE(ApicultureBlocks.BEEHIVE.get(BlockHiveType.JUNGLE).defaultState(), 6.0f, ForestryBeeSpecies.TROPICAL, HivePlacementTree.INSTANCE),
+	END(ApicultureBlocks.BEEHIVE.get(BlockHiveType.END).defaultState(), 2.0f, ForestryBeeSpecies.ENDED, new HivePlacementGround(ForestryTags.Blocks.ENDED_BEE_GROUND)) {
 		@Override
 		public boolean isGoodBiome(Holder<Biome> biome) {
 			return biome.is(BiomeTags.IS_END);
 		}
 	},
-	SNOW(ApicultureBlocks.BEEHIVE.get(BlockHiveType.SNOW).defaultState(), 2.0f, ForestryBeeSpecies.WINTRY, new HiveGenGround(ForestryTags.Blocks.WINTRY_BEE_GROUND)) {
+	SNOW(ApicultureBlocks.BEEHIVE.get(BlockHiveType.SNOW).defaultState(), 2.0f, ForestryBeeSpecies.WINTRY, new HivePlacementGround(ForestryTags.Blocks.WINTRY_BEE_GROUND)) {
 		@Override
 		public void postGen(WorldGenLevel level, RandomSource rand, BlockPos pos) {
 			BlockPos posAbove = pos.above();
@@ -94,7 +84,7 @@ public enum HiveDefinition implements IHiveDefinition {
 			postGenFlowers(level, rand, pos, flowerStates);
 		}
 	},
-	SWAMP(ApicultureBlocks.BEEHIVE.get(BlockHiveType.SWAMP).defaultState(), 2.0f, ForestryBeeSpecies.MARSHY, new HiveGenGround(BlockTags.DIRT)) {
+	SWAMP(ApicultureBlocks.BEEHIVE.get(BlockHiveType.SWAMP).defaultState(), 2.0f, ForestryBeeSpecies.MARSHY, new HivePlacementGround(BlockTags.DIRT)) {
 		@Override
 		public void postGen(WorldGenLevel level, RandomSource rand, BlockPos pos) {
 			postGenFlowers(level, rand, pos, mushroomStates);
@@ -106,14 +96,14 @@ public enum HiveDefinition implements IHiveDefinition {
 			return super.isGoodBiome(biome) && !biome.is(Tags.Biomes.IS_SNOWY);
 		}
 	},
-	SAVANNA(ApicultureBlocks.BEEHIVE.get(BlockHiveType.SAVANNA).defaultState(), 1.0f, ForestryBeeSpecies.SAVANNA, new HiveGenGround(BlockTags.DIRT)) {
+	SAVANNA(ApicultureBlocks.BEEHIVE.get(BlockHiveType.SAVANNA).defaultState(), 1.0f, ForestryBeeSpecies.SAVANNA, new HivePlacementGround(BlockTags.DIRT)) {
 		@Override
 		public void postGen(WorldGenLevel level, RandomSource rand, BlockPos pos) {
 			//TODO: generate pumpkins in dry biomes and melons in normal ones
 			//postGenFlowers(world,rand,pos,flowerStates);
 		}
 	},
-	LUSH(ApicultureBlocks.BEEHIVE.get(BlockHiveType.LUSH).defaultState(), 2.0F, ForestryBeeSpecies.LUSH, new HiveGenCaveCeiling(ForestryTags.Blocks.LUSH_BEE_CEILING, ForestryTags.Blocks.CAVE_EXTRA_REPLACEABLES)) {
+	LUSH(ApicultureBlocks.BEEHIVE.get(BlockHiveType.LUSH).defaultState(), 2.0F, ForestryBeeSpecies.LUSH, new HivePlacementCaveCeiling(ForestryTags.Blocks.LUSH_BEE_CEILING, ForestryTags.Blocks.CAVE_EXTRA_REPLACEABLES)) {
 		@Override
 		public boolean isGoodBiome(Holder<Biome> biome) {
 			return super.isGoodBiome(biome) && biome.is(Tags.Biomes.IS_CAVE);
@@ -126,7 +116,7 @@ public enum HiveDefinition implements IHiveDefinition {
 			}
 		}
 	},
-	AQUATIC(ApicultureBlocks.BEEHIVE.get(BlockHiveType.AQUATIC).defaultState(), 1.0F, ForestryBeeSpecies.AQUATIC, new HiveGenOcean(BlockTags.SAND)) {
+	AQUATIC(ApicultureBlocks.BEEHIVE.get(BlockHiveType.AQUATIC).defaultState(), 1.0F, ForestryBeeSpecies.AQUATIC, new HivePlacementOcean(BlockTags.SAND)) {
 		@Override
 		public boolean isGoodBiome(Holder<Biome> biome) {
 			return biome.is(Biomes.WARM_OCEAN);
@@ -148,7 +138,7 @@ public enum HiveDefinition implements IHiveDefinition {
 			}
 		}
 	},
-	NETHER(ApicultureBlocks.BEEHIVE.get(BlockHiveType.NETHER).defaultState(), 4.0F, ForestryBeeSpecies.EMBITTERED, new HiveGenCaveCeiling(BlockTags.WART_BLOCKS, ForestryTags.Blocks.NETHER_EXTRA_REPLACEABLES)) {
+	NETHER(ApicultureBlocks.BEEHIVE.get(BlockHiveType.NETHER).defaultState(), 4.0F, ForestryBeeSpecies.EMBITTERED, new HivePlacementCaveCeiling(BlockTags.WART_BLOCKS, ForestryTags.Blocks.NETHER_EXTRA_REPLACEABLES)) {
 		@Override
 		public boolean isGoodBiome(Holder<Biome> biome) {
 			return biome.is(BiomeTags.IS_NETHER);
@@ -156,7 +146,7 @@ public enum HiveDefinition implements IHiveDefinition {
 	},
 	;
 
-	private static final IHiveGen FLOWER_GROUND = new HiveGenGround(ForestryTags.Blocks.PLANTABLE_FLOWERS_GROUND);
+	private static final IHivePlacement FLOWER_GROUND = new HivePlacementGround(ForestryTags.Blocks.PLANTABLE_FLOWERS_GROUND);
 	private static final List<BlockState> flowerStates = new ArrayList<>();
 	private static final List<BlockState> mushroomStates = new ArrayList<>();
 	private static final List<BlockState> cactusStates = Collections.singletonList(Blocks.CACTUS.defaultBlockState());
@@ -171,9 +161,9 @@ public enum HiveDefinition implements IHiveDefinition {
 	private final BlockState blockState;
 	private final float genChance;
 	private final ResourceLocation speciesId;
-	private final IHiveGen hiveGen;
+	private final IHivePlacement hiveGen;
 
-	HiveDefinition(BlockState hiveState, float genChance, ResourceLocation beeTemplate, IHiveGen hiveGen) {
+	HiveDefinition(BlockState hiveState, float genChance, ResourceLocation beeTemplate, IHivePlacement hiveGen) {
 		this.blockState = hiveState;
 		this.genChance = genChance;
 		this.speciesId = beeTemplate;
@@ -181,7 +171,7 @@ public enum HiveDefinition implements IHiveDefinition {
 	}
 
 	@Override
-	public IHiveGen getHiveGen() {
+	public IHivePlacement getHiveGen() {
 		return this.hiveGen;
 	}
 

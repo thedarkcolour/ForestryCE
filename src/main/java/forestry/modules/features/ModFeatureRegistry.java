@@ -29,8 +29,11 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.network.IContainerFactory;
-import net.minecraftforge.registries.DeferredRegister;
+import net.neoforged.neoforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegisterEvent;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.network.IContainerFactory;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -45,18 +48,10 @@ public class ModFeatureRegistry {
 
 	private ModFeatureRegistry(String modId) {
 		this.modBus = ModuleUtil.getModBus(modId);
-
-		this.modBus.addListener(EventPriority.LOWEST, this::postRegistry);
 	}
 
 	public void register(IModFeature feature) {
 		getRegistry(feature.getModuleId()).register(feature);
-	}
-
-	public void postRegistry(RegisterEvent event) {
-		for (ModuleFeatureRegistry features : this.modules.values()) {
-			features.postRegistry(event);
-		}
 	}
 
 	public static IFeatureRegistry get(ResourceLocation moduleId) {
@@ -80,7 +75,6 @@ public class ModFeatureRegistry {
 		private final ArrayListMultimap<ResourceKey<? extends Registry<?>>, IModFeature> featureByRegistry = ArrayListMultimap.create();
 		@SuppressWarnings("rawtypes")
 		private final HashMap<ResourceKey, DeferredRegister> registries = new HashMap<>();
-		private final LinkedListMultimap<ResourceKey<? extends Registry<?>>, Consumer<RegisterEvent>> registryListeners = LinkedListMultimap.create();
 
 		private final ResourceLocation moduleId;
 		private final IEventBus modBus;
@@ -183,12 +177,6 @@ public class ModFeatureRegistry {
 			return new FeatureRecipeType<>(this, this.moduleId, name, serializer);
 		}
 
-		// TODO REMOVE
-		@Override
-		public void addRegistryListener(ResourceKey<? extends Registry<?>> type, Consumer<RegisterEvent> listener) {
-			this.registryListeners.put(type, listener);
-		}
-
 		@Override
 		public void addRegistryListener(ResourceKey<? extends Registry<?>> type, Runnable listener) {
 			ModUtil.addRegistryListener(type, listener);
@@ -243,13 +231,6 @@ public class ModFeatureRegistry {
 		@Override
 		public ResourceLocation getModuleId() {
 			return this.moduleId;
-		}
-
-		// this method is called at a LOW priority
-		public void postRegistry(RegisterEvent event) {
-			for (Consumer<RegisterEvent> listener : this.registryListeners.get(event.getRegistryKey())) {
-				listener.accept(event);
-			}
 		}
 	}
 }

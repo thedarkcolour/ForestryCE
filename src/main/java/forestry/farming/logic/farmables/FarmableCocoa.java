@@ -1,16 +1,9 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.farming.logic.farmables;
 
-import forestry.core.utils.BlockUtil;
+import forestry.api.arboriculture.ForestryTreeSpecies;
+import forestry.api.genetics.IGenome;
+import forestry.api.genetics.alleles.ForestryAlleles;
+import forestry.core.utils.SpeciesUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -26,6 +19,7 @@ public class FarmableCocoa extends FarmableAgingCrop {
 
 	@Override
 	public boolean plantSaplingAt(Player player, ItemStack germling, Level level, BlockPos pos) {
-		return BlockUtil.tryPlantCocoaPod(level, pos);
+		IGenome genome = SpeciesUtil.TREE_TYPE.get().getSpecies(ForestryTreeSpecies.JUNGLE).getDefaultGenome();
+		return ForestryAlleles.FRUIT_COCOA.value().tryPlace(level, pos, genome);
 	}
 }

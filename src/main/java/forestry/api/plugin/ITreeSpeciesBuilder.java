@@ -1,6 +1,5 @@
 package forestry.api.plugin;
 
-import forestry.api.arboriculture.ITreeGenData;
 import forestry.api.arboriculture.ITreeGenerator;
 import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.arboriculture.IWoodType;
@@ -21,7 +20,7 @@ public interface ITreeSpeciesBuilder extends ISpeciesBuilder<ITreeSpeciesType, I
 	/**
 	 * Shortcut to create a tree generator using the tree generator built into Forestry.
 	 */
-	ITreeSpeciesBuilder setTreeFeature(Function<ITreeGenData, Feature<NoneFeatureConfiguration>> factory);
+	ITreeSpeciesBuilder setTreeFeature(Function<ITreeSpecies, Feature<NoneFeatureConfiguration>> factory);
 
 	/**
 	 * Sets the tree generator instance used to generate trees when growing from a sapling or being placed in the world.

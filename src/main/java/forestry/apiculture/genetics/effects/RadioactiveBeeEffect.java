@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.apiculture.genetics.effects;
 
 import forestry.api.apiculture.BeeManager;
@@ -54,16 +44,16 @@ public class RadioactiveBeeEffect extends ThrottledBeeEffect {
 				continue;
 			}
 
-			entity.hurt(CoreDamageTypes.source(housing.getWorldObj(), CoreDamageTypes.RADIOACTIVE), damage);
+			entity.hurt(CoreDamageTypes.source(housing.getLevel(), CoreDamageTypes.RADIOACTIVE), damage);
 		}
 	}
 
 	private static IEffectData destroyEnvironment(IGenome genome, IEffectData storedData, IBeeHousing housing) {
-		Level level = housing.getWorldObj();
+		Level level = housing.getLevel();
 		RandomSource rand = level.random;
 
 		Vec3i area = VecUtil.scale(genome.getActiveValue(BeeChromosomes.TERRITORY), 2);
-		BlockPos posHousing = housing.getCoordinates();
+		BlockPos posHousing = housing.getBlockPos();
 
 		for (int i = 0; i < 20; i++) {
 			BlockPos randomPos = VecUtil.getRandomPositionInArea(rand, area);

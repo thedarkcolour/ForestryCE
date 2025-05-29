@@ -10,7 +10,6 @@ import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 
-import java.awt.*;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -19,14 +18,6 @@ import java.util.function.Consumer;
  * Obtain an instance by overriding {@link IForestryPlugin#registerApiculture}.
  */
 public interface IApicultureRegistration {
-	/**
-	 * @deprecated Use variant that accepts TextColor
-	 */
-	@Deprecated(forRemoval = true)
-	default IBeeSpeciesBuilder registerSpecies(ResourceLocation id, String genus, String species, boolean dominant, Color outline) {
-		return registerSpecies(id, genus, species, dominant, TextColor.fromRgb(outline.getRGB()));
-	}
-
 	/**
 	 * Register a new bee species.
 	 *

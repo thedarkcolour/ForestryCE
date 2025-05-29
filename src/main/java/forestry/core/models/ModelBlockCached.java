@@ -7,7 +7,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.model.data.ModelData;
+import net.neoforged.neoforge.client.model.data.ModelData;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -30,8 +30,8 @@ public abstract class ModelBlockCached<B extends Block, K> extends ModelBlockDef
 	protected ModelBlockCached(Class<B> blockClass) {
 		super(blockClass);
 
-        this.worldCache = CacheBuilder.newBuilder().expireAfterAccess(1, TimeUnit.MINUTES).build();
-        this.inventoryCache = CacheBuilder.newBuilder().expireAfterAccess(1, TimeUnit.MINUTES).build();
+		this.worldCache = CacheBuilder.newBuilder().expireAfterAccess(1, TimeUnit.MINUTES).build();
+		this.inventoryCache = CacheBuilder.newBuilder().expireAfterAccess(1, TimeUnit.MINUTES).build();
 
 		CACHE_PROVIDERS.add(this);
 	}
@@ -43,7 +43,7 @@ public abstract class ModelBlockCached<B extends Block, K> extends ModelBlockDef
 		BakedModel model = this.worldCache.getIfPresent(key);
 		if (model == null) {
 			model = super.getModel(state, extraData);
-            this.worldCache.put(key, model);
+			this.worldCache.put(key, model);
 		}
 		return model;
 	}
@@ -55,7 +55,7 @@ public abstract class ModelBlockCached<B extends Block, K> extends ModelBlockDef
 		BakedModel model = this.inventoryCache.getIfPresent(key);
 		if (model == null) {
 			model = bakeModel(stack, world, key);
-            this.inventoryCache.put(key, model);
+			this.inventoryCache.put(key, model);
 		}
 		return model;
 	}

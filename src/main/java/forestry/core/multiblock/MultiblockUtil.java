@@ -35,13 +35,11 @@ public class MultiblockUtil {
 	 * @return An array of references to neighboring IMultiblockComponent tile entities.
 	 */
 	public static List<IMultiblockComponent> getNeighboringParts(Level world, IMultiblockComponent part) {
-		BlockPos partCoord = part.getCoordinates();
+		BlockPos partCoord = part.getBlockPos();
 
-		List<BlockPos> neighbors = new ArrayList<>(Direction.values().length);
-		for (Direction facing : Direction.values()) {
-			BlockPos neighborCoord = new BlockPos(partCoord);
-			neighborCoord = neighborCoord.relative(facing);
-			neighbors.add(neighborCoord);
+		List<BlockPos> neighbors = new ArrayList<>(Direction.VALUES.length);
+		for (Direction facing : Direction.VALUES) {
+			neighbors.add(partCoord.relative(facing));
 		}
 
 		List<IMultiblockComponent> neighborParts = new ArrayList<>();

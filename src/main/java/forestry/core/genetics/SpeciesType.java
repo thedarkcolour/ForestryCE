@@ -8,6 +8,7 @@ import forestry.api.genetics.alleles.IKaryotype;
 import forestry.api.plugin.ISpeciesTypeBuilder;
 import it.unimi.dsi.fastutil.objects.Reference2FloatOpenHashMap;
 import net.minecraft.Util;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
@@ -127,7 +128,7 @@ public abstract class SpeciesType<S extends ISpecies<I>, I extends IIndividual> 
 	}
 
 	@Override
-	public S getSpeciesSafe(ResourceLocation id) {
+	public S getSpeciesSafe(@Nullable ResourceLocation id) {
 		checkSpecies();
 
 		return this.allSpecies.get(id);
@@ -218,9 +219,9 @@ public abstract class SpeciesType<S extends ISpecies<I>, I extends IIndividual> 
 	}
 
 	@Override
-	public IBreedingTracker createBreedingTracker(CompoundTag nbt) {
+	public IBreedingTracker createBreedingTracker(CompoundTag nbt, HolderLookup.Provider registries) {
 		IBreedingTracker tracker = createBreedingTracker();
-		tracker.readFromNbt(nbt);
+		tracker.readFromNbt(nbt, registries);
 		return tracker;
 	}
 

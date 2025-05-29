@@ -11,12 +11,12 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class BlockForestryPlank extends Block implements IWoodTyped {
+	private final boolean fireproof;
+	private final IWoodType woodType;
+
 	public static Properties createWoodProperties(IWoodType woodType) {
 		return Block.Properties.of().strength(woodType.getHardness(), woodType.getHardness() * 1.5F).sound(SoundType.WOOD);
 	}
-
-	private final boolean fireproof;
-	private final IWoodType woodType;
 
 	public BlockForestryPlank(boolean fireproof, IWoodType woodType) {
 		super(createWoodProperties(woodType));
@@ -40,18 +40,11 @@ public class BlockForestryPlank extends Block implements IWoodTyped {
 
 	@Override
 	public int getFlammability(BlockState state, BlockGetter world, BlockPos pos, Direction face) {
-		if (this.fireproof) {
-			return 0;
-		}
-		return 20;
+		return this.fireproof ? 0 : 20;
 	}
 
 	@Override
 	public int getFireSpreadSpeed(BlockState state, BlockGetter world, BlockPos pos, Direction face) {
-		if (this.fireproof) {
-			return 0;
-		}
-		return 5;
+		return this.fireproof ? 0 : 5;
 	}
-
 }

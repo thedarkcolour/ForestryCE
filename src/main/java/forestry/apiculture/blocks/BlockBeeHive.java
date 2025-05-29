@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.apiculture.blocks;
 
 import forestry.api.ForestryTags;
@@ -23,12 +13,12 @@ import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -76,10 +66,10 @@ public class BlockBeeHive extends Block implements EntityBlock {
 	}
 
 	@Override
-	public void playerWillDestroy(Level world, BlockPos pos, BlockState state, Player player) {
-		super.playerWillDestroy(world, pos, state, player);
+	public BlockState playerWillDestroy(Level world, BlockPos pos, BlockState state, Player player) {
 		boolean canHarvest = canHarvestBlock(state, world, pos, player);
 		TileUtil.actOnTile(world, pos, IHiveTile.class, tile -> tile.onBroken(world, pos, player, canHarvest));
+		return super.playerWillDestroy(world, pos, state, player);
 	}
 
 	@Nullable
@@ -99,7 +89,7 @@ public class BlockBeeHive extends Block implements EntityBlock {
 		ItemStack tool = builder.getParameter(LootContextParams.TOOL);
 
 		if (tool.is(ForestryTags.Items.SCOOPS)) {
-			int fortune = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.BLOCK_FORTUNE, tool);
+			int fortune = tool.getEnchantmentLevel(builder.getLevel().holderLookup(Registries.ENCHANTMENT).getOrThrow(Enchantments.FORTUNE));
 			return getDrops(builder.getLevel(), pos, fortune);
 		}
 		return List.of();

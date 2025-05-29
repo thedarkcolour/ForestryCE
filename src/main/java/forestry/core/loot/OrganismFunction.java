@@ -1,28 +1,36 @@
 package forestry.core.loot;
 
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSerializationContext;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import forestry.api.IForestryApi;
 import forestry.api.genetics.ILifeStage;
 import forestry.api.genetics.ISpecies;
 import forestry.api.genetics.ISpeciesType;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.functions.LootItemConditionalFunction;
 import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 
+import java.util.List;
+
 /**
  * Loot function to add genetic information, an organism, to the item stack.
  */
 public class OrganismFunction extends LootItemConditionalFunction {
+	public static final MapCodec<OrganismFunction> CODEC = RecordCodecBuilder.mapCodec(instance -> commonFields(instance)
+		.and(instance.group(
+			ResourceLocation.CODEC.fieldOf("type_id").forGetter(function -> function.typeId),
+			ResourceLocation.CODEC.fieldOf("species_id").forGetter(function -> function.speciesId)
+		))
+		.apply(instance, OrganismFunction::new)
+	);
+
 	private final ResourceLocation typeId;
 	private final ResourceLocation speciesId;
 
-	private OrganismFunction(LootItemCondition[] conditions, ResourceLocation typeId, ResourceLocation speciesId) {
+	private OrganismFunction(List<LootItemCondition> conditions, ResourceLocation typeId, ResourceLocation speciesId) {
 		super(conditions);
 		this.typeId = typeId;
 		this.speciesId = speciesId;
@@ -50,23 +58,7 @@ public class OrganismFunction extends LootItemConditionalFunction {
 	}
 
 	@Override
-	public LootItemFunctionType getType() {
-		return CoreLootFunctions.ORGANISM.get();
-	}
-
-	public static class Serializer extends LootItemConditionalFunction.Serializer<OrganismFunction> {
-		@Override
-		public void serialize(JsonObject object, OrganismFunction function, JsonSerializationContext context) {
-			super.serialize(object, function, context);
-			object.addProperty("type_id", function.typeId.toString());
-			object.addProperty("species_id", function.speciesId.toString());
-		}
-
-		@Override
-		public OrganismFunction deserialize(JsonObject object, JsonDeserializationContext jsonDeserializationContext, LootItemCondition[] conditions) {
-			String typeId = GsonHelper.getAsString(object, "type_id");
-			String speciesId = GsonHelper.getAsString(object, "species_id");
-			return new OrganismFunction(conditions, new ResourceLocation(typeId), new ResourceLocation(speciesId));
-		}
+	public LootItemFunctionType<OrganismFunction> getType() {
+		return CoreLootFunctions.ORGANISM.value();
 	}
 }

@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.arboriculture.tiles;
 
 import forestry.api.arboriculture.ITreeSpecies;
@@ -30,8 +20,8 @@ import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import net.minecraftforge.client.model.data.ModelData;
-import net.minecraftforge.client.model.data.ModelProperty;
+import net.neoforged.neoforge.client.model.data.ModelData;
+import net.neoforged.neoforge.client.model.data.ModelProperty;
 
 import javax.annotation.Nonnull;
 import java.util.Optional;
@@ -47,12 +37,11 @@ public class TileSapling extends TileTreeContainer implements IOwnedTile {
 		super(ArboricultureTiles.SAPLING.tileType(), pos, state);
 	}
 
-	/* SAVING & LOADING */
 	@Override
 	public void load(CompoundTag nbt) {
 		super.load(nbt);
 
-        this.timesTicked = nbt.getInt("TT");
+		this.timesTicked = nbt.getInt("TT");
 		this.ownerHandler.read(nbt);
 	}
 
@@ -66,14 +55,8 @@ public class TileSapling extends TileTreeContainer implements IOwnedTile {
 
 	@Override
 	public void onBlockTick(Level worldIn, BlockPos pos, BlockState state, RandomSource rand) {
-        this.timesTicked++;
+		this.timesTicked++;
 		tryGrow(rand, false);
-	}
-
-	private static int getRequiredMaturity(Level world, ITree tree) {
-		//ITreekeepingMode treekeepingMode = SpeciesUtil.TREE_TYPE.get().getTreekeepingMode(world);
-		//float maturationModifier = treekeepingMode.getMaturationModifier(tree.getGenome(), 1f);
-		return tree.getRequiredMaturity();//Math.round(tree.getRequiredMaturity() * maturationModifier);
 	}
 
 	public boolean canAcceptBoneMeal(RandomSource rand) {
@@ -83,7 +66,7 @@ public class TileSapling extends TileTreeContainer implements IOwnedTile {
 			return false;
 		}
 
-		int maturity = getRequiredMaturity(this.level, tree);
+		int maturity = tree.getRequiredMaturity();
 		if (this.timesTicked < maturity) {
 			return true;
 		}
@@ -104,10 +87,10 @@ public class TileSapling extends TileTreeContainer implements IOwnedTile {
 			return;
 		}
 
-		int maturity = getRequiredMaturity(this.level, tree);
+		int maturity = tree.getRequiredMaturity();
 		if (this.timesTicked < maturity) {
 			if (boneMealed) {
-                this.timesTicked = maturity;
+				this.timesTicked = maturity;
 			}
 			return;
 		}

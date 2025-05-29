@@ -21,7 +21,7 @@ import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluids;
@@ -118,7 +118,7 @@ public class FarmManager implements INbtReadable, INbtWritable, IStreamable, IEx
 		// Cultivation and collection
 		FarmWorkStatus farmWorkStatus = new FarmWorkStatus();
 
-		Level level = this.housing.getWorldObj();
+		Level level = this.housing.getLevel();
 		ObjectArrayList<Direction> farmDirections = new ObjectArrayList<>(HorizontalDirection.VALUES);
 		Util.shuffle(farmDirections, level.random);
 		for (Direction farmSide : farmDirections) {
@@ -173,7 +173,7 @@ public class FarmManager implements INbtReadable, INbtWritable, IStreamable, IEx
 	}
 
 	private void cultivateTargets(FarmWorkStatus farmWorkStatus, List<FarmTarget> farmTargets, IFarmLogic logic, Direction farmSide) {
-		Level level = this.housing.getWorldObj();
+		Level level = this.housing.getLevel();
 
 		if (farmWorkStatus.hasFarmland && !FarmHelper.isCycleCanceledByListeners(logic, farmSide, this.farmListeners)) {
 			final float hydrationModifier = this.hydrationManager.getHydrationModifier();
@@ -205,7 +205,7 @@ public class FarmManager implements INbtReadable, INbtWritable, IStreamable, IEx
 	}
 
 	private boolean collectWindfall(IFarmLogic logic) {
-		List<ItemStack> collected = logic.collect(this.housing.getWorldObj(), this.housing);
+		List<ItemStack> collected = logic.collect(this.housing.getLevel(), this.housing);
 		if (collected.isEmpty()) {
 			return false;
 		}
@@ -280,14 +280,14 @@ public class FarmManager implements INbtReadable, INbtWritable, IStreamable, IEx
 	}
 
 	@Override
-	public void writeData(FriendlyByteBuf data) {
+	public void writeData(RegistryFriendlyByteBuf data) {
         this.tankManager.writeData(data);
         this.hydrationManager.writeData(data);
         this.fertilizerManager.writeData(data);
 	}
 
 	@Override
-	public void readData(FriendlyByteBuf data) {
+	public void readData(RegistryFriendlyByteBuf data) {
         this.tankManager.readData(data);
         this.hydrationManager.readData(data);
         this.fertilizerManager.readData(data);

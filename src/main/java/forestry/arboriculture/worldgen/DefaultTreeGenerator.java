@@ -1,6 +1,7 @@
 package forestry.arboriculture.worldgen;
 
 import com.google.common.base.Preconditions;
+import forestry.api.IForestryApi;
 import forestry.api.arboriculture.*;
 import forestry.api.genetics.IGenome;
 import forestry.api.genetics.alleles.TreeChromosomes;
@@ -24,23 +25,23 @@ import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConf
 import java.util.function.Function;
 
 public class DefaultTreeGenerator implements ITreeGenerator {
-	private final Function<ITreeGenData, Feature<NoneFeatureConfiguration>> factory;
+	private final Function<ITreeSpecies, Feature<NoneFeatureConfiguration>> factory;
 	private final IWoodType woodType;
 
-	public DefaultTreeGenerator(Function<ITreeGenData, Feature<NoneFeatureConfiguration>> factory, IWoodType woodType) {
+	public DefaultTreeGenerator(Function<ITreeSpecies, Feature<NoneFeatureConfiguration>> factory, IWoodType woodType) {
 		this.factory = factory;
 		this.woodType = Preconditions.checkNotNull(woodType);
 	}
 
 	@Override
-	public Feature<NoneFeatureConfiguration> getTreeFeature(ITreeGenData tree) {
+	public Feature<NoneFeatureConfiguration> getTreeFeature(ITreeSpecies tree) {
 		return this.factory.apply(tree);
 	}
 
 	@Override
 	public boolean setLogBlock(IGenome genome, LevelAccessor level, BlockPos pos, Direction facing) {
 		boolean fireproof = genome.getActiveValue(TreeChromosomes.FIREPROOF);
-		BlockState logBlock = TreeManager.woodAccess.getBlock(this.woodType, WoodBlockKind.LOG, fireproof);
+		BlockState logBlock = IForestryApi.INSTANCE.getTreeManager().getWoodAccess().getBlock(this.woodType, WoodBlockKind.LOG, fireproof);
 
 		Direction.Axis axis = facing.getAxis();
 		return level.setBlock(pos, logBlock.setValue(RotatedPillarBlock.AXIS, axis), Block.UPDATE_KNOWN_SHAPE | Block.UPDATE_ALL);

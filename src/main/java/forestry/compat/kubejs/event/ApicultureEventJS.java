@@ -4,7 +4,7 @@ import com.mojang.datafixers.util.Function3;
 import dev.latvian.mods.kubejs.event.EventJS;
 import forestry.api.apiculture.IBeeHousing;
 import forestry.api.apiculture.LightPreference;
-import forestry.api.apiculture.hives.IHiveGen;
+import forestry.api.apiculture.hives.IHivePlacement;
 import forestry.api.core.HumidityType;
 import forestry.api.core.TemperatureType;
 import forestry.api.genetics.IEffectData;
@@ -68,7 +68,7 @@ public class ApicultureEventJS extends EventJS {
 		this.wrapped.addVillageBee(speciesId, rare, alleles);
 	}
 
-	public IHiveBuilder registerCustomHive(ResourceLocation id, IHiveGen placement, BlockState hiveState, Predicate<Holder<Biome>> isGoodBiome, Predicate<HumidityType> isGoodHumidity, Predicate<TemperatureType> isGoodTemperature, float genChance, KubeHiveDefinition.PostGenFunction postGen) {
+	public IHiveBuilder registerCustomHive(ResourceLocation id, IHivePlacement placement, BlockState hiveState, Predicate<Holder<Biome>> isGoodBiome, Predicate<HumidityType> isGoodHumidity, Predicate<TemperatureType> isGoodTemperature, float genChance, KubeHiveDefinition.PostGenFunction postGen) {
 		return this.wrapped.registerHive(id, new KubeHiveDefinition(placement, hiveState, isGoodBiome, isGoodHumidity, isGoodTemperature, genChance, postGen));
 	}
 

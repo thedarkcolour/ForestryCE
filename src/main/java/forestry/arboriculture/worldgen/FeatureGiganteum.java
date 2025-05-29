@@ -10,11 +10,11 @@
  ******************************************************************************/
 package forestry.arboriculture.worldgen;
 
-import forestry.api.arboriculture.ITreeGenData;
+import forestry.api.arboriculture.ITreeSpecies;
 
 public class FeatureGiganteum extends FeatureSequoia {
 
-	public FeatureGiganteum(ITreeGenData tree) {
+	public FeatureGiganteum(ITreeSpecies tree) {
 		super(tree, 35, 15);
 	}
 

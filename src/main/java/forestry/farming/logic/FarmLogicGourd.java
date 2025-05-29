@@ -33,7 +33,7 @@ public class FarmLogicGourd extends FarmLogicWatered {
 			}
 
 			BlockState state = world.getBlockState(position);
-			if (!world.isEmptyBlock(position) && !BlockUtil.isReplaceableBlock(state, world, position)
+			if (!world.isEmptyBlock(position) && !BlockUtil.isReplaceableBlock(world, position)
 				|| !isValidPosition(farmHousing, direction, position, CultivationType.CROP)) {
 				continue;
 			}

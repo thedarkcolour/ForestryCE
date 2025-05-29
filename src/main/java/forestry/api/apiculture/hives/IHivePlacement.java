@@ -10,9 +10,8 @@ import javax.annotation.Nullable;
 
 /**
  * Determines placement conditions for a naturally generated wild beehive.
- * todo 1.21.1 rename to IHivePlacement
  */
-public interface IHiveGen {
+public interface IHivePlacement {
 	/**
 	 * @deprecated Use {@link #getPosForHive(WorldGenLevel, RandomSource, int, int)} with a world gen random instead.
 	 */

@@ -37,8 +37,6 @@ public interface ITreeSpeciesType extends ISpeciesType<ITreeSpecies, ITree> {
 
 	boolean plantSapling(Level level, ITree tree, GameProfile owner, BlockPos pos);
 
-	boolean setFruitBlock(LevelAccessor level, IGenome genome, IFruit fruit, float yield, BlockPos pos);
-
 	/**
 	 * Tries to get genetic information of a species from a mundane/vanilla block, like from Oak Leaves to Apple Oak Leaves.
 	 * Does not affect the block in the world, just returns an individual.

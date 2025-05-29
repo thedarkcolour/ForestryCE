@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.apiculture.genetics.effects;
 
 import forestry.api.apiculture.IBeeHousing;
@@ -29,14 +19,14 @@ public class GlacialBeeEffect extends ThrottledBeeEffect {
 
 	@Override
 	public IEffectData doEffectThrottled(IGenome genome, IEffectData storedData, IBeeHousing housing) {
-		Level level = housing.getWorldObj();
+		Level level = housing.getLevel();
 
 		if (housing.temperature().isWarmerOrEqual(TemperatureType.WARM)) {
 			return storedData;
 		}
 
 		Vec3i area = Bee.getParticleArea(genome, housing);
-		BlockPos centerPos = housing.getCoordinates().offset(VecUtil.center(area));
+		BlockPos centerPos = housing.getBlockPos().offset(VecUtil.center(area));
 
 		for (int i = 0; i < 10; i++) {
 

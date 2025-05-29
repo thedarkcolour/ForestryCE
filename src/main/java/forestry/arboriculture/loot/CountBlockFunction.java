@@ -1,9 +1,8 @@
 package forestry.arboriculture.loot;
 
 import com.google.common.collect.ImmutableSet;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSerializationContext;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import forestry.arboriculture.blocks.BlockAsh;
 import forestry.core.loot.CoreLootFunctions;
 import net.minecraft.world.item.ItemStack;
@@ -15,10 +14,13 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParam;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 
+import java.util.List;
 import java.util.Set;
 
 public class CountBlockFunction extends LootItemConditionalFunction {
-	protected CountBlockFunction(LootItemCondition[] conditions) {
+	public static final MapCodec<CountBlockFunction> CODEC = RecordCodecBuilder.mapCodec(instance -> commonFields(instance).apply(instance, CountBlockFunction::new));
+
+	private CountBlockFunction(List<LootItemCondition> conditions) {
 		super(conditions);
 	}
 
@@ -27,8 +29,8 @@ public class CountBlockFunction extends LootItemConditionalFunction {
 	}
 
 	@Override
-	public LootItemFunctionType getType() {
-		return CoreLootFunctions.COUNT.get();
+	public LootItemFunctionType<CountBlockFunction> getType() {
+		return CoreLootFunctions.COUNT.value();
 	}
 
 	@Override
@@ -45,18 +47,5 @@ public class CountBlockFunction extends LootItemConditionalFunction {
 	@Override
 	public Set<LootContextParam<?>> getReferencedContextParams() {
 		return ImmutableSet.of(LootContextParams.BLOCK_STATE);
-	}
-
-	public static class Serializer extends LootItemConditionalFunction.Serializer<CountBlockFunction> {
-
-		@Override
-		public void serialize(JsonObject object, CountBlockFunction function, JsonSerializationContext context) {
-			super.serialize(object, function, context);
-		}
-
-		@Override
-		public CountBlockFunction deserialize(JsonObject object, JsonDeserializationContext jsonDeserializationContext, LootItemCondition[] conditions) {
-			return new CountBlockFunction(conditions);
-		}
 	}
 }

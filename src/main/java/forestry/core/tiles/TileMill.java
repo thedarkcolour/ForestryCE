@@ -11,7 +11,7 @@
 package forestry.core.tiles;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -38,7 +38,7 @@ public abstract class TileMill extends TileBase {
 	}
 
 	@Override
-	public void writeData(FriendlyByteBuf data) {
+	public void writeData(RegistryFriendlyByteBuf data) {
 		super.writeData(data);
 		data.writeInt(this.charge);
 		data.writeFloat(this.speed);
@@ -46,7 +46,7 @@ public abstract class TileMill extends TileBase {
 	}
 
 	@Override
-	public void readData(FriendlyByteBuf data) {
+	public void readData(RegistryFriendlyByteBuf data) {
 		super.readData(data);
         this.charge = data.readInt();
         this.speed = data.readFloat();

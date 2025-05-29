@@ -26,14 +26,8 @@ public interface IWoodAccess {
 
 	BlockState getBlock(IWoodType woodType, WoodBlockKind kind, boolean fireproof);
 
-	/**
-	 * @since 2.6.0
-	 */
-	TagKey<Block> getLogBlockTag(IWoodType kind, boolean fireproof);
+	TagKey<Block> getLogBlockTag(IWoodType type, boolean fireproof);
 
-	/**
-	 * @since 2.6.0
-	 */
 	TagKey<Item> getLogItemTag(IWoodType kind, boolean fireproof);
 
 	List<IWoodType> getRegisteredWoodTypes();

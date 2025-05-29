@@ -7,7 +7,7 @@ import net.minecraft.world.item.ItemStack;
 /**
  * Naturalist armor allows players to see pollinated tree leaves.
  *
- * @see ForestryCapabilities#ARMOR_NATURALIST
+ * @see ForestryCapabilities#SPECTACLE_VISION
  */
 public interface IArmorNaturalist {
 

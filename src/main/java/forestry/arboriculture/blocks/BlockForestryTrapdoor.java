@@ -13,7 +13,7 @@ public class BlockForestryTrapdoor extends TrapDoorBlock implements IWoodTyped {
 	private final ForestryWoodType type;
 
 	public BlockForestryTrapdoor(ForestryWoodType type) {
-		super(Properties.of().mapColor(MapColor.WOOD).instrument(NoteBlockInstrument.BASS).strength(3f).noOcclusion().isValidSpawn(BlockUtil.NEVER_SPAWN).ignitedByLava(), type.getBlockSetType());
+		super(type.getBlockSetType(), Properties.of().mapColor(MapColor.WOOD).instrument(NoteBlockInstrument.BASS).strength(3f).noOcclusion().isValidSpawn(BlockUtil.NEVER_SPAWN).ignitedByLava());
 
 		this.type = type;
 	}

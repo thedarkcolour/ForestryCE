@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.core;
 
 import forestry.api.ForestryConstants;
@@ -17,6 +7,7 @@ import forestry.api.genetics.ISpeciesType;
 import forestry.apiculture.ApiaristAI;
 import forestry.apiculture.features.ApicultureEffects;
 import forestry.apiculture.villagers.ApicultureVillagers;
+import forestry.core.inventory.ItemInventory;
 import forestry.core.worldgen.VillagerJigsaw;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
@@ -28,14 +19,16 @@ import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorList;
-import net.minecraftforge.event.entity.EntityJoinLevelEvent;
-import net.minecraftforge.event.entity.living.LivingAttackEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.event.server.ServerAboutToStartEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.capabilities.ItemCapability;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
+import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
+import net.neoforged.neoforge.event.server.ServerAboutToStartEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 
-@Mod.EventBusSubscriber(modid = ForestryConstants.MOD_ID)
+@EventBusSubscriber(modid = ForestryConstants.MOD_ID)
 public class EventHandlerCore {
 	@SubscribeEvent
 	public static void handlePlayerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
@@ -92,5 +85,9 @@ public class EventHandlerCore {
 		Registry<StructureProcessorList> processors = event.getServer().registryAccess().registry(Registries.PROCESSOR_LIST).orElseThrow();
 
 		VillagerJigsaw.init(pools, processors);
+	}
+
+	public static void registerCapabilities(RegisterCapabilitiesEvent event) {
+		event.registerItem(Capabilities.ItemHandler.ITEM, ItemInventory::getCapability);
 	}
 }

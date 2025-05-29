@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.arboriculture.network;
 
 import forestry.api.modules.IForestryPacketClient;
@@ -15,8 +5,7 @@ import forestry.arboriculture.tiles.TileLeaves;
 import forestry.core.network.PacketIdClient;
 import forestry.core.tiles.TileUtil;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.entity.player.Player;
 
 public record PacketRipeningUpdate(BlockPos pos, int value) implements IForestryPacketClient {
@@ -25,17 +14,16 @@ public record PacketRipeningUpdate(BlockPos pos, int value) implements IForestry
 	}
 
 	@Override
-	public ResourceLocation id() {
+	public Type<?> type() {
 		return PacketIdClient.RIPENING_UPDATE;
 	}
 
-	@Override
-	public void write(FriendlyByteBuf buffer) {
-		buffer.writeBlockPos(this.pos);
-		buffer.writeVarInt(this.value);
+	public static void write(RegistryFriendlyByteBuf buffer, PacketRipeningUpdate msg) {
+		buffer.writeBlockPos(msg.pos);
+		buffer.writeVarInt(msg.value);
 	}
 
-	public static PacketRipeningUpdate decode(FriendlyByteBuf buffer) {
+	public static PacketRipeningUpdate decode(RegistryFriendlyByteBuf buffer) {
 		return new PacketRipeningUpdate(buffer.readBlockPos(), buffer.readVarInt());
 	}
 

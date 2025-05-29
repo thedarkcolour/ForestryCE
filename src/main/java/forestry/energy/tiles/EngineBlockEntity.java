@@ -26,13 +26,13 @@ import forestry.energy.blocks.EngineBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
@@ -186,7 +186,7 @@ public abstract class EngineBlockEntity extends TileBase implements IActivatable
 		this.active = active;
 
 		if (!this.level.isClientSide) {
-			NetworkUtil.sendNetworkPacket(new PacketActiveUpdate(this), this.worldPosition, this.level);
+			NetworkUtil.sendToPlayersTrackingPos(new PacketActiveUpdate(this), this.worldPosition, this.level);
 		}
 	}
 
@@ -261,7 +261,7 @@ public abstract class EngineBlockEntity extends TileBase implements IActivatable
 
 	/* NETWORK */
 	@Override
-	public void writeData(FriendlyByteBuf data) {
+	public void writeData(RegistryFriendlyByteBuf data) {
 		super.writeData(data);
 		data.writeBoolean(this.active);
 		data.writeInt(this.heat);
@@ -271,7 +271,7 @@ public abstract class EngineBlockEntity extends TileBase implements IActivatable
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void readData(FriendlyByteBuf data) {
+	public void readData(RegistryFriendlyByteBuf data) {
 		super.readData(data);
         this.active = data.readBoolean();
         this.heat = data.readInt();
@@ -280,7 +280,7 @@ public abstract class EngineBlockEntity extends TileBase implements IActivatable
 	}
 
 	@Override
-	public void writeGuiData(FriendlyByteBuf data) {
+	public void writeGuiData(RegistryFriendlyByteBuf data) {
 		data.writeInt(this.currentOutput);
 		data.writeInt(this.heat);
 		data.writeBoolean(this.forceCooldown);
@@ -288,7 +288,7 @@ public abstract class EngineBlockEntity extends TileBase implements IActivatable
 	}
 
 	@Override
-	public void readGuiData(FriendlyByteBuf data) {
+	public void readGuiData(RegistryFriendlyByteBuf data) {
         this.currentOutput = data.readInt();
         this.heat = data.readInt();
         this.forceCooldown = data.readBoolean();

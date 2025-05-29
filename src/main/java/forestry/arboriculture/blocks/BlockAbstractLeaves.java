@@ -11,6 +11,7 @@ import forestry.core.utils.BlockUtil;
 import forestry.core.utils.SpeciesUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -18,6 +19,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -29,7 +31,6 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -62,8 +63,8 @@ public abstract class BlockAbstractLeaves extends BlockExtendedLeaves implements
 	}
 
 	@Override
-	public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
-		ITree tree = getTree(world, pos);
+	public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player) {
+		ITree tree = getTree(level, pos);
 		if (tree == null) {
 			return ItemStack.EMPTY;
 		}
@@ -71,10 +72,9 @@ public abstract class BlockAbstractLeaves extends BlockExtendedLeaves implements
 		return species.getDecorativeLeaves();
 	}
 
-	@Nonnull
 	@Override
-	public List<ItemStack> onSheared(@Nullable Player player, @Nonnull ItemStack item, Level world, BlockPos pos, int fortune) {
-		ITree tree = getTree(world, pos);
+	public List<ItemStack> onSheared(@Nullable Player player, ItemStack stack, Level level, BlockPos pos) {
+		ITree tree = getTree(level, pos);
 		ITreeSpecies species;
 		if (tree == null) {
 			species = SpeciesUtil.getTreeSpecies(ForestryTreeSpecies.OAK);
@@ -90,37 +90,37 @@ public abstract class BlockAbstractLeaves extends BlockExtendedLeaves implements
 	}
 
 	@Override
-	public VoxelShape getCollisionShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
-		ITree tree = getTree(worldIn, pos);
+	public VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+		ITree tree = getTree(level, pos);
 		if (tree != null && tree.getSpecies().id().equals(ForestryTreeSpecies.WILLOW)) {
 			return Shapes.empty();
 		}
-		return super.getCollisionShape(state, worldIn, pos, context);
+		return super.getCollisionShape(state, level, pos, context);
 	}
 
 	/**
 	 * Used for walking through willow leaves.
 	 */
 	@Override
-	public void entityInside(BlockState state, Level worldIn, BlockPos pos, Entity entityIn) {
-		super.entityInside(state, worldIn, pos, entityIn);
+	public void entityInside(BlockState state, Level level, BlockPos pos, Entity entityIn) {
+		super.entityInside(state, level, pos, entityIn);
 		Vec3 motion = entityIn.getDeltaMovement();
 		entityIn.setDeltaMovement(motion.x() * 0.4D, motion.y(), motion.z() * 0.4D);
 	}
 
 	/* PROPERTIES */
 	@Override
-	public final int getFlammability(BlockState state, BlockGetter world, BlockPos pos, Direction face) {
+	public final int getFlammability(BlockState state, BlockGetter level, BlockPos pos, Direction face) {
 		return 60;
 	}
 
 	@Override
-	public final boolean isFlammable(BlockState state, BlockGetter world, BlockPos pos, Direction face) {
+	public final boolean isFlammable(BlockState state, BlockGetter level, BlockPos pos, Direction face) {
 		return true;
 	}
 
 	@Override
-	public final int getFireSpreadSpeed(BlockState state, BlockGetter world, BlockPos pos, Direction face) {
+	public final int getFireSpreadSpeed(BlockState state, BlockGetter level, BlockPos pos, Direction face) {
 		if (face == Direction.DOWN) {
 			return 20;
 		} else if (face != Direction.UP) {
@@ -141,13 +141,13 @@ public abstract class BlockAbstractLeaves extends BlockExtendedLeaves implements
 		}
 		ItemStack tool = context.getOptionalParameter(LootContextParams.TOOL);
 		BlockPos pos = BlockUtil.getPos(context);
-		getLeafDrop(drops, context.getLevel(), pos, profile, 1f, tool != null ? tool.getEnchantmentLevel(Enchantments.BLOCK_FORTUNE) : 0, context);
+		getLeafDrop(drops, context.getLevel(), pos, profile, 1f, tool != null ? tool.getEnchantmentLevel(context.getLevel().holderLookup(Registries.ENCHANTMENT).getOrThrow(Enchantments.FORTUNE)) : 0, context);
 		return drops;
 	}
 
 	@Override
-	public void animateTick(BlockState pState, Level level, BlockPos pos, RandomSource rand) {
-		super.animateTick(pState, level, pos, rand);
+	public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource rand) {
+		super.animateTick(state, level, pos, rand);
 
 		ITree tree = getTree(level, pos);
 

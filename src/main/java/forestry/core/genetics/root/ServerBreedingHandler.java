@@ -16,7 +16,7 @@ public class ServerBreedingHandler implements BreedingTrackerManager.SidedHandle
 	public <T extends IBreedingTracker> T getTracker(ISpeciesType<?, ?> type, LevelAccessor level, @Nullable GameProfile profile) {
 		String filename = type.getBreedingTrackerFile(profile);
 		ServerLevel overworld = level.getServer().getLevel(Level.OVERWORLD);
-		T tracker = (T) overworld.getDataStorage().computeIfAbsent(tag -> (SavedData) type.createBreedingTracker(tag), () -> (SavedData) type.createBreedingTracker(), filename);
+		T tracker = (T) overworld.getDataStorage().computeIfAbsent(new SavedData.Factory<>(() -> (SavedData) type.createBreedingTracker(), (nbt, registries) -> (SavedData) type.createBreedingTracker(nbt, registries)), filename);
 		type.initializeBreedingTracker(tracker, overworld, profile);
 		return tracker;
 	}

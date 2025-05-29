@@ -1,19 +1,10 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.core.network.packets;
 
 import forestry.api.modules.IForestryPacketServer;
 import forestry.core.gui.IGuiSelectable;
 import forestry.core.network.PacketIdServer;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -28,14 +19,13 @@ public record PacketGuiSelectRequest(int primaryIndex, int secondaryIndex) imple
 	}
 
 	@Override
-	public ResourceLocation id() {
+	public Type<?> type() {
 		return PacketIdServer.GUI_SELECTION_REQUEST;
 	}
 
-	@Override
-	public void write(FriendlyByteBuf buffer) {
-		buffer.writeVarInt(this.primaryIndex);
-		buffer.writeVarInt(this.secondaryIndex);
+	public static void write(RegistryFriendlyByteBuf buffer, PacketGuiSelectRequest msg) {
+		buffer.writeVarInt(msg.primaryIndex);
+		buffer.writeVarInt(msg.secondaryIndex);
 	}
 
 	public static PacketGuiSelectRequest decode(FriendlyByteBuf buffer) {

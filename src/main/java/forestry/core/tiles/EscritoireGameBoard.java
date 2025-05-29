@@ -20,7 +20,7 @@ import forestry.core.utils.NetworkUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 
@@ -214,13 +214,13 @@ public class EscritoireGameBoard implements INbtWritable, IStreamable {
 	}
 
 	@Override
-	public void writeData(FriendlyByteBuf data) {
+	public void writeData(RegistryFriendlyByteBuf data) {
 		data.writeVarInt(this.tokenCount);
 		NetworkUtil.writeStreamables(data, this.gameTokens);
 	}
 
 	@Override
-	public void readData(FriendlyByteBuf data) {
+	public void readData(RegistryFriendlyByteBuf data) {
 		this.tokenCount = data.readVarInt();
 		NetworkUtil.readStreamables(data, this.gameTokens, EscritoireGameToken::new);
 	}

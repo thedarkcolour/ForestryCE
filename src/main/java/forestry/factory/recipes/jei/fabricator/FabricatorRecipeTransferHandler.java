@@ -1,9 +1,9 @@
 package forestry.factory.recipes.jei.fabricator;
 
+import forestry.api.modules.IForestryPacketServer;
 import forestry.api.recipes.IFabricatorRecipe;
 import forestry.core.recipes.jei.ForestryRecipeType;
 import forestry.core.utils.JeiUtil;
-import forestry.core.utils.NetworkUtil;
 import forestry.factory.features.FactoryMenuTypes;
 import forestry.factory.gui.ContainerFabricator;
 import forestry.factory.network.packets.PacketRecipeTransferRequest;
@@ -16,6 +16,7 @@ import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
@@ -46,8 +47,9 @@ public class FabricatorRecipeTransferHandler implements IRecipeTransferHandler<C
 				craftingInventory.setItem(i, items.get(i));
 			}
 
-			NetworkUtil.sendToServer(new PacketRecipeTransferRequest(container.getFabricator().getBlockPos(), items));
-		}
+            IForestryPacketServer packet = new PacketRecipeTransferRequest(container.getFabricator().getBlockPos(), items);
+            PacketDistributor.sendToServer(packet);
+        }
 
 		return null;
 	}

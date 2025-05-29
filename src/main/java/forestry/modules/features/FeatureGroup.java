@@ -12,6 +12,7 @@ import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.function.BiFunction;
+import java.util.stream.Stream;
 
 public abstract class FeatureGroup<B extends FeatureGroup.Builder<S, ? extends FeatureGroup<B, F, S>>, F extends IModFeature, S extends IFeatureSubtype> {
 	protected final ImmutableMap<S, F> featureByType;
@@ -76,7 +77,7 @@ public abstract class FeatureGroup<B extends FeatureGroup.Builder<S, ? extends F
 		protected final IFeatureRegistry registry;
 		protected final Set<S> subTypes = new LinkedHashSet<>();
 		protected IdentifierType identifierType = IdentifierType.TYPE_ONLY;
-		protected String identifier = StringUtils.EMPTY;
+		protected String identifier = "";
 
 		public Builder(IFeatureRegistry registry) {
 			this.registry = registry;

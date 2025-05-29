@@ -21,7 +21,7 @@ public class SculkSpreadBeeEffect extends ThrottledBeeEffect {
 
 	@Override
 	IEffectData doEffectThrottled(IGenome genome, IEffectData storedData, IBeeHousing housing) {
-		Level level = housing.getWorldObj();
+		Level level = housing.getLevel();
 		if (level.isClientSide) {
 			return storedData;
 		}
@@ -30,7 +30,7 @@ public class SculkSpreadBeeEffect extends ThrottledBeeEffect {
 
 		BlockPos randomPos = VecUtil.getRandomPositionInArea(random, area);
 
-		BlockPos posBlock = randomPos.offset(housing.getCoordinates()).offset(VecUtil.center(area));
+		BlockPos posBlock = randomPos.offset(housing.getBlockPos()).offset(VecUtil.center(area));
 
 		if (level.hasChunkAt(posBlock)) {
 			BlockState state = level.getBlockState(posBlock);
@@ -38,11 +38,11 @@ public class SculkSpreadBeeEffect extends ThrottledBeeEffect {
 			if (state.isAir() && !level.getBlockState(posBlock.below()).isAir()) {
 				SculkSpreader spreader = SculkSpreader.createLevelSpreader();
 				spreader.addCursors(posBlock, random.nextInt(5) + 1);
-				spreader.updateCursors(level, housing.getCoordinates(), random, true);
-				spreader.updateCursors(level, housing.getCoordinates(), random, true);
-				spreader.updateCursors(level, housing.getCoordinates(), random, true);
-				spreader.updateCursors(level, housing.getCoordinates(), random, true);
-				spreader.updateCursors(level, housing.getCoordinates(), random, true);
+				spreader.updateCursors(level, housing.getBlockPos(), random, true);
+				spreader.updateCursors(level, housing.getBlockPos(), random, true);
+				spreader.updateCursors(level, housing.getBlockPos(), random, true);
+				spreader.updateCursors(level, housing.getBlockPos(), random, true);
+				spreader.updateCursors(level, housing.getBlockPos(), random, true);
 			} else if (state.getBlock() == Blocks.SCULK_SHRIEKER) {
 				level.setBlockAndUpdate(posBlock.above(), Blocks.SCULK_SHRIEKER.defaultBlockState().setValue(SculkShriekerBlock.CAN_SUMMON, true));
 			}

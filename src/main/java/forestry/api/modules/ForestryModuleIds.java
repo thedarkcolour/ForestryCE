@@ -9,7 +9,6 @@ import net.minecraft.resources.ResourceLocation;
 public class ForestryModuleIds {
 	public static final ResourceLocation APICULTURE = ForestryConstants.forestry("apiculture");
 	public static final ResourceLocation ARBORICULTURE = ForestryConstants.forestry("arboriculture");
-	public static final ResourceLocation CHARCOAL = ForestryConstants.forestry("charcoal");
 	public static final ResourceLocation CORE = ForestryConstants.forestry("core");
 	public static final ResourceLocation ENERGY = ForestryConstants.forestry("energy");
 	public static final ResourceLocation FACTORY = ForestryConstants.forestry("factory");

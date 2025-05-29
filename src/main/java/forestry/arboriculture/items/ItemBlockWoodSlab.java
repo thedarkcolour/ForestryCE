@@ -25,12 +25,6 @@ public class ItemBlockWoodSlab extends BlockItem {
 
 	@Override
 	public int getBurnTime(ItemStack itemStack, @Nullable RecipeType<?> recipeType) {
-		BlockForestrySlab forestrySlab = (BlockForestrySlab) getBlock();
-
-		if (forestrySlab.isFireproof()) {
-			return 0;
-		} else {
-			return 150;
-		}
+		return ((BlockForestrySlab) getBlock()).isFireproof() ? 0 : 150;
 	}
 }

@@ -1,15 +1,6 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.arboriculture.blocks;
 
+import forestry.arboriculture.PodFruit;
 import forestry.arboriculture.tiles.TileFruitPod;
 import forestry.core.tiles.TileUtil;
 import forestry.core.utils.BlockUtil;
@@ -19,7 +10,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CocoaBlock;
@@ -42,7 +32,7 @@ public class BlockFruitPod extends CocoaBlock implements EntityBlock {
 	}
 
 	@Override
-	public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter level, BlockPos pos, Player player) {
+	public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player) {
 		TileFruitPod tile = TileUtil.getTile(level, pos, TileFruitPod.class);
 		if (tile == null) {
 			return ItemStack.EMPTY;
@@ -82,7 +72,7 @@ public class BlockFruitPod extends CocoaBlock implements EntityBlock {
 	@Override
 	public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
 		Direction facing = state.getValue(FACING);
-		return BlockUtil.isValidPodLocation(level, pos, facing, this.podType.getFruit().getLogTag());
+		return PodFruit.isValidPodLocation(level, pos, facing, this.podType.getFruit());
 	}
 
 	@Override
@@ -90,9 +80,8 @@ public class BlockFruitPod extends CocoaBlock implements EntityBlock {
 		return new TileFruitPod(pos, state);
 	}
 
-	/* IGrowable */
 	@Override
-	public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state, boolean isClient) {
+	public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state) {
 		TileFruitPod podTile = TileUtil.getTile(level, pos, TileFruitPod.class);
 		return podTile != null && podTile.canMature();
 	}

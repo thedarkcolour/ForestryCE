@@ -1,5 +1,6 @@
 package forestry.worktable.screens;
 
+import forestry.api.modules.IForestryPacketServer;
 import forestry.core.gui.ContainerTile;
 import forestry.core.gui.IContainerCrafting;
 import forestry.core.gui.IGuiSelectable;
@@ -9,7 +10,6 @@ import forestry.core.inventory.InventoryGhostCrafting;
 import forestry.core.network.packets.PacketGuiSelectRequest;
 import forestry.core.tiles.TileUtil;
 import forestry.core.utils.ItemStackUtil;
-import forestry.core.utils.NetworkUtil;
 import forestry.worktable.features.WorktableMenus;
 import forestry.worktable.inventory.WorktableCraftingContainer;
 import forestry.worktable.inventory.WorktableInventory;
@@ -25,6 +25,7 @@ import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 public class WorktableMenu extends ContainerTile<WorktableTile> implements IContainerCrafting, IGuiSelectable {
 	private final WorktableCraftingContainer craftMatrix = new WorktableCraftingContainer(this);
@@ -67,15 +68,15 @@ public class WorktableMenu extends ContainerTile<WorktableTile> implements ICont
 	@Override
 	public void broadcastChanges() {
 		if (this.craftMatrixChanged) {
-            this.craftMatrixChanged = false;
-            this.tile.setCurrentRecipe(this.craftMatrix);
+			this.craftMatrixChanged = false;
+			this.tile.setCurrentRecipe(this.craftMatrix);
 			sendPacketToListeners(new PacketWorktableRecipeUpdate(this.tile));
 		}
 
 		super.broadcastChanges();
 
 		if (this.lastMemoryUpdate != this.tile.getMemory().getLastUpdate()) {
-            this.lastMemoryUpdate = this.tile.getMemory().getLastUpdate();
+			this.lastMemoryUpdate = this.tile.getMemory().getLastUpdate();
 			sendPacketToListeners(new PacketWorktableMemoryUpdate(this.tile));
 		}
 	}
@@ -97,7 +98,7 @@ public class WorktableMenu extends ContainerTile<WorktableTile> implements ICont
 		ItemStack currentStack = this.craftMatrix.getItem(slot);
 
 		if (!ItemStackUtil.isIdenticalItem(stack, currentStack)) {
-            this.craftMatrix.setItem(slot, stack.copy());
+			this.craftMatrix.setItem(slot, stack.copy());
 		}
 	}
 
@@ -105,7 +106,7 @@ public class WorktableMenu extends ContainerTile<WorktableTile> implements ICont
 	// Direct changes to the underlying inventory are not detected, only slot changes.
 	@Override
 	public void slotsChanged(Container container) {
-        this.craftMatrixChanged = true;
+		this.craftMatrixChanged = true;
 	}
 
 	/* Gui Selection Handling */
@@ -114,20 +115,21 @@ public class WorktableMenu extends ContainerTile<WorktableTile> implements ICont
 	}
 
 	public static void sendRecipeClick(int mouseButton, int recipeIndex) {
-		NetworkUtil.sendToServer(new PacketGuiSelectRequest(mouseButton, recipeIndex));
-	}
+        IForestryPacketServer packet = new PacketGuiSelectRequest(mouseButton, recipeIndex);
+        PacketDistributor.sendToServer(packet);
+    }
 
 	@Override
 	public void handleSelectionRequest(ServerPlayer player, int primary, int secondary) {
 		switch (primary) {
 			case -1: { // clicked clear button
-                this.tile.clearCraftMatrix();
+				this.tile.clearCraftMatrix();
 				updateCraftMatrix();
 				sendPacketToListeners(new PacketWorktableRecipeUpdate(this.tile));
 				break;
 			}
 			case 0: { // clicked a memorized recipe
-                this.tile.chooseRecipeMemory(secondary);
+				this.tile.chooseRecipeMemory(secondary);
 				updateCraftMatrix();
 				sendPacketToListeners(new PacketWorktableRecipeUpdate(this.tile));
 				break;
@@ -139,12 +141,12 @@ public class WorktableMenu extends ContainerTile<WorktableTile> implements ICont
 				break;
 			}
 			case 100: { // clicked previous recipe conflict button
-                this.tile.choosePreviousConflictRecipe();
+				this.tile.choosePreviousConflictRecipe();
 				sendPacketToListeners(new PacketWorktableRecipeUpdate(this.tile));
 				break;
 			}
 			case 101: { // clicked next recipe conflict button
-                this.tile.chooseNextConflictRecipe();
+				this.tile.chooseNextConflictRecipe();
 				sendPacketToListeners(new PacketWorktableRecipeUpdate(this.tile));
 				break;
 			}
@@ -152,6 +154,7 @@ public class WorktableMenu extends ContainerTile<WorktableTile> implements ICont
 	}
 
 	public void sendWorktableRecipeRequest(MemorizedRecipe recipe) {
-		NetworkUtil.sendToServer(new PacketWorktableRecipeRequest(this.tile.getBlockPos(), recipe));
-	}
+        IForestryPacketServer packet = new PacketWorktableRecipeRequest(this.tile.getBlockPos(), recipe);
+        PacketDistributor.sendToServer(packet);
+    }
 }

@@ -23,8 +23,8 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.ContainerListener;
 import net.minecraft.world.inventory.SimpleContainerData;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 public class ContainerFermenter extends ContainerLiquidTanks<TileFermenter> {
 	public static ContainerFermenter fromNetwork(int windowId, Inventory inv, FriendlyByteBuf data) {

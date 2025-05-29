@@ -22,7 +22,7 @@ public class Fruit extends DummyFruit {
 	}
 
 	@Override
-	public List<ItemStack> getFruits(@Nullable IGenome genome, Level level, int ripeningTime) {
+	public List<ItemStack> getFruits(IGenome genome, Level level, int ripeningTime) {
 		RandomSource rand = level.random;
 
 		if (ripeningTime >= this.ripeningPeriod) {

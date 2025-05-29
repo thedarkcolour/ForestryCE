@@ -1,33 +1,22 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.storage;
 
 import forestry.api.storage.BackpackResupplyEvent;
 import forestry.core.inventory.ItemInventory;
 import forestry.storage.inventory.ItemInventoryBackpack;
 import forestry.storage.items.ItemBackpack;
-import net.minecraft.core.NonNullList;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.eventbus.api.Event;
+import net.neoforged.neoforge.common.NeoForge;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 public class BackpackResupplyHandler {
-	private static NonNullList<ItemStack> getBackpacks(Inventory playerInventory) {
-		NonNullList<ItemStack> backpacks = NonNullList.create();
+	private static ArrayList<ItemStack> getBackpacks(Inventory playerInventory) {
+		ArrayList<ItemStack> backpacks = new ArrayList<>();
 		for (ItemStack itemStack : playerInventory.items) {
 			if (itemStack.getItem() instanceof ItemBackpack) {
 				backpacks.add(itemStack);
@@ -45,8 +34,8 @@ public class BackpackResupplyHandler {
 					ItemBackpack backpackItem = (ItemBackpack) backpack.getItem();
 					ItemInventory backpackInventory = new ItemInventoryBackpack(player, backpackItem.getBackpackSize(), backpack);
 
-					Event event = new BackpackResupplyEvent(player, backpackItem.getDefinition(), backpackInventory);
-					if (!MinecraftForge.EVENT_BUS.post(event)) {
+					BackpackResupplyEvent event = new BackpackResupplyEvent(player, backpackItem.getDefinition(), backpackInventory);
+					if (!NeoForge.EVENT_BUS.post(event).isCanceled()) {
 						for (int i = 0; i < backpackInventory.getContainerSize(); i++) {
 							ItemStack itemStack = backpackInventory.getItem(i);
 							if (topOffPlayerInventory(player, itemStack)) {

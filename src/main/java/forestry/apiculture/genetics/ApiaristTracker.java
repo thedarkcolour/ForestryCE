@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.apiculture.genetics;
 
 import forestry.api.IForestryApi;
@@ -18,6 +8,7 @@ import forestry.api.genetics.IMutationManager;
 import forestry.api.genetics.ISpecies;
 import forestry.core.genetics.BreedingTracker;
 import forestry.core.utils.SpeciesUtil;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 
 public class ApiaristTracker extends BreedingTracker implements IApiaristTracker {
@@ -44,8 +35,8 @@ public class ApiaristTracker extends BreedingTracker implements IApiaristTracker
 	}
 
 	@Override
-	public void readFromNbt(CompoundTag nbt) {
-		super.readFromNbt(nbt);
+	public void readFromNbt(CompoundTag nbt, HolderLookup.Provider registries) {
+		super.readFromNbt(nbt, registries);
 
 		this.queensTotal = nbt.getInt("QueensTotal");
 		this.princessesTotal = nbt.getInt("PrincessesTotal");

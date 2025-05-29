@@ -2,13 +2,14 @@ package forestry.api.core;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 
-import javax.annotation.Nullable;
 import java.util.Optional;
 
 /**
@@ -16,26 +17,21 @@ import java.util.Optional;
  *
  * @param item   The item this product represents.
  * @param count  The count the produced stack should have.
- * @param tag    The NBT tag
+ * @param data   The item's data components, if any, otherwise {@link DataComponentPatch#EMPTY}.
  * @param chance
  */
-public record Product(Item item, int count, @Nullable CompoundTag tag, float chance) implements IProduct {
+public record Product(Item item, int count, DataComponentPatch data, float chance) implements IProduct {
 	public static final Codec<Product> CODEC = RecordCodecBuilder.create(instance -> instance.group(
 		BuiltInRegistries.ITEM.byNameCodec().fieldOf("item").forGetter(Product::item),
 		Codec.intRange(1, 64).optionalFieldOf("count", 1).forGetter(Product::count),
-		CompoundTag.CODEC.optionalFieldOf("tag").forGetter(product -> Optional.ofNullable(product.tag)),
+		DataComponentPatch.CODEC.optionalFieldOf("data").forGetter(product -> Optional.ofNullable(product.data)),
 		Codec.floatRange(0f, 1f).fieldOf("chance").forGetter(Product::chance)
 	).apply(instance, (item, count, tag, chance) -> new Product(item, count, tag.orElse(null), chance)));
-	// todo StreamCodec in 1.21
+	public static final StreamCodec<RegistryFriendlyByteBuf, Product> STREAM_CODEC = StreamCodec.of(Product::toNetwork, Product::fromNetwork);
 
 	@Override
 	public ItemStack createStack() {
-		ItemStack stack = new ItemStack(this.item, this.count);
-		if (this.tag != null) {
-			// defensive copy
-			stack.setTag(this.tag.copy());
-		}
-		return stack;
+		return new ItemStack(this.item.builtInRegistryHolder(), this.count, this.data);
 	}
 
 	public static Product of(Item item) {
@@ -46,23 +42,23 @@ public record Product(Item item, int count, @Nullable CompoundTag tag, float cha
 		return new Product(item, amount, null, chance);
 	}
 
-	public static void toNetwork(FriendlyByteBuf buffer, Product product) {
-		buffer.writeId(BuiltInRegistries.ITEM, product.item);
+	public static void toNetwork(RegistryFriendlyByteBuf buffer, Product product) {
+		buffer.writeById(BuiltInRegistries.ITEM::getId, product.item);
 		buffer.writeByte(product.count);
-		buffer.writeNbt(product.tag);
+		DataComponentPatch.STREAM_CODEC.encode(buffer, product.data);
 		buffer.writeFloat(product.chance);
 	}
 
-	public static Product fromNetwork(FriendlyByteBuf buffer) {
-		Item item = buffer.readById(BuiltInRegistries.ITEM);
+	public static Product fromNetwork(RegistryFriendlyByteBuf buffer) {
+		Item item = buffer.readById(BuiltInRegistries.ITEM::byId);
 		int count = buffer.readByte();
-		CompoundTag tag = buffer.readNbt();
+		DataComponentPatch data = DataComponentPatch.STREAM_CODEC.decode(buffer);
 		float chance = buffer.readFloat();
 
-		if (item == null) {
+		if (item == Items.AIR) {
 			throw new IllegalStateException("Received invalid item ID");
 		}
 
-		return new Product(item, count, tag, chance);
+		return new Product(item, count, data, chance);
 	}
 }

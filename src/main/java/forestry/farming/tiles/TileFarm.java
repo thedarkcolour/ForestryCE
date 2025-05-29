@@ -24,7 +24,7 @@ import forestry.core.tiles.ITitled;
 import forestry.farming.gui.ContainerFarm;
 import forestry.farming.multiblock.MultiblockLogicFarm;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
@@ -33,8 +33,8 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 public abstract class TileFarm extends MultiblockTileEntityForestry<MultiblockLogicFarm> implements IFarmComponent, ISocketable, IStreamableGui, IErrorLogicSource, IOwnedTile, ITitled {
 	protected TileFarm(BlockEntityType<?> tileEntityType, BlockPos pos, BlockState state) {
@@ -81,13 +81,13 @@ public abstract class TileFarm extends MultiblockTileEntityForestry<MultiblockLo
 
 	/* IStreamableGui */
 	@Override
-	public void writeGuiData(FriendlyByteBuf data) {
+	public void writeGuiData(RegistryFriendlyByteBuf data) {
 		getMultiblockLogic().getController().writeGuiData(data);
 	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void readGuiData(FriendlyByteBuf data) {
+	public void readGuiData(RegistryFriendlyByteBuf data) {
 		getMultiblockLogic().getController().readGuiData(data);
 	}
 

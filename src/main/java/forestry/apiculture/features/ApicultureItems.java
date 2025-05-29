@@ -4,6 +4,7 @@ import forestry.api.apiculture.genetics.BeeLifeStage;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.apiculture.items.*;
 import forestry.core.items.ItemForestryFood;
+import forestry.core.items.ItemOverlay;
 import forestry.modules.features.*;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
@@ -22,17 +23,17 @@ public class ApicultureItems {
 	public static final FeatureItem<ItemHiveFrame> FRAME_UNTREATED = REGISTRY.item(() -> new ItemHiveFrame(80, 0.9f), "frame_untreated");
 	public static final FeatureItem<ItemHiveFrame> FRAME_IMPREGNATED = REGISTRY.item(() -> new ItemHiveFrame(240, 0.4f), "frame_impregnated");
 	public static final FeatureItem<ItemHiveFrame> FRAME_PROVEN = REGISTRY.item(() -> new ItemHiveFrame(720, 0.3f), "frame_proven");
-	public static final FeatureItem<ItemCreativeHiveFrame> FRAME_CREATIVE = REGISTRY.item(ItemCreativeHiveFrame::new, "frame_creative");
+	public static final FeatureItemGroup<ItemCreativeHiveFrame, ItemCreativeHiveFrame.Variant> FRAME_CREATIVE = REGISTRY.itemGroup(ItemCreativeHiveFrame::new, ItemCreativeHiveFrame.Variant.values()).create();
 
 	// BEE RESOURCES
 	public static final FeatureItem<Item> HONEY_DROP = REGISTRY.item("honey_drop");
 	public static final FeatureItem<Item> HONEYDEW = REGISTRY.item("honeydew");
 	public static final FeatureItem<Item> EXPERIENCE_DROP = REGISTRY.item("experience_drop");
-	public static final FeatureItemGroup<ItemPropolis, EnumPropolis> PROPOLIS = REGISTRY.itemGroup(ItemPropolis::new, "propolis", EnumPropolis.values());
+	public static final FeatureItemGroup<ItemOverlay, EnumPropolis> PROPOLIS = REGISTRY.itemGroup(ItemOverlay::new, "propolis", EnumPropolis.VALUES);
 
 	public static final FeatureItem<Item> ROYAL_JELLY = REGISTRY.item("royal_jelly");
 
-	public static final FeatureItemGroup<ItemPollenCluster, EnumPollenCluster> POLLEN_CLUSTER = REGISTRY.itemGroup(ItemPollenCluster::new, "pollen_cluster", EnumPollenCluster.values());
+	public static final FeatureItemGroup<ItemOverlay, EnumPollenCluster> POLLEN_CLUSTER = REGISTRY.itemGroup(ItemOverlay::new, "pollen_cluster", EnumPollenCluster.values());
 	public static final FeatureItemGroup<ItemHoneyComb, EnumHoneyComb> BEE_COMBS = REGISTRY.itemGroup(ItemHoneyComb::new, "bee_comb", EnumHoneyComb.VALUES);
 
 	// / BEE FOOD PRODUCTS

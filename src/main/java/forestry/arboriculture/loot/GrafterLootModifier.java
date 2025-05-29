@@ -1,6 +1,6 @@
 package forestry.arboriculture.loot;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import forestry.api.arboriculture.IToolGrafter;
 import forestry.api.arboriculture.genetics.IFruit;
@@ -29,16 +29,16 @@ import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.loot.IGlobalLootModifier;
-import net.minecraftforge.common.loot.LootModifier;
-import net.minecraftforge.event.ForgeEventFactory;
+import net.neoforged.neoforge.common.loot.IGlobalLootModifier;
+import net.neoforged.neoforge.common.loot.LootModifier;
+import net.neoforged.neoforge.event.EventHooks;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
 public class GrafterLootModifier extends LootModifier {
-	public static final Codec<GrafterLootModifier> CODEC = RecordCodecBuilder.create(inst -> codecStart(inst).apply(inst, GrafterLootModifier::new));
+	public static final MapCodec<GrafterLootModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> codecStart(instance).apply(instance, GrafterLootModifier::new));
 
 	public GrafterLootModifier(LootItemCondition[] conditionsIn) {
 		super(conditionsIn);
@@ -63,7 +63,7 @@ public class GrafterLootModifier extends LootModifier {
 		}
 		harvestingTool.hurt(1, context.getRandom(), (ServerPlayer) player);
 		if (harvestingTool.isEmpty()) {
-			ForgeEventFactory.onPlayerDestroyItem(player, harvestingTool, InteractionHand.MAIN_HAND);
+			EventHooks.onPlayerDestroyItem(player, harvestingTool, InteractionHand.MAIN_HAND);
 		}
 		return generatedLoot;
 	}
@@ -115,7 +115,7 @@ public class GrafterLootModifier extends LootModifier {
 	}
 
 	@Override
-	public Codec<? extends IGlobalLootModifier> codec() {
+	public MapCodec<? extends IGlobalLootModifier> codec() {
 		return CODEC;
 	}
 }

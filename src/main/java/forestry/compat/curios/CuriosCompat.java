@@ -1,31 +1,38 @@
 package forestry.compat.curios;
 
 import forestry.core.utils.GeneticsUtil;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityManager;
-import net.minecraftforge.common.capabilities.CapabilityToken;
-import net.minecraftforge.fml.ModList;
+import net.neoforged.fml.ModList;
+import net.neoforged.neoforge.capabilities.EntityCapability;
 import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
+import top.theillusivec4.curios.api.type.inventory.ICurioStacksHandler;
 import top.theillusivec4.curios.api.type.inventory.IDynamicStackHandler;
+
+import java.util.Optional;
 
 public class CuriosCompat {
 	public static final boolean IS_LOADED = ModList.get().isLoaded("curios");
 
-	public static final Capability<ICuriosItemHandler> CURIOS_INVENTORY = CapabilityManager.get(new CapabilityToken<>() {
-	});
+	public static final EntityCapability<ICuriosItemHandler, Void> CURIOS_INVENTORY = EntityCapability.createVoid(ResourceLocation.fromNamespaceAndPath("curios", "item_handler"), ICuriosItemHandler.class);
 
 	public static boolean hasNaturalistEye(Player player) {
-		return player.getCapability(CURIOS_INVENTORY).map(inventory -> inventory.getStacksHandler("head").map(handler -> {
-			IDynamicStackHandler stacks = handler.getStacks();
+		ICuriosItemHandler inventory = player.getCapability(CURIOS_INVENTORY);
 
-			for (int i = 0; i < stacks.getSlots(); i++) {
-				if (GeneticsUtil.hasNaturalistEye(player, stacks.getStackInSlot(i))) {
-					return true;
+		if (inventory != null) {
+			Optional<ICurioStacksHandler> head = inventory.getStacksHandler("head");
+
+			if (head.isPresent()) {
+				IDynamicStackHandler stacks = head.get().getStacks();
+
+				for (int i = 0; i < stacks.getSlots(); i++) {
+					if (GeneticsUtil.hasNaturalistEye(player, stacks.getStackInSlot(i))) {
+						return true;
+					}
 				}
 			}
+		}
 
-			return false;
-		}).orElse(false)).orElse(false);
+		return false;
 	}
 }

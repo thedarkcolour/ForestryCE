@@ -6,6 +6,7 @@ import forestry.api.core.TemperatureType;
 import forestry.api.core.tooltips.ToolTip;
 import forestry.api.genetics.ClimateHelper;
 import forestry.api.genetics.IGenome;
+import forestry.api.genetics.ILifeStage;
 import forestry.api.genetics.alleles.ButterflyChromosomes;
 import forestry.api.lepidopterology.genetics.IButterfly;
 import forestry.api.lepidopterology.genetics.IButterflySpecies;
@@ -55,6 +56,13 @@ public class ButterflySpecies extends Species<IButterflySpeciesType, IButterfly>
 	@Override
 	public IButterfly createIndividual(IGenome genome) {
 		return new Butterfly(genome);
+	}
+
+	@Override
+	public Component getItemDisplayName(ILifeStage stage) {
+		Component speciesName = getDisplayName();
+		Component typeName = Component.translatable("for.butterflies.grammar." + stage.getSerializedName() + ".type");
+		return Component.translatable("for.butterflies.grammar." + stage.getSerializedName(), speciesName, typeName);
 	}
 
 	@Override

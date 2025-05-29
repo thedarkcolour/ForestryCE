@@ -1,19 +1,10 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.apiculture.genetics.effects;
 
 import forestry.api.apiculture.IBeeHousing;
 import forestry.api.genetics.IEffectData;
 import forestry.api.genetics.IGenome;
 import forestry.apiculture.entities.AIAvoidPlayers;
+import net.minecraft.world.entity.ai.goal.WrappedGoal;
 import net.minecraft.world.entity.monster.Monster;
 
 import java.util.List;
@@ -37,6 +28,11 @@ public class RepulsionBeeEffect extends ThrottledBeeEffect {
 	}
 
 	private boolean isMobAvoidingPlayers(Monster mob) {
-		return mob.goalSelector.getRunningGoals().anyMatch(task -> task.getGoal() instanceof AIAvoidPlayers);
+        for (WrappedGoal task : mob.goalSelector.getAvailableGoals()) {
+            if (task.isRunning() && task.getGoal() instanceof AIAvoidPlayers) {
+                return true;
+            }
+        }
+        return false;
 	}
 }

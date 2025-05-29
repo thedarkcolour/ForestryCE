@@ -20,13 +20,13 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.IForgeShearable;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.common.IShearable;
 
 import javax.annotation.Nullable;
 
-public class BlockDecorativeLeaves extends Block implements IColoredBlock, IForgeShearable {
+public class BlockDecorativeLeaves extends Block implements IColoredBlock, IShearable {
 	private final ForestryLeafType type;
 
 	public BlockDecorativeLeaves(ForestryLeafType type) {
@@ -68,7 +68,6 @@ public class BlockDecorativeLeaves extends Block implements IColoredBlock, IForg
 		entityIn.setDeltaMovement(motion.multiply(0.4D, 1.0D, 0.4D));
 	}
 
-	/* PROPERTIES */
 	@Override
 	public int getFlammability(BlockState state, BlockGetter world, BlockPos pos, Direction face) {
 		return 60;

@@ -12,8 +12,8 @@ package forestry.core.circuits;
 
 import forestry.api.core.IItemSubtype;
 import forestry.core.render.ColourProperties;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 import java.util.Locale;
 

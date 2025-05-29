@@ -6,6 +6,7 @@ import forestry.core.network.packets.PacketRefractoryWax;
 import forestry.core.utils.NetworkUtil;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -35,8 +36,8 @@ public class ItemRefractoryWax extends ItemForestry {
 			stack.shrink(1);
 			level.setBlock(pos, waxedState, 11);
 			level.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(player, waxedState));
-			if (!level.isClientSide) {
-				NetworkUtil.sendNetworkPacket(new PacketRefractoryWax(pos), pos, level);
+			if (level instanceof ServerLevel serverLevel) {
+				NetworkUtil.sendToPlayersTrackingPos(new PacketRefractoryWax(pos), pos, serverLevel);
 			}
 
 			return InteractionResult.sidedSuccess(level.isClientSide);

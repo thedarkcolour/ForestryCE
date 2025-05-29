@@ -26,15 +26,15 @@ import forestry.core.utils.InventoryUtil;
 import forestry.core.utils.NetworkUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 public class TileEscritoire extends TileBase implements WorldlyContainer, ISlotPickupWatcher, IStreamableGui, IItemStackDisplay {
 	private final EscritoireGame game = new EscritoireGame();
@@ -112,17 +112,17 @@ public class TileEscritoire extends TileBase implements WorldlyContainer, ISlotP
 
 	/* NETWORK */
 	@Override
-	public void writeGuiData(FriendlyByteBuf data) {
+	public void writeGuiData(RegistryFriendlyByteBuf data) {
         this.game.writeData(data);
 	}
 
 	@Override
-	public void readGuiData(FriendlyByteBuf data) {
+	public void readGuiData(RegistryFriendlyByteBuf data) {
         this.game.readData(data);
 	}
 
 	@Override
-	public void writeData(FriendlyByteBuf data) {
+	public void writeData(RegistryFriendlyByteBuf data) {
 		super.writeData(data);
 		ItemStack displayStack = getIndividualOnDisplay();
 		data.writeItem(displayStack);
@@ -130,7 +130,7 @@ public class TileEscritoire extends TileBase implements WorldlyContainer, ISlotP
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void readData(FriendlyByteBuf data) {
+	public void readData(RegistryFriendlyByteBuf data) {
 		super.readData(data);
         this.individualOnDisplayClient = data.readItem();
 	}
@@ -141,7 +141,7 @@ public class TileEscritoire extends TileBase implements WorldlyContainer, ISlotP
 		if (slotIndex == InventoryEscritoire.SLOT_ANALYZE) {
             this.game.reset();
 			PacketItemStackDisplay packet = new PacketItemStackDisplay(this, getIndividualOnDisplay());
-			NetworkUtil.sendNetworkPacket(packet, this.worldPosition, this.level);
+			NetworkUtil.sendToPlayersTrackingPos(packet, this.worldPosition, this.level);
 		}
 	}
 
@@ -151,7 +151,7 @@ public class TileEscritoire extends TileBase implements WorldlyContainer, ISlotP
 		if (slotIndex == InventoryEscritoire.SLOT_ANALYZE) {
 			if (this.level != null && !this.level.isClientSide) {
 				PacketItemStackDisplay packet = new PacketItemStackDisplay(this, getIndividualOnDisplay());
-				NetworkUtil.sendNetworkPacket(packet, this.worldPosition, this.level);
+				NetworkUtil.sendToPlayersTrackingPos(packet, this.worldPosition, this.level);
 			}
 		}
 	}

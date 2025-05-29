@@ -1,6 +1,6 @@
 package forestry.apiculture.hives;
 
-import forestry.api.apiculture.hives.IHiveGen;
+import forestry.api.apiculture.hives.IHivePlacement;
 import forestry.core.utils.BlockUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -14,11 +14,11 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 
-public class HiveGenCaveCeiling implements IHiveGen {
+public class HivePlacementCaveCeiling implements IHivePlacement {
 	private final TagKey<Block> blocks;
 	private final TagKey<Block> extraReplaceable;
 
-	public HiveGenCaveCeiling(TagKey<Block> blocks, TagKey<Block> extraReplaceable) {
+	public HivePlacementCaveCeiling(TagKey<Block> blocks, TagKey<Block> extraReplaceable) {
 		this.blocks = blocks;
 		this.extraReplaceable = extraReplaceable;
 	}

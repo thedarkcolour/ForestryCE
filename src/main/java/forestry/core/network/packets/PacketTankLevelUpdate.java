@@ -23,7 +23,7 @@ import net.minecraftforge.fluids.FluidStack;
 
 public record PacketTankLevelUpdate(BlockPos pos, int tankIndex, FluidStack contents) implements IForestryPacketClient {
 	public PacketTankLevelUpdate(ILiquidTankTile tileEntity, int tankIndex, FluidStack contents) {
-		this(tileEntity.getCoordinates(), tankIndex, contents);
+		this(tileEntity.getBlockPos(), tankIndex, contents);
 	}
 
 	@Override

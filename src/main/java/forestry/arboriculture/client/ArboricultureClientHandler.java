@@ -1,15 +1,6 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.arboriculture.client;
 
+import forestry.api.ForestryConstants;
 import forestry.api.client.IClientModuleHandler;
 import forestry.arboriculture.ForestryWoodType;
 import forestry.arboriculture.blocks.BlockDecorativeLeaves;
@@ -25,11 +16,11 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.blockentity.HangingSignRenderer;
 import net.minecraft.client.renderer.blockentity.SignRenderer;
-import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.client.event.ModelEvent;
-import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.ModelEvent;
+import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent;
 
 public class ArboricultureClientHandler implements IClientModuleHandler {
 	@Override
@@ -68,7 +59,7 @@ public class ArboricultureClientHandler implements IClientModuleHandler {
 	}
 
 	private static void registerModelLoaders(ModelEvent.RegisterGeometryLoaders event) {
-		event.register("sapling_ge", new SaplingModelLoader());
+		event.register(ForestryConstants.forestry("sapling_ge"), new SaplingModelLoader());
 	}
 
 	private static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
@@ -82,8 +73,6 @@ public class ArboricultureClientHandler implements IClientModuleHandler {
 		for (ForestryWoodType type : ForestryWoodType.VALUES) {
 			event.registerLayerDefinition(ForestryBoatRenderer.createBoatModelLocation(type, false), BoatModel::createBodyModel);
 			event.registerLayerDefinition(ForestryBoatRenderer.createBoatModelLocation(type, true), ChestBoatModel::createBodyModel);
-			//event.registerLayerDefinition(ModelLayers.createSignModelName(type.getWoodType()), SignRenderer::createSignLayer);
-			//event.registerLayerDefinition(ModelLayers.createHangingSignModelName(type.getWoodType()), HangingSignRenderer::createHangingSignLayer);
 		}
 	}
 }

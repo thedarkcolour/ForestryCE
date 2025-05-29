@@ -20,7 +20,6 @@ import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.core.config.ForestryConfig;
 import forestry.core.genetics.capability.SerializableIndividualHandlerItem;
 import forestry.core.items.ItemForestry;
-import forestry.core.utils.GeneticsUtil;
 import forestry.core.utils.SpeciesUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
@@ -73,9 +72,11 @@ public abstract class ItemGE extends ItemForestry {
 
 	@Override
 	public Component getName(ItemStack stack) {
-		return stack.getCapability(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM)
-			.map(handler -> GeneticsUtil.getItemName(handler.getStage(), handler.getIndividual().getSpecies()))
-			.orElseGet(() -> super.getName(stack));
+		IIndividualHandlerItem handler = stack.getCapability(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM);
+		if (handler == null) {
+			return super.getName(stack);
+		}
+		return handler.getIndividual().getSpecies().getItemDisplayName(handler.getStage());
 	}
 
 	@Override

@@ -10,15 +10,14 @@
  ******************************************************************************/
 package forestry.arboriculture.worldgen;
 
-import forestry.api.arboriculture.ITreeGenData;
+import forestry.api.arboriculture.ITreeSpecies;
 import forestry.core.worldgen.FeatureHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 
 public class FeatureDate extends FeatureTree {
-
-	public FeatureDate(ITreeGenData tree) {
+	public FeatureDate(ITreeSpecies tree) {
 		super(tree, 6, 2);
 	}
 

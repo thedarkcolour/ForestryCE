@@ -6,6 +6,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +22,14 @@ public interface ISpecies<I extends IIndividual> extends IRegistryAlleleValue {
 	default MutableComponent getDisplayName() {
 		return Component.translatable(getTranslationKey());
 	}
+
+	/**
+	 * Returns the display name used for the item form of this species.
+	 *
+	 * @param stage The life stage of the item (ex. Drone, Pollen, Caterpillar)
+	 * @return The display name of this species's item form.
+	 */
+	Component getItemDisplayName(ILifeStage stage);
 
 	/**
 	 * @return The translation key for the description of this species used by the Portable Analyzer.

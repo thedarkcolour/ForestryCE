@@ -19,12 +19,10 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.wrapper.InvWrapper;
-import net.minecraftforge.items.wrapper.SidedInvWrapper;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.wrapper.InvWrapper;
+import net.neoforged.neoforge.items.wrapper.SidedInvWrapper;
 
 import javax.annotation.Nullable;
 import java.util.function.Consumer;
@@ -45,7 +43,7 @@ public abstract class TileUtil {
 	 */
 	@Nullable
 	public static BlockEntity getTile(BlockGetter level, BlockPos pos) {
-		return level.getExistingBlockEntity(pos);
+		return level.getBlockEntity(pos);
 	}
 
 	/**
@@ -84,9 +82,9 @@ public abstract class TileUtil {
 			return null;
 		}
 
-		LazyOptional<IItemHandler> itemCap = tile.getCapability(ForgeCapabilities.ITEM_HANDLER, side);
-		if (itemCap.isPresent()) {
-			return itemCap.orElse(null);
+		IItemHandler itemCap = tile.getLevel().getCapability(Capabilities.ItemHandler.BLOCK, tile.getBlockPos(), side);
+		if (itemCap != null) {
+			return itemCap;
 		}
 
 		if (tile instanceof WorldlyContainer worldly) {

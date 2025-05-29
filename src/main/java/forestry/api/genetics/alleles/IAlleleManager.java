@@ -46,7 +46,10 @@ public interface IAlleleManager {
 	 */
 	IBooleanAllele booleanAllele(boolean value, boolean dominant);
 
-	<V extends IRegistryAlleleValue> IRegistryAllele<V> registryAllele(ResourceLocation id, IRegistryChromosome<V> chromosome);
+	/**
+	 * @return A new registry allele. Value must be set elsewhere depending on which chromosome this allele belongs to.
+	 */
+	<V extends IRegistryAlleleValue, T extends V> IRegistryAllele<T> registryAllele(ResourceLocation id, IRegistryChromosome<V> chromosome);
 
 	/**
 	 * @return The allele codec, which serializes/deserializes using the allele's ID.

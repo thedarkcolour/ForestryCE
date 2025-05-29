@@ -274,8 +274,8 @@ public enum WoodAccess implements IWoodAccess {
 	}
 
 	@Override
-	public TagKey<Block> getLogBlockTag(IWoodType kind, boolean fireproof) {
-		return (fireproof ? this.fireproofLogBlockTags : this.logBlockTags).get(kind);
+	public TagKey<Block> getLogBlockTag(IWoodType type, boolean fireproof) {
+		return (fireproof ? this.fireproofLogBlockTags : this.logBlockTags).get(type);
 	}
 
 	@Override

@@ -1,19 +1,11 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.apiculture.tiles;
 
 import forestry.api.apiculture.IBeeHousingInventory;
 import forestry.api.apiculture.IBeeListener;
 import forestry.api.apiculture.IBeeModifier;
-import forestry.apiculture.BeehouseBeeModifier;
+import forestry.api.apiculture.genetics.IBeeSpecies;
+import forestry.api.genetics.IGenome;
+import forestry.api.genetics.IMutation;
 import forestry.apiculture.InventoryBeeHousing;
 import forestry.apiculture.features.ApicultureTiles;
 import forestry.apiculture.gui.ContainerBeeHousing;
@@ -26,20 +18,21 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.network.NetworkHooks;
 
+import javax.annotation.Nullable;
+import java.util.Collections;
 import java.util.List;
 
 public class TileBeeHouse extends TileBeeHousingBase {
-	private static final IBeeModifier beeModifier = new BeehouseBeeModifier();
+	private static final Iterable<IBeeModifier> MODIFIER = Collections.singleton(new Modifier());
 
 	private final InventoryBeeHousing beeInventory;
 
 	public TileBeeHouse(BlockPos pos, BlockState state) {
 		super(ApicultureTiles.BEE_HOUSE.tileType(), pos, state, "bee.house");
 
-        this.beeInventory = new InventoryBeeHousing(12);
-        this.beeInventory.disableAutomation();
+		this.beeInventory = new InventoryBeeHousing(12);
+		this.beeInventory.disableAutomation();
 		setInternalInventory(this.beeInventory);
 	}
 
@@ -50,7 +43,7 @@ public class TileBeeHouse extends TileBeeHousingBase {
 
 	@Override
 	public Iterable<IBeeModifier> getBeeModifiers() {
-		return List.of(beeModifier);
+		return MODIFIER;
 	}
 
 	@Override
@@ -65,10 +58,38 @@ public class TileBeeHouse extends TileBeeHousingBase {
 
 	@Override
 	public void openGui(ServerPlayer player, InteractionHand hand, BlockPos pos) {
-		NetworkHooks.openScreen(player, this, buffer -> {
+		player.openMenu(this, buffer -> {
 			buffer.writeBlockPos(pos);
 			buffer.writeBoolean(false);
 			NetworkUtil.writeEnum(buffer, GuiBeeHousing.Icon.BEE_HOUSE);
 		});
+	}
+
+	// no mutations/ignoble decay, 300% aging and flowering, 25% production
+	private static class Modifier implements IBeeModifier {
+		@Override
+		public float modifyProductionSpeed(IGenome genome, float currentSpeed) {
+			return 0.25f * currentSpeed;
+		}
+
+		@Override
+		public float modifyMutationChance(IGenome genome, IGenome mate, IMutation<IBeeSpecies> mutation, float currentChance) {
+			return 0.0f;
+		}
+
+		@Override
+		public float modifyAging(IGenome genome, @Nullable IGenome mate, float currentAging) {
+			return currentAging / 3f;
+		}
+
+		@Override
+		public float modifyPollination(IGenome genome, float currentPollination) {
+			return 3.0f * currentPollination;
+		}
+
+		@Override
+		public float modifyGeneticDecay(IGenome genome, float currentDecay) {
+			return 0.0f;
+		}
 	}
 }

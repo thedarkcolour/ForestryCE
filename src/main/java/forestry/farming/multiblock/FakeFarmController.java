@@ -86,7 +86,7 @@ public enum FakeFarmController implements FakeMultiblockController, IFarmControl
 	}
 
 	@Override
-	public BlockPos getCoordinates() {
+	public BlockPos getBlockPos() {
 		return BlockPos.ZERO;
 	}
 

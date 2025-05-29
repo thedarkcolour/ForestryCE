@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.apiculture.hives;
 
 import forestry.api.IForestryApi;
@@ -47,11 +37,6 @@ public class HiveDecorator extends Feature<NoneFeatureConfiguration> {
 		Holder<Biome> biome = world.getBiome(hivePos);
 		TemperatureType temperature = IForestryApi.INSTANCE.getClimateManager().getTemperature(biome);
 		HumidityType humidity = IForestryApi.INSTANCE.getClimateManager().getHumidity(biome);
-		if (temperature == null) {
-			System.out.println(biome.getClass());
-			System.out.println(biome.unwrapKey());
-			System.out.println(biome.get());
-		}
 		// check if the biome is valid
 		if (!hive.isGoodBiome(biome) || !hive.isGoodTemperature(temperature) || !hive.isGoodHumidity(humidity)) {
 			return false;

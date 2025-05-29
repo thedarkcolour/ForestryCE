@@ -47,7 +47,16 @@ public class ItemResearchNote extends ItemForestry {
 		super(new Item.Properties());
 	}
 
-	@Override
+    @Nullable
+    public static <S extends ISpecies<I>, I extends IIndividual> S getSpecies(ISpeciesType<S, I> speciesType, CompoundTag nbt, String key) {
+        String idString = nbt.getString(key);
+        if (idString.isEmpty()) {
+            return null;
+        }
+        return speciesType.getSpeciesSafe(ResourceLocation.tryParse(idString));
+    }
+
+    @Override
 	public Component getName(ItemStack itemstack) {
 		ResearchNote note = new ResearchNote(itemstack.getTag());
 		String researcherName;
@@ -88,15 +97,15 @@ public class ItemResearchNote extends ItemForestry {
 			return null;
 		}
 
-		ISpecies<?> parent0 = AlleleUtil.getSpecies(type, compound, PARENT_0_KEY);
-		ISpecies<?> parent1 = AlleleUtil.getSpecies(type, compound, PARENT_1_KEY);
+		ISpecies<?> parent0 = getSpecies(type, compound, PARENT_0_KEY);
+		ISpecies<?> parent1 = getSpecies(type, compound, PARENT_1_KEY);
 		if (parent0 == null || parent1 == null) {
 			return null;
 		}
 
 		ISpecies<?> result = null;
 		if (compound.contains(RESULT_KEY)) {
-			result = AlleleUtil.getSpecies(type, compound, RESULT_KEY);
+			result = getSpecies(type, compound, RESULT_KEY);
 		}
 
 		IMutation<?> encoded = null;

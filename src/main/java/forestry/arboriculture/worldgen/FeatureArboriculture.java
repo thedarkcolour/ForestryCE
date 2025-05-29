@@ -1,16 +1,6 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.arboriculture.worldgen;
 
-import forestry.api.arboriculture.ITreeGenData;
+import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.genetics.IGenome;
 import forestry.arboriculture.blocks.BlockSapling;
 import forestry.core.utils.VecUtil;
@@ -51,21 +41,21 @@ public abstract class FeatureArboriculture extends FeatureBase {
 	// skips performance-heavy checks during world generation or sapling generation
 	public static final ThreadLocal<Boolean> SKIP_EXTENDED_CHECKS = ThreadLocal.withInitial(() -> false);
 
-	protected final ITreeGenData tree;
+	protected final ITreeSpecies species;
 
-	protected FeatureArboriculture(ITreeGenData tree) {
-		this.tree = tree;
+	protected FeatureArboriculture(ITreeSpecies species) {
+		this.species = species;
 	}
 
 	@Override
 	public IGenome getDefaultGenome() {
-		return this.tree.getDefaultGenome();
+		return this.species.getDefaultGenome();
 	}
 
 	@Override
 	public boolean place(IGenome genome, LevelAccessor level, RandomSource rand, BlockPos pos, boolean forced) {
-		TreeBlockTypeLeaf leaf = new TreeBlockTypeLeaf(this.tree, genome);
-		TreeBlockTypeLog wood = new TreeBlockTypeLog(this.tree, genome);
+		TreeBlockTypeLeaf leaf = new TreeBlockTypeLeaf(this.species, genome);
+		TreeBlockTypeLog wood = new TreeBlockTypeLog(this.species, genome);
 
 		// Calculate height and girth
 		preGenerate(genome, level, rand, pos);
@@ -91,7 +81,7 @@ public abstract class FeatureArboriculture extends FeatureBase {
 
 			// Generate leaves and pods
 			generateLeaves(level, rand, leaf, contour, genPos);
-			generateExtras(level, rand, genPos);
+			generateExtras(level, rand, genome, genPos);
 
 			if (contour.boundingBox != null) {
 				// Correctly update the leaf distance states on the leaf blocks
@@ -188,7 +178,7 @@ public abstract class FeatureArboriculture extends FeatureBase {
 
 	protected abstract void generateLeaves(LevelAccessor level, RandomSource rand, TreeBlockTypeLeaf leaf, TreeContour contour, BlockPos startPos);
 
-	protected abstract void generateExtras(LevelAccessor level, RandomSource rand, BlockPos startPos);
+	protected abstract void generateExtras(LevelAccessor level, RandomSource rand, IGenome genome, BlockPos startPos);
 
 	@Nullable
 	public abstract BlockPos getValidGrowthPos(LevelAccessor level, BlockPos pos);
@@ -197,7 +187,7 @@ public abstract class FeatureArboriculture extends FeatureBase {
 	 * Removes all saplings before generating the trunk.
 	 */
 	public void clearSaplings(LevelAccessor level, BlockPos genPos) {
-		int treeGirth = this.tree.getGirth(this.tree.getDefaultGenome());
+		int treeGirth = this.species.getGirth(this.species.getDefaultGenome());
 		for (int x = 0; x < treeGirth; x++) {
 			for (int z = 0; z < treeGirth; z++) {
 				BlockPos saplingPos = genPos.offset(x, 0, z);
@@ -206,9 +196,5 @@ public abstract class FeatureArboriculture extends FeatureBase {
 				}
 			}
 		}
-	}
-
-	public boolean hasPods() {
-		return this.tree.allowsFruitBlocks(this.tree.getDefaultGenome());
 	}
 }

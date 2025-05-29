@@ -20,8 +20,6 @@ import net.minecraft.world.item.ItemStack;
  * Base class for items with an overlay color and multiple layer models.
  *
  * @see forestry.core.items.ItemElectronTube
- * @see forestry.apiculture.items.ItemPollenCluster
- * @see forestry.apiculture.items.ItemPropolis
  * @see forestry.mail.items.ItemStamp
  */
 public class ItemOverlay extends ItemForestry implements IColoredItem {
@@ -34,7 +32,7 @@ public class ItemOverlay extends ItemForestry implements IColoredItem {
 
 	protected final IOverlayInfo overlay;
 
-	public ItemOverlay(CreativeModeTab tab, IOverlayInfo overlay) {
+	public ItemOverlay(IOverlayInfo overlay) {
 		super(new Item.Properties());
 
 		this.overlay = overlay;

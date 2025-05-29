@@ -1,4 +1,4 @@
-package forestry.arboriculture.charcoal.jei;
+package forestry.arboriculture.compat;
 
 import forestry.api.ForestryConstants;
 import forestry.api.arboriculture.ICharcoalPileWall;
@@ -32,10 +32,10 @@ public class CharcoalPileWallCategory extends ForestryRecipeCategory<ICharcoalPi
 	public CharcoalPileWallCategory(IGuiHelper helper) {
 		super(helper.createBlankDrawable(120, 38), "for.jei.charcoal.pile");
 		ResourceLocation resourceLocation = ForestryConstants.forestry("textures/gui/jei/recipes.png");
-        this.arrow = helper.createDrawable(resourceLocation, 0, 14, 22, 16);
+		this.arrow = helper.createDrawable(resourceLocation, 0, 14, 22, 16);
 		IDrawableStatic arrowAnimated = helper.createDrawable(resourceLocation, 22, 14, 22, 16);
 		this.arrowAnimated = helper.createAnimatedDrawable(arrowAnimated, 160, StartDirection.LEFT, false);
-        this.flame = helper.createDrawable(resourceLocation, 0, 0, 14, 14);
+		this.flame = helper.createDrawable(resourceLocation, 0, 0, 14, 14);
 		IDrawableStatic flameAnimated = helper.createDrawable(resourceLocation, 14, 0, 14, 14);
 		this.flameAnimated = helper.createAnimatedDrawable(flameAnimated, 260, StartDirection.TOP, true);
 		this.slot = helper.getSlotDrawable();
@@ -44,7 +44,7 @@ public class CharcoalPileWallCategory extends ForestryRecipeCategory<ICharcoalPi
 
 	@Override
 	public RecipeType<ICharcoalPileWall> getRecipeType() {
-		return CharcoalJeiPlugin.RECIPE_TYPE;
+		return ArboricultureJeiPlugin.CHARCOAL_PILE;
 	}
 
 	@Override

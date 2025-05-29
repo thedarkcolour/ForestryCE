@@ -12,9 +12,10 @@ package forestry.mail.gui;
 
 import forestry.Forestry;
 import forestry.api.mail.*;
+import forestry.api.modules.IForestryPacketClient;
+import forestry.api.modules.IForestryPacketServer;
 import forestry.core.gui.ContainerItemInventory;
 import forestry.core.gui.slots.SlotFiltered;
-import forestry.core.utils.NetworkUtil;
 import forestry.mail.Letter;
 import forestry.mail.MailAddress;
 import forestry.mail.carriers.PostalCarriers;
@@ -32,8 +33,9 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import javax.annotation.Nullable;
 import java.util.Iterator;
@@ -145,10 +147,12 @@ public class ContainerLetter extends ContainerItemInventory<ItemInventoryLetter>
 		// TODO: Move this to the carrier to make it more extensible
 		// Update info on client
 		if (carrier.equals(PostalCarriers.PLAYER.get())) {
-			NetworkUtil.sendToPlayer(new PacketLetterInfoResponsePlayer(recipient), (ServerPlayer) player);
-		} else {
-			NetworkUtil.sendToPlayer(new PacketLetterInfoResponseTrader(this.tradeInfo), (ServerPlayer) player);
-		}
+            IForestryPacketClient packet = new PacketLetterInfoResponsePlayer(recipient);
+            PacketDistributor.sendToPlayer((ServerPlayer) player, packet);
+        } else {
+            IForestryPacketClient packet = new PacketLetterInfoResponseTrader(this.tradeInfo);
+            PacketDistributor.sendToPlayer((ServerPlayer) player, packet);
+        }
 	}
 
 	private static IMailAddress getRecipient(MinecraftServer minecraftServer, String recipientName, IPostalCarrier carrier) {
@@ -168,7 +172,8 @@ public class ContainerLetter extends ContainerItemInventory<ItemInventoryLetter>
 	public void setText(String text) {
 		getLetter().setText(text);
 
-		NetworkUtil.sendToServer(new PacketLetterTextSet(text));
+		IForestryPacketServer packet = new PacketLetterTextSet(text);
+		PacketDistributor.sendToServer(packet);
 	}
 
 	public void handleSetText(String text) {

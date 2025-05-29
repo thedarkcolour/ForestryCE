@@ -31,7 +31,7 @@ public interface IRegistryChromosome<V extends IRegistryAlleleValue> extends IVa
 	 * @throws IllegalStateException If the registry is not yet populated.
 	 */
 	@Nullable
-	V getSafe(ResourceLocation id);
+	V getSafe(@Nullable ResourceLocation id);
 
 	/**
 	 * @return An immutable collection of all values in this chromosome.

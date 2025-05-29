@@ -1,9 +1,9 @@
 package forestry.factory.recipes.jei.carpenter;
 
+import forestry.api.modules.IForestryPacketServer;
 import forestry.api.recipes.ICarpenterRecipe;
 import forestry.core.recipes.jei.ForestryRecipeType;
 import forestry.core.utils.JeiUtil;
-import forestry.core.utils.NetworkUtil;
 import forestry.factory.features.FactoryMenuTypes;
 import forestry.factory.gui.ContainerCarpenter;
 import forestry.factory.network.packets.PacketRecipeTransferRequest;
@@ -16,6 +16,7 @@ import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
@@ -46,8 +47,9 @@ public class CarpenterRecipeTransferHandler implements IRecipeTransferHandler<Co
 			for (int i = 0; i < size; i++) {
 				craftingInventory.setItem(i, items.get(i));
 			}
-			NetworkUtil.sendToServer(new PacketRecipeTransferRequest(container.getCarpenter().getBlockPos(), items));
-		}
+            IForestryPacketServer packet = new PacketRecipeTransferRequest(container.getCarpenter().getBlockPos(), items);
+            PacketDistributor.sendToServer(packet);
+        }
 
 		return null;
 	}

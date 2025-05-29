@@ -19,7 +19,7 @@ import forestry.cultivation.IFarmHousingInternal;
 import forestry.farming.gui.IFarmLedgerDelegate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
 
@@ -37,7 +37,7 @@ public class FarmHydrationManager implements IFarmLedgerDelegate, INbtWritable, 
 	}
 
 	public void updateServer() {
-		Level world = this.housing.getWorldObj();
+		Level world = this.housing.getLevel();
 		BlockPos coordinates = this.housing.getTopCoord();
 		if (world.isRainingAt(coordinates.above())) {
 			if (this.hydrationDelay > 0) {
@@ -105,13 +105,13 @@ public class FarmHydrationManager implements IFarmLedgerDelegate, INbtWritable, 
 	}
 
 	@Override
-	public void writeData(FriendlyByteBuf data) {
+	public void writeData(RegistryFriendlyByteBuf data) {
 		data.writeVarInt(this.hydrationDelay);
 		data.writeVarInt(this.ticksSinceRainfall);
 	}
 
 	@Override
-	public void readData(FriendlyByteBuf data) {
+	public void readData(RegistryFriendlyByteBuf data) {
         this.hydrationDelay = data.readVarInt();
         this.ticksSinceRainfall = data.readVarInt();
 	}

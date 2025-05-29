@@ -1,7 +1,7 @@
 package forestry.arboriculture;
 
+import forestry.api.IForestryApi;
 import forestry.api.arboriculture.IWoodType;
-import forestry.api.arboriculture.TreeManager;
 import forestry.api.arboriculture.WoodBlockKind;
 import forestry.core.utils.Translator;
 import net.minecraft.network.chat.Component;
@@ -22,7 +22,7 @@ public class WoodHelper {
 				displayName = Component.translatable("for." + kind + ".grammar", Component.translatable("for.trees.woodType." + woodType));
 			}
 		} else if (woodType instanceof VanillaWoodType) {
-			displayName = TreeManager.woodAccess.getStack(woodType, kind, false).getHoverName();
+			displayName = IForestryApi.INSTANCE.getTreeManager().getWoodAccess().getStack(woodType, kind, false).getHoverName();
 		} else {
 			throw new IllegalArgumentException("Unknown wood type: " + woodType);
 		}

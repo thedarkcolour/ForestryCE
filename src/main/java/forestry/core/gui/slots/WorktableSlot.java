@@ -4,7 +4,7 @@ import forestry.worktable.tiles.ICrafterWorktable;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.CraftingContainer;
-import net.minecraft.world.inventory.RecipeHolder;
+import net.minecraft.world.inventory.RecipeCraftingHolder;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 
@@ -39,10 +39,10 @@ public class WorktableSlot extends Slot {
 	protected void checkTakeAchievements(ItemStack stack) {
 		if (this.amountCrafted > 0) {
 			stack.onCraftedBy(this.player.level(), this.player, this.amountCrafted);
-			net.minecraftforge.event.ForgeEventFactory.firePlayerCraftingEvent(this.player, stack, this.craftMatrix);
+			net.neoforged.neoforge.event.EventHooks.firePlayerCraftingEvent(this.player, stack, this.craftMatrix);
 		}
 
-		if (this.container instanceof RecipeHolder holder) {
+		if (this.container instanceof RecipeCraftingHolder holder) {
 			holder.awardUsedRecipes(this.player, this.craftMatrix.getItems());
 		}
 

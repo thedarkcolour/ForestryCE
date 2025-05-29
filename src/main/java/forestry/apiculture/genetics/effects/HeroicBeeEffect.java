@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.apiculture.genetics.effects;
 
 import forestry.api.apiculture.IBeeHousing;
@@ -27,7 +17,7 @@ public class HeroicBeeEffect extends ThrottledBeeEffect {
 	public IEffectData doEffectThrottled(IGenome genome, IEffectData storedData, IBeeHousing housing) {
 		List<Monster> mobs = ThrottledBeeEffect.getEntitiesInRange(genome, housing, Monster.class);
 		for (Monster mob : mobs) {
-			mob.hurt(CoreDamageTypes.source(housing.getWorldObj(), CoreDamageTypes.HEROIC), 2);
+			mob.hurt(CoreDamageTypes.source(housing.getLevel(), CoreDamageTypes.HEROIC), 2);
 		}
 
 		return storedData;

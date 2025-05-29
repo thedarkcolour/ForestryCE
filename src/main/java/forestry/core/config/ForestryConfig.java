@@ -1,37 +1,38 @@
 package forestry.core.config;
 
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.config.ModConfig;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.config.ModConfig;
+import net.neoforged.neoforge.common.ModConfigSpec;
 import org.apache.commons.lang3.tuple.Pair;
 
 public class ForestryConfig {
-	private static final ForgeConfigSpec CLIENT_SPEC;
-	private static final ForgeConfigSpec COMMON_SPEC;
-	private static final ForgeConfigSpec SERVER_SPEC;
+	private static final ModConfigSpec CLIENT_SPEC;
+	private static final ModConfigSpec COMMON_SPEC;
+	private static final ModConfigSpec SERVER_SPEC;
+
 	public static final Client CLIENT;
 	public static final Common COMMON;
 	public static final Server SERVER;
 
 	public static class Common {
-		public Common(ForgeConfigSpec.Builder builder) {
+		public Common(ModConfigSpec.Builder builder) {
 
 		}
 	}
 
 	public static class Client {
 		// Misc
-		public final ForgeConfigSpec.BooleanValue showParticles;
-		public final ForgeConfigSpec.BooleanValue enableHints;
-		public final ForgeConfigSpec.BooleanValue enableGlints;
+		public final ModConfigSpec.BooleanValue showParticles;
+		public final ModConfigSpec.BooleanValue enableHints;
+		public final ModConfigSpec.BooleanValue enableGlints;
 		// Mail
-		public final ForgeConfigSpec.BooleanValue mailAlertsEnabled;
+		public final ModConfigSpec.BooleanValue mailAlertsEnabled;
 		// JEI Bees
-		public final ForgeConfigSpec.BooleanValue showRequirements;
-		public final ForgeConfigSpec.BooleanValue showSecretMutations;
-		public final ForgeConfigSpec.BooleanValue identifyGenome;
+		public final ModConfigSpec.BooleanValue showRequirements;
+		public final ModConfigSpec.BooleanValue showSecretMutations;
+		public final ModConfigSpec.BooleanValue identifyGenome;
 
-		public Client(ForgeConfigSpec.Builder builder) {
+		public Client(ModConfigSpec.Builder builder) {
 			this.showParticles = builder
 				.comment("Whether any of Forestry's particles are rendered.")
 				.define("particles", true);
@@ -62,31 +63,31 @@ public class ForestryConfig {
 
 	public static class Server {
 		// Genetics
-		public final ForgeConfigSpec.DoubleValue researchMutationBoostMultiplier;
-		public final ForgeConfigSpec.DoubleValue maxResearchMutationBoostPercent;
+		public final ModConfigSpec.DoubleValue researchMutationBoostMultiplier;
+		public final ModConfigSpec.DoubleValue maxResearchMutationBoostPercent;
 		// Bees
-		public final ForgeConfigSpec.BooleanValue pollinateVanillaLeaves;
-		public final ForgeConfigSpec.DoubleValue wildHiveSpawnRate;
-		public final ForgeConfigSpec.BooleanValue useHaploidDrones;
+		public final ModConfigSpec.BooleanValue pollinateVanillaLeaves;
+		public final ModConfigSpec.DoubleValue wildHiveSpawnRate;
+		public final ModConfigSpec.BooleanValue useHaploidDrones;
 		// Trees
-		public final ForgeConfigSpec.DoubleValue treesSpawnNaturally;
+		public final ModConfigSpec.DoubleValue treesSpawnNaturally;
 		// Butterflies
-		public final ForgeConfigSpec.BooleanValue disableButterflySpawning;
-		public final ForgeConfigSpec.IntValue butterflyClusterLimit;
-		public final ForgeConfigSpec.IntValue butterflyClusterWidth;
-		public final ForgeConfigSpec.IntValue butterflyClusterHeight;
+		public final ModConfigSpec.BooleanValue disableButterflySpawning;
+		public final ModConfigSpec.IntValue butterflyClusterLimit;
+		public final ModConfigSpec.IntValue butterflyClusterWidth;
+		public final ModConfigSpec.IntValue butterflyClusterHeight;
 		// Farms
-		public final ForgeConfigSpec.IntValue multiFarmSize;
-		public final ForgeConfigSpec.BooleanValue squareMultiFarms;
-		public final ForgeConfigSpec.IntValue legacyFarmsPlanterRings;
-		public final ForgeConfigSpec.BooleanValue legacyFarmsUseRings;
-		public final ForgeConfigSpec.IntValue legacyFarmsRingSize;
+		public final ModConfigSpec.IntValue multiFarmSize;
+		public final ModConfigSpec.BooleanValue squareMultiFarms;
+		public final ModConfigSpec.IntValue legacyFarmsPlanterRings;
+		public final ModConfigSpec.BooleanValue legacyFarmsUseRings;
+		public final ModConfigSpec.IntValue legacyFarmsRingSize;
 		// Misc
-		public final ForgeConfigSpec.BooleanValue enableBackpackResupply;
-		public final ForgeConfigSpec.BooleanValue spawnTinOre;
-		public final ForgeConfigSpec.BooleanValue spawnApatiteOre;
+		public final ModConfigSpec.BooleanValue enableBackpackResupply;
+		public final ModConfigSpec.BooleanValue spawnTinOre;
+		public final ModConfigSpec.BooleanValue spawnApatiteOre;
 
-		public Server(ForgeConfigSpec.Builder builder) {
+		public Server(ModConfigSpec.Builder builder) {
 			// Genetics
 			builder.push("genetics");
 			this.researchMutationBoostMultiplier = builder
@@ -165,7 +166,7 @@ public class ForestryConfig {
 		}
 	}
 
-	public static void register(ModLoadingContext ctx) {
+	public static void register(ModContainer ctx) {
 		ctx.registerConfig(ModConfig.Type.SERVER, SERVER_SPEC);
 		ctx.registerConfig(ModConfig.Type.COMMON, COMMON_SPEC);
 		ctx.registerConfig(ModConfig.Type.CLIENT, CLIENT_SPEC);
@@ -173,17 +174,17 @@ public class ForestryConfig {
 
 	static {
 		{
-			Pair<Client, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(Client::new);
+			Pair<Client, ModConfigSpec> specPair = new ModConfigSpec.Builder().configure(Client::new);
 			CLIENT = specPair.getLeft();
 			CLIENT_SPEC = specPair.getRight();
 		}
 		{
-			Pair<Common, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(Common::new);
+			Pair<Common, ModConfigSpec> specPair = new ModConfigSpec.Builder().configure(Common::new);
 			COMMON = specPair.getLeft();
 			COMMON_SPEC = specPair.getRight();
 		}
 		{
-			Pair<Server, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(Server::new);
+			Pair<Server, ModConfigSpec> specPair = new ModConfigSpec.Builder().configure(Server::new);
 			SERVER = specPair.getLeft();
 			SERVER_SPEC = specPair.getRight();
 		}

@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.apiculture.items;
 
 import forestry.api.core.IBlockSubtype;
@@ -35,23 +25,15 @@ public enum EnumHoneyComb implements StringRepresentable, IItemSubtype, IBlockSu
 	VINTAGE(new Color(0xDEB887), new Color(0xCD853F)),
 	SPONGE(new Color(0x9D8F39), new Color(0xe1e351)),
 	SCULKEN(new Color(0x111B21), new Color(0x05625d)),
-	//LUMINOUS(new Color(0x495E27), new Color(0xF7CE46));
 	;
-	//""(new Color(0xd7bee5), new Color(0xfd58ab)); // kindof pinkish
 
 	public static final EnumHoneyComb[] VALUES = values();
 
 	public final String name;
 	public final int primaryColor;
 	public final int secondaryColor;
-	private final boolean unused;
 
 	EnumHoneyComb(Color primary, Color secondary) {
-		this(primary, secondary, false);
-	}
-
-	EnumHoneyComb(Color primary, Color secondary, boolean unused) {
-		this.unused = unused;
 		this.name = toString().toLowerCase(Locale.ENGLISH);
 		this.primaryColor = primary.getRGB();
 		this.secondaryColor = secondary.getRGB();
@@ -60,12 +42,5 @@ public enum EnumHoneyComb implements StringRepresentable, IItemSubtype, IBlockSu
 	@Override
 	public String getSerializedName() {
 		return this.name;
-	}
-
-	public static EnumHoneyComb get(int meta) {
-		if (meta >= VALUES.length) {
-			meta = 0;
-		}
-		return VALUES[meta];
 	}
 }

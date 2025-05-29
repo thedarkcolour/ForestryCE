@@ -18,7 +18,7 @@ import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.core.network.IStreamable;
 import forestry.core.utils.NetworkUtil;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
@@ -83,14 +83,14 @@ public class EscritoireGame implements INbtWritable, INbtReadable, IStreamable {
 
 	/* NETWORK */
 	@Override
-	public void writeData(FriendlyByteBuf data) {
+	public void writeData(RegistryFriendlyByteBuf data) {
 		data.writeInt(this.bountyLevel);
         this.gameBoard.writeData(data);
 		NetworkUtil.writeEnum(data, this.status);
 	}
 
 	@Override
-	public void readData(FriendlyByteBuf data) {
+	public void readData(RegistryFriendlyByteBuf data) {
         this.bountyLevel = data.readInt();
         this.gameBoard.readData(data);
         this.status = NetworkUtil.readEnum(data, Status.VALUES);

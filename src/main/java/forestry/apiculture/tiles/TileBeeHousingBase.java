@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.apiculture.tiles;
 
 import com.mojang.authlib.GameProfile;
@@ -27,22 +17,21 @@ import forestry.core.tiles.TileBase;
 import forestry.core.utils.NetworkUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 public abstract class TileBeeHousingBase extends TileBase implements IBeeHousing, IOwnedTile, IClimateProvider, IGuiBeeHousingDelegate, IStreamableGui {
 	private final String hintKey;
 	private final OwnerHandler ownerHandler = new OwnerHandler();
 	private final IBeekeepingLogic beeLogic;
-	protected IClimateProvider climate = IForestryApi.INSTANCE.getClimateManager().createDummyClimateProvider();
 
+	protected IClimateProvider climate = IForestryApi.INSTANCE.getClimateManager().createDummyClimateProvider();
 	// CLIENT
 	private int breedingProgressPercent = 0;
 
@@ -72,22 +61,22 @@ public abstract class TileBeeHousingBase extends TileBase implements IBeeHousing
 	@Override
 	public void saveAdditional(CompoundTag compoundNBT) {
 		super.saveAdditional(compoundNBT);
-        this.beeLogic.write(compoundNBT);
-        this.ownerHandler.write(compoundNBT);
+		this.beeLogic.write(compoundNBT);
+		this.ownerHandler.write(compoundNBT);
 	}
 
 	@Override
 	public void load(CompoundTag compoundNBT) {
 		super.load(compoundNBT);
-        this.beeLogic.read(compoundNBT);
-        this.ownerHandler.read(compoundNBT);
+		this.beeLogic.read(compoundNBT);
+		this.ownerHandler.read(compoundNBT);
 	}
 
 	@Override
 	public CompoundTag getUpdateTag() {
 		CompoundTag updateTag = super.getUpdateTag();
-        this.beeLogic.write(updateTag);
-        this.ownerHandler.write(updateTag);
+		this.beeLogic.write(updateTag);
+		this.ownerHandler.write(updateTag);
 		return updateTag;
 	}
 
@@ -95,8 +84,8 @@ public abstract class TileBeeHousingBase extends TileBase implements IBeeHousing
 	@OnlyIn(Dist.CLIENT)
 	public void handleUpdateTag(CompoundTag tag) {
 		super.handleUpdateTag(tag);
-        this.beeLogic.read(tag);
-        this.ownerHandler.read(tag);
+		this.beeLogic.read(tag);
+		this.ownerHandler.read(tag);
 	}
 
 	@Override
@@ -119,7 +108,7 @@ public abstract class TileBeeHousingBase extends TileBase implements IBeeHousing
 	@Override
 	public void clientTick(Level level, BlockPos pos, BlockState state) {
 		if (this.beeLogic.canDoBeeFX() && updateOnInterval(4)) {
-            this.beeLogic.doBeeFX();
+			this.beeLogic.doBeeFX();
 
 			if (updateOnInterval(50)) {
 				doPollenFX(level, getBlockPos().getX(), getBlockPos().getY(), getBlockPos().getZ());
@@ -146,7 +135,7 @@ public abstract class TileBeeHousingBase extends TileBase implements IBeeHousing
 	@Override
 	public void serverTick(Level level, BlockPos pos, BlockState state) {
 		if (this.beeLogic.canWork()) {
-            this.beeLogic.doWork();
+			this.beeLogic.doWork();
 		}
 
 		// every 64 ticks, update the climate state in case of changed biome or climate (& is faster than modulus)
@@ -161,20 +150,20 @@ public abstract class TileBeeHousingBase extends TileBase implements IBeeHousing
 	}
 
 	@Override
-	public void writeGuiData(FriendlyByteBuf data) {
+	public void writeGuiData(RegistryFriendlyByteBuf data) {
 		data.writeVarInt(this.beeLogic.getBeeProgressPercent());
 		NetworkUtil.writeClimateState(data, this.climate);
 	}
 
 	@Override
-	public void readGuiData(FriendlyByteBuf data) {
-        this.breedingProgressPercent = data.readVarInt();
+	public void readGuiData(RegistryFriendlyByteBuf data) {
+		this.breedingProgressPercent = data.readVarInt();
 		this.climate = NetworkUtil.readClimateState(data);
 	}
 
 	// / IBEEHOUSING
 	@Override
-	public Holder<Biome> getBiome() {
+	public Holder<Biome> getBiome(HolderLookup.Provider registries) {
 		return this.level.getBiome(getBlockPos());
 	}
 

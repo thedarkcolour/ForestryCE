@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.mail.carriers.players;
 
 import forestry.api.ForestryConstants;
@@ -16,7 +6,7 @@ import forestry.api.mail.IMailAddress;
 import forestry.api.mail.IPostOffice;
 import forestry.api.mail.IPostalCarrier;
 import forestry.api.mail.IPostalState;
-import forestry.core.utils.NetworkUtil;
+import forestry.api.modules.IForestryPacketClient;
 import forestry.core.utils.PlayerUtil;
 import forestry.mail.MailAddress;
 import forestry.mail.network.packets.PacketPOBoxInfoResponse;
@@ -28,8 +18,9 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 public class CarrierPlayer implements IPostalCarrier {
 	private final ResourceLocation iconID;
@@ -61,7 +52,8 @@ public class CarrierPlayer implements IPostalCarrier {
 		} else {
 			Player player = PlayerUtil.getPlayer(world, recipient.getPlayerProfile());
 			if (player instanceof ServerPlayer) {
-				NetworkUtil.sendToPlayer(new PacketPOBoxInfoResponse(pobox.getPOBoxInfo(), false), (ServerPlayer) player);
+				IForestryPacketClient packet = new PacketPOBoxInfoResponse(pobox.getPOBoxInfo(), false);
+				PacketDistributor.sendToPlayer((ServerPlayer) player, packet);
 			}
 		}
 
@@ -70,7 +62,7 @@ public class CarrierPlayer implements IPostalCarrier {
 
 	@Override
 	public IMailAddress getRecipient(MinecraftServer minecraftServer, String recipientName) {
-		return minecraftServer.getProfileCache().get(recipientName).map(MailAddress::new).orElse(null);
+		return minecraftServer.getProfileCache().get(recipientName).map(MailAddress::new).orElseThrow();
 	}
 
 	@Override

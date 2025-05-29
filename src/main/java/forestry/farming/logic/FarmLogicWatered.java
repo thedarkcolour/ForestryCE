@@ -80,7 +80,7 @@ public abstract class FarmLogicWatered extends FarmLogicSoil {
 					break;
 				}
 
-				if (!BlockUtil.isReplaceableBlock(state, world, position)) {
+				if (!BlockUtil.isReplaceableBlock(world, position)) {
 					BlockUtil.getBlockDrops(world, position).forEach(farmHousing::addPendingProduct);
 					world.removeBlock(position, false);
 					return FarmLogicCocoa.trySetSoil(world, farmHousing, position, soil.resource(), soil.soilState());

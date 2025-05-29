@@ -2,7 +2,7 @@ package forestry.arboriculture.worldgen.feature;
 
 import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.genetics.IGenome;
-import forestry.arboriculture.commands.TreeGenHelper;
+import forestry.arboriculture.worldgen.TreeGenHelper;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 

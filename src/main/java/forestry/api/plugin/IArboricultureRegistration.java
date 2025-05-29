@@ -1,5 +1,6 @@
 package forestry.api.plugin;
 
+import forestry.api.arboriculture.ICharcoalPileWall;
 import forestry.api.arboriculture.IWoodType;
 import forestry.api.arboriculture.genetics.IFruit;
 import forestry.api.arboriculture.genetics.ITreeEffect;
@@ -65,16 +66,10 @@ public interface IArboricultureRegistration {
 	 *
 	 * @param state    The state used to surround a pit of burning Log Pile blocks when making charcoal.
 	 * @param charcoal The amount of charcoal produced when using this block.
-	 * @since 2.6.0
 	 */
 	void registerCharcoalPitWall(BlockState state, int charcoal);
 
-	/**
-	 * @since 2.6.0
-	 */
-	default void registerCharcoalPitWall(Block block, int charcoal) {
-		for (BlockState state : block.getStateDefinition().getPossibleStates()) {
-			registerCharcoalPitWall(state, charcoal);
-		}
-	}
+	void registerCharcoalPitWall(Block block, int charcoal);
+
+	void registerCharcoalPitWall(ICharcoalPileWall wall);
 }

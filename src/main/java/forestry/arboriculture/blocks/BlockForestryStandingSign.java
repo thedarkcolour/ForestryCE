@@ -21,7 +21,7 @@ public class BlockForestryStandingSign extends StandingSignBlock implements IWoo
 	private final ForestryWoodType type;
 
 	public BlockForestryStandingSign(ForestryWoodType type) {
-		super(Properties.of().mapColor(MapColor.WOOD).forceSolidOn().instrument(NoteBlockInstrument.BASS).noCollission().strength(1.0F).ignitedByLava(), type.getWoodType());
+		super(type.getWoodType(), Properties.of().mapColor(MapColor.WOOD).forceSolidOn().instrument(NoteBlockInstrument.BASS).noCollission().strength(1.0F).ignitedByLava());
 
 		this.type = type;
 	}

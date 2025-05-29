@@ -16,9 +16,9 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fluids.IFluidTank;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.fluids.IFluidTank;
 
 import javax.annotation.Nullable;
 
@@ -38,12 +38,12 @@ public abstract class ContainerLiquidTanks<T extends BlockEntity & ILiquidTankTi
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void handlePipetteClickClient(int slot, Player player) {
-        this.helper.handlePipetteClickClient(slot, player);
+		this.helper.handlePipetteClickClient(slot, player);
 	}
 
 	@Override
 	public void handlePipetteClick(int slot, ServerPlayer player) {
-        this.helper.handlePipetteClick(slot, player);
+		this.helper.handlePipetteClick(slot, player);
 	}
 
 	@Override
@@ -51,14 +51,14 @@ public abstract class ContainerLiquidTanks<T extends BlockEntity & ILiquidTankTi
 		super.broadcastChanges();
 
 		if (this.player != null) {
-            this.tile.getTankManager().broadcastChanges(this, this.player);
+			this.tile.getTankManager().broadcastChanges(this, this.player);
 		}
 	}
 
 	@Override
 	public void removed(Player PlayerEntity) {
 		super.removed(PlayerEntity);
-        this.tile.getTankManager().onClosed(this);
+		this.tile.getTankManager().onClosed(this);
 	}
 
 	@Nullable

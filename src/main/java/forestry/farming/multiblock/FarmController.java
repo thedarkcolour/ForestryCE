@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.farming.multiblock;
 
 import com.google.common.base.MoreObjects;
@@ -31,6 +21,7 @@ import forestry.core.inventory.FakeInventoryAdapter;
 import forestry.core.inventory.IInventoryAdapter;
 import forestry.core.inventory.InventoryAdapter;
 import forestry.core.multiblock.IMultiblockControllerInternal;
+import forestry.core.multiblock.MultiblockSizeLimits;
 import forestry.core.multiblock.MultiblockValidationException;
 import forestry.core.multiblock.RectangularMultiblockControllerBase;
 import forestry.core.tiles.ILiquidTankTile;
@@ -46,7 +37,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Containers;
@@ -56,15 +47,12 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
 import java.util.*;
 
 public class FarmController extends RectangularMultiblockControllerBase implements IFarmControllerInternal, ILiquidTankTile {
-	private int allowedExtent = 0;
+	private static final MultiblockSizeLimits FARM_LIMITS = new MultiblockSizeLimits(3 * 3 * 4, 3, 4, 3, 5, 4, 5);
 
 	// active components are stored with a tick offset so they do not all tick together
 	private final Map<IFarmComponent.Active, Integer> farmActiveComponents = new HashMap<>();
@@ -77,14 +65,14 @@ public class FarmController extends RectangularMultiblockControllerBase implemen
 
 	// the number of work ticks that this farm has had no power
 	private int noPowerTime = 0;
-
+	private int allowedExtent = 0;
 	@Nullable
 	private Vec3i offset;
 	@Nullable
 	private Vec3i area;
 
 	public FarmController(Level world) {
-		super(world, FarmMultiblockSizeLimits.INSTANCE);
+		super(world, FARM_LIMITS);
 
 		this.inventory = new InventoryFarm(this);
 		this.manager = new FarmManager(this);
@@ -120,22 +108,22 @@ public class FarmController extends RectangularMultiblockControllerBase implemen
 	@Override
 	protected void onBlockAdded(IMultiblockComponent newPart) {
 		if (newPart instanceof IFarmComponent.Listener listenerPart) {
-            this.manager.addListener(listenerPart.getFarmListener());
+			this.manager.addListener(listenerPart.getFarmListener());
 		}
 
 		if (newPart instanceof IFarmComponent.Active) {
-            this.farmActiveComponents.put((IFarmComponent.Active) newPart, this.level.random.nextInt(256));
+			this.farmActiveComponents.put((IFarmComponent.Active) newPart, this.level.random.nextInt(256));
 		}
 	}
 
 	@Override
 	protected void onBlockRemoved(IMultiblockComponent oldPart) {
 		if (oldPart instanceof IFarmComponent.Listener listenerPart) {
-            this.manager.removeListener(listenerPart.getFarmListener());
+			this.manager.removeListener(listenerPart.getFarmListener());
 		}
 
 		if (oldPart instanceof IFarmComponent.Active) {
-            this.farmActiveComponents.remove(oldPart);
+			this.farmActiveComponents.remove(oldPart);
 		}
 	}
 
@@ -159,7 +147,7 @@ public class FarmController extends RectangularMultiblockControllerBase implemen
 	@Override
 	protected void onMachineDisassembled() {
 		super.onMachineDisassembled();
-        this.manager.clearTargets();
+		this.manager.clearTargets();
 	}
 
 	@Override
@@ -194,10 +182,10 @@ public class FarmController extends RectangularMultiblockControllerBase implemen
 
 	@Override
 	protected boolean serverTick(int tickCount) {
-        this.manager.getHydrationManager().updateServer();
+		this.manager.getHydrationManager().updateServer();
 
 		if (updateOnInterval(20)) {
-            this.inventory.drainCan(this.manager.getTankManager());
+			this.inventory.drainCan(this.manager.getTankManager());
 		}
 
 		boolean hasPower = false;
@@ -212,11 +200,11 @@ public class FarmController extends RectangularMultiblockControllerBase implemen
 		}
 
 		if (hasPower) {
-            this.noPowerTime = 0;
+			this.noPowerTime = 0;
 			getErrorLogic().setCondition(false, ForestryError.NO_POWER);
 		} else {
 			if (this.noPowerTime <= 4) {
-                this.noPowerTime++;
+				this.noPowerTime++;
 			} else {
 				getErrorLogic().setCondition(true, ForestryError.NO_POWER);
 			}
@@ -238,38 +226,38 @@ public class FarmController extends RectangularMultiblockControllerBase implemen
 	@Override
 	public CompoundTag write(CompoundTag data) {
 		data = super.write(data);
-        this.sockets.write(data);
-        this.manager.write(data);
-        this.inventory.write(data);
+		this.sockets.write(data);
+		this.manager.write(data);
+		this.inventory.write(data);
 		return data;
 	}
 
 	@Override
 	public void read(CompoundTag data) {
 		super.read(data);
-        this.sockets.read(data);
-        this.manager.read(data);
-        this.inventory.read(data);
+		this.sockets.read(data);
+		this.manager.read(data);
+		this.inventory.read(data);
 
 		refreshFarmLogics();
 	}
 
 	@Override
 	public void formatDescriptionPacket(CompoundTag data) {
-        this.sockets.write(data);
-        this.manager.write(data);
+		this.sockets.write(data);
+		this.manager.write(data);
 	}
 
 	@Override
 	public void decodeDescriptionPacket(CompoundTag data) {
-        this.sockets.read(data);
-        this.manager.read(data);
+		this.sockets.read(data);
+		this.manager.read(data);
 
 		refreshFarmLogics();
 	}
 
 	@Override
-	public BlockPos getCoordinates() {
+	public BlockPos getBlockPos() {
 		return getReferenceCoord();
 	}
 
@@ -279,15 +267,15 @@ public class FarmController extends RectangularMultiblockControllerBase implemen
 	}
 
 	@Override
-	public void writeGuiData(FriendlyByteBuf data) {
-        this.manager.writeData(data);
-        this.sockets.writeData(data);
+	public void writeGuiData(RegistryFriendlyByteBuf data) {
+		this.manager.writeData(data);
+		this.sockets.writeData(data);
 	}
 
 	@Override
-	public void readGuiData(FriendlyByteBuf data) {
-        this.manager.readData(data);
-        this.sockets.readData(data);
+	public void readGuiData(RegistryFriendlyByteBuf data) {
+		this.manager.readData(data);
+		this.sockets.readData(data);
 
 		refreshFarmLogics();
 	}
@@ -334,7 +322,7 @@ public class FarmController extends RectangularMultiblockControllerBase implemen
 	public Vec3i getOffset() {
 		if (this.offset == null) {
 			Vec3i area = getArea();
-            this.offset = new Vec3i(-area.getX() / 2, -2, -area.getZ() / 2);
+			this.offset = new Vec3i(-area.getX() / 2, -2, -area.getZ() / 2);
 		}
 		return this.offset;
 	}
@@ -342,7 +330,7 @@ public class FarmController extends RectangularMultiblockControllerBase implemen
 	@Override
 	public Vec3i getArea() {
 		if (this.area == null) {
-            this.area = new Vec3i(7 + this.allowedExtent * 2, 13, 7 + this.allowedExtent * 2);
+			this.area = new Vec3i(7 + this.allowedExtent * 2, 13, 7 + this.allowedExtent * 2);
 		}
 		return this.area;
 	}
@@ -368,7 +356,7 @@ public class FarmController extends RectangularMultiblockControllerBase implemen
 		int sizeEastWest = Math.abs(max.getX() - min.getX()) + 1;
 
 		// Set the maximum allowed extent.
-        this.allowedExtent = Math.max(sizeNorthSouth, sizeEastWest) * ForestryConfig.SERVER.multiFarmSize.get() + 1;
+		this.allowedExtent = Math.max(sizeNorthSouth, sizeEastWest) * ForestryConfig.SERVER.multiFarmSize.get() + 1;
 
 		FarmHelper.createTargets(this.level, this, targets, targetStart, this.allowedExtent, sizeNorthSouth, sizeEastWest, min, max);
 		FarmHelper.setExtents(this.level, this, targets);
@@ -392,7 +380,7 @@ public class FarmController extends RectangularMultiblockControllerBase implemen
 
 	@Override
 	public void removeLiquid(FluidStack liquid) {
-        this.manager.getResourceTank().drain(liquid.getAmount(), IFluidHandler.FluidAction.EXECUTE);
+		this.manager.getResourceTank().drain(liquid.getAmount(), IFluidHandler.FluidAction.EXECUTE);
 	}
 
 	@Override
@@ -408,14 +396,14 @@ public class FarmController extends RectangularMultiblockControllerBase implemen
 
 	@Override
 	public void addPendingProduct(ItemStack stack) {
-        this.manager.addPendingProduct(stack);
+		this.manager.addPendingProduct(stack);
 	}
 
 	@Override
 	public void setFarmLogic(Direction direction, IFarmLogic logic) {
 		Preconditions.checkNotNull(direction);
 		Preconditions.checkNotNull(logic, "logic must not be null");
-        this.farmLogics.put(direction, logic);
+		this.farmLogics.put(direction, logic);
 		cleanExtents(direction);
 	}
 
@@ -457,7 +445,7 @@ public class FarmController extends RectangularMultiblockControllerBase implemen
 				}
 			}
 
-            this.sockets.setItem(slot, stack);
+			this.sockets.setItem(slot, stack);
 			refreshFarmLogics();
 
 			if (!stack.isEmpty()) {
@@ -497,12 +485,12 @@ public class FarmController extends RectangularMultiblockControllerBase implemen
 
 	@Override
 	public void setExtents(Direction direction, BlockPos pos, int extend) {
-        this.manager.setExtents(direction, pos, extend);
+		this.manager.setExtents(direction, pos, extend);
 	}
 
 	@Override
 	public void cleanExtents(Direction direction) {
-        this.manager.cleanExtents(direction);
+		this.manager.cleanExtents(direction);
 	}
 
 	// for debugging

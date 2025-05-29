@@ -55,8 +55,8 @@ public class FungificationBeeEffect extends ThrottledBeeEffect {
 	}
 
 	private void doBlockEffect(IGenome genome, IBeeHousing housing) {
-		Level world = housing.getWorldObj();
-		BlockPos housingCoordinates = housing.getCoordinates();
+		Level world = housing.getLevel();
+		BlockPos housingCoordinates = housing.getBlockPos();
 		Vec3i area = Bee.getParticleArea(genome, housing);
 		Vec3i halfArea = new Vec3i(area.getX() / 2, area.getY() / 2, area.getZ() / 2);
 

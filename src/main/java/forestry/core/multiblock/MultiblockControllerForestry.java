@@ -52,7 +52,7 @@ public abstract class MultiblockControllerForestry extends MultiblockControllerB
 	}
 
 	@Override
-	public Level getWorldObj() {
+	public Level getLevel() {
 		return this.level;
 	}
 

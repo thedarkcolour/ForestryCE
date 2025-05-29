@@ -12,7 +12,7 @@ import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConf
  * Implements the tree generation for a tree species.
  */
 public interface ITreeGenerator {
-	Feature<NoneFeatureConfiguration> getTreeFeature(ITreeGenData tree);
+	Feature<NoneFeatureConfiguration> getTreeFeature(ITreeSpecies tree);
 
 	boolean setLogBlock(IGenome genome, LevelAccessor level, BlockPos pos, Direction facing);
 

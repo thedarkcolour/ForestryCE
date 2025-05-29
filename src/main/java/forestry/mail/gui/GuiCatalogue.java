@@ -11,13 +11,13 @@
 package forestry.mail.gui;
 
 import forestry.api.mail.ITradeStationInfo;
+import forestry.api.modules.IForestryPacketServer;
 import forestry.core.config.SessionVars;
 import forestry.core.gui.GuiForestry;
 import forestry.core.gui.widgets.ItemStackWidget;
 import forestry.core.gui.widgets.Widget;
 import forestry.core.network.packets.PacketGuiSelectRequest;
 import forestry.core.render.ColourProperties;
-import forestry.core.utils.NetworkUtil;
 import forestry.mail.carriers.PostalCarriers;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -30,6 +30,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -137,11 +138,20 @@ public class GuiCatalogue extends GuiForestry<ContainerCatalogue> {
 		switch (id) {
 			case 0 -> player.closeContainer();
 			case 2 -> // next page
-				NetworkUtil.sendToServer(new PacketGuiSelectRequest(0, 0));
+            {
+                IForestryPacketServer packet = new PacketGuiSelectRequest(0, 0);
+                PacketDistributor.sendToServer(packet);
+            }
 			case 3 -> // previous page
-				NetworkUtil.sendToServer(new PacketGuiSelectRequest(1, 0));
+            {
+                IForestryPacketServer packet = new PacketGuiSelectRequest(1, 0);
+                PacketDistributor.sendToServer(packet);
+            }
 			case 4 -> // cycle filter
-				NetworkUtil.sendToServer(new PacketGuiSelectRequest(2, 0));
+            {
+                IForestryPacketServer packet = new PacketGuiSelectRequest(2, 0);
+                PacketDistributor.sendToServer(packet);
+            }
 			case 5 -> {
 				ITradeStationInfo info = this.menu.getTradeInfo();
 				if (info != null) {

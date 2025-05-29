@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.apiculture.items;
 
 import forestry.api.ForestryTags;
@@ -15,7 +5,6 @@ import forestry.api.apiculture.ForestryBeeSpecies;
 import forestry.api.apiculture.genetics.BeeLifeStage;
 import forestry.core.items.ItemForestry;
 import forestry.core.utils.SpeciesUtil;
-import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -47,17 +36,12 @@ public class ItemScoop extends ItemForestry {
 
 	@Override
 	public boolean hurtEnemy(ItemStack stack, LivingEntity entity, LivingEntity player) {
-		stack.hurtAndBreak(2, player, (living) -> living.broadcastBreakEvent(EquipmentSlot.MAINHAND));
 		return true;
 	}
 
 	@Override
-	public boolean mineBlock(ItemStack stack, Level world, BlockState blockState, BlockPos pos, LivingEntity player) {
-		if (!world.isClientSide && blockState.getDestroySpeed(world, pos) != 0.0F) {
-			stack.hurtAndBreak(1, player, (living) -> living.broadcastBreakEvent(EquipmentSlot.MAINHAND));
-		}
-
-		return true;
+	public void postHurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+		stack.hurtAndBreak(2, attacker, EquipmentSlot.MAINHAND);
 	}
 
 	@Override
@@ -70,7 +54,7 @@ public class ItemScoop extends ItemForestry {
 				level.addFreshEntity(bee);
 				level.playSound(null, interactionTarget.blockPosition(), SoundEvents.BEE_HURT, SoundSource.PLAYERS, 1f, 1f);
 				interactionTarget.setRemoved(Entity.RemovalReason.DISCARDED);
-				stack.hurtAndBreak(1, player, living -> living.broadcastBreakEvent(usedHand));
+				stack.hurtAndBreak(1, player, LivingEntity.getSlotForHand(usedHand));
 			}
 			return InteractionResult.sidedSuccess(player.level().isClientSide());
 		}

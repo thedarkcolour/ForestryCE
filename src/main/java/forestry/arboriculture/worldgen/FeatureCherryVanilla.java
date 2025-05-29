@@ -1,6 +1,6 @@
 package forestry.arboriculture.worldgen;
 
-import forestry.api.arboriculture.ITreeGenData;
+import forestry.api.arboriculture.ITreeSpecies;
 import forestry.core.worldgen.FeatureHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -16,8 +16,8 @@ public class FeatureCherryVanilla extends FeatureTree {
 	private static final float HANGING_LEAVES_CHANCE = 1f / 6f;
 	private static final float HANGING_LEAVES_EXTENSION_CHANCE = 1f / 3f;
 
-	public FeatureCherryVanilla(ITreeGenData data) {
-		super(data, 7, 1);
+	public FeatureCherryVanilla(ITreeSpecies species) {
+		super(species, 7, 1);
 	}
 
 	// todo support custom girth

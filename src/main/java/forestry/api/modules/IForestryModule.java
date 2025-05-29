@@ -2,7 +2,8 @@ package forestry.api.modules;
 
 import forestry.api.client.IClientModuleHandler;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.eventbus.api.IEventBus;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -48,15 +49,7 @@ public interface IForestryModule {
 	default void registerClientHandler(Consumer<IClientModuleHandler> registrar) {
 	}
 
-	/**
-	 * Note: this is generally not recommended to use.
-	 * Called during Forestry's common phase. Initialize any static API.
-	 */
-	@Deprecated
-	default void setupApi() {
-	}
-
-	default void registerPackets(IPacketRegistry registry) {
+	default void registerPackets(PayloadRegistrar registrar) {
 	}
 
 	/**

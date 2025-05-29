@@ -10,7 +10,7 @@
  ******************************************************************************/
 package forestry.arboriculture.worldgen;
 
-import forestry.api.arboriculture.ITreeGenData;
+import forestry.api.arboriculture.ITreeSpecies;
 import forestry.core.worldgen.FeatureHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
@@ -18,7 +18,7 @@ import net.minecraft.world.level.LevelAccessor;
 
 public class FeaturePlum extends FeatureTree {
 
-	public FeaturePlum(ITreeGenData tree) {
+	public FeaturePlum(ITreeSpecies tree) {
 		super(tree, 6, 3);
 	}
 

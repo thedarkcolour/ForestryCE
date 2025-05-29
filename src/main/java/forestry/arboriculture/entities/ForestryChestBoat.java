@@ -4,7 +4,7 @@ import forestry.arboriculture.features.ArboricultureEntities;
 import forestry.arboriculture.features.ArboricultureItems;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -24,9 +24,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.wrapper.InvWrapper;
+import net.minecraft.world.level.storage.loot.LootTable;
 
 import javax.annotation.Nullable;
 
@@ -35,7 +33,7 @@ public class ForestryChestBoat extends ForestryBoat implements HasCustomInventor
 
 	private NonNullList<ItemStack> items = NonNullList.withSize(CONTAINER_SIZE, ItemStack.EMPTY);
 	@Nullable
-	private ResourceLocation lootTable;
+	private ResourceKey<LootTable> lootTable;
 	private long lootTableSeed;
 
 	public ForestryChestBoat(EntityType<? extends Boat> type, Level level) {
@@ -59,7 +57,7 @@ public class ForestryChestBoat extends ForestryBoat implements HasCustomInventor
 	// <editor-fold desc="Vanilla copy from ChestBoat">
 	@Override
 	protected float getSinglePassengerXOffset() {
-		return 0.15F;
+		return 0.15f;
 	}
 
 	@Override
@@ -68,15 +66,15 @@ public class ForestryChestBoat extends ForestryBoat implements HasCustomInventor
 	}
 
 	@Override
-	protected void addAdditionalSaveData(CompoundTag pCompound) {
-		super.addAdditionalSaveData(pCompound);
-		addChestVehicleSaveData(pCompound);
+	protected void addAdditionalSaveData(CompoundTag nbt) {
+		super.addAdditionalSaveData(nbt);
+		addChestVehicleSaveData(nbt, registryAccess());
 	}
 
 	@Override
-	protected void readAdditionalSaveData(CompoundTag pCompound) {
-		super.readAdditionalSaveData(pCompound);
-		readChestVehicleSaveData(pCompound);
+	protected void readAdditionalSaveData(CompoundTag nbt) {
+		super.readAdditionalSaveData(nbt);
+		readChestVehicleSaveData(nbt, registryAccess());
 	}
 
 	@Override
@@ -96,16 +94,23 @@ public class ForestryChestBoat extends ForestryBoat implements HasCustomInventor
 
 	@Override
 	public InteractionResult interact(Player player, InteractionHand hand) {
-		if (canAddPassenger(player) && !player.isSecondaryUseActive()) {
-			return super.interact(player, hand);
+		if (!player.isSecondaryUseActive()) {
+			InteractionResult result = super.interact(player, hand);
+			if (result != InteractionResult.PASS) {
+				return result;
+			}
+		}
+
+		if (this.canAddPassenger(player) && !player.isSecondaryUseActive()) {
+			return InteractionResult.PASS;
 		} else {
-			InteractionResult interactionresult = interactWithContainerVehicle(player);
-			if (interactionresult.consumesAction()) {
+			InteractionResult result = this.interactWithContainerVehicle(player);
+			if (result.consumesAction()) {
 				gameEvent(GameEvent.CONTAINER_OPEN, player);
 				PiglinAi.angerNearbyPiglins(player, true);
 			}
 
-			return interactionresult;
+			return result;
 		}
 	}
 
@@ -113,7 +118,7 @@ public class ForestryChestBoat extends ForestryBoat implements HasCustomInventor
 	public void openCustomInventoryScreen(Player player) {
 		player.openMenu(this);
 		if (!player.level().isClientSide) {
-			this.gameEvent(GameEvent.CONTAINER_OPEN, player);
+			gameEvent(GameEvent.CONTAINER_OPEN, player);
 			PiglinAi.angerNearbyPiglins(player, true);
 		}
 	}
@@ -175,12 +180,12 @@ public class ForestryChestBoat extends ForestryBoat implements HasCustomInventor
 
 	@Nullable
 	@Override
-	public ResourceLocation getLootTable() {
+	public ResourceKey<LootTable> getLootTable() {
 		return this.lootTable;
 	}
 
 	@Override
-	public void setLootTable(@Nullable ResourceLocation lootTable) {
+	public void setLootTable(@Nullable ResourceKey<LootTable> lootTable) {
 		this.lootTable = lootTable;
 	}
 
@@ -205,31 +210,8 @@ public class ForestryChestBoat extends ForestryBoat implements HasCustomInventor
 	}
 	// </editor-fold>
 
-	// <editor-fold desc="Forge Start">
-	private net.minecraftforge.common.util.LazyOptional<?> itemHandler = LazyOptional.of(() -> new InvWrapper(this));
-
 	@Override
-	public <T> net.minecraftforge.common.util.LazyOptional<T> getCapability(net.minecraftforge.common.capabilities.Capability<T> capability, @Nullable net.minecraft.core.Direction facing) {
-		if (capability == ForgeCapabilities.ITEM_HANDLER && isAlive()) {
-			return this.itemHandler.cast();
-		}
-		return super.getCapability(capability, facing);
-	}
-
-	@Override
-	public void invalidateCaps() {
-		super.invalidateCaps();
-		this.itemHandler.invalidate();
-	}
-
-	@Override
-	public void reviveCaps() {
-		super.reviveCaps();
-		this.itemHandler = LazyOptional.of(() -> new InvWrapper(this));
-	}
-
 	public void stopOpen(Player player) {
 		level().gameEvent(GameEvent.CONTAINER_CLOSE, position(), GameEvent.Context.of(player));
 	}
-	// </editor-fold>
 }

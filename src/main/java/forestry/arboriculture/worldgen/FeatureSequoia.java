@@ -10,7 +10,7 @@
  ******************************************************************************/
 package forestry.arboriculture.worldgen;
 
-import forestry.api.arboriculture.ITreeGenData;
+import forestry.api.arboriculture.ITreeSpecies;
 import forestry.core.worldgen.FeatureHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
@@ -21,11 +21,11 @@ import java.util.Set;
 
 public class FeatureSequoia extends FeatureTree {
 
-	public FeatureSequoia(ITreeGenData tree) {
+	public FeatureSequoia(ITreeSpecies tree) {
 		this(tree, 20, 5);
 	}
 
-	protected FeatureSequoia(ITreeGenData tree, int baseHeight, int heightVariation) {
+	protected FeatureSequoia(ITreeSpecies tree, int baseHeight, int heightVariation) {
 		super(tree, baseHeight, heightVariation);
 	}
 

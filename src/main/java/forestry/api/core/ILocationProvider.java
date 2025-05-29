@@ -7,13 +7,10 @@ import javax.annotation.Nullable;
 
 /**
  * Interface for things, that have a location.
- * Must not be named "getWorld" and "getPos" to avoid
- * SpecialSource issue https://github.com/md-5/SpecialSource/issues/12
- * TODO rename to getBlockPos, getLevel in 1.21
  */
 public interface ILocationProvider {
-	BlockPos getCoordinates();
+	BlockPos getBlockPos();
 
 	@Nullable
-	Level getWorldObj();
+	Level getLevel();
 }

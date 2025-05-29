@@ -16,7 +16,7 @@ import forestry.api.core.INbtWritable;
 import forestry.core.network.IStreamable;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 
 import javax.annotation.Nullable;
 import java.util.UUID;
@@ -37,7 +37,7 @@ public class OwnerHandler implements IOwnerHandler, IStreamable, INbtWritable, I
 	}
 
 	@Override
-	public void writeData(FriendlyByteBuf data) {
+	public void writeData(RegistryFriendlyByteBuf data) {
 		if (this.owner == null) {
 			data.writeBoolean(false);
 		} else {
@@ -49,7 +49,7 @@ public class OwnerHandler implements IOwnerHandler, IStreamable, INbtWritable, I
 	}
 
 	@Override
-	public void readData(FriendlyByteBuf data) {
+	public void readData(RegistryFriendlyByteBuf data) {
 		if (data.readBoolean()) {
 			GameProfile owner = new GameProfile(new UUID(data.readLong(), data.readLong()), data.readUtf());
 			setOwner(owner);

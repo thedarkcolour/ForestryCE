@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.arboriculture.genetics;
 
 import com.google.common.collect.ImmutableMap;
@@ -30,20 +20,15 @@ import forestry.api.plugin.IForestryPlugin;
 import forestry.api.plugin.ISpeciesTypeBuilder;
 import forestry.apiimpl.ForestryApiImpl;
 import forestry.apiimpl.plugin.ArboricultureRegistration;
-import forestry.arboriculture.PodFruit;
-import forestry.arboriculture.blocks.BlockFruitPod;
 import forestry.arboriculture.blocks.ForestryLeafType;
 import forestry.arboriculture.features.ArboricultureBlocks;
-import forestry.arboriculture.tiles.TileFruitPod;
 import forestry.arboriculture.tiles.TileSapling;
 import forestry.arboriculture.tiles.TileTreeContainer;
-import forestry.core.ClientsideCode;
 import forestry.core.genetics.SpeciesType;
 import forestry.core.genetics.root.BreedingTrackerManager;
 import forestry.core.tiles.TileUtil;
 import forestry.core.utils.BlockUtil;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -51,7 +36,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -168,38 +152,6 @@ public class TreeSpeciesType extends SpeciesType<ITreeSpecies, ITree> implements
 		BlockUtil.sendPlaceSound(level, pos, blockState);
 
 		return true;
-	}
-
-	@Override
-	public boolean setFruitBlock(LevelAccessor level, IGenome genome, IFruit fruit, float yield, BlockPos pos) {
-		Direction facing = BlockUtil.getValidPodFacing(level, pos, fruit.getLogTag());
-
-		// todo make this not hardcoded to forestry pods
-		if (facing != null && fruit instanceof PodFruit podFruit && ArboricultureBlocks.PODS.has(podFruit.getType())) {
-			BlockFruitPod fruitPod = ArboricultureBlocks.PODS.get(podFruit.getType()).block();
-			BlockState state = fruitPod.defaultBlockState().setValue(HorizontalDirectionalBlock.FACING, facing);
-			boolean placed = level.setBlock(pos, state, 18);
-
-			if (placed) {
-				Block block = level.getBlockState(pos).getBlock();
-
-				if (fruitPod == block) {
-					TileFruitPod pod = TileUtil.getTile(level, pos, TileFruitPod.class);
-
-					if (pod != null) {
-						pod.setProperties(genome, fruit, yield);
-						if (level.isClientSide()) {
-							ClientsideCode.markForUpdate(pos);
-						}
-						return true;
-					} else {
-						level.setBlock(pos, Blocks.AIR.defaultBlockState(), 18);
-						return false;
-					}
-				}
-			}
-		}
-		return false;
 	}
 
 	@Override
