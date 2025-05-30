@@ -318,16 +318,16 @@ public class DefaultForestryPlugin implements IForestryPlugin {
 		ResourceLocation plums = ForestryConstants.forestry("block/leaves/fruits.plums");
 
 		arboriculture.registerFruit(ForestryFruits.NONE, new DummyFruit(false));
-		arboriculture.registerFruit(ForestryFruits.APPLE, new RipeningFruit(false, 10, pomes, 0xff2e2e, 0xe3f49c, List.of(Product.of(Items.APPLE))));
+		arboriculture.registerFruit(ForestryFruits.APPLE, new RipeningFruit(false, 10, pomes, 0xFF1C2B, 0xe3f49c, List.of(Product.of(Items.APPLE))));
 		// todo match vanilla cocoa and use fortune OR better yet, make pod fruits use actual loot tables
 		arboriculture.registerFruit(ForestryFruits.COCOA, new PodFruit(false, ForestryPodType.COCOA, List.of(Product.of(Items.COCOA_BEANS))));
-		arboriculture.registerFruit(ForestryFruits.CHESTNUT, new RipeningFruit(true, 6, nuts, 0x7f333d, 0xc4d24a, List.of(Product.of(CoreItems.FRUITS.item(ItemFruit.EnumFruit.CHESTNUT)))));
-		arboriculture.registerFruit(ForestryFruits.WALNUT, new RipeningFruit(true, 8, nuts, 0xfba248, 0xc4d24a, List.of(Product.of(CoreItems.FRUITS.item(ItemFruit.EnumFruit.WALNUT)))));
-		arboriculture.registerFruit(ForestryFruits.CHERRY, new RipeningFruit(true, 10, berries, 0xff2e2e, 0xc4d24a, List.of(Product.of(CoreItems.FRUITS.item(ItemFruit.EnumFruit.CHERRY))))); //Should be a Drupe, actually
+		arboriculture.registerFruit(ForestryFruits.CHESTNUT, new RipeningFruit(true, 6, nuts, 0x76403C, 0xc4d24a, List.of(Product.of(CoreItems.FRUITS.item(ItemFruit.EnumFruit.CHESTNUT)))));
+		arboriculture.registerFruit(ForestryFruits.WALNUT, new RipeningFruit(true, 8, nuts, 0xBC784E, 0xc4d24a, List.of(Product.of(CoreItems.FRUITS.item(ItemFruit.EnumFruit.WALNUT)))));
+		arboriculture.registerFruit(ForestryFruits.CHERRY, new RipeningFruit(true, 10, berries, 0xCC1C10, 0xc4d24a, List.of(Product.of(CoreItems.FRUITS.item(ItemFruit.EnumFruit.CHERRY))))); //Should be a Drupe, actually
 		arboriculture.registerFruit(ForestryFruits.DATES, new PodFruit(false, ForestryPodType.DATES, List.of(Product.of(CoreItems.FRUITS.item(ItemFruit.EnumFruit.DATES)))));
 		arboriculture.registerFruit(ForestryFruits.PAPAYA, new PodFruit(false, ForestryPodType.PAPAYA, List.of(Product.of(CoreItems.FRUITS.item(ItemFruit.EnumFruit.PAPAYA)))));
-		arboriculture.registerFruit(ForestryFruits.LEMON, new RipeningFruit(true, 10, citrus, 0xeeee00, 0x99ff00, List.of(Product.of(CoreItems.FRUITS.item(ItemFruit.EnumFruit.LEMON)))));
-		arboriculture.registerFruit(ForestryFruits.PLUM, new RipeningFruit(true, 10, plums, 0x663446, 0xeeff1a, List.of(Product.of(CoreItems.FRUITS.item(ItemFruit.EnumFruit.PLUM))))); //Should also be a drupe
+		arboriculture.registerFruit(ForestryFruits.LEMON, new RipeningFruit(true, 10, citrus, 0xFFD500, 0x99ff00, List.of(Product.of(CoreItems.FRUITS.item(ItemFruit.EnumFruit.LEMON)))));
+		arboriculture.registerFruit(ForestryFruits.PLUM, new RipeningFruit(true, 10, plums, 0x773352, 0xeeff1a, List.of(Product.of(CoreItems.FRUITS.item(ItemFruit.EnumFruit.PLUM))))); //Should also be a drupe
 
 		arboriculture.registerFruit(ForestryFruits.COCONUT, new PodFruit(false, ForestryPodType.COCONUT, List.of(Product.of(CoreItems.FRUITS.item(ItemFruit.EnumFruit.COCONUT)))));
 		arboriculture.registerFruit(ForestryFruits.PEAR, new RipeningFruit(true, 10, pomes, 0xD8D345, 0xE3DD9C, List.of(Product.of(CoreItems.FRUITS.item(ItemFruit.EnumFruit.PEAR)))));
