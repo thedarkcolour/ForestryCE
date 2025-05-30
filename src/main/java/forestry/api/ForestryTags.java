@@ -62,6 +62,20 @@ public class ForestryTags {
 		public static final TagKey<Block> PADAUK_LOGS = ForestryWoodType.PADAUK.blockTag;
 		public static final TagKey<Block> COCOBOLO_LOGS = ForestryWoodType.COCOBOLO.blockTag;
 		public static final TagKey<Block> ZEBRAWOOD_LOGS = ForestryWoodType.ZEBRAWOOD.blockTag;
+		public static final TagKey<Block> ELM_LOGS = ForestryWoodType.ELM.blockTag;
+		public static final TagKey<Block> FIR_LOGS = ForestryWoodType.FIR.blockTag;
+		public static final TagKey<Block> COCONUT_LOGS = ForestryWoodType.COCONUT.blockTag;
+		public static final TagKey<Block> BEECH_LOGS = ForestryWoodType.BEECH.blockTag;
+		public static final TagKey<Block> FEIJOA_LOGS = ForestryWoodType.FEIJOA.blockTag;
+		public static final TagKey<Block> DOGWOOD_LOGS = ForestryWoodType.DOGWOOD.blockTag;
+		public static final TagKey<Block> GINKGO_LOGS = ForestryWoodType.GINKGO.blockTag;
+		public static final TagKey<Block> JACARANDA_LOGS = ForestryWoodType.JACARANDA.blockTag;
+		public static final TagKey<Block> MONKEY_PUZZLE_LOGS = ForestryWoodType.MONKEY_PUZZLE.blockTag;
+		public static final TagKey<Block> MACROCARPA_LOGS = ForestryWoodType.MACROCARPA.blockTag;
+		public static final TagKey<Block> OLIVE_LOGS = ForestryWoodType.OLIVE.blockTag;
+		public static final TagKey<Block> ORANGE_LOGS = ForestryWoodType.ORANGE.blockTag;
+		public static final TagKey<Block> PEAR_LOGS = ForestryWoodType.PEAR.blockTag;
+		public static final TagKey<Block> KAURI_LOGS = ForestryWoodType.KAURI.blockTag;
 
 		// Categories of flowers
 		public static final TagKey<Block> VANILLA_FLOWERS = blockTag("flowers/vanilla");
@@ -160,6 +174,20 @@ public class ForestryTags {
 		public static final TagKey<Item> PADAUK_LOGS = ForestryWoodType.PADAUK.itemTag;
 		public static final TagKey<Item> COCOBOLO_LOGS = ForestryWoodType.COCOBOLO.itemTag;
 		public static final TagKey<Item> ZEBRAWOOD_LOGS = ForestryWoodType.ZEBRAWOOD.itemTag;
+		public static final TagKey<Item> ELM_LOGS = ForestryWoodType.ELM.itemTag;
+		public static final TagKey<Item> FIR_LOGS = ForestryWoodType.FIR.itemTag;
+		public static final TagKey<Item> COCONUT_LOGS = ForestryWoodType.COCONUT.itemTag;
+		public static final TagKey<Item> BEECH_LOGS = ForestryWoodType.BEECH.itemTag;
+		public static final TagKey<Item> FEIJOA_LOGS = ForestryWoodType.FEIJOA.itemTag;
+		public static final TagKey<Item> DOGWOOD_LOGS = ForestryWoodType.DOGWOOD.itemTag;
+		public static final TagKey<Item> GINKGO_LOGS = ForestryWoodType.GINKGO.itemTag;
+		public static final TagKey<Item> JACARANDA_LOGS = ForestryWoodType.JACARANDA.itemTag;
+		public static final TagKey<Item> MONKEY_PUZZLE_LOGS = ForestryWoodType.MONKEY_PUZZLE.itemTag;
+		public static final TagKey<Item> MACROCARPA_LOGS = ForestryWoodType.MACROCARPA.itemTag;
+		public static final TagKey<Item> OLIVE_LOGS = ForestryWoodType.OLIVE.itemTag;
+		public static final TagKey<Item> ORANGE_LOGS = ForestryWoodType.ORANGE.itemTag;
+		public static final TagKey<Item> PEAR_LOGS = ForestryWoodType.PEAR.itemTag;
+		public static final TagKey<Item> KAURI_LOGS = ForestryWoodType.KAURI.itemTag;
 
 		public static final TagKey<Item> STAMPS = itemTag("stamps");
 

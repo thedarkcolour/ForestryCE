@@ -51,6 +51,7 @@ public class PodFruit extends Fruit {
 		return switch (this.type) {
 			case DATES -> ForestryTags.Blocks.PALM_LOGS;
 			case PAPAYA -> ForestryTags.Blocks.PAPAYA_LOGS;
+			case COCONUT -> ForestryTags.Blocks.COCONUT_LOGS;
 			default -> BlockTags.JUNGLE_LOGS;
 		};
 	}

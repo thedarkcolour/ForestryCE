@@ -16,7 +16,7 @@ I've written this to make it a little easier to know what you have to in order t
 
 4. Define your leaf type in ForestryLeafType.java. You will first declare it at the top of the file, and then look for the values() method and add your new leaf type to the returned array. 
 
-5. Define your wood type in ForestryWoodType.java. You will need your newly created ForestryLeafType here.
+5. Define your wood type in ForestryWoodType.java. You will need your newly created ForestryLeafType here. With this created, head to ForestryTags.java and add a tag for each of your logs. None of these are really used unless you're making a pod-fruit tree, but it's good to be consistent. You'll need to do this for both block and item tags.
 
 6. Now the fun part: You need to do your research. You need to figure out the taxonomy of the species of tree you want to add. The way I had done this is by first getting the scientific name from Wikipedia, and then looking it up on https://www.catalogueoflife.org/ - because this formats the taxonomy in the same way as forestry.
 	There are a lot of taxa already avaialable, so check to see if some of your tree's taxonomy is already added.
