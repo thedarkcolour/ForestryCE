@@ -6,7 +6,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 
-import java.util.Set;
+import java.util.List;
 
 public class FeatureBaobab extends FeatureTree {
 	public FeatureBaobab(ITreeGenData tree) {
@@ -14,8 +14,8 @@ public class FeatureBaobab extends FeatureTree {
 	}
 
 	@Override
-	public Set<BlockPos> generateTrunk(LevelAccessor level, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
-		FeatureHelper.generateTreeTrunk(level, rand, wood, startPos, this.height - 1, this.girth, 0, 0, null, 0);
+	public void generateTrunk(LevelAccessor level, List<BlockPos> logOrigins, List<BlockPos> branchCoords, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
+		FeatureHelper.generateTreeTrunk(level, logOrigins, rand, wood, startPos, this.height - 1, this.girth, 0, 0, null, 0);
 
 		if (rand.nextFloat() < 0.3f) {
 			FeatureHelper.generateCylinderFromTreeStartPos(level, wood, startPos.offset(0, this.height - 1, 0), this.girth, this.girth, 1, FeatureHelper.EnumReplaceMode.SOFT, TreeContour.EMPTY);
@@ -23,7 +23,7 @@ public class FeatureBaobab extends FeatureTree {
 			FeatureHelper.generateCylinderFromTreeStartPos(level, wood, startPos.offset(0, this.height - 1, this.girth / 2), this.girth, this.girth - 1, 1, FeatureHelper.EnumReplaceMode.SOFT, TreeContour.EMPTY);
 		}
 
-		return FeatureHelper.generateBranches(level, rand, wood, startPos.offset(0, this.height - 2, 0), this.girth, 0, 0.5f, 4, 6, 1.0f);
+		FeatureHelper.generateBranches(level, rand, wood, startPos.offset(0, this.height - 2, 0), this.girth, 0, 0.5f, 4, 6, 1.0f);
 	}
 
 	@Override

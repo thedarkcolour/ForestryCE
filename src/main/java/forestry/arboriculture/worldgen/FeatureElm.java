@@ -17,6 +17,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class FeatureElm extends FeatureTree {
@@ -26,19 +27,17 @@ public class FeatureElm extends FeatureTree {
 	}
 
 	@Override
-	public Set<BlockPos> generateTrunk(LevelAccessor level, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
-		FeatureHelper.generateTreeTrunk(level, rand, wood, startPos, height, girth, 0, 0, null, 0);
+	public void generateTrunk(LevelAccessor level, List<BlockPos> logOrigins, List<BlockPos> branchCoords, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
+		FeatureHelper.generateTreeTrunk(level, logOrigins, rand, wood, startPos, height, girth, 0, 0, null, 0);
 
 		int trunkSpawn = height - 3;
 		float adjustedGirth = girth * .75f;
 
-		Set<BlockPos> branchCoords = new HashSet<>();
 		while (trunkSpawn > 3) {
 			int radius = (int) Math.round(adjustedGirth + (height - trunkSpawn) * 1.2 );
 			branchCoords.addAll(FeatureHelper.generateBranches(level, rand, wood, startPos.offset(0, trunkSpawn, 0), girth, 0.2f, 0.3f, radius, 1, 0.85f));
 			trunkSpawn -= 2;
 		}
-		return branchCoords;
 	}
 
 	@Override

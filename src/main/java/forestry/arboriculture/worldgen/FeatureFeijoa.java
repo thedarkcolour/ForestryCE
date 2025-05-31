@@ -17,19 +17,18 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class FeatureFeijoa extends FeatureTree {
 
 	public FeatureFeijoa(ITreeGenData tree) {
-		super(tree, 2, 1, 2);
+		super(tree, 4, 1, 2);
 	}
 
 	@Override
-	public Set<BlockPos> generateTrunk(LevelAccessor level, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
-		FeatureHelper.generateTreeTrunk(level, rand, wood, startPos, height, girth, 0, 0, null, 0);
-
-		Set<BlockPos> branches = new HashSet<>();
+	public void generateTrunk(LevelAccessor level, List<BlockPos> logOrigins, List<BlockPos> branchCoords, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
+		FeatureHelper.generateTreeTrunk(level, logOrigins, rand, wood, startPos, height, girth, 0, 0, null, 0);
 
 		float chance = 0.75f;
 		if (height >= 3) {
@@ -37,10 +36,8 @@ public class FeatureFeijoa extends FeatureTree {
 		}
 
 		for (int y = height - 1; y >= 1; y--){
-			branches.addAll(FeatureHelper.generateBranches(level, rand, wood, startPos.offset(0, y, 0), girth, 0, 0.25f, girth/3, 2, chance));
+			branchCoords.addAll(FeatureHelper.generateBranches(level, rand, wood, startPos.offset(0, y, 0), girth, 0, 0.25f, girth/3, 2, chance));
 		}
-
-		return branches;
 	}
 
 	@Override

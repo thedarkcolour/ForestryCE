@@ -18,6 +18,7 @@ import forestry.api.arboriculture.ITreeGenData;
 import forestry.core.worldgen.FeatureHelper;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class FeaturePlum extends FeatureTree {
@@ -28,10 +29,9 @@ public class FeaturePlum extends FeatureTree {
 	}
 
 	@Override
-	public Set<BlockPos> generateTrunk(LevelAccessor level, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
-		FeatureHelper.generateTreeTrunk(level, rand, wood, startPos, height, girth, 0, 0, null, 0);
+	public void generateTrunk(LevelAccessor level, List<BlockPos> logOrigins, List<BlockPos> branchCoords, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
+		FeatureHelper.generateTreeTrunk(level, logOrigins, rand, wood, startPos, height, girth, 0, 0, null, 0);
 
-		Set<BlockPos> branchCoords = new HashSet<>();
 
 		int branchHeight = height - 1;
 		int branchWidth = height / 4;
@@ -42,7 +42,6 @@ public class FeaturePlum extends FeatureTree {
 			//first (top-most) set of branches are shorter than the rest
 			branchWidth = height / 2;
 		}
-		return branchCoords;
 	}
 
 	@Override

@@ -6,8 +6,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 public class FeatureSourCherry extends FeatureTree {
 	public FeatureSourCherry(ITreeGenData tree) {
@@ -15,10 +14,8 @@ public class FeatureSourCherry extends FeatureTree {
 	}
 
 	@Override
-	public Set<BlockPos> generateTrunk(LevelAccessor level, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
-		FeatureHelper.generateTreeTrunk(level, rand, wood, startPos, this.height, this.girth, 0, 0, null, 0);
-
-		Set<BlockPos> branchCoords = new HashSet<>();
+	public void generateTrunk(LevelAccessor level, List<BlockPos> logOrigins, List<BlockPos> branchCoords, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
+		FeatureHelper.generateTreeTrunk(level, logOrigins, rand, wood, startPos, this.height, this.girth, 0, 0, null, 0);
 
 		int branchHeight = this.height - 1;
 		int branchWidth = this.height / 2;
@@ -27,7 +24,6 @@ public class FeatureSourCherry extends FeatureTree {
 			branchHeight -= 2;
 			branchWidth++;
 		}
-		return branchCoords;
 	}
 
 	@Override

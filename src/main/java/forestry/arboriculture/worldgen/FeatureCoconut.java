@@ -18,6 +18,7 @@ import net.minecraft.core.Vec3i;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 
+import java.util.List;
 import java.util.Set;
 
 public class FeatureCoconut extends FeatureTree {
@@ -44,16 +45,19 @@ public class FeatureCoconut extends FeatureTree {
 	};
 
 	@Override
-	public Set<BlockPos> generateTrunk(LevelAccessor level, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
+	public void generateTrunk(LevelAccessor level, List<BlockPos> logOrigins, List<BlockPos> branchCoords, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
 
 		Direction d = FeatureHelper.DirectionHelper.getRandom(rand);
 
-		return FeatureHelper.generateTreeTrunk(level, rand, wood, startPos, height, girth, 0, 0, d, 3);
+		FeatureHelper.generateTreeTrunk(level, logOrigins, rand, wood, startPos, height, girth, 0, 0, d, 3);
 	}
 
 	@Override
 	protected void generateLeaves(LevelAccessor level, RandomSource rand, TreeBlockTypeLeaf leaf, TreeContour contour, BlockPos sp) {
-		BlockPos startPos = contour.getBranchEnds().get(0); //the ps parameter is not useful as it gives us the base of the tree :facepalm:
+
+		int o = girth/2;
+
+		BlockPos startPos = contour.getTrunkOrigins().get(0).offset(0, o, 0); //the sp parameter is not useful as it gives us the base of the tree :facepalm:
 
 		int length = 3 + (girth/2);
 

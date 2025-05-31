@@ -8,7 +8,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 
 import javax.annotation.Nullable;
-import java.util.Set;
+import java.util.List;
 
 public abstract class FeatureTree extends FeatureArboriculture {
 	private final int minHeight;
@@ -35,9 +35,8 @@ public abstract class FeatureTree extends FeatureArboriculture {
 	}
 
 	@Override
-	public Set<BlockPos> generateTrunk(LevelAccessor level, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
-		FeatureHelper.generateTreeTrunk(level, rand, wood, startPos, this.height, this.girth, 0, 0, null, 0);
-		return Set.of();
+	public void generateTrunk(LevelAccessor level, List<BlockPos> logOrigins, List<BlockPos> branchCoords, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
+		FeatureHelper.generateTreeTrunk(level, logOrigins, rand, wood, startPos, this.height, this.girth, 0, 0, null, 0);
 	}
 
 	@Override
@@ -50,9 +49,9 @@ public abstract class FeatureTree extends FeatureArboriculture {
 	}
 
 	@Override
-	protected void generateExtras(LevelAccessor level, RandomSource rand, BlockPos startPos) {
+	protected void generateExtras(LevelAccessor level, RandomSource rand, BlockPos startPos, TreeContour contour) {
 		if (hasPods()) {
-			FeatureHelper.generatePods(this.tree, level, rand, startPos, this.height, minPodHeight, this.girth, FeatureHelper.EnumReplaceMode.AIR);
+			FeatureHelper.generatePods(this.tree, level, rand, startPos, this.height, minPodHeight, this.girth, contour, FeatureHelper.EnumReplaceMode.AIR);
 		}
 	}
 
@@ -78,6 +77,6 @@ public abstract class FeatureTree extends FeatureArboriculture {
 		//ITreeModifier treeModifier = SpeciesUtil.TREE_TYPE.get().getTreekeepingMode(world);
 		int height = baseHeight + rand.nextInt(heightVariation);
 		int adjustedHeight = Math.round(height * this.tree.getHeightModifier(genome));/* * treeModifier.getHeightModifier(tree.getGenome(), 1f)*/
-		return adjustedHeight < minHeight ? minHeight : Math.min(adjustedHeight, maxHeight);
+		return adjustedHeight < this.minHeight ? this.minHeight : Math.min(adjustedHeight, this.maxHeight);
 	}
 }

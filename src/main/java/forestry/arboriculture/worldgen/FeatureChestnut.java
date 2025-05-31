@@ -6,17 +6,16 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 
-import java.util.Set;
+import java.util.List;
 
 public class FeatureChestnut extends FeatureTree {
-
 	public FeatureChestnut(ITreeGenData tree) {
 		super(tree, 7, 3);
 	}
 
 	@Override
-	public Set<BlockPos> generateTrunk(LevelAccessor level, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
-		FeatureHelper.generateTreeTrunk(level, rand, wood, startPos, this.height, this.girth, 0, 0, null, 0);
+	public void generateTrunk(LevelAccessor level, List<BlockPos> logOrigins, List<BlockPos> branchCoords, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
+		FeatureHelper.generateTreeTrunk(level, logOrigins, rand, wood, startPos, this.height, this.girth, 0, 0, null, 0);
 
 		int branchHeight = 4;
 		if (rand.nextBoolean()) {
@@ -25,7 +24,7 @@ public class FeatureChestnut extends FeatureTree {
 
 		int branchRadius = this.height / 2;
 
-		return FeatureHelper.generateBranches(level, rand, wood, startPos.offset(0, branchHeight, 0), this.girth, 0.5f, 0.5f, branchRadius, 2, 1.0f);
+		branchCoords.addAll(FeatureHelper.generateBranches(level, rand, wood, startPos.offset(0, branchHeight, 0), this.girth, 0.5f, 0.5f, branchRadius, 2, 1.0f));
 	}
 
 	@Override

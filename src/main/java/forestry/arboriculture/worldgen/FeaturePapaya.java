@@ -6,18 +6,17 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 
-import java.util.Set;
+import java.util.List;
 
 public class FeaturePapaya extends FeatureTree {
-
 	public FeaturePapaya(ITreeGenData tree) {
 		super(tree, 7, 2);
 	}
 
 	@Override
-	public Set<BlockPos> generateTrunk(LevelAccessor level, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
-		FeatureHelper.generateTreeTrunk(level, rand, wood, startPos, this.height, this.girth, 0, 0, null, 0);
-		return FeatureHelper.generateBranches(level, rand, wood, startPos.offset(0, this.height - 1, 0), this.girth, 0.15f, 0.25f, this.height / 4, 1, 0.25f);
+	public void generateTrunk(LevelAccessor level, List<BlockPos> logOrigins, List<BlockPos> branchCoords, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
+		FeatureHelper.generateTreeTrunk(level, logOrigins, rand, wood, startPos, this.height, this.girth, 0, 0, null, 0);
+		branchCoords.addAll(FeatureHelper.generateBranches(level, rand, wood, startPos.offset(0, this.height - 1, 0), this.girth, 0.15f, 0.25f, this.height / 4, 1, 0.25f));
 	}
 
 	@Override

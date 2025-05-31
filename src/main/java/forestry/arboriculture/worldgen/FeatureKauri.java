@@ -19,6 +19,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class FeatureKauri extends FeatureTree {
@@ -27,21 +28,19 @@ public class FeatureKauri extends FeatureTree {
 	}
 
 	@Override
-	public Set<BlockPos> generateTrunk(LevelAccessor level, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
+	public void generateTrunk(LevelAccessor level, List<BlockPos> logOrigins, List<BlockPos> branchCoords, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
 
-		FeatureHelper.generateTreeTrunk(level, rand, wood, startPos, height, girth, 0, 0, null, 0);
+		FeatureHelper.generateTreeTrunk(level, logOrigins, rand, wood, startPos, height, girth, 0, 0, null, 0);
 
 		TreeBlockType bark = FeatureHelper.getWoodFromLog(wood, ForestryWoodType.KAURI);
 
 		FeatureHelper.generateSupportStems(bark, level, rand, startPos, height, girth, 0.8f, 0.2f);
 
-		Set<BlockPos> branchPositions = new HashSet<>();
-
 		int count = rand.nextIntBetweenInclusive((int)(girth *4.5f), (int)(girth * 6.5f));
 		int branchWidth = (int)(height / 2f);
 
 
-		while (branchPositions.size() <= count){
+		while (branchCoords.size() <= count){
 
 			//Make a nest of branches at the top of the tree. Account for very small trees.
 			int branchPos = rand.nextIntBetweenInclusive(Math.max(height-8, 2), height);
@@ -49,11 +48,10 @@ public class FeatureKauri extends FeatureTree {
 			//branches closer to the top tend to climb upward more
 			float spreadMod = 0.15f * (branchPos / (float) height);
 
-			branchPositions.addAll( FeatureHelper.generateBranches( level, rand, bark, startPos.offset(0,branchPos,0), girth, 0.2f + spreadMod, 0.4f, branchWidth, 1, 0.5f ) );
+			branchCoords.addAll( FeatureHelper.generateBranches( level, rand, bark, startPos.offset(0,branchPos,0), girth, 0.2f + spreadMod, 0.4f, branchWidth, 1, 0.5f ) );
 
 		}
 
-		return branchPositions;
 
 	}
 

@@ -6,21 +6,17 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 public class FeatureLemon extends FeatureTree {
-
 	public FeatureLemon(ITreeGenData tree) {
 		super(tree, 3, 2, 2);
 	}
 
 	// Generation code has been copy-pasted from Orange trees, which is fine because they're so closely related.
 	@Override
-	public Set<BlockPos> generateTrunk(LevelAccessor level, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
-		FeatureHelper.generateTreeTrunk(level, rand, wood, startPos, this.height, this.girth, 0, 0, null, 0);
-
-		Set<BlockPos> branches = new HashSet<>();
+	public void generateTrunk(LevelAccessor level, List<BlockPos> logOrigins, List<BlockPos> branchCoords, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
+		FeatureHelper.generateTreeTrunk(level, logOrigins, rand, wood, startPos, this.height, this.girth, 0, 0, null, 0);
 
 		int branchSpawn = this.height - 1;
 		int branchCount = 1;
@@ -31,7 +27,7 @@ public class FeatureLemon extends FeatureTree {
 			float branchChance = 0.75f;
 			if (branchSpawn >= 4 && branchSpawn <= 6) branchChance = 0.9f;
 
-			branches.addAll(FeatureHelper.generateBranches(level, rand, wood,
+			branchCoords.addAll(FeatureHelper.generateBranches(level, rand, wood,
 				startPos.offset(0, branchSpawn, 0),
 				this.girth,
 				0.4f, 0.15f,
@@ -43,7 +39,6 @@ public class FeatureLemon extends FeatureTree {
 			if (branchSpawn < 4 && branchCount == 2 && this.height > 6) branchSpawn = 4;
 		} while (branchSpawn >= 4);
 
-		return branches;
 	}
 
 	@Override

@@ -6,8 +6,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 public class FeatureCamelthorn extends FeatureTree {
 	public FeatureCamelthorn(ITreeGenData tree) {
@@ -15,11 +14,8 @@ public class FeatureCamelthorn extends FeatureTree {
 	}
 
 	@Override
-	public Set<BlockPos> generateTrunk(LevelAccessor level, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
-		FeatureHelper.generateTreeTrunk(level, rand, wood, startPos, this.height - 2, this.girth, 0, 0, null, 0);
-
-		Set<BlockPos> branches = new HashSet<>();
-
+	public void generateTrunk(LevelAccessor level, List<BlockPos> logOrigins, List<BlockPos> branchCoords, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
+		FeatureHelper.generateTreeTrunk(level, logOrigins, rand, wood, startPos, this.height - 2, this.girth, 0, 0, null, 0);
 		FeatureHelper.generateBranches(level, rand, wood, startPos.offset(0, this.height - 3, 0), this.girth, 0.5f, 0.15f, 3, 1, 1);
 
 		int y = this.height - 5;
@@ -27,13 +23,11 @@ public class FeatureCamelthorn extends FeatureTree {
 		if (this.height > 7) {
 			while (y >= 3) {
 
-				branches.addAll(FeatureHelper.generateBranches(level, rand, wood, startPos.offset(0, y, 0), this.girth, 0.25f, 0.3f, 3, 1, 0.5f));
+				branchCoords.addAll(FeatureHelper.generateBranches(level, rand, wood, startPos.offset(0, y, 0), this.girth, 0.25f, 0.3f, 3, 1, 0.5f));
 
 				y -= rand.nextIntBetweenInclusive(3, 5);
 			}
 		}
-
-		return branches;
 	}
 
 	@Override

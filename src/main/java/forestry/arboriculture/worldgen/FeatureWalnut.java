@@ -6,30 +6,24 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 public class FeatureWalnut extends FeatureTree {
-
 	public FeatureWalnut(ITreeGenData tree) {
 		super(tree, 7, 3);
 	}
 
 	@Override
-	public Set<BlockPos> generateTrunk(LevelAccessor level, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
-		FeatureHelper.generateTreeTrunk(level, rand, wood, startPos, this.height, this.girth, 0, 0, null, 0);
-
-		Set<BlockPos> branchEnds = new HashSet<>();
+	public void generateTrunk(LevelAccessor level, List<BlockPos> logOrigins, List<BlockPos> branchCoords, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
+		FeatureHelper.generateTreeTrunk(level, logOrigins, rand, wood, startPos, this.height, this.girth, 0, 0, null, 0);
 
 		int branchHeight = this.height - 3;
 		float branchSize = 2;
 		while (branchHeight >= 3) {
-			branchEnds.addAll(FeatureHelper.generateBranches(level, rand, wood, startPos.offset(0, branchHeight, 0), this.girth, 0.2f, 0.2f, (int) branchSize, 1, 0.5f));
+			branchCoords.addAll(FeatureHelper.generateBranches(level, rand, wood, startPos.offset(0, branchHeight, 0), this.girth, 0.2f, 0.2f, (int) branchSize, 1, 0.5f));
 			branchHeight--;
 			branchSize += 0.25f;
 		}
-
-		return branchEnds;
 	}
 
 	@Override

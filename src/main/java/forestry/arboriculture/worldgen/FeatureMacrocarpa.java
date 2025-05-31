@@ -17,6 +17,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class FeatureMacrocarpa extends FeatureTree {
@@ -25,23 +26,21 @@ public class FeatureMacrocarpa extends FeatureTree {
 	}
 
 	@Override
-	public Set<BlockPos> generateTrunk(LevelAccessor level, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
+	public void generateTrunk(LevelAccessor level, List<BlockPos> logOrigins, List<BlockPos> branchCoords, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
 
 		//Direction d = FeatureHelper.DirectionHelper.getRandom(rand);
-		FeatureHelper.generateTreeTrunk(level, rand, wood, startPos, height, girth, 0, 0, null, 0);
+		FeatureHelper.generateTreeTrunk(level, logOrigins, rand, wood, startPos, height, girth, 0, 0, null, 0);
 
 		int branchesEnd = 2;
 		int y = height-3;
 
-		Set<BlockPos> branches = new HashSet<>();
 		while( y >= branchesEnd){
 			int depth = height - y;
-			branches.addAll(
+			branchCoords.addAll(
 					FeatureHelper.generateBranches(level, rand, wood, startPos.offset(0,y,0), girth, 0.35f, 0.4f, (int)(depth/1.5f) + (int)Math.ceil(girth/2f), 2, 1)
 			);
 			y -= 3;
 		}
-		return branches;
 	}
 
 	@Override

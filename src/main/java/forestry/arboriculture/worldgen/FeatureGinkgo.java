@@ -17,6 +17,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class FeatureGinkgo extends FeatureTree {
@@ -25,21 +26,19 @@ public class FeatureGinkgo extends FeatureTree {
 	}
 
 	@Override
-	public Set<BlockPos> generateTrunk(LevelAccessor level, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
-		FeatureHelper.generateTreeTrunk(level, rand, wood, startPos, height, girth, 0, 0, null, 0);
+	public void generateTrunk(LevelAccessor level, List<BlockPos> logOrigins, List<BlockPos> branchCoords, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
+		FeatureHelper.generateTreeTrunk(level, logOrigins, rand, wood, startPos, height, girth, 0, 0, null, 0);
 
 		int trunkSpawn = height - 1;
 		float baseRad = 1f;
 		float radMod = 2f;
 
-		Set<BlockPos> branchCoords = new HashSet<>();
 		while (trunkSpawn > 2) {
 
 			float radius =baseRad + (1.0f - (float)trunkSpawn / height) * radMod;
 			branchCoords.addAll(FeatureHelper.generateBranches(level, rand, wood, startPos.offset(0, trunkSpawn, 0), girth, 0.15f, 0.3f, (int)radius, 1, 0.25f));
 			trunkSpawn-=3;
 		}
-		return branchCoords;
 	}
 
 	@Override

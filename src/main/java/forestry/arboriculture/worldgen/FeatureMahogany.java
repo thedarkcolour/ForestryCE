@@ -6,25 +6,21 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 public class FeatureMahogany extends FeatureTree {
-
 	public FeatureMahogany(ITreeGenData tree) {
 		super(tree, 12, 6);
 	}
 
 	@Override
-	public Set<BlockPos> generateTrunk(LevelAccessor level, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
-		FeatureHelper.generateTreeTrunk(level, rand, wood, startPos, this.height, this.girth, 0, 0.6f, null, 0);
+	public void generateTrunk(LevelAccessor level, List<BlockPos> logOrigins, List<BlockPos> branchCoords, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
+		FeatureHelper.generateTreeTrunk(level, logOrigins, rand, wood, startPos, this.height, this.girth, 0, 0.6f, null, 0);
 		FeatureHelper.generateSupportStems(wood, level, rand, startPos, this.height, this.girth, 0.4f, 0.4f);
 
-		Set<BlockPos> branchEnds = new HashSet<>();
 		for (int yBranch = this.height - 4; yBranch < this.height - 2; yBranch++) {
-			branchEnds.addAll(FeatureHelper.generateBranches(level, rand, wood, startPos.offset(0, yBranch, 0), this.girth, 0.15f, 0.25f, Math.round((this.height - yBranch) * 0.5f), 1, 0.25f));
+			branchCoords.addAll(FeatureHelper.generateBranches(level, rand, wood, startPos.offset(0, yBranch, 0), this.girth, 0.15f, 0.25f, Math.round((this.height - yBranch) * 0.5f), 1, 0.25f));
 		}
-		return branchEnds;
 	}
 
 	@Override

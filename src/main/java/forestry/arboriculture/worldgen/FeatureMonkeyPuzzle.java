@@ -16,6 +16,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 
+import java.util.List;
 import java.util.Set;
 
 public class FeatureMonkeyPuzzle extends FeatureTree {
@@ -24,16 +25,15 @@ public class FeatureMonkeyPuzzle extends FeatureTree {
 	}
 
 	@Override
-	public Set<BlockPos> generateTrunk(LevelAccessor level, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
-		FeatureHelper.generateTreeTrunk(level, rand, wood, startPos, height, girth, 0, 0, null, 0);
+	public void generateTrunk(LevelAccessor level, List<BlockPos> logOrigins, List<BlockPos> branchCoords, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
+		FeatureHelper.generateTreeTrunk(level, logOrigins, rand, wood, startPos, height, girth, 0, 0, null, 0);
 		FeatureHelper.generateBranches(level, rand, wood, startPos.offset(0, height-1, 0), girth, 0f, 0.0f, 2, 4, 1.0f); //Supports the top canopy
 
 		if (height > 8) {
 
 			int branchY = height - rand.nextIntBetweenInclusive(5, 7);
-			return FeatureHelper.generateBranches(level, rand, wood, startPos.offset(0, branchY, 0), girth, 0.4f, 0.25f, 2, 1, 1.0f);
+			branchCoords.addAll( FeatureHelper.generateBranches(level, rand, wood, startPos.offset(0, branchY, 0), girth, 0.4f, 0.25f, 2, 1, 1.0f) );
 		}
-		return Set.of();
 	}
 
 	@Override

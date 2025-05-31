@@ -17,6 +17,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class FeatureFir extends FeatureTree {
@@ -26,16 +27,14 @@ public class FeatureFir extends FeatureTree {
 	private int MIN_HEIGHT = 3;
 
     @Override
-	public Set<BlockPos> generateTrunk(LevelAccessor level, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
+	public void generateTrunk(LevelAccessor level, List<BlockPos> logOrigins, List<BlockPos> branchCoords, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
 
 
-		FeatureHelper.generateTreeTrunk(level, rand, wood, startPos, Math.max(height-girth, MIN_HEIGHT), girth, 0, 0, 0.4f);
+		FeatureHelper.generateTreeTrunk(level, logOrigins, branchCoords, rand, wood, startPos, Math.max(height-girth, MIN_HEIGHT), girth, 0, 0, 0.4f);
 
-		Set<BlockPos> branchEnds = new HashSet<>();
 		for (int yBranch = 3; yBranch < height - (height/2); yBranch++) {
-			branchEnds.addAll(FeatureHelper.generateBranches(level, rand, wood, startPos.offset(0, yBranch, 0), girth, 0.05f, 0.1f, Math.round((height - yBranch) * 0.15f), 1, 0.33f));
+			branchCoords.addAll(FeatureHelper.generateBranches(level, rand, wood, startPos.offset(0, yBranch, 0), girth, 0.05f, 0.1f, Math.round((height - yBranch) * 0.15f), 1, 0.33f));
 		}
-		return branchEnds;
 	}
 
 	@Override

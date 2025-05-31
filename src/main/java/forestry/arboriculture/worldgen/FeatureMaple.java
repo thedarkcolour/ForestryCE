@@ -6,24 +6,20 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 public class FeatureMaple extends FeatureTree {
-
 	public FeatureMaple(ITreeGenData tree) {
 		super(tree, 7, 5);
 	}
 
 	@Override
-	public Set<BlockPos> generateTrunk(LevelAccessor level, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
-		FeatureHelper.generateTreeTrunk(level, rand, wood, startPos, this.height, this.girth, 0, 0, null, 0);
+	public void generateTrunk(LevelAccessor level, List<BlockPos> logOrigins, List<BlockPos> branchCoords, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
+		FeatureHelper.generateTreeTrunk(level, branchCoords, rand, wood, startPos, this.height, this.girth, 0, 0, null, 0);
 
-		Set<BlockPos> branchCoords = new HashSet<>();
 		for (int yBranch = 2; yBranch < this.height - 2; yBranch++) {
 			branchCoords.addAll(FeatureHelper.generateBranches(level, rand, wood, startPos.offset(0, yBranch, 0), this.girth, 0.15f, 0.25f, Math.round((this.height - yBranch) * 0.25f), 1, 0.25f));
 		}
-		return branchCoords;
 	}
 
 	@Override

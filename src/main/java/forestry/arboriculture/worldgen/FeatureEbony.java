@@ -7,25 +7,24 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Blocks;
 
-import java.util.Collections;
-import java.util.Set;
+import java.util.List;
 
 public class FeatureEbony extends FeatureTree {
-
 	public FeatureEbony(ITreeGenData tree) {
 		super(tree, 10, 4);
 	}
 
 	@Override
-	public Set<BlockPos> generateTrunk(LevelAccessor level, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
+	public void generateTrunk(LevelAccessor level, List<BlockPos> logOrigins, List<BlockPos> branchCoords, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
 		int trunksGenerated = 0;
 
+		// TODO: Anything but this
 		for (int x = 0; x < this.girth; x++) {
 			for (int z = 0; z < this.girth; z++) {
 				if (rand.nextFloat() < 0.6f) {
 					for (int y = 0; y < this.height; y++) {
 						FeatureHelper.addBlock(level, startPos.offset(x, y, z), wood, FeatureHelper.EnumReplaceMode.ALL);
-						if (y > this.height / 2 && rand.nextFloat() < 0.1f * (10 / this.height)) {
+						if (y > this.height / 2 && rand.nextFloat() < 0.1f * (10f / this.height)) {
 							break;
 						}
 					}
@@ -40,10 +39,8 @@ public class FeatureEbony extends FeatureTree {
 
 		// Generate backup trunk, if we failed to generate any.
 		if (trunksGenerated <= 0) {
-			FeatureHelper.generateTreeTrunk(level, rand, wood, startPos, this.height, 1, 0, 0.6f, null, 0);
+			FeatureHelper.generateTreeTrunk(level, logOrigins, rand, wood, startPos, this.height, 1, 0, 0.6f, null, 0);
 		}
-
-		return Collections.emptySet();
 	}
 
 	@Override

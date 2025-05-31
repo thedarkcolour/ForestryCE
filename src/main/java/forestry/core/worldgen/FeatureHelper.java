@@ -267,10 +267,11 @@ public class FeatureHelper {
 	}
 
 	/**
-	 * Returns a list of trunk top coordinates
+	 * Updates logOrigins to contain the coordinates of the first block placed per y level in the tree.
 	 */
-	public static Set<BlockPos> generateTreeTrunk(
+	public static void generateTreeTrunk(
 			LevelAccessor level,
+			List<BlockPos> logOrigins,
 			RandomSource rand,
 			ITreeBlockType wood,
 			BlockPos startPos,
@@ -281,7 +282,6 @@ public class FeatureHelper {
 			@Nullable Direction leanDirection,
 			float leanScale
 	) {
-		Set<BlockPos> treeTops = new HashSet<>();
 
 		final int leanStartY = (int) Math.floor(height * 0.33f);
 		int prevXOffset = 0;
@@ -323,22 +323,26 @@ public class FeatureHelper {
 					addBlock(level, pos, wood, EnumReplaceMode.ALL);
 					addVines(level, rand, pos, vinesChance);
 
-					if (y + 1 == height) treeTops.add(pos);
+					if (x == 0 && z == 0)
+						logOrigins.add(pos);
 				}
 			}
 		}
-
-		return treeTops;
 	}
 
 
 
 	/**
-	 * Returns a list of trunk top coordinates. Takes a taper instead of a direction as I can't forsee needing a tree to do both.
+	 * Updates logOrigins to contain the coordinates of the first block placed per y level in the tree.
+	 * Takes a taper instead of a direction as I can't forsee needing a tree to do both.
+	 * logOrigins, for sake of simplicity, will still pick the first x and z coordinate where a log SHOULD generate
+	 * even if it doesn't. Most things won't be affected by this, but keep it in mind.
 	 * @param taper the percentage representing at which point the tree should reach maximum girth.
 	 */
-	public static Set<BlockPos> generateTreeTrunk(
+	public static void generateTreeTrunk(
 			LevelAccessor level,
+			List<BlockPos> logOrigins,
+			List<BlockPos> branchEnds,
 			RandomSource rand,
 			ITreeBlockType wood,
 			BlockPos startPos,
@@ -348,7 +352,6 @@ public class FeatureHelper {
 			float vinesChance,
 			float taper
 	) {
-		Set<BlockPos> treeTops = new HashSet<>();
 
 		int taperStart = yStart+ (int)(height * taper); // Work out the highest point that max girth occurs.
 
@@ -373,16 +376,13 @@ public class FeatureHelper {
 
 						addBlock(level, pos, wood, EnumReplaceMode.ALL);
 						addVines(level, rand, pos, vinesChance);
-
-						if (y + 1 == height) {
-							treeTops.add(pos);
-						}
 					}
+
+					if (x == 0 && z == 0)
+						logOrigins.add(pos);
 				}
 			}
 		}
-
-		return treeTops;
 	}
 
 	protected static void addVines(LevelAccessor world, RandomSource rand, BlockPos pos, float chance) {
@@ -408,19 +408,22 @@ public class FeatureHelper {
 		}
 	}
 
-	public static void generatePods(ITreeGenData tree, LevelAccessor world, RandomSource rand, BlockPos startPos, int height, int minHeight, int girth, EnumReplaceMode replaceMode) {
-		for (int y = height - 1; y >= minHeight; y--) { // generating top-down is faster for lighting calculations
+	public static void generatePods(ITreeGenData tree, LevelAccessor world, RandomSource rand, BlockPos startPos, int height, int minHeight, int girth, TreeContour contour, EnumReplaceMode replaceMode) {
+
+		for (BlockPos logPos: contour.getTrunkOrigins()) { // generating top-down is faster for lighting calculations
+
 			for (int x = 0; x < girth; x++) {
 				for (int z = 0; z < girth; z++) {
 
-					if (x > 0 && z > 0) {
+					//logic to skip over trying to spawn pods in the middle of a tree.
+					if ((girth > 2) && (x > 0 && x < girth-1) && (z > 0 && z < girth-1))  {
 						continue;
 					}
 
-					trySpawnFruitBlock(tree, world, rand, startPos.offset(x + 1, y, z), replaceMode);
-					trySpawnFruitBlock(tree, world, rand, startPos.offset(x - 1, y, z), replaceMode);
-					trySpawnFruitBlock(tree, world, rand, startPos.offset(x, y, z + 1), replaceMode);
-					trySpawnFruitBlock(tree, world, rand, startPos.offset(x, y, z - 1), replaceMode);
+					trySpawnFruitBlock(tree, world, rand, logPos.offset(x + 1, 0, z), replaceMode);
+					trySpawnFruitBlock(tree, world, rand, logPos.offset(x - 1, 0, z), replaceMode);
+					trySpawnFruitBlock(tree, world, rand, logPos.offset(x, 0, z + 1), replaceMode);
+					trySpawnFruitBlock(tree, world, rand, logPos.offset(x, 0, z - 1), replaceMode);
 				}
 			}
 		}

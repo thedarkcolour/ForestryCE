@@ -7,8 +7,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 public class FeatureCherryVanilla extends FeatureTree {
 	private static final float WIDE_BOTTOM_LAYER_HOLE_CHANCE = 0.25f;
@@ -23,7 +22,7 @@ public class FeatureCherryVanilla extends FeatureTree {
 	// todo support custom girth
 	// Based off of CherryTrunkPlacer
 	@Override
-	public Set<BlockPos> generateTrunk(LevelAccessor level, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
+	public void generateTrunk(LevelAccessor level, List<BlockPos> logOrigins, List<BlockPos> branchCoords, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
 		wood.setDirection(Direction.UP);
 
 		int i = Math.max(2, this.height - 1 + rand.nextIntBetweenInclusive(-4, -3));
@@ -51,19 +50,16 @@ public class FeatureCherryVanilla extends FeatureTree {
 			cursor.move(0, 1, 0);
 		}
 
-		Set<BlockPos> branchPositions = new HashSet<>();
 		if (middleBranch) {
-			branchPositions.add(cursor.offset(0, 1, 0));
+			branchCoords.add(cursor.offset(0, 1, 0));
 		}
 		cursor.set(startPos);
 		Direction direction = Direction.Plane.HORIZONTAL.getRandomDirection(rand);
 
-		branchPositions.add(generateBranch(level, rand, startPos, wood, direction, i, i < l - 1, cursor));
+		branchCoords.add(generateBranch(level, rand, startPos, wood, direction, i, i < l - 1, cursor));
 		if (multipleBranches) {
-			branchPositions.add(generateBranch(level, rand, startPos, wood, direction.getOpposite(), j, j < l - 1, cursor));
+			branchCoords.add(generateBranch(level, rand, startPos, wood, direction.getOpposite(), j, j < l - 1, cursor));
 		}
-
-		return branchPositions;
 	}
 
 	private BlockPos generateBranch(LevelAccessor level, RandomSource rand, BlockPos pos, TreeBlockTypeLog wood, Direction horizontal, int pSecondBranchStartOffsetFromTop, boolean isLow, BlockPos.MutableBlockPos cursor) {

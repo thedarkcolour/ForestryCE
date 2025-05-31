@@ -26,22 +26,18 @@ public class FeatureAcacia extends FeatureTree {
 	}
 
 	@Override
-	public Set<BlockPos> generateTrunk(LevelAccessor level, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
+	public void generateTrunk(LevelAccessor level, List<BlockPos> logOrigins, List<BlockPos> branchCoords, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
 
 		Direction firstDir = HorizontalDirection.VALUES.get(rand.nextIntBetweenInclusive(0,3));
 
-		Set<BlockPos> branches = new HashSet<>();
-
-		branches.addAll(FeatureHelper.generateTreeTrunk(level, rand, wood, startPos, height, girth, 0, 0, firstDir, (rand.nextFloat()*3)+0.5f));
+		FeatureHelper.generateTreeTrunk(level, logOrigins, rand, wood, startPos, height, girth, 0, 0, firstDir, (rand.nextFloat()*3)+0.5f);
 
 
 		//Only generate a second trunk if it's in another direction
 		Direction nextDir = HorizontalDirection.VALUES.get(rand.nextIntBetweenInclusive(0,3));
 		if (!firstDir.equals(nextDir)){
-			branches.addAll(FeatureHelper.generateTreeTrunk(level, rand, wood, startPos, rand.nextIntBetweenInclusive(Math.max(2, height-4), height), girth, 0, 0, nextDir, (rand.nextFloat()*2)+1f));
+			FeatureHelper.generateTreeTrunk(level, logOrigins, rand, wood, startPos, rand.nextIntBetweenInclusive(Math.max(2, height-4), height), girth, 0, 0, nextDir, (rand.nextFloat()*2)+1f);
 		}
-
-		return branches;
 	}
 
 	@Override
