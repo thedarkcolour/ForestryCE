@@ -742,7 +742,7 @@ public class DefaultTreeSpecies {
 				.setAuthority("Spear");
 
 		// Papaya https://www.catalogueoflife.org/data/taxon/RCZK
-		arboriculture.registerSpecies(ForestryTreeSpecies.PAPAYA, GENUS_CARICA, SPECIES_PAPAYA, true, TextColor.fromRgb(0x6d9f58), ForestryWoodType.PAPAYA)
+		arboriculture.registerSpecies(ForestryTreeSpecies.PAPAYA, GENUS_CARICA, SPECIES_PAPAYA, true, TextColor.fromRgb(0x74B225), ForestryWoodType.PAPAYA)
 				.setTreeFeature(FeaturePapaya::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.PAPAYA))
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.PAPAYA).block().getStateDefinition().getPossibleStates())

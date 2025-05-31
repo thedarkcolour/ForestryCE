@@ -16,17 +16,17 @@ public class FeaturePapaya extends FeatureTree {
 	@Override
 	public void generateTrunk(LevelAccessor level, List<BlockPos> logOrigins, List<BlockPos> branchCoords, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
 		FeatureHelper.generateTreeTrunk(level, logOrigins, rand, wood, startPos, this.height, this.girth, 0, 0, null, 0);
-		branchCoords.addAll(FeatureHelper.generateBranches(level, rand, wood, startPos.offset(0, this.height - 1, 0), this.girth, 0.15f, 0.25f, this.height / 4, 1, 0.25f));
+		branchCoords.addAll(FeatureHelper.generateBranches(level, rand, wood, startPos.offset(0, this.height - 2, 0), this.girth, 0.5f, 0.1f, 4, 1, 1f));
 	}
 
 	@Override
 	protected void generateLeaves(LevelAccessor level, RandomSource rand, TreeBlockTypeLeaf leaf, TreeContour contour, BlockPos startPos) {
 		for (BlockPos branchEnd : contour.getBranchEnds()) {
-			FeatureHelper.generateCylinderFromPos(level, leaf, branchEnd, 1 + this.girth, 1, FeatureHelper.EnumReplaceMode.AIR, contour);
+			FeatureHelper.generateEllipsoid(level, branchEnd, 2f, 1.5f, 2f, 1.25f, leaf, FeatureHelper.EnumReplaceMode.AIR, contour);
 		}
 
-		int yCenter = this.height - this.girth;
-		yCenter = yCenter > 3 ? yCenter : 4;
-		FeatureHelper.generateSphereFromTreeStartPos(level, startPos.offset(0, yCenter, 0), this.girth, Math.round((2 + rand.nextInt(this.girth)) * (this.height / 8.0f)), leaf, FeatureHelper.EnumReplaceMode.AIR, contour);
+		float r = 3f + (this.girth / 2);
+
+		FeatureHelper.generateEllipsoid(level, startPos.offset(this.girth / 2, this.height + 1, this.girth / 2), r, 1.5f, r, 1.25f, leaf, FeatureHelper.EnumReplaceMode.AIR, contour);
 	}
 }
