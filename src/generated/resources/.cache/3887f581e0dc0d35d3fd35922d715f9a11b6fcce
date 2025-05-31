@@ -1,4 +1,4 @@
-// 1.20.1	2026-02-02T13:57:07.63218753	Block States: forestry
+// 1.20.1	2026-02-02T20:06:43.096466491	Block States: forestry
 efb6cd9088f34afc855db97087b928d69c02ae5f assets/forestry/blockstates/apatite_ore.json
 f57484d5f7156fddd1a540e02d9ddec37cb1f2bd assets/forestry/blockstates/arboretum_managed.json
 f57484d5f7156fddd1a540e02d9ddec37cb1f2bd assets/forestry/blockstates/arboretum_manual.json
@@ -360,7 +360,7 @@ cb5e058364261fe6cbcf040354cf08f2ff72b85e assets/forestry/models/block/tree_feijo
 3cc33b94164f19916e09397793a1ebc4ee667e87 assets/forestry/models/block/tree_giant_sequoia_default_leaves.json
 007937426ab8c34fb75ce76fc1eda90c2ca818ea assets/forestry/models/block/tree_ginkgo_default_leaves.json
 98591973e8707e409b64df86c38d0a52624d7f6a assets/forestry/models/block/tree_hill_cherry_default_leaves.json
-fa469315c335b0eda49486df4a5b7feb55b9d687 assets/forestry/models/block/tree_ipe_default_leaves.json
+c807464ea47c66782d202a0b9331ed219af31088 assets/forestry/models/block/tree_ipe_default_leaves.json
 23b03fae9316387ef75f05048ddf95bfeef98ab8 assets/forestry/models/block/tree_jacaranda_default_leaves.json
 dcb48dadb634675a8f8aee9fd202e404c9060698 assets/forestry/models/block/tree_jungle_default_leaves.json
 dcb48dadb634675a8f8aee9fd202e404c9060698 assets/forestry/models/block/tree_kapok_default_leaves.json
