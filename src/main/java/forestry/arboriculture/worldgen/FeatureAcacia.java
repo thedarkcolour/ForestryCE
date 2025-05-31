@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.arboriculture.worldgen;
 
 import forestry.api.arboriculture.ITreeGenData;
@@ -18,48 +8,40 @@ import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 
-import java.util.*;
+import java.util.List;
 
 public class FeatureAcacia extends FeatureTree {
 	public FeatureAcacia(ITreeGenData tree) {
 		super(tree, 5, 4);
 	}
 
+	// For the record, this is terrible usage of this method, but hacky workarounds make the world go round.
 	@Override
 	public void generateTrunk(LevelAccessor level, List<BlockPos> logOrigins, List<BlockPos> branchCoords, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
+		Direction firstDir = HorizontalDirection.VALUES.get(rand.nextIntBetweenInclusive(0, 3));
+		FeatureHelper.generateTreeTrunk(level, logOrigins, rand, wood, startPos, this.height, this.girth, 0, 0, firstDir, (rand.nextFloat() * 3) + 0.5f);
 
-		Direction firstDir = HorizontalDirection.VALUES.get(rand.nextIntBetweenInclusive(0,3));
-
-		FeatureHelper.generateTreeTrunk(level, logOrigins, rand, wood, startPos, height, girth, 0, 0, firstDir, (rand.nextFloat()*3)+0.5f);
-
-
-		//Only generate a second trunk if it's in another direction
-		Direction nextDir = HorizontalDirection.VALUES.get(rand.nextIntBetweenInclusive(0,3));
-		if (!firstDir.equals(nextDir)){
-			FeatureHelper.generateTreeTrunk(level, logOrigins, rand, wood, startPos, rand.nextIntBetweenInclusive(Math.max(2, height-4), height), girth, 0, 0, nextDir, (rand.nextFloat()*2)+1f);
+		// Only generate a second trunk if it's in another direction
+		Direction nextDir = HorizontalDirection.VALUES.get(rand.nextIntBetweenInclusive(0, 3));
+		if (!firstDir.equals(nextDir)) {
+			FeatureHelper.generateTreeTrunk(level, branchCoords, rand, wood, startPos, rand.nextIntBetweenInclusive(Math.max(2, this.height - 4), this.height), this.girth, 0, 0, nextDir, (rand.nextFloat() * 1.5f) + 0.5f);
 		}
 	}
 
 	@Override
 	protected void generateLeaves(LevelAccessor level, RandomSource rand, TreeBlockTypeLeaf leaf, TreeContour contour, BlockPos startPos) {
+		// Generate the first, larger canopy
+		BlockPos pos = contour.getTrunkOrigins().get(0);
 
-		//Generate the first, larger canopy
-		BlockPos pos = contour.getBranchEnds().get(0);
+		FeatureHelper.generateCylinderFromPos(level, leaf, pos.offset(this.girth / -2, 1, this.girth / -2), 2 + (this.girth / 2), 1, FeatureHelper.EnumReplaceMode.SOFT, contour);
+		FeatureHelper.generateCylinderFromPos(level, leaf, pos.offset(this.girth / -2, 0, this.girth / -2), 3 + (this.girth / 2), 1.5f, 1, FeatureHelper.EnumReplaceMode.SOFT, contour);
 
-		FeatureHelper.generateCylinderFromPos(level, leaf, pos.offset(girth/-2,1,girth/-2), 2+(girth/2), 1, FeatureHelper.EnumReplaceMode.SOFT, contour);
-		FeatureHelper.generateCylinderFromPos(level, leaf, pos.offset(girth/-2,0,girth/-2), 3+(girth/2), 1.5f, 1, FeatureHelper.EnumReplaceMode.SOFT, contour);
+		// Generate the second, if there is one
+		if (!contour.getBranchEnds().isEmpty()) {
+			pos = contour.getBranchEnds().get(0);
 
-
-		//Generate the second, if there is one
-		if (contour.getBranchEnds().size() > girth*girth ) {
-
-			pos = contour.getBranchEnds().get( girth*girth );
-
-			FeatureHelper.generateCylinderFromPos(level, leaf, pos.offset(girth/-2,1,girth/-2), 1+(girth/2), 2f, 1, FeatureHelper.EnumReplaceMode.SOFT, contour);
-			FeatureHelper.generateCylinderFromPos(level, leaf, pos.offset(girth/-2,0,girth/-2), 2+(girth/2), 1.5f, 1, FeatureHelper.EnumReplaceMode.SOFT, contour);
-
+			FeatureHelper.generateCylinderFromPos(level, leaf, pos.offset(this.girth / -2, 1, this.girth / -2), 1 + (this.girth / 2), 2f, 1, FeatureHelper.EnumReplaceMode.SOFT, contour);
+			FeatureHelper.generateCylinderFromPos(level, leaf, pos.offset(this.girth / -2, 0, this.girth / -2), 2 + (this.girth / 2), 1.5f, 1, FeatureHelper.EnumReplaceMode.SOFT, contour);
 		}
-
-
 	}
 }
