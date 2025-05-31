@@ -1,4 +1,4 @@
-// 1.20.1	2026-02-02T16:32:52.182722513	Recipes
+// 1.20.1	2026-02-02T20:07:41.667071846	Recipes
 6867bbb8c2b291d6e111aae900a9ce8be0cf8ebe data/forestry/advancements/recipes/building_blocks/acacia_desert_fence.json
 92d402b3f91419af71a9913fbddab9c5e9183779 data/forestry/advancements/recipes/building_blocks/acacia_desert_fence_gate.json
 756f6f4fa8d9fdc7fe1895f6bd02cb5e107c6acf data/forestry/advancements/recipes/building_blocks/acacia_desert_fireproof_fence.json
@@ -2850,7 +2850,7 @@ b627309251fed349a0002deee557cfaf7f139c40 data/forestry/recipes/squeezer/containe
 7776736ca1040cb587970b1b4bf1ec9506498072 data/forestry/recipes/squeezer/container/refractory.json
 e9e5edb562bca5478a5fae4d2261d93b80c719da data/forestry/recipes/squeezer/fruit/cherry.json
 f7d52496ae19405317a78a2f03a6c9a8fb82886b data/forestry/recipes/squeezer/fruit/chestnut.json
-1c2d5c0920a8b14fde8546d2d48f0bb3786b7d0a data/forestry/recipes/squeezer/fruit/coconut.json
+85a397d1c07b1dffdacf5cde0f2d92210981cc19 data/forestry/recipes/squeezer/fruit/coconut.json
 d5fc1d640eb52329a0c6bccb61f95bd672af802d data/forestry/recipes/squeezer/fruit/dates.json
 379d6b5388c701d00899be95e79f88f7f309fa13 data/forestry/recipes/squeezer/fruit/feijoa.json
 444e9a43b77f224f74ddbf0a0c30100c6240e46a data/forestry/recipes/squeezer/fruit/lemon.json

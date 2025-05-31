@@ -2233,7 +2233,7 @@ public class ForestryRecipeProvider {
 		new SqueezerRecipeBuilder()
 			.setProcessingTime(10)
 			.setResources(NonNullList.withSize(1, Ingredient.of(ForestryTags.Items.COCONUT)))
-			.setFluidOutput(new FluidStack(Fluids.WATER, 500)) //TODO: Replace with Milk
+			.setFluidOutput(new FluidStack(ForgeMod.MILK.get(), 500))
 			.setRemnants(mulch)
 			.setRemnantsChance(0.25f)
 			.build(consumer, id("squeezer", "fruit", "coconut"));

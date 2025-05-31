@@ -3,7 +3,7 @@
   "chance": 0.25,
   "output": {
     "Amount": 500,
-    "FluidName": "minecraft:water"
+    "FluidName": "minecraft:milk"
   },
   "remnant": {
     "Count": 1,
