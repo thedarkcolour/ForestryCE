@@ -366,7 +366,7 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_LARGE);
 					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_HIGHER);//Highest of all trees. Best for Biofuel. Not, to my knowledge, representative of real life Ginkgo trees.
 					genome.set(TreeChromosomes.MATURATION, ForestryAlleles.MATURATION_SLOW);
-					genome.set(TreeChromosomes.SAPLINGS, ForestryAlleles.SAPLINGS_LOW);
+					genome.set(TreeChromosomes.SAPLINGS, ForestryAlleles.SAPLINGS_LOWEST);
 				})
 				.setAuthority("Spear");
 		//No mutations for this tree, as it comes from Sniffers.
@@ -751,7 +751,7 @@ public class DefaultTreeSpecies {
 				.setHumidity(HumidityType.DAMP)
 				.setGenome(genome -> {
 					genome.set(TreeChromosomes.FRUIT, ForestryAlleles.FRUIT_PAPAYA);
-					genome.set(TreeChromosomes.SAPLINGS, ForestryAlleles.SAPLINGS_LOW);
+					genome.set(TreeChromosomes.SAPLINGS, ForestryAlleles.SAPLINGS_LOWER);
 					genome.set(TreeChromosomes.SAPPINESS, ForestryAlleles.SAPPINESS_LOWER);
 					genome.set(TreeChromosomes.HEIGHT, ForestryAlleles.HEIGHT_AVERAGE);
 				})
