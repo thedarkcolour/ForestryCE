@@ -919,7 +919,7 @@ public class DefaultTreeSpecies {
 					genome.set(TreeChromosomes.SAPLINGS, ForestryAlleles.SAPLINGS_LOWER);
 				})
 				.addMutations(mutations -> {
-					mutations.add(ForestryTreeSpecies.SOUR_CHERRY, ForestryTreeSpecies.CAMELTHORN, 0.05f)
+					mutations.add(ForestryTreeSpecies.WENGE, ForestryTreeSpecies.SOUR_CHERRY, 0.05f)
 							.restrictTemperature(TemperatureType.WARM, TemperatureType.HOT)
 							.restrictHumidity(HumidityType.ARID);
 				})
