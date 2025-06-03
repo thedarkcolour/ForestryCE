@@ -8,18 +8,21 @@ import java.util.Locale;
 public class ItemFruit extends ItemForestryFood {
 
 	public enum EnumFruit implements IItemSubtype {
-		CHERRY(1, 0.5f, 16),
-		WALNUT(1, 0.75f, 16),
-		CHESTNUT(1, 1.5f, 16),
+		//For reference, the saturation mod for Steak is 0.8
+		//Apples are 0.3
+		//Golden carrots and golden apples are around 1.25
+		CHERRY(1, 0.3f, 16),
+		WALNUT(1, 0.6f, 16),
+		CHESTNUT(1, 1f, 16),
 		LEMON,
 		PLUM,
-		DATES(1, 0.75f, 16),
-		PAPAYA(4, 0.8f, 32),
+		DATES(1, 0.6f, 10), //Lowest consumption time of all fruits
+		PAPAYA(4, 1f, 32), //Second-highest saturation, highest hunger
 
 		PEAR,
 		ORANGE,
-		COCONUT(2, 1.6f, 64), //Not sure what the best stat is here. Low hunger, high saturation and use time seems fair???
-		OLIVE(1, 1f, 16),
+		COCONUT(2, 1.25f, 72), //Highest saturation and consumption time
+		OLIVE(1, 0.8f, 16),
 		FEIJOA(2, 0.6f, 16);
 
 		private final String name;
