@@ -19,7 +19,7 @@ public class FeatureSequoia extends FeatureTree {
 
 	@Override
 	public void generateTrunk(LevelAccessor level, List<BlockPos> logOrigins, List<BlockPos> branchCoords, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
-		FeatureHelper.generateTreeTrunk(level, branchCoords, rand, wood, startPos, this.height, this.girth, 0, 0, null, 0);
+		FeatureHelper.generateTreeTrunk(level, logOrigins, rand, wood, startPos, this.height, this.girth, 0, 0, null, 0);
 		FeatureHelper.generateSupportStems(wood, level, rand, startPos, this.height, this.girth, 0.4f, 0.4f);
 
 		int topHeight = this.height / 3 + rand.nextInt(this.height / 6);

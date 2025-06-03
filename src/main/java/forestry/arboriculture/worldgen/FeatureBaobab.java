@@ -23,7 +23,7 @@ public class FeatureBaobab extends FeatureTree {
 			FeatureHelper.generateCylinderFromTreeStartPos(level, wood, startPos.offset(0, this.height - 1, this.girth / 2), this.girth, this.girth - 1, 1, FeatureHelper.EnumReplaceMode.SOFT, TreeContour.EMPTY);
 		}
 
-		FeatureHelper.generateBranches(level, rand, wood, startPos.offset(0, this.height - 2, 0), this.girth, 0, 0.5f, 4, 6, 1.0f);
+		branchCoords.addAll(FeatureHelper.generateBranches(level, rand, wood, startPos.offset(0, this.height - 2, 0), this.girth, 0, 0.5f, 4, 6, 1.0f));
 	}
 
 	@Override
