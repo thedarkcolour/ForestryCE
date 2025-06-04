@@ -13,7 +13,7 @@ import forestry.core.fluids.FluidRecipeFilter;
 import forestry.core.fluids.TankManager;
 import forestry.core.inventory.IInventoryAdapter;
 import forestry.core.tiles.ILiquidTankTile;
-import forestry.core.utils.RecipeUtils;
+import forestry.core.utils.RecipeUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -65,7 +65,7 @@ public class TileAlvearyHygroregulator extends TileAlveary implements Container,
 			FluidStack fluid = this.liquidTank.getFluid();
 
 			if (!fluid.isEmpty()) {
-				this.currentRecipe = RecipeUtils.getHygroRegulatorRecipe(this.level.getRecipeManager(), fluid);
+				this.currentRecipe = RecipeUtil.getHygroRegulatorRecipe(this.level.getRecipeManager(), fluid);
 
 				if (this.currentRecipe != null) {
 					this.liquidTank.drainInternal(this.currentRecipe.getInputFluid().getAmount(), IFluidHandler.FluidAction.EXECUTE);
@@ -100,7 +100,7 @@ public class TileAlvearyHygroregulator extends TileAlveary implements Container,
 
 		if (compoundNBT.contains("CurrentLiquid")) {
 			FluidStack liquid = FluidStack.loadFluidStackFromNBT(compoundNBT.getCompound("CurrentLiquid"));
-            this.currentRecipe = RecipeUtils.getHygroRegulatorRecipe(RecipeUtils.getRecipeManager(), liquid);
+            this.currentRecipe = RecipeUtil.getHygroRegulatorRecipe(RecipeUtil.getRecipeManager(), liquid);
 		}
 	}
 

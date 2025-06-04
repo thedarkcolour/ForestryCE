@@ -1,3 +1,6 @@
+## Forestry 3.0.0
+- Moistener, Fermenter, Rainmaker, Biogas Engine, and Peat Engine fuels are now data-driven
+
 ## Forestry 2.6.1
 - Fixed Research Notes voiding items when used in the offhand (#222)
 - Fix tags for Survivalist tools (#221)

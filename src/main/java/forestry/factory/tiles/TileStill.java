@@ -22,7 +22,7 @@ import forestry.core.fluids.TankManager;
 import forestry.core.render.TankRenderInfo;
 import forestry.core.tiles.ILiquidTankTile;
 import forestry.core.tiles.TilePowered;
-import forestry.core.utils.RecipeUtils;
+import forestry.core.utils.RecipeUtil;
 import forestry.factory.features.FactoryTiles;
 import forestry.factory.gui.ContainerStill;
 import forestry.factory.inventory.InventoryStill;
@@ -133,7 +133,7 @@ public class TileStill extends TilePowered implements WorldlyContainer, ILiquidT
 
 		if (this.currentRecipe == null || !this.currentRecipe.matches(recipeLiquid)) {
 			Level level = Objects.requireNonNull(this.level);
-			this.currentRecipe = RecipeUtils.getStillRecipe(level.getRecipeManager(), recipeLiquid);
+			this.currentRecipe = RecipeUtil.getStillRecipe(level.getRecipeManager(), recipeLiquid);
 
 			int recipeTime = this.currentRecipe == null ? 0 : this.currentRecipe.getCyclesPerUnit();
 			setEnergyPerWorkCycle(ENERGY_PER_RECIPE_TIME * recipeTime);

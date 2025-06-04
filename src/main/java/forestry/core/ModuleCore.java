@@ -2,6 +2,7 @@ package forestry.core;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import forestry.api.ForestryConstants;
+import forestry.api.ForestryRegistries;
 import forestry.api.IForestryApi;
 import forestry.api.client.IClientModuleHandler;
 import forestry.api.modules.ForestryModule;
@@ -11,7 +12,6 @@ import forestry.apiculture.features.ApicultureItems;
 import forestry.apiimpl.plugin.PluginManager;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.features.ArboricultureItems;
-import forestry.arboriculture.loot.GrafterLootModifier;
 import forestry.core.blocks.TileStreamUpdateTracker;
 import forestry.core.client.CoreClientHandler;
 import forestry.core.climate.ForestryClimateManager;
@@ -19,7 +19,6 @@ import forestry.core.commands.DiagnosticsCommand;
 import forestry.core.commands.DumpCommand;
 import forestry.core.features.CoreItems;
 import forestry.core.items.definitions.EnumCraftingMaterial;
-import forestry.core.loot.ConditionLootModifier;
 import forestry.core.network.PacketIdClient;
 import forestry.core.network.PacketIdServer;
 import forestry.core.network.packets.*;
@@ -46,12 +45,10 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.AddReloadListenerEvent;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.TagsUpdatedEvent;
-import net.neoforged.neoforge.event.tick.LevelTickEvent;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
-import net.neoforged.neoforge.registries.NeoForgeRegistries;
-import net.neoforged.neoforge.registries.RegisterEvent;
+import net.neoforged.neoforge.registries.NewRegistryEvent;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -66,7 +63,6 @@ public class ModuleCore extends BlankForestryModule {
 	@Override
 	public void registerEvents(IEventBus modBus) {
 		modBus.addListener(ModuleCore::onCommonSetup);
-		modBus.addListener(ModuleCore::registerGlobalLootModifiers);
 		ModUtil.addRegistryListener(Registries.ITEM, ModuleCore::postItemRegistry);
 
 		ModuleUtil.loadFeatureProviders();
@@ -75,6 +71,7 @@ public class ModuleCore extends BlankForestryModule {
 		NeoForge.EVENT_BUS.addListener(ModuleCore::onTagsUpdated);
 		NeoForge.EVENT_BUS.addListener(ModuleCore::registerReloadListeners);
 		NeoForge.EVENT_BUS.addListener(ModuleCore::registerCommands);
+		NeoForge.EVENT_BUS.addListener(ModuleCore::registerNewRegistries);
 	}
 
 	private static void onCommonSetup(FMLCommonSetupEvent event) {
@@ -109,13 +106,6 @@ public class ModuleCore extends BlankForestryModule {
 			composts.put(leaves, 0.3f);
 		}
 		composts.put(LepidopterologyItems.COCOON_GE.item(), 0.3f);
-	}
-
-	private static void registerGlobalLootModifiers(RegisterEvent event) {
-		event.register(NeoForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, helper -> {
-			helper.register(ForestryConstants.forestry("condition_modifier"), ConditionLootModifier.CODEC);
-			helper.register(ForestryConstants.forestry("grafter_modifier"), GrafterLootModifier.CODEC);
-		});
 	}
 
 	private static void postItemRegistry() {
@@ -163,6 +153,10 @@ public class ModuleCore extends BlankForestryModule {
 		}
 
 		event.getDispatcher().register(forestryCommand);
+	}
+
+	private static void registerNewRegistries(NewRegistryEvent event) {
+		event.register(ForestryRegistries.CIRCUIT);
 	}
 
 	@Override

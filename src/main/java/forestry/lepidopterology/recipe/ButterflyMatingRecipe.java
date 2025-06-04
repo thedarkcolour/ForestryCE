@@ -6,28 +6,27 @@ import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.api.lepidopterology.genetics.ButterflyLifeStage;
 import forestry.api.lepidopterology.genetics.IButterfly;
 import forestry.lepidopterology.features.LepidopterologyRecipes;
-import net.minecraft.core.RegistryAccess;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
+import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 
 public class ButterflyMatingRecipe extends CustomRecipe {
-	public ButterflyMatingRecipe(ResourceLocation id, CraftingBookCategory category) {
-		super(id, category);
+	public ButterflyMatingRecipe(CraftingBookCategory category) {
+		super(category);
 	}
 
 	@Override
-	public boolean matches(CraftingContainer grid, Level level) {
-		int containerSize = grid.getContainerSize();
+	public boolean matches(CraftingInput input, Level level) {
+		int containerSize = input.size();
 		boolean hasButterfly = false;
 		boolean hasSerum = false;
 
 		for (int i = 0; i < containerSize; ++i) {
-			ItemStack stack = grid.getItem(i);
+			ItemStack stack = input.getItem(i);
 
 			if (!stack.isEmpty()) {
 				IIndividualHandlerItem handler = IIndividualHandlerItem.get(stack);
@@ -58,13 +57,13 @@ public class ButterflyMatingRecipe extends CustomRecipe {
 	}
 
 	@Override
-	public ItemStack assemble(CraftingContainer grid, RegistryAccess lookup) {
+	public ItemStack assemble(CraftingInput input, HolderLookup.Provider registries) {
 		IButterfly butterfly = null;
 		IIndividual serum = null;
-		int containerSize = grid.getContainerSize();
+		int containerSize = input.size();
 
 		for (int i = 0; i < containerSize; i++) {
-			IIndividualHandlerItem handler = IIndividualHandlerItem.get(grid.getItem(i));
+			IIndividualHandlerItem handler = IIndividualHandlerItem.get(input.getItem(i));
 
 			if (handler != null) {
 				if (handler.getStage() == ButterflyLifeStage.BUTTERFLY) {
@@ -92,6 +91,6 @@ public class ButterflyMatingRecipe extends CustomRecipe {
 
 	@Override
 	public RecipeSerializer<?> getSerializer() {
-		return LepidopterologyRecipes.MATING_SERIALIZER.get();
+		return LepidopterologyRecipes.MATING_SERIALIZER.value();
 	}
 }

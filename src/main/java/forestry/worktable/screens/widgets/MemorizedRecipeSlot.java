@@ -5,9 +5,9 @@ import forestry.api.client.ForestrySprites;
 import forestry.api.client.IForestryClientApi;
 import forestry.core.gui.widgets.ItemStackWidgetBase;
 import forestry.core.gui.widgets.WidgetManager;
+import forestry.core.utils.NetworkUtil;
 import forestry.core.utils.SoundUtil;
 import forestry.worktable.recipes.RecipeMemory;
-import forestry.worktable.screens.WorktableMenu;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -46,7 +46,7 @@ public class MemorizedRecipeSlot extends ItemStackWidgetBase {
 	@Override
 	public void handleMouseClick(double mouseX, double mouseY, int mouseButton) {
 		if (!getItemStack().isEmpty()) {
-			WorktableMenu.sendRecipeClick(mouseButton, this.slotIndex);
+			NetworkUtil.sendRecipeClick(mouseButton, this.slotIndex);
 			SoundUtil.playButtonClick();
 		}
 	}

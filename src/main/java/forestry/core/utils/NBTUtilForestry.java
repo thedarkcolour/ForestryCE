@@ -1,27 +1,16 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.core.utils;
 
 import forestry.core.network.IStreamable;
 import io.netty.buffer.Unpooled;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 
-/**
- * @author CovertJaguar <http://www.railcraft.info/>
- */
+// todo wtf remove ts
 public abstract class NBTUtilForestry {
 
 	public static CompoundTag writeStreamableToNbt(IStreamable streamable, CompoundTag nbt) {
-		FriendlyByteBuf data = new FriendlyByteBuf(Unpooled.buffer());
+		FriendlyByteBuf data = new RegistryFriendlyByteBuf(Unpooled.buffer());
 		streamable.writeData(data);
 
 		byte[] bytes = new byte[data.readableBytes()];

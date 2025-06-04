@@ -10,7 +10,7 @@ import forestry.modules.features.ModFeatureRegistry;
 
 @FeatureProvider
 public class FluidsItems {
-	private static final IFeatureRegistry REGISTRY = ModFeatureRegistry.get(ForestryModuleIds.FLUIDS);
+	private static final IFeatureRegistry REGISTRY = ModFeatureRegistry.get(ForestryModuleIds.CORE);
 
 	public static final FeatureItemGroup<ItemFluidContainerForestry, EnumContainerType> CONTAINERS = REGISTRY.itemGroup(ItemFluidContainerForestry::new, EnumContainerType.values()).create();
 }

@@ -22,11 +22,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.client.model.generators.BlockModelProvider;
-import net.minecraftforge.client.model.generators.BlockStateProvider;
-import net.minecraftforge.client.model.generators.ModelFile;
-import net.minecraftforge.client.model.generators.loaders.CompositeModelBuilder;
-import net.minecraftforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.client.model.generators.BlockModelProvider;
+import net.neoforged.neoforge.client.model.generators.loaders.CompositeModelBuilder;
+import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
+import net.neoforged.neoforge.client.model.generators.ModelFile;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 public class ForestryBlockStateProvider extends BlockStateProvider {
 	public ForestryBlockStateProvider(PackOutput output, ExistingFileHelper exFileHelper) {
@@ -178,7 +178,7 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 	}
 
 	public void generic3d(Block block, ResourceLocation otherParentId) {
-		itemModels().withExistingParent(path(block), new ResourceLocation(otherParentId.getNamespace(), "block/" + otherParentId.getPath()));
+		itemModels().withExistingParent(path(block), otherParentId.withPrefix("block/"));
 	}
 
 	protected ModelFile existingMcBlock(String path) {
@@ -228,10 +228,8 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 	}
 
 	public void layer0(ResourceLocation itemId, String parentName) {
-		String path = itemId.getPath();
-
-		itemModels().getBuilder(path)
+		itemModels().getBuilder(itemId.getPath())
 			.parent(new ModelFile.UncheckedModelFile(parentName))
-			.texture("layer0", new ResourceLocation(itemId.getNamespace(), "item/" + path));
+			.texture("layer0", itemId.withPrefix("item/"));
 	}
 }

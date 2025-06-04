@@ -12,7 +12,7 @@ package forestry.factory.inventory;
 
 import forestry.api.fuels.FuelManager;
 import forestry.core.inventory.InventoryAdapterTile;
-import forestry.core.utils.RecipeUtils;
+import forestry.core.utils.RecipeUtil;
 import forestry.core.utils.SlotUtil;
 import forestry.factory.tiles.TileMoistener;
 import net.minecraft.core.Direction;
@@ -38,7 +38,7 @@ public class InventoryMoistener extends InventoryAdapterTile<TileMoistener> {
 	@Override
 	public boolean canSlotAccept(int slotIndex, ItemStack stack) {
 		if (slotIndex == SLOT_RESOURCE) {
-			return RecipeUtils.getMoistenerRecipe(this.tile.getLevel().getRecipeManager(), stack) != null;
+			return RecipeUtil.getMoistenerRecipe(this.tile.getLevel().getRecipeManager(), stack) != null;
 		}
 
 		if (SlotUtil.isSlotInRange(slotIndex, SLOT_STASH_1, SLOT_STASH_COUNT)) {

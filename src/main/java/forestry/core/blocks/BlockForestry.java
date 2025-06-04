@@ -19,12 +19,7 @@ import javax.annotation.Nullable;
 
 public abstract class BlockForestry extends Block {
 	protected BlockForestry(Block.Properties properties) {
-		this(properties, false);
-	}
-
-	protected BlockForestry(Block.Properties properties, boolean defaultStrength) {
-		super(defaultStrength ? properties
-			.strength(1.5f) : properties);
+		super(properties);
 	}
 
 	@Override

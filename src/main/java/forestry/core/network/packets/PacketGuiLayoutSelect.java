@@ -11,7 +11,6 @@
 package forestry.core.network.packets;
 
 import forestry.api.IForestryApi;
-import forestry.api.circuits.ICircuitLayout;
 import forestry.api.modules.IForestryPacketClient;
 import forestry.core.circuits.ContainerSolderingIron;
 import forestry.core.network.PacketIdClient;

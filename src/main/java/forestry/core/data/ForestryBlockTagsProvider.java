@@ -21,7 +21,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.common.Tags;
+import net.neoforged.neoforge.common.Tags;
 import thedarkcolour.modkit.data.MKTagsProvider;
 
 import java.util.Collection;

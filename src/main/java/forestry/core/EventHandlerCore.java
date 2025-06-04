@@ -1,6 +1,7 @@
 package forestry.core;
 
 import forestry.api.ForestryConstants;
+import forestry.api.ForestryDataMaps;
 import forestry.api.IForestryApi;
 import forestry.api.genetics.IBreedingTracker;
 import forestry.api.genetics.ISpeciesType;
@@ -20,13 +21,13 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorList;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.capabilities.ItemCapability;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.server.ServerAboutToStartEvent;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.registries.datamaps.RegisterDataMapTypesEvent;
 
 @EventBusSubscriber(modid = ForestryConstants.MOD_ID)
 public class EventHandlerCore {
@@ -87,7 +88,16 @@ public class EventHandlerCore {
 		VillagerJigsaw.init(pools, processors);
 	}
 
+	@SubscribeEvent
 	public static void registerCapabilities(RegisterCapabilitiesEvent event) {
 		event.registerItem(Capabilities.ItemHandler.ITEM, ItemInventory::getCapability);
+	}
+
+	@SubscribeEvent
+	public static void registerDataMaps(RegisterDataMapTypesEvent event) {
+	    event.register(ForestryDataMaps.FERMENTER_FUELS);
+	    event.register(ForestryDataMaps.RAINMAKER_FUELS);
+	    event.register(ForestryDataMaps.BIOGAS_FUELS);
+	    event.register(ForestryDataMaps.PEAT_FUELS);
 	}
 }

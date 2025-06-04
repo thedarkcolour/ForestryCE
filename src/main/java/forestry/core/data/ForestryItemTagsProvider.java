@@ -15,7 +15,7 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import net.minecraftforge.common.Tags;
+import net.neoforged.neoforge.common.Tags;
 import thedarkcolour.modkit.data.MKTagsProvider;
 
 public class ForestryItemTagsProvider {
@@ -122,9 +122,9 @@ public class ForestryItemTagsProvider {
 		tags.tag(ForestryTags.Items.SAWDUST).add(CoreItems.CRAFTING_MATERIALS.item(EnumCraftingMaterial.WOOD_PULP));
 
 		tags.tag(ForestryTags.Items.CRAFTING_TABLES)
-			.addOptionalTag(new ResourceLocation("c", "player_workstations/crafting_tables"))
-			.addOptionalTag(new ResourceLocation("c", "workbenches"))
-			.addOptionalTag(new ResourceLocation("c", "workbench"))
+			.addOptionalTag(ResourceLocation.fromNamespaceAndPath("c", "player_workstations/crafting_tables"))
+			.addOptionalTag(ResourceLocation.fromNamespaceAndPath("c", "workbenches"))
+			.addOptionalTag(ResourceLocation.fromNamespaceAndPath("c", "workbench"))
 			.add(Items.CRAFTING_TABLE);
 
 		tags.tag(ForestryTags.Items.SCOOPS).add(ApicultureItems.SCOOP.item());

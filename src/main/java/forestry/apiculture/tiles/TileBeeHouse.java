@@ -12,11 +12,10 @@ import forestry.apiculture.gui.ContainerBeeHousing;
 import forestry.apiculture.gui.GuiBeeHousing;
 import forestry.core.utils.NetworkUtil;
 import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nullable;
@@ -57,12 +56,13 @@ public class TileBeeHouse extends TileBeeHousingBase {
 	}
 
 	@Override
-	public void openGui(ServerPlayer player, InteractionHand hand, BlockPos pos) {
+	public boolean interactNoItem(Level level, Player player, BlockPos pos) {
 		player.openMenu(this, buffer -> {
 			buffer.writeBlockPos(pos);
 			buffer.writeBoolean(false);
 			NetworkUtil.writeEnum(buffer, GuiBeeHousing.Icon.BEE_HOUSE);
 		});
+		return false;
 	}
 
 	// no mutations/ignoble decay, 300% aging and flowering, 25% production

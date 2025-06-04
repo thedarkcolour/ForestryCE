@@ -1,36 +1,29 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.factory.tiles;
 
-import forestry.api.fuels.FuelManager;
-import forestry.api.fuels.RainSubstrate;
-import forestry.core.render.ParticleRender;
-import forestry.core.tiles.TileMill;
-import forestry.factory.features.FactoryTiles;
-import forestry.factory.inventory.InventoryRainmaker;
+import javax.annotation.Nullable;
+
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ServerLevelData;
 
-import javax.annotation.Nullable;
+import forestry.api.ForestryDataMaps;
+import forestry.api.fuels.RainmakerFuel;
+import forestry.core.render.ParticleRender;
+import forestry.core.tiles.TileMill;
+import forestry.factory.features.FactoryTiles;
+import forestry.factory.inventory.InventoryRainmaker;
 
 public class TileMillRainmaker extends TileMill {
 	private int duration;
@@ -38,57 +31,62 @@ public class TileMillRainmaker extends TileMill {
 
 	public TileMillRainmaker(BlockPos pos, BlockState state) {
 		super(FactoryTiles.RAINMAKER.tileType(), pos, state);
-        this.speed = 0.01f;
+		this.speed = 0.01f;
 		setInternalInventory(new InventoryRainmaker(this));
 	}
 
 	@Override
-	public void openGui(ServerPlayer player, InteractionHand hand, BlockPos pos) {
-		if (!player.level().isClientSide) {
-			ItemStack heldItem = player.getItemInHand(hand);
+	public boolean interactWithItem(Level level, BlockPos pos, Player player, InteractionHand hand, ItemStack stack) {
+		if (this.charge == 0) {
+			Holder<Item> holder = stack.getItemHolder();
+			RainmakerFuel fuel = holder.getData(ForestryDataMaps.RAINMAKER_FUELS);
 
-			// We don't have a gui, but we can be activated
-			if (FuelManager.rainSubstrate.containsKey(heldItem) && this.charge == 0) {
-				RainSubstrate substrate = FuelManager.rainSubstrate.get(heldItem);
-				if (ItemStack.isSameItem(substrate.item(), heldItem)) {
-					addCharge(substrate);
+			if (fuel != null) {
+				if (!level.isClientSide) {
+					addCharge(fuel);
 					if (!player.isCreative()) {
-						heldItem.shrink(1);
+						stack.shrink(1);
 					}
+					sendNetworkUpdate();
 				}
 			}
-			sendNetworkUpdate();
 		}
+		return true;
 	}
 
 	@Override
-	public void load(CompoundTag compoundNBT) {
-		super.load(compoundNBT);
+	public boolean interactNoItem(Level level, Player player, BlockPos pos) {
+		return false;
+	}
 
-        this.charge = compoundNBT.getInt("Charge");
-        this.progress = compoundNBT.getFloat("Progress");
-        this.stage = compoundNBT.getInt("Stage");
-        this.duration = compoundNBT.getInt("Duration");
-        this.reverse = compoundNBT.getBoolean("Reverse");
+	@Override
+	public void loadAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+		super.loadAdditional(nbt, registries);
+
+		this.charge = nbt.getInt("Charge");
+		this.progress = nbt.getFloat("Progress");
+		this.stage = nbt.getInt("Stage");
+		this.duration = nbt.getInt("Duration");
+		this.reverse = nbt.getBoolean("Reverse");
 	}
 
 
 	@Override
-	public void saveAdditional(CompoundTag compoundNBT) {
-		super.saveAdditional(compoundNBT);
+	public void saveAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+		super.saveAdditional(nbt, registries);
 
-		compoundNBT.putInt("Charge", this.charge);
-		compoundNBT.putFloat("Progress", this.progress);
-		compoundNBT.putInt("Stage", this.stage);
-		compoundNBT.putInt("Duration", this.duration);
-		compoundNBT.putBoolean("Reverse", this.reverse);
+		nbt.putInt("Charge", this.charge);
+		nbt.putFloat("Progress", this.progress);
+		nbt.putInt("Stage", this.stage);
+		nbt.putInt("Duration", this.duration);
+		nbt.putBoolean("Reverse", this.reverse);
 	}
 
-	public void addCharge(RainSubstrate substrate) {
-        this.charge = 1;
-        this.speed = substrate.speed();
-        this.duration = substrate.duration();
-        this.reverse = substrate.reverse();
+	public void addCharge(RainmakerFuel substrate) {
+		this.charge = 1;
+		this.speed = substrate.speed();
+		this.duration = substrate.duration();
+		this.reverse = substrate.reverse();
 		sendNetworkUpdate();
 	}
 
@@ -114,9 +112,9 @@ public class TileMillRainmaker extends TileMill {
 				level.getLevelData().setRaining(true);
 				((ServerLevelData) level.getLevelData()).setRainTime(this.duration);
 			}
-            this.charge = 0;
-            this.duration = 0;
-            this.reverse = false;
+			this.charge = 0;
+			this.duration = 0;
+			this.reverse = false;
 			sendNetworkUpdate();
 		}
 	}
@@ -125,10 +123,5 @@ public class TileMillRainmaker extends TileMill {
 	@Nullable
 	public AbstractContainerMenu createMenu(int windowId, Inventory inv, Player player) {
 		return null;
-	}
-
-	@Override
-	protected boolean hasGui() {
-		return false;
 	}
 }

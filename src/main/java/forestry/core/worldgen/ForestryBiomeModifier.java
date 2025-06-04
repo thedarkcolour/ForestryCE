@@ -1,6 +1,6 @@
 package forestry.core.worldgen;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import forestry.api.IForestryApi;
 import forestry.api.apiculture.hives.IHive;
@@ -13,14 +13,14 @@ import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
-import net.minecraftforge.common.world.BiomeModifier;
-import net.minecraftforge.common.world.ModifiableBiomeInfo;
+import net.neoforged.neoforge.common.world.BiomeModifier;
+import net.neoforged.neoforge.common.world.ModifiableBiomeInfo;
 
 // Pass in the feature holders from the codec
 public record ForestryBiomeModifier(Holder<PlacedFeature> hive, Holder<PlacedFeature> tree,
 									Holder<PlacedFeature> apatiteOre,
 									Holder<PlacedFeature> tinOre) implements BiomeModifier {
-	public static final Codec<ForestryBiomeModifier> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+	public static final MapCodec<ForestryBiomeModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
 		PlacedFeature.CODEC.fieldOf("hive").forGetter(ForestryBiomeModifier::hive),
 		PlacedFeature.CODEC.fieldOf("tree").forGetter(ForestryBiomeModifier::tree),
 		PlacedFeature.CODEC.fieldOf("apatite_ore").forGetter(ForestryBiomeModifier::apatiteOre),
@@ -56,7 +56,7 @@ public record ForestryBiomeModifier(Holder<PlacedFeature> hive, Holder<PlacedFea
 	}
 
 	@Override
-	public Codec<? extends BiomeModifier> codec() {
+	public MapCodec<? extends BiomeModifier> codec() {
 		return CODEC;
 	}
 }

@@ -17,7 +17,6 @@ import forestry.mail.features.MailMenuTypes;
 import forestry.mail.tiles.TileTrader;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 
@@ -42,7 +41,7 @@ public class ContainerTradeName extends ContainerTile<TileTrader> {
 		if (this.tile.isLinked()) {
 			for (Object crafter : this.containerListeners) {
 				if (crafter instanceof ServerPlayer player) {
-                    this.tile.openGui(player, InteractionHand.MAIN_HAND, this.tile.getBlockPos());
+                    this.tile.interactNoItem(, player, this.tile.getBlockPos());
 				}
 			}
 		}

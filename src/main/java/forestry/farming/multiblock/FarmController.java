@@ -16,6 +16,7 @@ import forestry.api.farming.IFarmable;
 import forestry.api.multiblock.IFarmComponent;
 import forestry.api.multiblock.IMultiblockComponent;
 import forestry.core.config.ForestryConfig;
+import forestry.core.features.CoreDataComponents;
 import forestry.core.fluids.TankManager;
 import forestry.core.inventory.FakeInventoryAdapter;
 import forestry.core.inventory.IInventoryAdapter;
@@ -288,7 +289,8 @@ public class FarmController extends RectangularMultiblockControllerBase implemen
 		// See whether we have socketed stuff.
 		ItemStack chip = this.sockets.getItem(0);
 		if (!chip.isEmpty()) {
-			ICircuitBoard chipset = IForestryApi.INSTANCE.getCircuitManager().getCircuitBoard(chip);
+            IForestryApi.INSTANCE.getCircuitManager();
+            ICircuitBoard chipset = chip.get(CoreDataComponents.CIRCUIT_BOARD);
 			if (chipset != null) {
 				chipset.onLoad(this);
 			}
@@ -438,7 +440,9 @@ public class FarmController extends RectangularMultiblockControllerBase implemen
 			// Dispose old chipsets correctly
 			if (!this.sockets.getItem(slot).isEmpty()) {
 				if (IForestryApi.INSTANCE.getCircuitManager().isCircuitBoard(this.sockets.getItem(slot))) {
-					ICircuitBoard chipset = IForestryApi.INSTANCE.getCircuitManager().getCircuitBoard(this.sockets.getItem(slot));
+                    IForestryApi.INSTANCE.getCircuitManager();
+                    ItemStack stack1 = this.sockets.getItem(slot);
+                    ICircuitBoard chipset = stack1.get(CoreDataComponents.CIRCUIT_BOARD);
 					if (chipset != null) {
 						chipset.onRemoval(this);
 					}
@@ -449,7 +453,8 @@ public class FarmController extends RectangularMultiblockControllerBase implemen
 			refreshFarmLogics();
 
 			if (!stack.isEmpty()) {
-				ICircuitBoard chipset = IForestryApi.INSTANCE.getCircuitManager().getCircuitBoard(stack);
+                IForestryApi.INSTANCE.getCircuitManager();
+                ICircuitBoard chipset = stack.get(CoreDataComponents.CIRCUIT_BOARD);
 				if (chipset != null) {
 					chipset.onInsertion(this);
 				}

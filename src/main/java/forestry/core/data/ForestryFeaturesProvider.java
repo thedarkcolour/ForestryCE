@@ -10,7 +10,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.worldgen.BootstapContext;
+import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.data.worldgen.placement.OrePlacements;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
@@ -21,7 +21,7 @@ import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguratio
 import net.minecraft.world.level.levelgen.placement.HeightRangePlacement;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
-import net.minecraftforge.common.data.DatapackBuiltinEntriesProvider;
+import net.neoforged.neoforge.common.data.DatapackBuiltinEntriesProvider;
 
 import java.util.List;
 import java.util.Set;
@@ -34,7 +34,7 @@ public class ForestryFeaturesProvider extends DatapackBuiltinEntriesProvider {
 			.add(Registries.PLACED_FEATURE, ForestryFeaturesProvider::addPlacedFeatures), Set.of(ForestryConstants.MOD_ID));
 	}
 
-	private static void addConfiguredFeatures(BootstapContext<ConfiguredFeature<?, ?>> context) {
+	private static void addConfiguredFeatures(BootstrapContext<ConfiguredFeature<?, ?>> context) {
 		context.register(CoreFeatures.ORE_APATITE, new ConfiguredFeature<>(Feature.ORE, new OreConfiguration(List.of(
 			OreConfiguration.target(new TagMatchTest(BlockTags.STONE_ORE_REPLACEABLES), CoreBlocks.APATITE_ORE.defaultState()),
 			OreConfiguration.target(new TagMatchTest(BlockTags.DEEPSLATE_ORE_REPLACEABLES), CoreBlocks.DEEPSLATE_APATITE_ORE.defaultState())
@@ -44,12 +44,12 @@ public class ForestryFeaturesProvider extends DatapackBuiltinEntriesProvider {
 			OreConfiguration.target(new TagMatchTest(BlockTags.DEEPSLATE_ORE_REPLACEABLES), CoreBlocks.DEEPSLATE_TIN_ORE.defaultState())
 		), 9)));
 
-		context.register(ApicultureFeatures.CONFIGURED_HIVE, new ConfiguredFeature<>(ApicultureFeatures.HIVE.get(), FeatureConfiguration.NONE));
+		context.register(ApicultureFeatures.CONFIGURED_HIVE, new ConfiguredFeature<>(ApicultureFeatures.HIVE.value(), FeatureConfiguration.NONE));
 
-		context.register(ArboricultureFeatures.CONFIGURED_TREE, new ConfiguredFeature<>(ArboricultureFeatures.TREE_DECORATOR.get(), FeatureConfiguration.NONE));
+		context.register(ArboricultureFeatures.CONFIGURED_TREE, new ConfiguredFeature<>(ArboricultureFeatures.TREE_DECORATOR.value(), FeatureConfiguration.NONE));
 	}
 
-	private static void addPlacedFeatures(BootstapContext<PlacedFeature> context) {
+	private static void addPlacedFeatures(BootstrapContext<PlacedFeature> context) {
 		HolderGetter<ConfiguredFeature<?, ?>> holders = context.lookup(Registries.CONFIGURED_FEATURE);
 
 		context.register(CoreFeatures.PLACED_APATITE, new PlacedFeature(holders.getOrThrow(CoreFeatures.ORE_APATITE), OrePlacements.commonOrePlacement(3, HeightRangePlacement.triangle(

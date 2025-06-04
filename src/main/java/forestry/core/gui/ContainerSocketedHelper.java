@@ -15,6 +15,7 @@ import forestry.api.circuits.ICircuitBoard;
 import forestry.api.modules.IForestryPacketServer;
 import forestry.core.circuits.ISocketable;
 import forestry.core.circuits.ISolderingIron;
+import forestry.core.features.CoreDataComponents;
 import forestry.core.network.packets.PacketChipsetClick;
 import forestry.core.network.packets.PacketSocketUpdate;
 import forestry.core.network.packets.PacketSolderingIronClick;
@@ -51,7 +52,8 @@ public class ContainerSocketedHelper<T extends BlockEntity & ISocketable> implem
 			return;
 		}
 
-		ICircuitBoard circuitBoard = IForestryApi.INSTANCE.getCircuitManager().getCircuitBoard(itemstack);
+        IForestryApi.INSTANCE.getCircuitManager();
+        ICircuitBoard circuitBoard = itemstack.get(CoreDataComponents.CIRCUIT_BOARD);
 		if (circuitBoard == null) {
 			return;
 		}

@@ -2,6 +2,7 @@ package forestry.cultivation.inventory;
 
 import forestry.api.farming.HorizontalDirection;
 import forestry.api.farming.IFarmable;
+import forestry.core.config.ForestryConfig;
 import forestry.cultivation.tiles.TilePlanter;
 import forestry.farming.multiblock.IFarmInventoryInternal;
 import forestry.farming.multiblock.InventoryPlantation;
@@ -20,7 +21,7 @@ public class InventoryPlanter extends InventoryPlantation<TilePlanter> implement
 	);
 
 	public InventoryPlanter(TilePlanter housing) {
-		super(housing, CONFIG);
+		super(housing, CONFIG, ForestryConfig.SERVER.legacyFarmFertilizerModifier);
 	}
 
 	@Override

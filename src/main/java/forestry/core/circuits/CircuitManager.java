@@ -2,9 +2,11 @@ package forestry.core.circuits;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMultimap;
-import forestry.api.circuits.*;
+import forestry.api.circuits.CircuitHolder;
+import forestry.api.circuits.CircuitLayout;
+import forestry.api.circuits.ICircuit;
+import forestry.api.circuits.ICircuitManager;
 import forestry.core.features.CoreItems;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nullable;
@@ -12,24 +14,22 @@ import java.util.Collection;
 import java.util.List;
 
 public class CircuitManager implements ICircuitManager {
-	private final ImmutableMultimap<ICircuitLayout, CircuitHolder> circuitHolders;
-	private final ImmutableMap<String, ICircuitLayout> layoutsById;
-	private final ImmutableMap<String, ICircuit> circuitsById;
+	private final ImmutableMultimap<CircuitLayout, CircuitHolder> circuitHolders;
+	private final ImmutableMap<String, CircuitLayout> layoutsById;
 
-	public CircuitManager(ImmutableMultimap<ICircuitLayout, CircuitHolder> circuitHolders, ImmutableMap<String, ICircuitLayout> layoutsById, ImmutableMap<String, ICircuit> circuitsById) {
+	public CircuitManager(ImmutableMultimap<CircuitLayout, CircuitHolder> circuitHolders, ImmutableMap<String, CircuitLayout> layoutsById) {
 		this.circuitHolders = circuitHolders;
 		this.layoutsById = layoutsById;
-		this.circuitsById = circuitsById;
 	}
 
 	@Override
-	public List<ICircuitLayout> getLayouts() {
+	public List<CircuitLayout> getLayouts() {
 		return this.layoutsById.values().asList();
 	}
 
 	@Nullable
 	@Override
-	public ICircuit getCircuit(ICircuitLayout layout, ItemStack stack) {
+	public ICircuit getCircuit(CircuitLayout layout, ItemStack stack) {
 		for (CircuitHolder holder : this.circuitHolders.get(layout)) {
 			if (ItemStack.isSameItem(holder.stack(), stack)) {
 				return holder.circuit();
@@ -40,21 +40,8 @@ public class CircuitManager implements ICircuitManager {
 
 	@Nullable
 	@Override
-	public ICircuit getCircuit(String circuitId) {
-		return this.circuitsById.get(circuitId);
-	}
-
-	@Nullable
-	@Override
-	public ICircuitLayout getLayout(String layoutId) {
+	public CircuitLayout getLayout(String layoutId) {
 		return this.layoutsById.get(layoutId);
-	}
-
-	@Nullable
-	@Override
-	public ICircuitBoard getCircuitBoard(ItemStack stack) {
-		CompoundTag tag = stack.getTag();
-		return tag == null ? null : new CircuitBoard(tag);
 	}
 
 	@Override

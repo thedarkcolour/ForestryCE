@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.factory.tiles;
 
 import forestry.api.core.ForestryError;
@@ -27,7 +17,7 @@ import forestry.core.tiles.IRenderableTile;
 import forestry.core.tiles.TileBase;
 import forestry.core.utils.InventoryUtil;
 import forestry.core.utils.ItemStackUtil;
-import forestry.core.utils.RecipeUtils;
+import forestry.core.utils.RecipeUtil;
 import forestry.factory.features.FactoryTiles;
 import forestry.factory.gui.ContainerMoistener;
 import forestry.factory.inventory.InventoryMoistener;
@@ -46,10 +36,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fluids.capability.IFluidHandler;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -234,10 +220,10 @@ public class TileMoistener extends TileBase implements WorldlyContainer, ILiquid
 	}
 
 	public void checkRecipe() {
-		RecipeManager manager = RecipeUtils.getRecipeManager();
+		RecipeManager manager = RecipeUtil.getRecipeManager();
 		IMoistenerRecipe sameRec = null;
 		if (manager != null) {
-			sameRec = RecipeUtils.getMoistenerRecipe(manager, getInternalInventory().getItem(InventoryMoistener.SLOT_RESOURCE));
+			sameRec = RecipeUtil.getMoistenerRecipe(manager, getInternalInventory().getItem(InventoryMoistener.SLOT_RESOURCE));
 		}
 		if (this.currentRecipe != sameRec) {
             this.currentRecipe = sameRec;

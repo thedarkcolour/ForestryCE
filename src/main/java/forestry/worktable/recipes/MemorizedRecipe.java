@@ -5,7 +5,7 @@ import forestry.api.core.INbtWritable;
 import forestry.core.network.IStreamable;
 import forestry.core.utils.InventoryUtil;
 import forestry.core.utils.NetworkUtil;
-import forestry.core.utils.RecipeUtils;
+import forestry.core.utils.RecipeUtil;
 import forestry.worktable.inventory.WorktableCraftingContainer;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -120,7 +120,7 @@ public class MemorizedRecipe implements INbtWritable, INbtReadable, IStreamable 
 	public List<RecipeHolder<CraftingRecipe>> getRecipes() {
 		if (this.recipes.isEmpty() && !this.recipeIds.isEmpty()) {
 			for (ResourceLocation key : this.recipeIds) {
-				RecipeHolder<CraftingRecipe> recipe = RecipeUtils.getRecipe(key);
+				RecipeHolder<CraftingRecipe> recipe = RecipeUtil.getRecipe(key);
 				if (recipe != null) {
 					this.recipes.add(recipe);
 				}

@@ -3,8 +3,6 @@ package forestry.core.config;
 // TODO: Remove entirely
 public class Preference {
 
-	public static final float ENERGY_DEMAND_MODIFIER = 1;
-
 	public static final int FARM_FERTILIZER_MODIFIER = 4;
 	public static final int FERMENTATION_DURATION_FERTILIZER = 200;
 	public static final int FERMENTATION_DURATION_COMPOST = 250;

@@ -5,6 +5,9 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import forestry.api.ForestryConstants;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
@@ -16,6 +19,7 @@ import net.neoforged.neoforge.common.loot.LootTableIdCondition;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 /**
@@ -32,7 +36,6 @@ public class ConditionLootModifier extends LootModifier {
 	private final List<String> extensions;
 
 	/**
-	 * todo is this still necessary?
 	 * Helper field to prevent an endless method loop caused by forge in {@link LootTable#getRandomItems(LootContext, Consumer)}
 	 * which calls this method again, since it keeps the {@link LootContext#getQueriedLootTableId()} value, which causes
 	 * "getRandomItems" to calling this method again, because the conditions still met even that it is an other loot
@@ -66,14 +69,19 @@ public class ConditionLootModifier extends LootModifier {
 			return generatedLoot;
 		}
 
+		// todo is this called by multiple threads
 		this.operates = true;
 
 		for (String extension : this.extensions) {
-			ResourceLocation location = ForestryConstants.forestry(this.tableLocation.getPath() + "/" + extension);
-			LootTable table = context.getResolver().getLootTable(location);
+			ResourceKey<LootTable> location = ResourceKey.create(Registries.LOOT_TABLE, ForestryConstants.forestry(this.tableLocation.getPath() + "/" + extension));
+			Optional<Holder.Reference<LootTable>> optional = context.getResolver().get(Registries.LOOT_TABLE, location);
 
-			if (table != LootTable.EMPTY) {
-				table.getRandomItems(context, generatedLoot::add);
+			if (optional.isPresent()) {
+				LootTable table = optional.get().value();
+
+				if (table != LootTable.EMPTY) {
+					table.getRandomItems(context, generatedLoot::add);
+				}
 			}
 		}
 

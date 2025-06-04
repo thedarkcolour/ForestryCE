@@ -7,9 +7,9 @@ import forestry.core.gui.IGuiSelectable;
 import forestry.core.gui.slots.SlotCraftMatrix;
 import forestry.core.gui.slots.WorktableSlot;
 import forestry.core.inventory.InventoryGhostCrafting;
-import forestry.core.network.packets.PacketGuiSelectRequest;
 import forestry.core.tiles.TileUtil;
 import forestry.core.utils.ItemStackUtil;
+import forestry.core.utils.NetworkUtil;
 import forestry.worktable.features.WorktableMenus;
 import forestry.worktable.inventory.WorktableCraftingContainer;
 import forestry.worktable.inventory.WorktableInventory;
@@ -111,13 +111,8 @@ public class WorktableMenu extends ContainerTile<WorktableTile> implements ICont
 
 	/* Gui Selection Handling */
 	public static void clearRecipe() {
-		sendRecipeClick(-1, 0);
+		NetworkUtil.sendRecipeClick(-1, 0);
 	}
-
-	public static void sendRecipeClick(int mouseButton, int recipeIndex) {
-        IForestryPacketServer packet = new PacketGuiSelectRequest(mouseButton, recipeIndex);
-        PacketDistributor.sendToServer(packet);
-    }
 
 	@Override
 	public void handleSelectionRequest(ServerPlayer player, int primary, int secondary) {

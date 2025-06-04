@@ -1,9 +1,11 @@
 package forestry.modules.features;
 
-import forestry.api.core.IItemProvider;
+import java.util.function.Supplier;
+
+import net.minecraft.core.Holder;
 import net.minecraft.world.item.Item;
 
-import java.util.function.Supplier;
+import forestry.api.core.IItemProvider;
 
 public interface IItemFeature<I extends Item> extends IModFeature, IItemProvider<I>, net.minecraft.world.level.ItemLike, Supplier<I> {
 	@Override
@@ -15,4 +17,6 @@ public interface IItemFeature<I extends Item> extends IModFeature, IItemProvider
 	default I get() {
 		return item();
 	}
+
+	Holder<Item> holder();
 }

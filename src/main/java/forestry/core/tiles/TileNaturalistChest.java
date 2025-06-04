@@ -21,7 +21,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -96,11 +95,12 @@ public abstract class TileNaturalistChest extends TileBase implements IPagedInve
 	}
 
 	@Override
-	public void openGui(ServerPlayer player, InteractionHand hand, BlockPos pos) {
+	public boolean interactNoItem(Level level, Player player, BlockPos pos) {
 		NetworkHooks.openScreen(player, new PagedMenuProvider(0), p -> {
 			p.writeBlockPos(this.worldPosition);
 			p.writeVarInt(0);
 		});
+		return false;
 	}
 
 	/* IStreamable */

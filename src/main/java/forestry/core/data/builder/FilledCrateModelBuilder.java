@@ -1,15 +1,16 @@
 package forestry.core.data.builder;
 
 import com.google.gson.JsonObject;
+import forestry.api.ForestryConstants;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.client.model.generators.CustomLoaderBuilder;
-import net.minecraftforge.client.model.generators.ModelBuilder;
-import net.minecraftforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.client.model.generators.CustomLoaderBuilder;
+import net.neoforged.neoforge.client.model.generators.ModelBuilder;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 import javax.annotation.Nullable;
 
 public class FilledCrateModelBuilder<T extends ModelBuilder<T>> extends CustomLoaderBuilder<T> {
-	private static final ResourceLocation ID = new ResourceLocation("forestry:filled_crate");
+	private static final ResourceLocation ID = ForestryConstants.forestry("forestry:filled_crate");
 
 	@Nullable
 	private ResourceLocation layer1;

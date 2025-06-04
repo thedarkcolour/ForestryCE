@@ -23,11 +23,11 @@ import net.minecraft.world.phys.BlockHitResult;
 import javax.annotation.Nullable;
 
 public abstract class BlockStructure extends BlockForestry {
+	protected long previousMessageTick = 0;
+
 	protected BlockStructure(Block.Properties properties) {
 		super(properties.strength(1f));
 	}
-
-	protected long previousMessageTick = 0;
 
 	@Override
 	protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
@@ -77,13 +77,13 @@ public abstract class BlockStructure extends BlockForestry {
 	}
 
 	@Override
-	public void setPlacedBy(Level world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
-		if (world.isClientSide) {
+	public void setPlacedBy(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
+		if (level.isClientSide) {
 			return;
 		}
 
 		if (placer instanceof Player) {
-			TileUtil.actOnTile(world, pos, MultiblockTileEntityForestry.class, tile -> {
+			TileUtil.actOnTile(level, pos, MultiblockTileEntityForestry.class, tile -> {
 				Player player = (Player) placer;
 				GameProfile gameProfile = player.getGameProfile();
 				tile.setOwner(gameProfile);

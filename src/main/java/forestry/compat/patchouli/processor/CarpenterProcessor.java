@@ -3,7 +3,7 @@ package forestry.compat.patchouli.processor;
 import com.google.common.base.Preconditions;
 import forestry.api.recipes.ICarpenterRecipe;
 import forestry.core.utils.ModUtil;
-import forestry.core.utils.RecipeUtils;
+import forestry.core.utils.RecipeUtil;
 import forestry.factory.features.FactoryRecipeTypes;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.world.item.ItemStack;
@@ -24,7 +24,7 @@ public class CarpenterProcessor implements IComponentProcessor {
 	public void setup(Level level, IVariableProvider variables) {
 		ItemStack stack = variables.get("item", level.registryAccess()).as(ItemStack.class, ItemStack.EMPTY);
 
-		this.recipe = RecipeUtils.getRecipeByOutput(FactoryRecipeTypes.CARPENTER, level.registryAccess(), stack).value();
+		this.recipe = RecipeUtil.getRecipeByOutput(FactoryRecipeTypes.CARPENTER, level.registryAccess(), stack).value();
 	}
 
 	@Override

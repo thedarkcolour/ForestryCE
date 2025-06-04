@@ -8,8 +8,7 @@ import forestry.api.IForestryApi;
 import forestry.api.apiculture.genetics.IBeeSpecies;
 import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.circuits.CircuitHolder;
-import forestry.api.circuits.ICircuit;
-import forestry.api.circuits.ICircuitLayout;
+import forestry.api.circuits.CircuitLayout;
 import forestry.api.client.IForestryClientApi;
 import forestry.api.client.arboriculture.ILeafSprite;
 import forestry.api.client.arboriculture.ILeafTint;
@@ -30,7 +29,6 @@ import forestry.apiimpl.client.ForestryClientApiImpl;
 import forestry.apiimpl.client.TreeClientManager;
 import forestry.apiimpl.client.plugin.ClientRegistration;
 import forestry.arboriculture.client.FixedLeafTint;
-import forestry.core.circuits.CircuitLayout;
 import forestry.core.circuits.CircuitManager;
 import forestry.core.errors.ErrorManager;
 import forestry.core.genetics.PollenManager;
@@ -101,21 +99,20 @@ public class PluginManager {
 		}
 
 		ArrayList<CircuitLayout> layouts = registration.getLayouts();
-		ImmutableMap.Builder<String, ICircuitLayout> layoutsByIdBuilder = ImmutableMap.builderWithExpectedSize(layouts.size());
+		ImmutableMap.Builder<String, CircuitLayout> layoutsByIdBuilder = ImmutableMap.builderWithExpectedSize(layouts.size());
 
 		for (CircuitLayout layout : layouts) {
 			// Layouts by ID
-			layoutsByIdBuilder.put(layout.getId(), layout);
+			layoutsByIdBuilder.put(layout.id(), layout);
 		}
 
-		ImmutableMap<String, ICircuitLayout> layoutsById = layoutsByIdBuilder.build();
+		ImmutableMap<String, CircuitLayout> layoutsById = layoutsByIdBuilder.build();
 
 		ArrayList<CircuitHolder> circuits = registration.getCircuits();
-		ImmutableMultimap.Builder<ICircuitLayout, CircuitHolder> circuitHoldersBuilder = new ImmutableMultimap.Builder<>();
-		ImmutableMap.Builder<String, ICircuit> circuitsBuilder = ImmutableMap.builderWithExpectedSize(circuits.size());
+		ImmutableMultimap.Builder<CircuitLayout, CircuitHolder> circuitHoldersBuilder = new ImmutableMultimap.Builder<>();
 
 		for (CircuitHolder holder : circuits) {
-			ICircuitLayout layout = layoutsById.get(holder.layoutId());
+			CircuitLayout layout = layoutsById.get(holder.layoutId());
 
 			if (layout == null) {
 				throw new IllegalStateException("Attempted to register a CircuitHolder but no layout was registered with its layout ID: " + holder);
@@ -123,13 +120,10 @@ public class PluginManager {
 
 			// Circuit holders by layout
 			circuitHoldersBuilder.put(layout, holder);
-			// Circuits by ID
-			ICircuit circuit = holder.circuit();
-			circuitsBuilder.put(circuit.getId(), circuit);
 		}
 
 		try {
-			((ForestryApiImpl) IForestryApi.INSTANCE).setCircuitManager(new CircuitManager(circuitHoldersBuilder.build(), layoutsById, circuitsBuilder.buildOrThrow()));
+			((ForestryApiImpl) IForestryApi.INSTANCE).setCircuitManager(new CircuitManager(circuitHoldersBuilder.build(), layoutsById));
 		} catch (IllegalArgumentException exception) {
 			Forestry.LOGGER.fatal("Failed to register circuits: two circuits were registered with the same ID");
 			throw exception;

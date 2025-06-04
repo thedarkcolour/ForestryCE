@@ -85,7 +85,7 @@ public abstract class TilePowered extends TileBase implements IRenderableTile, I
 
 	// RF/t is energyPerWorkCycle / ticksPerWorkCycle
 	public void setEnergyPerWorkCycle(int energyPerWorkCycle) {
-		this.energyPerWorkCycle = EnergyHelper.scaleForDifficulty(energyPerWorkCycle);
+        this.energyPerWorkCycle = energyPerWorkCycle;
 	}
 
 	public int getEnergyPerWorkCycle() {

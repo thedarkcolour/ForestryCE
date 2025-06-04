@@ -13,11 +13,10 @@ import forestry.apiculture.inventory.IApiaryInventory;
 import forestry.apiculture.inventory.InventoryApiary;
 import forestry.core.utils.NetworkUtil;
 import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.ArrayList;
@@ -65,11 +64,12 @@ public class TileApiary extends TileBeeHousingBase implements IApiary {
 	}
 
 	@Override
-	public void openGui(ServerPlayer player, InteractionHand hand, BlockPos pos) {
+	public boolean interactNoItem(Level level, Player player, BlockPos pos) {
 		player.openMenu(this, buffer -> {
 			buffer.writeBlockPos(pos);
 			buffer.writeBoolean(true);
 			NetworkUtil.writeEnum(buffer, GuiBeeHousing.Icon.APIARY);
 		});
+		return false;
 	}
 }

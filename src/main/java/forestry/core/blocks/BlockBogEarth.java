@@ -20,7 +20,7 @@ import net.neoforged.neoforge.common.util.TriState;
  */
 public class BlockBogEarth extends Block {
 	private static final int maturityDelimiter = 3; //maturity at which bogEarth becomes peat
-	public static final IntegerProperty MATURITY = IntegerProperty.create("maturity", 0, maturityDelimiter);
+	public static final IntegerProperty MATURITY = IntegerProperty.create("maturity", 0, 3);
 
 	public BlockBogEarth() {
 		super(Block.Properties.of()

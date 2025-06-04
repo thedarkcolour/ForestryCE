@@ -7,7 +7,9 @@ import forestry.api.climate.IClimateProvider;
 import forestry.api.core.HumidityType;
 import forestry.api.core.TemperatureType;
 import forestry.api.modules.IForestryPacketClient;
+import forestry.api.modules.IForestryPacketServer;
 import forestry.core.network.IStreamable;
+import forestry.core.network.packets.PacketGuiSelectRequest;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.FriendlyByteBuf;
@@ -191,4 +193,9 @@ public class NetworkUtil {
 		}
 		return array;
 	}
+
+	public static void sendRecipeClick(int mouseButton, int recipeIndex) {
+        IForestryPacketServer packet = new PacketGuiSelectRequest(mouseButton, recipeIndex);
+        PacketDistributor.sendToServer(packet);
+    }
 }

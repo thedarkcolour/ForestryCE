@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.core.fluids;
 
 import forestry.api.ForestryConstants;
@@ -22,7 +12,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
@@ -80,11 +70,11 @@ public enum ForestryFluids {
 		.drinkProperties(1, 0.2f, 32)
 	);
 
-	private static final Map<ResourceLocation, ForestryFluids> tagToFluid = new HashMap<>();
+	private static final Map<ResourceLocation, ForestryFluids> BY_ID = new HashMap<>();
 
 	static {
 		for (ForestryFluids fluidDefinition : ForestryFluids.values()) {
-			tagToFluid.put(ForestryConstants.forestry(fluidDefinition.feature.getName()), fluidDefinition);
+			BY_ID.put(ForestryConstants.forestry(fluidDefinition.feature.getName()), fluidDefinition);
 		}
 	}
 
@@ -93,13 +83,13 @@ public enum ForestryFluids {
 	private final FeatureItem<BucketItem> bucket;
 
 	ForestryFluids(UnaryOperator<FeatureFluid.Builder> properties) {
-		IFeatureRegistry registry = ModFeatureRegistry.get(ForestryModuleIds.FLUIDS);
+		IFeatureRegistry registry = ModFeatureRegistry.get(ForestryModuleIds.CORE);
 		this.feature = properties.apply(registry
 				.fluid(name().toLowerCase(Locale.ENGLISH)))
 			.bucket(this::getBucket)
 			.create();
 		this.bucket = registry
-			.item(() -> new BucketItem(this::getFluid, new Item.Properties()
+			.item(() -> new BucketItem(getFluid(), new Item.Properties()
 					.craftRemainder(Items.BUCKET)
 					.stacksTo(1)),
 				"bucket_" + name().toLowerCase(Locale.ENGLISH)
@@ -157,16 +147,7 @@ public enum ForestryFluids {
 
 	@Nullable
 	public static ForestryFluids getFluidDefinition(Fluid fluid) {
-		return tagToFluid.get(ModUtil.getRegistryName(fluid));
-	}
-
-	@Nullable
-	public static ForestryFluids getFluidDefinition(FluidStack stack) {
-		if (!stack.isEmpty()) {
-			return getFluidDefinition(stack.getFluid());
-		}
-
-		return null;
+		return BY_ID.get(ModUtil.getRegistryName(fluid));
 	}
 
 	/**

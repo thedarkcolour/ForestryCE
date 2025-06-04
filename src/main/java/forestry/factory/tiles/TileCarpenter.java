@@ -26,7 +26,7 @@ import forestry.core.tiles.IItemStackDisplay;
 import forestry.core.tiles.ILiquidTankTile;
 import forestry.core.tiles.TilePowered;
 import forestry.core.utils.InventoryUtil;
-import forestry.core.utils.RecipeUtils;
+import forestry.core.utils.RecipeUtil;
 import forestry.factory.features.FactoryTiles;
 import forestry.factory.gui.ContainerCarpenter;
 import forestry.factory.inventory.InventoryCarpenter;
@@ -119,7 +119,7 @@ public class TileCarpenter extends TilePowered implements WorldlyContainer, ILiq
 		}
 
 		if (this.currentRecipe == null || !this.currentRecipe.matches(this.resourceTank.getFluid(), getBoxStack(), this.craftingInventory, this.level)) {
-			ICarpenterRecipe recipe = RecipeUtils.getCarpenterRecipe(this.level.getRecipeManager(), this.resourceTank.getFluid(), getBoxStack(), this.craftingInventory, this.level);
+			ICarpenterRecipe recipe = RecipeUtil.getCarpenterRecipe(this.level.getRecipeManager(), this.resourceTank.getFluid(), getBoxStack(), this.craftingInventory, this.level);
 			this.currentRecipe = recipe;
 
 			if (recipe != null) {

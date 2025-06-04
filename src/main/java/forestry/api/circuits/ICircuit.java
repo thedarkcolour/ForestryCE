@@ -1,10 +1,14 @@
 package forestry.api.circuits;
 
+import com.mojang.serialization.Codec;
+import forestry.api.ForestryRegistries;
 import net.minecraft.network.chat.Component;
 
 import java.util.List;
 
 public interface ICircuit {
+	Codec<ICircuit> CODEC = ForestryRegistries.CIRCUIT.byNameCodec();
+
 	String getId();
 
 	String getTranslationKey();

@@ -14,7 +14,7 @@ public interface ICircuitManager {
 	/**
 	 * @return A collection of all registered circuit layouts.
 	 */
-	List<ICircuitLayout> getLayouts();
+	List<CircuitLayout> getLayouts();
 
 	/**
 	 * Retrieves the item's circuit for the given circuit layout, or null if this item is not applicable for the layout.
@@ -24,22 +24,13 @@ public interface ICircuitManager {
 	 * @return The circuit associated with the circuit layout and item, or {@code null} if this item doesn't work for the circuit layout.
 	 */
 	@Nullable
-	ICircuit getCircuit(ICircuitLayout layout, ItemStack stack);
-
-	@Nullable
-	ICircuit getCircuit(String circuitId);
+	ICircuit getCircuit(CircuitLayout layout, ItemStack stack);
 
 	/**
 	 * @return The circuit layout with the given ID, or {@code null} if none was registered with that ID.
 	 */
 	@Nullable
-	ICircuitLayout getLayout(String layoutId);
-
-	/**
-	 * @return The circuit board stored in this item's NBT, {@code null} if this item has no NBT or is not a chipset.
-	 */
-	@Nullable
-	ICircuitBoard getCircuitBoard(ItemStack stack);
+	CircuitLayout getLayout(String layoutId);
 
 	/**
 	 * Note: Currently hardcoded to Forestry circuit board.

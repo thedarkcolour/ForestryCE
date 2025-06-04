@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.energy.tiles;
 
 import forestry.core.config.Constants;
@@ -16,13 +6,11 @@ import forestry.core.tiles.TemperatureState;
 import forestry.energy.features.EnergyTiles;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.util.FakePlayer;
 import org.jetbrains.annotations.Nullable;
 
 public class ClockworkEngineBlockEntity extends EngineBlockEntity {
@@ -43,9 +31,9 @@ public class ClockworkEngineBlockEntity extends EngineBlockEntity {
 	}
 
 	@Override
-	public void openGui(ServerPlayer player, InteractionHand hand, BlockPos pos) {
-		if (player instanceof FakePlayer) {
-			return;
+	public boolean interactNoItem(Level level, Player player, BlockPos pos) {
+		if (player.isFakePlayer() ||) {
+			return false;
 		}
 
 		if (this.tension <= 0) {
@@ -53,7 +41,7 @@ public class ClockworkEngineBlockEntity extends EngineBlockEntity {
 		} else if (this.tension < ENGINE_CLOCKWORK_WIND_MAX + WIND_TENSION_BASE) {
             this.tension += (ENGINE_CLOCKWORK_WIND_MAX + WIND_TENSION_BASE - this.tension) / (ENGINE_CLOCKWORK_WIND_MAX + WIND_TENSION_BASE) * WIND_TENSION_BASE;
 		} else {
-			return;
+			return false;
 		}
 
 		player.causeFoodExhaustion(WIND_EXHAUSTION);
@@ -63,6 +51,7 @@ public class ClockworkEngineBlockEntity extends EngineBlockEntity {
         this.tension = Math.min(this.tension, ENGINE_CLOCKWORK_WIND_MAX + WIND_TENSION_BASE);
         this.delay = WIND_DELAY;
 		sendNetworkUpdate();
+		return true;
 	}
 
 	/* LOADING & SAVING */
@@ -128,7 +117,7 @@ public class ClockworkEngineBlockEntity extends EngineBlockEntity {
 
 	@Override
 	public TemperatureState getTemperatureState() {
-		TemperatureState state = TemperatureState.getState(this.heat / 10000, ENGINE_CLOCKWORK_WIND_MAX);
+		TemperatureState state = TemperatureState.getState(this.heat / 10000.0, ENGINE_CLOCKWORK_WIND_MAX);
 		if (state == TemperatureState.MELTING) {
 			state = TemperatureState.OVERHEATING;
 		}

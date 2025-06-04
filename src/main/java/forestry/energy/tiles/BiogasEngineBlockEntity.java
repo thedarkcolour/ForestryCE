@@ -12,7 +12,7 @@ package forestry.energy.tiles;
 
 import forestry.api.core.ForestryError;
 import forestry.api.core.IErrorLogic;
-import forestry.api.fuels.EngineBronzeFuel;
+import forestry.api.fuels.BiogasEngineFuel;
 import forestry.api.fuels.FuelManager;
 import forestry.core.config.Constants;
 import forestry.core.fluids.*;
@@ -167,7 +167,7 @@ public class BiogasEngineBlockEntity extends EngineBlockEntity implements Worldl
 		if (this.fuelTank.getFluidAmount() > 0) {
 			FluidStack fuelFluidStack = this.fuelTank.getFluid();
 			if (!fuelFluidStack.isEmpty()) {
-				EngineBronzeFuel fuel = FuelManager.biogasEngineFuel.get(fuelFluidStack.getFluid());
+				BiogasEngineFuel fuel = FuelManager.biogasEngineFuel.get(fuelFluidStack.getFluid());
 				if (fuel != null) {
 					loss = loss * fuel.dissipationMultiplier();
 				}

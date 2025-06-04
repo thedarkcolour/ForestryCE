@@ -1,19 +1,14 @@
 package forestry.energy;
 
-import forestry.core.config.Preference;
 import forestry.energy.tiles.EngineBlockEntity;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.energy.IEnergyStorage;
 
 import javax.annotation.Nullable;
 
 public class EnergyHelper {
-	public static int scaleForDifficulty(int energyValue) {
-		return Math.round(energyValue * Preference.ENERGY_DEMAND_MODIFIER);
-	}
 
 	/**
 	 * Consumes one work cycle's worth of energy.
@@ -58,9 +53,9 @@ public class EnergyHelper {
 			return receptor.getEnergyManager().forceReceiveEnergy(extractable, simulate);
 		}
 
-		return tile.getCapability(ForgeCapabilities.ENERGY, side).map(storage -> {
-			return storage.receiveEnergy(extractable, simulate);
-		}).orElse(0);
+		IEnergyStorage energyStorage = tile.getLevel().getCapability(Capabilities.EnergyStorage.BLOCK, tile.getBlockPos(), side);
+
+		return energyStorage != null ? energyStorage.receiveEnergy(extractable, simulate) : 0;
 	}
 
 	public static boolean canSendEnergy(ForestryEnergyStorage energyStorage, Direction orientation, BlockEntity tile) {
@@ -75,12 +70,8 @@ public class EnergyHelper {
 			return true;
 		}
 
-		LazyOptional<IEnergyStorage> energyStorage = tile.getCapability(ForgeCapabilities.ENERGY, side);
-		if (energyStorage.isPresent()) {
-			return energyStorage.orElse(null).canReceive();
-		}
+		IEnergyStorage energyStorage = tile.getLevel().getCapability(Capabilities.EnergyStorage.BLOCK, tile.getBlockPos(), side);
 
-		return false;
+		return energyStorage != null && energyStorage.canReceive();
 	}
-
 }

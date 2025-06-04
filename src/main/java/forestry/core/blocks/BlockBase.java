@@ -8,12 +8,9 @@ import forestry.core.utils.InventoryUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.Container;
-import net.minecraft.world.Containers;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.*;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -35,15 +32,11 @@ import net.neoforged.neoforge.fluids.FluidUtil;
 
 import javax.annotation.Nullable;
 
-public class BlockBase<P extends Enum<P> & IBlockType> extends BlockForestry implements EntityBlock {
+public class BlockBase<P extends IBlockType> extends BlockForestry implements EntityBlock {
 	public final P blockType;
 
-	private static Block.Properties createProperties(Block.Properties properties) {
-		return properties.strength(2.0f);
-	}
-
 	public BlockBase(P blockType, Block.Properties properties) {
-		super(createProperties(properties));
+		super(properties.strength(2.0f));
 
 		if (getStateDefinition().any().hasProperty(HorizontalDirectionalBlock.FACING)) {
 			registerDefaultState(getStateDefinition().any().setValue(HorizontalDirectionalBlock.FACING, Direction.NORTH));
@@ -91,26 +84,29 @@ public class BlockBase<P extends Enum<P> & IBlockType> extends BlockForestry imp
 		return definition.getShape(state, reader, pos, context);
 	}
 
-	/* INTERACTION */
 	@Override
-	public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player playerIn, InteractionHand hand, BlockHitResult hit) {
-		TileBase tile = TileUtil.getTile(worldIn, pos, TileBase.class);
-		if (tile == null) {
-			return InteractionResult.PASS;
-		}
-		if (TileUtil.isUsableByPlayer(playerIn, tile)) {
-			if (!playerIn.isShiftKeyDown()) {
-				if (FluidUtil.interactWithFluidHandler(playerIn, hand, worldIn, pos, hit.getDirection())) {
-					return InteractionResult.sidedSuccess(worldIn.isClientSide);
+	protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+		TileBase tile = TileUtil.getTile(level, pos, TileBase.class);
+		if (tile != null) {
+			if (TileUtil.isUsableByPlayer(player, tile)) {
+				// todo do we need this SHIFT check
+				if ((!player.isShiftKeyDown() && FluidUtil.interactWithFluidHandler(player, hand, level, pos, hitResult.getDirection()))
+					|| (tile.interactWithItem(level, pos, player, hand, stack))) {
+					return ItemInteractionResult.sidedSuccess(level.isClientSide);
 				}
 			}
-
-			if (!worldIn.isClientSide) {
-				ServerPlayer sPlayer = (ServerPlayer) playerIn;
-				tile.openGui(sPlayer, hand, pos);
-			}
 		}
-		return InteractionResult.SUCCESS;
+		return super.useItemOn(stack, state, level, pos, player, hand, hitResult);
+	}
+
+	@Override
+	protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
+		TileBase tile = TileUtil.getTile(level, pos, TileBase.class);
+
+		if (tile != null && tile.interactNoItem(level, player, pos)) {
+			return InteractionResult.sidedSuccess(level.isClientSide);
+		}
+		return super.useWithoutItem(state, level, pos, player, hitResult);
 	}
 
 	@Nullable

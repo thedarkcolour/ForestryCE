@@ -1,17 +1,16 @@
 package forestry.core.circuits;
 
 import forestry.api.IForestryApi;
+import forestry.api.circuits.CircuitLayout;
 import forestry.api.circuits.ICircuit;
 import forestry.api.circuits.ICircuitBoard;
-import forestry.api.circuits.ICircuitLayout;
+import forestry.core.features.CoreDataComponents;
 import forestry.core.features.CoreItems;
 import forestry.core.items.ItemForestry;
 import forestry.core.items.definitions.IColoredItem;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
@@ -40,18 +39,17 @@ public class ItemCircuitBoard extends ItemForestry implements IColoredItem {
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> list, TooltipFlag flag) {
-		ICircuitBoard circuitboard = IForestryApi.INSTANCE.getCircuitManager().getCircuitBoard(stack);
-		if (circuitboard != null) {
-			circuitboard.addTooltip(list);
+	public void appendHoverText(ItemStack stack, @Nullable TooltipContext ctx, List<Component> list, TooltipFlag flag) {
+		IForestryApi.INSTANCE.getCircuitManager();
+		ICircuitBoard board = stack.get(CoreDataComponents.CIRCUIT_BOARD);
+		if (board != null) {
+			board.addTooltip(list);
 		}
 	}
 
-	public static ItemStack createCircuitboard(EnumCircuitBoardType type, @Nullable ICircuitLayout layout, ICircuit[] circuits) {
-		CompoundTag compoundNBT = new CompoundTag();
-		new CircuitBoard(type, layout, circuits).write(compoundNBT);
+	public static ItemStack createCircuitboard(EnumCircuitBoardType type, @Nullable CircuitLayout layout, ICircuit[] circuits) {
 		ItemStack stack = CoreItems.CIRCUITBOARDS.stack(type, 1);
-		stack.setTag(compoundNBT);
+		stack.set(CoreDataComponents.CIRCUIT_BOARD, new CircuitBoard(type, layout, circuits));
 		return stack;
 	}
 

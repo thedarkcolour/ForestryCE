@@ -26,9 +26,7 @@ import forestry.mail.gui.ContainerMailbox;
 import forestry.mail.postalstates.EnumDeliveryState;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -45,9 +43,9 @@ public class TileMailbox extends TileBase {
 
 	/* GUI */
 	@Override
-	public void openGui(ServerPlayer player, InteractionHand hand, BlockPos pos) {
+	public boolean interactNoItem(Level level, Player player, BlockPos pos) {
 		if (this.level.isClientSide) {
-			return;
+			return false;
 		}
 
 		ItemStack heldItem = player.getItemInHand(player.getUsedItemHand());
@@ -60,8 +58,9 @@ public class TileMailbox extends TileBase {
 				heldItem.shrink(1);
 			}
 		} else {
-			super.openGui(player, hand, pos);
+			super.interactNoItem(level, player, pos);
 		}
+		return false;
 	}
 
 	/* MAIL HANDLING */

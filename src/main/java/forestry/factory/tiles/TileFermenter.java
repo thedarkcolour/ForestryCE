@@ -24,7 +24,7 @@ import forestry.core.fluids.TankManager;
 import forestry.core.render.TankRenderInfo;
 import forestry.core.tiles.ILiquidTankTile;
 import forestry.core.tiles.TilePowered;
-import forestry.core.utils.RecipeUtils;
+import forestry.core.utils.RecipeUtil;
 import forestry.factory.features.FactoryTiles;
 import forestry.factory.gui.ContainerFermenter;
 import forestry.factory.inventory.InventoryFermenter;
@@ -160,7 +160,7 @@ public class TileFermenter extends TilePowered implements WorldlyContainer, ILiq
 		FluidStack fluid = this.resourceTank.getFluid();
 
 		if (!fluid.isEmpty()) {
-            this.currentRecipe = RecipeUtils.getFermenterRecipe(this.level.getRecipeManager(), resource, fluid);
+            this.currentRecipe = RecipeUtil.getFermenterRecipe(this.level.getRecipeManager(), resource, fluid);
 		}
 
         this.fermentationTotalTime = this.fermentationTime = this.currentRecipe == null ? 0 : this.currentRecipe.getFermentationValue();

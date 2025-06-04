@@ -15,9 +15,9 @@ public class ForestryEnergyStorage extends EnergyStorage implements IStreamable,
 
 	public ForestryEnergyStorage(int maxTransfer, int capacity, EnergyTransferMode mode) {
 		super(
-			EnergyHelper.scaleForDifficulty(capacity),
-			mode.canReceive() ? EnergyHelper.scaleForDifficulty(maxTransfer) : 0,
-			mode.canExtract() ? EnergyHelper.scaleForDifficulty(maxTransfer) : 0
+			capacity,
+			mode.canReceive() ? maxTransfer : 0,
+			mode.canExtract() ? maxTransfer : 0
 		);
 	}
 

@@ -1,10 +1,11 @@
 package forestry.farming.multiblock;
 
+import forestry.api.ForestryDataMaps;
 import forestry.api.IForestryApi;
 import forestry.api.farming.IFarmHousing;
 import forestry.api.farming.IFarmLogic;
 import forestry.api.farming.IFarmable;
-import forestry.core.config.Preference;
+import forestry.core.config.ForestryConfig;
 import forestry.core.fluids.FluidHelper;
 import forestry.core.fluids.TankManager;
 import forestry.core.inventory.InventoryAdapterRestricted;
@@ -19,6 +20,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
 import java.util.ArrayDeque;
 import java.util.List;
@@ -30,11 +32,6 @@ import java.util.Optional;
  * It contains the biggest part of the logic for the inventories like item validation and fertilizer consumption.
  */
 public abstract class InventoryPlantation<H extends ILiquidTankTile & IFarmHousing> extends InventoryAdapterRestricted implements IFarmInventoryInternal {
-	/**
-	 * Config value which modifies the usage of fertilizer.
-	 */
-	private static final int FERTILIZER_MODIFIER = Preference.FARM_FERTILIZER_MODIFIER;
-
 	/**
 	 * Farm logic object
 	 */
@@ -60,6 +57,7 @@ public abstract class InventoryPlantation<H extends ILiquidTankTile & IFarmHousi
 	 * The part of the inventory that contains the fertilizer.
 	 */
 	protected final Container fertilizerInventory;
+	private final ModConfigSpec.IntValue fertilizerModifier;
 
 	/**
 	 * Creates a inventory instance.
@@ -67,7 +65,7 @@ public abstract class InventoryPlantation<H extends ILiquidTankTile & IFarmHousi
 	 * @param housing Logic object of the farm that owns this inventory
 	 * @param config  Helper object that defines the slots of the inventory
 	 */
-	public InventoryPlantation(H housing, InventoryConfig config) {
+	public InventoryPlantation(H housing, InventoryConfig config, ModConfigSpec.IntValue fertilizerModifier) {
 		super(config.count, "Items");
 		this.housing = housing;
 		this.config = config;
@@ -76,6 +74,7 @@ public abstract class InventoryPlantation<H extends ILiquidTankTile & IFarmHousi
 		this.germlingsInventory = new InventoryMapper(this, config.germlingsStart, config.germlingsCount);
 		this.productInventory = new InventoryMapper(this, config.productionStart, config.productionCount);
 		this.fertilizerInventory = new InventoryMapper(this, config.fertilizerStart, config.fertilizerCount);
+		this.fertilizerModifier = fertilizerModifier;
 	}
 
 	@Override
@@ -213,9 +212,9 @@ public abstract class InventoryPlantation<H extends ILiquidTankTile & IFarmHousi
 			return 0;
 		}
 
-		int fertilizerValue = IForestryApi.INSTANCE.getFarmingManager().getFertilizeValue(fertilizerStack);
-		if (fertilizerValue > 0) {
-			return fertilizerValue * FERTILIZER_MODIFIER;
+		Integer fertilizerValue = fertilizerStack.getItemHolder().getData(ForestryDataMaps.FARM_FERTILIZERS);
+		if (fertilizerValue != null && fertilizerValue > 0) {
+			return fertilizerValue * this.fertilizerModifier.get();
 		}
 		return 0;
 	}

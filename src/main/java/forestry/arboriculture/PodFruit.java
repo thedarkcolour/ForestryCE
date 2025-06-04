@@ -41,27 +41,26 @@ public class PodFruit extends Fruit implements IPodFruit {
 		IWoodType woodType = switch (this.type) {
 			case DATES -> ForestryWoodType.PALM;
 			case PAPAYA -> ForestryWoodType.PAPAYA;
-			default -> VanillaWoodType.JUNGLE;
 		};
 
 		return state.is(manager.getLogBlockTag(woodType, false)) || state.is(manager.getLogBlockTag(woodType, true));
 	}
 
-	public static boolean isValidPodLocation(LevelReader world, BlockPos pos, Direction direction, IPodFruit fruit) {
+	public static boolean isValidPodLocation(LevelReader level, BlockPos pos, Direction direction, IPodFruit fruit) {
 		pos = pos.relative(direction);
-		if (!world.hasChunkAt(pos)) {
+		if (!level.hasChunkAt(pos)) {
 			return false;
 		}
-		return fruit.canSurviveOn(world.getBlockState(pos));
+		return fruit.canSurviveOn(level.getBlockState(pos));
 	}
 
 	@Nullable
-	public static Direction getValidPodFacing(LevelAccessor world, BlockPos pos, IFruit fruit) {
+	public static Direction getValidPodFacing(LevelAccessor level, BlockPos pos, IFruit fruit) {
 		if (!(fruit instanceof IPodFruit podFruit)) {
 			return null;
 		}
 		for (Direction facing : Direction.Plane.HORIZONTAL) {
-			if (isValidPodLocation(world, pos, facing, podFruit)) {
+			if (isValidPodLocation(level, pos, facing, podFruit)) {
 				return facing;
 			}
 		}

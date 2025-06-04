@@ -15,7 +15,7 @@ import forestry.core.fluids.TankManager;
 import forestry.core.inventory.InventoryAdapterTile;
 import forestry.core.inventory.wrappers.InventoryMapper;
 import forestry.core.utils.InventoryUtil;
-import forestry.core.utils.RecipeUtils;
+import forestry.core.utils.RecipeUtil;
 import forestry.factory.tiles.TileSqueezer;
 import net.minecraft.core.Direction;
 import net.minecraft.world.Container;
@@ -50,7 +50,7 @@ public class InventorySqueezer extends InventoryAdapterTile<TileSqueezer> {
 			}
 
 			RecipeManager recipeManager = this.tile.getLevel().getRecipeManager();
-			return RecipeUtils.isSqueezerIngredient(recipeManager, stack) || RecipeUtils.getSqueezerContainerRecipe(recipeManager, stack) != null;
+			return RecipeUtil.isSqueezerIngredient(recipeManager, stack) || RecipeUtil.getSqueezerContainerRecipe(recipeManager, stack) != null;
 		}
 
 		return false;

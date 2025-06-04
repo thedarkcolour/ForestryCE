@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.core.utils;
 
 import com.mojang.authlib.GameProfile;
@@ -21,9 +11,6 @@ import javax.annotation.Nullable;
 import java.util.UUID;
 
 public abstract class PlayerUtil {
-	//TODO: use null everywhere instead of an emptyUUID
-	private static final UUID emptyUUID = new UUID(0, 0);
-
 	public static boolean isSameGameProfile(GameProfile player1, GameProfile player2) {
 		UUID id1 = player1.getId();
 		UUID id2 = player2.getId();

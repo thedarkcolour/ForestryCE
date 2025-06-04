@@ -3,7 +3,6 @@ package forestry.core.circuits;
 import forestry.api.IForestryApi;
 import forestry.api.circuits.ForestryCircuitSocketTypes;
 import forestry.api.circuits.ICircuit;
-import forestry.api.circuits.ICircuitLayout;
 import forestry.api.farming.HorizontalDirection;
 import forestry.core.config.Constants;
 import forestry.core.gui.GuiForestry;
@@ -51,7 +50,7 @@ public class GuiSolderingIron extends GuiForestry<ContainerSolderingIron> {
 			graphics.drawString(this.font, description, this.leftPos + 32, this.topPos + 36 + row, ColourProperties.INSTANCE.get("gui.screen"), false);
 
 			if (tube.isEmpty()) {
-				if (ForestryCircuitSocketTypes.FARM == layout.getSocketType()) {
+				if (ForestryCircuitSocketTypes.FARM == layout.socketType()) {
 					Direction farmDirection = HorizontalDirection.VALUES.get(i);
 					String farmDirectionString = farmDirection.toString().toLowerCase(Locale.ENGLISH);
 					Component localizedDirection = Component.translatable("for.gui.solder." + farmDirectionString);

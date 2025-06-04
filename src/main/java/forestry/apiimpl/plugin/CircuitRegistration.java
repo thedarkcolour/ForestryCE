@@ -3,7 +3,7 @@ package forestry.apiimpl.plugin;
 import forestry.api.circuits.CircuitHolder;
 import forestry.api.circuits.ICircuit;
 import forestry.api.plugin.ICircuitRegistration;
-import forestry.core.circuits.CircuitLayout;
+import forestry.api.circuits.CircuitLayout;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 

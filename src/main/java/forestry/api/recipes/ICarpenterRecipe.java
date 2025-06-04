@@ -6,6 +6,9 @@ import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
+
+import java.util.Optional;
 
 public interface ICarpenterRecipe extends IForestryRecipe {
 	/**
@@ -27,7 +30,7 @@ public interface ICarpenterRecipe extends IForestryRecipe {
 	/**
 	 * @return the fluid required for this recipe. return {@link FluidStack#EMPTY} if there is no required fluid.
 	 */
-	FluidStack getInputFluid();
+	Optional<SizedFluidIngredient> getInputFluid();
 
 	boolean matches(FluidStack fluid, ItemStack boxStack, Container craftingInventory, Level level);
 }

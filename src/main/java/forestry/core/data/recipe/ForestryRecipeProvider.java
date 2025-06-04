@@ -1,5 +1,28 @@
 package forestry.core.data.recipe;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Stream;
+
+import net.minecraft.Util;
+import net.minecraft.core.NonNullList;
+import net.minecraft.data.recipes.RecipeCategory;
+import net.minecraft.data.recipes.RecipeOutput;
+import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.data.recipes.ShapelessRecipeBuilder;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
+
 import forestry.api.ForestryTags;
 import forestry.api.IForestryApi;
 import forestry.api.arboriculture.IWoodAccess;
@@ -27,7 +50,16 @@ import forestry.core.circuits.EnumCircuitBoardType;
 import forestry.core.circuits.ItemCircuitBoard;
 import forestry.core.config.Constants;
 import forestry.core.config.Preference;
-import forestry.core.data.builder.*;
+import forestry.core.data.builder.CarpenterRecipeBuilder;
+import forestry.core.data.builder.CentrifugeRecipeBuilder;
+import forestry.core.data.builder.FabricatorRecipeBuilder;
+import forestry.core.data.builder.FabricatorSmeltingRecipeBuilder;
+import forestry.core.data.builder.FermenterRecipeBuilder;
+import forestry.core.data.builder.HygroregulatorRecipeBuilder;
+import forestry.core.data.builder.MoistenerRecipeBuilder;
+import forestry.core.data.builder.SqueezerContainerRecipeBuilder;
+import forestry.core.data.builder.SqueezerRecipeBuilder;
+import forestry.core.data.builder.StillRecipeBuilder;
 import forestry.core.features.CoreBlocks;
 import forestry.core.features.CoreItems;
 import forestry.core.features.FluidsItems;
@@ -43,11 +75,12 @@ import forestry.energy.features.EnergyBlocks;
 import forestry.factory.blocks.BlockTypeFactoryPlain;
 import forestry.factory.blocks.BlockTypeFactoryTesr;
 import forestry.factory.features.FactoryBlocks;
+import forestry.factory.recipes.CarpenterRecipe;
 import forestry.farming.blocks.EnumFarmBlockType;
 import forestry.farming.blocks.EnumFarmMaterial;
 import forestry.farming.features.FarmingBlocks;
 import forestry.lepidopterology.features.LepidopterologyItems;
-import forestry.lepidopterology.features.LepidopterologyRecipes;
+import forestry.lepidopterology.recipe.ButterflyMatingRecipe;
 import forestry.mail.blocks.BlockTypeMail;
 import forestry.mail.features.MailBlocks;
 import forestry.mail.features.MailItems;
@@ -60,39 +93,15 @@ import forestry.storage.features.BackpackItems;
 import forestry.storage.features.CrateItems;
 import forestry.storage.items.ItemCrated;
 import forestry.worktable.features.WorktableBlocks;
+
 import it.unimi.dsi.fastutil.objects.ObjectIntPair;
-import net.minecraft.Util;
-import net.minecraft.core.NonNullList;
-import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.data.recipes.RecipeCategory;
-import net.minecraft.data.recipes.ShapedRecipeBuilder;
-import net.minecraft.data.recipes.ShapelessRecipeBuilder;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.TagKey;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.level.ItemLike;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.level.material.Fluids;
-import net.minecraftforge.common.ForgeMod;
-import net.minecraftforge.common.Tags;
-import net.minecraftforge.common.crafting.StrictNBTIngredient;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidType;
-import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandlerItem;
+import net.neoforged.neoforge.common.NeoForgeMod;
+import net.neoforged.neoforge.common.Tags;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidUtil;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
 import thedarkcolour.modkit.data.MKRecipeProvider;
-
-import java.util.List;
-import java.util.function.Consumer;
-
 import static thedarkcolour.modkit.data.MKRecipeProvider.ingredient;
 import static thedarkcolour.modkit.data.MKRecipeProvider.path;
 
@@ -108,14 +117,14 @@ public class ForestryRecipeProvider {
 
 	public static ItemStack getContainer(EnumContainerType type, Fluid fluid) {
 		ItemStack container = FluidsItems.CONTAINERS.stack(type);
-		LazyOptional<IFluidHandlerItem> fluidHandlerCap = FluidUtil.getFluidHandler(container);
+		Optional<IFluidHandlerItem> fluidHandlerCap = FluidUtil.getFluidHandler(container);
 		return fluidHandlerCap.map(handler -> {
 			handler.fill(new FluidStack(fluid, Integer.MAX_VALUE), IFluidHandler.FluidAction.EXECUTE);
 			return container;
 		}).orElse(ItemStack.EMPTY);
 	}
 
-	public static void addRecipes(Consumer<FinishedRecipe> consumer, MKRecipeProvider recipes) {
+	public static void addRecipes(RecipeOutput consumer, MKRecipeProvider recipes) {
 		// Vanilla recipe types
 		registerArboricultureRecipes(recipes);
 		registerApicultureRecipes(recipes);
@@ -175,7 +184,7 @@ public class ForestryRecipeProvider {
 			recipe.define('#', goldElectronTube);
 			recipe.define('I', Tags.Items.INGOTS_IRON);
 			recipe.define('X', plain);
-			recipe.define('S', Tags.Items.STONE);
+			recipe.define('S', Tags.Items.STONES);
 			recipe.pattern("#I#");
 			recipe.pattern(" X ");
 			recipe.pattern("SSS");
@@ -183,7 +192,7 @@ public class ForestryRecipeProvider {
 		});
 
 		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, ApicultureBlocks.ALVEARY.get(BlockAlvearyType.HYGRO).block(), recipe -> {
-			recipe.define('G', Tags.Items.GLASS);
+			recipe.define('G', Tags.Items.GLASS_BLOCKS);
 			recipe.define('X', plain);
 			recipe.define('I', Tags.Items.INGOTS_IRON);
 			recipe.pattern("GIG");
@@ -272,7 +281,7 @@ public class ForestryRecipeProvider {
 		});
 
 		recipes.shapedCrafting(RecipeCategory.MISC, CoreBlocks.NATURALIST_CHEST.get(NaturalistChestBlockType.APIARIST_CHEST), recipe -> {
-			recipe.define('G', Tags.Items.GLASS);
+			recipe.define('G', Tags.Items.GLASS_BLOCKS);
 			recipe.define('X', ForestryTags.Items.BEE_COMBS);
 			recipe.define('Y', Tags.Items.CHESTS_WOODEN);
 			recipe.pattern(" G ");
@@ -293,7 +302,7 @@ public class ForestryRecipeProvider {
 
 		recipes.shapedCrafting(RecipeCategory.MISC, ApicultureItems.FRAME_IMPREGNATED, recipe -> {
 			recipe.define('#', CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.IMPREGNATED_STICK));
-			recipe.define('S', Tags.Items.STRING);
+			recipe.define('S', Tags.Items.STRINGS);
 			recipe.pattern("###");
 			recipe.pattern("#S#");
 			recipe.pattern("###");
@@ -301,7 +310,7 @@ public class ForestryRecipeProvider {
 
 		recipes.shapedCrafting(RecipeCategory.MISC, ApicultureItems.FRAME_UNTREATED, recipe -> {
 			recipe.define('#', Tags.Items.RODS_WOODEN);
-			recipe.define('S', Tags.Items.STRING);
+			recipe.define('S', Tags.Items.STRINGS);
 			recipe.pattern("###");
 			recipe.pattern("#S#");
 			recipe.pattern("###");
@@ -334,7 +343,7 @@ public class ForestryRecipeProvider {
 			recipe.define('#', ForestryTags.Items.INGOTS_TIN);
 			recipe.define('S', Tags.Items.RODS_WOODEN);
 			recipe.define('F', Items.FLINT_AND_STEEL);
-			recipe.define('L', Tags.Items.LEATHER);
+			recipe.define('L', Tags.Items.LEATHERS);
 			recipe.pattern("LS#");
 			recipe.pattern("LF#");
 			recipe.pattern("###");
@@ -382,7 +391,7 @@ public class ForestryRecipeProvider {
 		recipes.shapedCrafting(RecipeCategory.MISC, CoreBlocks.NATURALIST_CHEST.get(NaturalistChestBlockType.ARBORIST_CHEST), recipe -> {
 			recipe.define('X', ItemTags.SAPLINGS);
 			recipe.define('Y', Tags.Items.CHESTS_WOODEN);
-			recipe.define('#', Tags.Items.GLASS);
+			recipe.define('#', Tags.Items.GLASS_BLOCKS);
 			recipe.pattern(" # ");
 			recipe.pattern("XYX");
 			recipe.pattern("XXX");
@@ -501,7 +510,7 @@ public class ForestryRecipeProvider {
 		recipes.shapedCrafting(RecipeCategory.TOOLS, BackpackItems.ADVENTURER_BACKPACK, recipe -> {
 			recipe.define('#', ItemTags.WOOL);
 			recipe.define('V', Tags.Items.BONES);
-			recipe.define('X', Tags.Items.STRING);
+			recipe.define('X', Tags.Items.STRINGS);
 			recipe.define('Y', Tags.Items.CHESTS_WOODEN);
 			recipe.pattern("X#X");
 			recipe.pattern("VYV");
@@ -511,7 +520,7 @@ public class ForestryRecipeProvider {
 		recipes.shapedCrafting(RecipeCategory.TOOLS, BackpackItems.BUILDER_BACKPACK, recipe -> {
 			recipe.define('#', ItemTags.WOOL);
 			recipe.define('V', Items.CLAY_BALL);
-			recipe.define('X', Tags.Items.STRING);
+			recipe.define('X', Tags.Items.STRINGS);
 			recipe.define('Y', Tags.Items.CHESTS_WOODEN);
 			recipe.pattern("X#X");
 			recipe.pattern("VYV");
@@ -520,8 +529,8 @@ public class ForestryRecipeProvider {
 
 		recipes.shapedCrafting(RecipeCategory.TOOLS, BackpackItems.DIGGER_BACKPACK, recipe -> {
 			recipe.define('#', ItemTags.WOOL);
-			recipe.define('V', Tags.Items.STONE);
-			recipe.define('X', Tags.Items.STRING);
+			recipe.define('V', Tags.Items.STONES);
+			recipe.define('X', Tags.Items.STRINGS);
 			recipe.define('Y', Tags.Items.CHESTS_WOODEN);
 			recipe.pattern("X#X");
 			recipe.pattern("VYV");
@@ -531,7 +540,7 @@ public class ForestryRecipeProvider {
 		recipes.shapedCrafting(RecipeCategory.TOOLS, BackpackItems.FORESTER_BACKPACK, recipe -> {
 			recipe.define('#', ItemTags.WOOL);
 			recipe.define('V', ItemTags.LOGS);
-			recipe.define('X', Tags.Items.STRING);
+			recipe.define('X', Tags.Items.STRINGS);
 			recipe.define('Y', Tags.Items.CHESTS_WOODEN);
 			recipe.pattern("X#X");
 			recipe.pattern("VYV");
@@ -541,7 +550,7 @@ public class ForestryRecipeProvider {
 		recipes.shapedCrafting(RecipeCategory.TOOLS, BackpackItems.HUNTER_BACKPACK, recipe -> {
 			recipe.define('#', ItemTags.WOOL);
 			recipe.define('V', Tags.Items.FEATHERS);
-			recipe.define('X', Tags.Items.STRING);
+			recipe.define('X', Tags.Items.STRINGS);
 			recipe.define('Y', Tags.Items.CHESTS_WOODEN);
 			recipe.pattern("X#X");
 			recipe.pattern("VYV");
@@ -551,7 +560,7 @@ public class ForestryRecipeProvider {
 		recipes.shapedCrafting(RecipeCategory.TOOLS, BackpackItems.MINER_BACKPACK, recipe -> {
 			recipe.define('#', ItemTags.WOOL);
 			recipe.define('V', Tags.Items.INGOTS_IRON);
-			recipe.define('X', Tags.Items.STRING);
+			recipe.define('X', Tags.Items.STRINGS);
 			recipe.define('Y', Tags.Items.CHESTS_WOODEN);
 			recipe.pattern("X#X");
 			recipe.pattern("VYV");
@@ -568,7 +577,7 @@ public class ForestryRecipeProvider {
 		recipes.shapedCrafting(RecipeCategory.TOOLS, backpack, recipe -> {
 			recipe.define('#', ItemTags.WOOL);
 			recipe.define('V', Tags.Items.RODS_WOODEN);
-			recipe.define('X', Tags.Items.STRING);
+			recipe.define('X', Tags.Items.STRINGS);
 			recipe.define('Y', chest);
 			recipe.pattern("X#X");
 			recipe.pattern("VYV");
@@ -784,7 +793,7 @@ public class ForestryRecipeProvider {
 		});
 
 		recipes.shapedCrafting("beeswax_candles", RecipeCategory.MISC, Items.CANDLE, 1, recipe -> {
-			recipe.define('|', Tags.Items.STRING);
+			recipe.define('|', Tags.Items.STRINGS);
 			recipe.define('^', CoreItems.BEESWAX);
 			recipe.pattern(" | ");
 			recipe.pattern(" ^ ");
@@ -838,7 +847,7 @@ public class ForestryRecipeProvider {
 			Block manual = CultivationBlocks.MANUAL_PLANTER.get(planter).block();
 
 			recipes.shapedCrafting(RecipeCategory.MISC, managed, recipe -> {
-				recipe.define('G', Tags.Items.GLASS);
+				recipe.define('G', Tags.Items.GLASS_BLOCKS);
 				recipe.define('T', CoreItems.ELECTRON_TUBES.get(getElectronTube(planter)));
 				recipe.define('C', CoreItems.FLEXIBLE_CASING);
 				recipe.define('B', CoreItems.CIRCUITBOARDS.get(EnumCircuitBoardType.BASIC));
@@ -853,7 +862,7 @@ public class ForestryRecipeProvider {
 
 	private static void registerFactoryRecipes(MKRecipeProvider recipes) {
 		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.TESR.get(BlockTypeFactoryTesr.BOTTLER).block(), recipe -> {
-			recipe.define('#', Tags.Items.GLASS);
+			recipe.define('#', Tags.Items.GLASS_BLOCKS);
 			recipe.define('X', FluidsItems.CONTAINERS.get(EnumContainerType.CAN));
 			recipe.define('Y', CoreItems.STURDY_CASING);
 			recipe.pattern("X#X");
@@ -862,7 +871,7 @@ public class ForestryRecipeProvider {
 		});
 
 		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.TESR.get(BlockTypeFactoryTesr.CARPENTER).block(), recipe -> {
-			recipe.define('#', Tags.Items.GLASS);
+			recipe.define('#', Tags.Items.GLASS_BLOCKS);
 			recipe.define('X', ForestryTags.Items.INGOTS_BRONZE);
 			recipe.define('Y', CoreItems.STURDY_CASING);
 			recipe.pattern("X#X");
@@ -871,7 +880,7 @@ public class ForestryRecipeProvider {
 		});
 
 		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.TESR.get(BlockTypeFactoryTesr.CENTRIFUGE).block(), recipe -> {
-			recipe.define('#', Tags.Items.GLASS);
+			recipe.define('#', Tags.Items.GLASS_BLOCKS);
 			recipe.define('X', Items.COPPER_INGOT);
 			recipe.define('Y', CoreItems.STURDY_CASING);
 			recipe.pattern("X#X");
@@ -880,7 +889,7 @@ public class ForestryRecipeProvider {
 		});
 
 		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.FABRICATOR).block(), recipe -> {
-			recipe.define('#', Tags.Items.GLASS);
+			recipe.define('#', Tags.Items.GLASS_BLOCKS);
 			recipe.define('X', Tags.Items.INGOTS_GOLD);
 			recipe.define('Y', CoreItems.STURDY_CASING);
 			recipe.define('Z', Tags.Items.CHESTS_WOODEN);
@@ -890,7 +899,7 @@ public class ForestryRecipeProvider {
 		});
 
 		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.TESR.get(BlockTypeFactoryTesr.FERMENTER).block(), recipe -> {
-			recipe.define('#', Tags.Items.GLASS);
+			recipe.define('#', Tags.Items.GLASS_BLOCKS);
 			recipe.define('X', ForestryTags.Items.GEARS_BRONZE);
 			recipe.define('Y', CoreItems.STURDY_CASING);
 			recipe.pattern("X#X");
@@ -899,7 +908,7 @@ public class ForestryRecipeProvider {
 		});
 
 		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.TESR.get(BlockTypeFactoryTesr.MOISTENER).block(), recipe -> {
-			recipe.define('#', Tags.Items.GLASS);
+			recipe.define('#', Tags.Items.GLASS_BLOCKS);
 			recipe.define('X', ForestryTags.Items.GEARS_COPPER);
 			recipe.define('Y', CoreItems.STURDY_CASING);
 			recipe.pattern("X#X");
@@ -908,7 +917,7 @@ public class ForestryRecipeProvider {
 		});
 
 		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.TESR.get(BlockTypeFactoryTesr.RAINMAKER).block(), recipe -> {
-			recipe.define('#', Tags.Items.GLASS);
+			recipe.define('#', Tags.Items.GLASS_BLOCKS);
 			recipe.define('X', ForestryTags.Items.GEARS_TIN);
 			recipe.define('Y', CoreItems.STURDY_CASING);
 			recipe.pattern("X#X");
@@ -917,7 +926,7 @@ public class ForestryRecipeProvider {
 		});
 
 		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.RAINTANK).block(), recipe -> {
-			recipe.define('#', Tags.Items.GLASS);
+			recipe.define('#', Tags.Items.GLASS_BLOCKS);
 			recipe.define('X', Tags.Items.INGOTS_IRON);
 			recipe.define('Y', CoreItems.STURDY_CASING);
 			recipe.pattern("X#X");
@@ -926,7 +935,7 @@ public class ForestryRecipeProvider {
 		});
 
 		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.TESR.get(BlockTypeFactoryTesr.SQUEEZER).block(), recipe -> {
-			recipe.define('#', Tags.Items.GLASS);
+			recipe.define('#', Tags.Items.GLASS_BLOCKS);
 			recipe.define('X', ForestryTags.Items.INGOTS_TIN);
 			recipe.define('Y', CoreItems.STURDY_CASING);
 			recipe.pattern("X#X");
@@ -935,7 +944,7 @@ public class ForestryRecipeProvider {
 		});
 
 		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.TESR.get(BlockTypeFactoryTesr.STILL).block(), recipe -> {
-			recipe.define('#', Tags.Items.GLASS);
+			recipe.define('#', Tags.Items.GLASS_BLOCKS);
 			recipe.define('X', Tags.Items.DUSTS_REDSTONE);
 			recipe.define('Y', CoreItems.STURDY_CASING);
 			recipe.pattern("X#X");
@@ -971,7 +980,7 @@ public class ForestryRecipeProvider {
 			recipes.shapedCrafting(RecipeCategory.MISC, FarmingBlocks.FARM.get(EnumFarmBlockType.VALVE, material), recipe -> {
 				recipe.define('T', ForestryTags.Items.GEARS_TIN);
 				recipe.define('#', base);
-				recipe.define('X', Tags.Items.GLASS);
+				recipe.define('X', Tags.Items.GLASS_BLOCKS);
 				recipe.pattern(" # ");
 				recipe.pattern("XTX");
 			});
@@ -988,7 +997,7 @@ public class ForestryRecipeProvider {
 	private static void registerFluidsRecipes(MKRecipeProvider recipes) {
 		for (EnumContainerType containerType : EnumContainerType.values()) {
 			recipes.shapedCrafting("cake_" + containerType.getSerializedName(), RecipeCategory.FOOD, Items.CAKE, recipe -> {
-				recipe.define('A', StrictNBTIngredient.of(getContainer(containerType, ForgeMod.MILK.get())));
+				recipe.define('A', StrictNBTIngredient.of(getContainer(containerType, NeoForgeMod.MILK.get())));
 				recipe.define('B', Items.SUGAR);
 				recipe.define('C', Items.WHEAT);
 				recipe.define('E', Items.EGG);
@@ -1001,19 +1010,19 @@ public class ForestryRecipeProvider {
 
 	private static void registerLepidopterologyRecipes(MKRecipeProvider recipes) {
 		recipes.shapedCrafting(RecipeCategory.MISC, CoreBlocks.NATURALIST_CHEST.get(NaturalistChestBlockType.LEPIDOPTERIST_CHEST), recipe -> {
-			recipe.define('#', Tags.Items.GLASS);
+			recipe.define('#', Tags.Items.GLASS_BLOCKS);
 			recipe.define('X', LepidopterologyItems.BUTTERFLY_GE);
 			recipe.define('Y', Tags.Items.CHESTS_WOODEN);
 			recipe.pattern(" # ");
 			recipe.pattern("XYX");
 			recipe.pattern("XXX");
 		});
-		recipes.special("butterfly_mating", LepidopterologyRecipes.MATING_SERIALIZER);
+		recipes.special("butterfly_mating", ButterflyMatingRecipe::new);
 	}
 
 	private static void registerMailRecipes(MKRecipeProvider recipes) {
 		recipes.shapelessCrafting(RecipeCategory.MISC, MailItems.CATALOGUE, 1, Items.BOOK, ForestryTags.Items.STAMPS);
-		Ingredient sealant = Ingredient.merge(List.of(Ingredient.of(ForestryTags.Items.PROPOLIS), Ingredient.of(Tags.Items.SLIMEBALLS)));
+		Ingredient sealant = Ingredient.fromValues(Stream.of(new Ingredient.TagValue(ForestryTags.Items.PROPOLIS), new Ingredient.TagValue(Tags.Items.SLIMEBALLS)));
 		recipes.shapelessCrafting(RecipeCategory.MISC, MailItems.LETTERS.get(ItemLetter.Size.EMPTY, ItemLetter.State.FRESH), 1, Items.PAPER, sealant);
 
 		recipes.shapedCrafting(RecipeCategory.MISC, MailBlocks.BASE.get(BlockTypeMail.MAILBOX).block(), recipe -> {
@@ -1025,11 +1034,9 @@ public class ForestryRecipeProvider {
 			recipe.pattern("XXX");
 		});
 
-		Item[] emptiedLetter = MailItems.LETTERS.getRowFeatures(ItemLetter.Size.EMPTY).stream()
-			.map(FeatureItem::item)
-			.toArray(Item[]::new);
+		Ingredient emptiedLetter = Ingredient.fromValues(MailItems.LETTERS.getRowFeatures(ItemLetter.Size.EMPTY).stream().map(feature -> new Ingredient.ItemValue(feature.stack())));
 		recipes.shapedCrafting("paper_from_letters", RecipeCategory.MISC, Items.PAPER, recipe -> {
-			recipe.define('#', Ingredient.of(emptiedLetter));
+			recipe.define('#', emptiedLetter);
 			recipe.pattern(" # ");
 			recipe.pattern(" # ");
 			recipe.pattern(" # ");
@@ -1046,9 +1053,9 @@ public class ForestryRecipeProvider {
 			recipe.pattern("XWX");
 		});
 
-		Ingredient glue = Ingredient.merge(List.of(
-			Ingredient.of(ForestryTags.Items.DROP_HONEY),
-			Ingredient.of(Items.SLIME_BALL)
+		Ingredient glue = Ingredient.fromValues(Stream.of(
+			new Ingredient.TagValue(ForestryTags.Items.DROP_HONEY),
+			new Ingredient.TagValue(Tags.Items.SLIME_BALLS)
 		));
 
 		for (EnumStampDefinition stampDefinition : EnumStampDefinition.VALUES) {
@@ -1064,7 +1071,11 @@ public class ForestryRecipeProvider {
 	}
 
 	private static void registerSortingRecipes(MKRecipeProvider recipes) {
-		Ingredient ing = Ingredient.merge(List.of(Ingredient.of(LepidopterologyItems.CATERPILLAR_GE, ApicultureItems.PROPOLIS.get(EnumPropolis.NORMAL)), Ingredient.of(ForestryTags.Items.FORESTRY_FRUITS)));
+		Ingredient ing = Ingredient.fromValues(Stream.of(
+			new Ingredient.ItemValue(LepidopterologyItems.CATERPILLAR_GE.stack()),
+			new Ingredient.ItemValue(ApicultureItems.PROPOLIS.stack(EnumPropolis.NORMAL)),
+			new Ingredient.TagValue(ForestryTags.Items.FORESTRY_FRUITS)
+		));
 
 		recipes.shapedCrafting(RecipeCategory.MISC, SortingBlocks.FILTER.block(), 2, recipe -> {
 			recipe.define('B', ForestryTags.Items.GEARS_BRONZE);
@@ -1092,7 +1103,7 @@ public class ForestryRecipeProvider {
 	private static void registerEnergyRecipes(MKRecipeProvider recipes) {
 		recipes.shapedCrafting(RecipeCategory.MISC, EnergyBlocks.ENGINES.get(EngineBlockType.CLOCKWORK), recipe -> {
 			recipe.define('P', ItemTags.PLANKS);
-			recipe.define('I', Tags.Items.GLASS);
+			recipe.define('I', Tags.Items.GLASS_BLOCKS);
 			recipe.define('Q', ForestryTags.Items.GEARS_COPPER);
 			recipe.define('D', Items.PISTON);
 			recipe.define('C', Items.CLOCK);
@@ -1103,7 +1114,7 @@ public class ForestryRecipeProvider {
 
 		recipes.shapedCrafting(RecipeCategory.MISC, EnergyBlocks.ENGINES.get(EngineBlockType.BIOGAS), recipe -> {
 			recipe.define('P', ForestryTags.Items.INGOTS_BRONZE);
-			recipe.define('I', Tags.Items.GLASS);
+			recipe.define('I', Tags.Items.GLASS_BLOCKS);
 			recipe.define('Q', ForestryTags.Items.GEARS_BRONZE);
 			recipe.define('D', Items.PISTON);
 			recipe.pattern("PPP");
@@ -1113,7 +1124,7 @@ public class ForestryRecipeProvider {
 
 		recipes.shapedCrafting(RecipeCategory.MISC, EnergyBlocks.ENGINES.get(EngineBlockType.PEAT), recipe -> {
 			recipe.define('P', Tags.Items.INGOTS_COPPER);
-			recipe.define('I', Tags.Items.GLASS);
+			recipe.define('I', Tags.Items.GLASS_BLOCKS);
 			recipe.define('Q', ForestryTags.Items.GEARS_COPPER);
 			recipe.define('D', Items.PISTON);
 			recipe.pattern("PPP");
@@ -1122,7 +1133,8 @@ public class ForestryRecipeProvider {
 		});
 	}
 
-	private static void registerCarpenter(Consumer<FinishedRecipe> consumer) {
+	private static void registerCarpenter(RecipeOutput consumer) {
+		consumer.accept(new CarpenterRecipe());
 		new CarpenterRecipeBuilder()
 			.setPackagingTime(50)
 			.setLiquid(ForestryFluids.SEED_OIL.getFluid(250))
@@ -1176,7 +1188,7 @@ public class ForestryRecipeProvider {
 				.pattern("XYX")
 				.pattern("#X#")
 				.define('#', Items.DIRT)
-				.define('X', Tags.Items.SAND)
+				.define('X', Tags.Items.SANDS)
 				.define('Y', CoreItems.MULCH))
 			.build(consumer, id("carpenter", "bog_earth"));
 		new CarpenterRecipeBuilder()
@@ -1501,7 +1513,7 @@ public class ForestryRecipeProvider {
 		wovenBackpack(consumer, "builder", BackpackItems.BUILDER_BACKPACK, BackpackItems.BUILDER_BACKPACK_T_2);
 	}
 
-	private static void wovenBackpack(Consumer<FinishedRecipe> consumer, String id, FeatureItem<?> tier1, FeatureItem<?> tier2) {
+	private static void wovenBackpack(RecipeOutput consumer, String id, FeatureItem<?> tier1, FeatureItem<?> tier2) {
 		new CarpenterRecipeBuilder()
 			.setPackagingTime(200)
 			.setLiquid(new FluidStack(Fluids.WATER, 1000))
@@ -1516,7 +1528,7 @@ public class ForestryRecipeProvider {
 			.build(consumer, id("woven_backpack", id));
 	}
 
-	private static void crate(Consumer<FinishedRecipe> consumer, ItemCrated crated, Ingredient ingredient) {
+	private static void crate(RecipeOutput consumer, ItemCrated crated, Ingredient ingredient) {
 		ItemStack contained = crated.getContained();
 		ResourceLocation name = ModUtil.getRegistryName(contained.getItem());
 
@@ -1537,7 +1549,7 @@ public class ForestryRecipeProvider {
 			.build(consumer, id("carpenter", "crates", "unpack", name.getNamespace(), name.getPath()));
 	}
 
-	private static void registerCentrifuge(Consumer<FinishedRecipe> consumer) {
+	private static void registerCentrifuge(RecipeOutput consumer) {
 
 		ItemStack honeyDrop = ApicultureItems.HONEY_DROP.stack();
 
@@ -1658,7 +1670,7 @@ public class ForestryRecipeProvider {
 			.build(consumer, id("centrifuge", "comb_to_wax"));
 	}
 
-	private static void registerFabricator(Consumer<FinishedRecipe> consumer) {
+	private static void registerFabricator(RecipeOutput consumer) {
 		FluidStack liquidGlass = ForestryFluids.GLASS.getFluid(500);
 
 		new FabricatorRecipeBuilder()
@@ -1802,7 +1814,7 @@ public class ForestryRecipeProvider {
 		}
 	}
 
-	private static void addFireproofRecipes(Consumer<FinishedRecipe> consumer, IWoodType type) {
+	private static void addFireproofRecipes(RecipeOutput consumer, IWoodType type) {
 		FluidStack liquidGlass = ForestryFluids.GLASS.getFluid(500);
 
 		List<WoodBlockKind> logLike = List.of(WoodBlockKind.LOG, WoodBlockKind.WOOD, WoodBlockKind.STRIPPED_LOG, WoodBlockKind.STRIPPED_WOOD);
@@ -1836,7 +1848,7 @@ public class ForestryRecipeProvider {
 			.build(consumer, id("fabricator", "fireproof", "planks", type.toString()));
 	}
 
-	private static void registerFabricatorSmelting(Consumer<FinishedRecipe> consumer) {
+	private static void registerFabricatorSmelting(RecipeOutput consumer) {
 		FluidStack liquidGlassBucket = ForestryFluids.GLASS.getFluid(FluidType.BUCKET_VOLUME);
 		FluidStack liquidGlassX4 = ForestryFluids.GLASS.getFluid(FluidType.BUCKET_VOLUME * 4);
 		FluidStack liquidGlass375 = ForestryFluids.GLASS.getFluid(375);
@@ -1863,7 +1875,7 @@ public class ForestryRecipeProvider {
 			.build(consumer, id("fabricator", "smelting", "sandstone"));
 	}
 
-	private static void registerFermenter(Consumer<FinishedRecipe> consumer) {
+	private static void registerFermenter(RecipeOutput consumer) {
 		// Apiculture
 		new FermenterRecipeBuilder()
 			.setResource(Ingredient.of(ApicultureItems.HONEYDEW))
@@ -1881,7 +1893,7 @@ public class ForestryRecipeProvider {
 		addFermenterRecipes(consumer, "mushroom", Ingredient.of(Tags.Items.MUSHROOMS), 50, ForestryFluids.BIOMASS);
 	}
 
-	private static void addFermenterRecipes(Consumer<FinishedRecipe> writer, String name, Ingredient resource, int fermentationValue, ForestryFluids output) {
+	private static void addFermenterRecipes(RecipeOutput writer, String name, Ingredient resource, int fermentationValue, ForestryFluids output) {
 		Fluid outputFluid = output.getFluid();
 
 		new FermenterRecipeBuilder()
@@ -1906,7 +1918,7 @@ public class ForestryRecipeProvider {
 			.build(writer, id("fermenter", name + "_honey"));
 	}
 
-	private static void registerHygroregulator(Consumer<FinishedRecipe> consumer) {
+	private static void registerHygroregulator(RecipeOutput consumer) {
 		new HygroregulatorRecipeBuilder()
 			.setLiquid(new FluidStack(Fluids.WATER, 1))
 			.setTemperatureSteps(-1)
@@ -1925,7 +1937,7 @@ public class ForestryRecipeProvider {
 			.build(consumer, id("hygroregulator", "ice"));
 	}
 
-	private static void registerMoistener(Consumer<FinishedRecipe> consumer) {
+	private static void registerMoistener(RecipeOutput consumer) {
 		new MoistenerRecipeBuilder()
 			.setResource(Ingredient.of(Items.WHEAT_SEEDS))
 			.setProduct(new ItemStack(Items.MYCELIUM))
@@ -1948,7 +1960,7 @@ public class ForestryRecipeProvider {
 			.build(consumer, id("moistener", "podzol"));
 	}
 
-	private static void registerSqueezerContainer(Consumer<FinishedRecipe> consumer) {
+	private static void registerSqueezerContainer(RecipeOutput consumer) {
 		new SqueezerContainerRecipeBuilder()
 			.setProcessingTime(10)
 			.setEmptyContainer(FluidsItems.CONTAINERS.stack(EnumContainerType.CAN))
@@ -1969,7 +1981,7 @@ public class ForestryRecipeProvider {
 			.build(consumer, id("squeezer", "container", "refractory"));
 	}
 
-	private static void registerSqueezer(Consumer<FinishedRecipe> consumer) {
+	private static void registerSqueezer(RecipeOutput consumer) {
 		FluidStack honeyDropFluid = ForestryFluids.HONEY.getFluid(Constants.FLUID_PER_HONEY_DROP);
 		FluidStack honeyBlockFluid = ForestryFluids.HONEY.getFluid(Constants.FLUID_PER_HONEY_DROP * 8);
 
@@ -2119,7 +2131,7 @@ public class ForestryRecipeProvider {
 			.build(consumer, id("squeezer", "fruit", "dates"));
 	}
 
-	private static void registerStill(Consumer<FinishedRecipe> consumer) {
+	private static void registerStill(RecipeOutput consumer) {
 		FluidStack biomass = ForestryFluids.BIOMASS.getFluid(STILL_DESTILLATION_INPUT);
 		FluidStack ethanol = ForestryFluids.BIO_ETHANOL.getFluid(STILL_DESTILLATION_OUTPUT);
 

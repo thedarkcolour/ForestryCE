@@ -11,7 +11,7 @@
 package forestry.factory.inventory;
 
 import forestry.api.fuels.FuelManager;
-import forestry.api.fuels.RainSubstrate;
+import forestry.api.fuels.RainmakerFuel;
 import forestry.core.inventory.InventoryAdapterTile;
 import forestry.factory.tiles.TileMillRainmaker;
 import net.minecraft.world.item.ItemStack;
@@ -27,7 +27,7 @@ public class InventoryRainmaker extends InventoryAdapterTile<TileMillRainmaker> 
 	public boolean canSlotAccept(int slotIndex, ItemStack stack) {
 		if (slotIndex == SLOT_SUBSTRATE) {
 			if (FuelManager.rainSubstrate.containsKey(stack) && this.tile.charge == 0 && this.tile.progress == 0) {
-				RainSubstrate substrate = FuelManager.rainSubstrate.get(stack);
+				RainmakerFuel substrate = FuelManager.rainSubstrate.get(stack);
 				if (this.tile.getLevel().isRaining() && substrate.reverse()) {
 					return true;
 				} else {
@@ -42,7 +42,7 @@ public class InventoryRainmaker extends InventoryAdapterTile<TileMillRainmaker> 
 	@Override
 	public void setItem(int slotIndex, ItemStack itemStack) {
 		if (slotIndex == SLOT_SUBSTRATE) {
-			RainSubstrate substrate = FuelManager.rainSubstrate.get(itemStack);
+			RainmakerFuel substrate = FuelManager.rainSubstrate.get(itemStack);
 			if (substrate != null && ItemStack.isSameItem(substrate.item(), itemStack)) {
                 this.tile.addCharge(substrate);
 			}

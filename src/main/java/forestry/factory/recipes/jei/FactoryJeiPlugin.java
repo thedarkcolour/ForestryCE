@@ -1,7 +1,7 @@
 package forestry.factory.recipes.jei;
 
 import forestry.api.fuels.FuelManager;
-import forestry.api.fuels.RainSubstrate;
+import forestry.api.fuels.RainmakerFuel;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.core.ClientsideCode;
 import forestry.core.features.FluidsItems;
@@ -10,7 +10,7 @@ import forestry.core.gui.widgets.TankWidget;
 import forestry.core.recipes.jei.ForestryRecipeType;
 import forestry.core.utils.JeiUtil;
 import forestry.core.utils.ModUtil;
-import forestry.core.utils.RecipeUtils;
+import forestry.core.utils.RecipeUtil;
 import forestry.factory.blocks.BlockFactoryPlain;
 import forestry.factory.blocks.BlockTypeFactoryPlain;
 import forestry.factory.blocks.BlockTypeFactoryTesr;
@@ -81,16 +81,16 @@ public class FactoryJeiPlugin implements IModPlugin {
 	public void registerRecipes(IRecipeRegistration registry) {
 		RecipeManager manager = ClientsideCode.getRecipeManager();
 
-		registry.addRecipes(ForestryRecipeType.CARPENTER, RecipeUtils.getRecipes(manager, FactoryRecipeTypes.CARPENTER).toList());
-		registry.addRecipes(ForestryRecipeType.CENTRIFUGE, RecipeUtils.getRecipes(manager, FactoryRecipeTypes.CENTRIFUGE).toList());
-		registry.addRecipes(ForestryRecipeType.FABRICATOR, RecipeUtils.getRecipes(manager, FactoryRecipeTypes.FABRICATOR).toList());
-		registry.addRecipes(ForestryRecipeType.FERMENTER, RecipeUtils.getRecipes(manager, FactoryRecipeTypes.FERMENTER).toList());
-		registry.addRecipes(ForestryRecipeType.MOISTENER, RecipeUtils.getRecipes(manager, FactoryRecipeTypes.MOISTENER).toList());
+		registry.addRecipes(ForestryRecipeType.CARPENTER, RecipeUtil.getRecipes(manager, FactoryRecipeTypes.CARPENTER).toList());
+		registry.addRecipes(ForestryRecipeType.CENTRIFUGE, RecipeUtil.getRecipes(manager, FactoryRecipeTypes.CENTRIFUGE).toList());
+		registry.addRecipes(ForestryRecipeType.FABRICATOR, RecipeUtil.getRecipes(manager, FactoryRecipeTypes.FABRICATOR).toList());
+		registry.addRecipes(ForestryRecipeType.FERMENTER, RecipeUtil.getRecipes(manager, FactoryRecipeTypes.FERMENTER).toList());
+		registry.addRecipes(ForestryRecipeType.MOISTENER, RecipeUtil.getRecipes(manager, FactoryRecipeTypes.MOISTENER).toList());
 		registry.addRecipes(ForestryRecipeType.RAINMAKER, FuelManager.rainSubstrate.values().stream()
-			.sorted(Comparator.comparing(RainSubstrate::duration))
+			.sorted(Comparator.comparing(RainmakerFuel::duration))
 			.toList());
-		registry.addRecipes(ForestryRecipeType.SQUEEZER, RecipeUtils.getRecipes(manager, FactoryRecipeTypes.SQUEEZER).toList());
-		registry.addRecipes(ForestryRecipeType.STILL, RecipeUtils.getRecipes(manager, FactoryRecipeTypes.STILL).toList());
+		registry.addRecipes(ForestryRecipeType.SQUEEZER, RecipeUtil.getRecipes(manager, FactoryRecipeTypes.SQUEEZER).toList());
+		registry.addRecipes(ForestryRecipeType.STILL, RecipeUtil.getRecipes(manager, FactoryRecipeTypes.STILL).toList());
 
 		BlockFactoryPlain rainTank = FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.RAINTANK).block();
 		JeiUtil.addDescription(registry, rainTank);

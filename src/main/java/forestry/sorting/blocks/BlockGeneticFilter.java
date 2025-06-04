@@ -44,8 +44,7 @@ public class BlockGeneticFilter extends BlockForestry implements EntityBlock {
 		super(Block.Properties.of()
 				.strength(0.25f, 3.0f)
 				.dynamicShape()
-				.noOcclusion(),
-			false
+				.noOcclusion()
 		);
 		this.registerDefaultState(this.getStateDefinition().any()
 			.setValue(NORTH, false)

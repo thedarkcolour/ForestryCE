@@ -13,7 +13,6 @@ public class ForestryModuleIds {
 	public static final ResourceLocation ENERGY = ForestryConstants.forestry("energy");
 	public static final ResourceLocation FACTORY = ForestryConstants.forestry("factory");
 	public static final ResourceLocation FARMING = ForestryConstants.forestry("farming");
-	public static final ResourceLocation FLUIDS = ForestryConstants.forestry("fluids");
 	public static final ResourceLocation LEPIDOPTEROLOGY = ForestryConstants.forestry("lepidopterology");
 	public static final ResourceLocation MAIL = ForestryConstants.forestry("mail");
 	public static final ResourceLocation STORAGE = ForestryConstants.forestry("storage");

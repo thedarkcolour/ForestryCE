@@ -1,8 +1,6 @@
 package forestry.core.circuits;
 
-import forestry.api.circuits.ICircuitLayout;
 import forestry.api.modules.IForestryPacketClient;
-import forestry.api.modules.IForestryPacketServer;
 import forestry.core.features.CoreMenuTypes;
 import forestry.core.gui.ContainerItemInventory;
 import forestry.core.gui.IGuiSelectable;
@@ -10,7 +8,7 @@ import forestry.core.gui.slots.SlotFiltered;
 import forestry.core.gui.slots.SlotOutput;
 import forestry.core.inventory.ItemInventorySolderingIron;
 import forestry.core.network.packets.PacketGuiLayoutSelect;
-import forestry.core.network.packets.PacketGuiSelectRequest;
+import forestry.core.utils.NetworkUtil;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -55,8 +53,7 @@ public class ContainerSolderingIron extends ContainerItemInventory<ItemInventory
 	}
 
 	private static void sendSelectionChange(int index, int advance) {
-		IForestryPacketServer packet = new PacketGuiSelectRequest(index, advance);
-		PacketDistributor.sendToServer(packet);
+		NetworkUtil.sendRecipeClick(index, advance);
 	}
 
 	@Override
@@ -69,7 +66,7 @@ public class ContainerSolderingIron extends ContainerItemInventory<ItemInventory
             this.inventory.regressLayout();
 		}
 
-		IForestryPacketClient packetResponse = new PacketGuiLayoutSelect(this.inventory.getLayout().getId());
+		IForestryPacketClient packetResponse = new PacketGuiLayoutSelect(this.inventory.getLayout().id());
         PacketDistributor.sendToPlayer(player, packetResponse);
     }
 

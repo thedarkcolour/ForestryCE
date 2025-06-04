@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.core.tiles;
 
 import net.minecraft.core.BlockPos;
@@ -30,10 +20,10 @@ import java.util.function.Consumer;
 public abstract class TileUtil {
 	public static boolean isUsableByPlayer(Player player, BlockEntity tile) {
 		BlockPos pos = tile.getBlockPos();
-		Level world = tile.getLevel();
+		Level level = tile.getLevel();
 
 		return !tile.isRemoved() &&
-			getTile(world, pos) == tile &&
+			getTile(level, pos) == tile &&
 			player.distanceToSqr(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D) <= 64.0D;
 	}
 
@@ -51,8 +41,8 @@ public abstract class TileUtil {
 	 * Avoids creating new tile entities when using a ChunkCache (off the main thread).
 	 */
 	@Nullable
-	public static <T> T getTile(BlockGetter world, BlockPos pos, Class<T> tileClass) {
-		BlockEntity tileEntity = getTile(world, pos);
+	public static <T> T getTile(BlockGetter level, BlockPos pos, Class<T> tileClass) {
+		BlockEntity tileEntity = getTile(level, pos);
 		if (tileClass.isInstance(tileEntity)) {
 			return tileClass.cast(tileEntity);
 		} else {
@@ -61,16 +51,16 @@ public abstract class TileUtil {
 	}
 
 	@Nullable
-	public static <T> T getTile(BlockEntity tileEntity, Class<T> tileClass) {
-		if (tileClass.isInstance(tileEntity)) {
-			return tileClass.cast(tileEntity);
+	public static <T> T getTile(BlockEntity tile, Class<T> tileClass) {
+		if (tileClass.isInstance(tile)) {
+			return tileClass.cast(tile);
 		} else {
 			return null;
 		}
 	}
 
-	public static <T> void actOnTile(LevelReader world, BlockPos pos, Class<T> tileClass, Consumer<T> tileAction) {
-		T tile = getTile(world, pos, tileClass);
+	public static <T> void actOnTile(LevelReader level, BlockPos pos, Class<T> tileClass, Consumer<T> tileAction) {
+		T tile = getTile(level, pos, tileClass);
 		if (tile != null) {
 			tileAction.accept(tile);
 		}

@@ -26,6 +26,7 @@ public class MachineProperties<T extends TileForestry> implements IMachineProper
 	private final IForestryTicker<? extends T> clientTicker;
 	@Nullable
 	private final IForestryTicker<? extends T> serverTicker;
+
 	@Nullable
 	private Block block;
 

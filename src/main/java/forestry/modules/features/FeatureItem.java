@@ -1,16 +1,18 @@
 package forestry.modules.features;
 
+import java.util.function.Supplier;
+
+import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.registries.RegistryObject;
 
-import java.util.function.Supplier;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class FeatureItem<I extends Item> extends ModFeature implements IItemFeature<I> {
-	private final RegistryObject<I> itemObject;
+	private final DeferredHolder<Item, I> itemObject;
 
 	public FeatureItem(IFeatureRegistry registry, ResourceLocation moduleId, String identifier, Supplier<I> constructor) {
 		super(moduleId, identifier);
@@ -25,5 +27,10 @@ public class FeatureItem<I extends Item> extends ModFeature implements IItemFeat
 	@Override
 	public I item() {
 		return this.itemObject.get();
+	}
+
+	@Override
+	public Holder<Item> holder() {
+		return this.itemObject;
 	}
 }

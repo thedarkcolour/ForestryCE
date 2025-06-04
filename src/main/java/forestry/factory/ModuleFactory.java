@@ -14,14 +14,13 @@ import forestry.api.client.IClientModuleHandler;
 import forestry.api.fuels.FermenterFuel;
 import forestry.api.fuels.FuelManager;
 import forestry.api.fuels.MoistenerFuel;
-import forestry.api.fuels.RainSubstrate;
+import forestry.api.fuels.RainmakerFuel;
 import forestry.api.modules.ForestryModule;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.core.config.Preference;
 import forestry.core.features.CoreItems;
 import forestry.core.network.PacketIdClient;
 import forestry.core.network.PacketIdServer;
-import forestry.core.utils.datastructures.ItemStackMap;
 import forestry.factory.client.FactoryClientHandler;
 import forestry.factory.network.packets.PacketRecipeTransferRequest;
 import forestry.factory.network.packets.PacketRecipeTransferUpdate;
@@ -30,7 +29,6 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraftforge.eventbus.api.IEventBus;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
 import java.util.function.Consumer;
@@ -43,20 +41,12 @@ public class ModuleFactory extends BlankForestryModule {
 	}
 
 	@Override
-	public void registerEvents(IEventBus modBus) {
-	}
-
-	@Override
 	public void registerClientHandler(Consumer<IClientModuleHandler> registrar) {
 		registrar.accept(new FactoryClientHandler());
 	}
 
 	@Override
 	public void setupApi() {
-		FuelManager.fermenterFuel = new ItemStackMap<>();
-		FuelManager.moistenerResource = new ItemStackMap<>();
-		FuelManager.rainSubstrate = new ItemStackMap<>();
-
 		// Set fuels and resources for the fermenter
 		ItemStack fertilizerCompound = CoreItems.FERTILIZER_COMPOUND.stack();
 		FuelManager.fermenterFuel.put(fertilizerCompound, new FermenterFuel(fertilizerCompound,
@@ -76,12 +66,6 @@ public class ModuleFactory extends BlankForestryModule {
 		FuelManager.moistenerResource.put(wheat, new MoistenerFuel(wheat, mouldyWheat, 0, 300));
 		FuelManager.moistenerResource.put(mouldyWheat, new MoistenerFuel(mouldyWheat, decayingWheat, 1, 600));
 		FuelManager.moistenerResource.put(decayingWheat, new MoistenerFuel(decayingWheat, mulch, 2, 900));
-
-		// Set rain substrates
-		ItemStack iodineCharge = CoreItems.IODINE_CHARGE.stack();
-		ItemStack dissipationCharge = CoreItems.DISSIPATION_CHARGE.stack();
-		FuelManager.rainSubstrate.put(iodineCharge, new RainSubstrate(iodineCharge, 10000, 0.01f));
-		FuelManager.rainSubstrate.put(dissipationCharge, new RainSubstrate(dissipationCharge, 0.075f));
 	}
 
 	@Override

@@ -1,7 +1,7 @@
 package forestry.worktable.compat;
 
 import forestry.core.utils.JeiUtil;
-import forestry.core.utils.RecipeUtils;
+import forestry.core.utils.RecipeUtil;
 import forestry.worktable.features.WorktableMenus;
 import forestry.worktable.recipes.MemorizedRecipe;
 import forestry.worktable.screens.WorktableMenu;
@@ -51,7 +51,7 @@ class WorktableRecipeTransferHandler implements IRecipeTransferHandler<Worktable
 				inventory.setItem(i, firstItemStack);
 			}
 
-			List<RecipeHolder<CraftingRecipe>> matchingRecipes = RecipeUtils.findMatchingRecipes(inventory.asCraftInput(), player.level());
+			List<RecipeHolder<CraftingRecipe>> matchingRecipes = RecipeUtil.findMatchingRecipes(inventory.asCraftInput(), player.level());
 			if (!matchingRecipes.isEmpty()) {
 				MemorizedRecipe memorizedRecipe = new MemorizedRecipe(inventory, matchingRecipes);
 				container.sendWorktableRecipeRequest(memorizedRecipe);

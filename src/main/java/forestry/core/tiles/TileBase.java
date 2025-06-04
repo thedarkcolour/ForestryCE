@@ -1,38 +1,28 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.core.tiles;
 
-import forestry.core.blocks.BlockBase;
-import forestry.core.blocks.IBlockType;
 import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.network.NetworkHooks;
+
+import forestry.core.blocks.BlockBase;
+import forestry.core.blocks.IBlockType;
 
 public abstract class TileBase extends TileForestry {
 	public TileBase(BlockEntityType<?> tileEntityTypeIn, BlockPos pos, BlockState state) {
 		super(tileEntityTypeIn, pos, state);
 	}
 
-	public void openGui(ServerPlayer player, InteractionHand hand, BlockPos pos) {
-		if (!hasGui()) {
-			return;
-		}
-		NetworkHooks.openScreen(player, this, pos);
+	public boolean interactWithItem(Level level, BlockPos pos, Player player, InteractionHand hand, ItemStack stack) {
+		return false;
 	}
 
-	protected boolean hasGui() {
+	public boolean interactNoItem(Level level, Player player, BlockPos pos) {
+		player.openMenu(this, pos);
 		return true;
 	}
 

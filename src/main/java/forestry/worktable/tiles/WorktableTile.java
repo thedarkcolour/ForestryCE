@@ -5,7 +5,7 @@ import forestry.core.inventory.wrappers.InventoryMapper;
 import forestry.core.tiles.TileBase;
 import forestry.core.utils.InventoryUtil;
 import forestry.core.utils.ItemStackUtil;
-import forestry.core.utils.RecipeUtils;
+import forestry.core.utils.RecipeUtil;
 import forestry.worktable.features.WorktableTiles;
 import forestry.worktable.inventory.WorktableCraftingContainer;
 import forestry.worktable.inventory.WorktableInventory;
@@ -125,7 +125,7 @@ public class WorktableTile extends TileBase implements ICrafterWorktable {
 		}
 
 		NonNullList<ItemStack> inventoryStacks = InventoryUtil.getStacks(this);
-		WorktableCraftingContainer usedMatrix = RecipeUtils.getUsedMatrix(this.currentRecipe.getCraftMatrix(), inventoryStacks, this.level, selectedRecipe);
+		WorktableCraftingContainer usedMatrix = RecipeUtil.getUsedMatrix(this.currentRecipe.getCraftMatrix(), inventoryStacks, this.level, selectedRecipe);
 		if (usedMatrix == null) {
 			return false;
 		}
@@ -204,7 +204,7 @@ public class WorktableTile extends TileBase implements ICrafterWorktable {
 	}
 
 	public void setCurrentRecipe(CraftingContainer crafting) {
-		List<RecipeHolder<CraftingRecipe>> recipes = RecipeUtils.getRecipes(RecipeType.CRAFTING, crafting.asCraftInput(), this.level);
+		List<RecipeHolder<CraftingRecipe>> recipes = RecipeUtil.getRecipes(RecipeType.CRAFTING, crafting.asCraftInput(), this.level);
 		MemorizedRecipe recipe = recipes.isEmpty() ? null : new MemorizedRecipe(crafting, recipes);
 
 		if (this.currentRecipe != null && recipe != null) {

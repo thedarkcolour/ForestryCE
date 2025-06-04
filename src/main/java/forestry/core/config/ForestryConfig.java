@@ -77,8 +77,10 @@ public class ForestryConfig {
 		public final ModConfigSpec.IntValue butterflyClusterWidth;
 		public final ModConfigSpec.IntValue butterflyClusterHeight;
 		// Farms
+		public final ModConfigSpec.IntValue multiFarmFertilizerModifier;
 		public final ModConfigSpec.IntValue multiFarmSize;
 		public final ModConfigSpec.BooleanValue squareMultiFarms;
+		public final ModConfigSpec.IntValue legacyFarmFertilizerModifier;
 		public final ModConfigSpec.IntValue legacyFarmsPlanterRings;
 		public final ModConfigSpec.BooleanValue legacyFarmsUseRings;
 		public final ModConfigSpec.IntValue legacyFarmsRingSize;
@@ -112,13 +114,21 @@ public class ForestryConfig {
 			builder.pop();
 
 			// Farming
-			builder.push("farming");
+			builder.push("multiblock_farm");
+			this.multiFarmFertilizerModifier = builder
+				.comment("Determines how much fertilizer value a multiblock farm uses when harvesting a block. For reference, 1 Fertilizer = 100 fertilizer value by default.")
+				.defineInRange("multiblock_farm_fertilizer_modifier", 4, 1, 10000);
 			this.multiFarmSize = builder
 				.comment("")
 				.defineInRange("multiblock_farm_size", 2, 1, 10);
 			this.squareMultiFarms = builder
 				.comment("Whether Forestry multiblock farms have square shaped farmlands instead of the default diamond shape.")
 				.define("square_multiblock_farms", false);
+			builder.pop();
+			builder.push("legacy_farm");
+			this.legacyFarmFertilizerModifier = builder
+				.comment("Determines how much fertilizer value a legacy (single block) farm uses when harvesting a block. For reference, 1 Fertilizer = 100 fertilizer value by default.")
+				.defineInRange("legacy_farm_fertilizer_modifier", 4, 1, 10000);
 			this.legacyFarmsPlanterRings = builder
 				.comment("Sets the size of the farmland that is used by all legacy (single block) farms.")
 				.defineInRange("legacy_farms_planter_rings", 4, 1, 10);
@@ -126,7 +136,7 @@ public class ForestryConfig {
 				.comment("Whether legacy (single block) farms use a ring layout. The farmland size of the ring layout is always one block smaller.")
 				.define("legacy_farms_use_rings", true);
 			this.legacyFarmsRingSize = builder
-				.comment("Sets the size of the inner ring of the ring layout.")
+				.comment("Sets the size of the inner ring of the ring layout used by legacy (single block) farms.")
 				.defineInRange("legacy_farms_ring_size", 4, 1, 10);
 			builder.pop();
 

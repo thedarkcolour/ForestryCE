@@ -7,7 +7,7 @@ import forestry.core.config.Constants;
 import forestry.core.recipes.jei.ForestryRecipeCategory;
 import forestry.core.recipes.jei.ForestryRecipeType;
 import forestry.core.utils.JeiUtil;
-import forestry.core.utils.RecipeUtils;
+import forestry.core.utils.RecipeUtil;
 import forestry.factory.blocks.BlockFactoryPlain;
 import forestry.factory.blocks.BlockTypeFactoryPlain;
 import forestry.factory.features.FactoryBlocks;
@@ -50,7 +50,7 @@ public class FabricatorRecipeCategory extends ForestryRecipeCategory<IFabricator
 
 	private static Map<Fluid, List<IFabricatorSmeltingRecipe>> getSmeltingInputs() {
 		Map<Fluid, List<IFabricatorSmeltingRecipe>> smeltingInputs = new HashMap<>();
-		RecipeUtils.getRecipes(RecipeUtils.getRecipeManager(), FactoryRecipeTypes.FABRICATOR_SMELTING)
+		RecipeUtil.getRecipes(RecipeUtil.getRecipeManager(), FactoryRecipeTypes.FABRICATOR_SMELTING)
 			.forEach(smelting -> {
 				Fluid fluid = smelting.getResultFluid().getFluid();
 				if (!smeltingInputs.containsKey(fluid)) {
@@ -100,6 +100,6 @@ public class FabricatorRecipeCategory extends ForestryRecipeCategory<IFabricator
 		//		.addIngredients(plan);
 
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 119, 37)
-			.addItemStack(craftingGridRecipe.getResultItem(RecipeUtils.getRegistryAccess()));
+			.addItemStack(craftingGridRecipe.getResultItem(RecipeUtil.getRegistryAccess()));
 	}
 }

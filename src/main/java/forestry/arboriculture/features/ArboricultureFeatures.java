@@ -12,7 +12,9 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 @FeatureProvider
@@ -21,7 +23,7 @@ public class ArboricultureFeatures {
 
 	public static final DeferredRegister<Feature<?>> FEATURES = REGISTRY.getRegistry(Registries.FEATURE);
 
-	public static final Holder<Feature<?>> TREE_DECORATOR = FEATURES.register("tree", TreeDecorator::new);
+	public static final DeferredHolder<Feature<?>, Feature<NoneFeatureConfiguration>> TREE_DECORATOR = FEATURES.register("tree", TreeDecorator::new);
 	public static final ResourceKey<ConfiguredFeature<?, ?>> CONFIGURED_TREE = ResourceKey.create(Registries.CONFIGURED_FEATURE, ForestryConstants.forestry("tree"));
 	public static final ResourceKey<PlacedFeature> PLACED_TREE = ResourceKey.create(Registries.PLACED_FEATURE, ForestryConstants.forestry("tree"));
 

@@ -282,7 +282,7 @@ public class CoreClientHandler implements IClientModuleHandler {
 					BlockPos playerPos = minecraft.player.blockPosition();
 					ChunkPos playerChunkPos = new ChunkPos(playerPos);
 
-					Color color = RenderUtil.getRainbowColor(minecraft.level.getGameTime(), event.getPartialTick());
+					Color color = RenderUtil.getRainbowColor(minecraft.level.getGameTime(), event.getPartialTick().getGameTimeDeltaPartialTick(true));
 
 					float r = color.getRed() / 255f;
 					float g = color.getGreen() / 255f;

@@ -18,12 +18,13 @@ import forestry.api.core.IErrorLogic;
 import forestry.api.recipes.ICentrifugeRecipe;
 import forestry.core.circuits.ISocketable;
 import forestry.core.config.Constants;
+import forestry.core.features.CoreDataComponents;
 import forestry.core.inventory.IInventoryAdapter;
 import forestry.core.inventory.InventoryAdapter;
 import forestry.core.tiles.IItemStackDisplay;
 import forestry.core.tiles.TilePowered;
 import forestry.core.utils.InventoryUtil;
-import forestry.core.utils.RecipeUtils;
+import forestry.core.utils.RecipeUtil;
 import forestry.factory.features.FactoryTiles;
 import forestry.factory.gui.ContainerCentrifuge;
 import forestry.factory.inventory.InventoryCentrifuge;
@@ -99,7 +100,8 @@ public class TileCentrifuge extends TilePowered implements ISocketable, WorldlyC
 
 		ItemStack chip = this.sockets.getItem(0);
 		if (!chip.isEmpty()) {
-			ICircuitBoard chipset = IForestryApi.INSTANCE.getCircuitManager().getCircuitBoard(chip);
+            IForestryApi.INSTANCE.getCircuitManager();
+            ICircuitBoard chipset = chip.get(CoreDataComponents.CIRCUIT_BOARD);
 			if (chipset != null) {
 				chipset.onLoad(this);
 			}
@@ -149,7 +151,7 @@ public class TileCentrifuge extends TilePowered implements ISocketable, WorldlyC
 
 	private void checkRecipe() {
 		ItemStack resource = getItem(InventoryCentrifuge.SLOT_RESOURCE);
-		ICentrifugeRecipe matchingRecipe = RecipeUtils.getCentrifugeRecipe(getLevel().getRecipeManager(), resource);
+		ICentrifugeRecipe matchingRecipe = RecipeUtil.getCentrifugeRecipe(getLevel().getRecipeManager(), resource);
 
 		if (this.currentRecipe != matchingRecipe) {
             this.currentRecipe = matchingRecipe;
@@ -227,7 +229,9 @@ public class TileCentrifuge extends TilePowered implements ISocketable, WorldlyC
 		// Dispose correctly of old chipsets
 		if (!this.sockets.getItem(slot).isEmpty()) {
 			if (IForestryApi.INSTANCE.getCircuitManager().isCircuitBoard(this.sockets.getItem(slot))) {
-				ICircuitBoard chipset = IForestryApi.INSTANCE.getCircuitManager().getCircuitBoard(this.sockets.getItem(slot));
+                IForestryApi.INSTANCE.getCircuitManager();
+                ItemStack stack1 = this.sockets.getItem(slot);
+                ICircuitBoard chipset = stack1.get(CoreDataComponents.CIRCUIT_BOARD);
 				if (chipset != null) {
 					chipset.onRemoval(this);
 				}
@@ -239,7 +243,8 @@ public class TileCentrifuge extends TilePowered implements ISocketable, WorldlyC
 			return;
 		}
 
-		ICircuitBoard chipset = IForestryApi.INSTANCE.getCircuitManager().getCircuitBoard(stack);
+        IForestryApi.INSTANCE.getCircuitManager();
+        ICircuitBoard chipset = stack.get(CoreDataComponents.CIRCUIT_BOARD);
 		if (chipset != null) {
 			chipset.onInsertion(this);
 		}

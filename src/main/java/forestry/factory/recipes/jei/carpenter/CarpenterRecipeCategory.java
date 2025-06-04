@@ -6,7 +6,7 @@ import forestry.core.config.Constants;
 import forestry.core.recipes.jei.ForestryRecipeCategory;
 import forestry.core.recipes.jei.ForestryRecipeType;
 import forestry.core.utils.JeiUtil;
-import forestry.core.utils.RecipeUtils;
+import forestry.core.utils.RecipeUtil;
 import forestry.factory.blocks.BlockTypeFactoryTesr;
 import forestry.factory.features.FactoryBlocks;
 import mezz.jei.api.constants.VanillaTypes;
@@ -62,13 +62,13 @@ public class CarpenterRecipeCategory extends ForestryRecipeCategory<ICarpenterRe
 	public void setRecipe(IRecipeLayoutBuilder builder, ICarpenterRecipe recipe, IFocusGroup focuses) {
 		CraftingRecipe craftingGridRecipe = recipe.getCraftingGridRecipe();
 
-		ItemStack processingIngredient = craftingGridRecipe.getResultItem(RecipeUtils.getRegistryAccess()).copy();
+		ItemStack processingIngredient = craftingGridRecipe.getResultItem(RecipeUtil.getRegistryAccess()).copy();
 		processingIngredient.setCount(1);
 		builder.addSlot(RecipeIngredientRole.RENDER_ONLY, 71, 35)
 			.addItemStack(processingIngredient);
 
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 120 - 9, 56 - 16)
-			.addItemStack(craftingGridRecipe.getResultItem(RecipeUtils.getRegistryAccess()));
+			.addItemStack(craftingGridRecipe.getResultItem(RecipeUtil.getRegistryAccess()));
 
 		List<IRecipeSlotBuilder> craftingSlots = JeiUtil.layoutSlotGrid(builder, RecipeIngredientRole.INPUT, 3, 3, 1, 4, 18);
 		JeiUtil.setCraftingItems(craftingSlots, craftingGridRecipe, this.craftingGridHelper);

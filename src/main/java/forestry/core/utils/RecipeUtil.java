@@ -32,7 +32,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class RecipeUtils {
+public class RecipeUtil {
 	/**
 	 * @return The global registry manager. {@code null} on server when there is no server, or when there is no world (on client).
 	 */

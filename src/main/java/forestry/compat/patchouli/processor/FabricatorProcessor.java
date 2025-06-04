@@ -3,7 +3,7 @@ package forestry.compat.patchouli.processor;
 import com.google.common.base.Preconditions;
 import forestry.api.recipes.IFabricatorRecipe;
 import forestry.core.utils.ModUtil;
-import forestry.core.utils.RecipeUtils;
+import forestry.core.utils.RecipeUtil;
 import forestry.factory.features.FactoryRecipeTypes;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -25,7 +25,7 @@ public class FabricatorProcessor implements IComponentProcessor {
 	public void setup(Level level, IVariableProvider variables) {
 		ItemStack stack = variables.get("item").as(ItemStack.class, ItemStack.EMPTY);
 
-		this.recipe = RecipeUtils.getRecipeByOutput(FactoryRecipeTypes.FABRICATOR, level.registryAccess(), stack);
+		this.recipe = RecipeUtil.getRecipeByOutput(FactoryRecipeTypes.FABRICATOR, level.registryAccess(), stack);
 	}
 
 	@Override
@@ -57,7 +57,7 @@ public class FabricatorProcessor implements IComponentProcessor {
 				return IVariable.from(new ItemStack(Items.SAND));
 			}
 
-			return RecipeUtils.getRecipes(RecipeUtils.getRecipeManager(), FactoryRecipeTypes.FABRICATOR_SMELTING)
+			return RecipeUtil.getRecipes(RecipeUtil.getRecipeManager(), FactoryRecipeTypes.FABRICATOR_SMELTING)
 				.filter(recipe -> recipe.getResultFluid().isFluidEqual(this.recipe.getResultFluid()))
 				.flatMap(r -> Arrays.stream(r.getInput().getItems()))
 				.findFirst()
