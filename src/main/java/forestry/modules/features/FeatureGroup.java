@@ -5,14 +5,12 @@ import forestry.api.core.IFeatureSubtype;
 import forestry.api.core.IItemProvider;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.function.BiFunction;
-import java.util.stream.Stream;
 
 public abstract class FeatureGroup<B extends FeatureGroup.Builder<S, ? extends FeatureGroup<B, F, S>>, F extends IModFeature, S extends IFeatureSubtype> {
 	protected final ImmutableMap<S, F> featureByType;
@@ -20,7 +18,7 @@ public abstract class FeatureGroup<B extends FeatureGroup.Builder<S, ? extends F
 	protected FeatureGroup(B builder) {
 		ImmutableMap.Builder<S, F> mapBuilder = new ImmutableMap.Builder<>();
 		builder.subTypes.forEach(subType -> mapBuilder.put(subType, createFeature(builder, subType)));
-        this.featureByType = mapBuilder.build();
+		this.featureByType = mapBuilder.build();
 	}
 
 	protected abstract F createFeature(B builder, S type);
@@ -94,7 +92,7 @@ public abstract class FeatureGroup<B extends FeatureGroup.Builder<S, ? extends F
 		}
 
 		public Builder<S, G> type(S type) {
-            this.subTypes.add(type);
+			this.subTypes.add(type);
 			return this;
 		}
 
@@ -103,7 +101,7 @@ public abstract class FeatureGroup<B extends FeatureGroup.Builder<S, ? extends F
 		}
 
 		public Builder<S, G> types(Collection<S> types) {
-            this.subTypes.addAll(types);
+			this.subTypes.addAll(types);
 			return this;
 		}
 

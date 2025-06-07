@@ -1,53 +1,50 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.factory.recipes;
 
-import com.google.common.base.Preconditions;
-import com.google.gson.JsonObject;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import forestry.api.recipes.IFabricatorRecipe;
+import forestry.core.utils.CodecUtil;
 import forestry.factory.features.FactoryRecipeTypes;
-import net.minecraft.core.RegistryAccess;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.GsonHelper;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
+
+import java.util.Optional;
 
 public class FabricatorRecipe implements IFabricatorRecipe {
+	public static final MapCodec<FabricatorRecipe> CODEC = RecordCodecBuilder.mapCodec(inst -> inst.group(
+		Ingredient.CODEC.fieldOf("plan").forGetter(FabricatorRecipe::getPlan),
+		SizedFluidIngredient.FLAT_CODEC.optionalFieldOf("molten").forGetter(FabricatorRecipe::getRequiredFluid),
+		CodecUtil.CRAFTING_RECIPE_CODEC.fieldOf("recipe").forGetter(FabricatorRecipe::getCraftingGridRecipe)
+	).apply(inst, FabricatorRecipe::new));
+	public static final StreamCodec<RegistryFriendlyByteBuf, FabricatorRecipe> STREAM_CODEC = StreamCodec.composite(
+		Ingredient.CONTENTS_STREAM_CODEC,
+		FabricatorRecipe::getPlan,
+		SizedFluidIngredient.STREAM_CODEC.apply(ByteBufCodecs::optional),
+		FabricatorRecipe::getRequiredFluid,
+		CodecUtil.CRAFTING_RECIPE_STREAM_CODEC,
+		FabricatorRecipe::getCraftingGridRecipe,
+		FabricatorRecipe::new
+	);
 
-	private final ResourceLocation id;
 	private final Ingredient plan;
-	private final FluidStack resultFluid;
-	private final ShapedRecipe recipe;
+	private final Optional<SizedFluidIngredient> resultFluid;
+	private final CraftingRecipe recipe;
 
-	public FabricatorRecipe(ResourceLocation id, Ingredient plan, FluidStack resultFluid, ShapedRecipe recipe) {
-		Preconditions.checkNotNull(id, "Recipe identifier cannot be null");
-		Preconditions.checkNotNull(plan);
-		Preconditions.checkNotNull(resultFluid);
-
-		this.id = id;
+	public FabricatorRecipe(Ingredient plan, Optional<SizedFluidIngredient> resultFluid, CraftingRecipe recipe) {
 		this.plan = plan;
 		this.resultFluid = resultFluid;
 		this.recipe = recipe;
-	}
-
-	@Override
-	public ResourceLocation getId() {
-		return this.id;
 	}
 
 	@Override
@@ -56,23 +53,23 @@ public class FabricatorRecipe implements IFabricatorRecipe {
 	}
 
 	@Override
-	public FluidStack getResultFluid() {
+	public Optional<SizedFluidIngredient> getRequiredFluid() {
 		return this.resultFluid;
 	}
 
 	@Override
-	public ShapedRecipe getCraftingGridRecipe() {
+	public CraftingRecipe getCraftingGridRecipe() {
 		return this.recipe;
 	}
 
 	@Override
 	public boolean matches(Level level, FluidStack liquid, ItemStack stack, Container inventory) {
-		return liquid.containsFluid(this.resultFluid) && this.plan.test(stack) && this.recipe.matches(FakeCraftingInventory.of(inventory), level);
+		return (this.resultFluid.isEmpty() || this.resultFluid.get().test(liquid)) && this.plan.test(stack) && this.recipe.matches(FakeCraftingInventory.of(inventory), level);
 	}
 
 	@Override
-	public ItemStack getResultItem(RegistryAccess registryAccess) {
-		return this.recipe.getResultItem(registryAccess);
+	public ItemStack getResultItem(HolderLookup.Provider registries) {
+		return this.recipe.getResultItem(registries);
 	}
 
 	@Override
@@ -86,30 +83,14 @@ public class FabricatorRecipe implements IFabricatorRecipe {
 	}
 
 	public static class Serializer implements RecipeSerializer<FabricatorRecipe> {
-
 		@Override
-		public FabricatorRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
-			Ingredient plan = RecipeSerializers.deserialize(json.get("plan"));
-			FluidStack molten = RecipeSerializers.deserializeFluid(GsonHelper.getAsJsonObject(json, "molten"));
-			ShapedRecipe internal = RecipeSerializer.SHAPED_RECIPE.fromJson(recipeId, GsonHelper.getAsJsonObject(json, "recipe"));
-
-			return new FabricatorRecipe(recipeId, plan, molten, internal);
+		public MapCodec<FabricatorRecipe> codec() {
+			return CODEC;
 		}
 
 		@Override
-		public FabricatorRecipe fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
-			Ingredient plan = Ingredient.fromNetwork(buffer);
-			FluidStack molten = buffer.readFluidStack();
-			ShapedRecipe internal = RecipeSerializer.SHAPED_RECIPE.fromNetwork(recipeId, buffer);
-
-			return new FabricatorRecipe(recipeId, plan, molten, internal);
-		}
-
-		@Override
-		public void toNetwork(FriendlyByteBuf buffer, FabricatorRecipe recipe) {
-			recipe.getPlan().toNetwork(buffer);
-			buffer.writeFluidStack(recipe.getResultFluid());
-			RecipeSerializer.SHAPED_RECIPE.toNetwork(buffer, recipe.getCraftingGridRecipe());
+		public StreamCodec<RegistryFriendlyByteBuf, FabricatorRecipe> streamCodec() {
+			return STREAM_CODEC;
 		}
 	}
 }

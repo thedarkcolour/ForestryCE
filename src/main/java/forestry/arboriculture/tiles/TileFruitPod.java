@@ -57,19 +57,19 @@ public class TileFruitPod extends BlockEntity implements IFruitBearer, IStreamab
 
 	/* SAVING & LOADING */
 	@Override
-	public void writeData(RegistryFriendlyByteBuf data) {
+	public void writeData(RegistryFriendlyByteBuf buffer) {
 		if (this.fruit != null) {
-			data.writeBoolean(true);
-			data.writeResourceLocation(TreeChromosomes.FRUIT.getId(this.fruit));
+			buffer.writeBoolean(true);
+			buffer.writeResourceLocation(TreeChromosomes.FRUIT.getId(this.fruit));
 		} else {
-			data.writeBoolean(false);
+			buffer.writeBoolean(false);
 		}
 	}
 
 	@Override
-	public void readData(RegistryFriendlyByteBuf data) {
-		if (data.readBoolean()) {
-			IValueAllele<?> stored = IForestryApi.INSTANCE.getAlleleManager().getAllele(data.readResourceLocation()).cast();
+	public void readData(RegistryFriendlyByteBuf buffer) {
+		if (buffer.readBoolean()) {
+			IValueAllele<?> stored = IForestryApi.INSTANCE.getAlleleManager().getAllele(buffer.readResourceLocation()).cast();
 
 			if (stored.value() instanceof IFruit newFruit) {
 				this.fruit = newFruit;

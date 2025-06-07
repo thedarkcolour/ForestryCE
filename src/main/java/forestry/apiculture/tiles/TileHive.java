@@ -18,7 +18,7 @@ import forestry.apiculture.blocks.BlockBeeHive;
 import forestry.apiculture.features.ApicultureTiles;
 import forestry.apiculture.genetics.effects.ThrottledBeeEffect;
 import forestry.core.config.ForestryConfig;
-import forestry.core.damage.CoreDamageTypes;
+import forestry.core.features.CoreDamageTypes;
 import forestry.core.inventory.InventoryAdapter;
 import forestry.core.network.packets.PacketActiveUpdate;
 import forestry.core.tiles.IActivatable;

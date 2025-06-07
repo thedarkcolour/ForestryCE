@@ -1,12 +1,12 @@
 package forestry.api.recipes;
 
-import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 
 public interface IHygroregulatorRecipe extends IForestryRecipe {
 	/**
 	 * @return FluidStack containing information on fluid and amount.
 	 */
-	FluidStack getInputFluid();
+	SizedFluidIngredient getInputFluid();
 
 	/**
 	 * @return How long the temperature change from this recipe will last before more fluid is consumed.

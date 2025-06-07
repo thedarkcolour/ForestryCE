@@ -102,16 +102,16 @@ public class TileFermenter extends TilePowered implements WorldlyContainer, ILiq
 	}
 
 	@Override
-	public void writeData(RegistryFriendlyByteBuf data) {
-		super.writeData(data);
-        this.tankManager.writeData(data);
+	public void writeData(RegistryFriendlyByteBuf buffer) {
+		super.writeData(buffer);
+        this.tankManager.writeData(buffer);
 	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void readData(RegistryFriendlyByteBuf data) {
-		super.readData(data);
-        this.tankManager.readData(data);
+	public void readData(RegistryFriendlyByteBuf buffer) {
+		super.readData(buffer);
+        this.tankManager.readData(buffer);
 	}
 
 	@Override
@@ -136,7 +136,7 @@ public class TileFermenter extends TilePowered implements WorldlyContainer, ILiq
 
 		int fermented = Math.min(this.fermentationTime, this.fuelCurrentFerment);
 		int productAmount = Math.round(fermented * this.currentRecipe.getModifier() * this.currentResourceModifier);
-        this.productTank.fillInternal(new FluidStack(this.currentRecipe.getOutput(), productAmount), IFluidHandler.FluidAction.EXECUTE);
+        this.productTank.fillInternal(new FluidStack(this.currentRecipe.getOutputFluid(), productAmount), IFluidHandler.FluidAction.EXECUTE);
 
         this.fuelBurnTime--;
         this.resourceTank.drain(fermented, IFluidHandler.FluidAction.EXECUTE);
@@ -229,7 +229,7 @@ public class TileFermenter extends TilePowered implements WorldlyContainer, ILiq
 
 		if (hasRecipe) {
 			int productAmount = Math.round(fermented * this.currentRecipe.getModifier() * this.currentResourceModifier);
-			Fluid output = this.currentRecipe.getOutput();
+			Fluid output = this.currentRecipe.getOutputFluid();
 			FluidStack fluidStack = new FluidStack(output, productAmount);
 			hasFluidSpace = this.productTank.fillInternal(fluidStack, IFluidHandler.FluidAction.SIMULATE) == fluidStack.getAmount();
 		}

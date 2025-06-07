@@ -4,7 +4,7 @@ import forestry.api.apiculture.BeeManager;
 import forestry.api.apiculture.IBeeHousing;
 import forestry.api.genetics.IEffectData;
 import forestry.api.genetics.IGenome;
-import forestry.core.damage.CoreDamageTypes;
+import forestry.core.features.CoreDamageTypes;
 import net.minecraft.world.entity.LivingEntity;
 
 import java.util.List;

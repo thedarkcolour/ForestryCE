@@ -1,4 +1,4 @@
-package forestry.core.damage;
+package forestry.core.features;
 
 import forestry.api.ForestryConstants;
 import net.minecraft.core.registries.Registries;

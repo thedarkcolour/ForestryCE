@@ -3,7 +3,7 @@ package forestry.apiculture.multiblock;
 import forestry.api.climate.IClimateControlled;
 import forestry.api.multiblock.IAlvearyComponent;
 import forestry.api.recipes.IHygroregulatorRecipe;
-import forestry.apiculture.blocks.BlockAlvearyType;
+import forestry.apiculture.blocks.BlockAlveary;
 import forestry.apiculture.gui.ContainerAlvearyHygroregulator;
 import forestry.apiculture.inventory.InventoryHygroregulator;
 import forestry.core.config.Constants;
@@ -41,7 +41,7 @@ public class TileAlvearyHygroregulator extends TileAlveary implements Container,
 	private int heatTicks;
 
 	public TileAlvearyHygroregulator(BlockPos pos, BlockState state) {
-		super(BlockAlvearyType.HYGRO, pos, state);
+		super(BlockAlveary.Type.HYGRO, pos, state);
 
 		this.inventory = new InventoryHygroregulator(this);
 		this.liquidTank = new FilteredTank(Constants.PROCESSOR_TANK_CAPACITY).setFilter(FluidRecipeFilter.HYGROREGULATOR_INPUT);

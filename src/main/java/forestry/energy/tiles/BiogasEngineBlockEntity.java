@@ -262,20 +262,20 @@ public class BiogasEngineBlockEntity extends EngineBlockEntity implements Worldl
 
 	/* NETWORK */
 	@Override
-	public void writeData(RegistryFriendlyByteBuf data) {
-		super.writeData(data);
-		data.writeBoolean(this.shutdown);
-        this.tankManager.writeData(data);
-        this.burnTank.writeData(data);
+	public void writeData(RegistryFriendlyByteBuf buffer) {
+		super.writeData(buffer);
+		buffer.writeBoolean(this.shutdown);
+        this.tankManager.writeData(buffer);
+        this.burnTank.writeData(buffer);
 	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void readData(RegistryFriendlyByteBuf data) {
-		super.readData(data);
-        this.shutdown = data.readBoolean();
-        this.tankManager.readData(data);
-        this.burnTank.readData(data);
+	public void readData(RegistryFriendlyByteBuf buffer) {
+		super.readData(buffer);
+        this.shutdown = buffer.readBoolean();
+        this.tankManager.readData(buffer);
+        this.burnTank.readData(buffer);
 	}
 
 	@Override

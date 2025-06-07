@@ -170,23 +170,23 @@ public class EscritoireGameToken implements INbtWritable, IStreamable {
 	}
 
 	@Override
-	public void writeData(RegistryFriendlyByteBuf data) {
-		NetworkUtil.writeEnum(data, this.state);
+	public void writeData(RegistryFriendlyByteBuf buffer) {
+		NetworkUtil.writeEnum(buffer, this.state);
 		if (this.tokenIndividual != null && this.tokenType != null) {
-			data.writeBoolean(true);
-			data.writeResourceLocation(this.tokenIndividual.getSpecies().id());
-			data.writeResourceLocation(this.tokenType.id());
+			buffer.writeBoolean(true);
+			buffer.writeResourceLocation(this.tokenIndividual.getSpecies().id());
+			buffer.writeResourceLocation(this.tokenType.id());
 		} else {
-			data.writeBoolean(false);
+			buffer.writeBoolean(false);
 		}
 	}
 
 	@Override
-	public void readData(RegistryFriendlyByteBuf data) {
-        this.state = NetworkUtil.readEnum(data, State.VALUES);
-		if (data.readBoolean()) {
-			ResourceLocation speciesId = data.readResourceLocation();
-			ResourceLocation typeId = data.readResourceLocation();
+	public void readData(RegistryFriendlyByteBuf buffer) {
+        this.state = NetworkUtil.readEnum(buffer, State.VALUES);
+		if (buffer.readBoolean()) {
+			ResourceLocation speciesId = buffer.readResourceLocation();
+			ResourceLocation typeId = buffer.readResourceLocation();
 			setTokenSpecies(typeId, speciesId);
 		}
 	}

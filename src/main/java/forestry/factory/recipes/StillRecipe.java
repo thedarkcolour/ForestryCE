@@ -1,40 +1,24 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.factory.recipes;
 
-import com.google.common.base.Preconditions;
 import com.google.gson.JsonObject;
 import forestry.api.recipes.IStillRecipe;
 import forestry.factory.features.FactoryRecipeTypes;
-import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 
 public class StillRecipe implements IStillRecipe {
-	private final ResourceLocation id;
 	private final int timePerUnit;
-	private final FluidStack input;
+	private final SizedFluidIngredient input;
 	private final FluidStack output;
 
-	public StillRecipe(ResourceLocation id, int timePerUnit, FluidStack input, FluidStack output) {
-		Preconditions.checkNotNull(id, "Recipe identifier cannot be null");
-		Preconditions.checkNotNull(input, "Still recipes need an input. Input was null.");
-		Preconditions.checkNotNull(output, "Still recipes need an output. Output was null.");
-
-		this.id = id;
+	public StillRecipe(int timePerUnit, SizedFluidIngredient input, FluidStack output) {
 		this.timePerUnit = timePerUnit;
 		this.input = input;
 		this.output = output;
@@ -61,13 +45,8 @@ public class StillRecipe implements IStillRecipe {
 	}
 
 	@Override
-	public ItemStack getResultItem(RegistryAccess registryAccess) {
+	public ItemStack getResultItem(HolderLookup.Provider registries) {
 		return ItemStack.EMPTY;
-	}
-
-	@Override
-	public ResourceLocation getId() {
-		return this.id;
 	}
 
 	@Override

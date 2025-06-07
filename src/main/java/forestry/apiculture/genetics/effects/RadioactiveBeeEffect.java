@@ -6,7 +6,7 @@ import forestry.api.genetics.IEffectData;
 import forestry.api.genetics.IGenome;
 import forestry.api.genetics.alleles.BeeChromosomes;
 import forestry.apiculture.blocks.BlockAlveary;
-import forestry.core.damage.CoreDamageTypes;
+import forestry.core.features.CoreDamageTypes;
 import forestry.core.tiles.TileUtil;
 import forestry.core.utils.BlockUtil;
 import forestry.core.utils.VecUtil;

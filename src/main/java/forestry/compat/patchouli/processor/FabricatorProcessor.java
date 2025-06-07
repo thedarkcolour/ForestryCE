@@ -34,9 +34,9 @@ public class FabricatorProcessor implements IComponentProcessor {
 		if (key.equals("output")) {
 			return IVariable.from(this.recipe.getCraftingGridRecipe().getResultItem(level.registryAccess()));
 		} else if (key.equals("fluid")) {
-			return IVariable.wrap(ModUtil.getRegistryName(this.recipe.getResultFluid().getFluid()).toString());
+			return IVariable.wrap(ModUtil.getRegistryName(this.recipe.getRequiredFluid().getFluid()).toString());
 		} else if (key.equals("fluidAmount")) {
-			return IVariable.wrap(this.recipe.getResultFluid().getAmount());
+			return IVariable.wrap(this.recipe.getRequiredFluid().getAmount());
 		} else if (key.startsWith("ingredient")) {
 			int index = Integer.parseInt(key.substring("ingredient".length()));
 			if (index < 1 || index > 9) {
@@ -53,12 +53,12 @@ public class FabricatorProcessor implements IComponentProcessor {
 		} else if (key.equals("plan")) {
 			return IVariable.from(this.recipe.getPlan());
 		} else if (key.equals("metal")) {
-			if (ModUtil.getRegistryName(this.recipe.getResultFluid().getFluid()).getPath().contains("glass")) {
+			if (ModUtil.getRegistryName(this.recipe.getRequiredFluid().getFluid()).getPath().contains("glass")) {
 				return IVariable.from(new ItemStack(Items.SAND));
 			}
 
 			return RecipeUtil.getRecipes(RecipeUtil.getRecipeManager(), FactoryRecipeTypes.FABRICATOR_SMELTING)
-				.filter(recipe -> recipe.getResultFluid().isFluidEqual(this.recipe.getResultFluid()))
+				.filter(recipe -> recipe.getResultFluid().isFluidEqual(this.recipe.getRequiredFluid()))
 				.flatMap(r -> Arrays.stream(r.getInput().getItems()))
 				.findFirst()
 				.map(IVariable::from)

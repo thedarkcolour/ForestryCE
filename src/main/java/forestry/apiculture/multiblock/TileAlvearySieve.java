@@ -3,7 +3,7 @@ package forestry.apiculture.multiblock;
 import forestry.api.apiculture.IBeeListener;
 import forestry.api.genetics.pollen.IPollen;
 import forestry.api.multiblock.IAlvearyComponent;
-import forestry.apiculture.blocks.BlockAlvearyType;
+import forestry.apiculture.blocks.BlockAlveary;
 import forestry.apiculture.gui.ContainerAlvearySieve;
 import forestry.apiculture.inventory.InventoryAlvearySieve;
 import forestry.core.inventory.IInventoryAdapter;
@@ -20,7 +20,7 @@ public class TileAlvearySieve extends TileAlveary implements IAlvearyComponent.B
 	private final InventoryAlvearySieve inventory;
 
 	public TileAlvearySieve(BlockPos pos, BlockState state) {
-		super(BlockAlvearyType.SIEVE, pos, state);
+		super(BlockAlveary.Type.SIEVE, pos, state);
 		this.inventory = new InventoryAlvearySieve(this);
 		this.beeListener = new AlvearySieveBeeListener(this.inventory);
 	}

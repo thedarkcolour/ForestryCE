@@ -280,17 +280,17 @@ public class FarmManager implements INbtReadable, INbtWritable, IStreamable, IEx
 	}
 
 	@Override
-	public void writeData(RegistryFriendlyByteBuf data) {
-        this.tankManager.writeData(data);
-        this.hydrationManager.writeData(data);
-        this.fertilizerManager.writeData(data);
+	public void writeData(RegistryFriendlyByteBuf buffer) {
+        this.tankManager.writeData(buffer);
+        this.hydrationManager.writeData(buffer);
+        this.fertilizerManager.writeData(buffer);
 	}
 
 	@Override
-	public void readData(RegistryFriendlyByteBuf data) {
-        this.tankManager.readData(data);
-        this.hydrationManager.readData(data);
-        this.fertilizerManager.readData(data);
+	public void readData(RegistryFriendlyByteBuf buffer) {
+        this.tankManager.readData(buffer);
+        this.hydrationManager.readData(buffer);
+        this.fertilizerManager.readData(buffer);
 	}
 
 	public void clearTargets() {

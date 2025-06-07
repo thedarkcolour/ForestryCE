@@ -92,19 +92,19 @@ public class TileTrader extends TileBase implements IOwnedTile {
 	/* NETWORK */
 
 	@Override
-	public void writeData(RegistryFriendlyByteBuf data) {
-		super.writeData(data);
-        this.ownerHandler.writeData(data);
+	public void writeData(RegistryFriendlyByteBuf buffer) {
+		super.writeData(buffer);
+        this.ownerHandler.writeData(buffer);
 		String addressName = this.address.getName();
-		data.writeUtf(addressName);
+		buffer.writeUtf(addressName);
 	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void readData(RegistryFriendlyByteBuf data) {
-		super.readData(data);
-        this.ownerHandler.readData(data);
-		String addressName = data.readUtf();
+	public void readData(RegistryFriendlyByteBuf buffer) {
+		super.readData(buffer);
+        this.ownerHandler.readData(buffer);
+		String addressName = buffer.readUtf();
 		if (!addressName.isEmpty()) {
             this.address = new MailAddress(addressName);
 		}

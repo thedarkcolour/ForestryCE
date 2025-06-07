@@ -37,21 +37,21 @@ public class OwnerHandler implements IOwnerHandler, IStreamable, INbtWritable, I
 	}
 
 	@Override
-	public void writeData(RegistryFriendlyByteBuf data) {
+	public void writeData(RegistryFriendlyByteBuf buffer) {
 		if (this.owner == null) {
-			data.writeBoolean(false);
+			buffer.writeBoolean(false);
 		} else {
-			data.writeBoolean(true);
-			data.writeLong(this.owner.getId().getMostSignificantBits());
-			data.writeLong(this.owner.getId().getLeastSignificantBits());
-			data.writeUtf(this.owner.getName());
+			buffer.writeBoolean(true);
+			buffer.writeLong(this.owner.getId().getMostSignificantBits());
+			buffer.writeLong(this.owner.getId().getLeastSignificantBits());
+			buffer.writeUtf(this.owner.getName());
 		}
 	}
 
 	@Override
-	public void readData(RegistryFriendlyByteBuf data) {
-		if (data.readBoolean()) {
-			GameProfile owner = new GameProfile(new UUID(data.readLong(), data.readLong()), data.readUtf());
+	public void readData(RegistryFriendlyByteBuf buffer) {
+		if (buffer.readBoolean()) {
+			GameProfile owner = new GameProfile(new UUID(buffer.readLong(), buffer.readLong()), buffer.readUtf());
 			setOwner(owner);
 		}
 	}

@@ -75,7 +75,7 @@ public class FabricatorRecipeCategory extends ForestryRecipeCategory<IFabricator
 
 	@Override
 	public void setRecipe(IRecipeLayoutBuilder builder, IFabricatorRecipe recipe, IFocusGroup focuses) {
-		FluidStack recipeLiquid = recipe.getResultFluid();
+		FluidStack recipeLiquid = recipe.getRequiredFluid();
 		Fluid recipeFluid = recipeLiquid.getFluid();
 		List<IFabricatorSmeltingRecipe> smeltingRecipes = getSmeltingInputs().get(recipeFluid);
 		List<ItemStack> smeltingInput = smeltingRecipes.stream()

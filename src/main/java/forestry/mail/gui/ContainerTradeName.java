@@ -41,7 +41,7 @@ public class ContainerTradeName extends ContainerTile<TileTrader> {
 		if (this.tile.isLinked()) {
 			for (Object crafter : this.containerListeners) {
 				if (crafter instanceof ServerPlayer player) {
-                    this.tile.interactNoItem(, player, this.tile.getBlockPos());
+                    this.tile.interactNoItem(player.level(), player, this.tile.getBlockPos());
 				}
 			}
 		}

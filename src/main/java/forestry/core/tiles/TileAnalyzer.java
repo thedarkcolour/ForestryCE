@@ -149,19 +149,19 @@ public class TileAnalyzer extends TilePowered implements WorldlyContainer, ILiqu
 
 	/* Network */
 	@Override
-	public void writeData(RegistryFriendlyByteBuf data) {
-		super.writeData(data);
+	public void writeData(RegistryFriendlyByteBuf buffer) {
+		super.writeData(buffer);
 		ItemStack displayStack = getIndividualOnDisplay();
-		data.writeItem(displayStack);
-        this.tankManager.writeData(data);
+		buffer.writeItem(displayStack);
+        this.tankManager.writeData(buffer);
 	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void readData(RegistryFriendlyByteBuf data) {
-		super.readData(data);
-        this.individualOnDisplayClient = data.readItem();
-        this.tankManager.readData(data);
+	public void readData(RegistryFriendlyByteBuf buffer) {
+		super.readData(buffer);
+        this.individualOnDisplayClient = buffer.readItem();
+        this.tankManager.readData(buffer);
 	}
 
 	@Override

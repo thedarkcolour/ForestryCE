@@ -166,13 +166,13 @@ public class InventoryAdapter implements IInventoryAdapter, IStreamable {
 	}
 
 	@Override
-	public void writeData(RegistryFriendlyByteBuf data) {
-		NetworkUtil.writeInventory(data, this.inventory);
+	public void writeData(RegistryFriendlyByteBuf buffer) {
+		NetworkUtil.writeInventory(buffer, this.inventory);
 	}
 
 	@Override
-	public void readData(RegistryFriendlyByteBuf data) {
-		NetworkUtil.readInventory(data, this.inventory);
+	public void readData(RegistryFriendlyByteBuf buffer) {
+		NetworkUtil.readInventory(buffer, this.inventory);
 	}
 
 	/* FIELDS */

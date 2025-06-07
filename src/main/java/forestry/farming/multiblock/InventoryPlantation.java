@@ -5,7 +5,6 @@ import forestry.api.IForestryApi;
 import forestry.api.farming.IFarmHousing;
 import forestry.api.farming.IFarmLogic;
 import forestry.api.farming.IFarmable;
-import forestry.core.config.ForestryConfig;
 import forestry.core.fluids.FluidHelper;
 import forestry.core.fluids.TankManager;
 import forestry.core.inventory.InventoryAdapterRestricted;
@@ -18,9 +17,9 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidUtil;
 import net.neoforged.neoforge.common.ModConfigSpec;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidUtil;
 
 import java.util.ArrayDeque;
 import java.util.List;
@@ -32,6 +31,8 @@ import java.util.Optional;
  * It contains the biggest part of the logic for the inventories like item validation and fertilizer consumption.
  */
 public abstract class InventoryPlantation<H extends ILiquidTankTile & IFarmHousing> extends InventoryAdapterRestricted implements IFarmInventoryInternal {
+	private final ModConfigSpec.IntValue fertilizerModifier;
+
 	/**
 	 * Farm logic object
 	 */
@@ -57,7 +58,6 @@ public abstract class InventoryPlantation<H extends ILiquidTankTile & IFarmHousi
 	 * The part of the inventory that contains the fertilizer.
 	 */
 	protected final Container fertilizerInventory;
-	private final ModConfigSpec.IntValue fertilizerModifier;
 
 	/**
 	 * Creates a inventory instance.

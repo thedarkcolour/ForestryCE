@@ -162,13 +162,13 @@ public class RecipeMemory implements INbtWritable, IStreamable {
 	}
 
 	@Override
-	public void writeData(RegistryFriendlyByteBuf data) {
-		NetworkUtil.writeStreamables(data, this.memorizedRecipes);
+	public void writeData(RegistryFriendlyByteBuf buffer) {
+		NetworkUtil.writeStreamables(buffer, this.memorizedRecipes);
 	}
 
 	@Override
-	public void readData(RegistryFriendlyByteBuf data) {
-		NetworkUtil.readStreamables(data, this.memorizedRecipes, MemorizedRecipe::new);
+	public void readData(RegistryFriendlyByteBuf buffer) {
+		NetworkUtil.readStreamables(buffer, this.memorizedRecipes, MemorizedRecipe::new);
 	}
 
 	public void copy(RecipeMemory memory) {

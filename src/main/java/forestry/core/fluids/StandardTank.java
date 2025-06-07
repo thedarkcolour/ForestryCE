@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.core.fluids;
 
 import forestry.api.core.tooltips.ToolTip;
@@ -20,9 +10,9 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidType;
-import net.minecraftforge.fluids.capability.templates.FluidTank;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidType;
+import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -36,7 +26,7 @@ public class StandardTank extends FluidTank implements IStreamable {
 	//Used to bypass a second validator test
 	private boolean internalTest;
 
-	@OnlyIn(Dist.CLIENT)
+	// used on client only
 	@Nullable
 	protected ToolTip toolTip;
 
@@ -103,12 +93,12 @@ public class StandardTank extends FluidTank implements IStreamable {
 	}
 
 	public int fillInternal(FluidStack resource, FluidAction action) {
-        this.internalTest = true;
+		this.internalTest = true;
 		int filled = super.fill(resource, action);
 		if (action == FluidAction.EXECUTE && filled > 0) {
-            this.tankUpdateHandler.updateTankLevels(this);
+			this.tankUpdateHandler.updateTankLevels(this);
 		}
-        this.internalTest = false;
+		this.internalTest = false;
 		return filled;
 	}
 
@@ -125,7 +115,7 @@ public class StandardTank extends FluidTank implements IStreamable {
 	public FluidStack drainInternal(int maxDrain, FluidAction action) {
 		FluidStack drained = super.drain(maxDrain, action);
 		if (action == FluidAction.EXECUTE && !drained.isEmpty() && drained.getAmount() > 0) {
-            this.tankUpdateHandler.updateTankLevels(this);
+			this.tankUpdateHandler.updateTankLevels(this);
 		}
 		return drained;
 	}
@@ -143,7 +133,7 @@ public class StandardTank extends FluidTank implements IStreamable {
 	public FluidStack drainInternal(FluidStack resource, FluidAction action) {
 		FluidStack drained = super.drain(resource, action);
 		if (action == FluidAction.EXECUTE && !drained.isEmpty() && drained.getAmount() > 0) {
-            this.tankUpdateHandler.updateTankLevels(this);
+			this.tankUpdateHandler.updateTankLevels(this);
 		}
 		return drained;
 	}
@@ -159,24 +149,23 @@ public class StandardTank extends FluidTank implements IStreamable {
 	}
 
 	@Override
-	public void writeData(RegistryFriendlyByteBuf data) {
-		data.writeFluidStack(this.fluid);
+	public void writeData(RegistryFriendlyByteBuf buffer) {
+		FluidStack.STREAM_CODEC.encode(buffer, this.fluid);
 	}
 
 	@Override
-	public void readData(RegistryFriendlyByteBuf data) {
-        this.fluid = data.readFluidStack();
+	public void readData(RegistryFriendlyByteBuf buffer) {
+		this.fluid = FluidStack.STREAM_CODEC.decode(buffer);
 	}
 
 	@OnlyIn(Dist.CLIENT)
 	public ToolTip getToolTip() {
 		if (this.toolTip == null) {
-            this.toolTip = new TankToolTip(this);
+			this.toolTip = new TankToolTip(this);
 		}
 		return this.toolTip;
 	}
 
-	@OnlyIn(Dist.CLIENT)
 	protected void refreshTooltip() {
 		ToolTip toolTip = getToolTip();
 		toolTip.clear();
@@ -186,17 +175,13 @@ public class StandardTank extends FluidTank implements IStreamable {
 			Fluid fluidType = fluidStack.getFluid();
 			FluidType attributes = fluidType.getFluidType();
 			Rarity rarity = attributes.getRarity();
-			if (rarity == null) {
-				rarity = Rarity.COMMON;
-			}
-			toolTip.add(fluidStack.getDisplayName(), rarity.color);
+            toolTip.add(fluidStack.getHoverName().copy().withStyle(rarity.getStyleModifier()));
 			amount = getFluid().getAmount();
 		}
 		Component liquidAmount = Component.translatable("for.gui.tooltip.liquid.amount", amount, getCapacity());
 		toolTip.add(liquidAmount);
 	}
 
-	@OnlyIn(Dist.CLIENT)
 	private static class TankToolTip extends ToolTip {
 		private final StandardTank standardTank;
 
@@ -206,7 +191,7 @@ public class StandardTank extends FluidTank implements IStreamable {
 
 		@Override
 		public void refresh() {
-            this.standardTank.refreshTooltip();
+			this.standardTank.refreshTooltip();
 		}
 	}
 }

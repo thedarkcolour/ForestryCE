@@ -1,6 +1,7 @@
-package forestry.core.commands;
+package forestry.core.features;
 
 import forestry.api.modules.ForestryModuleIds;
+import forestry.core.commands.*;
 import forestry.modules.features.FeatureProvider;
 import forestry.modules.features.ModFeatureRegistry;
 import net.minecraft.commands.synchronization.ArgumentTypeInfo;
@@ -9,7 +10,7 @@ import net.minecraft.core.registries.Registries;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 @FeatureProvider
-public class CommandArgumentTypes {
+public class CoreCommandArgumentTypes {
 	static {
 		DeferredRegister<ArgumentTypeInfo<?, ?>> registry = ModFeatureRegistry.get(ForestryModuleIds.CORE).getRegistry(Registries.COMMAND_ARGUMENT_TYPE);
 

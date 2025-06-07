@@ -64,15 +64,15 @@ public class WorktableTile extends TileBase implements ICrafterWorktable {
 	}
 
 	@Override
-	public void writeData(RegistryFriendlyByteBuf data) {
-        this.craftingDisplay.writeData(data);
-        this.memory.writeData(data);
+	public void writeData(RegistryFriendlyByteBuf buffer) {
+        this.craftingDisplay.writeData(buffer);
+        this.memory.writeData(buffer);
 	}
 
 	@Override
-	public void readData(RegistryFriendlyByteBuf data) {
-        this.craftingDisplay.readData(data);
-        this.memory.readData(data);
+	public void readData(RegistryFriendlyByteBuf buffer) {
+        this.craftingDisplay.readData(buffer);
+        this.memory.readData(buffer);
 	}
 
 	public boolean hasRecipeConflict() {

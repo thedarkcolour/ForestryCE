@@ -214,14 +214,14 @@ public class EscritoireGameBoard implements INbtWritable, IStreamable {
 	}
 
 	@Override
-	public void writeData(RegistryFriendlyByteBuf data) {
-		data.writeVarInt(this.tokenCount);
-		NetworkUtil.writeStreamables(data, this.gameTokens);
+	public void writeData(RegistryFriendlyByteBuf buffer) {
+		buffer.writeVarInt(this.tokenCount);
+		NetworkUtil.writeStreamables(buffer, this.gameTokens);
 	}
 
 	@Override
-	public void readData(RegistryFriendlyByteBuf data) {
-		this.tokenCount = data.readVarInt();
-		NetworkUtil.readStreamables(data, this.gameTokens, EscritoireGameToken::new);
+	public void readData(RegistryFriendlyByteBuf buffer) {
+		this.tokenCount = buffer.readVarInt();
+		NetworkUtil.readStreamables(buffer, this.gameTokens, EscritoireGameToken::new);
 	}
 }

@@ -6,7 +6,6 @@ import forestry.api.apiculture.genetics.IBee;
 import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.api.multiblock.IAlvearyComponent;
 import forestry.apiculture.blocks.BlockAlveary;
-import forestry.apiculture.blocks.BlockAlvearyType;
 import forestry.apiculture.gui.ContainerAlvearySwarmer;
 import forestry.apiculture.hives.Hive;
 import forestry.apiculture.hives.HiveDecorator;
@@ -35,7 +34,7 @@ public class TileAlvearySwarmer extends TileAlveary implements WorldlyContainer,
 	private final ArrayDeque<ItemStack> pendingSpawns = new ArrayDeque<>();
 
 	public TileAlvearySwarmer(BlockPos pos, BlockState state) {
-		super(BlockAlvearyType.SWARMER, pos, state);
+		super(BlockAlveary.Type.SWARMER, pos, state);
 		this.inventory = new InventorySwarmer(this);
 	}
 

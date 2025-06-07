@@ -2,26 +2,23 @@ package forestry.factory.recipes;
 
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandlerItem;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
 
 import javax.annotation.Nullable;
 
-public class BottlerRecipe {
+public record BottlerRecipe(ItemStack input, FluidStack fluid, ItemStack output, boolean isFillRecipe) {
 	@Nullable
 	public static BottlerRecipe createEmptyingRecipe(ItemStack filled) {
 		ItemStack empty = filled.copy();
 		empty.setCount(1);
-		LazyOptional<IFluidHandlerItem> fluidHandlerCap = FluidUtil.getFluidHandler(empty);
 
-		if (!fluidHandlerCap.isPresent()) {
+		IFluidHandlerItem fluidHandler = empty.getCapability(Capabilities.FluidHandler.ITEM);
+		if (fluidHandler == null) {
 			return null;
 		}
-
-		IFluidHandlerItem fluidHandler = fluidHandlerCap.orElse(null);
 
 		FluidStack drained = fluidHandler.drain(Integer.MAX_VALUE, IFluidHandler.FluidAction.EXECUTE);
 		if (!drained.isEmpty() && drained.getAmount() > 0) {
@@ -36,12 +33,10 @@ public class BottlerRecipe {
 		ItemStack filled = empty.copy();
 		filled.setCount(1);
 
-		LazyOptional<IFluidHandlerItem> fluidHandlerCap = FluidUtil.getFluidHandler(filled);
-		if (!fluidHandlerCap.isPresent()) {
+		IFluidHandlerItem fluidHandler = empty.getCapability(Capabilities.FluidHandler.ITEM);
+		if (fluidHandler == null) {
 			return null;
 		}
-
-		IFluidHandlerItem fluidHandler = fluidHandlerCap.orElse(null);
 
 		int fillAmount = fluidHandler.fill(new FluidStack(res, Integer.MAX_VALUE), IFluidHandler.FluidAction.EXECUTE);
 		if (fillAmount > 0) {
@@ -51,23 +46,11 @@ public class BottlerRecipe {
 		return null;
 	}
 
-	public final FluidStack fluid;
-	public final ItemStack inputStack;
-	public final ItemStack outputStack;
-	public final boolean fillRecipe;
-
-	public BottlerRecipe(ItemStack inputStack, FluidStack fluid, ItemStack outputStack, boolean fillRecipe) {
-		this.fluid = fluid;
-		this.inputStack = inputStack;
-		this.outputStack = outputStack;
-		this.fillRecipe = fillRecipe;
-	}
-
 	public boolean matchEmpty(ItemStack emptyCan, FluidStack resource) {
-		return !emptyCan.isEmpty() && ItemStack.isSameItem(emptyCan, this.inputStack) && resource.isFluidEqual(this.fluid) && this.fillRecipe;
+		return !emptyCan.isEmpty() && ItemStack.isSameItem(emptyCan, this.input) && FluidStack.isSameFluidSameComponents(resource, this.fluid) && this.isFillRecipe;
 	}
 
 	public boolean matchFilled(ItemStack filledCan) {
-		return !this.outputStack.isEmpty() && !this.fillRecipe && ItemStack.isSameItem(this.outputStack, filledCan);
+		return !this.output.isEmpty() && !this.isFillRecipe && ItemStack.isSameItem(this.output, filledCan);
 	}
 }

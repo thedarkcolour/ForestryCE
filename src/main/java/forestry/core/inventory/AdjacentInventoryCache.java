@@ -1,34 +1,16 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.core.inventory;
 
 import forestry.core.tiles.AdjacentTileCache;
 import forestry.core.tiles.TileUtil;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.items.IItemHandler;
 import net.neoforged.neoforge.items.IItemHandler;
 
 import javax.annotation.Nullable;
 import java.util.*;
+import java.util.function.Predicate;
 
-/**
- * @author CovertJaguar <http://www.railcraft.info/>
- */
 public final class AdjacentInventoryCache implements AdjacentTileCache.ICacheListener {
-
-	public interface ITileFilter {
-		boolean matches(BlockEntity tile);
-	}
-
 	private final AdjacentTileCache cache;
 	private boolean changed = true;
 	private final List<IItemHandler> invs = new LinkedList<>();
@@ -36,17 +18,17 @@ public final class AdjacentInventoryCache implements AdjacentTileCache.ICacheLis
 	@Nullable
 	private final Comparator<IItemHandler> sorter;
 	@Nullable
-	private final ITileFilter filter;
+	private final Predicate<BlockEntity> filter;
 
 	public AdjacentInventoryCache(BlockEntity tile, AdjacentTileCache cache) {
 		this(tile, cache, null, null);
 	}
 
-	public AdjacentInventoryCache(BlockEntity tile, AdjacentTileCache cache, @Nullable ITileFilter filter) {
+	public AdjacentInventoryCache(BlockEntity tile, AdjacentTileCache cache, @Nullable Predicate<BlockEntity> filter) {
 		this(tile, cache, filter, null);
 	}
 
-	public AdjacentInventoryCache(BlockEntity tile, AdjacentTileCache cache, @Nullable ITileFilter filter, @Nullable Comparator<IItemHandler> sorter) {
+	public AdjacentInventoryCache(BlockEntity tile, AdjacentTileCache cache, @Nullable Predicate<BlockEntity> filter, @Nullable Comparator<IItemHandler> sorter) {
 		this.cache = cache;
 		this.filter = filter;
 		this.sorter = sorter;
@@ -73,34 +55,33 @@ public final class AdjacentInventoryCache implements AdjacentTileCache.ICacheLis
 
 	@Override
 	public void changed() {
-        this.changed = true;
+		this.changed = true;
 	}
 
 	@Override
 	public void purge() {
-        this.invs.clear();
+		this.invs.clear();
 		Arrays.fill(this.sides, null);
 	}
 
 	private void checkChanged() {
-        this.cache.refresh();
+		this.cache.refresh();
 		if (this.changed) {
-            this.changed = false;
+			this.changed = false;
 			purge();
 			for (Direction side : Direction.VALUES) {
 				BlockEntity tile = this.cache.getTileOnSide(side);
-				if (tile != null && (this.filter == null || this.filter.matches(tile))) {
+				if (tile != null && (this.filter == null || this.filter.test(tile))) {
 					IItemHandler inv = TileUtil.getInventoryFromTile(tile, side.getOpposite());
 					if (inv != null) {
-                        this.sides[side.ordinal()] = inv;
-                        this.invs.add(inv);
+						this.sides[side.ordinal()] = inv;
+						this.invs.add(inv);
 					}
 				}
 			}
 			if (this.sorter != null) {
-                this.invs.sort(this.sorter);
+				this.invs.sort(this.sorter);
 			}
 		}
 	}
-
 }

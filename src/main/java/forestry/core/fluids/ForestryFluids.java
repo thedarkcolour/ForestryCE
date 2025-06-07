@@ -11,8 +11,8 @@ import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
@@ -123,10 +123,11 @@ public enum ForestryFluids {
 
 	public final FluidStack getFluid(int mb) {
 		Fluid fluid = getFluid();
-		if (fluid == Fluids.EMPTY) {
-			return FluidStack.EMPTY;
-		}
 		return new FluidStack(fluid, mb);
+	}
+
+	public final SizedFluidIngredient ingredient(int mb) {
+		return SizedFluidIngredient.of(getFluid(), mb);
 	}
 
 	public final int getParticleColor() {

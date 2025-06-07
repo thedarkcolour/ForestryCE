@@ -227,8 +227,8 @@ public class CoreClientHandler implements IClientModuleHandler {
 		event.register(ClientManager.FORESTRY_ITEM_COLOR, ArboricultureItems.POLLEN_FERTILE.item());
 
 		// Lepidopterology
-		event.register(ClientManager.FORESTRY_ITEM_COLOR, LepidopterologyItems.CATERPILLAR_GE.item());
-		event.register(ClientManager.FORESTRY_ITEM_COLOR, LepidopterologyItems.SERUM_GE.item());
+		event.register(ClientManager.FORESTRY_ITEM_COLOR, LepidopterologyItems.CATERPILLAR.item());
+		event.register(ClientManager.FORESTRY_ITEM_COLOR, LepidopterologyItems.SERUM.item());
 
 		// Backpacks
 		event.register(ClientManager.FORESTRY_ITEM_COLOR,

@@ -121,12 +121,6 @@ public class ForestryItemTagsProvider {
 		tags.tag(ForestryTags.Items.DUSTS_ASH).add(CoreItems.ASH.item());
 		tags.tag(ForestryTags.Items.SAWDUST).add(CoreItems.CRAFTING_MATERIALS.item(EnumCraftingMaterial.WOOD_PULP));
 
-		tags.tag(ForestryTags.Items.CRAFTING_TABLES)
-			.addOptionalTag(ResourceLocation.fromNamespaceAndPath("c", "player_workstations/crafting_tables"))
-			.addOptionalTag(ResourceLocation.fromNamespaceAndPath("c", "workbenches"))
-			.addOptionalTag(ResourceLocation.fromNamespaceAndPath("c", "workbench"))
-			.add(Items.CRAFTING_TABLE);
-
 		tags.tag(ForestryTags.Items.SCOOPS).add(ApicultureItems.SCOOP.item());
 
 		tags.tag(ForestryTags.Items.BEES).add(ApicultureItems.BEE_DRONE.get(), ApicultureItems.BEE_PRINCESS.get(), ApicultureItems.BEE_QUEEN.get(), ApicultureItems.BEE_LARVAE.get());

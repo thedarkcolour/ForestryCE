@@ -89,15 +89,15 @@ public class TileStill extends TilePowered implements WorldlyContainer, ILiquidT
 	}
 
 	@Override
-	public void writeData(RegistryFriendlyByteBuf data) {
-		super.writeData(data);
-        this.tankManager.writeData(data);
+	public void writeData(RegistryFriendlyByteBuf buffer) {
+		super.writeData(buffer);
+        this.tankManager.writeData(buffer);
 	}
 
 	@Override
-	public void readData(RegistryFriendlyByteBuf data) {
-		super.readData(data);
-        this.tankManager.readData(data);
+	public void readData(RegistryFriendlyByteBuf buffer) {
+		super.readData(buffer);
+        this.tankManager.readData(buffer);
 	}
 
 	@Override

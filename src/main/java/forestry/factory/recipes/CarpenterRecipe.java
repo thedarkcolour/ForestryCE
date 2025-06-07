@@ -27,8 +27,7 @@ public class CarpenterRecipe implements ICarpenterRecipe {
 		Codec.INT.fieldOf("time").forGetter(CarpenterRecipe::getPackagingTime),
 		SizedFluidIngredient.FLAT_CODEC.optionalFieldOf("liquid").forGetter(CarpenterRecipe::getInputFluid),
 		Ingredient.CODEC.optionalFieldOf("box", Ingredient.EMPTY).forGetter(CarpenterRecipe::getBox),
-		CodecUtil.CRAFTING_RECIPE_CODEC.fieldOf("recipe").forGetter(CarpenterRecipe::getCraftingGridRecipe),
-		ItemStack.OPTIONAL_CODEC.fieldOf("result").forGetter(r -> r.result)
+		CodecUtil.CRAFTING_RECIPE_CODEC.fieldOf("recipe").forGetter(CarpenterRecipe::getCraftingGridRecipe)
 	).apply(inst, CarpenterRecipe::new));
 	public static final StreamCodec<RegistryFriendlyByteBuf, CarpenterRecipe> STREAM_CODEC = StreamCodec.composite(
 		ByteBufCodecs.VAR_INT,
@@ -39,8 +38,6 @@ public class CarpenterRecipe implements ICarpenterRecipe {
 		CarpenterRecipe::getBox,
 		CodecUtil.CRAFTING_RECIPE_STREAM_CODEC,
 		CarpenterRecipe::getCraftingGridRecipe,
-		ItemStack.STREAM_CODEC,
-		r -> r.result,
 		CarpenterRecipe::new
 	);
 
@@ -48,14 +45,12 @@ public class CarpenterRecipe implements ICarpenterRecipe {
 	private final Optional<SizedFluidIngredient> liquid;
 	private final Ingredient box;
 	private final CraftingRecipe recipe;
-	private final ItemStack result;
 
-	public CarpenterRecipe(int packagingTime, Optional<SizedFluidIngredient> liquid, Ingredient box, CraftingRecipe recipe, ItemStack result) {
+	public CarpenterRecipe(int packagingTime, Optional<SizedFluidIngredient> liquid, Ingredient box, CraftingRecipe recipe) {
 		this.packagingTime = packagingTime;
 		this.liquid = liquid;
 		this.box = box;
 		this.recipe = recipe;
-		this.result = result;
 	}
 
 	@Override
@@ -80,7 +75,7 @@ public class CarpenterRecipe implements ICarpenterRecipe {
 
 	@Override
 	public ItemStack getResultItem(HolderLookup.Provider registries) {
-		return !this.result.isEmpty() ? this.result : this.recipe.getResultItem(registries);
+		return this.recipe.getResultItem(registries);
 	}
 
 	@Override

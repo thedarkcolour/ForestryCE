@@ -3,7 +3,7 @@ package forestry.apiculture.genetics.effects;
 import forestry.api.apiculture.IBeeHousing;
 import forestry.api.genetics.IEffectData;
 import forestry.api.genetics.IGenome;
-import forestry.core.damage.CoreDamageTypes;
+import forestry.core.features.CoreDamageTypes;
 import net.minecraft.world.entity.monster.Monster;
 
 import java.util.List;

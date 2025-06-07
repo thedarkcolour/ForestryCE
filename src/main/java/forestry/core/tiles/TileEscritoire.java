@@ -122,17 +122,17 @@ public class TileEscritoire extends TileBase implements WorldlyContainer, ISlotP
 	}
 
 	@Override
-	public void writeData(RegistryFriendlyByteBuf data) {
-		super.writeData(data);
+	public void writeData(RegistryFriendlyByteBuf buffer) {
+		super.writeData(buffer);
 		ItemStack displayStack = getIndividualOnDisplay();
-		data.writeItem(displayStack);
+		buffer.writeItem(displayStack);
 	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void readData(RegistryFriendlyByteBuf data) {
-		super.readData(data);
-        this.individualOnDisplayClient = data.readItem();
+	public void readData(RegistryFriendlyByteBuf buffer) {
+		super.readData(buffer);
+        this.individualOnDisplayClient = buffer.readItem();
 	}
 
 	/* ISlotPickupWatcher */

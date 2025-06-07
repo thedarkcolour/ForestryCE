@@ -261,22 +261,22 @@ public abstract class EngineBlockEntity extends TileBase implements IActivatable
 
 	/* NETWORK */
 	@Override
-	public void writeData(RegistryFriendlyByteBuf data) {
-		super.writeData(data);
-		data.writeBoolean(this.active);
-		data.writeInt(this.heat);
-		data.writeFloat(this.pistonSpeedServer);
-        this.energyStorage.writeData(data);
+	public void writeData(RegistryFriendlyByteBuf buffer) {
+		super.writeData(buffer);
+		buffer.writeBoolean(this.active);
+		buffer.writeInt(this.heat);
+		buffer.writeFloat(this.pistonSpeedServer);
+        this.energyStorage.writeData(buffer);
 	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void readData(RegistryFriendlyByteBuf data) {
-		super.readData(data);
-        this.active = data.readBoolean();
-        this.heat = data.readInt();
-        this.pistonSpeedServer = data.readFloat();
-        this.energyStorage.readData(data);
+	public void readData(RegistryFriendlyByteBuf buffer) {
+		super.readData(buffer);
+        this.active = buffer.readBoolean();
+        this.heat = buffer.readInt();
+        this.pistonSpeedServer = buffer.readFloat();
+        this.energyStorage.readData(buffer);
 	}
 
 	@Override

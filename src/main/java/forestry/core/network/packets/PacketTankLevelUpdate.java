@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.core.network.packets;
 
 import forestry.api.modules.IForestryPacketClient;
@@ -16,34 +6,28 @@ import forestry.core.network.PacketIdClient;
 import forestry.core.tiles.ILiquidTankTile;
 import forestry.core.tiles.TileUtil;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.fluids.FluidStack;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public record PacketTankLevelUpdate(BlockPos pos, int tankIndex, FluidStack contents) implements IForestryPacketClient {
-	public PacketTankLevelUpdate(ILiquidTankTile tileEntity, int tankIndex, FluidStack contents) {
-		this(tileEntity.getBlockPos(), tankIndex, contents);
-	}
-
 	@Override
-	public ResourceLocation id() {
+	public Type<?> type() {
 		return PacketIdClient.TANK_LEVEL_UPDATE;
 	}
 
-	@Override
-	public void write(FriendlyByteBuf buffer) {
-		buffer.writeBlockPos(this.pos);
-		buffer.writeVarInt(this.tankIndex);
-		buffer.writeFluidStack(this.contents);
+	public static void encode(RegistryFriendlyByteBuf buffer, PacketTankLevelUpdate msg) {
+		buffer.writeBlockPos(msg.pos);
+		buffer.writeVarInt(msg.tankIndex);
+		FluidStack.STREAM_CODEC.encode(buffer, msg.contents);
 	}
 
-	public static PacketTankLevelUpdate decode(FriendlyByteBuf buffer) {
-		return new PacketTankLevelUpdate(buffer.readBlockPos(), buffer.readVarInt(), buffer.readFluidStack());
+	public static PacketTankLevelUpdate decode(RegistryFriendlyByteBuf buffer) {
+		return new PacketTankLevelUpdate(buffer.readBlockPos(), buffer.readVarInt(), FluidStack.STREAM_CODEC.decode(buffer));
 	}
 
-	public static void handle(PacketTankLevelUpdate msg, Player player) {
-		TileUtil.actOnTile(player.level(), msg.pos, ILiquidTankTile.class, tile -> {
+	public static void handle(PacketTankLevelUpdate msg, IPayloadContext ctx) {
+		TileUtil.actOnTile(ctx.player().level(), msg.pos, ILiquidTankTile.class, tile -> {
 			ITankManager tankManager = tile.getTankManager();
 			tankManager.processTankUpdate(msg.tankIndex, msg.contents);
 		});

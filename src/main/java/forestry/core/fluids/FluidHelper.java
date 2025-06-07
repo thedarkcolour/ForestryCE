@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.core.fluids;
 
 import forestry.core.utils.ItemStackUtil;
@@ -17,46 +7,28 @@ import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fluids.FluidActionResult;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidType;
-import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandlerItem;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidUtil;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
-import javax.annotation.Nullable;
-
+// todo nah wtf is this
 //TODO: Fix isFillable's
-public final class FluidHelper {
-
-	private FluidHelper() {
-	}
-
-	public static boolean areFluidStacksEqual(@Nullable FluidStack fluidStack1, @Nullable FluidStack fluidStack2) {
-		if (fluidStack1 == null) {
-			return fluidStack2 == null;
-		} else {
-			return fluidStack1.isFluidStackIdentical(fluidStack2);
+public class FluidHelper {
+	public static boolean canAcceptFluid(Level level, BlockPos pos, Direction facing, FluidStack fluid) {
+		IFluidHandler handler = level.getCapability(Capabilities.FluidHandler.BLOCK, pos, facing);
+		if (handler == null) {
+			return false;
 		}
-	}
 
-	public static boolean canAcceptFluid(Level world, BlockPos pos, Direction facing, FluidStack fluid, boolean checkSpace) {
-		LazyOptional<IFluidHandler> capability = FluidUtil.getFluidHandler(world, pos, facing);
-		return capability.filter((handler) -> {
-				for (int tank = 0; tank < handler.getTanks(); tank++) {
-					int amountFilled = handler.fill(fluid, IFluidHandler.FluidAction.SIMULATE);
-					if (amountFilled > 0 && (!checkSpace || amountFilled >= fluid.getAmount())) {
-						return true;
-					}
-				}
-				return false;
-			})
-			.isPresent();
-	}
+		for (int tank = 0; tank < handler.getTanks(); tank++) {
+			int amountFilled = handler.fill(fluid, IFluidHandler.FluidAction.SIMULATE);
+			if (amountFilled > 0) {
+				return true;
+			}
+		}
 
-	public static boolean canAcceptFluid(Level world, BlockPos pos, Direction facing, FluidStack fluid) {
-		return canAcceptFluid(world, pos, facing, fluid, false);
+		return false;
 	}
 
 	public enum FillStatus {

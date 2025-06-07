@@ -114,11 +114,11 @@ public abstract class TileForestry extends BlockEntity implements IStreamable, I
 
 	/* IStreamable */
 	@Override
-	public void writeData(RegistryFriendlyByteBuf data) {
+	public void writeData(RegistryFriendlyByteBuf buffer) {
 	}
 
 	@Override
-	public void readData(RegistryFriendlyByteBuf data) {
+	public void readData(RegistryFriendlyByteBuf buffer) {
 	}
 
 	// serverside only, called when the block is destroyed and its inventory is spilled into the world

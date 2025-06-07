@@ -1,5 +1,7 @@
 package forestry.apiculture.blocks;
 
+import forestry.api.core.IBlockSubtype;
+import forestry.apiculture.features.ApicultureTiles;
 import forestry.apiculture.multiblock.*;
 import forestry.apiculture.network.packets.PacketAlvearyChange;
 import forestry.core.blocks.BlockStructure;
@@ -7,6 +9,7 @@ import forestry.core.tiles.IActivatable;
 import forestry.core.tiles.TileUtil;
 import forestry.core.utils.ItemTooltipUtil;
 import forestry.core.utils.NetworkUtil;
+import forestry.modules.features.FeatureTileType;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -54,15 +57,15 @@ public class BlockAlveary extends BlockStructure implements EntityBlock {
 		}
 	}
 
-	private final BlockAlvearyType type;
+	private final Type type;
 
-	public BlockAlveary(BlockAlvearyType type) {
+	public BlockAlveary(Type type) {
 		super(Block.Properties.of().strength(1f).sound(SoundType.WOOD));
 		this.type = type;
 		BlockState defaultState = this.getStateDefinition().any();
-		if (type == BlockAlvearyType.PLAIN) {
+		if (type == Type.PLAIN) {
 			defaultState = defaultState.setValue(PLAIN_TYPE, AlvearyPlainType.NORMAL);
-		} else if (type.activatable) {
+		} else if (type.activatable()) {
 			defaultState = defaultState.setValue(STATE, State.OFF);
 		}
 		registerDefaultState(defaultState);
@@ -73,22 +76,14 @@ public class BlockAlveary extends BlockStructure implements EntityBlock {
 		builder.add(PLAIN_TYPE, STATE);
 	}
 
-	public BlockAlvearyType getType() {
+	public Type getType() {
 		return this.type;
 	}
 
 	@Nullable
 	@Override
 	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-		return switch (this.type) {
-			case SWARMER -> new TileAlvearySwarmer(pos, state);
-			case FAN -> new TileAlvearyFan(pos, state);
-			case HEATER -> new TileAlvearyHeater(pos, state);
-			case HYGRO -> new TileAlvearyHygroregulator(pos, state);
-			case STABILISER -> new TileAlvearyStabiliser(pos, state);
-			case SIEVE -> new TileAlvearySieve(pos, state);
-			default -> new TileAlvearyPlain(pos, state);
-		};
+		return this.type.tileFeature.tileType().create(pos, state);
 	}
 
 	public BlockState getNewState(TileAlveary tile) {
@@ -96,7 +91,7 @@ public class BlockAlveary extends BlockStructure implements EntityBlock {
 
 		if (tile instanceof IActivatable activatable) {
 			state = state.setValue(STATE, activatable.isActive() ? State.ON : State.OFF);
-		} else if (getType() == BlockAlvearyType.PLAIN) {
+		} else if (getType() == Type.PLAIN) {
 			Level level = tile.getLevel();
 			BlockPos pos = tile.getBlockPos();
 
@@ -160,6 +155,21 @@ public class BlockAlveary extends BlockStructure implements EntityBlock {
 			tooltip.add(Component.translatable("block.forestry.alveary_tooltip"));
 		} else {
 			ItemTooltipUtil.addShiftInformation(tooltip);
+		}
+	}
+
+	public record Type(String name, boolean activatable, FeatureTileType<? extends TileAlveary> tileFeature) implements IBlockSubtype {
+		public static final Type PLAIN = new Type("plain", false, ApicultureTiles.ALVEARY_PLAIN);
+		public static final Type SWARMER = new Type("swarmer", true, ApicultureTiles.ALVEARY_SWARMER);
+		public static final Type FAN = new Type("fan", true, ApicultureTiles.ALVEARY_FAN);
+		public static final Type HEATER = new Type("heater", true, ApicultureTiles.ALVEARY_HEATER);
+		public static final Type HYGRO = new Type("hygro", false, ApicultureTiles.ALVEARY_HYGROREGULATOR);
+		public static final Type STABILISER = new Type("stabiliser", false, ApicultureTiles.ALVEARY_STABILISER);
+		public static final Type SIEVE = new Type("sieve", false, ApicultureTiles.ALVEARY_SIEVE);
+
+		@Override
+		public String getSerializedName() {
+			return this.name;
 		}
 	}
 }

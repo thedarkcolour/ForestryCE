@@ -57,21 +57,21 @@ public abstract class TileTreeContainer extends BlockEntity implements IStreamab
 	}
 
 	@Override
-	public void writeData(RegistryFriendlyByteBuf data) {
+	public void writeData(RegistryFriendlyByteBuf buffer) {
 		ITree tree = getTree();
 		if (tree != null) {
-			data.writeBoolean(true);
+			buffer.writeBoolean(true);
 			ResourceLocation speciesId = tree.getSpecies().id();
-			data.writeResourceLocation(speciesId);
+			buffer.writeResourceLocation(speciesId);
 		} else {
-			data.writeBoolean(false);
+			buffer.writeBoolean(false);
 		}
 	}
 
 	@Override
-	public void readData(RegistryFriendlyByteBuf data) {
-		if (data.readBoolean()) {
-			ResourceLocation speciesId = data.readResourceLocation();
+	public void readData(RegistryFriendlyByteBuf buffer) {
+		if (buffer.readBoolean()) {
+			ResourceLocation speciesId = buffer.readResourceLocation();
 			ITree tree = SpeciesUtil.getTreeSpecies(speciesId).createIndividual();
 			setTree(tree);
 		}

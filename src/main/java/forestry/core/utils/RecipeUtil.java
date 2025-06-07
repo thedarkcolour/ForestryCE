@@ -20,13 +20,11 @@ import net.minecraft.world.level.material.Fluid;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.crafting.FluidIngredient;
 import net.neoforged.neoforge.server.ServerLifecycleHooks;
 
 import javax.annotation.Nullable;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -229,13 +227,13 @@ public class RecipeUtil {
 		return manager.byType(type.type()).stream();
 	}
 
-	public static <R extends Recipe<C>, C extends RecipeInput> Set<ResourceLocation> getTargetFluidsFromStacks(RecipeManager manager, RecipeType<R> type, Function<R, FluidStack> targetFluid) {
-		return getTargetFluids(manager, type, recipe -> targetFluid.apply(recipe).getFluid());
+	public static <R extends Recipe<C>, C extends RecipeInput> Set<ResourceLocation> getTargetFluidsFromIngredients(RecipeManager manager, RecipeType<R> type, Function<R, FluidIngredient> targetFluid) {
+		return getTargetFluids(manager, type, recipe -> Arrays.stream(targetFluid.apply(recipe).getStacks()).map(FluidStack::getFluid));
 	}
 
-	public static <R extends Recipe<I>, I extends RecipeInput> Set<ResourceLocation> getTargetFluids(RecipeManager manager, RecipeType<R> type, Function<R, Fluid> targetFluid) {
+	public static <R extends Recipe<I>, I extends RecipeInput> Set<ResourceLocation> getTargetFluids(RecipeManager manager, RecipeType<R> type, Function<R, Stream<Fluid>> targetFluid) {
 		return manager.byType(type).stream()
-			.map(value -> ModUtil.getRegistryName(targetFluid.apply(value.value())))
+			.flatMap(holder -> targetFluid.apply(holder.value()).map(ModUtil::getRegistryName))
 			.collect(Collectors.toSet());
 	}
 

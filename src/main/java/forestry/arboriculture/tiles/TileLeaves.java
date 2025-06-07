@@ -301,8 +301,8 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 	private static final short FLAG_HAS_INACTIVE_EFFECT = 1 << 3;
 
 	@Override
-	public void writeData(RegistryFriendlyByteBuf data) {
-		super.writeData(data);
+	public void writeData(RegistryFriendlyByteBuf buffer) {
+		super.writeData(buffer);
 
 		byte leafState = 0;
 		IGenome genome = getTree().getGenome();
@@ -326,32 +326,32 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 			leafState |= FLAG_HAS_INACTIVE_EFFECT;
 		}
 
-		data.writeByte(leafState);
+		buffer.writeByte(leafState);
 
 		if (hasFruit) {
 			String fruitAlleleUID = genome.getActiveAllele(TreeChromosomes.FRUIT).alleleId().toString();
 			int colourFruits = getFruitColour();
 
-			data.writeUtf(fruitAlleleUID);
-			data.writeInt(colourFruits);
+			buffer.writeUtf(fruitAlleleUID);
+			buffer.writeInt(colourFruits);
 		}
 
 		// todo come up with a way to send numeric IDs instead of string IDs
 		if (hasActiveEffect) {
-			data.writeUtf(effects.active().alleleId().toString());
+			buffer.writeUtf(effects.active().alleleId().toString());
 		}
 		if (hasInactiveEffect) {
-			data.writeUtf(effects.inactive().alleleId().toString());
+			buffer.writeUtf(effects.inactive().alleleId().toString());
 		}
 	}
 
 	@Override
-	public void readData(RegistryFriendlyByteBuf data) {
+	public void readData(RegistryFriendlyByteBuf buffer) {
 		ResourceLocation speciesId = null;
-		if (data.readBoolean()) {
-			speciesId = data.readResourceLocation(); // this is called instead of super.readData, be careful!
+		if (buffer.readBoolean()) {
+			speciesId = buffer.readResourceLocation(); // this is called instead of super.readData, be careful!
 		}
-		byte leafState = data.readByte();
+		byte leafState = buffer.readByte();
 
 		this.isPollinatedState = (leafState & FLAG_IS_POLLINATED) != 0;
 		this.isFruitLeaf = (leafState & FLAG_HAS_FRUIT) != 0;
@@ -360,12 +360,12 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 		ResourceLocation fruitId = null;
 
 		if (this.isFruitLeaf) {
-			fruitId = data.readResourceLocation();
-			this.colourFruits = data.readInt();
+			fruitId = buffer.readResourceLocation();
+			this.colourFruits = buffer.readInt();
 		}
 
-		ResourceLocation activeEffectAlleleId = hasActiveEffect ? data.readResourceLocation() : null;
-		ResourceLocation inactiveEffectAlleleId = hasInactiveEffect ? data.readResourceLocation() : null;
+		ResourceLocation activeEffectAlleleId = hasActiveEffect ? buffer.readResourceLocation() : null;
+		ResourceLocation inactiveEffectAlleleId = hasInactiveEffect ? buffer.readResourceLocation() : null;
 
 		ITreeSpecies treeTemplate = SpeciesUtil.TREE_TYPE.get().getSpeciesSafe(speciesId);
 		if (treeTemplate != null) {

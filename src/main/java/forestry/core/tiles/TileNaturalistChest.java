@@ -105,13 +105,13 @@ public abstract class TileNaturalistChest extends TileBase implements IPagedInve
 
 	/* IStreamable */
 	@Override
-	public void writeData(RegistryFriendlyByteBuf data) {
-		data.writeInt(this.numPlayersUsing);
+	public void writeData(RegistryFriendlyByteBuf buffer) {
+		buffer.writeInt(this.numPlayersUsing);
 	}
 
 	@Override
-	public void readData(RegistryFriendlyByteBuf data) {
-		this.numPlayersUsing = data.readInt();
+	public void readData(RegistryFriendlyByteBuf buffer) {
+		this.numPlayersUsing = buffer.readInt();
 	}
 
 	@Override

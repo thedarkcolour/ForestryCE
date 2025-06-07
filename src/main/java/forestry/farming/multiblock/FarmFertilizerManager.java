@@ -79,12 +79,12 @@ public class FarmFertilizerManager implements INbtWritable, INbtReadable, IStrea
 	}
 
 	@Override
-	public void writeData(RegistryFriendlyByteBuf data) {
-		data.writeVarInt(this.storedFertilizer);
+	public void writeData(RegistryFriendlyByteBuf buffer) {
+		buffer.writeVarInt(this.storedFertilizer);
 	}
 
 	@Override
-	public void readData(RegistryFriendlyByteBuf data) {
-        this.storedFertilizer = data.readVarInt();
+	public void readData(RegistryFriendlyByteBuf buffer) {
+        this.storedFertilizer = buffer.readVarInt();
 	}
 }

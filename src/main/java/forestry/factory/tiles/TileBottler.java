@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.factory.tiles;
 
 import forestry.api.core.ForestryError;
@@ -39,14 +29,11 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidType;
-import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fluids.IFluidTank;
-import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidType;
+import net.neoforged.neoforge.fluids.FluidUtil;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
 import javax.annotation.Nullable;
 import java.util.EnumMap;
@@ -70,10 +57,10 @@ public class TileBottler extends TilePowered implements WorldlyContainer, ILiqui
 
 		setInternalInventory(new InventoryBottler(this));
 
-        this.resourceTank = new StandardTank(Constants.PROCESSOR_TANK_CAPACITY);
-        this.tankManager = new TankManager(this, this.resourceTank);
+		this.resourceTank = new StandardTank(Constants.PROCESSOR_TANK_CAPACITY);
+		this.tankManager = new TankManager(this, this.resourceTank);
 
-        this.canDump = new EnumMap<>(Direction.class);
+		this.canDump = new EnumMap<>(Direction.class);
 	}
 
 	/* SAVING & LOADING */
@@ -81,28 +68,28 @@ public class TileBottler extends TilePowered implements WorldlyContainer, ILiqui
 	@Override
 	public void saveAdditional(CompoundTag compound) {
 		super.saveAdditional(compound);
-        this.tankManager.write(compound);
+		this.tankManager.write(compound);
 	}
 
 	@Override
 	public void load(CompoundTag compound) {
 		super.load(compound);
-        this.tankManager.read(compound);
+		this.tankManager.read(compound);
 		checkEmptyRecipe();
 		checkFillRecipe();
 	}
 
 	@Override
-	public void writeData(RegistryFriendlyByteBuf data) {
-		super.writeData(data);
-        this.tankManager.writeData(data);
+	public void writeData(RegistryFriendlyByteBuf buffer) {
+		super.writeData(buffer);
+		this.tankManager.writeData(buffer);
 	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void readData(RegistryFriendlyByteBuf data) {
-		super.readData(data);
-        this.tankManager.readData(data);
+	public void readData(RegistryFriendlyByteBuf buffer) {
+		super.readData(buffer);
+		this.tankManager.readData(buffer);
 	}
 
 	@Override
@@ -130,7 +117,7 @@ public class TileBottler extends TilePowered implements WorldlyContainer, ILiqui
 
 		if (canDump()) {
 			if (this.dumpingFluid || updateOnInterval(20)) {
-                this.dumpingFluid = dumpFluid();
+				this.dumpingFluid = dumpFluid();
 			}
 		}
 	}
@@ -140,7 +127,7 @@ public class TileBottler extends TilePowered implements WorldlyContainer, ILiqui
 		if (fluid != null) {
 			if (this.canDump.isEmpty()) {
 				for (Direction facing : Direction.VALUES) {
-                    this.canDump.put(facing, FluidHelper.canAcceptFluid(this.level, this.worldPosition.relative(facing), facing.getOpposite(), fluid));
+					this.canDump.put(facing, FluidHelper.canAcceptFluid(this.level, this.worldPosition.relative(facing), facing.getOpposite(), fluid));
 				}
 			}
 
@@ -155,14 +142,15 @@ public class TileBottler extends TilePowered implements WorldlyContainer, ILiqui
 
 	//TODO - a bit ugly atm. Are the new checks worth the perf with the new interface? Can this be written better?
 	//Is there a race condition here?
+	// ^ what is blud on about
 	private boolean dumpFluid() {
 		if (!this.resourceTank.isEmpty()) {
 			for (Direction facing : Direction.VALUES) {
 				if (this.canDump.get(facing)) {
-					LazyOptional<IFluidHandler> fluidDestination = FluidUtil.getFluidHandler(this.level, this.worldPosition.relative(facing), facing.getOpposite());
+					IFluidHandler fluidDestination = this.level.getCapability(Capabilities.FluidHandler.BLOCK, this.worldPosition.relative(facing), facing.getOpposite());
 
-					if (fluidDestination.isPresent()) {
-						fluidDestination.ifPresent(f -> FluidUtil.tryFluidTransfer(f, this.tankManager, FluidType.BUCKET_VOLUME / 20, true));
+					if (fluidDestination != null) {
+						FluidUtil.tryFluidTransfer(fluidDestination, this.tankManager, FluidType.BUCKET_VOLUME / 20, true);
 						return true;
 					}
 				}
@@ -185,7 +173,7 @@ public class TileBottler extends TilePowered implements WorldlyContainer, ILiqui
 		}
 
 		if (status == FluidHelper.FillStatus.SUCCESS) {
-            this.currentRecipe = null;
+			this.currentRecipe = null;
 			return true;
 		}
 		return false;
@@ -195,7 +183,7 @@ public class TileBottler extends TilePowered implements WorldlyContainer, ILiqui
 	public void onNeighborTileChange(Level world, BlockPos pos, BlockPos neighbor) {
 		super.onNeighborTileChange(world, pos, neighbor);
 
-        this.canDump.clear();
+		this.canDump.clear();
 	}
 
 	private void checkFillRecipe() {
@@ -207,7 +195,7 @@ public class TileBottler extends TilePowered implements WorldlyContainer, ILiqui
 			}
 			//Fill Container
 			if (this.currentRecipe == null || !this.currentRecipe.matchEmpty(emptyCan, resource)) {
-                this.currentRecipe = BottlerRecipe.createFillingRecipe(resource.getFluid(), emptyCan);
+				this.currentRecipe = BottlerRecipe.createFillingRecipe(resource.getFluid(), emptyCan);
 				if (this.currentRecipe != null) {
 					float viscosityMultiplier = resource.getFluid().getFluidType().getViscosity(resource) / 1000.0f;
 					viscosityMultiplier = (viscosityMultiplier - 1f) / 20f + 1f; // scale down the effect
@@ -227,14 +215,14 @@ public class TileBottler extends TilePowered implements WorldlyContainer, ILiqui
 		ItemStack filledCan = getItem(InventoryBottler.SLOT_EMPTYING_PROCESSING);
 		if (!filledCan.isEmpty()) {
 			//Empty Container
-			if (this.currentRecipe == null || !this.currentRecipe.matchFilled(filledCan) && !this.currentRecipe.fillRecipe) {
-                this.currentRecipe = BottlerRecipe.createEmptyingRecipe(filledCan);
+			if (this.currentRecipe == null || !this.currentRecipe.matchFilled(filledCan) && !this.currentRecipe.isFillRecipe()) {
+				this.currentRecipe = BottlerRecipe.createEmptyingRecipe(filledCan);
 				if (this.currentRecipe != null) {
-					FluidStack resource = this.currentRecipe.fluid;
+					FluidStack resource = this.currentRecipe.fluid();
 					float viscosityMultiplier = resource.getFluid().getFluidType().getViscosity(resource) / 1000.0f;
 					viscosityMultiplier = (viscosityMultiplier - 1f) / 20f + 1f; // scale down the effect
 
-					int fillAmount = Math.min(this.currentRecipe.fluid.getAmount(), resource.getAmount());
+					int fillAmount = Math.min(this.currentRecipe.fluid().getAmount(), resource.getAmount());
 					float fillTime = fillAmount / (float) FluidType.BUCKET_VOLUME;
 					fillTime *= viscosityMultiplier;
 
@@ -248,13 +236,13 @@ public class TileBottler extends TilePowered implements WorldlyContainer, ILiqui
 	@Override
 	public void onTake(int slotIndex, Player player) {
 		if (slotIndex == InventoryBottler.SLOT_EMPTYING_PROCESSING) {
-			if (this.currentRecipe != null && !this.currentRecipe.fillRecipe) {
-                this.currentRecipe = null;
+			if (this.currentRecipe != null && !this.currentRecipe.isFillRecipe()) {
+				this.currentRecipe = null;
 				setTicksPerWorkCycle(0);
 			}
 		} else if (slotIndex == InventoryBottler.SLOT_FILLING_PROCESSING) {
-			if (this.currentRecipe != null && this.currentRecipe.fillRecipe) {
-                this.currentRecipe = null;
+			if (this.currentRecipe != null && this.currentRecipe.isFillRecipe()) {
+				this.currentRecipe = null;
 				setTicksPerWorkCycle(0);
 			}
 		}
@@ -266,7 +254,7 @@ public class TileBottler extends TilePowered implements WorldlyContainer, ILiqui
 		if (this.currentRecipe == null) {
 			data.writeBoolean(false);
 		} else {
-			data.writeBoolean(this.currentRecipe.fillRecipe);
+			data.writeBoolean(this.currentRecipe.isFillRecipe());
 		}
 	}
 
@@ -274,7 +262,7 @@ public class TileBottler extends TilePowered implements WorldlyContainer, ILiqui
 	@OnlyIn(Dist.CLIENT)
 	public void readGuiData(RegistryFriendlyByteBuf data) {
 		super.readGuiData(data);
-        this.isFillRecipe = data.readBoolean();
+		this.isFillRecipe = data.readBoolean();
 	}
 
 	@Override
@@ -325,7 +313,7 @@ public class TileBottler extends TilePowered implements WorldlyContainer, ILiqui
 		errorLogic.setCondition(fillStatus == FluidHelper.FillStatus.NO_SPACE, ForestryError.NO_SPACE_INVENTORY);
 		errorLogic.setCondition(emptyStatus == FluidHelper.FillStatus.NO_SPACE_FLUID, ForestryError.NO_SPACE_TANK);
 		if (emptyStatus == FillStatus.INVALID_INPUT || fillStatus == FillStatus.INVALID_INPUT || errorLogic.hasErrors()) {
-            this.currentRecipe = null;
+			this.currentRecipe = null;
 			return false;
 		}
 		return true;

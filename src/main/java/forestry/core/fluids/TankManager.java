@@ -18,6 +18,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.IFluidTank;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
 import net.neoforged.neoforge.network.PacketDistributor;
 
@@ -85,16 +86,16 @@ public class TankManager implements ITankManager, ITankUpdateHandler, IStreamabl
 	}
 
 	@Override
-	public void writeData(RegistryFriendlyByteBuf data) {
+	public void writeData(RegistryFriendlyByteBuf buffer) {
 		for (StandardTank tank : this.tanks) {
-			tank.writeData(data);
+			tank.writeData(buffer);
 		}
 	}
 
 	@Override
-	public void readData(RegistryFriendlyByteBuf data) {
+	public void readData(RegistryFriendlyByteBuf buffer) {
 		for (StandardTank tank : this.tanks) {
-			tank.readData(data);
+			tank.readData(buffer);
 		}
 	}
 
@@ -130,7 +131,7 @@ public class TankManager implements ITankManager, ITankUpdateHandler, IStreamabl
 		if (prev == null) {
 			prev = FluidStack.EMPTY;
 		}
-		if (FluidHelper.areFluidStacksEqual(fluidStack, prev)) {
+		if (FluidStack.matches(fluidStack, prev)) {
 			return;
 		}
 
@@ -141,7 +142,7 @@ public class TankManager implements ITankManager, ITankUpdateHandler, IStreamabl
 		if (this.tile != null) {
 			int tankIndex = tank.getTankIndex();
 			FluidStack fluid = tank.getFluid();
-			IForestryPacketClient packet = new PacketTankLevelUpdate(this.tile, tankIndex, fluid);
+			IForestryPacketClient packet = new PacketTankLevelUpdate(this.tile.getBlockPos(), tankIndex, fluid);
 			PacketDistributor.sendToPlayer(player, packet);
 
 			if (fluid.isEmpty()) {
@@ -234,7 +235,7 @@ public class TankManager implements ITankManager, ITankUpdateHandler, IStreamabl
 			return;
 
 		int tankIndex = tank.getTankIndex();
-		PacketTankLevelUpdate tankLevelUpdate = new PacketTankLevelUpdate(this.tile, tankIndex, tank.getFluid());
+		PacketTankLevelUpdate tankLevelUpdate = new PacketTankLevelUpdate(this.tile.getBlockPos(), tankIndex, tank.getFluid());
 		NetworkUtil.sendToPlayersTrackingPos(tankLevelUpdate, this.tile.getBlockPos(), world);
 	}
 

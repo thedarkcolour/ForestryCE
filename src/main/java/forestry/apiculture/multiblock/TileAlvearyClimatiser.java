@@ -3,7 +3,6 @@ package forestry.apiculture.multiblock;
 import forestry.api.climate.IClimateControlled;
 import forestry.api.multiblock.IAlvearyComponent;
 import forestry.apiculture.blocks.BlockAlveary;
-import forestry.apiculture.blocks.BlockAlvearyType;
 import forestry.core.tiles.IActivatable;
 import forestry.energy.EnergyHelper;
 import forestry.energy.EnergyTransferMode;
@@ -29,7 +28,7 @@ public abstract class TileAlvearyClimatiser extends TileAlveary implements IActi
 
 	private int workingTime = 0;
 
-	protected TileAlvearyClimatiser(BlockAlvearyType alvearyType, BlockPos pos, BlockState state, byte temperatureSteps) {
+	protected TileAlvearyClimatiser(BlockAlveary.Type alvearyType, BlockPos pos, BlockState state, byte temperatureSteps) {
 		super(alvearyType, pos, state);
 		this.temperatureSteps = temperatureSteps;
 

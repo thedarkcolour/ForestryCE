@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.factory.tiles;
 
 import forestry.api.core.ForestryError;
@@ -43,16 +33,12 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerListener;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidType;
-import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 import javax.annotation.Nullable;
 
@@ -97,14 +83,14 @@ public class TileFabricator extends TilePowered implements ISlotPickupWatcher, I
 	}
 
 	@Override
-	public void writeData(RegistryFriendlyByteBuf data) {
-        this.tankManager.writeData(data);
+	public void writeData(RegistryFriendlyByteBuf buffer) {
+        this.tankManager.writeData(buffer);
 	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void readData(RegistryFriendlyByteBuf data) {
-        this.tankManager.readData(data);
+	public void readData(RegistryFriendlyByteBuf buffer) {
+        this.tankManager.readData(buffer);
 	}
 
 	/* UPDATING */
@@ -168,8 +154,8 @@ public class TileFabricator extends TilePowered implements ISlotPickupWatcher, I
 		IInventoryAdapter inventory = getInternalInventory();
 		ItemStack plan = inventory.getItem(InventoryFabricator.SLOT_PLAN);
 		FluidStack liquid = this.moltenTank.getFluid();
-		IFabricatorRecipe recipe = RecipeUtil.getFabricatorRecipe(this.level.getRecipeManager(), this.level, liquid, plan, this.craftingInventory);
-		if (!liquid.isEmpty() && recipe != null && !liquid.containsFluid(recipe.getResultFluid())) {
+		RecipeHolder<IFabricatorRecipe> recipe = RecipeUtil.getFabricatorRecipe(this.level.getRecipeManager(), this.level, liquid, plan, this.craftingInventory);
+		if (!liquid.isEmpty() && recipe != null && !liquid.containsFluid(recipe.getRequiredFluid())) {
 			return null;
 		}
 		return recipe;
@@ -196,7 +182,7 @@ public class TileFabricator extends TilePowered implements ISlotPickupWatcher, I
 		ItemStack craftResult = getResult(myRecipe);
 
 		if (myRecipe != null && !craftResult.isEmpty() && getItem(InventoryFabricator.SLOT_RESULT).isEmpty()) {
-			FluidStack liquid = myRecipe.getResultFluid();
+			FluidStack liquid = myRecipe.getRequiredFluid();
 
 			// Remove resources
 			if (removeFromInventory(myRecipe, false)) {
@@ -235,7 +221,7 @@ public class TileFabricator extends TilePowered implements ISlotPickupWatcher, I
 		IFabricatorRecipe recipe = RecipeUtil.getFabricatorRecipe(this.level.getRecipeManager(), this.level, this.moltenTank.getFluid(), plan, this.craftingInventory);
 		if (recipe != null) {
 			hasResources = removeFromInventory(recipe, false);
-			FluidStack toDrain = recipe.getResultFluid();
+			FluidStack toDrain = recipe.getRequiredFluid();
 			FluidStack drained = this.moltenTank.drainInternal(toDrain, IFluidHandler.FluidAction.SIMULATE);
 			hasLiquidResources = !drained.isEmpty() && drained.isFluidStackIdentical(toDrain);
 		} else {

@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.function.Consumer;
 import java.util.function.UnaryOperator;
 
+// todo remove this from existence
 public interface ITextInstance<I extends ITextInstance<?, ?, ?>, S, R> {
 	default I text(String text) {
 		return add(Component.literal(text));

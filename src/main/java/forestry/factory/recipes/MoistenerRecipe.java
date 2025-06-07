@@ -1,40 +1,40 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.factory.recipes;
 
-import com.google.common.base.Preconditions;
-import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import forestry.api.recipes.IMoistenerRecipe;
 import forestry.factory.features.FactoryRecipeTypes;
-import net.minecraft.core.RegistryAccess;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.GsonHelper;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 
 public class MoistenerRecipe implements IMoistenerRecipe {
-	private final ResourceLocation id;
+	public static final MapCodec<MoistenerRecipe> CODEC = RecordCodecBuilder.mapCodec(inst -> inst.group(
+		Codec.INT.fieldOf("time").forGetter(MoistenerRecipe::getTimePerItem),
+		Ingredient.CODEC_NONEMPTY.fieldOf("input").forGetter(MoistenerRecipe::getInput),
+		ItemStack.CODEC.fieldOf("result").forGetter(MoistenerRecipe::getProduct)
+	).apply(inst, MoistenerRecipe::new));
+	public static final StreamCodec<RegistryFriendlyByteBuf, MoistenerRecipe> STREAM_CODEC = StreamCodec.composite(
+		ByteBufCodecs.VAR_INT,
+		MoistenerRecipe::getTimePerItem,
+		Ingredient.CONTENTS_STREAM_CODEC,
+		MoistenerRecipe::getInput,
+		ItemStack.STREAM_CODEC,
+		MoistenerRecipe::getProduct,
+		MoistenerRecipe::new
+	);
+
 	private final int timePerItem;
 	private final Ingredient resource;
 	private final ItemStack product;
 
-	public MoistenerRecipe(ResourceLocation id, Ingredient resource, ItemStack product, int timePerItem) {
-		Preconditions.checkNotNull(id, "Recipe identifier cannot be null");
-		Preconditions.checkNotNull(resource, "Resource cannot be null");
-		Preconditions.checkNotNull(product, "Product cannot be null");
-
-		this.id = id;
+	public MoistenerRecipe(int timePerItem, Ingredient resource, ItemStack product) {
 		this.timePerItem = timePerItem;
 		this.resource = resource;
 		this.product = product;
@@ -42,27 +42,22 @@ public class MoistenerRecipe implements IMoistenerRecipe {
 
 	@Override
 	public int getTimePerItem() {
-		return timePerItem;
+		return this.timePerItem;
 	}
 
 	@Override
 	public Ingredient getInput() {
-		return resource;
+		return this.resource;
 	}
 
 	@Override
 	public ItemStack getProduct() {
-		return product;
-	}
-
-	@Override
-	public ItemStack getResultItem(RegistryAccess registryAccess) {
 		return this.product;
 	}
 
 	@Override
-	public ResourceLocation getId() {
-		return id;
+	public ItemStack getResultItem(HolderLookup.Provider registryAccess) {
+		return this.product;
 	}
 
 	@Override
@@ -77,28 +72,13 @@ public class MoistenerRecipe implements IMoistenerRecipe {
 
 	public static class Serializer implements RecipeSerializer<MoistenerRecipe> {
 		@Override
-		public MoistenerRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
-			int timePerItem = GsonHelper.getAsInt(json, "time");
-			Ingredient resource = RecipeSerializers.deserialize(json.get("resource"));
-			ItemStack product = RecipeSerializers.item(GsonHelper.getAsJsonObject(json, "product"));
-
-			return new MoistenerRecipe(recipeId, resource, product, timePerItem);
+		public MapCodec<MoistenerRecipe> codec() {
+			return CODEC;
 		}
 
 		@Override
-		public MoistenerRecipe fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
-			int timePerItem = buffer.readVarInt();
-			Ingredient resource = Ingredient.fromNetwork(buffer);
-			ItemStack product = buffer.readItem();
-
-			return new MoistenerRecipe(recipeId, resource, product, timePerItem);
-		}
-
-		@Override
-		public void toNetwork(FriendlyByteBuf buffer, MoistenerRecipe recipe) {
-			buffer.writeVarInt(recipe.timePerItem);
-			recipe.resource.toNetwork(buffer);
-			buffer.writeItem(recipe.product);
+		public StreamCodec<RegistryFriendlyByteBuf, MoistenerRecipe> streamCodec() {
+			return STREAM_CODEC;
 		}
 	}
 }

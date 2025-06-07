@@ -1,7 +1,7 @@
 package forestry.energy.tiles;
 
 import forestry.core.config.Constants;
-import forestry.core.damage.CoreDamageTypes;
+import forestry.core.features.CoreDamageTypes;
 import forestry.core.tiles.TemperatureState;
 import forestry.energy.features.EnergyTiles;
 import net.minecraft.core.BlockPos;
@@ -32,7 +32,7 @@ public class ClockworkEngineBlockEntity extends EngineBlockEntity {
 
 	@Override
 	public boolean interactNoItem(Level level, Player player, BlockPos pos) {
-		if (player.isFakePlayer() ||) {
+		if (player.isFakePlayer()) {
 			return false;
 		}
 

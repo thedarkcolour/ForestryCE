@@ -1,4 +1,4 @@
-package forestry.core.data.builder;
+package forestry.core.data.models;
 
 import com.google.gson.JsonObject;
 import forestry.api.ForestryConstants;
@@ -10,7 +10,7 @@ import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import javax.annotation.Nullable;
 
 public class FilledCrateModelBuilder<T extends ModelBuilder<T>> extends CustomLoaderBuilder<T> {
-	private static final ResourceLocation ID = ForestryConstants.forestry("forestry:filled_crate");
+	private static final ResourceLocation ID = ForestryConstants.forestry("filled_crate");
 
 	@Nullable
 	private ResourceLocation layer1;
@@ -18,7 +18,8 @@ public class FilledCrateModelBuilder<T extends ModelBuilder<T>> extends CustomLo
 	private ResourceLocation layer2;
 
 	public FilledCrateModelBuilder(T parent, ExistingFileHelper helper) {
-		super(ID, parent, helper);
+		// idk what allowInlineElements does
+		super(ID, parent, helper, false);
 	}
 
 	public static <T extends ModelBuilder<T>> FilledCrateModelBuilder<T> begin(T parent, ExistingFileHelper helper) {

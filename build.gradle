@@ -160,7 +160,7 @@ jar {
 
 tasks.withType(JavaCompile).configureEach {
 	options.encoding = "UTF-8"
-	options.compilerArgs << "-Xmaxerrs" << "4000"
+	options.compilerArgs << "-Xmaxerrs" << "2000"
 }
 
 idea {

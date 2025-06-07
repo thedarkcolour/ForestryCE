@@ -38,19 +38,19 @@ public abstract class TileMill extends TileBase {
 	}
 
 	@Override
-	public void writeData(RegistryFriendlyByteBuf data) {
-		super.writeData(data);
-		data.writeInt(this.charge);
-		data.writeFloat(this.speed);
-		data.writeInt(this.stage);
+	public void writeData(RegistryFriendlyByteBuf buffer) {
+		super.writeData(buffer);
+		buffer.writeInt(this.charge);
+		buffer.writeFloat(this.speed);
+		buffer.writeInt(this.stage);
 	}
 
 	@Override
-	public void readData(RegistryFriendlyByteBuf data) {
-		super.readData(data);
-        this.charge = data.readInt();
-        this.speed = data.readFloat();
-        this.stage = data.readInt();
+	public void readData(RegistryFriendlyByteBuf buffer) {
+		super.readData(buffer);
+        this.charge = buffer.readInt();
+        this.speed = buffer.readFloat();
+        this.stage = buffer.readInt();
 	}
 
 	private void update(Level level, BlockPos pos, boolean isSimulating) {

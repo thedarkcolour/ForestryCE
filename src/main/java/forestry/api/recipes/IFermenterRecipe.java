@@ -4,6 +4,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.crafting.FluidIngredient;
 
 public interface IFermenterRecipe extends IForestryRecipe {
 	/**
@@ -12,9 +13,9 @@ public interface IFermenterRecipe extends IForestryRecipe {
 	Ingredient getInputItem();
 
 	/**
-	 * @return FluidStack representing the input fluid resource.
+	 * @return Fluid representing the input fluid resource.
 	 */
-	FluidStack getInputFluid();
+	FluidIngredient getInputFluid();
 
 	/**
 	 * @return Value of the given resource, i.e. how much needs to be fermented for the output to be deposited into the product tank.
@@ -30,7 +31,7 @@ public interface IFermenterRecipe extends IForestryRecipe {
 	/**
 	 * @return Fluid representing output. Amount is determined by fermentationValue * modifier.
 	 */
-	Fluid getOutput();
+	Fluid getOutputFluid();
 
 	boolean matches(ItemStack inputItem, FluidStack inputFluid);
 }

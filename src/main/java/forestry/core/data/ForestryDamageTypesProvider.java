@@ -1,6 +1,6 @@
 package forestry.core.data;
 
-import forestry.core.damage.CoreDamageTypes;
+import forestry.core.features.CoreDamageTypes;
 import thedarkcolour.modkit.data.MKDamageTypeProvider;
 
 public class ForestryDamageTypesProvider {
