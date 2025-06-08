@@ -115,7 +115,6 @@ dependencies {
 	modRuntimeOnly "vazkii.patchouli:Patchouli:$patchouliVersion-FORGE"
 	// ModKit DEV ONLY
 	modImplementation 'com.github.thedarkcolour:ModKit:cc8f1c11ec'
-
 	// DEV ONLY
 	compileOnly "org.jetbrains:annotations:23.0.0"
 }
