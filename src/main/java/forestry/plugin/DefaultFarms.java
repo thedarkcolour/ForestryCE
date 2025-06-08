@@ -23,14 +23,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.NetherWartBlock;
 
-import net.minecraftforge.fml.ModList;
-import forestry.modules.ForestryModuleManager;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.Block;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.registries.ForgeRegistries;
+import forestry.compat.pamhccrops.PamHC2CropsCompat;
 
 import java.util.List;
 
@@ -158,12 +151,6 @@ public class DefaultFarms {
 		crops.addFarmable(new FarmableAgingCrop(Items.CARROT, Blocks.CARROTS, new ItemStack(Items.CARROT), CropBlock.AGE, 7, 0));
 		crops.addFarmable(new FarmableAgingCrop(Items.BEETROOT_SEEDS, Blocks.BEETROOTS, new ItemStack(Items.BEETROOT), BeetrootBlock.AGE, 3, 0));
 		//PamHC2CropsCompat.registerPamCrops(crops);
-		if (ModList.get().isLoaded("pamhc2crops")) {
-			Item cornItem = ForgeRegistries.ITEMS.getValue(new ResourceLocation("pamhc2crops", "cornitem"));
-			Block cornCrop = ForgeRegistries.BLOCKS.getValue(new ResourceLocation("pamhc2crops", "pamcorncrop"));
-			    if (cornItem != null && cornCrop != null) {
-					crops.addFarmable(new FarmableAgingCrop(cornItem, cornCrop, new ItemStack(cornItem), CropBlock.AGE, 7, 0));
-    			}
-		}
+		PamHC2CropsCompat.registerPamCrops(crops);
 	}
 }
