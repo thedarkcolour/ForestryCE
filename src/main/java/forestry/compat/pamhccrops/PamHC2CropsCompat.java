@@ -41,8 +41,8 @@ public class PamHC2CropsCompat {
 		if (cropitem != null && cropBlock instanceof CropBlock) {
 			//crops.addFarmable(new FarmableAgingCrop(Items.CARROT, Blocks.CARROTS, new ItemStack(Items.CARROT), CropBlock.AGE, 7, 0));
 			//crops.addFarmable(new FarmableAgingCrop(Items.BEETROOT_SEEDS, Blocks.BEETROOTS, new ItemStack(Items.BEETROOT), BeetrootBlock.AGE, 3, 0));
-			crops.addFarmable(new FarmableAgingCrop(cropitem, cropBlock, new ItemStack(cropitem), CropBlock.AGE, 7, 0)); // check that minharvestage of pam's crops is 7
-			crops.addFarmable(new FarmableAgingCrop(seeditem, cropBlock, new ItemStack(cropitem), CropBlock.AGE, 7, 0));
+			crops.addFarmable(new FarmableAgingCrop(cropitem, cropBlock, new ItemStack(cropitem), CropBlock.AGE, 5, 0));
+			crops.addFarmable(new FarmableAgingCrop(seeditem, cropBlock, new ItemStack(cropitem), CropBlock.AGE, 5, 0));
 		}
 	}
 }
