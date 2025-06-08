@@ -150,7 +150,6 @@ public class DefaultFarms {
 		crops.addFarmable(new FarmableAgingCrop(Items.POTATO, Blocks.POTATOES, new ItemStack(Items.POTATO), CropBlock.AGE, 7, 0));
 		crops.addFarmable(new FarmableAgingCrop(Items.CARROT, Blocks.CARROTS, new ItemStack(Items.CARROT), CropBlock.AGE, 7, 0));
 		crops.addFarmable(new FarmableAgingCrop(Items.BEETROOT_SEEDS, Blocks.BEETROOTS, new ItemStack(Items.BEETROOT), BeetrootBlock.AGE, 3, 0));
-		//PamHC2CropsCompat.registerPamCrops(crops);
 		PamHC2CropsCompat.registerPamCrops(crops);
 	}
 }
