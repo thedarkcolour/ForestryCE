@@ -19,7 +19,7 @@ import forestry.core.utils.InventoryUtil;
 import forestry.core.utils.ItemStackUtil;
 import forestry.core.utils.RecipeUtil;
 import forestry.factory.features.FactoryTiles;
-import forestry.factory.gui.ContainerMoistener;
+import forestry.factory.gui.MoistenerMenu;
 import forestry.factory.inventory.InventoryMoistener;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -498,7 +498,7 @@ public class TileMoistener extends TileBase implements WorldlyContainer, ILiquid
 
 	@Override
 	public AbstractContainerMenu createMenu(int windowId, Inventory inv, Player player) {
-		return new ContainerMoistener(windowId, inv, this);
+		return new MoistenerMenu(windowId, inv, this);
 	}
 
 	@Override

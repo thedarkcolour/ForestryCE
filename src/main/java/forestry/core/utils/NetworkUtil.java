@@ -96,7 +96,7 @@ public class NetworkUtil {
 		return enumValues[buffer.readByte()];
 	}
 
-	public static void writeStreamable(FriendlyByteBuf buffer, @Nullable IStreamable streamable) {
+	public static void writeStreamable(RegistryFriendlyByteBuf buffer, @Nullable IStreamable streamable) {
 		if (streamable != null) {
 			buffer.writeBoolean(true);
 			streamable.writeData(buffer);

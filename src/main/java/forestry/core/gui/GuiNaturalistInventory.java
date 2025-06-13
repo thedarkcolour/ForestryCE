@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.core.gui;
 
 import com.google.common.collect.ImmutableList;
@@ -17,8 +7,7 @@ import forestry.api.genetics.alleles.IRegistryChromosome;
 import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.api.modules.IForestryPacketServer;
 import forestry.core.config.Constants;
-import forestry.core.gui.buttons.GuiBetterButton;
-import forestry.core.gui.buttons.StandardButtonTextureSets;
+import forestry.core.gui.widgets.ArrowButton;
 import forestry.core.network.packets.PacketGuiSelectRequest;
 import forestry.core.render.ColourProperties;
 import net.minecraft.client.gui.GuiGraphics;
@@ -43,13 +32,14 @@ public class GuiNaturalistInventory<C extends AbstractContainerMenu & INaturalis
 	private final int pageCurrent, pageMax;
 	private final CycleTimer timer = new CycleTimer(0);
 
+	@SuppressWarnings({"rawtypes", "unchecked"})
 	public GuiNaturalistInventory(C menu, Inventory playerInv, Component name) {
 		super(Constants.TEXTURE_PATH_GUI + "/apiaristinventory.png", menu, playerInv, name);
 
 		this.speciesType = menu.getSpeciesType();
 
 		this.pageCurrent = menu.getCurrentPage();
-		this.pageMax = ContainerNaturalistInventory.MAX_PAGE;
+		this.pageMax = NaturalistInventoryMenu.MAX_PAGE;
 
         this.imageWidth = 196;
         this.imageHeight = 202;
@@ -98,12 +88,12 @@ public class GuiNaturalistInventory<C extends AbstractContainerMenu & INaturalis
 	public void init() {
 		super.init();
 
-		addRenderableWidget(new GuiBetterButton(this.leftPos + 99, this.topPos + 7, StandardButtonTextureSets.LEFT_BUTTON_SMALL, b -> {
+		addRenderableWidget(new ArrowButton(this.leftPos + 99, this.topPos + 7, ArrowButton.Texture.LEFT_BUTTON_SMALL, b -> {
 			if (this.pageCurrent > 0) {
 				flipPage(this.pageCurrent - 1);
 			}
 		}));
-		addRenderableWidget(new GuiBetterButton(this.leftPos + 180, this.topPos + 7, StandardButtonTextureSets.RIGHT_BUTTON_SMALL, b -> {
+		addRenderableWidget(new ArrowButton(this.leftPos + 180, this.topPos + 7, ArrowButton.Texture.RIGHT_BUTTON_SMALL, b -> {
 			if (this.pageCurrent < this.pageMax - 1) {
 				flipPage(this.pageCurrent + 1);
 			}
@@ -124,10 +114,6 @@ public class GuiNaturalistInventory<C extends AbstractContainerMenu & INaturalis
 		}
 
 		if (!slot.hasItem()) {
-			return null;
-		}
-
-		if (!slot.getItem().hasTag()) {
 			return null;
 		}
 
@@ -176,6 +162,7 @@ public class GuiNaturalistInventory<C extends AbstractContainerMenu & INaturalis
 
 		@SuppressWarnings("rawtypes")
 		IMutationManager manager = this.speciesType.getMutations();
+		@SuppressWarnings("unchecked")
 		List<List<? extends IMutation<?>>> mutations = splitMutations(manager.getMutationsFrom(species), maxMutationCount);
 		for (IMutation<?> combination : this.timer.getCycledItem(mutations, Collections::emptyList)) {
 			if (combination.isSecret()) {

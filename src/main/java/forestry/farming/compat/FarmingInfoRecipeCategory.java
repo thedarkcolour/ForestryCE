@@ -10,7 +10,7 @@ import forestry.core.circuits.EnumCircuitBoardType;
 import forestry.core.config.Constants;
 import forestry.core.features.CoreItems;
 import forestry.core.recipes.jei.ForestryRecipeCategory;
-import forestry.core.utils.JeiUtil;
+import forestry.compat.jei.JeiUtil;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.builder.IRecipeSlotBuilder;

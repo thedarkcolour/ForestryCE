@@ -10,13 +10,12 @@
  ******************************************************************************/
 package forestry.core.items;
 
-import forestry.core.circuits.ContainerSolderingIron;
+import forestry.core.circuits.SolderingIronMenu;
 import forestry.core.circuits.ISolderingIron;
 import forestry.core.inventory.ItemInventorySolderingIron;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 
 public class ItemSolderingIron extends ItemWithGui implements ISolderingIron {
 	public ItemSolderingIron() {
@@ -24,7 +23,7 @@ public class ItemSolderingIron extends ItemWithGui implements ISolderingIron {
 	}
 
 	@Override
-	public AbstractContainerMenu getContainer(int windowId, Player player, ItemStack heldItem) {
-		return new ContainerSolderingIron(windowId, player, new ItemInventorySolderingIron(player, heldItem));
+	public AbstractContainerMenu createMenu(int windowId, Inventory playerInv, int slotIndex) {
+		return new SolderingIronMenu(windowId, playerInv, new ItemInventorySolderingIron(playerInv, heldItem));
 	}
 }

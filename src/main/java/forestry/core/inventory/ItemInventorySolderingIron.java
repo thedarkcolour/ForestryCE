@@ -1,17 +1,8 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.core.inventory;
 
 import com.google.common.collect.ImmutableSet;
 import forestry.api.IForestryApi;
+import forestry.api.circuits.CircuitLayout;
 import forestry.api.circuits.ICircuit;
 import forestry.api.core.ForestryError;
 import forestry.api.core.IError;
@@ -25,19 +16,21 @@ import net.minecraft.world.item.ItemStack;
 import java.util.List;
 
 public class ItemInventorySolderingIron extends ItemInventory implements IErrorSource {
-	private final List<ICircuitLayout> layouts = IForestryApi.INSTANCE.getCircuitManager().getLayouts();
-	private final int layoutCount = this.layouts.size();
+	private static final short INPUT_SLOT = 0;
+	private static final short OUTPUT_SLOT = 1;
+	private static final short INGREDIENT_SLOT_START = 2;
+	private static final short INGREDIENT_SLOT_COUNT = 4;
+
 	private int layoutIndex;
 
-	private static final short inputCircuitBoardSlot = 0;
-	private static final short finishedCircuitBoardSlot = 1;
-	private static final short ingredientSlot1 = 2;
-	private static final short ingredientSlotCount = 4;
-
-	public ItemInventorySolderingIron(Player player, ItemStack itemStack) {
-		super(player, 6, itemStack);
+	public ItemInventorySolderingIron(Player player, ItemStack stack) {
+		super(6, stack);
 
 		this.layoutIndex = 0;
+	}
+
+	private static List<CircuitLayout> layouts() {
+		return IForestryApi.INSTANCE.getCircuitManager().getLayouts();
 	}
 
 	@Override
@@ -45,37 +38,39 @@ public class ItemInventorySolderingIron extends ItemInventory implements IErrorS
 		return 1;
 	}
 
-	public ICircuitLayout getLayout() {
-		return this.layouts.get(this.layoutIndex);
+	public CircuitLayout getLayout() {
+		return layouts().get(this.layoutIndex);
 	}
 
-	public void setLayout(ICircuitLayout layout) {
-		this.layoutIndex = Math.max(0, this.layouts.indexOf(layout));
+	public void setLayout(CircuitLayout layout) {
+		this.layoutIndex = Math.max(0, layouts().indexOf(layout));
 	}
 
 	public void advanceLayout() {
-		this.layoutIndex = (this.layoutIndex + 1) % this.layoutCount;
+		int layoutCount = layouts().size();
+		this.layoutIndex = (this.layoutIndex + 1) % layoutCount;
 	}
 
 	public void regressLayout() {
 		if (this.layoutIndex == 0) {
-			this.layoutIndex = this.layoutCount - 1;
+			int layoutCount = layouts().size();
+			this.layoutIndex = layoutCount - 1;
 		} else {
 			this.layoutIndex--;
 		}
 	}
 
 	private ICircuit[] getCircuits(boolean doConsume) {
-		ICircuit[] circuits = new ICircuit[ingredientSlotCount];
+		ICircuit[] circuits = new ICircuit[INGREDIENT_SLOT_COUNT];
 
-		for (short i = 0; i < ingredientSlotCount; i++) {
-			ItemStack ingredient = getItem(ingredientSlot1 + i);
+		for (short i = 0; i < INGREDIENT_SLOT_COUNT; i++) {
+			ItemStack ingredient = getItem(INGREDIENT_SLOT_START + i);
 			if (!ingredient.isEmpty()) {
-				ICircuit circuit = IForestryApi.INSTANCE.getCircuitManager().getCircuit(this.layouts.get(this.layoutIndex), ingredient);
+				ICircuit circuit = IForestryApi.INSTANCE.getCircuitManager().getCircuit(layouts().get(this.layoutIndex), ingredient);
 
 				if (circuit != null) {
 					if (doConsume) {
-						removeItem(ingredientSlot1 + i, ingredient.getCount());
+						removeItem(INGREDIENT_SLOT_START + i, ingredient.getCount());
 					}
 					circuits[i] = circuit;
 				}
@@ -87,16 +82,17 @@ public class ItemInventorySolderingIron extends ItemInventory implements IErrorS
 
 	@Override
 	public void onSlotClick(int slotIndex, Player player) {
-		if (this.layouts.get(this.layoutIndex) == null) {
+		List<CircuitLayout> layouts = layouts();
+		if (layouts.get(this.layoutIndex) == null) {
 			return;
 		}
 
-		ItemStack inputCircuitBoard = getItem(inputCircuitBoardSlot);
+		ItemStack inputCircuitBoard = getItem(INPUT_SLOT);
 
 		if (inputCircuitBoard.isEmpty() || inputCircuitBoard.getCount() > 1) {
 			return;
 		}
-		if (!getItem(finishedCircuitBoardSlot).isEmpty()) {
+		if (!getItem(OUTPUT_SLOT).isEmpty()) {
 			return;
 		}
 
@@ -117,10 +113,10 @@ public class ItemInventorySolderingIron extends ItemInventory implements IErrorS
 
 		ICircuit[] circuits = getCircuits(true);
 
-		ItemStack outputCircuitBoard = ItemCircuitBoard.createCircuitboard(type, this.layouts.get(this.layoutIndex), circuits);
+		ItemStack outputCircuitBoard = ItemCircuitBoard.createCircuitboard(type, layouts.get(this.layoutIndex), circuits);
 
-		setItem(finishedCircuitBoardSlot, outputCircuitBoard);
-		setItem(inputCircuitBoardSlot, ItemStack.EMPTY);
+		setItem(OUTPUT_SLOT, outputCircuitBoard);
+		setItem(INPUT_SLOT, ItemStack.EMPTY);
 	}
 
 	private int getCircuitCount() {
@@ -138,11 +134,11 @@ public class ItemInventorySolderingIron extends ItemInventory implements IErrorS
 	public ImmutableSet<IError> getErrors() {
 		ImmutableSet.Builder<IError> errorStates = ImmutableSet.builder();
 
-		if (this.layouts.get(this.layoutIndex) == null) {
+		if (layouts().get(this.layoutIndex) == null) {
 			errorStates.add(ForestryError.NO_CIRCUIT_LAYOUT);
 		}
 
-		ItemStack blankCircuitBoard = getItem(inputCircuitBoardSlot);
+		ItemStack blankCircuitBoard = getItem(INPUT_SLOT);
 
 		if (blankCircuitBoard.isEmpty()) {
 			errorStates.add(ForestryError.NO_CIRCUIT_BOARD);
@@ -155,7 +151,7 @@ public class ItemInventorySolderingIron extends ItemInventory implements IErrorS
 
 			int circuitCount = 0;
 			for (short i = 0; i < type.getSockets(); i++) {
-				if (!getItem(ingredientSlot1 + i).isEmpty()) {
+				if (!getItem(INGREDIENT_SLOT_START + i).isEmpty()) {
 					circuitCount++;
 				}
 			}
@@ -180,10 +176,10 @@ public class ItemInventorySolderingIron extends ItemInventory implements IErrorS
 		}
 
 		Item item = stack.getItem();
-		if (slotIndex == inputCircuitBoardSlot) {
+		if (slotIndex == INPUT_SLOT) {
 			return item instanceof ItemCircuitBoard;
-		} else if (slotIndex >= ingredientSlot1 && slotIndex < ingredientSlot1 + ingredientSlotCount) {
-			return IForestryApi.INSTANCE.getCircuitManager().getCircuit(this.layouts.get(this.layoutIndex), stack) != null;
+		} else if (slotIndex >= INGREDIENT_SLOT_START && slotIndex < INGREDIENT_SLOT_START + INGREDIENT_SLOT_COUNT) {
+			return IForestryApi.INSTANCE.getCircuitManager().getCircuit(layouts().get(this.layoutIndex), stack) != null;
 		}
 		return false;
 	}

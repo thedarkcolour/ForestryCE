@@ -1,7 +1,7 @@
 package forestry.worktable.screens;
 
 import forestry.api.modules.IForestryPacketServer;
-import forestry.core.gui.ContainerTile;
+import forestry.core.gui.TileMenu;
 import forestry.core.gui.IContainerCrafting;
 import forestry.core.gui.IGuiSelectable;
 import forestry.core.gui.slots.SlotCraftMatrix;
@@ -27,7 +27,7 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.network.PacketDistributor;
 
-public class WorktableMenu extends ContainerTile<WorktableTile> implements IContainerCrafting, IGuiSelectable {
+public class WorktableMenu extends TileMenu<WorktableTile> implements IContainerCrafting, IGuiSelectable {
 	private final WorktableCraftingContainer craftMatrix = new WorktableCraftingContainer(this);
 	private long lastMemoryUpdate;
 	private boolean craftMatrixChanged = false;

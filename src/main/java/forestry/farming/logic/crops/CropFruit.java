@@ -39,6 +39,6 @@ public class CropFruit extends Crop {
 		}
 
 		BlockUtil.sendDestroyEffects(level, pos, level.getBlockState(pos));
-		return tile.pickFruit(ItemStack.EMPTY);
+		return tile.pickFruit();
 	}
 }

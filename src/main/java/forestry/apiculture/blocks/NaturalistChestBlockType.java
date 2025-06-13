@@ -27,7 +27,7 @@ public enum NaturalistChestBlockType implements IBlockType {
 	}
 
 	@Override
-	public String getSerializedName() {
-		return getMachineProperties().getSerializedName();
+	public String identifier() {
+		return getMachineProperties().identifier();
 	}
 }

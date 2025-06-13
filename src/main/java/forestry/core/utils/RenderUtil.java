@@ -14,10 +14,8 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
-import net.minecraftforge.fluids.FluidType;
-
-import java.awt.*;
+import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
+import net.neoforged.neoforge.fluids.FluidType;
 
 public class RenderUtil {
 	// requires external push/pop
@@ -57,10 +55,6 @@ public class RenderUtil {
 			}
 		}
 		return color;
-	}
-
-	public static Color getRainbowColor(long time, float partialTicks) {
-		return Color.getHSBColor((180 * Mth.sin((time + partialTicks) / 30.0f) - 180) / 360.0f, 0.5f, 0.8f);
 	}
 
 	// VANILLA COPY

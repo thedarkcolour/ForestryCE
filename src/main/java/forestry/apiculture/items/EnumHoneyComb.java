@@ -7,7 +7,7 @@ import net.minecraft.util.StringRepresentable;
 import java.awt.*;
 import java.util.Locale;
 
-public enum EnumHoneyComb implements StringRepresentable, IItemSubtype, IBlockSubtype {
+public enum EnumHoneyComb implements IItemSubtype, IBlockSubtype {
 	HONEY(new Color(0xe8d56a), new Color(0xffa12b)),
 	COCOA(new Color(0x674016), new Color(0xffb62b)),
 	SIMMERING(new Color(0x981919), new Color(0xFE8738)),
@@ -40,7 +40,7 @@ public enum EnumHoneyComb implements StringRepresentable, IItemSubtype, IBlockSu
 	}
 
 	@Override
-	public String getSerializedName() {
+	public String identifier() {
 		return this.name;
 	}
 }

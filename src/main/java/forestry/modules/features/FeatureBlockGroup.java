@@ -1,17 +1,14 @@
 package forestry.modules.features;
 
-import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.function.BiFunction;
-import java.util.function.Function;
-import java.util.stream.Stream;
-
+import forestry.api.core.IBlockSubtype;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.Block;
 
-import forestry.api.core.IBlockSubtype;
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 public class FeatureBlockGroup<B extends Block, S extends IBlockSubtype> extends FeatureGroup<FeatureBlockGroup.Builder<B, S>, FeatureBlock<B, BlockItem>, S> {
 	private FeatureBlockGroup(Builder<B, S> builder) {
@@ -23,13 +20,7 @@ public class FeatureBlockGroup<B extends Block, S extends IBlockSubtype> extends
 		return builder.registry.block(() -> builder.constructor.apply(type), builder.itemConstructor != null ? (block) -> builder.itemConstructor.apply(block, type) : null, builder.getIdentifier(type));
 	}
 
-	// todo remove in 1.21
-	public Collection<B> getBlocks() {
-		return getList();
-	}
-
-	// todo use immutable collection?
-	public List<B> getList() {
+	public List<B> getBlocks() {
 		ArrayList<B> blocks = new ArrayList<>(this.featureByType.size());
 		for (FeatureBlock<B, BlockItem> value : this.featureByType.values()) {
 			blocks.add(value.block());
@@ -37,7 +28,7 @@ public class FeatureBlockGroup<B extends Block, S extends IBlockSubtype> extends
 		return blocks;
 	}
 
-	public Collection<BlockItem> getItems() {
+	public List<BlockItem> getItems() {
 		ArrayList<BlockItem> items = new ArrayList<>(this.featureByType.size());
 		for (FeatureBlock<B, BlockItem> value : this.featureByType.values()) {
 			items.add(value.item());

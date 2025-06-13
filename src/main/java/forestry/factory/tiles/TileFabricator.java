@@ -19,7 +19,7 @@ import forestry.core.tiles.TilePowered;
 import forestry.core.utils.InventoryUtil;
 import forestry.core.utils.RecipeUtil;
 import forestry.factory.features.FactoryTiles;
-import forestry.factory.gui.ContainerFabricator;
+import forestry.factory.gui.FabricatorMenu;
 import forestry.factory.inventory.InventoryFabricator;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -297,6 +297,6 @@ public class TileFabricator extends TilePowered implements ISlotPickupWatcher, I
 
 	@Override
 	public AbstractContainerMenu createMenu(int windowId, Inventory inv, Player player) {
-		return new ContainerFabricator(windowId, player.getInventory(), this);
+		return new FabricatorMenu(windowId, player.getInventory(), this);
 	}
 }

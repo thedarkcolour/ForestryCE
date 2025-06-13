@@ -55,7 +55,6 @@ public class TileFruitPod extends BlockEntity implements IFruitBearer, IStreamab
 		setChanged();
 	}
 
-	/* SAVING & LOADING */
 	@Override
 	public void writeData(RegistryFriendlyByteBuf buffer) {
 		if (this.fruit != null) {
@@ -173,7 +172,7 @@ public class TileFruitPod extends BlockEntity implements IFruitBearer, IStreamab
 	}
 
 	@Override
-	public List<ItemStack> pickFruit(ItemStack tool) {
+	public List<ItemStack> pickFruit() {
 		List<ItemStack> fruits = getDrops();
 		this.maturity = 0;
 

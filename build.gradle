@@ -11,7 +11,7 @@ tasks.named('wrapper', Wrapper).configure {
 	distributionType = Wrapper.DistributionType.BIN
 }
 
-group = 'thedarkcolour.forestry'
+group = 'forestry'
 version = forestryVersion
 base.archivesName = "forestry-$minecraftVersion"
 

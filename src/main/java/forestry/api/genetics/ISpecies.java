@@ -6,7 +6,6 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
-import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
 
@@ -135,6 +134,7 @@ public interface ISpecies<I extends IIndividual> extends IRegistryAlleleValue {
 	 */
 	int getEscritoireColor();
 
+	@SuppressWarnings("unchecked")
 	default <S extends ISpecies<?>> S cast() {
 		return (S) this;
 	}

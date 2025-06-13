@@ -3,7 +3,6 @@ package forestry.core.worldgen;
 import com.google.common.collect.ImmutableList;
 import com.mojang.datafixers.util.Either;
 import com.mojang.datafixers.util.Pair;
-import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import forestry.api.IForestryApi;
@@ -41,22 +40,21 @@ import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.pools.SinglePoolElement;
 import net.minecraft.world.level.levelgen.structure.pools.StructurePoolElementType;
 import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool;
-import net.minecraft.world.level.levelgen.structure.templatesystem.BlockIgnoreProcessor;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorList;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
+import net.minecraft.world.level.levelgen.structure.templatesystem.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class ApiaristPoolElement extends SinglePoolElement {
-	public static final MapCodec<ApiaristPoolElement> CODEC = RecordCodecBuilder.mapCodec(instance -> {
-		return instance.group(templateCodec(), processorsCodec()).apply(instance, ApiaristPoolElement::new);
-	});
+	public static final MapCodec<ApiaristPoolElement> CODEC = RecordCodecBuilder.mapCodec(inst -> inst.group(
+		templateCodec(),
+		processorsCodec()
+	).apply(inst, ApiaristPoolElement::new));
 
 	public ApiaristPoolElement(Either<ResourceLocation, StructureTemplate> template, Holder<StructureProcessorList> processors) {
-		super(template, processors, StructureTemplatePool.Projection.RIGID);
+		super(template, processors, StructureTemplatePool.Projection.RIGID, Optional.empty());
 	}
 
 	@Override
@@ -74,9 +72,9 @@ public class ApiaristPoolElement extends SinglePoolElement {
 	}
 
 	@Override
-	protected StructurePlaceSettings getSettings(Rotation rotation, BoundingBox bounds, boolean keepJigsaws) {
+	protected StructurePlaceSettings getSettings(Rotation rotation, BoundingBox bounds, LiquidSettings settings, boolean offset) {
 		// data markers get wiped (ignored) if we don't remove the structure block processor
-		return super.getSettings(rotation, bounds, keepJigsaws)
+		return super.getSettings(rotation, bounds, settings, offset)
 			.popProcessor(BlockIgnoreProcessor.STRUCTURE_BLOCK);
 	}
 

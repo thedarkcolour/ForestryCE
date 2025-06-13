@@ -19,10 +19,10 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
 // The block form of the analyzer
-public class GuiAnalyzer extends GuiForestryTitled<ContainerAnalyzer> {
+public class GuiAnalyzer extends GuiForestryTitled<AnalyzerMenu> {
 	private final TileAnalyzer tile;
 
-	public GuiAnalyzer(ContainerAnalyzer analyzer, Inventory inventory, Component title) {
+	public GuiAnalyzer(AnalyzerMenu analyzer, Inventory inventory, Component title) {
 		super(Constants.TEXTURE_PATH_GUI + "/alyzer.png", analyzer, inventory, title);
 		this.tile = analyzer.tile;
 		this.imageHeight = 176;

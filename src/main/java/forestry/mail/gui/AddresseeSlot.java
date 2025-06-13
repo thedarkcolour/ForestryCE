@@ -21,9 +21,9 @@ import net.minecraft.client.gui.GuiGraphics;
 
 public class AddresseeSlot extends Widget {
 
-	private final ContainerLetter containerLetter;
+	private final LetterMenu containerLetter;
 
-	public AddresseeSlot(WidgetManager widgetManager, int xPos, int yPos, ContainerLetter containerLetter) {
+	public AddresseeSlot(WidgetManager widgetManager, int xPos, int yPos, LetterMenu containerLetter) {
 		super(widgetManager, xPos, yPos);
 		this.containerLetter = containerLetter;
 		this.width = 26;

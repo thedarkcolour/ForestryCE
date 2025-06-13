@@ -5,8 +5,8 @@ import forestry.core.items.definitions.DrinkProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.neoforged.api.distmarker.Dist;
-import net.minecraftforge.data.loading.DatagenModLoader;
-import net.minecraftforge.fml.loading.FMLEnvironment;
+import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.neoforge.data.loading.DatagenModLoader;
 
 import javax.annotation.Nullable;
 import java.util.function.Supplier;

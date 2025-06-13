@@ -16,10 +16,10 @@ import forestry.mail.tiles.TileMailbox;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
-public class GuiMailbox extends GuiForestry<ContainerMailbox> {
+public class GuiMailbox extends GuiForestry<MailboxMenu> {
 	private final TileMailbox tile;
 
-	public GuiMailbox(ContainerMailbox container, Inventory inv, Component title) {
+	public GuiMailbox(MailboxMenu container, Inventory inv, Component title) {
 		super(Constants.TEXTURE_PATH_GUI + "/mailbox.png", container, inv, title);
 		this.tile = container.getTile();
 		this.imageWidth = 230;

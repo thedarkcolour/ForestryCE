@@ -100,7 +100,7 @@ public class ItemFluidContainerForestry extends ItemForestry implements IColored
 
 				if (!worldIn.isClientSide) {
 					FoodData foodStats = player.getFoodData();
-					foodStats.eat(drinkProperties.getHealAmount(), drinkProperties.getSaturationModifier());
+					foodStats.eat(drinkProperties.healAmount(), drinkProperties.saturationModifier());
 					worldIn.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.PLAYER_BURP, SoundSource.PLAYERS, 0.5F, worldIn.random.nextFloat() * 0.1F + 0.9F);
 				}
 
@@ -126,7 +126,7 @@ public class ItemFluidContainerForestry extends ItemForestry implements IColored
 	public int getUseDuration(ItemStack itemstack) {
 		DrinkProperties drinkProperties = getDrinkProperties(itemstack);
 		if (drinkProperties != null) {
-			return drinkProperties.getMaxItemUseDuration();
+			return drinkProperties.maxItemUseDuration();
 		} else {
 			return super.getUseDuration(itemstack);
 		}

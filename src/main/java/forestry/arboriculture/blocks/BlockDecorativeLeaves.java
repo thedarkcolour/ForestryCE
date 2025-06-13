@@ -90,7 +90,6 @@ public class BlockDecorativeLeaves extends Block implements IColoredBlock, IShea
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
 	public int colorMultiplier(BlockState state, @Nullable BlockAndTintGetter level, @Nullable BlockPos pos, int tintIndex) {
 		ITree individual = this.type.getIndividual();
 

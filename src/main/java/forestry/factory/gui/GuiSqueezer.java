@@ -19,10 +19,10 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
-public class GuiSqueezer extends GuiForestryTitled<ContainerSqueezer> {
+public class GuiSqueezer extends GuiForestryTitled<SqueezerMenu> {
 	private final TileSqueezer tile;
 
-	public GuiSqueezer(ContainerSqueezer container, Inventory inventory, Component title) {
+	public GuiSqueezer(SqueezerMenu container, Inventory inventory, Component title) {
 		super(Constants.TEXTURE_PATH_GUI + "/squeezersocket.png", container, inventory, title);
 		this.tile = container.getTile();
         this.widgetManager.add(new TankWidget(this.widgetManager, 122, 18, 0));

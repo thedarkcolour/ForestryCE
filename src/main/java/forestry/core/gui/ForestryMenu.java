@@ -1,0 +1,116 @@
+package forestry.core.gui;
+
+import forestry.api.modules.IForestryPacketClient;
+import forestry.core.gui.slots.SlotForestry;
+import forestry.core.gui.slots.SlotLocked;
+import forestry.core.utils.SlotUtil;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.network.PacketDistributor;
+
+import javax.annotation.Nullable;
+
+public abstract class ForestryMenu extends AbstractContainerMenu {
+	public static final int PLAYER_HOTBAR_OFFSET = 27;
+	public static final int PLAYER_INV_SLOTS = PLAYER_HOTBAR_OFFSET + 9;
+	// number of items that have been shift-click-transferred during this click
+	private int transferCount = 0;
+	// null on client side
+	@Nullable
+	protected final ServerPlayer player;
+
+	protected ForestryMenu(MenuType<?> type, int containerId, @Nullable Player player) {
+		super(type, containerId);
+
+		if (player instanceof ServerPlayer serverPlayer) {
+			this.player = serverPlayer;
+		} else {
+			this.player = null;
+		}
+	}
+
+	protected final void addPlayerInventory(Inventory playerInventory, int xInv, int yInv) {
+		// Player inventory
+		for (int row = 0; row < 3; row++) {
+			for (int column = 0; column < 9; column++) {
+				addSlot(playerInventory, column + row * 9 + 9, xInv + column * 18, yInv + row * 18);
+			}
+		}
+		// Player hotbar
+		for (int column = 0; column < 9; column++) {
+			addHotbarSlot(playerInventory, column, xInv + column * 18, yInv + 58);
+		}
+	}
+
+	protected void addHotbarSlot(Inventory playerInventory, int slot, int x, int y) {
+		super.addSlot(new Slot(playerInventory, slot, x, y));
+	}
+
+	protected void addSlot(Inventory playerInventory, int slot, int x, int y) {
+		super.addSlot(new Slot(playerInventory, slot, x, y));
+	}
+
+	// Public override
+	@Override
+	public Slot addSlot(Slot slot) {
+		return super.addSlot(slot);
+	}
+
+	@Override
+	public void clicked(int slotId, int button, ClickType clickTypeIn, Player player) {
+		if (!canAccess(player)) {
+			return;
+		}
+
+		if (clickTypeIn == ClickType.SWAP && button >= 0 && button < 9) {
+			// hotkey used to move item from slot to hotbar
+			int hotbarSlotIndex = PLAYER_HOTBAR_OFFSET + button;
+			Slot hotbarSlot = getSlot(hotbarSlotIndex);
+			if (hotbarSlot instanceof SlotLocked) {
+				return;
+			}
+		}
+
+		Slot slot = slotId < 0 ? null : getSlot(slotId);
+		if (slot instanceof SlotForestry slotForestry) {
+			if (slotForestry.isPhantom()) {
+				SlotUtil.slotClickPhantom(slotForestry, button, clickTypeIn, player);
+				return;
+			}
+		}
+
+        this.transferCount = 0;
+		super.clicked(slotId, button, clickTypeIn, player);
+	}
+
+	public Slot getForestrySlot(int slot) {
+		return getSlot(PLAYER_INV_SLOTS + slot);
+	}
+
+	@Override
+	public final ItemStack quickMoveStack(Player player, int slotIndex) {
+		if (!canAccess(player)) {
+			return ItemStack.EMPTY;
+		}
+
+		if (this.transferCount < 64) {
+            this.transferCount++;
+			return SlotUtil.transferStackInSlot(this.slots, player, slotIndex);
+		}
+		return ItemStack.EMPTY;
+	}
+
+	protected abstract boolean canAccess(Player player);
+
+	protected final void sendPacketToListeners(IForestryPacketClient packet) {
+		if (this.player != null) {
+            PacketDistributor.sendToPlayer(this.player, packet);
+        }
+	}
+}

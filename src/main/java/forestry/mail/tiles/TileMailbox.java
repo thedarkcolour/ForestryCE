@@ -22,7 +22,7 @@ import forestry.mail.PostOffice;
 import forestry.mail.carriers.players.POBox;
 import forestry.mail.carriers.players.POBoxRegistry;
 import forestry.mail.features.MailTiles;
-import forestry.mail.gui.ContainerMailbox;
+import forestry.mail.gui.MailboxMenu;
 import forestry.mail.postalstates.EnumDeliveryState;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -90,6 +90,6 @@ public class TileMailbox extends TileBase {
 
 	@Override
 	public AbstractContainerMenu createMenu(int windowId, Inventory inv, Player player) {
-		return new ContainerMailbox(windowId, inv, this);
+		return new MailboxMenu(windowId, inv, this);
 	}
 }

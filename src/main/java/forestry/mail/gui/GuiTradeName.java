@@ -23,11 +23,11 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import org.apache.commons.lang3.StringUtils;
 import org.lwjgl.glfw.GLFW;
 
-public class GuiTradeName extends GuiForestry<ContainerTradeName> {
+public class GuiTradeName extends GuiForestry<TradeNameMenu> {
 	private final TileTrader tile;
 	private EditBox addressNameField;
 
-	public GuiTradeName(ContainerTradeName container, Inventory inv, Component title) {
+	public GuiTradeName(TradeNameMenu container, Inventory inv, Component title) {
 		super(Constants.TEXTURE_PATH_GUI + "/tradername.png", container, inv, title);
 		this.tile = container.getTile();
 		this.imageWidth = 176;

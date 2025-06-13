@@ -9,7 +9,7 @@ import forestry.api.multiblock.IAlvearyComponent;
 import forestry.api.multiblock.IMultiblockController;
 import forestry.apiculture.blocks.BlockAlveary;
 import forestry.apiculture.features.ApicultureBlocks;
-import forestry.apiculture.gui.ContainerAlveary;
+import forestry.apiculture.gui.AlvearyMenu;
 import forestry.core.inventory.IInventoryAdapter;
 import forestry.core.multiblock.MultiblockTileEntityForestry;
 import forestry.core.network.IStreamableGui;
@@ -177,7 +177,7 @@ public class TileAlveary extends MultiblockTileEntityForestry<MultiblockLogicAlv
 
 	@Override
 	public AbstractContainerMenu createMenu(int windowId, Inventory inv, Player player) {
-		return new ContainerAlveary(windowId, player.getInventory(), this);
+		return new AlvearyMenu(windowId, player.getInventory(), this);
 	}
 
 	@Override

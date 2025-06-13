@@ -1,7 +1,6 @@
 package forestry.modules.features;
 
 import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.LinkedListMultimap;
 import forestry.api.core.IBlockSubtype;
 import forestry.api.core.IItemSubtype;
 import forestry.api.storage.EnumBackpackType;
@@ -10,6 +9,7 @@ import forestry.core.utils.ModUtil;
 import forestry.modules.ModuleUtil;
 import forestry.storage.ModuleStorage;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
@@ -26,11 +26,6 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.network.IContainerFactory;
-import net.neoforged.neoforge.registries.DeferredRegister;
-import net.minecraftforge.registries.RegisterEvent;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.network.IContainerFactory;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -89,10 +84,30 @@ public class ModFeatureRegistry {
 		public <V> DeferredRegister<V> getRegistry(ResourceKey<? extends Registry<V>> registryKey) {
 			String modId = this.moduleId.getNamespace();
 			return this.registries.computeIfAbsent(registryKey, key -> {
-				DeferredRegister<V> registry = DeferredRegister.create(key, modId);
+				@SuppressWarnings("rawtypes")
+				DeferredRegister registry;
+
+				if (registryKey.equals(Registries.BLOCK)) {
+					registry = DeferredRegister.createBlocks(modId);
+				} else if (registryKey.equals(Registries.ITEM)) {
+					registry = DeferredRegister.createItems(modId);
+				} else {
+					registry = DeferredRegister.create(key, modId);
+				}
+
 				registry.register(this.modBus);
 				return registry;
 			});
+		}
+
+		@Override
+		public DeferredRegister.Blocks getBlockRegistry() {
+			return (DeferredRegister.Blocks) getRegistry(Registries.BLOCK);
+		}
+
+		@Override
+		public DeferredRegister.Items getItemRegistry() {
+			return (DeferredRegister.Items) getRegistry(Registries.ITEM);
 		}
 
 		@Nullable
@@ -183,8 +198,8 @@ public class ModFeatureRegistry {
 		}
 
 		public <F extends IModFeature> F register(F feature) {
-            this.features.add(feature);
-            this.featureByRegistry.put(feature.getRegistry(), feature);
+			this.features.add(feature);
+			this.featureByRegistry.put(feature.getRegistry(), feature);
 			return feature;
 		}
 

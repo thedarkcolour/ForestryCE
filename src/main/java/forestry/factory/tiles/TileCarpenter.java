@@ -28,7 +28,7 @@ import forestry.core.tiles.TilePowered;
 import forestry.core.utils.InventoryUtil;
 import forestry.core.utils.RecipeUtil;
 import forestry.factory.features.FactoryTiles;
-import forestry.factory.gui.ContainerCarpenter;
+import forestry.factory.gui.CarpenterMenu;
 import forestry.factory.inventory.InventoryCarpenter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -124,7 +124,7 @@ public class TileCarpenter extends TilePowered implements WorldlyContainer, ILiq
 
 			if (recipe != null) {
 				int recipeTime = this.currentRecipe.getPackagingTime();
-				setTicksPerWorkCycle(recipeTime * TICKS_PER_RECIPE_TIME);
+				setStepsPerWorkCycle(recipeTime * TICKS_PER_RECIPE_TIME);
 				setEnergyPerWorkCycle(recipeTime * ENERGY_PER_RECIPE_TIME);
 
 				ItemStack craftingResult = this.currentRecipe.getResultItem(registryAccess);
@@ -265,6 +265,6 @@ public class TileCarpenter extends TilePowered implements WorldlyContainer, ILiq
 
 	@Override
 	public AbstractContainerMenu createMenu(int windowId, Inventory inv, Player player) {
-		return new ContainerCarpenter(windowId, player.getInventory(), this);
+		return new CarpenterMenu(windowId, player.getInventory(), this);
 	}
 }

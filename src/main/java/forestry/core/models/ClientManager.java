@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.core.models;
 
 import forestry.core.blocks.IColoredBlock;
@@ -29,7 +19,6 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.event.ModelEvent;
 import net.neoforged.neoforge.client.event.ModelEvent;
 
 import javax.annotation.Nullable;
@@ -65,20 +54,18 @@ public enum ClientManager {
 
 	public ModelState getDefaultBlockState() {
 		if (this.defaultBlockState == null) {
-            this.defaultBlockState = ResourceUtil.loadTransform(ResourceLocation.withDefaultNamespace("block/block"));
+			this.defaultBlockState = ResourceUtil.loadTransform(ResourceLocation.withDefaultNamespace("block/block"));
 		}
 		return this.defaultBlockState;
 	}
 
 	public void registerModel(BakedModel model, Object feature) {
-		if (feature instanceof FeatureGroup<?, ?, ?> group) {
-			group.getFeatures().forEach(f -> registerModel(model, f));
-		} else if (feature instanceof FeatureTable<?, ?, ?, ?> group) {
-			group.getFeatures().forEach(f -> registerModel(model, f));
-		} else if (feature instanceof FeatureBlock<?, ?> block) {
-			registerModel(model, block.block(), block.item());
-		} else if (feature instanceof FeatureItem<?> item) {
-			registerModel(model, item.item());
+		switch (feature) {
+			case FeatureGroup<?, ?, ?> group -> group.getFeatures().forEach(f -> registerModel(model, f));
+			case FeatureTable<?, ?, ?, ?> group -> group.getFeatures().forEach(f -> registerModel(model, f));
+			case FeatureBlock<?, ?> block -> registerModel(model, block.block(), block.item());
+			case FeatureItem<?> item -> registerModel(model, item.item());
+			default -> {}
 		}
 	}
 
@@ -87,11 +74,11 @@ public enum ClientManager {
 	}
 
 	public void registerModel(BakedModel model, Block block, @Nullable BlockItem item, Collection<BlockState> states) {
-        this.customBlockModels.add(new BlockModelEntry(model, block, item, states));
+		this.customBlockModels.add(new BlockModelEntry(model, block, item, states));
 	}
 
 	public void registerModel(BakedModel model, Item item) {
-        this.customModels.add(new ModelEntry(new ModelResourceLocation(ModUtil.getRegistryName(item), "inventory"), model));
+		this.customModels.add(new ModelEntry(new ModelResourceLocation(ModUtil.getRegistryName(item), "inventory"), model));
 	}
 
 	public void onBakeModels(ModelEvent.ModifyBakingResult event) {

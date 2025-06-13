@@ -19,7 +19,7 @@ import forestry.core.fluids.FilteredTank;
 import forestry.core.fluids.FluidHelper;
 import forestry.core.fluids.FluidTagFilter;
 import forestry.core.fluids.TankManager;
-import forestry.core.gui.ContainerAnalyzer;
+import forestry.core.gui.AnalyzerMenu;
 import forestry.core.inventory.InventoryAnalyzer;
 import forestry.core.inventory.wrappers.InventoryMapper;
 import forestry.core.network.packets.PacketItemStackDisplay;
@@ -230,10 +230,10 @@ public class TileAnalyzer extends TilePowered implements WorldlyContainer, ILiqu
         this.invInput.setItem(slotIndex, ItemStack.EMPTY);
 
 		if (this.specimenToAnalyze.isAnalyzed()) {
-			setTicksPerWorkCycle(1);
+			setStepsPerWorkCycle(1);
 			setEnergyPerWorkCycle(0);
 		} else {
-			setTicksPerWorkCycle(TIME_TO_ANALYZE);
+			setStepsPerWorkCycle(TIME_TO_ANALYZE);
 			setEnergyPerWorkCycle(analyzerEnergyPerWork);
 		}
 
@@ -267,6 +267,6 @@ public class TileAnalyzer extends TilePowered implements WorldlyContainer, ILiqu
 
 	@Override
 	public AbstractContainerMenu createMenu(int windowId, Inventory inv, Player player) {
-		return new ContainerAnalyzer(windowId, player.getInventory(), this);
+		return new AnalyzerMenu(windowId, player.getInventory(), this);
 	}
 }

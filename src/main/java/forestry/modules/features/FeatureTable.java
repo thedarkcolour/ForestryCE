@@ -6,7 +6,6 @@ import forestry.api.core.IItemProvider;
 import forestry.modules.features.FeatureGroup.IdentifierType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -23,7 +22,7 @@ public abstract class FeatureTable<B extends FeatureTable.Builder<R, C, ? extend
 				mapBuilder.put(row, column, createFeature(builder, row, column));
 			}
 		}
-        this.featureByTypes = mapBuilder.build();
+		this.featureByTypes = mapBuilder.build();
 	}
 
 	protected abstract F createFeature(B builder, R rowType, C columnType);
@@ -106,7 +105,7 @@ public abstract class FeatureTable<B extends FeatureTable.Builder<R, C, ? extend
 		}
 
 		public Builder<R, C, G> rowType(R type) {
-            this.rowTypes.add(type);
+			this.rowTypes.add(type);
 			return this;
 		}
 
@@ -115,12 +114,12 @@ public abstract class FeatureTable<B extends FeatureTable.Builder<R, C, ? extend
 		}
 
 		public Builder<R, C, G> rowTypes(Collection<R> types) {
-            this.rowTypes.addAll(types);
+			this.rowTypes.addAll(types);
 			return this;
 		}
 
 		public Builder<R, C, G> columnType(C type) {
-            this.columnTypes.add(type);
+			this.columnTypes.add(type);
 			return this;
 		}
 
@@ -129,7 +128,7 @@ public abstract class FeatureTable<B extends FeatureTable.Builder<R, C, ? extend
 		}
 
 		public Builder<R, C, G> columnTypes(Collection<C> types) {
-            this.columnTypes.addAll(types);
+			this.columnTypes.addAll(types);
 			return this;
 		}
 

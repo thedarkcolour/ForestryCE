@@ -1,20 +1,11 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.core.utils;
 
+import net.minecraft.network.chat.TextColor;
+import net.minecraft.util.Mth;
+
+import java.awt.*;
+
 public class ColourUtil {
-
-	private ColourUtil() {
-	}
-
 	public static int addRGBComponents(int colour, int r, int g, int b) {
 		r = getRed(colour) + r;
 		g = getGreen(colour) + g;
@@ -37,6 +28,11 @@ public class ColourUtil {
 		b = Math.min(b, 255);
 
 		return (r & 0x0ff) << 16 | (g & 0x0ff) << 8 | b & 0x0ff;
+	}
+
+	// ONLY USE ON CLIENT
+	public static TextColor getRainbowColor(long time, float partialTicks) {
+		return TextColor.fromRgb(Color.HSBtoRGB((180 * Mth.sin((time + partialTicks) / 30.0f) - 180) / 360.0f, 0.5f, 0.8f));
 	}
 
 	public static int getRed(int colour) {

@@ -17,7 +17,7 @@ import forestry.core.fluids.*;
 import forestry.core.tiles.ILiquidTankTile;
 import forestry.core.tiles.TileBase;
 import forestry.factory.features.FactoryTiles;
-import forestry.factory.gui.ContainerRaintank;
+import forestry.factory.gui.RaintankMenu;
 import forestry.factory.inventory.InventoryRaintank;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -162,11 +162,11 @@ public class TileRaintank extends TileBase implements WorldlyContainer, ILiquidT
 	}
 
 	@Override
-	public void onNeighborTileChange(Level world, BlockPos pos, BlockPos neighbor) {
-		super.onNeighborTileChange(world, pos, neighbor);
+	public void onNeighborTileChange(Level level, BlockPos pos, BlockPos neighbor) {
+		super.onNeighborTileChange(level, pos, neighbor);
 
 		if (neighbor.equals(pos.below())) {
-            this.canDumpBelow = FluidHelper.canAcceptFluid(world, neighbor, Direction.UP, STACK_WATER);
+            this.canDumpBelow = FluidHelper.canAcceptFluid(level, neighbor, Direction.UP, STACK_WATER);
 		}
 	}
 
@@ -185,6 +185,6 @@ public class TileRaintank extends TileBase implements WorldlyContainer, ILiquidT
 
 	@Override
 	public AbstractContainerMenu createMenu(int windowId, Inventory inv, Player player) {
-		return new ContainerRaintank(windowId, inv, this);
+		return new RaintankMenu(windowId, inv, this);
 	}
 }

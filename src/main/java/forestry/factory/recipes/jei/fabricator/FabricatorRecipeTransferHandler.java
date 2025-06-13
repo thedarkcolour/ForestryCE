@@ -3,9 +3,9 @@ package forestry.factory.recipes.jei.fabricator;
 import forestry.api.modules.IForestryPacketServer;
 import forestry.api.recipes.IFabricatorRecipe;
 import forestry.core.recipes.jei.ForestryRecipeType;
-import forestry.core.utils.JeiUtil;
+import forestry.compat.jei.JeiUtil;
 import forestry.factory.features.FactoryMenuTypes;
-import forestry.factory.gui.ContainerFabricator;
+import forestry.factory.gui.FabricatorMenu;
 import forestry.factory.network.packets.PacketRecipeTransferRequest;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.recipe.RecipeType;
@@ -21,14 +21,14 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import javax.annotation.Nullable;
 import java.util.Optional;
 
-public class FabricatorRecipeTransferHandler implements IRecipeTransferHandler<ContainerFabricator, IFabricatorRecipe> {
+public class FabricatorRecipeTransferHandler implements IRecipeTransferHandler<FabricatorMenu, IFabricatorRecipe> {
 	@Override
-	public Class<ContainerFabricator> getContainerClass() {
-		return ContainerFabricator.class;
+	public Class<FabricatorMenu> getContainerClass() {
+		return FabricatorMenu.class;
 	}
 
 	@Override
-	public Optional<MenuType<ContainerFabricator>> getMenuType() {
+	public Optional<MenuType<FabricatorMenu>> getMenuType() {
 		return Optional.of(FactoryMenuTypes.FABRICATOR.menuType());
 	}
 
@@ -39,7 +39,7 @@ public class FabricatorRecipeTransferHandler implements IRecipeTransferHandler<C
 
 	@Nullable
 	@Override
-	public IRecipeTransferError transferRecipe(ContainerFabricator container, IFabricatorRecipe recipe, IRecipeSlotsView recipeSlots, Player player, boolean maxTransfer, boolean doTransfer) {
+	public IRecipeTransferError transferRecipe(FabricatorMenu container, IFabricatorRecipe recipe, IRecipeSlotsView recipeSlots, Player player, boolean maxTransfer, boolean doTransfer) {
 		if (doTransfer) {
 			Container craftingInventory = container.getFabricator().getCraftingInventory();
 			NonNullList<ItemStack> items = JeiUtil.getFirstItemStacks(recipeSlots);

@@ -23,7 +23,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Rarity;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -150,7 +149,7 @@ public class BeeSpecies extends Species<IBeeSpeciesType, IBee> implements IBeeSp
 
 		tooltip.add(genome.getActiveName(BeeChromosomes.FLOWER_TYPE).withStyle(ChatFormatting.GRAY));
 
-		IValueAllele<IActivityType> activityAllele = genome.getActiveAllele(BeeChromosomes.ACTIVITY);
+		IValueAllele<? extends IActivityType> activityAllele = genome.getActiveAllele(BeeChromosomes.ACTIVITY);
 		if (activityAllele != ForestryAlleles.ACTIVITY_DIURNAL) {
 			tooltip.add(BeeChromosomes.ACTIVITY.getDisplayName(activityAllele).withStyle(ChatFormatting.GOLD));
 		}

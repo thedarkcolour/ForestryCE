@@ -1,7 +1,7 @@
 package forestry.modules.features;
 
 import forestry.modules.ModuleUtil;
-import net.minecraftforge.eventbus.api.IEventBus;
+import net.neoforged.bus.api.IEventBus;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

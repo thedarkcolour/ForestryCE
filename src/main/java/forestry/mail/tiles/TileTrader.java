@@ -26,8 +26,8 @@ import forestry.mail.MailAddress;
 import forestry.mail.carriers.trading.TradeStation;
 import forestry.mail.carriers.trading.TradeStationRegistry;
 import forestry.mail.features.MailTiles;
-import forestry.mail.gui.ContainerTradeName;
-import forestry.mail.gui.ContainerTrader;
+import forestry.mail.gui.TradeNameMenu;
+import forestry.mail.gui.TraderMenu;
 import forestry.mail.inventory.InventoryTradeStation;
 import forestry.mail.network.packets.PacketTraderAddressResponse;
 import net.minecraft.core.BlockPos;
@@ -303,9 +303,9 @@ public class TileTrader extends TileBase implements IOwnedTile {
 	@Override
 	public AbstractContainerMenu createMenu(int windowId, Inventory inv, Player player) {
 		if (isLinked()) {
-			return new ContainerTrader(windowId, inv, this);
+			return new TraderMenu(windowId, inv, this);
 		} else {
-			return new ContainerTradeName(windowId, inv.player, this);
+			return new TradeNameMenu(windowId, inv.player, this);
 		}
 	}
 }

@@ -1,6 +1,6 @@
 package forestry.core.recipes.jei;
 
-import forestry.core.utils.JeiUtil;
+import forestry.compat.jei.JeiUtil;
 import mezz.jei.api.gui.ingredient.IRecipeSlotTooltipCallback;
 import mezz.jei.api.gui.ingredient.IRecipeSlotView;
 import net.minecraft.network.chat.Component;

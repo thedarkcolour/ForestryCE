@@ -12,14 +12,14 @@ package forestry.mail.network.packets;
 
 import forestry.api.modules.IForestryPacketServer;
 import forestry.core.network.PacketIdServer;
-import forestry.mail.gui.ContainerLetter;
+import forestry.mail.gui.LetterMenu;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 
 public record PacketLetterTextSet(String string) implements IForestryPacketServer {
 	public static void handle(PacketLetterTextSet msg, ServerPlayer player) {
-		if (player.containerMenu instanceof ContainerLetter letterMenu) {
+		if (player.containerMenu instanceof LetterMenu letterMenu) {
 			letterMenu.handleSetText(msg.string());
 		}
 	}

@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.core.tiles;
 
 import net.minecraft.core.BlockPos;
@@ -20,14 +10,10 @@ import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-// todo does this actually improve performance?
-
 /**
  * A helper class that caches adjacent tiles for a given tile entity.
  * <p>
  * Listeners can be added to listen for adjacent tile changes.
- *
- * @author CovertJaguar <http://www.railcraft.info>
  */
 public final class AdjacentTileCache {
 	private static final int DELAY_MIN = 20;
@@ -69,10 +55,10 @@ public final class AdjacentTileCache {
 
 	@Nullable
 	private BlockEntity searchSide(Direction side) {
-		Level world = this.source.getLevel();
+		Level level = this.source.getLevel();
 		BlockPos pos = this.source.getBlockPos().relative(side);
-		if (world.hasChunkAt(pos) && !world.isEmptyBlock(pos)) {
-			return TileUtil.getTile(world, pos);
+		if (level.hasChunkAt(pos) && !level.isEmptyBlock(pos)) {
+			return TileUtil.getTile(level, pos);
 		}
 		return null;
 	}
@@ -151,7 +137,6 @@ public final class AdjacentTileCache {
 	}
 
 	private static class Timer {
-
 		private long startTime = Long.MIN_VALUE;
 
 		public boolean hasTriggered(Level world, int ticks) {
@@ -166,6 +151,5 @@ public final class AdjacentTileCache {
 		public void reset() {
             this.startTime = Long.MIN_VALUE;
 		}
-
 	}
 }

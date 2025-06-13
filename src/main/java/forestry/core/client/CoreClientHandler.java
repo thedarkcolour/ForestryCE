@@ -107,9 +107,9 @@ public class CoreClientHandler implements IClientModuleHandler {
 	}
 
 	private static void registerMenus(RegisterMenuScreensEvent event) {
-		event.register(CoreMenuTypes.ALYZER.menuType(), GuiAlyzer::new);
+		event.register(CoreMenuTypes.ALYZER.menuType(), PortableAnalyzerScreen::new);
 		event.register(CoreMenuTypes.ANALYZER.menuType(), GuiAnalyzer::new);
-		event.register(CoreMenuTypes.NATURALIST_INVENTORY.menuType(), GuiNaturalistInventory<ContainerNaturalistInventory>::new);
+		event.register(CoreMenuTypes.NATURALIST_INVENTORY.menuType(), GuiNaturalistInventory<NaturalistInventoryMenu>::new);
 		event.register(CoreMenuTypes.ESCRITOIRE.menuType(), GuiEscritoire::new);
 		event.register(CoreMenuTypes.SOLDERING_IRON.menuType(), GuiSolderingIron::new);
 	}

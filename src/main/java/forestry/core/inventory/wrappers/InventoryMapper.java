@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.core.inventory.wrappers;
 
 import net.minecraft.world.Container;
@@ -17,15 +7,11 @@ import net.minecraft.world.item.ItemStack;
  * Wrapper class used to specify part of an existing inventory to be treated as
  * a complete inventory. Used primarily to map a side of an ISidedInventory, but
  * it is also helpful for complex inventories such as the Tunnel Bore.
- *
- * @author CovertJaguar <http://www.railcraft.info>
  */
 public class InventoryMapper extends InvWrapperBase implements Container {
-
 	private final Container inv;
 	private final int start;
 	private final int size;
-	private final int stackSizeLimit = -1;
 
 	public InventoryMapper(Container inv) {
 		this(inv, 0, inv.getContainerSize(), true);
@@ -81,12 +67,11 @@ public class InventoryMapper extends InvWrapperBase implements Container {
 
 	@Override
 	public int getMaxStackSize() {
-		return this.stackSizeLimit > 0 ? this.stackSizeLimit : this.inv.getMaxStackSize();
+		return this.inv.getMaxStackSize();
 	}
 
 	@Override
 	public boolean canPlaceItem(int slot, ItemStack stack) {
 		return !checkItems() || this.inv.canPlaceItem(this.start + slot, stack);
 	}
-
 }

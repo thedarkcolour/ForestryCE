@@ -16,7 +16,7 @@ import forestry.core.tiles.TileBase;
 import forestry.core.utils.InventoryUtil;
 import forestry.mail.PostOffice;
 import forestry.mail.features.MailTiles;
-import forestry.mail.gui.ContainerStampCollector;
+import forestry.mail.gui.StampCollectorMenu;
 import forestry.mail.inventory.InventoryStampCollector;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -62,6 +62,6 @@ public class TileStampCollector extends TileBase implements Container {
 
 	@Override
 	public AbstractContainerMenu createMenu(int windowId, Inventory inv, Player player) {
-		return new ContainerStampCollector(windowId, inv, this);
+		return new StampCollectorMenu(windowId, inv, this);
 	}
 }

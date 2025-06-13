@@ -34,7 +34,7 @@ public class CoreItems {
 	public static final FeatureItem<ItemResearchNote> RESEARCH_NOTE = REGISTRY.item(ItemResearchNote::new, "research_note");
 
 	/* Alyzer */
-	public static final FeatureItem<ItemAlyzer> PORTABLE_ALYZER = REGISTRY.item(ItemAlyzer::new, "portable_alyzer");
+	public static final FeatureItem<ItemPortableAnalyzer> PORTABLE_ALYZER = REGISTRY.item(ItemPortableAnalyzer::new, "portable_alyzer");
 
 	/* Ingots */
 	public static final FeatureItem<ItemForestry> INGOT_TIN = REGISTRY.item(ItemForestry::new, "ingot_tin");

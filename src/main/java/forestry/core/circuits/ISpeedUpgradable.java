@@ -1,5 +1,5 @@
 package forestry.core.circuits;
 
 public interface ISpeedUpgradable {
-	void applySpeedUpgrade(double speedChange, double powerChange);
+	void applySpeedUpgrade(float speedChange, float powerChange);
 }

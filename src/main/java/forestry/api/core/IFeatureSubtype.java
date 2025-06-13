@@ -1,6 +1,8 @@
 package forestry.api.core;
 
-import net.minecraft.util.StringRepresentable;
-
-public interface IFeatureSubtype extends StringRepresentable {
+public interface IFeatureSubtype {
+	/**
+	 * @return The identifier associated with this subtype, without any group prefix or suffix (ex. vintage for comb_vintage)
+	 */
+	String identifier();
 }

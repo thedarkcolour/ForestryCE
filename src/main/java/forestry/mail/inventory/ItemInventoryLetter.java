@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.mail.inventory;
 
 import com.google.common.base.Preconditions;
@@ -31,7 +21,7 @@ public class ItemInventoryLetter extends ItemInventory implements IErrorSource {
 	private final ILetter letter;
 
 	public ItemInventoryLetter(Player player, ItemStack itemstack) {
-		super(player, 0, itemstack);
+		super(0, itemstack);
 		CompoundTag tagCompound = itemstack.getTag();
 		Preconditions.checkNotNull(tagCompound);
         this.letter = new Letter(tagCompound);

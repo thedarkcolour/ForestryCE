@@ -30,7 +30,7 @@ import forestry.core.tiles.TilePowered;
 import forestry.core.utils.InventoryUtil;
 import forestry.core.utils.RecipeUtil;
 import forestry.factory.features.FactoryTiles;
-import forestry.factory.gui.ContainerSqueezer;
+import forestry.factory.gui.SqueezerMenu;
 import forestry.factory.inventory.InventorySqueezer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -194,7 +194,7 @@ public class TileSqueezer extends TilePowered implements ISocketable, WorldlyCon
 
 			if (this.currentRecipe != null) {
 				int recipeTime = this.currentRecipe.getProcessingTime();
-				setTicksPerWorkCycle(recipeTime * TICKS_PER_RECIPE_TIME);
+				setStepsPerWorkCycle(recipeTime * TICKS_PER_RECIPE_TIME);
 				setEnergyPerWorkCycle(recipeTime * ENERGY_PER_RECIPE_TIME);
 			}
 		}
@@ -296,6 +296,6 @@ public class TileSqueezer extends TilePowered implements ISocketable, WorldlyCon
 
 	@Override
 	public AbstractContainerMenu createMenu(int windowId, Inventory inv, Player player) {
-		return new ContainerSqueezer(windowId, inv, this);
+		return new SqueezerMenu(windowId, inv, this);
 	}
 }

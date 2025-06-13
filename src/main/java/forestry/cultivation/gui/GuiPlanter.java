@@ -15,10 +15,10 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
 
-public class GuiPlanter extends GuiForestryTitled<ContainerPlanter> {
+public class GuiPlanter extends GuiForestryTitled<PlanterMenu> {
 	private final TilePlanter tile;
 
-	public GuiPlanter(ContainerPlanter container, Inventory playerInventory, Component title) {
+	public GuiPlanter(PlanterMenu container, Inventory playerInventory, Component title) {
 		super(Constants.TEXTURE_PATH_GUI + "/planter.png", container, playerInventory, title);
 		this.tile = container.getTile();
 		this.imageWidth = 202;
@@ -73,8 +73,8 @@ public class GuiPlanter extends GuiForestryTitled<ContainerPlanter> {
 	}
 
 	@Override
-	protected void renderBg(GuiGraphics graphics, float partialTicks, int mouseY, int mouseX) {
-		super.renderBg(graphics, partialTicks, mouseY, mouseX);
+	protected void renderBg(GuiGraphics graphics, float partialTicks, int mouseX, int mouseY) {
+		super.renderBg(graphics, partialTicks, mouseX, mouseY);
 
 		// Fuel remaining
 		int fertilizerRemain = this.tile.getStoredFertilizerScaled(16);

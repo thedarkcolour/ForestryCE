@@ -7,10 +7,10 @@ import forestry.core.gui.widgets.TankWidget;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
-public class GuiAlvearyHygroregulator extends GuiForestryTitled<ContainerAlvearyHygroregulator> {
+public class GuiAlvearyHygroregulator extends GuiForestryTitled<AlvearyHygroregulatorMenu> {
 	private final TileAlvearyHygroregulator tile;
 
-	public GuiAlvearyHygroregulator(ContainerAlvearyHygroregulator container, Inventory inventory, Component title) {
+	public GuiAlvearyHygroregulator(AlvearyHygroregulatorMenu container, Inventory inventory, Component title) {
 		super(Constants.TEXTURE_PATH_GUI + "/hygroregulator.png", container, inventory, title);
 		this.tile = container.getTile();
 

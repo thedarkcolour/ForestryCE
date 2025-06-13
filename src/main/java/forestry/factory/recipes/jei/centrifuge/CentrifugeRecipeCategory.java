@@ -7,7 +7,7 @@ import forestry.core.config.Constants;
 import forestry.core.recipes.jei.ChanceTooltipCallback;
 import forestry.core.recipes.jei.ForestryRecipeCategory;
 import forestry.core.recipes.jei.ForestryRecipeType;
-import forestry.core.utils.JeiUtil;
+import forestry.compat.jei.JeiUtil;
 import forestry.factory.blocks.BlockTypeFactoryTesr;
 import forestry.factory.features.FactoryBlocks;
 import mezz.jei.api.constants.VanillaTypes;

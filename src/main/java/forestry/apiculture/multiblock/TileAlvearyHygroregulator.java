@@ -4,7 +4,7 @@ import forestry.api.climate.IClimateControlled;
 import forestry.api.multiblock.IAlvearyComponent;
 import forestry.api.recipes.IHygroregulatorRecipe;
 import forestry.apiculture.blocks.BlockAlveary;
-import forestry.apiculture.gui.ContainerAlvearyHygroregulator;
+import forestry.apiculture.gui.AlvearyHygroregulatorMenu;
 import forestry.apiculture.inventory.InventoryHygroregulator;
 import forestry.core.config.Constants;
 import forestry.core.fluids.FilteredTank;
@@ -138,6 +138,6 @@ public class TileAlvearyHygroregulator extends TileAlveary implements Container,
 
 	@Override
 	public AbstractContainerMenu createMenu(int windowId, Inventory inv, Player player) {
-		return new ContainerAlvearyHygroregulator(windowId, inv, this);
+		return new AlvearyHygroregulatorMenu(windowId, inv, this);
 	}
 }

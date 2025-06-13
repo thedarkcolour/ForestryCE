@@ -13,7 +13,7 @@ import forestry.core.render.TankRenderInfo;
 import forestry.core.tiles.ILiquidTankTile;
 import forestry.core.tiles.TilePowered;
 import forestry.factory.features.FactoryTiles;
-import forestry.factory.gui.ContainerBottler;
+import forestry.factory.gui.BottlerMenu;
 import forestry.factory.inventory.InventoryBottler;
 import forestry.factory.recipes.BottlerRecipe;
 import net.minecraft.core.BlockPos;
@@ -180,8 +180,8 @@ public class TileBottler extends TilePowered implements WorldlyContainer, ILiqui
 	}
 
 	@Override
-	public void onNeighborTileChange(Level world, BlockPos pos, BlockPos neighbor) {
-		super.onNeighborTileChange(world, pos, neighbor);
+	public void onNeighborTileChange(Level level, BlockPos pos, BlockPos neighbor) {
+		super.onNeighborTileChange(level, pos, neighbor);
 
 		this.canDump.clear();
 	}
@@ -204,7 +204,7 @@ public class TileBottler extends TilePowered implements WorldlyContainer, ILiqui
 					float fillTime = fillAmount / (float) FluidType.BUCKET_VOLUME;
 					fillTime *= viscosityMultiplier;
 
-					setTicksPerWorkCycle(Math.round(fillTime * TICKS_PER_RECIPE_TIME));
+					setStepsPerWorkCycle(Math.round(fillTime * TICKS_PER_RECIPE_TIME));
 					setEnergyPerWorkCycle(Math.round(fillTime * ENERGY_PER_RECIPE_TIME));
 				}
 			}
@@ -226,7 +226,7 @@ public class TileBottler extends TilePowered implements WorldlyContainer, ILiqui
 					float fillTime = fillAmount / (float) FluidType.BUCKET_VOLUME;
 					fillTime *= viscosityMultiplier;
 
-					setTicksPerWorkCycle(Math.round(fillTime * TICKS_PER_RECIPE_TIME));
+					setStepsPerWorkCycle(Math.round(fillTime * TICKS_PER_RECIPE_TIME));
 					setEnergyPerWorkCycle(0);
 				}
 			}
@@ -238,12 +238,12 @@ public class TileBottler extends TilePowered implements WorldlyContainer, ILiqui
 		if (slotIndex == InventoryBottler.SLOT_EMPTYING_PROCESSING) {
 			if (this.currentRecipe != null && !this.currentRecipe.isFillRecipe()) {
 				this.currentRecipe = null;
-				setTicksPerWorkCycle(0);
+				setStepsPerWorkCycle(0);
 			}
 		} else if (slotIndex == InventoryBottler.SLOT_FILLING_PROCESSING) {
 			if (this.currentRecipe != null && this.currentRecipe.isFillRecipe()) {
 				this.currentRecipe = null;
-				setTicksPerWorkCycle(0);
+				setStepsPerWorkCycle(0);
 			}
 		}
 	}
@@ -343,6 +343,6 @@ public class TileBottler extends TilePowered implements WorldlyContainer, ILiqui
 
 	@Override
 	public AbstractContainerMenu createMenu(int windowId, Inventory inv, Player player) {
-		return new ContainerBottler(windowId, player.getInventory(), this);
+		return new BottlerMenu(windowId, player.getInventory(), this);
 	}
 }

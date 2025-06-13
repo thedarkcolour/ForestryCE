@@ -87,8 +87,8 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 
 	/* SAVING & LOADING */
 	@Override
-	public void load(CompoundTag nbt) {
-		super.load(nbt);
+	public void loadAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+		super.loadAdditional(nbt, registries);
 
 		this.ripeningTime = nbt.getInt(NBT_RIPENING);
 		this.damage = nbt.getInt(NBT_DAMAGE);
@@ -114,8 +114,8 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 	}
 
 	@Override
-	public void saveAdditional(CompoundTag nbt) {
-		super.saveAdditional(nbt);
+	public void saveAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+		super.saveAdditional(nbt, registries);
 
 		nbt.putInt(NBT_RIPENING, this.ripeningTime);
 		nbt.putInt(NBT_DAMAGE, this.damage);
@@ -306,7 +306,7 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 
 		byte leafState = 0;
 		IGenome genome = getTree().getGenome();
-		AllelePair<IValueAllele<ITreeEffect>> effects = genome.getAllelePair(TreeChromosomes.EFFECT);
+		AllelePair<IValueAllele<? extends ITreeEffect>> effects = genome.getAllelePair(TreeChromosomes.EFFECT);
 		boolean hasActiveEffect = effects.active() != ForestryAlleles.TREE_EFFECT_NONE;
 		boolean hasInactiveEffect = effects.inactive() != ForestryAlleles.TREE_EFFECT_NONE;
 		boolean hasFruit = hasFruit();
@@ -408,7 +408,7 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 
 	/* IFRUITBEARER */
 	@Override
-	public List<ItemStack> pickFruit(ItemStack tool) {
+	public List<ItemStack> pickFruit() {
 		ITree tree = getTree();
 		if (tree == null || !hasFruit()) {
 			return List.of();
@@ -466,11 +466,6 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 		} else if (!wasDestroyed && isDestroyed(tree, this.damage)) {
 			sendNetworkUpdate();
 		}
-	}
-
-	@Override
-	public BlockPos getBlockPos() {
-		return getBlockPos();
 	}
 
 	@Override

@@ -6,7 +6,7 @@ import forestry.api.apiculture.genetics.IBee;
 import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.api.multiblock.IAlvearyComponent;
 import forestry.apiculture.blocks.BlockAlveary;
-import forestry.apiculture.gui.ContainerAlvearySwarmer;
+import forestry.apiculture.gui.AlvearySwarmerMenu;
 import forestry.apiculture.hives.Hive;
 import forestry.apiculture.hives.HiveDecorator;
 import forestry.apiculture.hives.HiveDefinitionSwarmer;
@@ -174,6 +174,6 @@ public class TileAlvearySwarmer extends TileAlveary implements WorldlyContainer,
 
 	@Override
 	public AbstractContainerMenu createMenu(int windowId, Inventory inv, Player player) {
-		return new ContainerAlvearySwarmer(windowId, inv, this);
+		return new AlvearySwarmerMenu(windowId, inv, this);
 	}
 }

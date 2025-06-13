@@ -16,6 +16,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.*;
@@ -25,6 +26,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.phys.BlockHitResult;
+import net.neoforged.neoforge.items.ItemHandlerHelper;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -89,54 +91,63 @@ public class BlockForestryLeaves extends BlockAbstractLeaves implements Bonemeal
 	}
 
 	@Override
-	public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-		TileLeaves leaves = TileUtil.getTile(level, pos, TileLeaves.class);
-		if (leaves != null) {
-			IButterfly caterpillar = leaves.getCaterpillar();
-			ItemStack heldItem = player.getItemInHand(hand);
-			ItemStack otherHand = player.getItemInHand(hand == InteractionHand.MAIN_HAND ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND);
-			if (heldItem.isEmpty() && otherHand.isEmpty()) {
-				if (leaves.hasFruit() && leaves.getRipeness() >= 0.9F) {
-					BlockUtil.sendDestroyEffects(level, pos, state);
-					for (ItemStack fruit : leaves.pickFruit(ItemStack.EMPTY)) {
-						ItemHandlerHelper.giveItemToPlayer(player, fruit);
+	protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+		if (stack.is(ForestryTags.Items.SCOOPS)) {
+			if (level.getBlockEntity(pos) instanceof TileLeaves leaves) {
+				IButterfly caterpillar = leaves.getCaterpillar();
+				if (caterpillar != null) {
+					if (!level.isClientSide) {
+						ItemStackUtil.dropItemStackAsEntity(caterpillar.createStack(ButterflyLifeStage.CATERPILLAR), level, pos.below());
+						leaves.setCaterpillar(null);
 					}
-					return InteractionResult.SUCCESS;
+
+					return ItemInteractionResult.sidedSuccess(level.isClientSide);
 				}
-			} else if (heldItem.is(ForestryTags.Items.SCOOPS) && caterpillar != null) {
-				ItemStack butterfly = SpeciesUtil.BUTTERFLY_TYPE.get().createStack(caterpillar, ButterflyLifeStage.CATERPILLAR);
-				ItemStackUtil.dropItemStackAsEntity(butterfly, level, pos.below());
-				leaves.setCaterpillar(null);
-				return InteractionResult.SUCCESS;
 			}
 		}
 
-		return InteractionResult.PASS;
+		return super.useItemOn(stack, state, level, pos, player, hand, hitResult);
 	}
 
-	/* IGrowable */
+	@Override
+	protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
+		if (level.getBlockEntity(pos) instanceof TileLeaves leaves) {
+			if (leaves.hasFruit() && leaves.getRipeness() >= 0.9f) {
+				if (!level.isClientSide) {
+					BlockUtil.sendDestroyEffects(level, pos, state);
+
+					for (ItemStack fruit : leaves.pickFruit()) {
+						ItemHandlerHelper.giveItemToPlayer(player, fruit);
+					}
+				}
+
+				return InteractionResult.sidedSuccess(level.isClientSide);
+			}
+		}
+
+		return super.useWithoutItem(state, level, pos, player, hitResult);
+	}
 
 	@Override
-	public boolean isValidBonemealTarget(LevelReader world, BlockPos pos, BlockState state, boolean isClient) {
-		TileLeaves leafTile = TileUtil.getTile(world, pos, TileLeaves.class);
+	public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state) {
+		TileLeaves leafTile = TileUtil.getTile(level, pos, TileLeaves.class);
 		return leafTile != null && leafTile.hasFruit() && leafTile.getRipeness() < 1.0f;
 	}
 
 	@Override
-	public boolean isBonemealSuccess(Level worldIn, RandomSource rand, BlockPos pos, BlockState state) {
+	public boolean isBonemealSuccess(Level level, RandomSource rand, BlockPos pos, BlockState state) {
 		return true;
 	}
 
 	@Override
-	public void performBonemeal(ServerLevel world, RandomSource rand, BlockPos pos, BlockState state) {
-		TileLeaves leafTile = TileUtil.getTile(world, pos, TileLeaves.class);
+	public void performBonemeal(ServerLevel level, RandomSource rand, BlockPos pos, BlockState state) {
+		TileLeaves leafTile = TileUtil.getTile(level, pos, TileLeaves.class);
 		if (leafTile != null) {
 			leafTile.addRipeness(0.5f);
 		}
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
 	public int colorMultiplier(BlockState state, @Nullable BlockAndTintGetter level, @Nullable BlockPos pos, int tintIndex) {
 		if (level != null && pos != null) {
 			TileLeaves leaves = TileUtil.getTile(level, pos, TileLeaves.class);

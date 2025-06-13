@@ -9,10 +9,10 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
-public class GuiAlveary extends GuiForestryTitled<ContainerAlveary> {
+public class GuiAlveary extends GuiForestryTitled<AlvearyMenu> {
 	private final TileAlveary tile;
 
-	public GuiAlveary(ContainerAlveary container, Inventory inventory, Component title) {
+	public GuiAlveary(AlvearyMenu container, Inventory inventory, Component title) {
 		super(Constants.TEXTURE_PATH_GUI + "/alveary.png", container, inventory, title);
 		this.tile = container.getTile();
 		this.imageHeight = 190;

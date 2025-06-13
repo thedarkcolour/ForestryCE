@@ -20,7 +20,7 @@ import forestry.api.core.tooltips.ToolTip;
 import forestry.core.fluids.StandardTank;
 import forestry.core.gui.IContainerLiquidTanks;
 import forestry.core.utils.ResourceUtil;
-import forestry.farming.gui.ContainerFarm;
+import forestry.farming.gui.FarmMenu;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
@@ -70,7 +70,7 @@ public class TankWidget extends Widget {
 		AbstractContainerMenu container = this.manager.gui.getMenu();
 		if (container instanceof IContainerLiquidTanks tanks) {
 			return tanks.getTank(this.slot);
-		} else if (container instanceof ContainerFarm farm) {
+		} else if (container instanceof FarmMenu farm) {
 			return farm.getTank(this.slot);
 		}
 		return null;

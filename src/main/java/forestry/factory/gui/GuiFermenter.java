@@ -18,10 +18,10 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
-public class GuiFermenter extends GuiForestryTitled<ContainerFermenter> {
+public class GuiFermenter extends GuiForestryTitled<FermenterMenu> {
 	private final TileFermenter tile;
 
-	public GuiFermenter(ContainerFermenter container, Inventory inventory, Component title) {
+	public GuiFermenter(FermenterMenu container, Inventory inventory, Component title) {
 		super(Constants.TEXTURE_PATH_GUI + "/fermenter.png", container, inventory, title);
 		this.tile = container.getTile();
         this.widgetManager.add(new TankWidget(this.widgetManager, 35, 19, 0));

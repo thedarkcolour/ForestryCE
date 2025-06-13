@@ -8,7 +8,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
@@ -17,7 +17,7 @@ public class FeatureEntityType<T extends Entity> extends ModFeature implements I
 	protected final Supplier<AttributeSupplier.Builder> attributes;
 	protected final EntityType.EntityFactory<T> factory;
 	protected final MobCategory classification;
-	private final RegistryObject<EntityType<T>> entityTypeObject;
+	private final DeferredHolder<EntityType<?>, EntityType<T>> entityTypeObject;
 
 	public FeatureEntityType(IFeatureRegistry registry, ResourceLocation moduleId, String name, UnaryOperator<EntityType.Builder<T>> consumer, EntityType.EntityFactory<T> factory, MobCategory classification, Supplier<AttributeSupplier.Builder> attributes) {
 		super(moduleId, name);

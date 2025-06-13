@@ -24,7 +24,7 @@ import forestry.core.tiles.ILiquidTankTile;
 import forestry.core.tiles.TilePowered;
 import forestry.core.utils.RecipeUtil;
 import forestry.factory.features.FactoryTiles;
-import forestry.factory.gui.ContainerStill;
+import forestry.factory.gui.StillMenu;
 import forestry.factory.inventory.InventoryStill;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -137,7 +137,7 @@ public class TileStill extends TilePowered implements WorldlyContainer, ILiquidT
 
 			int recipeTime = this.currentRecipe == null ? 0 : this.currentRecipe.getCyclesPerUnit();
 			setEnergyPerWorkCycle(ENERGY_PER_RECIPE_TIME * recipeTime);
-			setTicksPerWorkCycle(recipeTime);
+			setStepsPerWorkCycle(recipeTime);
 		}
 	}
 
@@ -200,7 +200,7 @@ public class TileStill extends TilePowered implements WorldlyContainer, ILiquidT
 
 	@Override
 	public AbstractContainerMenu createMenu(int windowId, Inventory inv, Player player) {
-		return new ContainerStill(windowId, player.getInventory(), this);
+		return new StillMenu(windowId, player.getInventory(), this);
 	}
 
 }

@@ -32,7 +32,7 @@ public class BackpackResupplyHandler {
 				if (ItemBackpack.getMode(backpack) == BackpackMode.RESUPPLY) {
 					// Load their inventory
 					ItemBackpack backpackItem = (ItemBackpack) backpack.getItem();
-					ItemInventory backpackInventory = new ItemInventoryBackpack(player, backpackItem.getBackpackSize(), backpack);
+					ItemInventory backpackInventory = new ItemInventoryBackpack(backpackItem.getBackpackSize(), backpack);
 
 					BackpackEvent.Resupply event = new BackpackEvent.Resupply(player, backpackItem.getDefinition(), backpackInventory);
 					if (!NeoForge.EVENT_BUS.post(event).isCanceled()) {

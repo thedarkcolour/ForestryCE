@@ -70,7 +70,8 @@ public class ForestryConfig {
 		public final ModConfigSpec.DoubleValue wildHiveSpawnRate;
 		public final ModConfigSpec.BooleanValue useHaploidDrones;
 		// Trees
-		public final ModConfigSpec.DoubleValue treesSpawnNaturally;
+		public final ModConfigSpec.DoubleValue treeSpawnChanceMultiplier;
+		public final ModConfigSpec.BooleanValue treesSelfPollination;
 		// Butterflies
 		public final ModConfigSpec.BooleanValue disableButterflySpawning;
 		public final ModConfigSpec.IntValue butterflyClusterLimit;
@@ -89,7 +90,7 @@ public class ForestryConfig {
 		public final ModConfigSpec.BooleanValue spawnTinOre;
 		public final ModConfigSpec.BooleanValue spawnApatiteOre;
 
-		public Server(ModConfigSpec.Builder builder) {
+        public Server(ModConfigSpec.Builder builder) {
 			// Genetics
 			builder.push("genetics");
 			this.researchMutationBoostMultiplier = builder
@@ -142,9 +143,12 @@ public class ForestryConfig {
 
 			// Trees
 			builder.push("trees");
-			this.treesSpawnNaturally = builder
+			this.treeSpawnChanceMultiplier = builder
 				.comment("Multiplies the chance of a Forestry tree spawning in the wild. Set to 0 to disable Forestry tree spawning.")
 				.defineInRange("tree_spawn_chance_modifier", 0.0f, 0.0f, 1000000.0f);
+			this.treesSelfPollination = builder
+				.comment("Whether a tree leaf can be pollinated by its own pollen. Defaults to false because this behavior can be annoying.")
+				.define("tree_self_pollination", false);
 			builder.pop();
 
 			// Butterflies

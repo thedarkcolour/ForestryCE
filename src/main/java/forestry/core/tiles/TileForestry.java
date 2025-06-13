@@ -39,8 +39,8 @@ public abstract class TileForestry extends BlockEntity implements IStreamable, I
 	// package private for ForestryTicker
 	final TickHelper tickHelper;
 
-	public TileForestry(BlockEntityType<?> tileEntityTypeIn, BlockPos pos, BlockState state) {
-		super(tileEntityTypeIn, pos, state);
+	public TileForestry(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+		super(type, pos, state);
 
 		this.tickHelper = new TickHelper(pos.hashCode());
 	}
@@ -49,7 +49,7 @@ public abstract class TileForestry extends BlockEntity implements IStreamable, I
 		return this.tileCache;
 	}
 
-	public void onNeighborTileChange(Level world, BlockPos pos, BlockPos neighbor) {
+	public void onNeighborTileChange(Level level, BlockPos pos, BlockPos neighbor) {
         this.tileCache.onNeighborChange();
 	}
 
@@ -78,15 +78,15 @@ public abstract class TileForestry extends BlockEntity implements IStreamable, I
 
 	// / SAVING & LOADING
 	@Override
-	public void loadAdditional(CompoundTag data, HolderLookup.Provider registries) {
-		super.loadAdditional(data, registries);
-        this.inventory.read(data);
+	public void loadAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+		super.loadAdditional(nbt, registries);
+        this.inventory.read(nbt);
 	}
 
 	@Override
-	public void saveAdditional(CompoundTag data, HolderLookup.Provider registries) {
-		super.saveAdditional(data, registries);
-        this.inventory.write(data);
+	public void saveAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+		super.saveAdditional(nbt, registries);
+        this.inventory.write(nbt);
 	}
 
 	@Nullable
@@ -97,14 +97,14 @@ public abstract class TileForestry extends BlockEntity implements IStreamable, I
 
 	@Override
 	public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
-		CompoundTag tag = super.getUpdateTag(registries);
-		return NBTUtilForestry.writeStreamableToNbt(this, tag);
+		CompoundTag nbt = super.getUpdateTag(registries);
+		return NBTUtilForestry.writeStreamableToNbt(this, nbt);
 	}
 
 	@Override
-	public void handleUpdateTag(CompoundTag tag, HolderLookup.Provider registries) {
-		super.handleUpdateTag(tag, registries);
-		NBTUtilForestry.readStreamableFromNbt(this, tag);
+	public void handleUpdateTag(CompoundTag nbt, HolderLookup.Provider registries) {
+		super.handleUpdateTag(nbt, registries);
+		NBTUtilForestry.readStreamableFromNbt(this, nbt);
 	}
 
 	/* INetworkedEntity */
@@ -235,11 +235,6 @@ public abstract class TileForestry extends BlockEntity implements IStreamable, I
 	@Override
 	public final boolean canTakeItemThroughFace(int slotIndex, ItemStack itemStack, Direction side) {
 		return getInternalInventory().canTakeItemThroughFace(slotIndex, itemStack, side);
-	}
-
-	@Override
-	public final BlockPos getBlockPos() {
-		return getBlockPos();
 	}
 
 	@Override

@@ -77,7 +77,7 @@ public class MachineProperties<T extends TileForestry> implements IMachineProper
 	}
 
 	@Override
-	public String getSerializedName() {
+	public String identifier() {
 		return this.name;
 	}
 

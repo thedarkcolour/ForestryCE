@@ -4,6 +4,7 @@ import forestry.api.core.IItemSubtype;
 import net.minecraft.world.item.Item;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
@@ -17,7 +18,7 @@ public class FeatureItemTable<I extends Item, R extends IItemSubtype, C extends 
 		return builder.registry.item(() -> builder.constructor.apply(rowType, columnType), builder.getIdentifier(rowType, columnType));
 	}
 
-	public Collection<I> getBlocks() {
+	public List<I> getBlocks() {
 		return this.featureByTypes.values().stream().map(IItemFeature::item).collect(Collectors.toList());
 	}
 

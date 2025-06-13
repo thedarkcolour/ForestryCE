@@ -21,14 +21,14 @@ import net.minecraft.world.inventory.Slot;
 
 import javax.annotation.Nullable;
 
-public class GuiGeneticFilter extends GuiForestryTitled<ContainerGeneticFilter> {
+public class GuiGeneticFilter extends GuiForestryTitled<GeneticFilterMenu> {
 	private final TileGeneticFilter tile;
 	private final WidgetScrollBar scrollBar;
 	public final SelectionWidget selection;
 	@Nullable
 	private EditBox searchField;
 
-	public GuiGeneticFilter(ContainerGeneticFilter container, Inventory inventory, Component title) {
+	public GuiGeneticFilter(GeneticFilterMenu container, Inventory inventory, Component title) {
 		super(Constants.TEXTURE_PATH_GUI + "/filter.png", container, inventory, title);
         this.imageHeight = 222;
         this.imageWidth = 212;

@@ -7,13 +7,13 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 import java.util.Collection;
 import java.util.function.Supplier;
 
 public class FeatureTileType<T extends BlockEntity> extends ModFeature implements ITileTypeFeature<T> {
-	private final RegistryObject<BlockEntityType<T>> blockEntityObject;
+	private final DeferredHolder<BlockEntityType<?>, BlockEntityType<T>> blockEntityObject;
 
 	public FeatureTileType(IFeatureRegistry registry, ResourceLocation moduleId, String name, BlockEntityType.BlockEntitySupplier<T> constructorTileEntity, Supplier<Collection<? extends Block>> validBlocks) {
 		super(moduleId, name);

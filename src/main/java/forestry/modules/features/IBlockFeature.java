@@ -1,7 +1,9 @@
 package forestry.modules.features;
 
 import forestry.api.core.IBlockProvider;
+import net.minecraft.core.Holder;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Property;
@@ -23,4 +25,7 @@ public interface IBlockFeature<B extends Block, I extends BlockItem> extends IIt
 	BlockState defaultState();
 
 	<V extends Comparable<V>> BlockState setValue(Property<V> property, V value);
+
+	@Override
+	Holder<Item> holder();
 }

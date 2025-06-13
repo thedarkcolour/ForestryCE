@@ -18,10 +18,10 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
-public class GuiFabricator extends GuiForestryTitled<ContainerFabricator> {
+public class GuiFabricator extends GuiForestryTitled<FabricatorMenu> {
 	private final TileFabricator tile;
 
-	public GuiFabricator(ContainerFabricator container, Inventory player, Component title) {
+	public GuiFabricator(FabricatorMenu container, Inventory player, Component title) {
 		super(Constants.TEXTURE_PATH_GUI + "/fabricator.png", container, player, title);
 
 		this.tile = container.getTile();

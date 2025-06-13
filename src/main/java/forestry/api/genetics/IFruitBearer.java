@@ -16,10 +16,9 @@ public interface IFruitBearer {
 	/**
 	 * Picks the fruits of this tile, resetting it to unripe fruits.
 	 *
-	 * @param tool Tool used in picking the fruits. May be empty.
 	 * @return Picked fruits. The returned list is immutable.
 	 */
-	List<ItemStack> pickFruit(ItemStack tool);
+	List<ItemStack> pickFruit();
 
 	/**
 	 * @return float indicating the ripeness of the fruit with >= 1.0f indicating full ripeness.

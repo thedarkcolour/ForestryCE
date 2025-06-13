@@ -26,7 +26,7 @@ import forestry.core.tiles.TilePowered;
 import forestry.core.utils.InventoryUtil;
 import forestry.core.utils.RecipeUtil;
 import forestry.factory.features.FactoryTiles;
-import forestry.factory.gui.ContainerCentrifuge;
+import forestry.factory.gui.CentrifugeMenu;
 import forestry.factory.inventory.InventoryCentrifuge;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -157,7 +157,7 @@ public class TileCentrifuge extends TilePowered implements ISocketable, WorldlyC
             this.currentRecipe = matchingRecipe;
 			if (this.currentRecipe != null) {
 				int recipeTime = this.currentRecipe.getProcessingTime();
-				setTicksPerWorkCycle(recipeTime * TICKS_PER_RECIPE_TIME);
+				setStepsPerWorkCycle(recipeTime * TICKS_PER_RECIPE_TIME);
 				setEnergyPerWorkCycle(recipeTime * ENERGY_PER_RECIPE_TIME);
 			}
 		}
@@ -257,7 +257,7 @@ public class TileCentrifuge extends TilePowered implements ISocketable, WorldlyC
 
 	@Override
 	public AbstractContainerMenu createMenu(int windowId, Inventory inv, Player player) {
-		return new ContainerCentrifuge(windowId, player.getInventory(), this);
+		return new CentrifugeMenu(windowId, player.getInventory(), this);
 	}
 
 	public Container getCraftPreviewInventory() {

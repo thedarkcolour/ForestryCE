@@ -26,7 +26,7 @@ import forestry.core.tiles.ILiquidTankTile;
 import forestry.core.tiles.TilePowered;
 import forestry.core.utils.RecipeUtil;
 import forestry.factory.features.FactoryTiles;
-import forestry.factory.gui.ContainerFermenter;
+import forestry.factory.gui.FermenterMenu;
 import forestry.factory.inventory.InventoryFermenter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -295,7 +295,7 @@ public class TileFermenter extends TilePowered implements WorldlyContainer, ILiq
 
 	@Override
 	public AbstractContainerMenu createMenu(int windowId, Inventory inv, Player player) {
-		return new ContainerFermenter(windowId, inv, this);
+		return new FermenterMenu(windowId, inv, this);
 	}
 
 	@Override

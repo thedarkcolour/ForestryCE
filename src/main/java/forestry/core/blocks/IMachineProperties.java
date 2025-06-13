@@ -1,5 +1,6 @@
 package forestry.core.blocks;
 
+import forestry.api.core.IFeatureSubtype;
 import forestry.core.tiles.IForestryTicker;
 import forestry.core.tiles.TileForestry;
 import net.minecraft.core.BlockPos;
@@ -11,7 +12,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nullable;
 
-public interface IMachineProperties<T extends TileForestry> extends StringRepresentable, IShapeProvider {
+public interface IMachineProperties<T extends TileForestry> extends IFeatureSubtype, IShapeProvider {
 	BlockEntityType<? extends T> getTeType();
 
 	@Nullable

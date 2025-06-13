@@ -19,7 +19,6 @@ public interface IGenome {
 
 	/**
 	 * Returns the allele pair containing the active and inactive alleles of the given chromosome.
-	 * Uses an unchecked cast.
 	 *
 	 * @return The allele pair for the given chromosome.
 	 */
@@ -155,7 +154,7 @@ public interface IGenome {
 	 * @return The active species of the individual.
 	 */
 	default <S extends ISpecies<?>> S getActiveSpecies() {
-		return (S) getActiveValue(getKaryotype().getSpeciesChromosome());
+		return getActiveValue(getKaryotype().getSpeciesChromosome()).cast();
 	}
 
 	/**
@@ -164,6 +163,6 @@ public interface IGenome {
 	 * @return The inactive species of the individual.
 	 */
 	default <S extends ISpecies<?>> S getInactiveSpecies() {
-		return (S) getInactiveValue(getKaryotype().getSpeciesChromosome());
+		return getInactiveValue(getKaryotype().getSpeciesChromosome()).cast();
 	}
 }

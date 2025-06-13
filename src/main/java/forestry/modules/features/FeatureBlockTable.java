@@ -1,7 +1,7 @@
 package forestry.modules.features;
 
+import com.mojang.datafixers.util.Function3;
 import forestry.api.core.IBlockSubtype;
-import forestry.core.utils.datastructures.TriFunction;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.Block;
 
@@ -50,7 +50,7 @@ public class FeatureBlockTable<B extends Block, R extends IBlockSubtype, C exten
 		private final IFeatureRegistry registry;
 		private final BiFunction<R, C, B> constructor;
 		@Nullable
-		private TriFunction<B, R, C, BlockItem> itemConstructor;
+		private Function3<B, R, C, BlockItem> itemConstructor;
 
 		public Builder(IFeatureRegistry registry, BiFunction<R, C, B> constructor) {
 			super(registry);
@@ -58,7 +58,7 @@ public class FeatureBlockTable<B extends Block, R extends IBlockSubtype, C exten
 			this.constructor = constructor;
 		}
 
-		public Builder<B, R, C> itemWithType(TriFunction<B, R, C, BlockItem> itemConstructor) {
+		public Builder<B, R, C> itemWithType(Function3<B, R, C, BlockItem> itemConstructor) {
 			this.itemConstructor = itemConstructor;
 			return this;
 		}

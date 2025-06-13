@@ -3,8 +3,7 @@ package forestry.worktable.screens;
 import forestry.api.modules.IForestryPacketServer;
 import forestry.core.config.Constants;
 import forestry.core.gui.GuiForestryTitled;
-import forestry.core.gui.buttons.GuiBetterButton;
-import forestry.core.gui.buttons.StandardButtonTextureSets;
+import forestry.core.gui.widgets.ArrowButton;
 import forestry.core.network.packets.PacketGuiSelectRequest;
 import forestry.core.utils.SoundUtil;
 import forestry.worktable.recipes.RecipeMemory;
@@ -58,12 +57,12 @@ public class WorktableScreen extends GuiForestryTitled<WorktableMenu> {
 	}
 
 	private void addButtons() {
-		addRenderableWidget(new GuiBetterButton(this.leftPos + 76, this.topPos + 56, StandardButtonTextureSets.LEFT_BUTTON_SMALL, b -> {
+		addRenderableWidget(new ArrowButton(this.leftPos + 76, this.topPos + 56, ArrowButton.Texture.LEFT_BUTTON_SMALL, b -> {
             IForestryPacketServer packet = new PacketGuiSelectRequest(100, 0);
             PacketDistributor.sendToServer(packet);
             SoundUtil.playButtonClick();
 		}));
-		addRenderableWidget(new GuiBetterButton(this.leftPos + 85, this.topPos + 56, StandardButtonTextureSets.RIGHT_BUTTON_SMALL, b -> {
+		addRenderableWidget(new ArrowButton(this.leftPos + 85, this.topPos + 56, ArrowButton.Texture.RIGHT_BUTTON_SMALL, b -> {
             IForestryPacketServer packet = new PacketGuiSelectRequest(101, 0);
             PacketDistributor.sendToServer(packet);
             SoundUtil.playButtonClick();

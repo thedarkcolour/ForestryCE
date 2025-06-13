@@ -26,12 +26,12 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
-public class GuiEscritoire extends GuiForestry<ContainerEscritoire> {
+public class GuiEscritoire extends GuiForestry<EscritoireMenu> {
 	private final ItemStack LEVEL_ITEM = new ItemStack(Items.PAPER);
 	private final EscritoireTextSource textSource = new EscritoireTextSource();
 	private final TileEscritoire tile;
 
-	public GuiEscritoire(ContainerEscritoire container, Inventory inv, Component title) {
+	public GuiEscritoire(EscritoireMenu container, Inventory inv, Component title) {
 		super(Constants.TEXTURE_PATH_GUI + "/escritoire.png", container, inv, title);
 
 		this.tile = container.getTile();

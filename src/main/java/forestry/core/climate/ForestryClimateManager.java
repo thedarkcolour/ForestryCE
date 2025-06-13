@@ -22,8 +22,7 @@ public class ForestryClimateManager implements IClimateManager {
 
 	@Override
 	public TemperatureType getTemperature(Holder<Biome> biome) {
-		// avoid Optional creation if possible
-		return getTemperature(biome instanceof Holder.Reference<Biome> reference ? reference.key() : biome.unwrapKey().get());
+		return getTemperature(biome.getKey());
 	}
 
 	@Override
@@ -33,8 +32,7 @@ public class ForestryClimateManager implements IClimateManager {
 
 	@Override
 	public HumidityType getHumidity(Holder<Biome> biome) {
-		// avoid Optional creation if possible
-		return getHumidity(biome instanceof Holder.Reference<Biome> reference ? reference.key() : biome.unwrapKey().get());
+		return getHumidity(biome.getKey());
 	}
 
 	@Override

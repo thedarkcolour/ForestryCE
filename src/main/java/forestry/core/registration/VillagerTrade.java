@@ -6,15 +6,17 @@ import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.trading.ItemCost;
 import net.minecraft.world.item.trading.MerchantOffer;
-import net.minecraftforge.items.ItemHandlerHelper;
+
+import java.util.Optional;
 
 public class VillagerTrade {
 	public record GiveItemForEmeralds(Item sellingItem, PriceInterval sellingAmounts, PriceInterval emeraldAmounts,
 									  int maxUses, int xp) implements VillagerTrades.ItemListing {
 		@Override
 		public MerchantOffer getOffer(Entity trader, RandomSource rand) {
-			return new MerchantOffer(new ItemStack(Items.EMERALD, this.emeraldAmounts.getPrice(rand)), new ItemStack(this.sellingItem, this.sellingAmounts.getPrice(rand)), this.maxUses, this.xp, 0.05f);
+			return new MerchantOffer(new ItemCost(Items.EMERALD, this.emeraldAmounts.getPrice(rand)), new ItemStack(this.sellingItem, this.sellingAmounts.getPrice(rand)), this.maxUses, this.xp, 0.05f);
 		}
 	}
 
@@ -22,7 +24,7 @@ public class VillagerTrade {
 									 int maxUses, int xp) implements VillagerTrades.ItemListing {
 		@Override
 		public MerchantOffer getOffer(Entity trader, RandomSource rand) {
-			return new MerchantOffer(new ItemStack(this.buyingItem, this.buyingAmounts.getPrice(rand)), new ItemStack(Items.EMERALD, this.emeraldAmounts.getPrice(rand)), this.maxUses, this.xp, 0.05f);
+			return new MerchantOffer(new ItemCost(this.buyingItem, this.buyingAmounts.getPrice(rand)), new ItemStack(Items.EMERALD, this.emeraldAmounts.getPrice(rand)), this.maxUses, this.xp, 0.05f);
 		}
 	}
 
@@ -31,10 +33,10 @@ public class VillagerTrade {
 											int xp) implements VillagerTrades.ItemListing {
 		@Override
 		public MerchantOffer getOffer(Entity trader, RandomSource rand) {
-			ItemStack buy1 = new ItemStack(this.buyingItem, this.buyAmounts.getPrice(rand));
-			ItemStack buy2 = new ItemStack(Items.EMERALD, this.emeralsAmounts.getPrice(rand));
-			ItemStack sell = ItemHandlerHelper.copyStackWithSize(this.sellingItem, this.sellingAmounts.getPrice(rand));
-			return new MerchantOffer(buy1, buy2, sell, this.maxUses, this.xp, 0.05f);
+			ItemCost buy1 = new ItemCost(this.buyingItem, this.buyAmounts.getPrice(rand));
+			ItemCost buy2 = new ItemCost(Items.EMERALD, this.emeralsAmounts.getPrice(rand));
+			ItemStack sell = this.sellingItem.copyWithCount(this.sellingAmounts.getPrice(rand));
+			return new MerchantOffer(buy1, Optional.of(buy2), sell, this.maxUses, this.xp, 0.05f);
 		}
 	}
 
@@ -52,11 +54,10 @@ public class VillagerTrade {
 				Items.OAK_LOG,
 				Items.SPRUCE_LOG,
 				Items.MANGROVE_LOG,
-				// todo 1.20
-				//Items.CHERRY_LOG,
+				Items.CHERRY_LOG,
 			};
 
-			return new MerchantOffer(new ItemStack(logsBlock[rand.nextInt(logsBlock.length)], this.buyAmounts.getPrice(rand)), new ItemStack(Items.EMERALD, this.emeraldAmounts.getPrice(rand)), new ItemStack(this.sellingItem, this.sellingAmounts.getPrice(rand)), this.maxUses, this.xp, 0.05f);
+			return new MerchantOffer(new ItemCost(logsBlock[rand.nextInt(logsBlock.length)], this.buyAmounts.getPrice(rand)), Optional.of(new ItemCost(Items.EMERALD, this.emeraldAmounts.getPrice(rand))), new ItemStack(this.sellingItem, this.sellingAmounts.getPrice(rand)), this.maxUses, this.xp, 0.05f);
 		}
 	}
 
@@ -65,10 +66,10 @@ public class VillagerTrade {
 									  int maxUses, int xp) implements VillagerTrades.ItemListing {
 		@Override
 		public MerchantOffer getOffer(Entity trader, RandomSource rand) {
-			ItemStack buy1 = new ItemStack(this.buyingItem, this.buyAmounts.getPrice(rand));
-			ItemStack buy2 = new ItemStack(this.buyingItem2, this.buyAmounts2.getPrice(rand));
-			ItemStack sell = ItemHandlerHelper.copyStackWithSize(this.sellingItem, this.sellingAmounts.getPrice(rand));
-			return new MerchantOffer(buy1, buy2, sell, this.maxUses, this.xp, 0.05f);
+			ItemCost buy1 = new ItemCost(this.buyingItem, this.buyAmounts.getPrice(rand));
+			ItemCost buy2 = new ItemCost(this.buyingItem2, this.buyAmounts2.getPrice(rand));
+			ItemStack sell = this.sellingItem.copyWithCount(this.sellingAmounts.getPrice(rand));
+			return new MerchantOffer(buy1, Optional.of(buy2), sell, this.maxUses, this.xp, 0.05f);
 		}
 	}
 

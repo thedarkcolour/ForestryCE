@@ -8,5 +8,5 @@ package forestry.api.genetics.alleles;
  *
  * @param <V> The type of value held by the alleles of this chromosome.
  */
-public interface IValueChromosome<V> extends IChromosome<IValueAllele<V>> {
+public interface IValueChromosome<V> extends IChromosome<IValueAllele<? extends V>> {
 }

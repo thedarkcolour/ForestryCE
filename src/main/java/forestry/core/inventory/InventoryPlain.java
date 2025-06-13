@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.core.inventory;
 
 import forestry.api.core.INbtReadable;
@@ -19,16 +9,18 @@ import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
-public class InventoryPlain implements Container, INbtWritable, INbtReadable {
+import java.util.Arrays;
 
-	private final NonNullList<ItemStack> contents;
+public class InventoryPlain implements Container, INbtWritable, INbtReadable {
+	private final ItemStack[] contents;
 	private final String name;
 	private final int stackLimit;
 
 	public InventoryPlain(int size, String name, int stackLimit) {
-		this.contents = NonNullList.withSize(size, ItemStack.EMPTY);
+		this.contents = new ItemStack[size];
 		this.name = name;
 		this.stackLimit = stackLimit;
+		Arrays.fill(this.contents, ItemStack.EMPTY);
 	}
 
 	public String getName() {
@@ -45,23 +37,19 @@ public class InventoryPlain implements Container, INbtWritable, INbtReadable {
 		return true;
 	}
 
-	public NonNullList<ItemStack> getContents() {
-		return this.contents;
-	}
-
 	@Override
 	public int getContainerSize() {
-		return this.contents.size();
+		return this.contents.length;
 	}
 
 	@Override
 	public ItemStack getItem(int slotId) {
-		return this.contents.get(slotId);
+		return this.contents[slotId];
 	}
 
 	@Override
 	public ItemStack removeItem(int slotId, int count) {
-		ItemStack itemStack = this.contents.get(slotId);
+		ItemStack itemStack = this.contents[slotId];
 		if (itemStack.isEmpty()) {
 			return ItemStack.EMPTY;
 		}
@@ -69,8 +57,8 @@ public class InventoryPlain implements Container, INbtWritable, INbtReadable {
 	}
 
 	@Override
-	public void setItem(int slotId, ItemStack itemstack) {
-        this.contents.set(slotId, itemstack);
+	public void setItem(int slotId, ItemStack stack) {
+        this.contents[slotId] = stack;
 	}
 
 	@Override
@@ -83,7 +71,7 @@ public class InventoryPlain implements Container, INbtWritable, INbtReadable {
 	}
 
 	@Override
-	public boolean stillValid(Player PlayerEntity) {
+	public boolean stillValid(Player player) {
 		return false;
 	}
 
@@ -93,25 +81,18 @@ public class InventoryPlain implements Container, INbtWritable, INbtReadable {
 	}
 
 	@Override
-	public boolean canPlaceItem(int i, ItemStack itemstack) {
-		return true;
-	}
-
-	/* INBTagable */
-	@Override
-	public void read(CompoundTag CompoundNBT) {
-		InventoryUtil.readFromNBT(this, this.name, CompoundNBT);
+	public void read(CompoundTag nbt) {
+		InventoryUtil.readFromNBT(this, this.name, nbt);
 	}
 
 	@Override
-	public CompoundTag write(CompoundTag CompoundNBT) {
-		InventoryUtil.writeToNBT(this, this.name, CompoundNBT);
-		return CompoundNBT;
+	public CompoundTag write(CompoundTag nbt) {
+		InventoryUtil.writeToNBT(this, this.name, nbt);
+		return nbt;
 	}
 
-	/* Fields */
 	@Override
 	public void clearContent() {
-        this.contents.clear();
+		Arrays.fill(this.contents, ItemStack.EMPTY);
 	}
 }

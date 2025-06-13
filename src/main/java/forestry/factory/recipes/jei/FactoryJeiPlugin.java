@@ -8,7 +8,7 @@ import forestry.core.features.FluidsItems;
 import forestry.core.gui.GuiForestry;
 import forestry.core.gui.widgets.TankWidget;
 import forestry.core.recipes.jei.ForestryRecipeType;
-import forestry.core.utils.JeiUtil;
+import forestry.compat.jei.JeiUtil;
 import forestry.core.utils.ModUtil;
 import forestry.core.utils.RecipeUtil;
 import forestry.factory.blocks.BlockFactoryPlain;

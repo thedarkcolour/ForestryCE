@@ -11,7 +11,7 @@
 package forestry.core.network.packets;
 
 import forestry.api.modules.IForestryPacketClient;
-import forestry.core.gui.ContainerTile;
+import forestry.core.gui.TileMenu;
 import forestry.core.network.PacketIdClient;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -34,7 +34,7 @@ public record PacketGuiEnergy(int windowId, int value) implements IForestryPacke
 	}
 
 	public static void handle(PacketGuiEnergy msg, Player player) {
-		if (player.containerMenu.containerId == msg.windowId && player.containerMenu instanceof ContainerTile<?> menu) {
+		if (player.containerMenu.containerId == msg.windowId && player.containerMenu instanceof TileMenu<?> menu) {
 			menu.onGuiEnergy(msg.value);
 		}
 	}

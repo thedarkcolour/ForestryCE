@@ -18,10 +18,10 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
-public class GuiCentrifuge extends GuiForestryTitled<ContainerCentrifuge> {
+public class GuiCentrifuge extends GuiForestryTitled<CentrifugeMenu> {
 	private final TileCentrifuge tile;
 
-	public GuiCentrifuge(ContainerCentrifuge container, Inventory inventory, Component title) {
+	public GuiCentrifuge(CentrifugeMenu container, Inventory inventory, Component title) {
 		super(Constants.TEXTURE_PATH_GUI + "/centrifugesocket2.png", container, inventory, title);
 		this.tile = container.getTile();
         this.widgetManager.add(new SocketWidget(this.widgetManager, 79, 37, this.tile, 0));

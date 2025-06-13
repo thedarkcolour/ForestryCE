@@ -158,7 +158,7 @@ public class BlockAlveary extends BlockStructure implements EntityBlock {
 		}
 	}
 
-	public record Type(String name, boolean activatable, FeatureTileType<? extends TileAlveary> tileFeature) implements IBlockSubtype {
+	public record Type(String identifier, boolean activatable, FeatureTileType<? extends TileAlveary> tileFeature) implements IBlockSubtype {
 		public static final Type PLAIN = new Type("plain", false, ApicultureTiles.ALVEARY_PLAIN);
 		public static final Type SWARMER = new Type("swarmer", true, ApicultureTiles.ALVEARY_SWARMER);
 		public static final Type FAN = new Type("fan", true, ApicultureTiles.ALVEARY_FAN);
@@ -166,10 +166,5 @@ public class BlockAlveary extends BlockStructure implements EntityBlock {
 		public static final Type HYGRO = new Type("hygro", false, ApicultureTiles.ALVEARY_HYGROREGULATOR);
 		public static final Type STABILISER = new Type("stabiliser", false, ApicultureTiles.ALVEARY_STABILISER);
 		public static final Type SIEVE = new Type("sieve", false, ApicultureTiles.ALVEARY_SIEVE);
-
-		@Override
-		public String getSerializedName() {
-			return this.name;
-		}
 	}
 }

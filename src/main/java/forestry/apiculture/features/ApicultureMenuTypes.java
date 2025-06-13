@@ -11,9 +11,9 @@ import forestry.modules.features.ModFeatureRegistry;
 public class ApicultureMenuTypes {
 	private static final IFeatureRegistry REGISTRY = ModFeatureRegistry.get(ForestryModuleIds.APICULTURE);
 
-	public static final FeatureMenuType<ContainerAlveary> ALVEARY = REGISTRY.menuType(ContainerAlveary::fromNetwork, "alveary");
-	public static final FeatureMenuType<ContainerAlvearyHygroregulator> ALVEARY_HYGROREGULATOR = REGISTRY.menuType(ContainerAlvearyHygroregulator::fromNetwork, "alveary_hygroregulator");
-	public static final FeatureMenuType<ContainerAlvearySieve> ALVEARY_SIEVE = REGISTRY.menuType(ContainerAlvearySieve::fromNetwork, "alveary_sieve");
-	public static final FeatureMenuType<ContainerAlvearySwarmer> ALVEARY_SWARMER = REGISTRY.menuType(ContainerAlvearySwarmer::fromNetwork, "alveary_swarmer");
-	public static final FeatureMenuType<ContainerBeeHousing> BEE_HOUSING = REGISTRY.menuType(ContainerBeeHousing::fromNetwork, "bee_housing");
+	public static final FeatureMenuType<AlvearyMenu> ALVEARY = REGISTRY.menuType(AlvearyMenu::fromNetwork, "alveary");
+	public static final FeatureMenuType<AlvearyHygroregulatorMenu> ALVEARY_HYGROREGULATOR = REGISTRY.menuType(AlvearyHygroregulatorMenu::fromNetwork, "alveary_hygroregulator");
+	public static final FeatureMenuType<AlvearySieveMenu> ALVEARY_SIEVE = REGISTRY.menuType(AlvearySieveMenu::fromNetwork, "alveary_sieve");
+	public static final FeatureMenuType<AlvearySwarmerMenu> ALVEARY_SWARMER = REGISTRY.menuType(AlvearySwarmerMenu::fromNetwork, "alveary_swarmer");
+	public static final FeatureMenuType<BeeHousingMenu> BEE_HOUSING = REGISTRY.menuType(BeeHousingMenu::fromNetwork, "bee_housing");
 }

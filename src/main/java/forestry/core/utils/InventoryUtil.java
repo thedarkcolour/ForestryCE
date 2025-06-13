@@ -12,7 +12,6 @@ package forestry.core.utils;
 
 import forestry.core.circuits.ISocketable;
 import forestry.core.inventory.ItemHandlerInventoryManipulator;
-import forestry.core.inventory.StandardStackFilters;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
@@ -39,7 +38,7 @@ public abstract class InventoryUtil {
 	 */
 	public static boolean moveItemStack(IItemHandler source, IItemHandler dest) {
 		ItemHandlerInventoryManipulator manipulator = new ItemHandlerInventoryManipulator(source);
-		return manipulator.transferOneStack(dest, StandardStackFilters.ALL);
+		return manipulator.transferOneStack(dest, stack -> true);
 	}
 
 	/**

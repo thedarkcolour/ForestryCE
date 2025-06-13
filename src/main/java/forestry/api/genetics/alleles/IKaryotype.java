@@ -65,7 +65,7 @@ public interface IKaryotype {
 	/**
 	 * @return {@code true} if the given allele can be set for this chromosome.
 	 */
-	<A extends IAllele> boolean isAlleleValid(IChromosome<A> chromosome, A allele);
+	<A extends IAllele, B extends A> boolean isAlleleValid(IChromosome<A> chromosome, B allele);
 
 	Codec<IGenome> getGenomeCodec();
 

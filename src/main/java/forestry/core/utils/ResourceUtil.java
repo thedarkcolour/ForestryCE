@@ -14,7 +14,6 @@ import net.neoforged.neoforge.client.model.SimpleModelState;
  * Util methods used at the installation of the game or at the reloading or baking of resources like models or
  * textures.
  */
-@OnlyIn(Dist.CLIENT)
 public class ResourceUtil {
 	public static TextureAtlasSprite getMissingTexture() {
 		return getSprite(InventoryMenu.BLOCK_ATLAS, MissingTextureAtlasSprite.getLocation());

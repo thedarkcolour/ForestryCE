@@ -39,7 +39,7 @@ public class ForestryDataMaps {
 	/**
 	 * Add new fuels for the Peat Engine here
 	 */
-	public static final DataMapType<Fluid, PeatEngineFuel> PEAT_FUELS = create("peat_fuels", Registries.FLUID, PeatEngineFuel.CODEC)
+	public static final DataMapType<Item, PeatEngineFuel> PEAT_FUELS = create("peat_fuels", Registries.ITEM, PeatEngineFuel.CODEC)
 		.build();
 
 	/**

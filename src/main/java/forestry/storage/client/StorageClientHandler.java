@@ -7,7 +7,7 @@ import forestry.core.gui.GuiNaturalistInventory;
 import forestry.modules.features.IFeatureRegistry;
 import forestry.modules.features.ModFeatureRegistry;
 import forestry.storage.features.BackpackMenuTypes;
-import forestry.storage.gui.ContainerNaturalistBackpack;
+import forestry.storage.gui.NaturalistBackpackMenu;
 import forestry.storage.gui.GuiBackpack;
 import forestry.storage.items.ItemBackpack;
 import net.minecraft.client.renderer.item.ItemProperties;
@@ -61,6 +61,6 @@ public class StorageClientHandler implements IClientModuleHandler {
 
 	private static void onClientSetup(RegisterMenuScreensEvent event) {
 		event.register(BackpackMenuTypes.BACKPACK.menuType(), GuiBackpack::new);
-		event.register(BackpackMenuTypes.NATURALIST_BACKPACK.menuType(), GuiNaturalistInventory<ContainerNaturalistBackpack>::new);
+		event.register(BackpackMenuTypes.NATURALIST_BACKPACK.menuType(), GuiNaturalistInventory<NaturalistBackpackMenu>::new);
 	}
 }

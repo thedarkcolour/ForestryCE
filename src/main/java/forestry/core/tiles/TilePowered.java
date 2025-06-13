@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.core.tiles;
 
 import forestry.api.core.ForestryError;
@@ -20,30 +10,24 @@ import forestry.energy.EnergyTransferMode;
 import forestry.energy.ForestryEnergyStorage;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
 
 import javax.annotation.Nullable;
 
-// todo rename "ticks" to "steps" in 1.21 to clarify they're different than actual ticks
 public abstract class TilePowered extends TileBase implements IRenderableTile, ISpeedUpgradable, IStreamableGui, IPowerHandler {
-	private static final int WORK_TICK_INTERVAL = 5; // one Forestry work tick happens every WORK_TICK_INTERVAL game ticks
+	private static final int STEP_INTERVAL = 5;
 
 	private final ForestryEnergyStorage energyStorage;
-	private final LazyOptional<ForestryEnergyStorage> energyCap;
 
 	// The amount of "ticks" into the current work cycle. Between 0 and ticksPerWorkCycle
-	private int workCounter;
+	private int stepCounter;
 	// The number of "ticks" a work cycle takes to complete. In reality, a "tick" here is 5 real ticks
-	private int ticksPerWorkCycle;
+	private int stepsPerWorkCycle;
 	// The amount of energy consumed over the course of an entire work cycle
 	private int energyPerWorkCycle;
 
@@ -57,58 +41,53 @@ public abstract class TilePowered extends TileBase implements IRenderableTile, I
 		super(type, pos, state);
 
 		this.energyStorage = new ForestryEnergyStorage(maxTransfer, capacity, EnergyTransferMode.RECEIVE);
-		this.energyCap = LazyOptional.of(() -> this.energyStorage);
 
-		this.ticksPerWorkCycle = 4;
+		this.stepsPerWorkCycle = 4;
 	}
 
 	public ForestryEnergyStorage getEnergyManager() {
 		return this.energyStorage;
 	}
 
-	public int getWorkCounter() {
-		return this.workCounter;
+	public int getStepCounter() {
+		return this.stepCounter;
 	}
 
-	// A "tick" is actually 5 ticks. Yay!
-	public void setTicksPerWorkCycle(int ticksPerWorkCycle) {
-		this.ticksPerWorkCycle = ticksPerWorkCycle;
-		this.workCounter = 0;
+	// A step is actually 5 ticks. Yay!
+	public void setStepsPerWorkCycle(int stepsPerWorkCycle) {
+		this.stepsPerWorkCycle = stepsPerWorkCycle;
+		this.stepCounter = 0;
 	}
 
-	public int getTicksPerWorkCycle() {
+	public int getStepsPerWorkCycle() {
 		if (this.level.isClientSide) {
-			return this.ticksPerWorkCycle;
+			return this.stepsPerWorkCycle;
 		}
-		return Math.round(this.ticksPerWorkCycle / this.speedMultiplier);
+		return Math.round(this.stepsPerWorkCycle / this.speedMultiplier);
 	}
 
 	// RF/t is energyPerWorkCycle / ticksPerWorkCycle
 	public void setEnergyPerWorkCycle(int energyPerWorkCycle) {
-        this.energyPerWorkCycle = energyPerWorkCycle;
+		this.energyPerWorkCycle = energyPerWorkCycle;
 	}
 
 	public int getEnergyPerWorkCycle() {
 		return Math.round(this.energyPerWorkCycle * this.powerMultiplier);
 	}
 
-	/* STATE INFORMATION */
-	public boolean hasResourcesMin(float percentage) {
-		return false;
-	}
-
-	public boolean hasFuelMin(float percentage) {
-		return false;
-	}
-
-	// Called every tick to determine whether the tile can start working or continue working
+	/**
+	 * Called every step to determine whether the tile can start working or continue working
+	 *
+	 * @return Whether this tile can start working or continue working
+	 */
 	public abstract boolean hasWork();
 
 	@Override
 	public void serverTick(Level level, BlockPos pos, BlockState state) {
 		super.serverTick(level, pos, state);
 
-		if (!updateOnInterval(WORK_TICK_INTERVAL)) {
+		// A step is 5 ticks
+		if (!updateOnInterval(STEP_INTERVAL)) {
 			return;
 		}
 
@@ -124,76 +103,84 @@ public abstract class TilePowered extends TileBase implements IRenderableTile, I
 			return;
 		}
 
-		int ticksPerWorkCycle = getTicksPerWorkCycle();
+		int stepsPerWorkCycle = getStepsPerWorkCycle();
 
-		if (this.workCounter < ticksPerWorkCycle) {
+		if (this.stepCounter < stepsPerWorkCycle) {
 			int energyPerWorkCycle = getEnergyPerWorkCycle();
-			boolean consumedEnergy = EnergyHelper.consumeEnergyToDoWork(this.energyStorage, ticksPerWorkCycle, energyPerWorkCycle);
+			boolean consumedEnergy = EnergyHelper.consumeEnergyToDoWork(this.energyStorage, stepsPerWorkCycle, energyPerWorkCycle);
 			if (consumedEnergy) {
 				errorLogic.setCondition(false, ForestryError.NO_POWER);
-                this.workCounter++;
-                this.noPowerTime = 0;
+				this.stepCounter++;
+				this.noPowerTime = 0;
 			} else {
-                this.noPowerTime++;
+				this.noPowerTime++;
 				if (this.noPowerTime > 4) {
 					errorLogic.setCondition(true, ForestryError.NO_POWER);
 				}
 			}
 		}
 
-		if (this.workCounter >= ticksPerWorkCycle) {
+		if (this.stepCounter >= stepsPerWorkCycle) {
 			if (workCycle()) {
-                this.workCounter = 0;
+				this.stepCounter = 0;
 			}
 		}
 	}
 
-	// Called when the tile reaches the end of a work cycle. Consume inputs and produce outputs here.
+	/**
+	 * Called when the tile reaches the end of a work cycle. Consume inputs and produce outputs here.
+	 *
+	 * @return Whether the work cycle completed successfully. If {@code false}, the machine will call this again every step until it returns {@code true}.
+	 */
 	protected abstract boolean workCycle();
 
-	// Returns the width for a progress bar. pixels is the full width of the progress bar.
+	/**
+	 * Returns the width for a progress bar.
+	 *
+	 * @param pixels the full width of the progress bar.
+	 * @return The number of pixels of the progress bar to draw.
+	 */
 	public int getProgressScaled(int pixels) {
-		int ticksPerWorkCycle = getTicksPerWorkCycle();
+		int ticksPerWorkCycle = getStepsPerWorkCycle();
 		if (ticksPerWorkCycle == 0) {
 			return 0;
 		}
 
-		return this.workCounter * pixels / ticksPerWorkCycle;
+		return this.stepCounter * pixels / ticksPerWorkCycle;
 	}
 
 	@Override
-	public void saveAdditional(CompoundTag nbt) {
-		super.saveAdditional(nbt);
-        this.energyStorage.write(nbt);
+	public void saveAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+		super.saveAdditional(nbt, registries);
+		this.energyStorage.write(nbt);
 	}
 
 	@Override
-	public void load(CompoundTag nbt) {
-		super.load(nbt);
-        this.energyStorage.read(nbt);
+	public void loadAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+		super.loadAdditional(nbt, registries);
+		this.energyStorage.read(nbt);
 	}
 
 	@Override
 	public void writeGuiData(RegistryFriendlyByteBuf data) {
-        this.energyStorage.writeData(data);
-		data.writeVarInt(this.workCounter);
-		data.writeVarInt(getTicksPerWorkCycle());
+		this.energyStorage.writeData(data);
+		data.writeVarInt(this.stepCounter);
+		data.writeVarInt(getStepsPerWorkCycle());
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
 	public void readGuiData(RegistryFriendlyByteBuf data) {
-        this.energyStorage.readData(data);
-        this.workCounter = data.readVarInt();
-        this.ticksPerWorkCycle = data.readVarInt();
+		this.energyStorage.readData(data);
+		this.stepCounter = data.readVarInt();
+		this.stepsPerWorkCycle = data.readVarInt();
 	}
 
 	/* ISpeedUpgradable */
 	@Override
-	public void applySpeedUpgrade(double speedChange, double powerChange) {
-        this.speedMultiplier += speedChange;
-        this.powerMultiplier += powerChange;
-        this.workCounter = 0;
+	public void applySpeedUpgrade(float speedChange, float powerChange) {
+		this.speedMultiplier += speedChange;
+		this.powerMultiplier += powerChange;
+		this.stepCounter = 0;
 	}
 
 	/* IRenderableTile */

@@ -18,8 +18,6 @@ public enum BlockTypePlanter implements IBlockType {
 	FARM_ENDER(CultivationTiles.ENDER, "farm_ender"),
 	PEAT_POG(CultivationTiles.BOG, "peat_bog");
 
-	public static final List<BlockTypePlanter> VALUES = List.of(values());
-
 	private final IMachineProperties<?> machineProperties;
 
 	BlockTypePlanter(FeatureTileType<? extends TilePlanter> teClass, String name) {

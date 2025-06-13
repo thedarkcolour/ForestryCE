@@ -92,7 +92,7 @@ public class GrafterLootModifier extends LootModifier {
 			}
 		}
 		if (tileEntity instanceof IFruitBearer bearer) {
-			generatedLoot.addAll(bearer.pickFruit(harvestingTool));
+			generatedLoot.addAll(bearer.pickFruit());
 		}
 		if (state.getBlock() instanceof BlockDefaultLeavesFruit) {
 			IGenome genome = tree.getGenome();

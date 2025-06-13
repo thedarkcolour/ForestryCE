@@ -2,7 +2,7 @@ package forestry.apiculture.compat;
 
 import forestry.api.genetics.ISpecies;
 import forestry.api.genetics.ISpeciesType;
-import forestry.core.utils.JeiUtil;
+import forestry.compat.jei.JeiUtil;
 import forestry.core.utils.ModUtil;
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenCustomHashMap;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;

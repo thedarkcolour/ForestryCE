@@ -14,7 +14,7 @@ import forestry.api.mail.IPostalCarrier;
 import forestry.api.modules.IForestryPacketServer;
 import forestry.core.network.PacketIdServer;
 import forestry.mail.carriers.PostalCarriers;
-import forestry.mail.gui.ContainerLetter;
+import forestry.mail.gui.LetterMenu;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -22,7 +22,7 @@ import net.minecraft.server.level.ServerPlayer;
 public record PacketLetterInfoRequest(String recipientName,
 									  IPostalCarrier addressType) implements IForestryPacketServer {
 	public static void handle(PacketLetterInfoRequest msg, ServerPlayer player) {
-		if (player.containerMenu instanceof ContainerLetter containerLetter) {
+		if (player.containerMenu instanceof LetterMenu containerLetter) {
 			containerLetter.handleRequestLetterInfo(player, msg.recipientName(), msg.addressType());
 		}
 	}

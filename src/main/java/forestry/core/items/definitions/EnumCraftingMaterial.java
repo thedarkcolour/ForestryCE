@@ -15,14 +15,8 @@ public enum EnumCraftingMaterial implements IItemSubtype {
 	IMPREGNATED_STICK,
 	SCENTED_PANELING;
 
-	private final String name;
-
-	EnumCraftingMaterial() {
-		this.name = toString().toLowerCase(Locale.ENGLISH);
-	}
-
 	@Override
 	public String getSerializedName() {
-		return this.name;
+		return name().toLowerCase(Locale.ENGLISH);
 	}
 }

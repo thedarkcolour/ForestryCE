@@ -32,13 +32,13 @@ public class DefaultForestryClientRegistration implements Consumer<IClientRegist
 
 	private static void registerArboriculture(IClientRegistration client) {
 		// Vanilla sapling models
-		registerSapling(client, "minecraft", ForestryTreeSpecies.OAK);
-		registerSapling(client, "minecraft", ForestryTreeSpecies.DARK_OAK);
-		registerSapling(client, "minecraft", ForestryTreeSpecies.BIRCH);
-		registerSapling(client, "minecraft", ForestryTreeSpecies.ACACIA_VANILLA);
-		registerSapling(client, "minecraft", ForestryTreeSpecies.SPRUCE);
-		registerSapling(client, "minecraft", ForestryTreeSpecies.JUNGLE);
-		registerSapling(client, "minecraft", ForestryTreeSpecies.CHERRY_VANILLA);
+		registerSapling(client, ForestryTreeSpecies.OAK);
+		registerSapling(client, ForestryTreeSpecies.DARK_OAK);
+		registerSapling(client, ForestryTreeSpecies.BIRCH);
+		registerSapling(client, ForestryTreeSpecies.ACACIA_VANILLA);
+		registerSapling(client, ForestryTreeSpecies.SPRUCE);
+		registerSapling(client, ForestryTreeSpecies.JUNGLE);
+		registerSapling(client, ForestryTreeSpecies.CHERRY_VANILLA);
 
 		// Vanilla leaf sprites
 		client.setLeafSprite(ForestryTreeSpecies.OAK, ForestryLeafSprites.OAK);
@@ -88,11 +88,11 @@ public class DefaultForestryClientRegistration implements Consumer<IClientRegist
 		client.setLeafTint(ForestryTreeSpecies.CHERRY_VANILLA, FixedLeafTint.NONE);
 	}
 
-	private static void registerSapling(IClientRegistration registration, String modId, ResourceLocation speciesId) {
+	private static void registerSapling(IClientRegistration registration, ResourceLocation speciesId) {
 		// remove the "tree/" prefix and add "_sapling"
 		String path = speciesId.getPath().substring(5) + "_sapling";
-		ResourceLocation blockModel = new ResourceLocation(modId, "block/" + path);
-		ResourceLocation itemModel = new ResourceLocation(modId, "item/" + path);
+		ResourceLocation blockModel = ResourceLocation.withDefaultNamespace("block/" + path);
+		ResourceLocation itemModel = ResourceLocation.withDefaultNamespace("item/" + path);
 		registration.setSaplingModel(speciesId, blockModel, itemModel);
 	}
 

@@ -7,18 +7,18 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 import java.util.function.Supplier;
 
 public class FeatureRecipeType<R extends Recipe<?>> extends ModFeature implements IModFeature {
-	private final RegistryObject<RecipeType<R>> type;
-	private final RegistryObject<RecipeSerializer<? extends R>> serializer;
+	private final DeferredHolder<RecipeType<?>, RecipeType<R>> type;
+	private final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<? extends R>> serializer;
 
 	protected FeatureRecipeType(IFeatureRegistry registry, ResourceLocation moduleId, String name, Supplier<RecipeSerializer<? extends R>> serializer) {
 		super(moduleId, name);
 
-		this.type = registry.getRegistry(Registries.RECIPE_TYPE).register(name, () -> RecipeType.simple(new ResourceLocation(moduleId.getNamespace(), name)));
+		this.type = registry.getRegistry(Registries.RECIPE_TYPE).register(name, () -> RecipeType.simple(moduleId.withPath(name)));
 		this.serializer = registry.getRegistry(Registries.RECIPE_SERIALIZER).register(name, serializer);
 	}
 

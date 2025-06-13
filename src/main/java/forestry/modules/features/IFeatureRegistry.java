@@ -36,6 +36,10 @@ public interface IFeatureRegistry {
 	 */
 	<V> DeferredRegister<V> getRegistry(ResourceKey<? extends Registry<V>> registry);
 
+	DeferredRegister.Blocks getBlockRegistry();
+
+	DeferredRegister.Items getItemRegistry();
+
 	/**
 	 * @return The internal deferred registry for the given key, {@code null} if one has not been created.
 	 */

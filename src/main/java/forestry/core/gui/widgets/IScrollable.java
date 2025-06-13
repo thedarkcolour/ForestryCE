@@ -1,7 +1,6 @@
 package forestry.core.gui.widgets;
 
 public interface IScrollable {
-
 	void onScroll(int value);
 
 	/**

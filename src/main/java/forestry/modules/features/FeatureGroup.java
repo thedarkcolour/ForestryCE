@@ -106,7 +106,7 @@ public abstract class FeatureGroup<B extends FeatureGroup.Builder<S, ? extends F
 		}
 
 		protected String getIdentifier(IFeatureSubtype type) {
-			return this.identifierType.apply(this.identifier, type.getSerializedName());
+			return this.identifierType.apply(this.identifier, type.identifier());
 		}
 
 		public abstract G create();

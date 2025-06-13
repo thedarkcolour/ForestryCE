@@ -6,10 +6,10 @@ import forestry.core.gui.GuiForestryTitled;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
-public class GuiAlvearySwarmer extends GuiForestryTitled<ContainerAlvearySwarmer> {
+public class GuiAlvearySwarmer extends GuiForestryTitled<AlvearySwarmerMenu> {
 	private final TileAlvearySwarmer tile;
 
-	public GuiAlvearySwarmer(ContainerAlvearySwarmer container, Inventory inventory, Component title) {
+	public GuiAlvearySwarmer(AlvearySwarmerMenu container, Inventory inventory, Component title) {
 		super(Constants.TEXTURE_PATH_GUI + "/swarmer.png", container, inventory, title);
 		this.tile = container.getTile();
 	}

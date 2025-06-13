@@ -1,17 +1,7 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.core.tiles;
 
 import forestry.api.genetics.ISpeciesType;
-import forestry.core.gui.ContainerNaturalistInventory;
+import forestry.core.gui.NaturalistInventoryMenu;
 import forestry.core.gui.IPagedInventory;
 import forestry.core.inventory.InventoryNaturalistChest;
 import net.minecraft.core.BlockPos;
@@ -30,7 +20,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.network.NetworkHooks;
 
 public abstract class TileNaturalistChest extends TileBase implements IPagedInventory {
 	private static final float lidAngleVariationPerTick = 0.1F;
@@ -88,7 +77,7 @@ public abstract class TileNaturalistChest extends TileBase implements IPagedInve
 
 	@Override
 	public void flipPage(ServerPlayer player, short page) {
-		NetworkHooks.openScreen(player, new PagedMenuProvider(page), p -> {
+		player.openMenu(new PagedMenuProvider(page), p -> {
 			p.writeBlockPos(this.worldPosition);
 			p.writeVarInt(page);
 		});
@@ -96,7 +85,7 @@ public abstract class TileNaturalistChest extends TileBase implements IPagedInve
 
 	@Override
 	public boolean interactNoItem(Level level, Player player, BlockPos pos) {
-		NetworkHooks.openScreen(player, new PagedMenuProvider(0), p -> {
+		player.openMenu(new PagedMenuProvider(0), p -> {
 			p.writeBlockPos(this.worldPosition);
 			p.writeVarInt(0);
 		});
@@ -116,7 +105,7 @@ public abstract class TileNaturalistChest extends TileBase implements IPagedInve
 
 	@Override
 	public AbstractContainerMenu createMenu(int windowId, Inventory inv, Player player) {
-		return new ContainerNaturalistInventory(windowId, inv, this, 5);
+		return new NaturalistInventoryMenu(windowId, inv, this, 5);
 	}
 
 	public ISpeciesType<?, ?> getSpeciesType() {
@@ -138,7 +127,7 @@ public abstract class TileNaturalistChest extends TileBase implements IPagedInve
 
 		@Override
 		public AbstractContainerMenu createMenu(int windowId, Inventory playerInv, Player player) {
-			return new ContainerNaturalistInventory(windowId, playerInv, TileNaturalistChest.this, this.page);
+			return new NaturalistInventoryMenu(windowId, playerInv, TileNaturalistChest.this, this.page);
 		}
 	}
 }

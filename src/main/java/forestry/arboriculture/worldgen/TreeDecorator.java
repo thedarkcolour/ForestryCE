@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.IdentityHashMap;
 import java.util.List;
 
+// todo replace with biome-specific tree features rather than modifying the whole overworld
 public class TreeDecorator extends Feature<NoneFeatureConfiguration> {
 	private static final IdentityHashMap<ResourceKey<Biome>, List<ITree>> BIOME_CACHE = new IdentityHashMap<>();
 
@@ -80,7 +81,6 @@ public class TreeDecorator extends Feature<NoneFeatureConfiguration> {
 
 			for (ITreeSpecies species : allSpecies) {
 				if (species.getRarity() > 0.0f) {
-					// todo tolerance chromosomes
 					if (temperature == species.getTemperature() && humidity == species.getHumidity()) {
 						trees.add(treeInstances.computeIfAbsent(species, k -> species.createIndividual()));
 					}
@@ -95,7 +95,7 @@ public class TreeDecorator extends Feature<NoneFeatureConfiguration> {
 		RandomSource rand = context.random();
 		BlockPos pos = context.origin();
 
-		double globalRarity = ForestryConfig.SERVER.treesSpawnNaturally.get();
+		double globalRarity = ForestryConfig.SERVER.treeSpawnChanceMultiplier.get();
 		if (globalRarity <= 0.0) {
 			return false;
 		}

@@ -14,10 +14,8 @@ import forestry.api.client.IClientModuleHandler;
 import forestry.api.fuels.FermenterFuel;
 import forestry.api.fuels.FuelManager;
 import forestry.api.fuels.MoistenerFuel;
-import forestry.api.fuels.RainmakerFuel;
 import forestry.api.modules.ForestryModule;
 import forestry.api.modules.ForestryModuleIds;
-import forestry.core.config.Preference;
 import forestry.core.features.CoreItems;
 import forestry.core.network.PacketIdClient;
 import forestry.core.network.PacketIdServer;
@@ -50,10 +48,10 @@ public class ModuleFactory extends BlankForestryModule {
 		// Set fuels and resources for the fermenter
 		ItemStack fertilizerCompound = CoreItems.FERTILIZER_COMPOUND.stack();
 		FuelManager.fermenterFuel.put(fertilizerCompound, new FermenterFuel(fertilizerCompound,
-			Preference.FERMENTED_CYCLE_FERTILIZER, Preference.FERMENTATION_DURATION_FERTILIZER));
+			56, 200));
 
-		int cyclesCompost = Preference.FERMENTATION_DURATION_COMPOST;
-		int valueCompost = Preference.FERMENTED_CYCLE_COMPOST;
+		int cyclesCompost = 250;
+		int valueCompost = 48;
 		ItemStack fertilizerBio = CoreItems.COMPOST.stack();
 		ItemStack mulch = CoreItems.MULCH.stack();
 		FuelManager.fermenterFuel.put(fertilizerBio, new FermenterFuel(fertilizerBio, valueCompost, cyclesCompost));

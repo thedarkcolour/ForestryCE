@@ -1,21 +1,18 @@
 package forestry.storage.inventory;
 
-import com.google.common.base.Preconditions;
 import forestry.api.storage.IBackpackDefinition;
 import forestry.core.inventory.ItemInventory;
 import forestry.storage.items.ItemBackpack;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 public class ItemInventoryBackpack extends ItemInventory {
 	private final IBackpackDefinition backpackDefinition;
 
-	public ItemInventoryBackpack(Player player, int size, ItemStack parent) {
-		super(player, size, parent);
+	public ItemInventoryBackpack(int size, ItemStack parent) {
+		super(size, parent);
 
 		Item item = parent.getItem();
-		Preconditions.checkArgument(item instanceof ItemBackpack, "Parent must be a backpack.");
 
 		this.backpackDefinition = ((ItemBackpack) item).getDefinition();
 	}

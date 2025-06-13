@@ -18,10 +18,10 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
-public class GuiTrader extends GuiForestry<ContainerTrader> {
+public class GuiTrader extends GuiForestry<TraderMenu> {
 	private final TileTrader tile;
 
-	public GuiTrader(ContainerTrader container, Inventory inv, Component title) {
+	public GuiTrader(TraderMenu container, Inventory inv, Component title) {
 		super(Constants.TEXTURE_PATH_GUI + "/mailtrader2.png", container, inv, title);
 		this.tile = container.getTile();
 		this.imageWidth = 226;

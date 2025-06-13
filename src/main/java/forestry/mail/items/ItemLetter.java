@@ -14,13 +14,14 @@ import forestry.api.core.IItemSubtype;
 import forestry.api.mail.ILetter;
 import forestry.core.items.ItemWithGui;
 import forestry.mail.Letter;
-import forestry.mail.gui.ContainerLetter;
+import forestry.mail.gui.LetterMenu;
 import forestry.mail.inventory.ItemInventoryLetter;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
@@ -76,10 +77,10 @@ public class ItemLetter extends ItemWithGui {
 	}
 
 	@Override
-	public InteractionResultHolder<ItemStack> use(Level worldIn, Player player, InteractionHand handIn) {
-		ItemStack heldItem = player.getItemInHand(handIn);
+	public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+		ItemStack heldItem = player.getItemInHand(hand);
 		if (heldItem.getCount() == 1) {
-			return super.use(worldIn, player, handIn);
+			return super.use(level, player, hand);
 		} else {
 			player.sendSystemMessage(Component.translatable("for.chat.mail.wrongstacksize"));
 			return InteractionResultHolder.fail(heldItem);
@@ -104,7 +105,7 @@ public class ItemLetter extends ItemWithGui {
 	}
 
 	@Override
-	public AbstractContainerMenu getContainer(int windowId, Player player, ItemStack heldItem) {
-		return new ContainerLetter(windowId, player, new ItemInventoryLetter(player, heldItem));
+	public AbstractContainerMenu createMenu(int windowId, Inventory playerInv, int slotIndex) {
+		return new LetterMenu(windowId, playerInv, new ItemInventoryLetter(playerInv, heldItem));
 	}
 }

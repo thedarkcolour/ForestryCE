@@ -12,7 +12,7 @@ package forestry.core.network.packets;
 
 import forestry.api.IForestryApi;
 import forestry.api.modules.IForestryPacketClient;
-import forestry.core.circuits.ContainerSolderingIron;
+import forestry.core.circuits.SolderingIronMenu;
 import forestry.core.network.PacketIdClient;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -34,7 +34,7 @@ public record PacketGuiLayoutSelect(String layoutUid) implements IForestryPacket
 	}
 
 	public static void handle(PacketGuiLayoutSelect msg, Player player) {
-		if (player.containerMenu instanceof ContainerSolderingIron solderingIron) {
+		if (player.containerMenu instanceof SolderingIronMenu solderingIron) {
 			ICircuitLayout layout = IForestryApi.INSTANCE.getCircuitManager().getLayout(msg.layoutUid);
 
 			if (layout != null) {

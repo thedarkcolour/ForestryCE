@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.core.tiles;
 
 import forestry.api.IForestryApi;
@@ -46,7 +36,7 @@ public class EscritoireGameToken implements INbtWritable, IStreamable {
 
 	private State state = State.UNREVEALED;
 
-	public EscritoireGameToken(FriendlyByteBuf data) {
+	public EscritoireGameToken(RegistryFriendlyByteBuf data) {
 		readData(data);
 	}
 
@@ -165,7 +155,12 @@ public class EscritoireGameToken implements INbtWritable, IStreamable {
 		String tokenType = nbt.getString("tokenSpeciesType");
 
 		if (!tokenSpecies.isEmpty() && !tokenType.isEmpty()) {
-			setTokenSpecies(new ResourceLocation(tokenType), new ResourceLocation(tokenSpecies));
+			ResourceLocation typeId = ResourceLocation.tryParse(tokenType);
+			ResourceLocation speciesId = ResourceLocation.tryParse(tokenSpecies);
+
+			if (speciesId != null && typeId != null) {
+				setTokenSpecies(typeId, speciesId);
+			}
 		}
 	}
 

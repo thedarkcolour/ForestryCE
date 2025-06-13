@@ -18,10 +18,10 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
-public class GuiCarpenter extends GuiForestryTitled<ContainerCarpenter> {
+public class GuiCarpenter extends GuiForestryTitled<CarpenterMenu> {
 	private final TileCarpenter tile;
 
-	public GuiCarpenter(ContainerCarpenter container, Inventory inventory, Component title) {
+	public GuiCarpenter(CarpenterMenu container, Inventory inventory, Component title) {
 		super(Constants.TEXTURE_PATH_GUI + "/carpenter.png", container, inventory, title);
 
 		this.tile = container.getTile();

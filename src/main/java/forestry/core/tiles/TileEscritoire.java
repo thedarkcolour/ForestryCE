@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.core.tiles;
 
 import com.mojang.authlib.GameProfile;
@@ -16,7 +6,7 @@ import forestry.api.genetics.ISpecies;
 import forestry.api.genetics.ISpeciesType;
 import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.core.features.CoreTiles;
-import forestry.core.gui.ContainerEscritoire;
+import forestry.core.gui.EscritoireMenu;
 import forestry.core.inventory.InventoryAnalyzer;
 import forestry.core.inventory.InventoryEscritoire;
 import forestry.core.inventory.watchers.ISlotPickupWatcher;
@@ -25,16 +15,16 @@ import forestry.core.network.packets.PacketItemStackDisplay;
 import forestry.core.utils.InventoryUtil;
 import forestry.core.utils.NetworkUtil;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 
 public class TileEscritoire extends TileBase implements WorldlyContainer, ISlotPickupWatcher, IStreamableGui, IItemStackDisplay {
 	private final EscritoireGame game = new EscritoireGame();
@@ -47,16 +37,16 @@ public class TileEscritoire extends TileBase implements WorldlyContainer, ISlotP
 
 	/* SAVING & LOADING */
 	@Override
-	public void load(CompoundTag compoundNBT) {
-		super.load(compoundNBT);
-        this.game.read(compoundNBT);
+	public void loadAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+		super.loadAdditional(nbt, registries);
+        this.game.read(nbt);
 	}
 
 
 	@Override
-	public void saveAdditional(CompoundTag compoundNBT) {
-		super.saveAdditional(compoundNBT);
-        this.game.write(compoundNBT);
+	public void saveAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+		super.saveAdditional(nbt, registries);
+        this.game.write(nbt);
 	}
 
 	/* GAME */
@@ -124,24 +114,23 @@ public class TileEscritoire extends TileBase implements WorldlyContainer, ISlotP
 	@Override
 	public void writeData(RegistryFriendlyByteBuf buffer) {
 		super.writeData(buffer);
-		ItemStack displayStack = getIndividualOnDisplay();
-		buffer.writeItem(displayStack);
+		ItemStack.STREAM_CODEC.encode(buffer, getIndividualOnDisplay());
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
 	public void readData(RegistryFriendlyByteBuf buffer) {
 		super.readData(buffer);
-        this.individualOnDisplayClient = buffer.readItem();
+        this.individualOnDisplayClient = ItemStack.STREAM_CODEC.decode(buffer);
 	}
 
-	/* ISlotPickupWatcher */
 	@Override
 	public void onTake(int slotIndex, Player player) {
 		if (slotIndex == InventoryEscritoire.SLOT_ANALYZE) {
             this.game.reset();
-			PacketItemStackDisplay packet = new PacketItemStackDisplay(this, getIndividualOnDisplay());
-			NetworkUtil.sendToPlayersTrackingPos(packet, this.worldPosition, this.level);
+			if (this.level instanceof ServerLevel serverLevel) {
+				PacketItemStackDisplay packet = new PacketItemStackDisplay(this, getIndividualOnDisplay());
+				NetworkUtil.sendToPlayersTrackingPos(packet, this.worldPosition, serverLevel);
+			}
 		}
 	}
 
@@ -149,16 +138,16 @@ public class TileEscritoire extends TileBase implements WorldlyContainer, ISlotP
 	public void setItem(int slotIndex, ItemStack itemstack) {
 		super.setItem(slotIndex, itemstack);
 		if (slotIndex == InventoryEscritoire.SLOT_ANALYZE) {
-			if (this.level != null && !this.level.isClientSide) {
+			if (this.level != null && this.level instanceof ServerLevel serverLevel) {
 				PacketItemStackDisplay packet = new PacketItemStackDisplay(this, getIndividualOnDisplay());
-				NetworkUtil.sendToPlayersTrackingPos(packet, this.worldPosition, this.level);
+				NetworkUtil.sendToPlayersTrackingPos(packet, this.worldPosition, serverLevel);
 			}
 		}
 	}
 
 	@Override
 	public AbstractContainerMenu createMenu(int windowId, Inventory inv, Player player) {
-		return new ContainerEscritoire(windowId, player.getInventory(), this);
+		return new EscritoireMenu(windowId, player.getInventory(), this);
 	}
 
 	@Override

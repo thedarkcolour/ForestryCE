@@ -1,18 +1,6 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.core.inventory;
 
-import com.google.common.base.Preconditions;
 import forestry.core.tiles.IFilterSlotDelegate;
-import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.Container;
@@ -20,32 +8,21 @@ import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.wrapper.InvWrapper;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.wrapper.InvWrapper;
 
-import javax.annotation.Nullable;
-import java.util.Random;
-
+/**
+ * An inventory that belongs to an item, like the Portable Analyzer, or a backpack.
+ */
 public abstract class ItemInventory implements Container, IFilterSlotDelegate {
 	private static final String KEY_SLOTS = "Slots";
-	private static final String KEY_UID = "UID";
-	private static final Random rand = new Random();
 
 	private final IItemHandler itemHandler = new InvWrapper(this);
 
-	protected final Player player;
 	private ItemStack parent;
 	private final NonNullList<ItemStack> inventoryStacks;
 
-	public ItemInventory(Player player, int size, ItemStack parent) {
-		Preconditions.checkArgument(!parent.isEmpty(), "Parent cannot be empty.");
-
-		this.player = player;
+	public ItemInventory(int size, ItemStack parent) {
 		this.parent = parent;
 		this.inventoryStacks = NonNullList.withSize(size, ItemStack.EMPTY);
 
@@ -54,7 +31,6 @@ public abstract class ItemInventory implements Container, IFilterSlotDelegate {
 			nbt = new CompoundTag();
 			parent.setTag(nbt);
 		}
-		setUID(nbt); // Set a uid to identify the itemStack on SMP
 
 		CompoundTag nbtSlots = nbt.getCompound(KEY_SLOTS);
 		for (int i = 0; i < this.inventoryStacks.size(); i++) {
@@ -79,17 +55,6 @@ public abstract class ItemInventory implements Container, IFilterSlotDelegate {
 		return slotNbt.size();
 	}
 
-	private void setUID(CompoundTag nbt) {
-		if (!nbt.contains(KEY_UID)) {
-			nbt.putInt(KEY_UID, rand.nextInt());
-		}
-	}
-
-	public boolean isParentItemInventory(ItemStack itemStack) {
-		ItemStack parent = getParent();
-		return isSameItemInventory(parent, itemStack);
-	}
-
 	protected ItemStack getParent() {
 		for (InteractionHand hand : InteractionHand.values()) {
 			ItemStack held = this.player.getItemInHand(hand);
@@ -102,17 +67,6 @@ public abstract class ItemInventory implements Container, IFilterSlotDelegate {
 
 	protected void setParent(ItemStack parent) {
 		this.parent = parent;
-	}
-
-	@Nullable
-	protected InteractionHand getHand() {
-		for (InteractionHand hand : InteractionHand.values()) {
-			ItemStack held = this.player.getItemInHand(hand);
-			if (isSameItemInventory(held, this.parent)) {
-				return hand;
-			}
-		}
-		return null;
 	}
 
 	private static boolean isSameItemInventory(ItemStack base, ItemStack comparison) {
@@ -286,10 +240,6 @@ public abstract class ItemInventory implements Container, IFilterSlotDelegate {
 	@Override
 	public boolean isLocked(int slotIndex) {
 		return false;
-	}
-
-	public static IItemHandler getCapability(ItemStack stack, Void unused) {
-		return new ItemInventory();
 	}
 
 	public IItemHandler getItemHandler() {

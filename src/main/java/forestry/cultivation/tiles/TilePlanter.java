@@ -19,7 +19,7 @@ import forestry.core.tiles.TilePowered;
 import forestry.core.utils.PlayerUtil;
 import forestry.cultivation.IFarmHousingInternal;
 import forestry.cultivation.blocks.BlockTypePlanter;
-import forestry.cultivation.gui.ContainerPlanter;
+import forestry.cultivation.gui.PlanterMenu;
 import forestry.cultivation.inventory.InventoryPlanter;
 import forestry.farming.FarmHelper;
 import forestry.farming.FarmManager;
@@ -28,6 +28,7 @@ import forestry.farming.gui.IFarmLedgerDelegate;
 import forestry.farming.multiblock.IFarmInventoryInternal;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -43,8 +44,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
@@ -75,7 +76,7 @@ public abstract class TilePlanter extends TilePowered implements IFarmHousingInt
 		setInternalInventory(this.inventory);
 		this.manager = new FarmManager(this);
 		setEnergyPerWorkCycle(10);
-		setTicksPerWorkCycle(2);
+		setStepsPerWorkCycle(2);
 	}
 
 	public void setManual(boolean manual) {
@@ -97,45 +98,45 @@ public abstract class TilePlanter extends TilePowered implements IFarmHousingInt
 	@Override
 	public void serverTick(Level level, BlockPos pos, BlockState state) {
 		super.serverTick(level, pos, state);
-        this.manager.getHydrationManager().updateServer();
+		this.manager.getHydrationManager().updateServer();
 
 		if (updateOnInterval(20)) {
-            this.inventory.drainCan(this.manager.getTankManager());
+			this.inventory.drainCan(this.manager.getTankManager());
 		}
 	}
 
 	@Override
 	protected boolean workCycle() {
-        this.manager.doWork();
+		this.manager.doWork();
 		return false;
 	}
 
 	@Override
 	public void saveAdditional(CompoundTag data) {
 		super.saveAdditional(data);
-        this.manager.write(data);
-        this.ownerHandler.write(data);
+		this.manager.write(data);
+		this.ownerHandler.write(data);
 		data.putBoolean("manual", this.manual);
 	}
 
 	@Override
 	public void load(CompoundTag data) {
 		super.load(data);
-        this.manager.read(data);
-        this.ownerHandler.read(data);
+		this.manager.read(data);
+		this.ownerHandler.read(data);
 		setManual(data.getBoolean("manual"));
 	}
 
 	@Override
 	public void writeGuiData(RegistryFriendlyByteBuf data) {
 		super.writeGuiData(data);
-        this.manager.writeData(data);
+		this.manager.writeData(data);
 	}
 
 	@Override
 	public void readGuiData(RegistryFriendlyByteBuf data) {
 		super.readGuiData(data);
-        this.manager.readData(data);
+		this.manager.readData(data);
 
 	}
 
@@ -176,7 +177,7 @@ public abstract class TilePlanter extends TilePowered implements IFarmHousingInt
 			if (ForestryConfig.SERVER.legacyFarmsUseRings.get()) {
 				basisArea = basisArea + 1 + ForestryConfig.SERVER.legacyFarmsRingSize.get() * 2;
 			}
-            this.area = new Vec3i(basisArea + ForestryConfig.SERVER.legacyFarmsPlanterRings.get(), 13, basisArea + ForestryConfig.SERVER.legacyFarmsPlanterRings.get());
+			this.area = new Vec3i(basisArea + ForestryConfig.SERVER.legacyFarmsPlanterRings.get(), 13, basisArea + ForestryConfig.SERVER.legacyFarmsPlanterRings.get());
 		}
 		return this.area;
 	}
@@ -185,7 +186,7 @@ public abstract class TilePlanter extends TilePowered implements IFarmHousingInt
 	public Vec3i getOffset() {
 		if (this.offset == null) {
 			Vec3i area = getArea();
-            this.offset = new Vec3i(-area.getX() / 2, -2, -area.getZ() / 2);
+			this.offset = new Vec3i(-area.getX() / 2, -2, -area.getZ() / 2);
 		}
 		return this.offset;
 	}
@@ -198,12 +199,12 @@ public abstract class TilePlanter extends TilePowered implements IFarmHousingInt
 	@Override
 	public boolean hasLiquid(FluidStack liquid) {
 		FluidStack drained = this.manager.getResourceTank().drainInternal(liquid, IFluidHandler.FluidAction.SIMULATE);
-		return liquid.isFluidStackIdentical(drained);
+		return FluidStack.matches(liquid, drained);
 	}
 
 	@Override
 	public void removeLiquid(FluidStack liquid) {
-        this.manager.getResourceTank().drain(liquid.getAmount(), IFluidHandler.FluidAction.EXECUTE);
+		this.manager.getResourceTank().drain(liquid.getAmount(), IFluidHandler.FluidAction.EXECUTE);
 	}
 
 	@Override
@@ -239,7 +240,7 @@ public abstract class TilePlanter extends TilePowered implements IFarmHousingInt
 
 	@Override
 	public void addPendingProduct(ItemStack stack) {
-        this.manager.addPendingProduct(stack);
+		this.manager.addPendingProduct(stack);
 	}
 
 	@Override
@@ -272,19 +273,19 @@ public abstract class TilePlanter extends TilePowered implements IFarmHousingInt
 	@Override
 	public void setRemoved() {
 		super.setRemoved();
-        this.manager.clearTargets();
+		this.manager.clearTargets();
 	}
 
 	@Override
-	public CompoundTag getUpdateTag() {
-		CompoundTag data = super.getUpdateTag();
-        this.manager.write(data);
+	public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+		CompoundTag data = super.getUpdateTag(registries);
+		this.manager.write(data);
 		return data;
 	}
 
 	@Override
 	public AbstractContainerMenu createMenu(int windowId, Inventory inv, Player player) {
-		return new ContainerPlanter(windowId, inv, this);
+		return new PlanterMenu(windowId, inv, this);
 	}
 
 	public IFarmLedgerDelegate getFarmLedgerDelegate() {
@@ -332,11 +333,11 @@ public abstract class TilePlanter extends TilePowered implements IFarmHousingInt
 
 	@Override
 	public void setExtents(Direction direction, BlockPos pos, int extend) {
-        this.manager.setExtents(direction, pos, extend);
+		this.manager.setExtents(direction, pos, extend);
 	}
 
 	@Override
 	public void cleanExtents(Direction direction) {
-        this.manager.cleanExtents(direction);
+		this.manager.cleanExtents(direction);
 	}
 }

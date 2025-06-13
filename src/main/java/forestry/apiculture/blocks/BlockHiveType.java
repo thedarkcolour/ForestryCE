@@ -32,7 +32,7 @@ public enum BlockHiveType implements IBlockSubtype {
 	}
 
 	@Override
-	public String getSerializedName() {
+	public String identifier() {
 		return name().toLowerCase(Locale.ENGLISH);
 	}
 }

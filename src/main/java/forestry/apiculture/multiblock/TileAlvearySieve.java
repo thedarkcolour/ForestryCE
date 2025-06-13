@@ -4,7 +4,7 @@ import forestry.api.apiculture.IBeeListener;
 import forestry.api.genetics.pollen.IPollen;
 import forestry.api.multiblock.IAlvearyComponent;
 import forestry.apiculture.blocks.BlockAlveary;
-import forestry.apiculture.gui.ContainerAlvearySieve;
+import forestry.apiculture.gui.AlvearySieveMenu;
 import forestry.apiculture.inventory.InventoryAlvearySieve;
 import forestry.core.inventory.IInventoryAdapter;
 import forestry.core.inventory.watchers.ISlotPickupWatcher;
@@ -41,7 +41,7 @@ public class TileAlvearySieve extends TileAlveary implements IAlvearyComponent.B
 
 	@Override
 	public AbstractContainerMenu createMenu(int windowId, Inventory inv, Player player) {
-		return new ContainerAlvearySieve(windowId, inv, this);
+		return new AlvearySieveMenu(windowId, inv, this);
 	}
 
 	static class AlvearySieveBeeListener implements IBeeListener {

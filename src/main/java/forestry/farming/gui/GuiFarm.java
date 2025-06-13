@@ -21,10 +21,10 @@ import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
-public class GuiFarm extends GuiForestryTitled<ContainerFarm> {
+public class GuiFarm extends GuiForestryTitled<FarmMenu> {
 	private final TileFarm tile;
 
-	public GuiFarm(ContainerFarm container, Inventory inv, Component title) {
+	public GuiFarm(FarmMenu container, Inventory inv, Component title) {
 		super(Constants.TEXTURE_PATH_GUI + "/mfarm.png", container, inv, title);
 		this.tile = container.getTile();
 

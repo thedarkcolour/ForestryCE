@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.core.utils;
 
 import net.minecraft.client.Minecraft;
@@ -17,23 +7,13 @@ import net.minecraft.network.chat.FormattedText;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
-import java.util.Locale;
-import java.util.regex.Pattern;
-
 public class StringUtil {
-
-	private static final Pattern camelCaseToUnderscores = Pattern.compile("(.)([A-Z])");
-
-	public static String camelCaseToUnderscores(String uid) {
-		return camelCaseToUnderscores.matcher(uid).replaceAll("$1_$2").toLowerCase(Locale.ENGLISH);
-	}
-
 	public static String append(String delim, String source, String appendix) {
-		if (source.length() <= 0) {
+		if (source.isEmpty()) {
 			return appendix;
 		}
 
-		if (appendix.length() <= 0) {
+		if (appendix.isEmpty()) {
 			return source;
 		}
 
@@ -45,12 +25,7 @@ public class StringUtil {
 	}
 
 	public static Component line(int length) {
-		StringBuilder line = new StringBuilder();
-		for (int i = 0; i < length; i++) {
-			line.append('-');
-		}
-
-		return Component.literal(line.toString());
+		return Component.literal("-".repeat(Math.max(0, length)));
 	}
 
 	@OnlyIn(Dist.CLIENT)

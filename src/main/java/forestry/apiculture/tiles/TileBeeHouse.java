@@ -8,7 +8,7 @@ import forestry.api.genetics.IGenome;
 import forestry.api.genetics.IMutation;
 import forestry.apiculture.InventoryBeeHousing;
 import forestry.apiculture.features.ApicultureTiles;
-import forestry.apiculture.gui.ContainerBeeHousing;
+import forestry.apiculture.gui.BeeHousingMenu;
 import forestry.apiculture.gui.GuiBeeHousing;
 import forestry.core.utils.NetworkUtil;
 import net.minecraft.core.BlockPos;
@@ -52,7 +52,7 @@ public class TileBeeHouse extends TileBeeHousingBase {
 
 	@Override
 	public AbstractContainerMenu createMenu(int windowId, Inventory inv, Player player) {
-		return new ContainerBeeHousing(windowId, player.getInventory(), this, false, GuiBeeHousing.Icon.BEE_HOUSE);
+		return new BeeHousingMenu(windowId, player.getInventory(), this, false, GuiBeeHousing.Icon.BEE_HOUSE);
 	}
 
 	@Override

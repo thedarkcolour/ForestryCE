@@ -11,7 +11,7 @@ import forestry.core.tiles.TileUtil;
 import forestry.core.utils.ItemStackUtil;
 import forestry.sorting.FilterLogic;
 import forestry.sorting.features.SortingTiles;
-import forestry.sorting.gui.ContainerGeneticFilter;
+import forestry.sorting.gui.GeneticFilterMenu;
 import forestry.sorting.inventory.ItemHandlerFilter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -77,9 +77,9 @@ public class TileGeneticFilter extends TileForestry implements IStreamableGui {
 
 	private void sendToPlayers(ServerLevel server, Player filterChanger) {
 		for (Player player : server.players()) {
-			if (player != filterChanger && player.containerMenu instanceof ContainerGeneticFilter) {
-				if (((ContainerGeneticFilter) filterChanger.containerMenu).hasSameTile((ContainerGeneticFilter) player.containerMenu)) {
-					((ContainerGeneticFilter) player.containerMenu).setGuiNeedsUpdate(true);
+			if (player != filterChanger && player.containerMenu instanceof GeneticFilterMenu) {
+				if (((GeneticFilterMenu) filterChanger.containerMenu).hasSameTile((GeneticFilterMenu) player.containerMenu)) {
+					((GeneticFilterMenu) player.containerMenu).setGuiNeedsUpdate(true);
 				}
 			}
 		}
@@ -164,7 +164,7 @@ public class TileGeneticFilter extends TileForestry implements IStreamableGui {
 	@Nullable
 	@Override
 	public AbstractContainerMenu createMenu(int windowId, Inventory inv, Player player) {
-		return new ContainerGeneticFilter(windowId, player.getInventory(), this);
+		return new GeneticFilterMenu(windowId, player.getInventory(), this);
 	}
 
 	@Override

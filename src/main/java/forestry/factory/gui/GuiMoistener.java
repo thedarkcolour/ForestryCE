@@ -18,10 +18,10 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
-public class GuiMoistener extends GuiForestryTitled<ContainerMoistener> {
+public class GuiMoistener extends GuiForestryTitled<MoistenerMenu> {
 	private final TileMoistener tile;
 
-	public GuiMoistener(ContainerMoistener container, Inventory inventory, Component title) {
+	public GuiMoistener(MoistenerMenu container, Inventory inventory, Component title) {
 		super(Constants.TEXTURE_PATH_GUI + "/moistener.png", container, inventory, title);
 		this.tile = container.getTile();
         this.widgetManager.add(new TankWidget(this.widgetManager, 16, 16, 0));

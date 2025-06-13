@@ -17,10 +17,10 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.Locale;
 
-public class GuiSolderingIron extends GuiForestry<ContainerSolderingIron> {
+public class GuiSolderingIron extends GuiForestry<SolderingIronMenu> {
 	private final ItemInventorySolderingIron itemInventory;
 
-	public GuiSolderingIron(ContainerSolderingIron container, Inventory inv, Component title) {
+	public GuiSolderingIron(SolderingIronMenu container, Inventory inv, Component title) {
 		super(Constants.TEXTURE_PATH_GUI + "/solder.png", container, inv, title);
 
 		this.itemInventory = container.getItemInventory();
@@ -64,11 +64,11 @@ public class GuiSolderingIron extends GuiForestry<ContainerSolderingIron> {
 	public void init() {
 		super.init();
 
-		addRenderableWidget(Button.builder(Component.literal("<"), b -> ContainerSolderingIron.regressSelection(0))
+		addRenderableWidget(Button.builder(Component.literal("<"), b -> SolderingIronMenu.regressSelection(0))
 			.pos(this.leftPos + 12, this.topPos + 10)
 			.size(12, 18)
 			.build());
-		addRenderableWidget(Button.builder(Component.literal(">"), b -> ContainerSolderingIron.advanceSelection(0))
+		addRenderableWidget(Button.builder(Component.literal(">"), b -> SolderingIronMenu.advanceSelection(0))
 			.pos(this.leftPos + 130, this.topPos + 10)
 			.size(12, 18)
 			.build());

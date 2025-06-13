@@ -20,10 +20,10 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
-public class GuiBottler extends GuiForestryTitled<ContainerBottler> {
+public class GuiBottler extends GuiForestryTitled<BottlerMenu> {
 	private final TileBottler tile;
 
-	public GuiBottler(ContainerBottler container, Inventory inventory, Component title) {
+	public GuiBottler(BottlerMenu container, Inventory inventory, Component title) {
 		super(Constants.TEXTURE_PATH_GUI + "/bottler.png", container, inventory, title);
 		this.tile = container.getTile();
         this.widgetManager.add(new TankWidget(this.widgetManager, 80, 14, 0));

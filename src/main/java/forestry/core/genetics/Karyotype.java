@@ -27,9 +27,10 @@ public class Karyotype implements IKaryotype {
 	private final Codec<IGenome> genomeCodec;
 
 	// Used in Karyotype.Builder
+	@SuppressWarnings("unchecked")
 	public Karyotype(ImmutableMap<IChromosome<?>, ImmutableSet<? extends IAllele>> chromosomes, ImmutableMap<IChromosome<?>, ? extends IAllele> defaultAlleles, ResourceLocation defaultSpecies, Set<IChromosome<?>> weaklyInheritedChromosomes) {
 		this.chromosomes = chromosomes;
-		this.speciesChromosome = (IRegistryChromosome<? extends ISpecies<?>>) chromosomes.keySet().asList().get(0);
+		this.speciesChromosome = (IRegistryChromosome<? extends ISpecies<?>>) chromosomes.keySet().asList().getFirst();
 		this.defaultAlleles = defaultAlleles;
 		this.defaultSpecies = defaultSpecies;
 		this.weaklyInheritedChromosomes = weaklyInheritedChromosomes;
@@ -61,7 +62,7 @@ public class Karyotype implements IKaryotype {
 	}
 
 	@Override
-	public <A extends IAllele> boolean isAlleleValid(IChromosome<A> chromosome, A allele) {
+	public <A extends IAllele, B extends A> boolean isAlleleValid(IChromosome<A> chromosome, B allele) {
 		ImmutableSet<? extends IAllele> validAlleles = this.chromosomes.get(chromosome);
 
 		if (validAlleles != null) {
@@ -156,7 +157,6 @@ public class Karyotype implements IKaryotype {
 			return (IChromosomeBuilder<A>) this.chromosomes.computeIfAbsent(chromosome, key -> new ChromosomeBuilder<>(chromosome));
 		}
 
-		@SuppressWarnings("UnstableApiUsage")
 		public Karyotype build() {
 			Preconditions.checkState(this.defaultSpeciesId != null && this.speciesChromosome != null, "IKaryotypeBuilder is missing a species chromosome.");
 
