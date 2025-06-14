@@ -17,6 +17,8 @@ import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.neoforged.neoforge.fluids.FluidType;
 
+import java.awt.*;
+
 public class RenderUtil {
 	// requires external push/pop
 	public static void rotateByHorizontalDirection(PoseStack stack, Direction facing) {
@@ -67,5 +69,9 @@ public class RenderUtil {
 		}
 
 		return i;
+	}
+
+	public static Color getRainbowColor(long time, float partialTicks) {
+		return Color.getHSBColor((180 * Mth.sin((time + partialTicks) / 30.0f) - 180) / 360.0f, 0.5f, 0.8f);
 	}
 }

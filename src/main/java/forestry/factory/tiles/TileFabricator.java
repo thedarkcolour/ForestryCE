@@ -3,7 +3,6 @@ package forestry.factory.tiles;
 import forestry.api.core.ForestryError;
 import forestry.api.core.IErrorLogic;
 import forestry.api.recipes.IFabricatorRecipe;
-import forestry.api.recipes.IFabricatorSmeltingRecipe;
 import forestry.core.fluids.FilteredTank;
 import forestry.core.fluids.FluidRecipeFilter;
 import forestry.core.fluids.TankManager;
@@ -21,6 +20,7 @@ import forestry.core.utils.RecipeUtil;
 import forestry.factory.features.FactoryTiles;
 import forestry.factory.gui.FabricatorMenu;
 import forestry.factory.inventory.InventoryFabricator;
+import forestry.factory.recipes.FabricatorSmeltingRecipe;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -39,6 +39,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
 import javax.annotation.Nullable;
 
@@ -124,16 +125,20 @@ public class TileFabricator extends TilePowered implements ISlotPickupWatcher, I
 			return;
 		}
 
-		IFabricatorSmeltingRecipe smelt = RecipeUtil.getFabricatorMeltingRecipe(this.level.getRecipeManager(), smeltResource);
-		if (smelt == null || smelt.getMeltingPoint() > this.heat) {
+		RecipeHolder<FabricatorSmeltingRecipe> holder = RecipeUtil.getFabricatorMeltingRecipe(this.level.getRecipeManager(), smeltResource);
+		if (holder == null) {
+			return;
+		}
+		FabricatorSmeltingRecipe smelt = holder.value();
+		if (smelt.meltingPoint() > this.heat) {
 			return;
 		}
 
-		FluidStack smeltFluid = smelt.getResultFluid();
+		FluidStack smeltFluid = smelt.result();
 		if (this.moltenTank.fillInternal(smeltFluid, IFluidHandler.FluidAction.SIMULATE) == smeltFluid.getAmount()) {
 			this.removeItem(InventoryFabricator.SLOT_METAL, 1);
             this.moltenTank.fillInternal(smeltFluid, IFluidHandler.FluidAction.EXECUTE);
-            this.meltingPoint = smelt.getMeltingPoint();
+            this.meltingPoint = smelt.meltingPoint();
 		}
 	}
 
@@ -243,7 +248,7 @@ public class TileFabricator extends TilePowered implements ISlotPickupWatcher, I
 	private int getMeltingPoint() {
 		if (!this.getItem(InventoryFabricator.SLOT_METAL).isEmpty()) {
 			IFabricatorSmeltingRecipe meltingRecipe = RecipeUtil.getFabricatorMeltingRecipe(getLevel().getRecipeManager(), this.getItem(InventoryFabricator.SLOT_METAL));
-			return meltingRecipe == null ? 0 : meltingRecipe.getMeltingPoint();
+			return meltingRecipe == null ? 0 : meltingRecipe.meltingPoint();
 		} else if (this.moltenTank.getFluidAmount() > 0) {
 			return this.meltingPoint;
 		}

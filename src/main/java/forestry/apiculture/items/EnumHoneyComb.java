@@ -2,7 +2,6 @@ package forestry.apiculture.items;
 
 import forestry.api.core.IBlockSubtype;
 import forestry.api.core.IItemSubtype;
-import net.minecraft.util.StringRepresentable;
 
 import java.awt.*;
 import java.util.Locale;
@@ -26,8 +25,6 @@ public enum EnumHoneyComb implements IItemSubtype, IBlockSubtype {
 	SPONGE(new Color(0x9D8F39), new Color(0xe1e351)),
 	SCULKEN(new Color(0x111B21), new Color(0x05625d)),
 	;
-
-	public static final EnumHoneyComb[] VALUES = values();
 
 	public final String name;
 	public final int primaryColor;

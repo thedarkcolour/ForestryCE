@@ -103,9 +103,9 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 			BlockBeeHive feature = ApicultureBlocks.BEEHIVE.get(type).block();
 			String path = path(feature);
 
-			ResourceLocation side = modBlock("beehives/" + type.getSerializedName() + ".side");
-			ResourceLocation top = modBlock("beehives/" + type.getSerializedName() + ".top");
-			ResourceLocation bottom = modBlock("beehives/" + type.getSerializedName() + ".bottom");
+			ResourceLocation side = modBlock("beehives/" + type.identifier() + ".side");
+			ResourceLocation top = modBlock("beehives/" + type.identifier() + ".top");
+			ResourceLocation bottom = modBlock("beehives/" + type.identifier() + ".bottom");
 
 			singleModelBlock(this, feature, models().cubeBottomTop(path, side, bottom, top));
 			generic3d(feature);
@@ -132,7 +132,6 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 		EnumFarmMaterial material = block.getFarmMaterial();
 		Block base = material.getBase();
 
-		// todo need to use reverse texture
 		getVariantBuilder(block)
 			.partialState().with(FarmBlock.BAND, false)
 			.modelForState().modelFile(farmPillar(path(block), base, modLoc("block/farm/top"), modLoc("block/farm/plain"))).addModel()
@@ -198,10 +197,6 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 
 	public static ModelFile.UncheckedModelFile file(ResourceLocation resourceLoc) {
 		return new ModelFile.UncheckedModelFile(resourceLoc);
-	}
-
-	public ModelFile.UncheckedModelFile modFile(String path) {
-		return file(this.modBlock(path));
 	}
 
 	public ModelFile.UncheckedModelFile mcFile(String path) {

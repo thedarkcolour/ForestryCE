@@ -12,7 +12,7 @@ import forestry.apiimpl.plugin.PluginManager;
 import forestry.core.data.models.ForestryBlockStateProvider;
 import forestry.core.data.models.ForestryItemModelProvider;
 import forestry.core.data.models.ForestryWoodModelProvider;
-import forestry.core.data.recipe.ForestryRecipeProvider;
+import forestry.core.data.recipe.CoreRecipes;
 
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -42,7 +42,7 @@ public class Data {
 		dataHelper.createTags(Registries.FLUID, ForestryFluidTagsProvider::addTags);
 		dataHelper.createTags(Registries.POINT_OF_INTEREST_TYPE, ForestryPoiTypeTagProvider::addTags);
 		dataHelper.createTags(Registries.PAINTING_VARIANT, ForestryPaintingTagsProvider::addTags);
-		dataHelper.createRecipes(ForestryRecipeProvider::addRecipes);
+		dataHelper.createRecipes(CoreRecipes::addRecipes);
 		dataHelper.createDamageTypes(ForestryDamageTypesProvider::addTypes);
 		dataHelper.createItemModels(false, false, false, ForestryItemModels::addModels);
 

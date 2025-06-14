@@ -2,33 +2,30 @@ package forestry.apiculture.items;
 
 import forestry.core.items.ItemOverlay;
 
-import java.awt.*;
 import java.util.Locale;
 
 public enum EnumPropolis implements ItemOverlay.IOverlayInfo {
-	NORMAL(new Color(0xc5b24e)),
-	PULSATING(new Color(0x2ccdb1)),
-	SILKY(new Color(0xddff00)),
-	VOLCANIC(new Color(0xE84528));
-
-	public static final EnumPropolis[] VALUES = values();
+	NORMAL(0xc5b24e),
+	PULSATING(0x2ccdb1),
+	SILKY(0xddff00),
+	VOLCANIC(0xE84528);
 
 	private final String name;
-	private final int primaryColor;
+	private final int color;
 
-	EnumPropolis(Color color) {
+	EnumPropolis(int color) {
 		this.name = toString().toLowerCase(Locale.ENGLISH);
-		this.primaryColor = color.getRGB();
+		this.color = color;
 	}
 
 	@Override
-	public String getSerializedName() {
+	public String identifier() {
 		return this.name;
 	}
 
 	@Override
 	public int getPrimaryColor() {
-		return this.primaryColor;
+		return this.color;
 	}
 
 	@Override

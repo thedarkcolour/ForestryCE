@@ -4,6 +4,7 @@ import forestry.api.recipes.*;
 import forestry.core.ClientsideCode;
 import forestry.core.fluids.FluidHelper;
 import forestry.factory.features.FactoryRecipeTypes;
+import forestry.factory.recipes.FabricatorSmeltingRecipe;
 import forestry.modules.features.FeatureRecipeType;
 import forestry.worktable.inventory.WorktableCraftingContainer;
 import net.minecraft.core.NonNullList;
@@ -187,8 +188,8 @@ public class RecipeUtil {
 	}
 
 	@Nullable
-	public static RecipeHolder<IFabricatorSmeltingRecipe> getFabricatorMeltingRecipe(RecipeManager manager, ItemStack stack) {
-		return getMatchingRecipe(manager, FactoryRecipeTypes.FABRICATOR_SMELTING, recipe -> recipe.getInput().test(stack));
+	public static RecipeHolder<FabricatorSmeltingRecipe> getFabricatorMeltingRecipe(RecipeManager manager, ItemStack stack) {
+		return getMatchingRecipe(manager, FactoryRecipeTypes.FABRICATOR_SMELTING, recipe -> recipe.input().test(stack));
 	}
 
 	@Nullable

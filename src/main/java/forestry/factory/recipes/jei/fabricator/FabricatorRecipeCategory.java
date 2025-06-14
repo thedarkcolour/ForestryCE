@@ -2,24 +2,24 @@ package forestry.factory.recipes.jei.fabricator;
 
 import forestry.api.ForestryConstants;
 import forestry.api.recipes.IFabricatorRecipe;
-import forestry.api.recipes.IFabricatorSmeltingRecipe;
+import forestry.compat.jei.JeiUtil;
 import forestry.core.config.Constants;
 import forestry.core.recipes.jei.ForestryRecipeCategory;
 import forestry.core.recipes.jei.ForestryRecipeType;
-import forestry.compat.jei.JeiUtil;
 import forestry.core.utils.RecipeUtil;
 import forestry.factory.blocks.BlockFactoryPlain;
 import forestry.factory.blocks.BlockTypeFactoryPlain;
 import forestry.factory.features.FactoryBlocks;
 import forestry.factory.features.FactoryRecipeTypes;
+import forestry.factory.recipes.FabricatorSmeltingRecipe;
 import forestry.modules.features.FeatureBlock;
 import mezz.jei.api.constants.VanillaTypes;
-import mezz.jei.api.forge.ForgeTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.builder.IRecipeSlotBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.ICraftingGridHelper;
 import mezz.jei.api.helpers.IGuiHelper;
+import mezz.jei.api.neoforge.NeoForgeTypes;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
@@ -28,7 +28,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.ShapedRecipe;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -48,8 +48,8 @@ public class FabricatorRecipeCategory extends ForestryRecipeCategory<IFabricator
 		this.craftingGridHelper = guiHelper.createCraftingGridHelper();
 	}
 
-	private static Map<Fluid, List<IFabricatorSmeltingRecipe>> getSmeltingInputs() {
-		Map<Fluid, List<IFabricatorSmeltingRecipe>> smeltingInputs = new HashMap<>();
+	private static Map<Fluid, List<FabricatorSmeltingRecipe>> getSmeltingInputs() {
+		Map<Fluid, List<FabricatorSmeltingRecipe>> smeltingInputs = new HashMap<>();
 		RecipeUtil.getRecipes(RecipeUtil.getRecipeManager(), FactoryRecipeTypes.FABRICATOR_SMELTING)
 			.forEach(smelting -> {
 				Fluid fluid = smelting.getResultFluid().getFluid();
@@ -75,16 +75,16 @@ public class FabricatorRecipeCategory extends ForestryRecipeCategory<IFabricator
 
 	@Override
 	public void setRecipe(IRecipeLayoutBuilder builder, IFabricatorRecipe recipe, IFocusGroup focuses) {
-		FluidStack recipeLiquid = recipe.getRequiredFluid();
+		Optional<SizedFluidIngredient> recipeLiquid = recipe.getRequiredFluid();
 		Fluid recipeFluid = recipeLiquid.getFluid();
-		List<IFabricatorSmeltingRecipe> smeltingRecipes = getSmeltingInputs().get(recipeFluid);
+		List<FabricatorSmeltingRecipe> smeltingRecipes = getSmeltingInputs().get(recipeFluid);
 		List<ItemStack> smeltingInput = smeltingRecipes.stream()
-			.flatMap(s -> Arrays.stream(s.getInput().getItems()))
+			.flatMap(s -> Arrays.stream(s.input().getItems()))
 			.toList();
 
 		builder.addSlot(RecipeIngredientRole.INPUT, 6, 32)
 			.setFluidRenderer(2000, false, 16, 16)
-			.addIngredient(ForgeTypes.FLUID_STACK, recipeLiquid);
+			.addIngredient(NeoForgeTypes.FLUID_STACK, recipeLiquid);
 
 		ShapedRecipe craftingGridRecipe = recipe.getCraftingGridRecipe();
 		List<IRecipeSlotBuilder> craftingSlots = JeiUtil.layoutSlotGrid(builder, RecipeIngredientRole.INPUT, 3, 3, 47, 1, 18);

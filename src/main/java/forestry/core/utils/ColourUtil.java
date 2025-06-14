@@ -1,10 +1,5 @@
 package forestry.core.utils;
 
-import net.minecraft.network.chat.TextColor;
-import net.minecraft.util.Mth;
-
-import java.awt.*;
-
 public class ColourUtil {
 	public static int addRGBComponents(int colour, int r, int g, int b) {
 		r = getRed(colour) + r;
@@ -28,11 +23,6 @@ public class ColourUtil {
 		b = Math.min(b, 255);
 
 		return (r & 0x0ff) << 16 | (g & 0x0ff) << 8 | b & 0x0ff;
-	}
-
-	// ONLY USE ON CLIENT
-	public static TextColor getRainbowColor(long time, float partialTicks) {
-		return TextColor.fromRgb(Color.HSBtoRGB((180 * Mth.sin((time + partialTicks) / 30.0f) - 180) / 360.0f, 0.5f, 0.8f));
 	}
 
 	public static int getRed(int colour) {
