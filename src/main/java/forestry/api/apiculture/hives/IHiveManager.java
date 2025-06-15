@@ -1,6 +1,7 @@
 package forestry.api.apiculture.hives;
 
 import com.google.common.collect.ImmutableList;
+import forestry.api.IForestryApi;
 import forestry.api.apiculture.IBeeHousing;
 import forestry.api.apiculture.IBeeListener;
 import forestry.api.apiculture.IBeeModifier;
@@ -11,6 +12,9 @@ import net.minecraft.world.item.Item;
 
 import java.util.List;
 
+/**
+ * Contains data and factory methods related to bee hives. Obtain from {@link IForestryApi#getHiveManager()}.
+ */
 public interface IHiveManager {
 	/**
 	 * @return List of all registered hives.

@@ -1,8 +1,8 @@
 package forestry.apiculture.tiles;
 
 import forestry.api.apiculture.IBeeHousingInventory;
-import forestry.api.apiculture.genetics.BeeLifeStage;
-import forestry.api.apiculture.genetics.IBee;
+import forestry.api.apiculture.bee.BeeLifeStage;
+import forestry.api.apiculture.bee.IBee;
 import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nullable;

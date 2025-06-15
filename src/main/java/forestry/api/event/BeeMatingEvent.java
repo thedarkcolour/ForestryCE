@@ -1,7 +1,7 @@
 package forestry.api.event;
 
 import forestry.api.apiculture.IBeeHousing;
-import forestry.api.apiculture.genetics.IBee;
+import forestry.api.apiculture.bee.IBee;
 import net.neoforged.bus.api.Event;
 import net.neoforged.bus.api.ICancellableEvent;
 

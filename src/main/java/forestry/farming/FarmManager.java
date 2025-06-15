@@ -7,6 +7,7 @@ import forestry.api.core.IErrorLogic;
 import forestry.api.core.INbtReadable;
 import forestry.api.core.INbtWritable;
 import forestry.api.farming.*;
+import forestry.api.multiblock.IFarmComponent;
 import forestry.core.config.Constants;
 import forestry.core.fluids.FilteredTank;
 import forestry.core.fluids.FluidTagFilter;
@@ -25,7 +26,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidStack;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -41,7 +42,7 @@ public class FarmManager implements INbtReadable, INbtWritable, IStreamable, IEx
 
 	private FarmingStage stage = FarmingStage.CULTIVATE;
 
-	private final Set<IFarmListener> farmListeners = new HashSet<>();
+	private final Set<IFarmComponent.Listener> farmListeners = new HashSet<>();
 
 	private final FarmHydrationManager hydrationManager;
 	private final FarmFertilizerManager fertilizerManager;
@@ -77,11 +78,11 @@ public class FarmManager implements INbtReadable, INbtWritable, IStreamable, IEx
 		return this.resourceTank;
 	}
 
-	public void addListener(IFarmListener listener) {
+	public void addListener(IFarmComponent.Listener listener) {
         this.farmListeners.add(listener);
 	}
 
-	public void removeListener(IFarmListener listener) {
+	public void removeListener(IFarmComponent.Listener listener) {
         this.farmListeners.remove(listener);
 	}
 
@@ -176,10 +177,10 @@ public class FarmManager implements INbtReadable, INbtWritable, IStreamable, IEx
 		Level level = this.housing.getLevel();
 
 		if (farmWorkStatus.hasFarmland && !FarmHelper.isCycleCanceledByListeners(logic, farmSide, this.farmListeners)) {
-			final float hydrationModifier = this.hydrationManager.getHydrationModifier();
-			final int fertilizerConsumption = Math.round(logic.getType().getFertilizerConsumption(this.housing));
-			final int liquidConsumption = logic.getType().getWaterConsumption(this.housing, hydrationModifier);
-			final FluidStack liquid = new FluidStack(Fluids.WATER, liquidConsumption);
+			float hydrationModifier = this.hydrationManager.getHydrationModifier();
+			int fertilizerConsumption = Math.round(logic.getType().getFertilizerConsumption(this.housing));
+			int liquidConsumption = logic.getType().getWaterConsumption(this.housing, hydrationModifier);
+			FluidStack liquid = new FluidStack(Fluids.WATER, liquidConsumption);
 
 			for (FarmTarget target : farmTargets) {
 				// Check fertilizer and water
@@ -211,7 +212,7 @@ public class FarmManager implements INbtReadable, INbtWritable, IStreamable, IEx
 		}
 
 		// Let event handlers know.
-		for (IFarmListener listener : this.farmListeners) {
+		for (IFarmComponent.Listener listener : this.farmListeners) {
 			listener.hasCollected(collected, logic);
 		}
 
@@ -222,7 +223,7 @@ public class FarmManager implements INbtReadable, INbtWritable, IStreamable, IEx
 
 	private boolean cullCrop(ICrop crop, IFarmLogic provider) {
 		// Let event handlers handle the harvest first.
-		for (IFarmListener listener : this.farmListeners) {
+		for (IFarmComponent.Listener listener : this.farmListeners) {
 			if (listener.beforeCropHarvest(crop)) {
 				return true;
 			}
@@ -255,7 +256,7 @@ public class FarmManager implements INbtReadable, INbtWritable, IStreamable, IEx
             this.housing.removeLiquid(requiredLiquid);
 
 			// Let event handlers handle the harvest first.
-			for (IFarmListener listener : this.farmListeners) {
+			for (IFarmComponent.Listener listener : this.farmListeners) {
 				listener.afterCropHarvest(harvested, crop);
 			}
 

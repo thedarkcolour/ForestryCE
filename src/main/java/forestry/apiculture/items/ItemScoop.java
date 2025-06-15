@@ -2,7 +2,7 @@ package forestry.apiculture.items;
 
 import forestry.api.ForestryTags;
 import forestry.api.apiculture.ForestryBeeSpecies;
-import forestry.api.apiculture.genetics.BeeLifeStage;
+import forestry.api.apiculture.bee.BeeLifeStage;
 import forestry.core.items.ItemForestry;
 import forestry.core.utils.SpeciesUtil;
 import net.minecraft.sounds.SoundEvents;

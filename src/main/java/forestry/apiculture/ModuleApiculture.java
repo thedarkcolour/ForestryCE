@@ -65,7 +65,7 @@ public class ModuleApiculture extends BlankForestryModule {
 	}
 
 	private static void registerCapabilities(RegisterCapabilitiesEvent event) {
-		event.registerItem(ForestryCapabilities.BEE_PROTECTION, (stack, v) -> ItemArmorApiarist.ArmorApiarist.INSTANCE, ApicultureItems.APIARIST_HELMET, ApicultureItems.APIARIST_CHEST, ApicultureItems.APIARIST_LEGS, ApicultureItems.APIARIST_BOOTS);
+		event.registerItem(ForestryCapabilities.BEE_PROTECTION, (stack, v) -> ItemArmorApiarist.BeeProtection.INSTANCE, ApicultureItems.APIARIST_HELMET, ApicultureItems.APIARIST_CHEST, ApicultureItems.APIARIST_LEGS, ApicultureItems.APIARIST_BOOTS);
 	}
 
 	private static void onNetherBeeMate(BeeMatingEvent event) {

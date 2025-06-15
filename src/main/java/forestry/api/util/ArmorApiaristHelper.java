@@ -11,9 +11,8 @@
 package forestry.api.util;
 
 import forestry.api.ForestryCapabilities;
-import forestry.api.apiculture.IArmorApiarist;
-import forestry.api.apiculture.IArmorApiaristHelper;
-import forestry.api.apiculture.genetics.IBeeEffect;
+import forestry.api.apiculture.IBeeProtection;
+import forestry.api.apiculture.bee.IBeeEffect;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 
@@ -21,10 +20,10 @@ import javax.annotation.Nullable;
 
 public class ArmorApiaristHelper {
 	public static boolean isArmorApiarist(ItemStack stack, LivingEntity entity, IBeeEffect cause, boolean execute) {
-		IArmorApiarist capability = stack.getCapability(ForestryCapabilities.BEE_PROTECTION);
+		IBeeProtection capability = stack.getCapability(ForestryCapabilities.BEE_PROTECTION);
 
 		if (capability != null) {
-			return capability.protectEntity(entity, stack, cause, execute);
+			return capability.doBeeProtection(entity, stack, cause, execute);
 		}
 	}
 

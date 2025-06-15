@@ -1,6 +1,6 @@
 package forestry.plugin;
 
-import forestry.api.arboriculture.ITreeSpecies;
+import forestry.api.arboriculture.genetics.ITreeSpecies;
 import forestry.api.arboriculture.genetics.IFruit;
 import forestry.api.arboriculture.genetics.TreeLifeStage;
 import forestry.api.core.IProduct;

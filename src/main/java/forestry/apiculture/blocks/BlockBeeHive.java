@@ -2,10 +2,9 @@ package forestry.apiculture.blocks;
 
 import forestry.api.ForestryTags;
 import forestry.api.IForestryApi;
-import forestry.api.apiculture.genetics.BeeLifeStage;
-import forestry.api.apiculture.genetics.IBee;
+import forestry.api.apiculture.bee.BeeLifeStage;
+import forestry.api.apiculture.bee.IBee;
 import forestry.api.apiculture.hives.IHiveDrop;
-import forestry.api.apiculture.hives.IHiveTile;
 import forestry.apiculture.features.ApicultureTiles;
 import forestry.apiculture.tiles.TileHive;
 import forestry.core.tiles.TileUtil;
@@ -62,13 +61,13 @@ public class BlockBeeHive extends Block implements EntityBlock {
 
 	@Override
 	public void attack(BlockState state, Level world, BlockPos pos, Player player) {
-		TileUtil.actOnTile(world, pos, IHiveTile.class, tile -> tile.onAttack(world, pos, player));
+		TileUtil.actOnTile(world, pos, TileHive.class, tile -> tile.onAttack(world, pos, player));
 	}
 
 	@Override
 	public BlockState playerWillDestroy(Level world, BlockPos pos, BlockState state, Player player) {
 		boolean canHarvest = canHarvestBlock(state, world, pos, player);
-		TileUtil.actOnTile(world, pos, IHiveTile.class, tile -> tile.onBroken(world, pos, player, canHarvest));
+		TileUtil.actOnTile(world, pos, TileHive.class, tile -> tile.onBroken(world, pos, player, canHarvest));
 		return super.playerWillDestroy(world, pos, state, player);
 	}
 

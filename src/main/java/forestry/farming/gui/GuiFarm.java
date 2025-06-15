@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.farming.gui;
 
 import forestry.core.config.Constants;
@@ -15,14 +5,14 @@ import forestry.core.gui.GuiForestryTitled;
 import forestry.core.gui.widgets.SocketWidget;
 import forestry.core.gui.widgets.TankWidget;
 import forestry.farming.multiblock.IFarmControllerInternal;
-import forestry.farming.tiles.TileFarm;
+import forestry.farming.tiles.AbstractMultifarmBlockEntity;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
 public class GuiFarm extends GuiForestryTitled<FarmMenu> {
-	private final TileFarm tile;
+	private final AbstractMultifarmBlockEntity tile;
 
 	public GuiFarm(FarmMenu container, Inventory inv, Component title) {
 		super(Constants.TEXTURE_PATH_GUI + "/mfarm.png", container, inv, title);

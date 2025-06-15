@@ -1,7 +1,7 @@
 package forestry.apiculture.commands;
 
 import com.mojang.brigadier.builder.ArgumentBuilder;
-import forestry.api.apiculture.genetics.IBeeSpeciesType;
+import forestry.api.apiculture.bee.IBeeSpeciesType;
 import forestry.core.commands.CommandSaveStats;
 import forestry.core.commands.GiveSpeciesCommand;
 import forestry.core.commands.IStatsSaveHelper;

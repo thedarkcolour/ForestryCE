@@ -1,5 +1,6 @@
 package forestry.api.arboriculture;
 
+import forestry.api.arboriculture.genetics.ITreeSpecies;
 import forestry.api.genetics.IGenome;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

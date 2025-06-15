@@ -1,7 +1,7 @@
 package forestry.arboriculture.models;
 
 import com.google.common.base.Preconditions;
-import forestry.api.arboriculture.ITreeSpecies;
+import forestry.api.arboriculture.genetics.ITreeSpecies;
 import forestry.api.client.IForestryClientApi;
 import forestry.api.client.arboriculture.ILeafSprite;
 import forestry.api.genetics.alleles.TreeChromosomes;

@@ -1,12 +1,12 @@
 package forestry.apiculture;
 
 import com.google.common.base.Preconditions;
-import forestry.api.apiculture.IActivityType;
+import forestry.api.apiculture.bee.IActivityType;
 import forestry.api.apiculture.IBeeHousing;
-import forestry.api.apiculture.IBeeJubilance;
-import forestry.api.apiculture.genetics.IBee;
-import forestry.api.apiculture.genetics.IBeeSpecies;
-import forestry.api.apiculture.genetics.IBeeSpeciesType;
+import forestry.api.apiculture.bee.IBeeJubilance;
+import forestry.api.apiculture.bee.IBee;
+import forestry.api.apiculture.bee.IBeeSpecies;
+import forestry.api.apiculture.bee.IBeeSpeciesType;
 import forestry.api.core.HumidityType;
 import forestry.api.core.IProduct;
 import forestry.api.core.TemperatureType;

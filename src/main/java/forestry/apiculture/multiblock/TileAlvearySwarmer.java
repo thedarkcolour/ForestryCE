@@ -1,8 +1,8 @@
 package forestry.apiculture.multiblock;
 
 import forestry.api.IForestryApi;
-import forestry.api.apiculture.genetics.BeeLifeStage;
-import forestry.api.apiculture.genetics.IBee;
+import forestry.api.apiculture.bee.BeeLifeStage;
+import forestry.api.apiculture.bee.IBee;
 import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.api.multiblock.IAlvearyComponent;
 import forestry.apiculture.blocks.BlockAlveary;

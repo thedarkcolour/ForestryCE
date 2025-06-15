@@ -17,7 +17,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
-import javax.annotation.Nullable;
 import java.util.List;
 
 public class ItemGrafter extends ItemForestry implements IToolGrafter {
@@ -35,7 +34,7 @@ public class ItemGrafter extends ItemForestry implements IToolGrafter {
 
 	@Override
 	public boolean isCorrectToolForDrops(ItemStack stack, BlockState state) {
-		return state.getBlock() instanceof LeavesBlock || state.is(BlockTags.LEAVES) || super.isCorrectToolForDrops(state);
+		return state.getBlock() instanceof LeavesBlock || state.is(BlockTags.LEAVES) || super.isCorrectToolForDrops(stack, state);
 	}
 
 	@Override

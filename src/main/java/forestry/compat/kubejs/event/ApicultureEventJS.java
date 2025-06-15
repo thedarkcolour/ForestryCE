@@ -3,7 +3,7 @@ package forestry.compat.kubejs.event;
 import com.mojang.datafixers.util.Function3;
 import dev.latvian.mods.kubejs.event.KubeEvent;
 import forestry.api.apiculture.IBeeHousing;
-import forestry.api.apiculture.LightPreference;
+import forestry.api.apiculture.bee.LightPreference;
 import forestry.api.apiculture.hives.IHivePlacement;
 import forestry.api.core.HumidityType;
 import forestry.api.core.TemperatureType;

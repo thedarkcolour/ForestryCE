@@ -1,6 +1,6 @@
 package forestry.api.arboriculture.genetics;
 
-import forestry.api.apiculture.genetics.IEffect;
+import forestry.api.core.IEffect;
 import forestry.api.genetics.IEffectData;
 import forestry.api.genetics.IGenome;
 import forestry.api.genetics.alleles.IRegistryAlleleValue;

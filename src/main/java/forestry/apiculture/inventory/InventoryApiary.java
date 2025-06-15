@@ -1,7 +1,7 @@
 package forestry.apiculture.inventory;
 
 import forestry.api.apiculture.IBeeHousing;
-import forestry.api.apiculture.genetics.IBee;
+import forestry.api.apiculture.bee.IBee;
 import forestry.api.apiculture.hives.IHiveFrame;
 import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.apiculture.InventoryBeeHousing;

@@ -1,6 +1,6 @@
 package forestry.core.utils;
 
-import forestry.api.arboriculture.ITreeSpecies;
+import forestry.api.arboriculture.genetics.ITreeSpecies;
 import forestry.api.arboriculture.genetics.ITree;
 import forestry.api.lepidopterology.IButterflyNursery;
 import forestry.arboriculture.tiles.TileLeaves;

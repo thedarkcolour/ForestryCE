@@ -1,6 +1,6 @@
 package forestry.arboriculture.genetics;
 
-import forestry.api.apiculture.genetics.IBee;
+import forestry.api.apiculture.bee.IBee;
 import forestry.api.arboriculture.genetics.ITree;
 import forestry.api.arboriculture.genetics.TreeLifeStage;
 import forestry.api.genetics.pollen.ForestryPollenTypes;

@@ -1,6 +1,6 @@
 package forestry.api.event;
 
-import forestry.api.storage.IBackpackDefinition;
+import forestry.api.storage.BackpackDefinition;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -9,12 +9,12 @@ import net.neoforged.bus.api.ICancellableEvent;
 
 public abstract class BackpackEvent extends Event {
 	public final Player player;
-	public final IBackpackDefinition backpackDefinition;
+	public final BackpackDefinition definition;
 	public final Container backpackInventory;
 
-	public BackpackEvent(Player player, IBackpackDefinition backpackDefinition, Container backpackInventory) {
+	public BackpackEvent(Player player, BackpackDefinition definition, Container backpackInventory) {
 		this.player = player;
-		this.backpackDefinition = backpackDefinition;
+		this.definition = definition;
 		this.backpackInventory = backpackInventory;
 	}
 
@@ -25,7 +25,7 @@ public abstract class BackpackEvent extends Event {
 	public static class Stow extends BackpackEvent implements ICancellableEvent {
 		public final ItemStack stackToStow;
 
-		public Stow(Player player, IBackpackDefinition backpackDefinition, Container backpackInventory, ItemStack stackToStow) {
+		public Stow(Player player, BackpackDefinition backpackDefinition, Container backpackInventory, ItemStack stackToStow) {
 			super(player, backpackDefinition, backpackInventory);
 
 			this.stackToStow = stackToStow;
@@ -37,7 +37,7 @@ public abstract class BackpackEvent extends Event {
 	 * if the event is canceled.
 	 */
 	public static class Resupply extends BackpackEvent implements ICancellableEvent {
-		public Resupply(Player player, IBackpackDefinition backpackDefinition, Container backpackInventory) {
+		public Resupply(Player player, BackpackDefinition backpackDefinition, Container backpackInventory) {
 			super(player, backpackDefinition, backpackInventory);
 		}
 	}

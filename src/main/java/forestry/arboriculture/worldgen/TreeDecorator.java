@@ -1,7 +1,7 @@
 package forestry.arboriculture.worldgen;
 
 import forestry.api.IForestryApi;
-import forestry.api.arboriculture.ITreeSpecies;
+import forestry.api.arboriculture.genetics.ITreeSpecies;
 import forestry.api.arboriculture.genetics.ITree;
 import forestry.api.climate.IClimateManager;
 import forestry.api.core.HumidityType;

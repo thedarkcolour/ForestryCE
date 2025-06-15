@@ -3,7 +3,6 @@ package forestry.api.arboriculture.genetics;
 import com.mojang.authlib.GameProfile;
 import forestry.api.arboriculture.IArboristTracker;
 import forestry.api.arboriculture.ILeafTickHandler;
-import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.genetics.IGenome;
 import forestry.api.genetics.ISpeciesType;
 import net.minecraft.core.BlockPos;

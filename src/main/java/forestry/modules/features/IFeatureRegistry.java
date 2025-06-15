@@ -2,8 +2,6 @@ package forestry.modules.features;
 
 import forestry.api.core.IBlockSubtype;
 import forestry.api.core.IItemSubtype;
-import forestry.api.storage.EnumBackpackType;
-import forestry.api.storage.IBackpackDefinition;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -61,10 +59,6 @@ public interface IFeatureRegistry {
 	default FeatureItem<Item> item(String identifier) {
 		return item(() -> new Item(new Item.Properties()), identifier);
 	}
-
-	FeatureItem<Item> backpack(IBackpackDefinition definition, EnumBackpackType type, String identifier);
-
-	FeatureItem<Item> naturalistBackpack(IBackpackDefinition definition, ResourceLocation speciesTypeId, CreativeModeTab tab, String identifier);
 
 	<I extends Item, S extends IItemSubtype> FeatureItemGroup<I, S> itemGroup(Function<S, I> constructor, String identifier, S[] subTypes);
 

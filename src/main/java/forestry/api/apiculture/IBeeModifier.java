@@ -1,6 +1,6 @@
 package forestry.api.apiculture;
 
-import forestry.api.apiculture.genetics.IBeeSpecies;
+import forestry.api.apiculture.bee.IBeeSpecies;
 import forestry.api.core.TemperatureType;
 import forestry.api.genetics.IGenome;
 import forestry.api.genetics.IMutation;

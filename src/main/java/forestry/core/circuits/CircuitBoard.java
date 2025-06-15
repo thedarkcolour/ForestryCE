@@ -20,7 +20,7 @@ import java.util.Optional;
 
 public class CircuitBoard implements ICircuitBoard {
 	public static final Codec<CircuitBoard> CODEC = RecordCodecBuilder.create(inst -> inst.group(
-		StringRepresentable.fromEnum(EnumCircuitBoardType::values).fieldOf("").forGetter(b -> b.type),
+		StringRepresentable.fromEnum(() -> EnumCircuitBoardType.values()).fieldOf("").forGetter(b -> b.type),
 		CircuitLayout.CODEC.optionalFieldOf("layout").forGetter(b -> Optional.ofNullable(b.layout)),
 		ICircuit.CODEC.listOf().fieldOf("circuits").forGetter(b -> b.circuits)
 	).apply(inst, CircuitBoard::new));
@@ -34,6 +34,10 @@ public class CircuitBoard implements ICircuitBoard {
 		this.type = type;
 		this.layout = layout.orElse(null);
 		this.circuits = circuits;
+	}
+
+	public static CircuitBoard empty(EnumCircuitBoardType type) {
+		return new CircuitBoard(type, Optional.empty(), List.of());
 	}
 
 	@Override

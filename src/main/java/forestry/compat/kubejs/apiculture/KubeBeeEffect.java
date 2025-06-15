@@ -2,7 +2,7 @@ package forestry.compat.kubejs.apiculture;
 
 import com.mojang.datafixers.util.Function3;
 import forestry.api.apiculture.IBeeHousing;
-import forestry.api.apiculture.genetics.IBeeEffect;
+import forestry.api.apiculture.bee.IBeeEffect;
 import forestry.api.genetics.IEffectData;
 import forestry.api.genetics.IGenome;
 

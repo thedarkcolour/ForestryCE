@@ -37,6 +37,7 @@ public class FabricatorRecipe implements IFabricatorRecipe {
 		FabricatorRecipe::new
 	);
 
+	// The plan is a vestigial field; it used to be for wax casts, used to make stained glass in 1.6
 	private final Ingredient plan;
 	private final Optional<SizedFluidIngredient> resultFluid;
 	private final CraftingRecipe recipe;

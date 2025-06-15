@@ -1,16 +1,7 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.farming;
 
 import forestry.api.farming.*;
+import forestry.api.multiblock.IFarmComponent;
 import forestry.core.utils.VecUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -111,8 +102,8 @@ public class FarmHelper {
 		return null;
 	}
 
-	public static boolean isCycleCanceledByListeners(IFarmLogic logic, Direction direction, Iterable<IFarmListener> farmListeners) {
-		for (IFarmListener listener : farmListeners) {
+	public static boolean isCycleCanceledByListeners(IFarmLogic logic, Direction direction, Iterable<IFarmComponent.Listener> farmListeners) {
+		for (IFarmComponent.Listener listener : farmListeners) {
 			if (listener.cancelTask(logic, direction)) {
 				return true;
 			}
@@ -132,10 +123,10 @@ public class FarmHelper {
 		}
 	}
 
-	public static boolean cultivateTarget(Level world, IFarmHousing farmHousing, FarmTarget target, IFarmLogic logic, Iterable<IFarmListener> farmListeners) {
+	public static boolean cultivateTarget(Level world, IFarmHousing farmHousing, FarmTarget target, IFarmLogic logic, Iterable<IFarmComponent.Listener> farmListeners) {
 		BlockPos targetPosition = target.getStart().offset(0, target.getYOffset(), 0);
 		if (logic.cultivate(world, farmHousing, targetPosition, target.getDirection(), target.getExtent())) {
-			for (IFarmListener listener : farmListeners) {
+			for (IFarmComponent.Listener listener : farmListeners) {
 				listener.hasCultivated(logic, targetPosition, target.getDirection(), target.getExtent());
 			}
 			return true;
@@ -144,7 +135,7 @@ public class FarmHelper {
 		return false;
 	}
 
-	public static Collection<ICrop> harvestTargets(Level world, IFarmHousing housing, List<FarmTarget> farmTargets, IFarmLogic logic, Iterable<IFarmListener> farmListeners) {
+	public static Collection<ICrop> harvestTargets(Level world, IFarmHousing housing, List<FarmTarget> farmTargets, IFarmLogic logic, Iterable<IFarmComponent.Listener> farmListeners) {
 		for (FarmTarget target : farmTargets) {
 			Collection<ICrop> harvested = harvestTarget(world, housing, target, logic, farmListeners);
 			if (!harvested.isEmpty()) {
@@ -155,12 +146,12 @@ public class FarmHelper {
 		return Collections.emptyList();
 	}
 
-	public static Collection<ICrop> harvestTarget(Level world, IFarmHousing housing, FarmTarget target, IFarmLogic logic, Iterable<IFarmListener> farmListeners) {
+	public static Collection<ICrop> harvestTarget(Level world, IFarmHousing housing, FarmTarget target, IFarmLogic logic, Iterable<IFarmComponent.Listener> farmListeners) {
 		BlockPos pos = target.getStart().offset(0, target.getYOffset(), 0);
 		Collection<ICrop> harvested = logic.harvest(world, housing, target.getDirection(), target.getExtent(), pos);
 		if (!harvested.isEmpty()) {
 			// Let event handlers know.
-			for (IFarmListener listener : farmListeners) {
+			for (IFarmComponent.Listener listener : farmListeners) {
 				listener.hasScheduledHarvest(harvested, logic, pos, target.getDirection(), target.getExtent());
 			}
 		}

@@ -1,7 +1,6 @@
 package forestry.storage.items;
 
-import forestry.api.storage.EnumBackpackType;
-import forestry.api.storage.IBackpackDefinition;
+import forestry.api.storage.BackpackDefinition;
 import forestry.storage.gui.NaturalistBackpackMenu;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -13,7 +12,7 @@ import net.minecraft.world.item.ItemStack;
 public class ItemBackpackNaturalist extends ItemBackpack {
 	public final ResourceLocation typeId;
 
-	public ItemBackpackNaturalist(ResourceLocation typeId, IBackpackDefinition definition) {
+	public ItemBackpackNaturalist(ResourceLocation typeId, BackpackDefinition definition) {
 		super(definition, EnumBackpackType.NATURALIST);
 		this.typeId = typeId;
 	}

@@ -1,7 +1,7 @@
 package forestry.apiculture.genetics.effects;
 
-import forestry.api.apiculture.BeeManager;
 import forestry.api.apiculture.IBeeHousing;
+import forestry.api.apiculture.IBeeProtection;
 import forestry.api.genetics.IEffectData;
 import forestry.api.genetics.IGenome;
 import forestry.core.genetics.EffectData;
@@ -49,7 +49,7 @@ public class CreeperBeeEffect extends ThrottledBeeEffect {
 			storedData.setInteger(indexExplosionForce, defaultForce);
 
 			// Entities are not attacked if they wear a full set of apiarist's armor.
-			int count = BeeManager.armorApiaristHelper.wearsItems(player, this, true);
+			int count = IBeeProtection.getBeeProtectionLevel(player, this, true);
 			if (count > 3) {
 				continue; // Full set, no damage/effect
 			} else if (count > 2) {

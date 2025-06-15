@@ -3,6 +3,7 @@ package forestry.arboriculture.worldgen;
 import com.google.common.base.Preconditions;
 import forestry.api.IForestryApi;
 import forestry.api.arboriculture.*;
+import forestry.api.arboriculture.genetics.ITreeSpecies;
 import forestry.api.genetics.IGenome;
 import forestry.api.genetics.alleles.TreeChromosomes;
 import forestry.arboriculture.features.ArboricultureBlocks;

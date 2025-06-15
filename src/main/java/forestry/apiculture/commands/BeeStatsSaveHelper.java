@@ -2,7 +2,7 @@ package forestry.apiculture.commands;
 
 import com.mojang.authlib.GameProfile;
 import forestry.api.apiculture.IApiaristTracker;
-import forestry.api.apiculture.genetics.IBeeSpecies;
+import forestry.api.apiculture.bee.IBeeSpecies;
 import forestry.api.genetics.IBreedingTracker;
 import forestry.core.commands.IStatsSaveHelper;
 import forestry.core.utils.SpeciesUtil;

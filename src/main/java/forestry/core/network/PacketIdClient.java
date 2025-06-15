@@ -4,6 +4,7 @@ import forestry.apiculture.network.packets.PacketAlvearyChange;
 import forestry.apiculture.network.packets.PacketBeeLogicActive;
 import forestry.arboriculture.network.PacketRipeningUpdate;
 import forestry.core.network.packets.PacketGenomeTrackerSync;
+import forestry.core.network.packets.PacketTankLevelUpdate;
 import forestry.worktable.network.packets.PacketWorktableMemoryUpdate;
 import forestry.worktable.network.packets.PacketWorktableRecipeUpdate;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -25,7 +26,7 @@ public class PacketIdClient {
 	// Core Tile Entities
 	public static final CustomPacketPayload.Type<?> TILE_FORESTRY_UPDATE = type("tile_forestry_update");
 	public static final CustomPacketPayload.Type<?> ITEMSTACK_DISPLAY = type("itemstack_display");
-	public static final CustomPacketPayload.Type<?> TANK_LEVEL_UPDATE = type("tank_level_update");
+	public static final CustomPacketPayload.Type<PacketTankLevelUpdate> TANK_LEVEL_UPDATE = type("tank_level_update");
 	public static final CustomPacketPayload.Type<?> REFRACTORY_WAX_ON = type("refractory_wax_on");
 	// Core Genome
 	public static final CustomPacketPayload.Type<PacketGenomeTrackerSync> GENOME_TRACKER_UPDATE = type("genome_tracker_update");

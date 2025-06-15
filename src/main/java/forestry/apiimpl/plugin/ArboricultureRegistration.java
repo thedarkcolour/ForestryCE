@@ -3,7 +3,7 @@ package forestry.apiimpl.plugin;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import forestry.api.arboriculture.ICharcoalPileWall;
-import forestry.api.arboriculture.ITreeSpecies;
+import forestry.api.arboriculture.genetics.ITreeSpecies;
 import forestry.api.arboriculture.IWoodType;
 import forestry.api.arboriculture.genetics.IFruit;
 import forestry.api.arboriculture.genetics.ITreeEffect;

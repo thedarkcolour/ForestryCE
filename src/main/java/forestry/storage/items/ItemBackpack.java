@@ -1,8 +1,7 @@
 package forestry.storage.items;
 
 import forestry.api.event.BackpackEvent;
-import forestry.api.storage.EnumBackpackType;
-import forestry.api.storage.IBackpackDefinition;
+import forestry.api.storage.BackpackDefinition;
 import forestry.core.config.ForestryConfig;
 import forestry.core.inventory.ItemHandlerInventoryManipulator;
 import forestry.core.inventory.ItemInventory;
@@ -40,17 +39,17 @@ public class ItemBackpack extends ItemWithGui implements IColoredItem {
 	public static final int SLOTS_BACKPACK_DEFAULT = 15;
 	public static final int SLOTS_BACKPACK_WOVEN = 45;
 	public static final int SLOTS_BACKPACK_APIARIST = 125;
-	private final IBackpackDefinition definition;
+	private final BackpackDefinition definition;
 	private final EnumBackpackType type;
 
-	public ItemBackpack(IBackpackDefinition definition, EnumBackpackType type) {
+	public ItemBackpack(BackpackDefinition definition, EnumBackpackType type) {
 		super(new Item.Properties().stacksTo(1));
 
 		this.definition = definition;
 		this.type = type;
 	}
 
-	public IBackpackDefinition getDefinition() {
+	public BackpackDefinition getDefinition() {
 		return this.definition;
 	}
 

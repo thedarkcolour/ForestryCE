@@ -5,6 +5,7 @@ import forestry.api.client.IClientModuleHandler;
 import forestry.api.genetics.ForestrySpeciesTypes;
 import forestry.api.modules.ForestryModule;
 import forestry.api.modules.ForestryModuleIds;
+import forestry.api.storage.BackpackDefinition;
 import forestry.api.storage.IBackpackInterface;
 import forestry.core.ForestryColors;
 import forestry.core.config.ForestryConfig;
@@ -21,11 +22,9 @@ import java.util.function.Consumer;
 
 @ForestryModule
 public class ModuleStorage extends BlankForestryModule {
-	public static final IBackpackInterface BACKPACK_INTERFACE = new BackpackInterface();
-
-	public static final BackpackDefinition APIARIST = new BackpackDefinition(0xc4923d, ForestryColors.WHITE, BACKPACK_INTERFACE.createNaturalistBackpackFilter(ForestrySpeciesTypes.BEE));
-	public static final BackpackDefinition ARBORIST = new BackpackDefinition(0x657e3a, ForestryColors.WHITE, BACKPACK_INTERFACE.createNaturalistBackpackFilter(ForestrySpeciesTypes.TREE));
-	public static final BackpackDefinition LEPIDOPTERIST = new BackpackDefinition(0x995b31, ForestryColors.WHITE, BACKPACK_INTERFACE.createNaturalistBackpackFilter(ForestrySpeciesTypes.BUTTERFLY));
+	public static final BackpackDefinition APIARIST = new BackpackDefinition(0xc4923d, ForestryColors.WHITE, new NaturalistBackpackFilter(ForestrySpeciesTypes.BEE));
+	public static final BackpackDefinition ARBORIST = new BackpackDefinition(0x657e3a, ForestryColors.WHITE, new NaturalistBackpackFilter(ForestrySpeciesTypes.TREE));
+	public static final BackpackDefinition LEPIDOPTERIST = new BackpackDefinition(0x995b31, ForestryColors.WHITE, new NaturalistBackpackFilter(ForestrySpeciesTypes.BUTTERFLY));
 	public static final BackpackDefinition MINER = new BackpackDefinition(0x36187d, ForestryColors.WHITE, new BackpackFilter(ForestryTags.Items.MINER_ALLOW, ForestryTags.Items.MINER_REJECT));
 	public static final BackpackDefinition DIGGER = new BackpackDefinition(0x363cc5, ForestryColors.WHITE, new BackpackFilter(ForestryTags.Items.DIGGER_ALLOW, ForestryTags.Items.DIGGER_REJECT));
 	public static final BackpackDefinition FORESTER = new BackpackDefinition(0x347427, ForestryColors.WHITE, new BackpackFilter(ForestryTags.Items.FORESTER_ALLOW, ForestryTags.Items.FORESTER_REJECT));

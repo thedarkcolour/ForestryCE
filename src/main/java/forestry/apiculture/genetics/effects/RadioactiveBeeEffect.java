@@ -1,7 +1,7 @@
 package forestry.apiculture.genetics.effects;
 
-import forestry.api.apiculture.BeeManager;
 import forestry.api.apiculture.IBeeHousing;
+import forestry.api.apiculture.IBeeProtection;
 import forestry.api.genetics.IEffectData;
 import forestry.api.genetics.IGenome;
 import forestry.api.genetics.alleles.BeeChromosomes;
@@ -38,7 +38,7 @@ public class RadioactiveBeeEffect extends ThrottledBeeEffect {
 			int damage = 8;
 
 			// Entities are not attacked if they wear a full set of apiarist's armor.
-			int count = BeeManager.armorApiaristHelper.wearsItems(entity, this, true);
+            int count = IBeeProtection.getBeeProtectionLevel(entity, this, true);
 			damage -= count * 2;
 			if (damage <= 0) {
 				continue;

@@ -1,7 +1,7 @@
 package forestry.apiculture.genetics.effects;
 
 import forestry.api.apiculture.IBeeHousing;
-import forestry.api.apiculture.genetics.BeeLifeStage;
+import forestry.api.apiculture.bee.BeeLifeStage;
 import forestry.api.genetics.IIndividual;
 import forestry.api.genetics.IIndividualLiving;
 import forestry.api.genetics.alleles.ForestryAlleles;

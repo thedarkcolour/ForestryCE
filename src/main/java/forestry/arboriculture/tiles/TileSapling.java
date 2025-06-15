@@ -1,6 +1,6 @@
 package forestry.arboriculture.tiles;
 
-import forestry.api.arboriculture.ITreeSpecies;
+import forestry.api.arboriculture.genetics.ITreeSpecies;
 import forestry.api.arboriculture.genetics.ITree;
 import forestry.api.genetics.IBreedingTracker;
 import forestry.arboriculture.features.ArboricultureTiles;

@@ -1,6 +1,6 @@
 package forestry.api.genetics.alleles;
 
-import forestry.api.apiculture.IFlowerType;
+import forestry.api.apiculture.bee.IFlowerType;
 import forestry.api.core.ToleranceType;
 import forestry.api.genetics.ForestrySpeciesTypes;
 import forestry.api.lepidopterology.IButterflyCocoon;

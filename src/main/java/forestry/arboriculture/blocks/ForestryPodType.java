@@ -7,7 +7,6 @@ import forestry.api.genetics.alleles.IValueAllele;
 
 import java.util.Locale;
 
-// todo add coconut, was planned
 public enum ForestryPodType implements IBlockSubtype {
 	DATES(ForestryAlleles.FRUIT_DATES),
 	PAPAYA(ForestryAlleles.FRUIT_PAPAYA);
@@ -19,7 +18,7 @@ public enum ForestryPodType implements IBlockSubtype {
 	}
 
 	@Override
-	public String getSerializedName() {
+	public String identifier() {
 		return name().toLowerCase(Locale.ENGLISH);
 	}
 

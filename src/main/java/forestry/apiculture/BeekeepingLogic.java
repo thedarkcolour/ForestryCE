@@ -2,8 +2,8 @@ package forestry.apiculture;
 
 import forestry.api.IForestryApi;
 import forestry.api.apiculture.*;
-import forestry.api.apiculture.genetics.BeeLifeStage;
-import forestry.api.apiculture.genetics.IBee;
+import forestry.api.apiculture.bee.BeeLifeStage;
+import forestry.api.apiculture.bee.IBee;
 import forestry.api.core.ForestryError;
 import forestry.api.core.IError;
 import forestry.api.core.IErrorLogic;

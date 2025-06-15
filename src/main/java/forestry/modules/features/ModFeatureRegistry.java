@@ -3,11 +3,8 @@ package forestry.modules.features;
 import com.google.common.collect.ArrayListMultimap;
 import forestry.api.core.IBlockSubtype;
 import forestry.api.core.IItemSubtype;
-import forestry.api.storage.EnumBackpackType;
-import forestry.api.storage.IBackpackDefinition;
 import forestry.core.utils.ModUtil;
 import forestry.modules.ModuleUtil;
-import forestry.storage.ModuleStorage;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -145,16 +142,6 @@ public class ModFeatureRegistry {
 		@Override
 		public <I extends Item> FeatureItem<I> item(Supplier<I> constructor, String name) {
 			return register(new FeatureItem<>(this, this.moduleId, name, constructor));
-		}
-
-		@Override
-		public FeatureItem<Item> backpack(IBackpackDefinition definition, EnumBackpackType type, String identifier) {
-			return item(() -> ModuleStorage.BACKPACK_INTERFACE.createBackpack(definition, type), identifier);
-		}
-
-		@Override
-		public FeatureItem<Item> naturalistBackpack(IBackpackDefinition definition, ResourceLocation speciesTypeId, CreativeModeTab tab, String identifier) {
-			return item(() -> ModuleStorage.BACKPACK_INTERFACE.createNaturalistBackpack(definition, speciesTypeId, tab), identifier);
 		}
 
 		@Override

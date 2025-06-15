@@ -1,7 +1,7 @@
 package forestry.apiculture.genetics;
 
-import forestry.api.apiculture.genetics.IBee;
-import forestry.api.apiculture.genetics.IBeeSpecies;
+import forestry.api.apiculture.bee.IBee;
+import forestry.api.apiculture.bee.IBeeSpecies;
 import forestry.api.apiculture.hives.IHiveDrop;
 import forestry.api.genetics.alleles.IAllele;
 import forestry.api.genetics.alleles.IChromosome;

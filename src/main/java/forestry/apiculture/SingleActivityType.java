@@ -1,7 +1,7 @@
 package forestry.apiculture;
 
-import forestry.api.apiculture.IActivityType;
-import forestry.api.apiculture.LightPreference;
+import forestry.api.apiculture.bee.IActivityType;
+import forestry.api.apiculture.bee.LightPreference;
 import forestry.api.core.IError;
 import net.minecraft.core.BlockPos;
 

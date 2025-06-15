@@ -2,7 +2,7 @@ package forestry.plugin.client;
 
 import forestry.api.ForestryConstants;
 import forestry.api.apiculture.ForestryBeeSpecies;
-import forestry.api.apiculture.genetics.BeeLifeStage;
+import forestry.api.apiculture.bee.BeeLifeStage;
 import forestry.api.arboriculture.ForestryTreeSpecies;
 import forestry.api.client.arboriculture.ForestryLeafSprites;
 import forestry.api.client.plugin.IClientRegistration;

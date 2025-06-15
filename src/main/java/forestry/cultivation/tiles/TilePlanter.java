@@ -20,7 +20,7 @@ import forestry.core.utils.PlayerUtil;
 import forestry.cultivation.IFarmHousingInternal;
 import forestry.cultivation.blocks.BlockTypePlanter;
 import forestry.cultivation.gui.PlanterMenu;
-import forestry.cultivation.inventory.InventoryPlanter;
+import forestry.cultivation.inventory.LegacyFarmInventory;
 import forestry.farming.FarmHelper;
 import forestry.farming.FarmManager;
 import forestry.farming.FarmTarget;
@@ -54,7 +54,7 @@ import java.util.List;
 import java.util.Map;
 
 public abstract class TilePlanter extends TilePowered implements IFarmHousingInternal, IClimateProvider, ILiquidTankTile, IOwnedTile, IStreamableGui {
-	private final InventoryPlanter inventory;
+	private final LegacyFarmInventory inventory;
 	private final OwnerHandler ownerHandler = new OwnerHandler();
 	private final FarmManager manager;
 
@@ -72,7 +72,7 @@ public abstract class TilePlanter extends TilePowered implements IFarmHousingInt
 
 		this.properties = Preconditions.checkNotNull(IForestryApi.INSTANCE.getFarmingManager().getFarmType(farmTypeId));
 		this.manual = false;
-		this.inventory = new InventoryPlanter(this);
+		this.inventory = new LegacyFarmInventory(this);
 		setInternalInventory(this.inventory);
 		this.manager = new FarmManager(this);
 		setEnergyPerWorkCycle(10);

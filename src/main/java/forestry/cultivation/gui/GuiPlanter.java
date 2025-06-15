@@ -5,7 +5,7 @@ import forestry.core.features.CoreItems;
 import forestry.core.gui.GuiForestryTitled;
 import forestry.core.gui.widgets.TankWidget;
 import forestry.cultivation.gui.widgets.GhostItemStackWidget;
-import forestry.cultivation.inventory.InventoryPlanter;
+import forestry.cultivation.inventory.LegacyFarmInventory;
 import forestry.cultivation.tiles.TilePlanter;
 import forestry.farming.gui.FarmLedger;
 import net.minecraft.client.gui.GuiGraphics;
@@ -35,7 +35,7 @@ public class GuiPlanter extends GuiForestryTitled<PlanterMenu> {
 			for (int j = 0; j < 2; j++) {
 				int index = j + i * 2;
 				if (resourceStacks.size() == 4) {
-                    this.widgetManager.add(new GhostItemStackWidget(this.widgetManager, 11 + j * 18, 65 + i * 18, resourceStacks.get(index), this.getMenu().getSlot(36 + InventoryPlanter.CONFIG.resourcesStart + index)));
+                    this.widgetManager.add(new GhostItemStackWidget(this.widgetManager, 11 + j * 18, 65 + i * 18, resourceStacks.get(index), this.getMenu().getSlot(36 + LegacyFarmInventory.CONFIG.resourcesStart + index)));
 				}
 			}
 		}
@@ -45,7 +45,7 @@ public class GuiPlanter extends GuiForestryTitled<PlanterMenu> {
 			for (int j = 0; j < 2; j++) {
 				int index = j + i * 2;
 				if (germlingStacks.size() == 4) {
-                    this.widgetManager.add(new GhostItemStackWidget(this.widgetManager, 71 + j * 18, 65 + i * 18, germlingStacks.get(index), this.getMenu().getSlot(36 + InventoryPlanter.CONFIG.germlingsStart + index)));
+                    this.widgetManager.add(new GhostItemStackWidget(this.widgetManager, 71 + j * 18, 65 + i * 18, germlingStacks.get(index), this.getMenu().getSlot(36 + LegacyFarmInventory.CONFIG.germlingsStart + index)));
 				}
 			}
 		}
@@ -55,12 +55,12 @@ public class GuiPlanter extends GuiForestryTitled<PlanterMenu> {
 			for (int j = 0; j < 2; j++) {
 				int index = j + i * 2;
 				if (productionStacks.size() == 4) {
-                    this.widgetManager.add(new GhostItemStackWidget(this.widgetManager, 131 + j * 18, 65 + i * 18, productionStacks.get(index), getMenu().getSlot(36 + InventoryPlanter.CONFIG.productionStart + j + i * 2)));
+                    this.widgetManager.add(new GhostItemStackWidget(this.widgetManager, 131 + j * 18, 65 + i * 18, productionStacks.get(index), getMenu().getSlot(36 + LegacyFarmInventory.CONFIG.productionStart + j + i * 2)));
 				}
 			}
 		}
 
-        this.widgetManager.add(new GhostItemStackWidget(this.widgetManager, 83, 22, CoreItems.FERTILIZER_COMPOUND.stack(), getMenu().getSlot(36 + InventoryPlanter.CONFIG.fertilizerStart)));
+        this.widgetManager.add(new GhostItemStackWidget(this.widgetManager, 83, 22, CoreItems.FERTILIZER_COMPOUND.stack(), getMenu().getSlot(36 + LegacyFarmInventory.CONFIG.fertilizerStart)));
 	}
 
 	@Override

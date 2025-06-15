@@ -3,7 +3,7 @@ package forestry.apiculture.villagers;
 import com.google.common.collect.ImmutableSet;
 import forestry.api.ForestryTags;
 import forestry.api.apiculture.ForestryBeeSpecies;
-import forestry.api.apiculture.genetics.BeeLifeStage;
+import forestry.api.apiculture.bee.BeeLifeStage;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.apiculture.blocks.BlockTypeApiculture;
 import forestry.apiculture.features.ApicultureBlocks;

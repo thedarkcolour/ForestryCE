@@ -2,10 +2,10 @@ package forestry.apiimpl.plugin;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import forestry.api.apiculture.IActivityType;
-import forestry.api.apiculture.IFlowerType;
-import forestry.api.apiculture.genetics.IBeeEffect;
-import forestry.api.apiculture.genetics.IBeeSpecies;
+import forestry.api.apiculture.bee.IActivityType;
+import forestry.api.apiculture.bee.IFlowerType;
+import forestry.api.apiculture.bee.IBeeEffect;
+import forestry.api.apiculture.bee.IBeeSpecies;
 import forestry.api.apiculture.hives.IHiveDefinition;
 import forestry.api.genetics.ISpeciesType;
 import forestry.api.genetics.alleles.IAllele;

@@ -1,7 +1,7 @@
 package forestry.api.client.arboriculture;
 
 import com.mojang.datafixers.util.Pair;
-import forestry.api.arboriculture.ITreeSpecies;
+import forestry.api.arboriculture.genetics.ITreeSpecies;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
 

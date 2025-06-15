@@ -24,6 +24,6 @@ public class ItemSolderingIron extends ItemWithGui implements ISolderingIron {
 
 	@Override
 	public AbstractContainerMenu createMenu(int windowId, Inventory playerInv, int slotIndex) {
-		return new SolderingIronMenu(windowId, playerInv, new ItemInventorySolderingIron(playerInv, heldItem));
+		return new SolderingIronMenu(windowId, playerInv, new ItemInventorySolderingIron(heldItem));
 	}
 }

@@ -1,7 +1,7 @@
 package forestry.apiculture.multiblock;
 
 import forestry.api.apiculture.IBeeModifier;
-import forestry.api.apiculture.genetics.IBeeSpecies;
+import forestry.api.apiculture.bee.IBeeSpecies;
 import forestry.api.genetics.IGenome;
 import forestry.api.genetics.IMutation;
 import forestry.api.multiblock.IAlvearyComponent;

@@ -1,8 +1,8 @@
 package forestry.api.plugin;
 
-import forestry.api.apiculture.IActivityType;
-import forestry.api.apiculture.IFlowerType;
-import forestry.api.apiculture.genetics.IBeeEffect;
+import forestry.api.apiculture.bee.IActivityType;
+import forestry.api.apiculture.bee.IFlowerType;
+import forestry.api.apiculture.bee.IBeeEffect;
 import forestry.api.apiculture.hives.IHiveDefinition;
 import forestry.api.genetics.alleles.IAllele;
 import forestry.api.genetics.alleles.IChromosome;

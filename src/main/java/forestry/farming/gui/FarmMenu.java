@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.farming.gui;
 
 import forestry.core.gui.SocketedMenu;
@@ -17,53 +7,53 @@ import forestry.core.gui.slots.SlotOutput;
 import forestry.core.network.packets.PacketGuiStream;
 import forestry.core.tiles.TileUtil;
 import forestry.farming.features.FarmingMenuTypes;
-import forestry.farming.multiblock.InventoryFarm;
-import forestry.farming.tiles.TileFarm;
+import forestry.farming.multiblock.MultifarmInventory;
+import forestry.farming.tiles.AbstractMultifarmBlockEntity;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraftforge.fluids.IFluidTank;
+import net.neoforged.neoforge.fluids.IFluidTank;
 
-public class FarmMenu extends SocketedMenu<TileFarm> {
+public class FarmMenu extends SocketedMenu<AbstractMultifarmBlockEntity> {
 	public static FarmMenu fromNetwork(int windowId, Inventory inv, FriendlyByteBuf data) {
-		TileFarm tile = TileUtil.getTile(inv.player.level(), data.readBlockPos(), TileFarm.class);
+		AbstractMultifarmBlockEntity tile = TileUtil.getTile(inv.player.level(), data.readBlockPos(), AbstractMultifarmBlockEntity.class);
 		return new FarmMenu(windowId, inv, tile);
 	}
 
-	public FarmMenu(int windowId, Inventory playerInventory, TileFarm data) {
+	public FarmMenu(int windowId, Inventory playerInventory, AbstractMultifarmBlockEntity data) {
 		super(windowId, FarmingMenuTypes.FARM.menuType(), playerInventory, data, 28, 138);
 
 		// Resources
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 2; j++) {
-				this.addSlot(new SlotFiltered(this.tile, InventoryFarm.CONFIG.resourcesStart + j + i * 2, 123 + j * 18, 22 + i * 18));
+				this.addSlot(new SlotFiltered(this.tile, MultifarmInventory.CONFIG.resourcesStart + j + i * 2, 123 + j * 18, 22 + i * 18));
 			}
 		}
 
 		// Germlings
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 2; j++) {
-				this.addSlot(new SlotFiltered(this.tile, InventoryFarm.CONFIG.germlingsStart + j + i * 2, 164 + j * 18, 22 + i * 18));
+				this.addSlot(new SlotFiltered(this.tile, MultifarmInventory.CONFIG.germlingsStart + j + i * 2, 164 + j * 18, 22 + i * 18));
 			}
 		}
 
 		// Production 1
 		for (int i = 0; i < 2; i++) {
 			for (int j = 0; j < 2; j++) {
-				this.addSlot(new SlotOutput(this.tile, InventoryFarm.CONFIG.productionStart + j + i * 2, 123 + j * 18, 86 + i * 18));
+				this.addSlot(new SlotOutput(this.tile, MultifarmInventory.CONFIG.productionStart + j + i * 2, 123 + j * 18, 86 + i * 18));
 			}
 		}
 
 		// Production 2
 		for (int i = 0; i < 2; i++) {
 			for (int j = 0; j < 2; j++) {
-				this.addSlot(new SlotOutput(this.tile, InventoryFarm.CONFIG.productionStart + 4 + j + i * 2, 164 + j * 18, 86 + i * 18));
+				this.addSlot(new SlotOutput(this.tile, MultifarmInventory.CONFIG.productionStart + 4 + j + i * 2, 164 + j * 18, 86 + i * 18));
 			}
 		}
 
 		// Fertilizer
-		this.addSlot(new SlotFiltered(this.tile, InventoryFarm.CONFIG.fertilizerStart, 63, 95));
+		this.addSlot(new SlotFiltered(this.tile, MultifarmInventory.CONFIG.fertilizerStart, 63, 95));
 		// Can Slot
-		this.addSlot(new SlotLiquidIn(this.tile, InventoryFarm.CONFIG.canStart, 15, 95));
+		this.addSlot(new SlotLiquidIn(this.tile, MultifarmInventory.CONFIG.canStart, 15, 95));
 	}
 
 	@Override

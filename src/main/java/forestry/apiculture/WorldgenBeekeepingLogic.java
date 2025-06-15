@@ -1,8 +1,8 @@
 package forestry.apiculture;
 
-import forestry.api.apiculture.IActivityType;
+import forestry.api.apiculture.bee.IActivityType;
 import forestry.api.apiculture.IBeekeepingLogic;
-import forestry.api.apiculture.genetics.IBee;
+import forestry.api.apiculture.bee.IBee;
 import forestry.api.genetics.IEffectData;
 import forestry.api.genetics.IGenome;
 import forestry.api.genetics.alleles.BeeChromosomes;

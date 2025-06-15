@@ -1,6 +1,6 @@
 package forestry.api.genetics.alleles;
 
-import forestry.api.arboriculture.ITreeSpecies;
+import forestry.api.arboriculture.genetics.ITreeSpecies;
 import forestry.api.arboriculture.genetics.IFruit;
 import forestry.api.arboriculture.genetics.ITreeEffect;
 import forestry.api.genetics.ForestrySpeciesTypes;

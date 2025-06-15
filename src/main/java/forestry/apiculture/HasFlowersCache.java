@@ -1,8 +1,8 @@
 package forestry.apiculture;
 
 import forestry.api.apiculture.IBeeHousing;
-import forestry.api.apiculture.IFlowerType;
-import forestry.api.apiculture.genetics.IBee;
+import forestry.api.apiculture.bee.IFlowerType;
+import forestry.api.apiculture.bee.IBee;
 import forestry.api.core.INbtReadable;
 import forestry.api.core.INbtWritable;
 import forestry.api.genetics.IGenome;

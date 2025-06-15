@@ -1,6 +1,6 @@
 package forestry.apiculture.items;
 
-import forestry.api.apiculture.hives.IHiveTile;
+import forestry.apiculture.tiles.TileHive;
 import forestry.core.items.ItemForestry;
 import forestry.core.render.ParticleRender;
 import forestry.core.tiles.TileUtil;
@@ -69,7 +69,7 @@ public class ItemSmoker extends ItemForestry {
 		}
 
 		BlockPos blockPos = BlockPos.containing(smokePos.x, smokePos.y + 1, smokePos.z);
-		TileUtil.actOnTile(level, blockPos, IHiveTile.class, IHiveTile::calmBees);
+		TileUtil.actOnTile(level, blockPos, TileHive.class, TileHive::calmBees);
 	}
 
 	@Override
@@ -81,7 +81,7 @@ public class ItemSmoker extends ItemForestry {
 
 	@Override
 	public InteractionResult onItemUseFirst(ItemStack stack, UseOnContext context) {
-		TileUtil.actOnTile(context.getLevel(), context.getClickedPos(), IHiveTile.class, IHiveTile::calmBees);
+		TileUtil.actOnTile(context.getLevel(), context.getClickedPos(), TileHive.class, TileHive::calmBees);
 		return super.onItemUseFirst(stack, context);
 	}
 

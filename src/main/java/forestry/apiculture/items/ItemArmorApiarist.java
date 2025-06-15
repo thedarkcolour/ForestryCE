@@ -1,8 +1,8 @@
 package forestry.apiculture.items;
 
 import forestry.api.ForestryConstants;
-import forestry.api.apiculture.IArmorApiarist;
-import forestry.api.apiculture.genetics.IBeeEffect;
+import forestry.api.apiculture.IBeeProtection;
+import forestry.api.apiculture.bee.IBeeEffect;
 import forestry.apiculture.features.ApicultureArmorMaterials;
 import forestry.apiculture.features.ApicultureItems;
 import forestry.core.config.Constants;
@@ -18,11 +18,11 @@ public class ItemArmorApiarist extends ArmorItem {
 	public static final String TEXTURE_APIARIST_ARMOR_PRIMARY = ForestryConstants.MOD_ID + ":" + Constants.TEXTURE_PATH_ITEM + "/apiarist_armor_1.png";
 	public static final String TEXTURE_APIARIST_ARMOR_SECONDARY = ForestryConstants.MOD_ID + ":" + Constants.TEXTURE_PATH_ITEM + "/apiarist_armor_2.png";
 
-	public enum ArmorApiarist implements IArmorApiarist {
+	public enum BeeProtection implements IBeeProtection {
 		INSTANCE;
 
 		@Override
-		public boolean protectEntity(LivingEntity entity, ItemStack armor, @Nullable IBeeEffect cause, boolean execute) {
+		public boolean doBeeProtection(LivingEntity entity, ItemStack armor, @Nullable IBeeEffect cause, boolean execute) {
 			return true;
 		}
 	}

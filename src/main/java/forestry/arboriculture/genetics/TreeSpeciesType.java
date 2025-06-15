@@ -8,7 +8,7 @@ import com.mojang.serialization.Codec;
 import forestry.api.IForestryApi;
 import forestry.api.arboriculture.IArboristTracker;
 import forestry.api.arboriculture.ILeafTickHandler;
-import forestry.api.arboriculture.ITreeSpecies;
+import forestry.api.arboriculture.genetics.ITreeSpecies;
 import forestry.api.arboriculture.genetics.IFruit;
 import forestry.api.arboriculture.genetics.ITree;
 import forestry.api.arboriculture.genetics.ITreeSpeciesType;

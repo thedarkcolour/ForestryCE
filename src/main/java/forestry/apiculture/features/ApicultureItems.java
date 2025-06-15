@@ -1,6 +1,6 @@
 package forestry.apiculture.features;
 
-import forestry.api.apiculture.genetics.BeeLifeStage;
+import forestry.api.apiculture.bee.BeeLifeStage;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.apiculture.items.*;
 import forestry.core.items.ItemForestryFood;

@@ -7,18 +7,10 @@ import org.apache.commons.lang3.tuple.Pair;
 
 public class ForestryConfig {
 	private static final ModConfigSpec CLIENT_SPEC;
-	private static final ModConfigSpec COMMON_SPEC;
 	private static final ModConfigSpec SERVER_SPEC;
 
 	public static final Client CLIENT;
-	public static final Common COMMON;
 	public static final Server SERVER;
-
-	public static class Common {
-		public Common(ModConfigSpec.Builder builder) {
-
-		}
-	}
 
 	public static class Client {
 		// Misc
@@ -68,6 +60,10 @@ public class ForestryConfig {
 		// Bees
 		public final ModConfigSpec.BooleanValue pollinateVanillaLeaves;
 		public final ModConfigSpec.DoubleValue wildHiveSpawnRate;
+		public final ModConfigSpec.BooleanValue wildHiveDamage;
+		public final ModConfigSpec.BooleanValue wildHivePeacefulDamage;
+		public final ModConfigSpec.BooleanValue wildHiveDamageMobs;
+		public final ModConfigSpec.BooleanValue wildHivesDamageUnderwater;
 		public final ModConfigSpec.BooleanValue useHaploidDrones;
 		// Trees
 		public final ModConfigSpec.DoubleValue treeSpawnChanceMultiplier;
@@ -106,15 +102,31 @@ public class ForestryConfig {
 			this.pollinateVanillaLeaves = builder
 				.comment("Whether bees and butterflies can pollinate Vanilla leaves. Might be undesirable for builds that rely on leaves.")
 				.define("pollinate_vanilla_leaves", true);
-			this.wildHiveSpawnRate = builder
-				.comment("The base chance for a wild beehive to spawn naturally.")
-				.defineInRange("wild_hive_spawn_rate", 1.0, 0.0, 1000.0);
 			this.useHaploidDrones = builder
 				.comment("In real life, drone bees are haploid, which means they only carry one set of chromosomes. If this option is enabled, only a drone's active alleles will be used for inheritance, making drones effectively haploid. This CHANGES Forestry's bee breeding mechanics.")
 				.define("use_haploid_drones", false);
 			builder.pop();
 
-			// Farming
+			// Wild Bee Hives
+			builder.push("wild_bee_hives");
+			this.wildHiveSpawnRate = builder
+				.comment("The base chance for a wild beehive to spawn naturally.")
+				.defineInRange("wild_hive_spawn_rate", 1.0, 0.0, 1000.0);
+			this.wildHiveDamage = builder
+				.comment("Whether wild bees will deal damage when chasing after an entity.")
+				.define("wild_hives_damage_on_attack", true);
+			this.wildHivePeacefulDamage = builder
+				.comment("Whether wild bees will deal damage on Peaceful difficulty.")
+				.define("wild_hives_damage_in_peaceful", false);
+			this.wildHiveDamageMobs = builder
+				.comment("Whether wild bees can deal damage to non-player entities, like animals.")
+				.define("wild_hives_damage_players_only", false);
+			this.wildHivesDamageUnderwater = builder
+				.comment("Whether wild bees can deal damage to entities that are underwater.")
+				.define("wild_hives_damage_underwater", true);
+			builder.pop();
+
+			// Multifarms
 			builder.push("multiblock_farm");
 			this.multiFarmFertilizerModifier = builder
 				.comment("Determines how much fertilizer value a multiblock farm uses when harvesting a block. For reference, 1 Fertilizer = 100 fertilizer value by default.")
@@ -126,6 +138,8 @@ public class ForestryConfig {
 				.comment("Whether Forestry multiblock farms have square shaped farmlands instead of the default diamond shape.")
 				.define("square_multiblock_farms", false);
 			builder.pop();
+
+			// Legacy farms
 			builder.push("legacy_farm");
 			this.legacyFarmFertilizerModifier = builder
 				.comment("Determines how much fertilizer value a legacy (single block) farm uses when harvesting a block. For reference, 1 Fertilizer = 100 fertilizer value by default.")
@@ -144,7 +158,7 @@ public class ForestryConfig {
 			// Trees
 			builder.push("trees");
 			this.treeSpawnChanceMultiplier = builder
-				.comment("Multiplies the chance of a Forestry tree spawning in the wild. Set to 0 to disable Forestry tree spawning.")
+				.comment("The chance of a Forestry tree spawning in the wild. 0 means Forestry tree spawning is disabled. 1 means default spawn chances.")
 				.defineInRange("tree_spawn_chance_modifier", 0.0f, 0.0f, 1000000.0f);
 			this.treesSelfPollination = builder
 				.comment("Whether a tree leaf can be pollinated by its own pollen. Defaults to false because this behavior can be annoying.")
@@ -171,18 +185,20 @@ public class ForestryConfig {
 			this.enableBackpackResupply = builder
 				.comment("Whether backpacks can have their resupply mode enabled, which stocks a player's inventory using blocks from the backpack's inventory.")
 				.define("enable_backpack_resupply", true);
+
+			builder.push("world_generation");
 			this.spawnTinOre = builder
 				.comment("Whether Tin Ore veins generate naturally in the Overworld.")
 				.define("spawn_tin_ore", true);
 			this.spawnApatiteOre = builder
 				.comment("Whether Apatite Ore veins generate naturally in the Overworld.")
 				.define("spawn_apatite_ore", true);
+			builder.pop();
 		}
 	}
 
 	public static void register(ModContainer ctx) {
 		ctx.registerConfig(ModConfig.Type.SERVER, SERVER_SPEC);
-		ctx.registerConfig(ModConfig.Type.COMMON, COMMON_SPEC);
 		ctx.registerConfig(ModConfig.Type.CLIENT, CLIENT_SPEC);
 	}
 
@@ -191,11 +207,6 @@ public class ForestryConfig {
 			Pair<Client, ModConfigSpec> specPair = new ModConfigSpec.Builder().configure(Client::new);
 			CLIENT = specPair.getLeft();
 			CLIENT_SPEC = specPair.getRight();
-		}
-		{
-			Pair<Common, ModConfigSpec> specPair = new ModConfigSpec.Builder().configure(Common::new);
-			COMMON = specPair.getLeft();
-			COMMON_SPEC = specPair.getRight();
 		}
 		{
 			Pair<Server, ModConfigSpec> specPair = new ModConfigSpec.Builder().configure(Server::new);

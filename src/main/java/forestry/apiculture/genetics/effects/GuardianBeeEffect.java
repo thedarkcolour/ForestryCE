@@ -1,7 +1,7 @@
 package forestry.apiculture.genetics.effects;
 
-import forestry.api.apiculture.BeeManager;
 import forestry.api.apiculture.IBeeHousing;
+import forestry.api.apiculture.IBeeProtection;
 import forestry.api.genetics.IEffectData;
 import forestry.api.genetics.IGenome;
 import net.minecraft.network.protocol.game.ClientboundGameEventPacket;
@@ -22,7 +22,7 @@ public class GuardianBeeEffect extends ThrottledBeeEffect {
 		List<Player> list = getEntitiesInRange(genome, housing, Player.class);
 		for (Player player : list) {
 			if (!player.hasEffect(MobEffects.DIG_SLOWDOWN)) {
-				int count = BeeManager.armorApiaristHelper.wearsItems(player, this, true);
+                int count = IBeeProtection.getBeeProtectionLevel(player, this, true);
 				if (count >= 4) {
 					continue;
 				}

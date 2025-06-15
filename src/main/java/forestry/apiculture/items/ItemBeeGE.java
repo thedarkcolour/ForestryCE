@@ -1,9 +1,8 @@
 package forestry.apiculture.items;
 
-import forestry.api.apiculture.genetics.BeeLifeStage;
-import forestry.api.apiculture.genetics.IBee;
-import forestry.api.apiculture.genetics.IBeeSpecies;
-import forestry.api.genetics.IIndividual;
+import forestry.api.apiculture.bee.BeeLifeStage;
+import forestry.api.apiculture.bee.IBee;
+import forestry.api.apiculture.bee.IBeeSpecies;
 import forestry.api.genetics.ISpeciesType;
 import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.core.genetics.ItemGE;

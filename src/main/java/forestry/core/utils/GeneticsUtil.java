@@ -1,7 +1,7 @@
 package forestry.core.utils;
 
 import forestry.api.ForestryCapabilities;
-import forestry.api.core.IArmorNaturalist;
+import forestry.api.core.ISpectacleVision;
 import forestry.api.genetics.*;
 import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.api.lepidopterology.IButterflyNursery;
@@ -33,7 +33,7 @@ public class GeneticsUtil {
 	}
 
 	public static boolean hasNaturalistEye(Player player, ItemStack armorItemStack) {
-		final IArmorNaturalist armorNaturalist = armorItemStack.getCapability(ForestryCapabilities.SPECTACLE_VISION);
+		final ISpectacleVision armorNaturalist = armorItemStack.getCapability(ForestryCapabilities.SPECTACLE_VISION);
 
 		return armorNaturalist != null && armorNaturalist.canSeePollination(player, armorItemStack, true);
 	}

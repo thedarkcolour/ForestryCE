@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.farming.items;
 
 import forestry.core.items.ItemBlockForestry;
@@ -17,6 +7,8 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 
 import java.util.List;
 
@@ -26,7 +18,7 @@ public class ItemBlockFarm extends ItemBlockForestry<FarmBlock> {
 	}
 
 	@Override
-	public void appendHoverText(List<Component> tooltip) {
+	public void appendHoverText(ItemStack stack, TooltipContext ctx, List<Component> tooltip, TooltipFlag advanced) {
 		if (Screen.hasShiftDown()) {
 			tooltip.add(Component.translatable("block.forestry.farm.tooltip").withStyle(ChatFormatting.GRAY));
 		} else {
@@ -37,6 +29,6 @@ public class ItemBlockFarm extends ItemBlockForestry<FarmBlock> {
 	@Override
 	public String getDescriptionId() {
 		FarmBlock block = getBlock();
-		return "block.forestry.farm_" + block.getType().getSerializedName();
+		return "block.forestry.farm_" + block.getType().identifier();
 	}
 }

@@ -6,7 +6,7 @@ import forestry.api.farming.HorizontalDirection;
 import forestry.core.gui.widgets.ItemStackWidget;
 import forestry.core.gui.widgets.WidgetManager;
 import forestry.core.render.ColourProperties;
-import forestry.cultivation.inventory.InventoryPlanter;
+import forestry.cultivation.inventory.LegacyFarmInventory;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.Direction;
@@ -50,8 +50,8 @@ public class GhostItemStackWidget extends ItemStackWidget {
 
 	@Nullable
 	private Component getDirectionString() {
-		if (this.slot.getSlotIndex() >= InventoryPlanter.CONFIG.productionStart
-			|| this.slot.getSlotIndex() < InventoryPlanter.CONFIG.productionStart + InventoryPlanter.CONFIG.productionCount) {
+		if (this.slot.getSlotIndex() >= LegacyFarmInventory.CONFIG.productionStart
+			|| this.slot.getSlotIndex() < LegacyFarmInventory.CONFIG.productionStart + LegacyFarmInventory.CONFIG.productionCount) {
 			return null;
 		}
 		int index = this.slot.getSlotIndex() % 4;

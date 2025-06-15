@@ -1,6 +1,6 @@
 package forestry.apiculture;
 
-import forestry.api.apiculture.genetics.BeeLifeStage;
+import forestry.api.apiculture.bee.BeeLifeStage;
 import forestry.api.client.ForestrySprites;
 import forestry.api.genetics.ForestrySpeciesTypes;
 import forestry.api.genetics.filter.FilterData;

@@ -1,8 +1,8 @@
 package forestry.apiimpl.plugin;
 
-import forestry.api.apiculture.IBeeJubilance;
-import forestry.api.apiculture.genetics.IBeeSpecies;
-import forestry.api.apiculture.genetics.IBeeSpeciesType;
+import forestry.api.apiculture.bee.IBeeJubilance;
+import forestry.api.apiculture.bee.IBeeSpecies;
+import forestry.api.apiculture.bee.IBeeSpeciesType;
 import forestry.api.core.IProduct;
 import forestry.api.plugin.IBeeSpeciesBuilder;
 import forestry.apiculture.BeeSpecies;

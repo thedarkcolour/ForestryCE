@@ -1,7 +1,7 @@
 package forestry.arboriculture.blocks;
 
 import forestry.api.arboriculture.ForestryTreeSpecies;
-import forestry.api.arboriculture.ITreeSpecies;
+import forestry.api.arboriculture.genetics.ITreeSpecies;
 import forestry.api.arboriculture.genetics.IFruit;
 import forestry.api.arboriculture.genetics.ITree;
 import forestry.api.core.IBlockSubtype;
@@ -77,7 +77,7 @@ public final class ForestryLeafType implements IBlockSubtype {
 	}
 
 	@Override
-	public String getSerializedName() {
+	public String identifier() {
 		return this.speciesId.getPath();
 	}
 

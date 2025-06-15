@@ -1,15 +1,6 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.farming.circuits;
 
+import com.google.common.base.Suppliers;
 import forestry.api.IForestryApi;
 import forestry.api.farming.HorizontalDirection;
 import forestry.api.farming.IFarmCircuit;
@@ -18,7 +9,6 @@ import forestry.api.farming.IFarmType;
 import forestry.core.circuits.Circuit;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.common.util.Lazy;
 
 import javax.annotation.Nullable;
 import java.util.function.Supplier;
@@ -29,7 +19,7 @@ public class CircuitFarmLogic extends Circuit implements IFarmCircuit {
 
 	public CircuitFarmLogic(String uid, ResourceLocation farmTypeId, boolean manual) {
 		super(uid);
-		this.farmType = Lazy.of(() -> IForestryApi.INSTANCE.getFarmingManager().getFarmType(farmTypeId));
+		this.farmType = Suppliers.memoize(() -> IForestryApi.INSTANCE.getFarmingManager().getFarmType(farmTypeId));
 		this.manual = manual;
 	}
 

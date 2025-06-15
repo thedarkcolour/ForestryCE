@@ -2,7 +2,7 @@ package forestry.apiculture.genetics;
 
 import forestry.api.IForestryApi;
 import forestry.api.apiculture.IApiaristTracker;
-import forestry.api.apiculture.genetics.IBee;
+import forestry.api.apiculture.bee.IBee;
 import forestry.api.genetics.ForestrySpeciesTypes;
 import forestry.api.genetics.IMutationManager;
 import forestry.api.genetics.ISpecies;

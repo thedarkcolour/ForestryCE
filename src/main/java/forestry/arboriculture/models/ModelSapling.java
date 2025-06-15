@@ -2,7 +2,7 @@ package forestry.arboriculture.models;
 
 import com.mojang.datafixers.util.Pair;
 import forestry.api.arboriculture.ForestryTreeSpecies;
-import forestry.api.arboriculture.ITreeSpecies;
+import forestry.api.arboriculture.genetics.ITreeSpecies;
 import forestry.api.arboriculture.genetics.ITreeSpeciesType;
 import forestry.api.client.IForestryClientApi;
 import forestry.api.client.arboriculture.ITreeClientManager;

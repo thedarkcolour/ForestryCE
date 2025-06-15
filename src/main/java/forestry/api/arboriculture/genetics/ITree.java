@@ -1,7 +1,6 @@
 package forestry.api.arboriculture.genetics;
 
 import com.mojang.authlib.GameProfile;
-import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.core.IProductProducer;
 import forestry.api.core.ISpecialtyProducer;
 import forestry.api.genetics.IEffectData;

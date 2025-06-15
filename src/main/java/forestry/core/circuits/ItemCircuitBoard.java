@@ -16,11 +16,13 @@ import net.neoforged.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Optional;
 
 public class ItemCircuitBoard extends ItemForestry implements IColoredItem {
 	private final EnumCircuitBoardType type;
 
 	public ItemCircuitBoard(EnumCircuitBoardType type) {
+		super(new Properties().component(CoreDataComponents.CIRCUIT_BOARD, new CircuitBoard(type, Optional.empty(), List.of())));
 		this.type = type;
 	}
 
@@ -47,9 +49,9 @@ public class ItemCircuitBoard extends ItemForestry implements IColoredItem {
 		}
 	}
 
-	public static ItemStack createCircuitboard(EnumCircuitBoardType type, @Nullable CircuitLayout layout, ICircuit[] circuits) {
+	public static ItemStack createCircuitboard(EnumCircuitBoardType type, CircuitLayout layout, List<ICircuit> circuits) {
 		ItemStack stack = CoreItems.CIRCUITBOARDS.stack(type, 1);
-		stack.set(CoreDataComponents.CIRCUIT_BOARD, new CircuitBoard(type, layout, circuits));
+		stack.set(CoreDataComponents.CIRCUIT_BOARD, new CircuitBoard(type, Optional.of(layout), circuits));
 		return stack;
 	}
 

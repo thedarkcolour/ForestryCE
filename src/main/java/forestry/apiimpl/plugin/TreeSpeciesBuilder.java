@@ -2,7 +2,7 @@ package forestry.apiimpl.plugin;
 
 import com.google.common.base.Preconditions;
 import forestry.api.arboriculture.ITreeGenerator;
-import forestry.api.arboriculture.ITreeSpecies;
+import forestry.api.arboriculture.genetics.ITreeSpecies;
 import forestry.api.arboriculture.IWoodType;
 import forestry.api.arboriculture.genetics.ITreeSpeciesType;
 import forestry.api.plugin.ITreeSpeciesBuilder;

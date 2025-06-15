@@ -1,7 +1,6 @@
 package forestry.core.render;
 
 import forestry.api.apiculture.IBeeHousing;
-import forestry.api.apiculture.hives.IHiveTile;
 import forestry.api.genetics.IGenome;
 import forestry.api.genetics.alleles.BeeChromosomes;
 import forestry.apiculture.genetics.Bee;
@@ -10,6 +9,7 @@ import forestry.apiculture.particles.ApicultureParticles;
 import forestry.apiculture.particles.BeeParticleData;
 import forestry.apiculture.particles.BeeTargetParticleData;
 import forestry.apiculture.particles.ParticleSnow;
+import forestry.apiculture.tiles.TileHive;
 import forestry.core.config.ForestryConfig;
 import forestry.core.entities.ParticleIgnition;
 import forestry.core.entities.ParticleSmoke;
@@ -76,13 +76,11 @@ public class ParticleRender {
 
 		int randomInt = world.random.nextInt(100);
 
-		if (housing instanceof IHiveTile) {
-			if (((IHiveTile) housing).isAngry() || randomInt >= 85) {
+		if (housing instanceof TileHive hive) {
+			if (hive.isAngry() || randomInt >= 85) {
 				List<LivingEntity> entitiesInRange = ThrottledBeeEffect.getEntitiesInRange(genome, housing, LivingEntity.class);
 				if (!entitiesInRange.isEmpty()) {
 					LivingEntity entity = entitiesInRange.get(world.random.nextInt(entitiesInRange.size()));
-					//Particle particle = new ParticleBeeTargetEntity(world, particleStart, entity, color);
-					//effectRenderer.add(particle);
 					world.addParticle(new BeeTargetParticleData(entity.getId(), color), particleStart.x, particleStart.y, particleStart.z, 0, 0, 0);
 					return;
 				}
@@ -91,16 +89,12 @@ public class ParticleRender {
 
 		if (randomInt < 75 && !flowerPositions.isEmpty()) {
 			BlockPos destination = flowerPositions.get(world.random.nextInt(flowerPositions.size()));
-			//Particle particle = new ParticleBeeRoundTrip(world, particleStart, destination, color);
-			//effectRenderer.add(particle);
 			world.addParticle(new BeeParticleData(ApicultureParticles.BEE_ROUND_TRIP_PARTICLE.get(), destination, color), particleStart.x, particleStart.y, particleStart.z, 0, 0, 0);
 		} else {
 			Vec3i area = Bee.getParticleArea(genome, housing);
 			Vec3i offset = housing.getBlockPos().offset(-area.getX() / 2, -area.getY() / 4, -area.getZ() / 2);
 			BlockPos destination = VecUtil.getRandomPositionInArea(world.random, area).offset(offset);
 			world.addParticle(new BeeParticleData(ApicultureParticles.BEE_EXPLORER_PARTICLE.get(), destination, color), particleStart.x, particleStart.y, particleStart.z, 0, 0, 0);
-			//Particle particle = new ParticleBeeExplore(world, particleStart, destination, color);
-			//effectRenderer.add(particle);
 		}
 	}
 
@@ -110,7 +104,6 @@ public class ParticleRender {
 		}
 
 		world.addParticle(HONEY_DUST, x, y, z, 0, 0, 0);
-		//		effectRenderer.addEffect(new ParticleHoneydust(world, x, y, z, 0, 0, 0));
 	}
 
 	public static void addEntityExplodeFX(Level world, double x, double y, double z) {

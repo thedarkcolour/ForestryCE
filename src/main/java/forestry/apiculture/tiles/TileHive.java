@@ -4,9 +4,8 @@ import com.google.common.base.Predicate;
 import com.mojang.authlib.GameProfile;
 import forestry.api.IForestryApi;
 import forestry.api.apiculture.*;
-import forestry.api.apiculture.genetics.IBee;
-import forestry.api.apiculture.genetics.IBeeSpecies;
-import forestry.api.apiculture.hives.IHiveTile;
+import forestry.api.apiculture.bee.IBee;
+import forestry.api.apiculture.bee.IBeeSpecies;
 import forestry.api.core.HumidityType;
 import forestry.api.core.IErrorLogic;
 import forestry.api.core.ISpectacleBlock;
@@ -54,7 +53,8 @@ import javax.annotation.Nullable;
 import java.util.Collections;
 import java.util.List;
 
-public class TileHive extends BlockEntity implements IHiveTile, IActivatable, IBeeHousing, ISpectacleBlock {
+// The block entity used by wild bee hives.
+public class TileHive extends BlockEntity implements IActivatable, IBeeHousing, ISpectacleBlock {
 	private final InventoryAdapter contained = new InventoryAdapter(2, "Contained");
 	private final HiveBeeHousingInventory inventory;
 	private final WorldgenBeekeepingLogic beeLogic;
@@ -69,8 +69,8 @@ public class TileHive extends BlockEntity implements IHiveTile, IActivatable, IB
 	private int calmTime;
 
 	// For addons
-	public TileHive(BlockEntityType<? extends TileHive> tileType, BlockPos pos, BlockState state) {
-		super(tileType, pos, state);
+	public TileHive(BlockEntityType<? extends TileHive> type, BlockPos pos, BlockState state) {
+		super(type, pos, state);
 
 		this.inventory = new HiveBeeHousingInventory(this);
 		this.beeLogic = new WorldgenBeekeepingLogic(this);
@@ -99,13 +99,13 @@ public class TileHive extends BlockEntity implements IHiveTile, IActivatable, IB
 			if (this.tickHelper.updateOnInterval(this.angry ? 10 : 200)) {
 				if (this.calmTime == 0) {
 					if (canWork) {
-						if (this.angry && ForestryConfig.SERVER.hiveDamageOnAttack.get() && (level.getLevelData().getDifficulty() != Difficulty.PEACEFUL || ForestryConfig.SERVER.hivesDamageOnPeaceful.get())) {
+						if (this.angry && ForestryConfig.SERVER.wildHiveDamage.get() && (level.getLevelData().getDifficulty() != Difficulty.PEACEFUL || ForestryConfig.SERVER.wildHivePeacefulDamage.get())) {
 							AABB boundingBox = ThrottledBeeEffect.getBounding(this, getContainedBee().getGenome());
 							List<LivingEntity> entities = level.getEntitiesOfClass(LivingEntity.class, boundingBox, this.beeTargetPredicate);
 							if (!entities.isEmpty()) {
 								Collections.shuffle(entities);
 								LivingEntity entity = entities.get(0);
-								if ((entity instanceof Player || !ForestryConfig.SERVER.hivesDamageOnlyPlayers.get()) && (!entity.isInWater() || ForestryConfig.SERVER.hivesDamageUnderwater.get())) {
+								if ((entity instanceof Player || !ForestryConfig.SERVER.wildHiveDamageMobs.get()) && (!entity.isInWater() || ForestryConfig.SERVER.wildHivesDamageUnderwater.get())) {
 									attack(entity, 2);
 								}
 							}
@@ -160,26 +160,22 @@ public class TileHive extends BlockEntity implements IHiveTile, IActivatable, IB
 		this.beeLogic.write(nbt);
 	}
 
-	@Override
 	public void calmBees() {
 		this.calmTime = 5;
 		this.angry = false;
 		setActive(false);
 	}
 
-	@Override
 	public boolean isAngry() {
 		return this.angry;
 	}
 
-	@Override
 	public void onAttack(Level world, BlockPos pos, Player player) {
 		if (this.calmTime == 0) {
 			this.angry = true;
 		}
 	}
 
-	@Override
 	public void onBroken(Level world, BlockPos pos, Player player, boolean canHarvest) {
 		if (this.calmTime == 0) {
 			attack(player, 10);
@@ -200,7 +196,7 @@ public class TileHive extends BlockEntity implements IHiveTile, IActivatable, IB
 		int damage = (int) (attackAmount * maxDamage);
 		if (damage > 0) {
 			// Entities are not attacked if they wear a full set of apiarist's armor.
-			int count = BeeManager.armorApiaristHelper.wearsItems(entity, null, true);
+			int count = IBeeProtection.getBeeProtectionLevel(entity, null, true);
 			if (level.random.nextInt(4) >= count) {
 				entity.hurt(CoreDamageTypes.source(level, CoreDamageTypes.HIVE), damage);
 			}
@@ -329,7 +325,7 @@ public class TileHive extends BlockEntity implements IHiveTile, IActivatable, IB
 		return this.worldPosition;
 	}
 
-	private record BeeTargetPredicate(IHiveTile hive) implements Predicate<LivingEntity> {
+	private record BeeTargetPredicate(TileHive hive) implements Predicate<LivingEntity> {
 		@Override
 		public boolean apply(@Nullable LivingEntity input) {
 			if (input != null && input.isAlive() && !input.isInvisible()) {

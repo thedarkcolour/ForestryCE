@@ -1,6 +1,6 @@
 package forestry.api.client.apiculture;
 
-import forestry.api.apiculture.genetics.IBeeSpecies;
+import forestry.api.apiculture.bee.IBeeSpecies;
 import forestry.api.genetics.ILifeStage;
 import net.minecraft.resources.ResourceLocation;
 

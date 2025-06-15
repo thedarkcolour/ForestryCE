@@ -2,11 +2,10 @@ package forestry.api.apiculture.hives;
 
 import forestry.api.apiculture.IBeeHousing;
 import forestry.api.apiculture.IBeeModifier;
-import forestry.api.apiculture.genetics.IBee;
+import forestry.api.apiculture.bee.IBee;
 import net.minecraft.world.item.ItemStack;
 
 public interface IHiveFrame {
-
 	/**
 	 * Wears out a frame.
 	 *
@@ -21,7 +20,6 @@ public interface IHiveFrame {
 	/**
 	 * @param frame ItemStack containing the actual frame.
 	 * @return the {@link IBeeModifier} for this frame.
-	 * @since Forestry 5.5.1
 	 */
 	IBeeModifier getBeeModifier(ItemStack frame);
 }

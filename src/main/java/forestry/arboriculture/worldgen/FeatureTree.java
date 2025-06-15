@@ -1,7 +1,6 @@
 package forestry.arboriculture.worldgen;
 
-import forestry.api.arboriculture.ITreeSpecies;
-import forestry.api.arboriculture.ITreeSpecies;
+import forestry.api.arboriculture.genetics.ITreeSpecies;
 import forestry.api.arboriculture.genetics.IPodFruit;
 import forestry.api.genetics.IGenome;
 import forestry.api.genetics.alleles.TreeChromosomes;

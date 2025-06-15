@@ -20,7 +20,7 @@ public class SolderingIronMenu extends ItemInventoryMenu<ItemInventorySolderingI
 	public static SolderingIronMenu fromNetwork(int windowId, Inventory playerInv, FriendlyByteBuf extraData) {
 		InteractionHand hand = extraData.readBoolean() ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
 		Player player = playerInv.player;
-		ItemInventorySolderingIron inv = new ItemInventorySolderingIron(player, player.getItemInHand(hand));
+		ItemInventorySolderingIron inv = new ItemInventorySolderingIron(player.getItemInHand(hand));
 		return new SolderingIronMenu(windowId, player, inv);
 	}
 

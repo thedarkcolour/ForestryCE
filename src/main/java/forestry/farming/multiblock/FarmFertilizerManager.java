@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.farming.multiblock;
 
 import forestry.api.core.INbtReadable;
@@ -24,7 +14,7 @@ public class FarmFertilizerManager implements INbtWritable, INbtReadable, IStrea
 
 	public FarmFertilizerManager(IFarmHousingInternal housing) {
 		this.inventory = housing.getFarmInventory();
-        this.storedFertilizer = 0;
+		this.storedFertilizer = 0;
 	}
 
 	public boolean hasFertilizer(int amount) {
@@ -40,9 +30,9 @@ public class FarmFertilizerManager implements INbtWritable, INbtReadable, IStrea
 			return;
 		}
 
-        this.storedFertilizer -= amount;
+		this.storedFertilizer -= amount;
 		if (this.storedFertilizer < 0) {
-            this.storedFertilizer = 0;
+			this.storedFertilizer = 0;
 		}
 	}
 
@@ -50,9 +40,9 @@ public class FarmFertilizerManager implements INbtWritable, INbtReadable, IStrea
 		if (this.storedFertilizer <= BUFFER_FERTILIZER) {
 			int fertilizerValue = this.inventory.getFertilizerValue();
 			if (fertilizerValue < 0) {
-                this.storedFertilizer += 2000;
+				this.storedFertilizer += 2000;
 			} else if (this.inventory.useFertilizer()) {
-                this.storedFertilizer += fertilizerValue;
+				this.storedFertilizer += fertilizerValue;
 			}
 		}
 
@@ -61,7 +51,7 @@ public class FarmFertilizerManager implements INbtWritable, INbtReadable, IStrea
 
 	@Override
 	public void read(CompoundTag data) {
-        this.storedFertilizer = data.getInt("StoredFertilizer");
+		this.storedFertilizer = data.getInt("StoredFertilizer");
 	}
 
 	@Override
@@ -85,6 +75,6 @@ public class FarmFertilizerManager implements INbtWritable, INbtReadable, IStrea
 
 	@Override
 	public void readData(RegistryFriendlyByteBuf buffer) {
-        this.storedFertilizer = buffer.readVarInt();
+		this.storedFertilizer = buffer.readVarInt();
 	}
 }

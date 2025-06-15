@@ -2,7 +2,7 @@ package forestry.apiculture.hives;
 
 import forestry.api.ForestryTags;
 import forestry.api.apiculture.ForestryBeeSpecies;
-import forestry.api.apiculture.genetics.IBeeSpecies;
+import forestry.api.apiculture.bee.IBeeSpecies;
 import forestry.api.apiculture.hives.IHiveDefinition;
 import forestry.api.apiculture.hives.IHivePlacement;
 import forestry.api.core.HumidityType;

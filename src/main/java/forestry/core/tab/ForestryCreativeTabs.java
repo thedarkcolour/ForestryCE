@@ -2,7 +2,7 @@ package forestry.core.tab;
 
 import forestry.api.ForestryConstants;
 import forestry.api.apiculture.ForestryBeeSpecies;
-import forestry.api.apiculture.genetics.BeeLifeStage;
+import forestry.api.apiculture.bee.BeeLifeStage;
 import forestry.api.arboriculture.ForestryTreeSpecies;
 import forestry.api.arboriculture.IWoodAccess;
 import forestry.api.arboriculture.IWoodType;

@@ -1,7 +1,7 @@
 package forestry.apiculture.genetics.effects;
 
-import forestry.api.apiculture.BeeManager;
 import forestry.api.apiculture.IBeeHousing;
+import forestry.api.apiculture.IBeeProtection;
 import forestry.api.genetics.IEffectData;
 import forestry.api.genetics.IGenome;
 import net.minecraft.core.particles.ParticleTypes;
@@ -33,7 +33,7 @@ public class PhasingBeeEffect extends ThrottledBeeEffect {
 		List<LivingEntity> list = getEntitiesInRange(genome, housing, LivingEntity.class);
 
 		for (LivingEntity entity : list) {
-			int count = BeeManager.armorApiaristHelper.wearsItems(entity, this, true);
+            int count = IBeeProtection.getBeeProtectionLevel(entity, this, true);
 
 			if (count >= 4) {
 				continue;

@@ -1,6 +1,6 @@
 package forestry.api.apiculture.hives;
 
-import forestry.api.apiculture.genetics.IBee;
+import forestry.api.apiculture.bee.IBee;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
@@ -8,7 +8,7 @@ import net.minecraft.world.level.BlockGetter;
 import java.util.List;
 
 /**
- * Represents an
+ * Represents a drop from a wild bee hive.
  */
 public interface IHiveDrop {
 	IBee createIndividual(BlockGetter level, BlockPos pos);

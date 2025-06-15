@@ -12,7 +12,7 @@ public enum EnumFarmBlockType implements IBlockSubtype {
 	CONTROL;
 
 	@Override
-	public String getSerializedName() {
+	public String identifier() {
 		return name().toLowerCase(Locale.ENGLISH);
 	}
 }

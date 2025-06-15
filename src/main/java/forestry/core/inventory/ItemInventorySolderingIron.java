@@ -13,6 +13,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class ItemInventorySolderingIron extends ItemInventory implements IErrorSource {
@@ -23,7 +24,7 @@ public class ItemInventorySolderingIron extends ItemInventory implements IErrorS
 
 	private int layoutIndex;
 
-	public ItemInventorySolderingIron(Player player, ItemStack stack) {
+	public ItemInventorySolderingIron(ItemStack stack) {
 		super(6, stack);
 
 		this.layoutIndex = 0;
@@ -60,7 +61,7 @@ public class ItemInventorySolderingIron extends ItemInventory implements IErrorS
 		}
 	}
 
-	private ICircuit[] getCircuits(boolean doConsume) {
+	private List<ICircuit> getCircuits(boolean doConsume) {
 		ICircuit[] circuits = new ICircuit[INGREDIENT_SLOT_COUNT];
 
 		for (short i = 0; i < INGREDIENT_SLOT_COUNT; i++) {
@@ -77,7 +78,7 @@ public class ItemInventorySolderingIron extends ItemInventory implements IErrorS
 			}
 		}
 
-		return circuits;
+		return Arrays.asList(circuits);
 	}
 
 	@Override
@@ -111,7 +112,7 @@ public class ItemInventorySolderingIron extends ItemInventory implements IErrorS
 			return;
 		}
 
-		ICircuit[] circuits = getCircuits(true);
+		List<ICircuit> circuits = getCircuits(true);
 
 		ItemStack outputCircuitBoard = ItemCircuitBoard.createCircuitboard(type, layouts.get(this.layoutIndex), circuits);
 

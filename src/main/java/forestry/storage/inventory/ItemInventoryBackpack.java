@@ -1,13 +1,13 @@
 package forestry.storage.inventory;
 
-import forestry.api.storage.IBackpackDefinition;
+import forestry.api.storage.BackpackDefinition;
 import forestry.core.inventory.ItemInventory;
 import forestry.storage.items.ItemBackpack;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 public class ItemInventoryBackpack extends ItemInventory {
-	private final IBackpackDefinition backpackDefinition;
+	private final BackpackDefinition backpackDefinition;
 
 	public ItemInventoryBackpack(int size, ItemStack parent) {
 		super(size, parent);

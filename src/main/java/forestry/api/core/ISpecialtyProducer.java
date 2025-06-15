@@ -1,10 +1,12 @@
 package forestry.api.core;
 
+import forestry.api.apiculture.bee.IBeeJubilance;
+
 import java.util.List;
 
 /**
  * Denotes a species that can produce "specialty" products when in a jubilant state,
- * as described by {@link forestry.api.apiculture.IBeeJubilance} or something similar.
+ * as described by {@link IBeeJubilance} or something similar.
  */
 public interface ISpecialtyProducer {
 	/**

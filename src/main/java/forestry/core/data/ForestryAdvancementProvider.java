@@ -2,7 +2,7 @@ package forestry.core.data;
 
 import forestry.api.ForestryConstants;
 import forestry.api.apiculture.ForestryBeeSpecies;
-import forestry.api.apiculture.genetics.BeeLifeStage;
+import forestry.api.apiculture.bee.BeeLifeStage;
 import forestry.apiculture.features.ApicultureItems;
 import forestry.core.utils.SpeciesUtil;
 import net.minecraft.advancements.AdvancementHolder;

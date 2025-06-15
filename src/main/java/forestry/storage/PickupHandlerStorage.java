@@ -1,6 +1,6 @@
 package forestry.storage;
 
-import forestry.api.storage.IBackpackDefinition;
+import forestry.api.storage.BackpackDefinition;
 import forestry.storage.gui.BackpackMenu;
 import forestry.storage.gui.NaturalistBackpackMenu;
 import forestry.storage.items.ItemBackpack;
@@ -32,7 +32,7 @@ public class PickupHandlerStorage {
 				continue;
 			}
 
-			IBackpackDefinition backpackDefinition = backpack.getDefinition();
+			BackpackDefinition backpackDefinition = backpack.getDefinition();
 			if (backpackDefinition.getFilter().test(itemstack)) {
 				ItemBackpack.tryStowing(player, pack, itemstack);
 			}

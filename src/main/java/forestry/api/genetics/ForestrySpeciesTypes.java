@@ -8,7 +8,7 @@ import net.minecraft.resources.ResourceLocation;
  */
 public class ForestrySpeciesTypes {
 	/**
-	 * @see forestry.api.apiculture.genetics.IBeeSpeciesType
+	 * @see forestry.api.apiculture.bee.IBeeSpeciesType
 	 */
 	public static final ResourceLocation BEE = ForestryConstants.forestry("bee_species");
 	/**

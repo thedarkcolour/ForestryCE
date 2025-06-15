@@ -1,6 +1,6 @@
 package forestry.apiculture;
 
-import forestry.api.apiculture.genetics.BeeLifeStage;
+import forestry.api.apiculture.bee.BeeLifeStage;
 import forestry.apiculture.blocks.BlockApiculture;
 import forestry.apiculture.items.ItemBeeGE;
 import forestry.apiculture.tiles.TileBeeHouse;

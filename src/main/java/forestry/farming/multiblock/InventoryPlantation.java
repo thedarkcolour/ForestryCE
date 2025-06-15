@@ -32,31 +32,11 @@ import java.util.Optional;
  */
 public abstract class InventoryPlantation<H extends ILiquidTankTile & IFarmHousing> extends InventoryAdapterRestricted implements IFarmInventoryInternal {
 	private final ModConfigSpec.IntValue fertilizerModifier;
-
-	/**
-	 * Farm logic object
-	 */
 	protected final H housing;
-	/**
-	 * Inventory slot config
-	 */
 	protected final InventoryConfig config;
-
-	/**
-	 * The part of the inventory that contains the resources.
-	 */
 	protected final Container resourcesInventory;
-	/**
-	 * The part of the inventory that contains the germlings.
-	 */
 	protected final Container germlingsInventory;
-	/**
-	 * The part of the inventory that contains the output resources.
-	 */
 	protected final Container productInventory;
-	/**
-	 * The part of the inventory that contains the fertilizer.
-	 */
 	protected final Container fertilizerInventory;
 
 	/**

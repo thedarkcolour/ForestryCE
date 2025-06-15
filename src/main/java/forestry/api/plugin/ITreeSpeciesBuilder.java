@@ -1,7 +1,7 @@
 package forestry.api.plugin;
 
 import forestry.api.arboriculture.ITreeGenerator;
-import forestry.api.arboriculture.ITreeSpecies;
+import forestry.api.arboriculture.genetics.ITreeSpecies;
 import forestry.api.arboriculture.IWoodType;
 import forestry.api.arboriculture.genetics.ITreeSpeciesType;
 import net.minecraft.network.chat.TextColor;

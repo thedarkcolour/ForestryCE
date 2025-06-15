@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.farming.blocks;
 
 import forestry.core.blocks.BlockStructure;
@@ -55,11 +45,11 @@ public class FarmBlock extends BlockStructure implements EntityBlock {
 	@Override
 	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
 		return switch (this.type) {
-			case GEARBOX -> new TileFarmGearbox(pos, state);
-			case HATCH -> new TileFarmHatch(pos, state);
-			case VALVE -> new TileFarmValve(pos, state);
-			case CONTROL -> new TileFarmControl(pos, state);
-			default -> new TileFarmPlain(pos, state);
+			case GEARBOX -> new MultifarmGearboxBlockEntity(pos, state);
+			case HATCH -> new MultifarmHatchBlockEntity(pos, state);
+			case VALVE -> new MultifarmValveBlockEntity(pos, state);
+			case CONTROL -> new MultifarmControlBlockEntity(pos, state);
+			default -> new MultifarmBlockEntity(pos, state);
 		};
 	}
 

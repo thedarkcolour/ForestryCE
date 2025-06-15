@@ -1,11 +1,13 @@
 package forestry.factory.recipes;
 
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import forestry.api.recipes.ISqueezerContainerRecipe;
 import forestry.factory.features.FactoryRecipeTypes;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -17,7 +19,22 @@ import java.util.List;
 
 public class SqueezerContainerRecipe implements ISqueezerContainerRecipe {
 	public static final MapCodec<SqueezerContainerRecipe> CODEC = RecordCodecBuilder.mapCodec(inst -> inst.group(
+		ItemStack.CODEC.fieldOf("empty_container").forGetter(SqueezerContainerRecipe::getEmptyContainer),
+		Codec.INT.fieldOf("processing_time").forGetter(SqueezerContainerRecipe::getProcessingTime),
+		ItemStack.OPTIONAL_CODEC.fieldOf("remnants").forGetter(SqueezerContainerRecipe::getRemnants),
+		Codec.FLOAT.fieldOf("remnants_chance").forGetter(SqueezerContainerRecipe::getRemnantsChance)
 	).apply(inst, SqueezerContainerRecipe::new));
+	public static final StreamCodec<RegistryFriendlyByteBuf, SqueezerContainerRecipe> STREAM_CODEC = StreamCodec.composite(
+		ItemStack.STREAM_CODEC,
+		SqueezerContainerRecipe::getEmptyContainer,
+		ByteBufCodecs.VAR_INT,
+		SqueezerContainerRecipe::getProcessingTime,
+		ItemStack.OPTIONAL_STREAM_CODEC,
+		SqueezerContainerRecipe::getRemnants,
+		ByteBufCodecs.FLOAT,
+		SqueezerContainerRecipe::getRemnantsChance,
+		SqueezerContainerRecipe::new
+	);
 
 	private final ItemStack emptyContainer;
 	private final int processingTime;

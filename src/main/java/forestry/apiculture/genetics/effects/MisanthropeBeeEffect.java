@@ -1,7 +1,7 @@
 package forestry.apiculture.genetics.effects;
 
-import forestry.api.apiculture.BeeManager;
 import forestry.api.apiculture.IBeeHousing;
+import forestry.api.apiculture.IBeeProtection;
 import forestry.api.genetics.IEffectData;
 import forestry.api.genetics.IGenome;
 import forestry.core.features.CoreDamageTypes;
@@ -21,7 +21,7 @@ public class MisanthropeBeeEffect extends ThrottledBeeEffect {
 			int damage = 4;
 
 			// Entities are not attacked if they wear a full set of apiarist's armor.
-			int count = BeeManager.armorApiaristHelper.wearsItems(player, this, true);
+            int count = IBeeProtection.getBeeProtectionLevel(player, this, true);
 			damage -= count;
 			if (damage <= 0) {
 				continue;

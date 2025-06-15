@@ -12,7 +12,7 @@ package forestry.core.items;
 
 import forestry.api.ForestryCapabilities;
 import forestry.api.ForestryConstants;
-import forestry.arboriculture.capabilities.ArmorNaturalist;
+import forestry.arboriculture.capabilities.SpectacleVision;
 import forestry.core.config.Constants;
 import forestry.core.utils.ItemTooltipUtil;
 import net.minecraft.core.Direction;
@@ -50,7 +50,7 @@ public class ItemSpectacles extends ArmorItem {
 		return new ICapabilityProvider() {
 			@Override
 			public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction side) {
-				return cap == ForestryCapabilities.SPECTACLE_VISION ? LazyOptional.of(() -> ArmorNaturalist.INSTANCE).cast() : LazyOptional.empty();
+				return cap == ForestryCapabilities.SPECTACLE_VISION ? LazyOptional.of(() -> SpectacleVision.INSTANCE).cast() : LazyOptional.empty();
 			}
 		};
 	}

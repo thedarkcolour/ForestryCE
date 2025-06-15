@@ -1,6 +1,6 @@
 package forestry.api.apiculture;
 
-import forestry.api.apiculture.genetics.IBee;
+import forestry.api.apiculture.bee.IBee;
 import forestry.api.genetics.IBreedingTracker;
 import forestry.api.genetics.ISpeciesType;
 

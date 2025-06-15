@@ -5,7 +5,7 @@ import com.google.common.collect.Multimap;
 import forestry.api.ForestryConstants;
 import forestry.api.ForestryTags;
 import forestry.api.apiculture.ForestryBeeSpecies;
-import forestry.api.apiculture.genetics.BeeLifeStage;
+import forestry.api.apiculture.bee.BeeLifeStage;
 import forestry.api.arboriculture.ForestryTreeSpecies;
 import forestry.api.arboriculture.genetics.TreeLifeStage;
 import forestry.apiculture.features.ApicultureItems;

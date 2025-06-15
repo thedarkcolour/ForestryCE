@@ -1,6 +1,6 @@
 package forestry.arboriculture.worldgen;
 
-import forestry.api.arboriculture.ITreeSpecies;
+import forestry.api.arboriculture.genetics.ITreeSpecies;
 import forestry.api.genetics.IGenome;
 import forestry.arboriculture.blocks.BlockSapling;
 import forestry.core.utils.VecUtil;

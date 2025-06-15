@@ -1,7 +1,7 @@
 package forestry.apiimpl.client;
 
 import com.mojang.datafixers.util.Pair;
-import forestry.api.arboriculture.ITreeSpecies;
+import forestry.api.arboriculture.genetics.ITreeSpecies;
 import forestry.api.client.arboriculture.ILeafSprite;
 import forestry.api.client.arboriculture.ILeafTint;
 import forestry.api.client.arboriculture.ITreeClientManager;

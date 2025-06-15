@@ -1,9 +1,8 @@
 package forestry.arboriculture.blocks;
 
 import forestry.api.IForestryApi;
-import forestry.api.arboriculture.ICharcoalManager;
 import forestry.api.arboriculture.ICharcoalPileWall;
-import forestry.arboriculture.charcoal.CharcoalManager;
+import forestry.api.arboriculture.ITreeManager;
 import forestry.arboriculture.features.CharcoalBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -30,6 +29,8 @@ public class LogPileBlock extends Block {
 	public static final IntegerProperty AGE = BlockStateProperties.AGE_7;
 	public static final int RANDOM_TICK = 160;
 	public static final int TICK_RATE = 960;
+	public static final int CHARCOAL_AMOUNT_BASE = 8;
+	public static final int CHARCOAL_WALL_CHECK_RANGE = 16;
 
 	public LogPileBlock() {
 		super(Block.Properties.of().strength(1.5f).sound(SoundType.WOOD).noOcclusion());
@@ -100,7 +101,7 @@ public class LogPileBlock extends Block {
 				if (state.getValue(AGE) < 7) {
 					world.setBlock(pos, state.setValue(AGE, state.getValue(AGE) + 1), Block.UPDATE_CLIENTS);
 				} else {
-					BlockState ashState = CharcoalBlocks.ASH.setValue(BlockAsh.AMOUNT, Math.min(Math.round(CharcoalManager.charcoalAmountBase + getCharcoalAmount(world, pos)), 63));
+					BlockState ashState = CharcoalBlocks.ASH.setValue(BlockAsh.AMOUNT, Math.min(Math.round(CHARCOAL_AMOUNT_BASE + getCharcoalAmount(world, pos)), 63));
 					world.setBlock(pos, ashState, Block.UPDATE_CLIENTS);
 				}
 			}
@@ -155,16 +156,16 @@ public class LogPileBlock extends Block {
 		for (Direction facing : Direction.VALUES) {
 			charcoalAmount += getCharcoalFaceAmount(world, pos, facing);
 		}
-		return Mth.clamp(charcoalAmount / 6, CharcoalManager.charcoalAmountBase, 63.0F - CharcoalManager.charcoalAmountBase);
+		return Mth.clamp(charcoalAmount / 6, CHARCOAL_AMOUNT_BASE, 63.0F - CHARCOAL_AMOUNT_BASE);
 	}
 
 	private int getCharcoalFaceAmount(Level world, BlockPos pos, Direction facing) {
-		ICharcoalManager charcoalManager = IForestryApi.INSTANCE.getTreeManager().getWalls();
+		ITreeManager charcoalManager = IForestryApi.INSTANCE.getTreeManager();
 
 		BlockPos.MutableBlockPos testPos = pos.mutable();
 		testPos.move(facing);
 		int i = 0;
-		while (i < CharcoalManager.charcoalWallCheckRange && world.hasChunkAt(testPos) && !world.isEmptyBlock(testPos)) {
+		while (i < CHARCOAL_WALL_CHECK_RANGE && world.hasChunkAt(testPos) && !world.isEmptyBlock(testPos)) {
 			BlockState state = world.getBlockState(testPos);
 			ICharcoalPileWall wall = charcoalManager.getWall(state);
 			if (wall != null) {

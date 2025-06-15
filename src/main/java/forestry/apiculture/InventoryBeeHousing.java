@@ -1,7 +1,7 @@
 package forestry.apiculture;
 
 import forestry.api.apiculture.IBeeHousingInventory;
-import forestry.api.apiculture.genetics.BeeLifeStage;
+import forestry.api.apiculture.bee.BeeLifeStage;
 import forestry.api.genetics.ILifeStage;
 import forestry.core.inventory.InventoryAdapterRestricted;
 import forestry.core.utils.InventoryUtil;

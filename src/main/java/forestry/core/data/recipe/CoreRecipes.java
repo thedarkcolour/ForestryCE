@@ -1,42 +1,20 @@
 package forestry.core.data.recipe;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Stream;
-
 import forestry.api.ForestryConstants;
-import forestry.factory.recipes.FabricatorSmeltingRecipe;
-import forestry.factory.recipes.SqueezerRecipe;
-import forestry.factory.recipes.StillRecipe;
-import net.minecraft.data.recipes.RecipeCategory;
-import net.minecraft.data.recipes.RecipeOutput;
-import net.minecraft.data.recipes.ShapedRecipeBuilder;
-import net.minecraft.data.recipes.ShapelessRecipeBuilder;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.TagKey;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.level.ItemLike;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.level.material.Fluids;
-
 import forestry.api.ForestryTags;
-import forestry.api.circuits.ICircuit;
 import forestry.apiculture.blocks.NaturalistChestBlockType;
 import forestry.apiculture.features.ApicultureItems;
 import forestry.apiculture.items.EnumHoneyComb;
 import forestry.apiculture.items.EnumPollenCluster;
 import forestry.apiculture.items.EnumPropolis;
+import forestry.apiculture.recipes.HygroregulatorRecipe;
 import forestry.core.blocks.BlockTypeCoreTesr;
 import forestry.core.blocks.EnumResourceType;
+import forestry.core.circuits.CircuitBoard;
 import forestry.core.circuits.EnumCircuitBoardType;
-import forestry.core.circuits.ItemCircuitBoard;
 import forestry.core.config.Constants;
 import forestry.core.features.CoreBlocks;
+import forestry.core.features.CoreDataComponents;
 import forestry.core.features.CoreItems;
 import forestry.core.features.FluidsItems;
 import forestry.core.fluids.ForestryFluids;
@@ -45,6 +23,7 @@ import forestry.core.items.definitions.EnumCraftingMaterial;
 import forestry.core.items.definitions.EnumElectronTube;
 import forestry.energy.blocks.EngineBlockType;
 import forestry.energy.features.EnergyBlocks;
+import forestry.factory.recipes.*;
 import forestry.lepidopterology.features.LepidopterologyItems;
 import forestry.lepidopterology.recipe.ButterflyMatingRecipe;
 import forestry.mail.blocks.BlockTypeMail;
@@ -57,34 +36,57 @@ import forestry.modules.features.FeatureItem;
 import forestry.sorting.features.SortingBlocks;
 import forestry.storage.features.CrateItems;
 import forestry.worktable.features.WorktableBlocks;
-
 import it.unimi.dsi.fastutil.objects.ObjectIntPair;
+import net.minecraft.data.recipes.RecipeCategory;
+import net.minecraft.data.recipes.RecipeOutput;
+import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.data.recipes.ShapelessRecipeBuilder;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.FluidTags;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.CraftingRecipe;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.common.NeoForgeMod;
 import net.neoforged.neoforge.common.Tags;
+import net.neoforged.neoforge.common.crafting.DataComponentIngredient;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.FluidType;
-import net.neoforged.neoforge.fluids.FluidUtil;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
+import net.neoforged.neoforge.fluids.crafting.FluidIngredient;
+import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 import thedarkcolour.modkit.data.MKRecipeProvider;
+
+import javax.annotation.Nullable;
+import java.util.List;
+import java.util.Optional;
+import java.util.function.Consumer;
+import java.util.stream.Stream;
+
 import static thedarkcolour.modkit.data.MKRecipeProvider.ingredient;
 
 public class CoreRecipes {
-	public static ItemStack getContainer(EnumContainerType type, Fluid fluid) {
+	// todo it might be cool to have a custom ingredient that checks for the fluid capability, so stuff like Thermal tanks could be used
+	static Ingredient getContainer(EnumContainerType type, Fluid fluid) {
 		ItemStack container = FluidsItems.CONTAINERS.stack(type);
-		Optional<IFluidHandlerItem> fluidHandlerCap = FluidUtil.getFluidHandler(container);
-		return fluidHandlerCap.map(handler -> {
-			handler.fill(new FluidStack(fluid, Integer.MAX_VALUE), IFluidHandler.FluidAction.EXECUTE);
-			return container;
-		}).orElse(ItemStack.EMPTY);
+		IFluidHandlerItem fluidHandlerCap = container.getCapability(Capabilities.FluidHandler.ITEM);
+		fluidHandlerCap.fill(new FluidStack(fluid, Integer.MAX_VALUE), IFluidHandler.FluidAction.EXECUTE);
+		return DataComponentIngredient.of(false, container);
 	}
 
-	public static void addRecipes(RecipeOutput consumer, MKRecipeProvider recipes) {
+	public static void addRecipes(RecipeOutput output, MKRecipeProvider recipes) {
 		// Vanilla recipe types
 		ArboricultureRecipes.registerArboricultureRecipes(output, recipes);
 		ApicultureRecipes.registerApicultureRecipes(recipes);
 		ApicultureRecipes.registerFoodRecipes(recipes);
-		StorageRecipes.registerBackpackRecipes(recipes);
+		StorageRecipes.registerBackpackRecipes(output, recipes);
 		ArboricultureRecipes.registerCharcoalRecipes(recipes);
 		registerCoreRecipes(recipes);
 		CultivationRecipes.registerCultivationRecipes(recipes);
@@ -98,16 +100,16 @@ public class CoreRecipes {
 		registerEnergyRecipes(recipes);
 
 		// Forestry recipe types
-		registerCarpenter(consumer, recipes);
-		registerCentrifuge(consumer);
-		registerFabricator(consumer);
-		registerFabricatorSmelting(consumer);
-		registerFermenter(consumer);
-		registerHygroregulator(consumer);
-		registerMoistener(consumer);
-		registerSqueezerContainer(consumer);
-		registerSqueezer(consumer);
-		registerStill(consumer);
+		registerCarpenter(output, recipes);
+		registerCentrifuge(output);
+		FactoryRecipes.registerFabricator(output, recipes);
+		FactoryRecipes.registerFabricatorSmelting(output);
+		registerFermenter(output);
+		registerHygroregulator(output);
+		CultivationRecipes.registerMoistener(output);
+		registerSqueezerContainer(output);
+		registerSqueezer(output);
+		registerStill(output);
 	}
 
 	private static void registerCoreRecipes(MKRecipeProvider recipes) {
@@ -200,62 +202,6 @@ public class CoreRecipes {
 			recipe.pattern(" # ");
 		});
 
-		// Manure and Fertilizer
-		recipes.shapedCrafting("compost_wheat", RecipeCategory.MISC, CoreItems.COMPOST, 4, recipe -> {
-			recipe.define('#', Blocks.DIRT);
-			recipe.define('X', Tags.Items.CROPS_WHEAT);
-			recipe.pattern(" X ");
-			recipe.pattern("X#X");
-			recipe.pattern(" X ");
-		});
-
-		recipes.shapedCrafting("compost_ash", RecipeCategory.MISC, CoreItems.COMPOST, 1, recipe -> {
-			recipe.define('#', Blocks.DIRT);
-			recipe.define('X', ForestryTags.Items.DUSTS_ASH);
-			recipe.pattern(" X ");
-			recipe.pattern("X#X");
-			recipe.pattern(" X ");
-		});
-
-		recipes.shapedCrafting("fertilizer_apatite", RecipeCategory.MISC, CoreItems.FERTILIZER_COMPOUND, 8, recipe -> {
-			recipe.define('#', ItemTags.SAND);
-			recipe.define('X', ForestryTags.Items.GEMS_APATITE);
-			recipe.pattern(" # ");
-			recipe.pattern(" X ");
-			recipe.pattern(" # ");
-		});
-
-		recipes.shapedCrafting("fertilizer_ash", RecipeCategory.MISC, CoreItems.FERTILIZER_COMPOUND, 16, recipe -> {
-			recipe.define('#', ForestryTags.Items.DUSTS_ASH);
-			recipe.define('X', ForestryTags.Items.GEMS_APATITE);
-			recipe.pattern("###");
-			recipe.pattern("#X#");
-			recipe.pattern("###");
-		});
-
-		// Humus
-		recipes.shapedCrafting("humus_compost", RecipeCategory.BUILDING_BLOCKS, CoreBlocks.HUMUS, 8, recipe -> {
-			recipe.define('#', Blocks.DIRT);
-			recipe.define('X', CoreItems.COMPOST);
-			recipe.pattern("###");
-			recipe.pattern("#X#");
-			recipe.pattern("###");
-		});
-
-		recipes.shapedCrafting("humus_fertilizer", RecipeCategory.BUILDING_BLOCKS, CoreBlocks.HUMUS, 8, recipe -> {
-			recipe.define('#', Blocks.DIRT);
-			recipe.define('X', CoreItems.FERTILIZER_COMPOUND);
-			recipe.pattern("###");
-			recipe.pattern("#X#");
-			recipe.pattern("###");
-		});
-
-		// Bog earth
-		bogRecipe(recipes, 8, getContainer(EnumContainerType.CAN, Fluids.WATER), "can");
-		bogRecipe(recipes, 8, getContainer(EnumContainerType.CAPSULE, Fluids.WATER), "wax_capsule");
-		bogRecipe(recipes, 8, getContainer(EnumContainerType.REFRACTORY, Fluids.WATER), "refractory");
-		bogRecipe(recipes, 6, new ItemStack(Items.WATER_BUCKET), "bucket");
-
 		recipes.shapedCrafting("can", RecipeCategory.MISC, FluidsItems.CONTAINERS.get(EnumContainerType.CAN), 12, recipe -> {
 			recipe.define('#', ForestryTags.Items.INGOTS_TIN);
 			recipe.pattern(" # ");
@@ -307,17 +253,6 @@ public class CoreRecipes {
 		recipes.shapelessCrafting("foresters_manual_butterfly", RecipeCategory.MISC, CoreItems.FORESTERS_MANUAL, 1, Items.BOOK, LepidopterologyItems.BUTTERFLY_GE);
 	}
 
-	private static void bogRecipe(MKRecipeProvider recipes, int amount, ItemStack container, String name) {
-		recipes.shapedCrafting("bog_earth_" + name, RecipeCategory.BUILDING_BLOCKS, CoreBlocks.BOG_EARTH, amount, recipe -> {
-			recipe.define('#', Blocks.DIRT);
-			recipe.define('X', StrictNBTIngredient.of(container));
-			recipe.define('Y', ItemTags.SAND);
-			recipe.pattern("#Y#");
-			recipe.pattern("YXY");
-			recipe.pattern("#Y#");
-		});
-	}
-
 	private static void gear(MKRecipeProvider recipes, ItemLike gear, TagKey<Item> ingot) {
 		// In old versions, these gears were upgrades of BuildCraft's stone gears (which are tiered)
 		// Might bring this back if anything comes out of that BuildCraft port.
@@ -334,7 +269,7 @@ public class CoreRecipes {
 	private static void registerFluidsRecipes(MKRecipeProvider recipes) {
 		for (EnumContainerType containerType : EnumContainerType.values()) {
 			recipes.shapedCrafting("cake_" + containerType.getSerializedName(), RecipeCategory.FOOD, Items.CAKE, recipe -> {
-				recipe.define('A', StrictNBTIngredient.of(getContainer(containerType, NeoForgeMod.MILK.get())));
+				recipe.define('A', getContainer(containerType, NeoForgeMod.MILK.get()));
 				recipe.define('B', Items.SUGAR);
 				recipe.define('C', Items.WHEAT);
 				recipe.define('E', Items.EGG);
@@ -359,7 +294,7 @@ public class CoreRecipes {
 
 	private static void registerMailRecipes(MKRecipeProvider recipes) {
 		recipes.shapelessCrafting(RecipeCategory.MISC, MailItems.CATALOGUE, 1, Items.BOOK, ForestryTags.Items.STAMPS);
-		Ingredient sealant = Ingredient.fromValues(Stream.of(new Ingredient.TagValue(ForestryTags.Items.PROPOLIS), new Ingredient.TagValue(Tags.Items.SLIMEBALLS)));
+		Ingredient sealant = Ingredient.fromValues(Stream.of(new Ingredient.TagValue(ForestryTags.Items.PROPOLIS), new Ingredient.TagValue(Tags.Items.SLIME_BALLS)));
 		recipes.shapelessCrafting(RecipeCategory.MISC, MailItems.LETTERS.get(ItemLetter.Size.EMPTY, ItemLetter.State.FRESH), 1, Items.PAPER, sealant);
 
 		recipes.shapedCrafting(RecipeCategory.MISC, MailBlocks.BASE.get(BlockTypeMail.MAILBOX).block(), recipe -> {
@@ -384,7 +319,7 @@ public class CoreRecipes {
 			recipe.define('X', Tags.Items.CHESTS_WOODEN);
 			recipe.define('Y', CoreItems.STURDY_CASING);
 			recipe.define('Z', CoreItems.ELECTRON_TUBES.get(EnumElectronTube.IRON));
-			recipe.define('W', StrictNBTIngredient.of(ItemCircuitBoard.createCircuitboard(EnumCircuitBoardType.REFINED, null, new ICircuit[]{})));
+			recipe.define('W', DataComponentIngredient.of(false, CoreDataComponents.CIRCUIT_BOARD.value(), CircuitBoard.empty(EnumCircuitBoardType.REFINED), CoreItems.CIRCUITBOARDS.item(EnumCircuitBoardType.REFINED)));
 			recipe.pattern("Z#Z");
 			recipe.pattern("#Y#");
 			recipe.pattern("XWX");
@@ -471,36 +406,23 @@ public class CoreRecipes {
 	}
 
 	private static void registerCarpenter(RecipeOutput output, MKRecipeProvider recipes) {
-		carpenterRecipe(recipes, "impregnated_casing", 50, ForestryFluids.SEED_OIL.ingredient(250), Ingredient.EMPTY, );
-		new CarpenterRecipeBuilder()
-			.setPackagingTime(50)
-			.setLiquid(ForestryFluids.SEED_OIL.ingredient(250))
-			.setBox(Ingredient.EMPTY)
-			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CoreItems.IMPREGNATED_CASING)
-				.pattern("###")
-				.pattern("# #")
-				.pattern("###")
-				.define('#', ItemTags.LOGS))
-			.build(output, id("carpenter", "impregnated_casing"));
-		new CarpenterRecipeBuilder()
-			.setPackagingTime(50)
-			.setLiquid(ForestryFluids.SEED_OIL.ingredient(500))
-			.setBox(Ingredient.EMPTY)
-			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CoreBlocks.BASE.get(BlockTypeCoreTesr.ESCRITOIRE).item())
-				.pattern("#  ")
-				.pattern("###")
-				.pattern("# #")
-				.define('#', ItemTags.PLANKS))
-			.build(output, id("carpenter", "escritoire"));
-		new CarpenterRecipeBuilder()
-			.setPackagingTime(50)
-			.setLiquid(ForestryFluids.SEED_OIL.getFluid(100))
-			.setBox(Ingredient.EMPTY)
-			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CoreItems.CRAFTING_MATERIALS.item(EnumCraftingMaterial.IMPREGNATED_STICK), 2)
-				.pattern("#")
-				.pattern("#")
-				.define('#', ItemTags.LOGS))
-			.build(output, id("carpenter", "impregnated_stick"));
+		carpenter(output, recipes, 50, ForestryFluids.SEED_OIL.ingredient(250), Ingredient.EMPTY, CoreItems.IMPREGNATED_CASING, 1, recipe -> {
+			recipe.pattern("###");
+			recipe.pattern("# #");
+			recipe.pattern("###");
+			recipe.define('#', ItemTags.LOGS);
+		});
+		carpenter(output, recipes, 50, ForestryFluids.SEED_OIL.ingredient(250), Ingredient.EMPTY, CoreBlocks.BASE.get(BlockTypeCoreTesr.ESCRITOIRE).item(), 1, recipe -> {
+			recipe.pattern("#  ");
+			recipe.pattern("###");
+			recipe.pattern("# #");
+			recipe.define('#', ItemTags.PLANKS);
+		});
+		carpenter(output, recipes, 50, ForestryFluids.SEED_OIL.ingredient(100), Ingredient.EMPTY, CoreItems.CRAFTING_MATERIALS.item(EnumCraftingMaterial.IMPREGNATED_STICK), 2, recipe -> {
+			recipe.pattern("#");
+			recipe.pattern("#");
+			recipe.define('#', ItemTags.LOGS);
+		});
 		new CarpenterRecipeBuilder()
 			.setLiquid(new FluidStack(Fluids.WATER, 250))
 			.setBox(Ingredient.EMPTY)
@@ -681,10 +603,10 @@ public class CoreRecipes {
 				.build(output, id("carpenter", item.getName()));
 		}
 
-		ItemStack basic = ItemCircuitBoard.createCircuitboard(EnumCircuitBoardType.BASIC, null, new ICircuit[]{});
-		ItemStack enhanced = ItemCircuitBoard.createCircuitboard(EnumCircuitBoardType.ENHANCED, null, new ICircuit[]{});
-		ItemStack refined = ItemCircuitBoard.createCircuitboard(EnumCircuitBoardType.REFINED, null, new ICircuit[]{});
-		ItemStack intricate = ItemCircuitBoard.createCircuitboard(EnumCircuitBoardType.INTRICATE, null, new ICircuit[]{});
+		ItemStack basic = CoreItems.CIRCUITBOARDS.stack(EnumCircuitBoardType.BASIC);
+		ItemStack enhanced = CoreItems.CIRCUITBOARDS.stack(EnumCircuitBoardType.ENHANCED);
+		ItemStack refined = CoreItems.CIRCUITBOARDS.stack(EnumCircuitBoardType.REFINED);
+		ItemStack intricate = CoreItems.CIRCUITBOARDS.stack(EnumCircuitBoardType.INTRICATE);
 
 		new CarpenterRecipeBuilder()
 			.setPackagingTime(20)
@@ -765,6 +687,22 @@ public class CoreRecipes {
 				.pattern("###")
 				.define('#', CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.WOOD_PULP)))
 			.build(output, id("carpenter", "letter_pulp"));
+	}
+
+	private static void carpenter(RecipeOutput output, MKRecipeProvider recipes, int packingTime, @Nullable SizedFluidIngredient inputFluid, Ingredient box, ItemLike result, int resultCount, Consumer<ShapedRecipeBuilder> pattern) {
+		recipes.pushRecipeOutput(
+			// the recipe is passed in by newOutput, letting us obtain the finished recipe instance from ModKit
+			(id, recipe) -> output.accept(id("carpenter", MKRecipeProvider.path(result)), new CarpenterRecipe(packingTime, Optional.ofNullable(inputFluid), box, (CraftingRecipe) recipe), null),
+			// create a shaped recipe with the new output, which ModKit will pass into the above function
+			newOutput -> recipes.shapedCrafting(RecipeCategory.MISC, result, resultCount, pattern)
+		);
+	}
+
+	private static void carpenterShapeless(RecipeOutput output, MKRecipeProvider recipes, int packingTime, @Nullable SizedFluidIngredient inputFluid, Ingredient box, ItemLike result, int resultCount, Consumer<MKRecipeProvider> shapeless) {
+		recipes.pushRecipeOutput(
+			(id, recipe) -> output.accept(id("carpenter", MKRecipeProvider.path(result)), new CarpenterRecipe(packingTime, Optional.ofNullable(inputFluid), box, (CraftingRecipe) recipe), null),
+			newOutput -> shapeless.accept(recipes)
+		);
 	}
 
 	private static void registerCentrifuge(RecipeOutput consumer) {
@@ -887,240 +825,40 @@ public class CoreRecipes {
 			.build(consumer, id("centrifuge", "comb_to_wax"));
 	}
 
-	private static void registerFabricator(RecipeOutput consumer) {
-		FluidStack liquidGlass = ForestryFluids.GLASS.getFluid(500);
-
-		new FabricatorRecipeBuilder()
-			.setPlan(Ingredient.EMPTY)
-			.setMolten(liquidGlass)
-			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CoreItems.ELECTRON_TUBES.get(EnumElectronTube.IRON), 4)
-				.pattern(" X ")
-				.pattern("#X#")
-				.pattern("XXX")
-				.define('#', Tags.Items.DUSTS_REDSTONE)
-				.define('X', Tags.Items.INGOTS_IRON))
-			.build(consumer, id("fabricator", "electron_tubes", "iron"));
-		new FabricatorRecipeBuilder()
-			.setPlan(Ingredient.EMPTY)
-			.setMolten(liquidGlass)
-			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CoreItems.ELECTRON_TUBES.get(EnumElectronTube.GOLD), 4)
-				.pattern(" X ")
-				.pattern("#X#")
-				.pattern("XXX")
-				.define('#', Tags.Items.DUSTS_REDSTONE)
-				.define('X', Tags.Items.INGOTS_GOLD))
-			.build(consumer, id("fabricator", "electron_tubes", "gold"));
-		new FabricatorRecipeBuilder()
-			.setPlan(Ingredient.EMPTY)
-			.setMolten(liquidGlass)
-			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CoreItems.ELECTRON_TUBES.get(EnumElectronTube.DIAMOND), 4)
-				.pattern(" X ")
-				.pattern("#X#")
-				.pattern("XXX")
-				.define('#', Tags.Items.DUSTS_REDSTONE)
-				.define('X', Tags.Items.GEMS_DIAMOND))
-			.build(consumer, id("fabricator", "electron_tubes", "diamond"));
-		new FabricatorRecipeBuilder()
-			.setPlan(Ingredient.EMPTY)
-			.setMolten(liquidGlass)
-			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CoreItems.ELECTRON_TUBES.get(EnumElectronTube.OBSIDIAN), 4)
-				.pattern(" X ")
-				.pattern("#X#")
-				.pattern("XXX")
-				.define('#', Tags.Items.DUSTS_REDSTONE)
-				.define('X', Items.OBSIDIAN))
-			.build(consumer, id("fabricator", "electron_tubes", "obsidian"));
-		new FabricatorRecipeBuilder()
-			.setPlan(Ingredient.EMPTY)
-			.setMolten(liquidGlass)
-			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CoreItems.ELECTRON_TUBES.get(EnumElectronTube.BLAZE), 4)
-				.pattern(" X ")
-				.pattern("#X#")
-				.pattern("XXX")
-				.define('#', Tags.Items.DUSTS_REDSTONE)
-				.define('X', Items.BLAZE_POWDER))
-			.build(consumer, id("fabricator", "electron_tubes", "blaze"));
-		new FabricatorRecipeBuilder()
-			.setPlan(Ingredient.EMPTY)
-			.setMolten(liquidGlass)
-			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CoreItems.ELECTRON_TUBES.get(EnumElectronTube.EMERALD), 4)
-				.pattern(" X ")
-				.pattern("#X#")
-				.pattern("XXX")
-				.define('#', Tags.Items.DUSTS_REDSTONE)
-				.define('X', Tags.Items.GEMS_EMERALD))
-			.build(consumer, id("fabricator", "electron_tubes", "emerald"));
-		new FabricatorRecipeBuilder()
-			.setPlan(Ingredient.EMPTY)
-			.setMolten(liquidGlass)
-			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CoreItems.ELECTRON_TUBES.get(EnumElectronTube.LAPIS), 4)
-				.pattern(" X ")
-				.pattern("#X#")
-				.pattern("XXX")
-				.define('#', Tags.Items.DUSTS_REDSTONE)
-				.define('X', Tags.Items.GEMS_LAPIS))
-			.build(consumer, id("fabricator", "electron_tubes", "lapis"));
-		new FabricatorRecipeBuilder()
-			.setPlan(Ingredient.EMPTY)
-			.setMolten(liquidGlass)
-			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CoreItems.ELECTRON_TUBES.get(EnumElectronTube.ENDER), 4)
-				.pattern(" X ")
-				.pattern("#X#")
-				.pattern("XXX")
-				.define('#', Items.ENDER_EYE)
-				.define('X', Items.END_STONE))
-			.build(consumer, id("fabricator", "electron_tubes", "ender"));
-		new FabricatorRecipeBuilder()
-			.setPlan(Ingredient.EMPTY)
-			.setMolten(liquidGlass)
-			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CoreItems.ELECTRON_TUBES.get(EnumElectronTube.COPPER), 4)
-				.pattern(" X ")
-				.pattern("#X#")
-				.pattern("XXX")
-				.define('#', Tags.Items.DUSTS_REDSTONE)
-				.define('X', Items.COPPER_INGOT))
-			.build(consumer, id("fabricator", "electron_tubes", "copper"));
-		new FabricatorRecipeBuilder()
-			.setPlan(Ingredient.EMPTY)
-			.setMolten(liquidGlass)
-			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CoreItems.ELECTRON_TUBES.get(EnumElectronTube.TIN), 4)
-				.pattern(" X ")
-				.pattern("#X#")
-				.pattern("XXX")
-				.define('#', Tags.Items.DUSTS_REDSTONE)
-				.define('X', ForestryTags.Items.INGOTS_TIN))
-			.build(consumer, id("fabricator", "electron_tubes", "tin"));
-		new FabricatorRecipeBuilder()
-			.setPlan(Ingredient.EMPTY)
-			.setMolten(liquidGlass)
-			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CoreItems.ELECTRON_TUBES.get(EnumElectronTube.BRONZE), 4)
-				.pattern(" X ")
-				.pattern("#X#")
-				.pattern("XXX")
-				.define('#', Tags.Items.DUSTS_REDSTONE)
-				.define('X', ForestryTags.Items.INGOTS_BRONZE))
-			.build(consumer, id("fabricator", "electron_tubes", "bronze"));
-		new FabricatorRecipeBuilder()
-			.setPlan(Ingredient.EMPTY)
-			.setMolten(liquidGlass)
-			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CoreItems.ELECTRON_TUBES.get(EnumElectronTube.APATITE), 4)
-				.pattern(" X ")
-				.pattern("#X#")
-				.pattern("XXX")
-				.define('#', Tags.Items.DUSTS_REDSTONE)
-				.define('X', ForestryTags.Items.GEMS_APATITE))
-			.build(consumer, id("fabricator", "electron_tubes", "apatite"));
-		new FabricatorRecipeBuilder()
-			.setPlan(Ingredient.EMPTY)
-			.setMolten(liquidGlass)
-			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CoreItems.FLEXIBLE_CASING)
-				.pattern("#E#")
-				.pattern("B B")
-				.pattern("#E#")
-				.define('#', ForestryTags.Items.INGOTS_BRONZE)
-				.define('B', Tags.Items.SLIMEBALLS)
-				.define('E', Tags.Items.GEMS_EMERALD))
-			.build(consumer, id("fabricator", "electron_tubes", "flexible_casing"));
-	}
-
-	private static void registerFabricatorSmelting(RecipeOutput consumer) {
-		FluidStack liquidGlassBucket = ForestryFluids.GLASS.getFluid(FluidType.BUCKET_VOLUME);
-		FluidStack liquidGlassX4 = ForestryFluids.GLASS.getFluid(FluidType.BUCKET_VOLUME * 4);
-		FluidStack liquidGlass375 = ForestryFluids.GLASS.getFluid(375);
-
-		fabricatorSmelting(consumer, "glass", Ingredient.of(Tags.Items.GLASS_BLOCKS_CHEAP), liquidGlassBucket, 1000);
-		fabricatorSmelting(consumer, "glass_pane", Ingredient.of(Tags.Items.GLASS_PANES), liquidGlass375, 1000);
-		fabricatorSmelting(consumer, "sand", Ingredient.of(Tags.Items.SANDS), liquidGlassBucket, 3000);
-		fabricatorSmelting(consumer, "sandstone", Ingredient.of(Tags.Items.SANDSTONE_BLOCKS), liquidGlassX4, 4800);
-	}
-
-	private static void fabricatorSmelting(RecipeOutput output, String id, Ingredient input, FluidStack result, int meltingPoint) {
-		output.accept(id("fabricator_smelting", id), new FabricatorSmeltingRecipe(input, result, meltingPoint), null);
-	}
-
-	private static void registerFermenter(RecipeOutput consumer) {
+	private static void registerFermenter(RecipeOutput output) {
 		// Apiculture
-		new FermenterRecipeBuilder()
-			.setResource(Ingredient.of(ApicultureItems.HONEYDEW))
-			.setFermentationValue(500)
-			.setOutput(ForestryFluids.SHORT_MEAD.getFluid())
-			.setFluidResource(ForestryFluids.HONEY.getFluid(1))
-			.build(consumer, id("fermenter", "honeydew"));
+		fermenter(output, "honeydew", Ingredient.of(ApicultureItems.HONEYDEW), FluidIngredient.tag(Tags.Fluids.HONEY), 500, 1f, ForestryFluids.HONEY.getFluid());
 		// Arboriculture
-		addFermenterRecipes(consumer, "sapling", Ingredient.of(ItemTags.SAPLINGS), 250, ForestryFluids.BIOMASS);
+		addFermenterRecipes(output, "sapling", Ingredient.of(ItemTags.SAPLINGS), 250);
 		// Factory
-		addFermenterRecipes(consumer, "cactus", Ingredient.of(Items.CACTUS), 50, ForestryFluids.BIOMASS);
-		addFermenterRecipes(consumer, "wheat", Ingredient.of(Tags.Items.CROPS_WHEAT), 50, ForestryFluids.BIOMASS);
-		addFermenterRecipes(consumer, "potato", Ingredient.of(Tags.Items.CROPS_POTATO), 100, ForestryFluids.BIOMASS);
-		addFermenterRecipes(consumer, "sugar_cane", Ingredient.of(Items.SUGAR_CANE), 50, ForestryFluids.BIOMASS);
-		addFermenterRecipes(consumer, "mushroom", Ingredient.of(Tags.Items.MUSHROOMS), 50, ForestryFluids.BIOMASS);
+		addFermenterRecipes(output, "cactus", Ingredient.of(Items.CACTUS), 50);
+		addFermenterRecipes(output, "wheat", Ingredient.of(Tags.Items.CROPS_WHEAT), 50);
+		addFermenterRecipes(output, "potato", Ingredient.of(Tags.Items.CROPS_POTATO), 100);
+		addFermenterRecipes(output, "sugar_cane", Ingredient.of(Items.SUGAR_CANE), 50);
+		addFermenterRecipes(output, "mushroom", Ingredient.of(Tags.Items.MUSHROOMS), 50);
 	}
 
-	private static void addFermenterRecipes(RecipeOutput writer, String name, Ingredient resource, int fermentationValue, ForestryFluids output) {
-		Fluid outputFluid = output.getFluid();
+	private static void addFermenterRecipes(RecipeOutput output, String name, Ingredient input, int fermentationValue) {
+		Fluid outputFluid = ForestryFluids.BIOMASS.getFluid();
 
-		new FermenterRecipeBuilder()
-			.setResource(resource)
-			.setFermentationValue(fermentationValue)
-			.setFluidResource(new FluidStack(Fluids.WATER, 1))
-			.setOutput(outputFluid)
-			.build(writer, id("fermenter", name));
-		new FermenterRecipeBuilder()
-			.setResource(resource)
-			.setFermentationValue(fermentationValue)
-			.setFluidResource(ForestryFluids.JUICE.getFluid(1))
-			.setOutput(outputFluid)
-			.setModifier(1.5f)
-			.build(writer, id("fermenter", name + "_juice"));
-		new FermenterRecipeBuilder()
-			.setResource(resource)
-			.setFermentationValue(fermentationValue)
-			.setFluidResource(ForestryFluids.HONEY.getFluid(1))
-			.setOutput(outputFluid)
-			.setModifier(1.5f)
-			.build(writer, id("fermenter", name + "_honey"));
+		fermenter(output, name, input, FluidIngredient.tag(FluidTags.WATER), fermentationValue, 1f, outputFluid);
+		// todo Juice tag?
+		fermenter(output, name + "_juice", input, FluidIngredient.single(ForestryFluids.JUICE.getFluid()), fermentationValue, 1.5f, outputFluid);
+		fermenter(output, name + "_honey", input, FluidIngredient.tag(Tags.Fluids.HONEY), fermentationValue, 1.5f, outputFluid);
 	}
 
-	private static void registerHygroregulator(RecipeOutput consumer) {
-		new HygroregulatorRecipeBuilder()
-			.setLiquid(new FluidStack(Fluids.WATER, 1))
-			.setTemperatureSteps(-1)
-			.setHumiditySteps(1)
-			.build(consumer, id("hygroregulator", "water"));
-		new HygroregulatorRecipeBuilder()
-			.setLiquid(new FluidStack(Fluids.LAVA, 1))
-			.setTemperatureSteps(1)
-			.setHumiditySteps(-1)
-			.build(consumer, id("hygroregulator", "lava"));
-		new HygroregulatorRecipeBuilder()
-			.setLiquid(ForestryFluids.ICE.getFluid(1))
-			.setRetainTime(10)
-			.setTemperatureSteps(-2)
-			.setHumiditySteps(2)
-			.build(consumer, id("hygroregulator", "ice"));
+	private static void fermenter(RecipeOutput output, String name, Ingredient input, FluidIngredient fluidInput, int fermentationValue, float modifier, Fluid result) {
+		output.accept(id("fermenter", name), new FermenterRecipe(input, fluidInput, fermentationValue, modifier, result), null);
 	}
 
-	private static void registerMoistener(RecipeOutput consumer) {
-		new MoistenerRecipeBuilder()
-			.setResource(Ingredient.of(Items.WHEAT_SEEDS))
-			.setProduct(new ItemStack(Items.MYCELIUM))
-			.setTimePerItem(5000)
-			.build(consumer, id("moistener", "mycelium"));
-		new MoistenerRecipeBuilder()
-			.setResource(Ingredient.of(Items.COBBLESTONE))
-			.setProduct(new ItemStack(Items.MOSSY_COBBLESTONE))
-			.setTimePerItem(20000)
-			.build(consumer, id("moistener", "mossy_cobblestone"));
-		new MoistenerRecipeBuilder()
-			.setResource(Ingredient.of(Items.STONE_BRICKS))
-			.setProduct(new ItemStack(Items.MOSSY_STONE_BRICKS))
-			.setTimePerItem(20000)
-			.build(consumer, id("moistener", "mossy_stone_bricks"));
-		new MoistenerRecipeBuilder()
-			.setResource(Ingredient.of(Items.SPRUCE_LEAVES))
-			.setProduct(new ItemStack(Items.PODZOL))
-			.setTimePerItem(5000)
-			.build(consumer, id("moistener", "podzol"));
+	private static void registerHygroregulator(RecipeOutput output) {
+		hygroregulator(output, "water", FluidIngredient.tag(FluidTags.WATER), 0, -1, 1);
+		hygroregulator(output, "lava", FluidIngredient.tag(FluidTags.LAVA), 0, 1, -1);
+		hygroregulator(output, "ice", FluidIngredient.single(ForestryFluids.ICE.getFluid()), 10, -2, 2);
+	}
+
+	private static void hygroregulator(RecipeOutput output, String name, FluidIngredient input, int retainTime, int temperatureSteps, int humiditySteps) {
+		output.accept(id("hygroregulator", name), new HygroregulatorRecipe(new SizedFluidIngredient(input, 1), retainTime, (byte) temperatureSteps, (byte) humiditySteps), null);
 	}
 
 	private static void registerSqueezerContainer(RecipeOutput consumer) {

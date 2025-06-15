@@ -1,7 +1,7 @@
 package forestry.apiculture;
 
-import forestry.api.apiculture.IActivityType;
-import forestry.api.apiculture.genetics.IBee;
+import forestry.api.apiculture.bee.IActivityType;
+import forestry.api.apiculture.bee.IBee;
 import forestry.api.genetics.ForestrySpeciesTypes;
 import forestry.api.genetics.IIndividual;
 import forestry.api.genetics.alleles.BeeChromosomes;

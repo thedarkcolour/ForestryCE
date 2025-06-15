@@ -3,7 +3,7 @@ package forestry.apiculture.genetics.effects;
 import forestry.api.IForestryApi;
 import forestry.api.apiculture.IBeeHousing;
 import forestry.api.apiculture.IBeeModifier;
-import forestry.api.apiculture.genetics.IBeeEffect;
+import forestry.api.apiculture.bee.IBeeEffect;
 import forestry.api.genetics.IEffectData;
 import forestry.api.genetics.IGenome;
 import forestry.apiculture.genetics.Bee;

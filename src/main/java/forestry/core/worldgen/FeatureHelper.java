@@ -1,6 +1,6 @@
 package forestry.core.worldgen;
 
-import forestry.api.arboriculture.ITreeSpecies;
+import forestry.api.arboriculture.genetics.ITreeSpecies;
 import forestry.arboriculture.worldgen.ITreeBlockType;
 import forestry.arboriculture.worldgen.TreeBlockType;
 import forestry.arboriculture.worldgen.TreeContour;
