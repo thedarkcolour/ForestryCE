@@ -1,18 +1,7 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.core.gui;
 
 import forestry.api.core.IToolPipette;
 import forestry.api.modules.IForestryPacketServer;
-import forestry.core.fluids.StandardTank;
 import forestry.core.network.packets.PacketPipetteClick;
 import forestry.core.tiles.ILiquidTankTile;
 import net.minecraft.server.level.ServerPlayer;
@@ -22,14 +11,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidType;
-import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fluids.IFluidTank;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandlerItem;
-import net.minecraftforge.fluids.capability.templates.FluidTank;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidType;
+import net.neoforged.neoforge.fluids.IFluidTank;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
+import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import javax.annotation.Nullable;
@@ -46,15 +34,15 @@ public class ContainerLiquidTanksHelper<T extends BlockEntity & ILiquidTankTile>
 	public void handlePipetteClickClient(int slot, Player player) {
 		ItemStack itemstack = player.containerMenu.getCarried();
 		if (itemstack.getItem() instanceof IToolPipette) {
-            IForestryPacketServer packet = new PacketPipetteClick(slot);
-            PacketDistributor.sendToServer(packet);
-        }
+			IForestryPacketServer packet = new PacketPipetteClick(slot);
+			PacketDistributor.sendToServer(packet);
+		}
 	}
 
 	@Override
 	public void handlePipetteClick(int slot, ServerPlayer player) {
-		ItemStack itemstack = player.containerMenu.getCarried();
-		Item held = itemstack.getItem();
+		ItemStack stack = player.containerMenu.getCarried();
+		Item held = stack.getItem();
 		if (!(held instanceof IToolPipette pipette)) {
 			return;
 		}
@@ -62,22 +50,16 @@ public class ContainerLiquidTanksHelper<T extends BlockEntity & ILiquidTankTile>
 		IFluidTank tank = this.tile.getTankManager().getTank(slot);
 		int liquidAmount = tank.getFluidAmount();
 
-		LazyOptional<IFluidHandlerItem> fluidCap = FluidUtil.getFluidHandler(itemstack);
-		fluidCap.ifPresent(fluidHandlerItem -> {
-			if (pipette.canPipette(itemstack) && liquidAmount > 0) {
-				if (tank instanceof StandardTank standard) {
-					FluidStack fillAmount = standard.drainInternal(FluidType.BUCKET_VOLUME, IFluidHandler.FluidAction.SIMULATE);
-					int filled = fluidHandlerItem.fill(fillAmount, IFluidHandler.FluidAction.EXECUTE);
-					tank.drain(filled, IFluidHandler.FluidAction.EXECUTE);
-					player.inventoryMenu.setCarried(fluidHandlerItem.getContainer());
-					player.inventoryMenu.broadcastChanges();
-				} else {//TODO: Test if this works
-					FluidStack fillAmount = tank.drain(FluidType.BUCKET_VOLUME, IFluidHandler.FluidAction.EXECUTE);
-					int filled = fluidHandlerItem.fill(fillAmount, IFluidHandler.FluidAction.EXECUTE);
-					tank.drain(filled, IFluidHandler.FluidAction.EXECUTE);
-					player.containerMenu.setCarried(fluidHandlerItem.getContainer());
-					player.containerMenu.broadcastChanges();
-				}
+		IFluidHandlerItem fluidHandlerItem = stack.getCapability(Capabilities.FluidHandler.ITEM);
+		if (fluidHandlerItem != null) {
+			if (pipette.canPipette(stack) && liquidAmount > 0) {
+				// todo test pipette extraction
+				FluidStack fillAmount = tank.drain(FluidType.BUCKET_VOLUME, IFluidHandler.FluidAction.SIMULATE);
+				int filled = fluidHandlerItem.fill(fillAmount, IFluidHandler.FluidAction.EXECUTE);
+				tank.drain(filled, IFluidHandler.FluidAction.EXECUTE);
+				player.containerMenu.setCarried(fluidHandlerItem.getContainer());
+				player.containerMenu.broadcastChanges();
+
 			} else {
 				FluidStack potential = fluidHandlerItem.drain(Integer.MAX_VALUE, IFluidHandler.FluidAction.SIMULATE);
 				if (!potential.isEmpty()) {
@@ -89,7 +71,7 @@ public class ContainerLiquidTanksHelper<T extends BlockEntity & ILiquidTankTile>
 					}
 				}
 			}
-		});
+		}
 	}
 
 	@Nullable

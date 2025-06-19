@@ -32,10 +32,7 @@ import forestry.farming.FarmTarget;
 import forestry.farming.gui.IFarmLedgerDelegate;
 import forestry.farming.tiles.MultifarmGearboxBlockEntity;
 import forestry.farming.tiles.MultifarmBlockEntity;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.core.Holder;
-import net.minecraft.core.Vec3i;
+import net.minecraft.core.*;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -104,7 +101,7 @@ public class MultifarmController extends RectangularMultiblockControllerBase imp
 
 	@Override
 	public void onAttachedPartWithMultiblockData(IMultiblockComponent part, CompoundTag data) {
-		this.read(data);
+		read(data, this.level.registryAccess());
 	}
 
 	@Override
@@ -113,8 +110,8 @@ public class MultifarmController extends RectangularMultiblockControllerBase imp
 			this.manager.addListener(listenerPart);
 		}
 
-		if (newPart instanceof IFarmComponent.Active) {
-			this.farmActiveComponents.put((IFarmComponent.Active) newPart, this.level.random.nextInt(256));
+		if (newPart instanceof IFarmComponent.Active active) {
+			this.farmActiveComponents.put(active, this.level.random.nextInt(256));
 		}
 	}
 
@@ -226,34 +223,34 @@ public class MultifarmController extends RectangularMultiblockControllerBase imp
 	}
 
 	@Override
-	public CompoundTag write(CompoundTag data) {
-		data = super.write(data);
-		this.sockets.write(data);
-		this.manager.write(data);
-		this.inventory.write(data);
+	public CompoundTag write(CompoundTag data, HolderLookup.Provider registries) {
+		data = super.write(data, registries);
+		this.sockets.write(data, registries);
+		this.manager.write(data, registries);
+		this.inventory.write(data, registries);
 		return data;
 	}
 
 	@Override
-	public void read(CompoundTag data) {
-		super.read(data);
-		this.sockets.read(data);
-		this.manager.read(data);
-		this.inventory.read(data);
+	public void read(CompoundTag data, HolderLookup.Provider registries) {
+		super.read(data, registries);
+		this.sockets.read(data, registries);
+		this.manager.read(data, registries);
+		this.inventory.read(data, registries);
 
 		refreshFarmLogics();
 	}
 
 	@Override
-	public void formatDescriptionPacket(CompoundTag data) {
-		this.sockets.write(data);
-		this.manager.write(data);
+	public void encodeUpdatePacket(CompoundTag data, HolderLookup.Provider registries) {
+		this.sockets.write(data, registries);
+		this.manager.write(data, registries);
 	}
 
 	@Override
-	public void decodeDescriptionPacket(CompoundTag data) {
-		this.sockets.read(data);
-		this.manager.read(data);
+	public void decodeUpdatePacket(CompoundTag data, HolderLookup.Provider registries) {
+		this.sockets.read(data, registries);
+		this.manager.read(data, registries);
 
 		refreshFarmLogics();
 	}
@@ -269,15 +266,15 @@ public class MultifarmController extends RectangularMultiblockControllerBase imp
 	}
 
 	@Override
-	public void writeGuiData(RegistryFriendlyByteBuf data) {
-		this.manager.writeData(data);
-		this.sockets.writeData(data);
+	public void writeGuiData(RegistryFriendlyByteBuf buffer) {
+		this.manager.writeData(buffer);
+		this.sockets.writeData(buffer);
 	}
 
 	@Override
-	public void readGuiData(RegistryFriendlyByteBuf data) {
-		this.manager.readData(data);
-		this.sockets.readData(data);
+	public void readGuiData(RegistryFriendlyByteBuf buffer) {
+		this.manager.readData(buffer);
+		this.sockets.readData(buffer);
 
 		refreshFarmLogics();
 	}

@@ -15,7 +15,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -30,7 +29,7 @@ public class ItemCreativeHiveFrame extends ItemForestry implements IHiveFrame {
 		FRAME_CREATIVE_FORCE_MUTATIONS;
 
 		@Override
-		public String getSerializedName() {
+		public String identifier() {
 			return name().toLowerCase(Locale.ENGLISH);
 		}
 	}
@@ -47,8 +46,8 @@ public class ItemCreativeHiveFrame extends ItemForestry implements IHiveFrame {
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> tooltip, TooltipFlag advanced) {
-		super.appendHoverText(stack, world, tooltip, advanced);
+	public void appendHoverText(ItemStack stack, TooltipContext ctx, List<Component> tooltip, TooltipFlag advanced) {
+		super.appendHoverText(stack, ctx, tooltip, advanced);
 
 		tooltip.add(Component.translatable("item.forestry.bee.modifier.production", Modifier.PRODUCTION));
 		tooltip.add(Component.translatable("item.forestry.bee.modifier.genetic.decay", Modifier.GENETIC_DECAY));

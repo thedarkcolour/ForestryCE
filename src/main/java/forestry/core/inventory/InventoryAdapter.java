@@ -5,6 +5,7 @@ import forestry.core.network.IStreamable;
 import forestry.core.utils.InventoryUtil;
 import forestry.core.utils.NetworkUtil;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.entity.player.Player;
@@ -115,7 +116,6 @@ public class InventoryAdapter implements IInventoryAdapter, IStreamable {
 		return false;
 	}
 
-	/* ISIDEDINVENTORY */
 	@Override
 	public int[] getSlotsForFace(Direction side) {
 		if (this.allowAutomation && this.slotMap != null) {
@@ -144,12 +144,12 @@ public class InventoryAdapter implements IInventoryAdapter, IStreamable {
 
 	/* SAVING & LOADING */
 	@Override
-	public void read(CompoundTag compoundNBT) {
+	public void read(CompoundTag compoundNBT, HolderLookup.Provider registries) {
 		InventoryUtil.readFromNBT(this, this.inventory.getName(), compoundNBT);
 	}
 
 	@Override
-	public CompoundTag write(CompoundTag compoundNBT) {
+	public CompoundTag write(CompoundTag compoundNBT, HolderLookup.Provider registries) {
 		InventoryUtil.writeToNBT(this, this.inventory.getName(), compoundNBT);
 		return compoundNBT;
 	}

@@ -7,8 +7,6 @@ import forestry.cultivation.features.CultivationTiles;
 import forestry.cultivation.tiles.TilePlanter;
 import forestry.modules.features.FeatureTileType;
 
-import java.util.List;
-
 public enum BlockTypePlanter implements IBlockType {
 	ARBORETUM(CultivationTiles.ARBORETUM, "arboretum"),
 	FARM_CROPS(CultivationTiles.CROPS, "farm_crops"),
@@ -32,7 +30,7 @@ public enum BlockTypePlanter implements IBlockType {
 	}
 
 	@Override
-	public String getSerializedName() {
-		return getMachineProperties().getSerializedName();
+	public String identifier() {
+		return getMachineProperties().identifier();
 	}
 }

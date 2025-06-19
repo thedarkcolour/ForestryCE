@@ -9,15 +9,12 @@ import forestry.energy.EnergyHelper;
 import forestry.energy.EnergyTransferMode;
 import forestry.energy.ForestryEnergyStorage;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-
-import javax.annotation.Nullable;
 
 public abstract class TilePowered extends TileBase implements IRenderableTile, ISpeedUpgradable, IStreamableGui, IPowerHandler {
 	private static final int STEP_INTERVAL = 5;
@@ -152,27 +149,27 @@ public abstract class TilePowered extends TileBase implements IRenderableTile, I
 	@Override
 	public void saveAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
 		super.saveAdditional(nbt, registries);
-		this.energyStorage.write(nbt);
+		this.energyStorage.write(nbt, registries);
 	}
 
 	@Override
 	public void loadAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
 		super.loadAdditional(nbt, registries);
-		this.energyStorage.read(nbt);
+		this.energyStorage.read(nbt, registries);
 	}
 
 	@Override
-	public void writeGuiData(RegistryFriendlyByteBuf data) {
-		this.energyStorage.writeData(data);
-		data.writeVarInt(this.stepCounter);
-		data.writeVarInt(getStepsPerWorkCycle());
+	public void writeGuiData(RegistryFriendlyByteBuf buffer) {
+		this.energyStorage.writeData(buffer);
+		buffer.writeVarInt(this.stepCounter);
+		buffer.writeVarInt(getStepsPerWorkCycle());
 	}
 
 	@Override
-	public void readGuiData(RegistryFriendlyByteBuf data) {
-		this.energyStorage.readData(data);
-		this.stepCounter = data.readVarInt();
-		this.stepsPerWorkCycle = data.readVarInt();
+	public void readGuiData(RegistryFriendlyByteBuf buffer) {
+		this.energyStorage.readData(buffer);
+		this.stepCounter = buffer.readVarInt();
+		this.stepsPerWorkCycle = buffer.readVarInt();
 	}
 
 	/* ISpeedUpgradable */
@@ -192,13 +189,5 @@ public abstract class TilePowered extends TileBase implements IRenderableTile, I
 	@Override
 	public TankRenderInfo getProductTankInfo() {
 		return TankRenderInfo.EMPTY;
-	}
-
-	@Override
-	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing) {
-		if (!this.remove && capability == ForgeCapabilities.ENERGY) {
-			return this.energyCap.cast();
-		}
-		return super.getCapability(capability, facing);
 	}
 }

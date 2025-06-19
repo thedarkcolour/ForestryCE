@@ -35,19 +35,19 @@ public abstract class MultiblockTileEntityBase<T extends IMultiblockLogic> exten
 	@Override
 	public void loadAdditional(CompoundTag data, HolderLookup.Provider registries) {
 		super.loadAdditional(data, registries);
-		this.multiblockLogic.readFromNBT(data);
+		this.multiblockLogic.read(data, registries);
 	}
 
 	@Override
 	public void saveAdditional(CompoundTag data, HolderLookup.Provider registries) {
 		super.saveAdditional(data, registries);
-		this.multiblockLogic.write(data);
+		this.multiblockLogic.write(data, registries);
 	}
 
 	@Override
 	public void setRemoved() {
 		super.setRemoved();
-		this.multiblockLogic.invalidate(this.level, this);
+		this.multiblockLogic.setRemoved(this.level, this);
 	}
 
 	@Override
@@ -72,8 +72,8 @@ public abstract class MultiblockTileEntityBase<T extends IMultiblockLogic> exten
 	@Override
 	public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
 		CompoundTag updateTag = super.getUpdateTag(registries);
-		this.multiblockLogic.encodeDescriptionPacket(updateTag);
-		this.encodeDescriptionPacket(updateTag);
+		this.multiblockLogic.encodeUpdatePacket(updateTag, registries);
+		encodeDescriptionPacket(updateTag);
 		return updateTag;
 	}
 
@@ -81,16 +81,14 @@ public abstract class MultiblockTileEntityBase<T extends IMultiblockLogic> exten
 	public final void onDataPacket(Connection network, ClientboundBlockEntityDataPacket packet, HolderLookup.Provider registries) {
 		super.onDataPacket(network, packet, registries);
 		CompoundTag nbtData = packet.getTag();
-		if (nbtData != null) {
-			this.multiblockLogic.decodeDescriptionPacket(nbtData);
-			this.decodeDescriptionPacket(nbtData);
-		}
-	}
+        this.multiblockLogic.decodeUpdatePacket(nbtData, registries);
+        this.decodeDescriptionPacket(nbtData);
+    }
 
 	@Override
 	public void handleUpdateTag(CompoundTag tag, HolderLookup.Provider registries) {
 		super.handleUpdateTag(tag, registries);
-		this.multiblockLogic.decodeDescriptionPacket(tag);
+		this.multiblockLogic.decodeUpdatePacket(tag, registries);
 		this.decodeDescriptionPacket(tag);
 	}
 

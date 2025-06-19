@@ -14,7 +14,6 @@ import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidType;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class StandardTank extends FluidTank implements IStreamable {
@@ -102,7 +101,6 @@ public class StandardTank extends FluidTank implements IStreamable {
 		return filled;
 	}
 
-	@Nonnull
 	@Override
 	public FluidStack drain(int maxDrain, FluidAction action) {
 		if (!this.canDrain) {
@@ -111,7 +109,7 @@ public class StandardTank extends FluidTank implements IStreamable {
 		return drainInternal(maxDrain, action);
 	}
 
-	@Nonnull
+	// ignores "canDrain" property
 	public FluidStack drainInternal(int maxDrain, FluidAction action) {
 		FluidStack drained = super.drain(maxDrain, action);
 		if (action == FluidAction.EXECUTE && !drained.isEmpty() && drained.getAmount() > 0) {
@@ -120,7 +118,6 @@ public class StandardTank extends FluidTank implements IStreamable {
 		return drained;
 	}
 
-	@Nonnull
 	@Override
 	public FluidStack drain(FluidStack resource, FluidAction action) {
 		if (!this.canDrain) {
@@ -129,7 +126,7 @@ public class StandardTank extends FluidTank implements IStreamable {
 		return drainInternal(resource, action);
 	}
 
-	@Nonnull
+	// ignores "canDrain" property
 	public FluidStack drainInternal(FluidStack resource, FluidAction action) {
 		FluidStack drained = super.drain(resource, action);
 		if (action == FluidAction.EXECUTE && !drained.isEmpty() && drained.getAmount() > 0) {

@@ -17,6 +17,7 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.saveddata.SavedData;
 import net.neoforged.neoforge.common.NeoForge;
@@ -45,7 +46,7 @@ public abstract class BreedingTracker extends SavedData implements IBreedingTrac
 	private final Set<String> researchedMutations = new HashSet<>();
 
 	@Nullable
-	private GameProfile username;
+	private ResolvableProfile username;
 	@Nullable
 	private Level level;
 
@@ -53,7 +54,7 @@ public abstract class BreedingTracker extends SavedData implements IBreedingTrac
 		this.typeId = typeId;
 	}
 
-	public void setUsername(@Nullable GameProfile username) {
+	public void setUsername(@Nullable ResolvableProfile username) {
 		this.username = username;
 	}
 
@@ -73,8 +74,8 @@ public abstract class BreedingTracker extends SavedData implements IBreedingTrac
 
 	// Sends the given species and mutations to client. Use to sync serverside breeding updates to the client.
 	private void sendUpdate(Collection<ResourceLocation> discoveredSpecies, Collection<String> discoveredMutations, Collection<String> researchedMutations) {
-		if (this.level != null && this.username != null && this.username.getName() != null) {
-			Player player = this.level.getPlayerByUUID(this.username.getId());
+		if (this.level != null && this.username != null && this.username.id().isPresent()) {
+			Player player = this.level.getPlayerByUUID(this.username.id().get());
 
 			if (player instanceof ServerPlayer && !player.isFakePlayer()) {
 				CompoundTag nbt = new CompoundTag();

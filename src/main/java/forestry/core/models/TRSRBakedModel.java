@@ -1,15 +1,3 @@
-/*******************************************************************************
- * The MIT License (MIT)
- * Copyright (c) 2013-2014 Slime Knights (mDiyo, fuj1n, Sunstrike, progwml6, pillbox, alexbegt)
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- *
- * Any alternate licenses are noted where appropriate.
- ******************************************************************************/
 package forestry.core.models;
 
 import com.google.common.collect.ImmutableList;
@@ -24,9 +12,9 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.model.BakedModelWrapper;
-import net.minecraftforge.client.model.data.ModelData;
-import net.minecraftforge.common.util.TransformationHelper;
+import net.neoforged.neoforge.client.model.BakedModelWrapper;
+import net.neoforged.neoforge.client.model.data.ModelData;
+import net.neoforged.neoforge.common.util.TransformationHelper;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
 
@@ -43,10 +31,6 @@ public class TRSRBakedModel extends BakedModelWrapper<BakedModel> {
 
 	public TRSRBakedModel(BakedModel original, float x, float y, float z, float scale) {
 		this(original, x, y, z, 0, 0, 0, scale, scale, scale);
-	}
-
-	public TRSRBakedModel(BakedModel original, float x, float y, float z, float rotX, float rotY, float rotZ, float scale) {
-		this(original, x, y, z, rotX, rotY, rotZ, scale, scale, scale);
 	}
 
 	public TRSRBakedModel(BakedModel original, float x, float y, float z, float rotX, float rotY, float rotZ, float scaleX, float scaleY, float scaleZ) {
@@ -91,7 +75,7 @@ public class TRSRBakedModel extends BakedModelWrapper<BakedModel> {
 					//quad.pipe(transformer);
 					builder.add(transformer.build());*/
 				}
-			} catch (Exception e) {
+			} catch (Exception ignored) {
 			}
 		}
 
@@ -110,7 +94,6 @@ public class TRSRBakedModel extends BakedModelWrapper<BakedModel> {
 	}
 
 	private static class TRSROverride extends ItemOverrides {
-
 		private final TRSRBakedModel model;
 
 		public TRSROverride(TRSRBakedModel model) {
@@ -127,49 +110,4 @@ public class TRSRBakedModel extends BakedModelWrapper<BakedModel> {
 			return new TRSRBakedModel(baked, this.model.transformation);
 		}
 	}
-/*
-	private static class Transformer extends VertexTransformer {
-
-		protected Matrix4f transformation;
-		protected Matrix3f normalTransformation;
-
-		public Transformer(Transformation transformation, TextureAtlasSprite textureAtlasSprite) {
-			super(new BakedQuadBuilder(textureAtlasSprite));
-			// position transform
-			this.transformation = transformation.getMatrix();
-			// normal transform
-			this.normalTransformation = new Matrix3f(this.transformation);
-			this.normalTransformation.invert();
-			this.normalTransformation.transpose();
-		}
-
-		@Override
-		public void put(int element, float... data) {
-			VertexFormatElement.Usage usage = DefaultVertexFormat.BLOCK.getElements().get(element).getUsage();
-
-			// transform normals and position
-			if (usage == VertexFormatElement.Usage.POSITION && data.length >= 3) {
-				Vector4f vec = new Vector4f(data[0], data[1], data[2], 1f);
-				vec.transform(this.transformation);
-				data = new float[4];
-				data[0] = vec.x();
-				data[1] = vec.y();
-				data[2] = vec.z();
-				data[3] = vec.w();
-			} else if (usage == VertexFormatElement.Usage.NORMAL && data.length >= 3) {
-				Vector3f vec = new Vector3f(data);
-				vec.transform(this.normalTransformation);
-				vec.normalize();
-				data = new float[4];
-				data[0] = vec.x();
-				data[1] = vec.y();
-				data[2] = vec.z();
-			}
-			super.put(element, data);
-		}
-
-		public BakedQuad build() {
-			return ((BakedQuadBuilder) this.parent).build();
-		}
-	}*/
 }

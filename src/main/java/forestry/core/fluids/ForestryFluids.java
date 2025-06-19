@@ -6,6 +6,7 @@ import forestry.core.ForestryColors;
 import forestry.core.items.definitions.DrinkProperties;
 import forestry.core.utils.ModUtil;
 import forestry.modules.features.*;
+import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
@@ -142,7 +143,7 @@ public enum ForestryFluids {
 		return getFluid() == fluidStack.getFluid();
 	}
 
-	public static boolean areEqual(Fluid fluid, FluidStack fluidStack) {
+	public static boolean areEqual(@Nullable Fluid fluid, FluidStack fluidStack) {
 		return fluid == fluidStack.getFluid();
 	}
 
@@ -157,5 +158,10 @@ public enum ForestryFluids {
 	@Nullable
 	public DrinkProperties getDrinkProperties() {
 		return this.feature.properties().properties;
+	}
+
+	@SuppressWarnings("deprecation")
+	public Holder<Fluid> holder() {
+		return getFluid().builtInRegistryHolder();
 	}
 }

@@ -1,7 +1,6 @@
 package forestry.core.utils;
 
 import com.google.common.collect.ImmutableList;
-import com.mojang.authlib.GameProfile;
 import com.mojang.serialization.Codec;
 import forestry.Forestry;
 import forestry.api.IForestryApi;
@@ -22,6 +21,7 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.util.Lazy;
 
@@ -95,7 +95,7 @@ public class SpeciesUtil {
 	}
 
 	@Nullable
-	public static <S extends ISpecies<?>> ImmutableList<AllelePair<?>> mutateSpecies(Level level, BlockPos pos, @Nullable GameProfile profile, IGenome parent1, IGenome parent2, IRegistryChromosome<S> speciesChromosome, IMutationChanceGetter<S> chanceGetter) {
+	public static <S extends ISpecies<?>> ImmutableList<AllelePair<?>> mutateSpecies(Level level, BlockPos pos, @Nullable ResolvableProfile profile, IGenome parent1, IGenome parent2, IRegistryChromosome<S> speciesChromosome, IMutationChanceGetter<S> chanceGetter) {
 		IGenome firstGenome;
 		IGenome secondGenome;
 

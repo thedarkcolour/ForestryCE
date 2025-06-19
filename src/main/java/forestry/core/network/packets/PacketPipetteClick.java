@@ -1,40 +1,29 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.core.network.packets;
 
 import forestry.api.modules.IForestryPacketServer;
 import forestry.core.gui.IContainerLiquidTanks;
 import forestry.core.network.PacketIdServer;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public record PacketPipetteClick(int slot) implements IForestryPacketServer {
-	public static void handle(PacketPipetteClick msg, ServerPlayer player) {
-		if (player.containerMenu instanceof IContainerLiquidTanks tanksMenu) {
-			tanksMenu.handlePipetteClick(msg.slot(), player);
+	public static void handle(PacketPipetteClick msg, IPayloadContext ctx) {
+		if (ctx.player().containerMenu instanceof IContainerLiquidTanks tanksMenu) {
+			tanksMenu.handlePipetteClick(msg.slot(), (ServerPlayer) ctx.player());
 		}
 	}
 
-	@Override
-	public void write(FriendlyByteBuf buffer) {
-		buffer.writeVarInt(this.slot);
+	public static void encode(RegistryFriendlyByteBuf buffer, PacketPipetteClick msg) {
+		buffer.writeVarInt(msg.slot);
 	}
 
 	@Override
-	public ResourceLocation id() {
+	public Type<?> type() {
 		return PacketIdServer.PIPETTE_CLICK;
 	}
 
-	public static PacketPipetteClick decode(FriendlyByteBuf buffer) {
+	public static PacketPipetteClick decode(RegistryFriendlyByteBuf buffer) {
 		return new PacketPipetteClick(buffer.readVarInt());
 	}
 }

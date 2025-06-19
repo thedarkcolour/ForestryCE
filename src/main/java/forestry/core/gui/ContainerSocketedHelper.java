@@ -1,26 +1,17 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.core.gui;
 
+import forestry.api.ForestryTags;
 import forestry.api.IForestryApi;
 import forestry.api.circuits.ICircuitBoard;
 import forestry.api.modules.IForestryPacketServer;
 import forestry.core.circuits.ISocketable;
-import forestry.core.circuits.ISolderingIron;
 import forestry.core.features.CoreDataComponents;
 import forestry.core.network.packets.PacketChipsetClick;
 import forestry.core.network.packets.PacketSocketUpdate;
 import forestry.core.network.packets.PacketSolderingIronClick;
 import forestry.core.utils.InventoryUtil;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.api.distmarker.Dist;
@@ -82,9 +73,9 @@ public class ContainerSocketedHelper<T extends BlockEntity & ISocketable> implem
 	}
 
 	@Override
-	public void handleSolderingIronClickServer(int slot, ServerPlayer player, ItemStack itemstack) {
+	public void handleSolderingIronClickServer(int slot, ServerPlayer player, ItemStack stack) {
 		ItemStack socket = this.tile.getSocket(slot);
-		if (socket.isEmpty() || !(itemstack.getItem() instanceof ISolderingIron)) {
+		if (socket.isEmpty() || !(stack.is(ForestryTags.Items.SOLDERING_IRONS))) {
 			return;
 		}
 
@@ -95,7 +86,7 @@ public class ContainerSocketedHelper<T extends BlockEntity & ISocketable> implem
 
         this.tile.setSocket(slot, ItemStack.EMPTY);
 		InventoryUtil.stowInInventory(socket, player.getInventory(), true);
-		itemstack.hurtAndBreak(1, player, p -> p.broadcastBreakEvent(p.getUsedItemHand()));    //TODO onBreak
+		stack.hurtAndBreak(1, player, LivingEntity.getSlotForHand(player.getUsedItemHand()));
 		player.inventoryMenu.broadcastChanges();
 
 		PacketSocketUpdate packet = PacketSocketUpdate.create(this.tile);

@@ -22,7 +22,7 @@ import java.util.*;
  * @author Erogenous Beef
  */
 public class MultiblockWorldRegistry {
-	private final Level world;
+	private final Level level;
 
 	private final Set<IMultiblockControllerInternal> controllers;        // Active controllers
 	private final Set<IMultiblockControllerInternal> dirtyControllers;    // Controllers whose parts lists have changed
@@ -46,8 +46,8 @@ public class MultiblockWorldRegistry {
 	private final Object partsAwaitingChunkLoadMutex;
 	private final Object orphanedPartsMutex;
 
-	public MultiblockWorldRegistry(Level world) {
-		this.world = world;
+	public MultiblockWorldRegistry(Level level) {
+		this.level = level;
 
 		this.controllers = new HashSet<>();
 		this.deadControllers = new HashSet<>();
@@ -67,7 +67,7 @@ public class MultiblockWorldRegistry {
 	public void tickStart() {
 		if (!this.controllers.isEmpty()) {
 			for (IMultiblockControllerInternal controller : this.controllers) {
-				if (controller.getLevel() == this.world && controller.getLevel().isClientSide == this.world.isClientSide) {
+				if (controller.getLevel() == this.level && controller.getLevel().isClientSide == this.level.isClientSide) {
 					if (controller.hasNoParts()) {
 						// This happens on the server when the user breaks the last block. It's fine.
 						// Mark 'er dead and move on.
@@ -85,7 +85,7 @@ public class MultiblockWorldRegistry {
 	 * Called prior to processing multiblock controllers. Do bookkeeping.
 	 */
 	public void processMultiblockChanges() {
-		ChunkSource chunkProvider = this.world.getChunkSource();
+		ChunkSource chunkProvider = this.level.getChunkSource();
 		BlockPos coord;
 
 		// Merge pools - sets of adjacent machines which should be merged later on in processing
@@ -120,7 +120,7 @@ public class MultiblockWorldRegistry {
 						continue;
 					}
 
-					if (TileUtil.getTile(this.world, coord) != orphan) {
+					if (TileUtil.getTile(this.level, coord) != orphan) {
 						// This block has been replaced by another.
 						continue;
 					}
@@ -132,7 +132,7 @@ public class MultiblockWorldRegistry {
 						// FOREVER ALONE! Create and register a new controller.
 						// THIS IS THE ONLY PLACE WHERE NEW CONTROLLERS ARE CREATED.
 						MultiblockLogic<?> logic = (MultiblockLogic<?>) orphan.getMultiblockLogic();
-						IMultiblockControllerInternal newController = logic.createNewController(this.world);
+						IMultiblockControllerInternal newController = logic.createNewController(this.level);
 						newController.attachBlock(orphan);
 						this.controllers.add(newController);
 					} else if (compatibleControllers.size() > 1) {
@@ -156,10 +156,10 @@ public class MultiblockWorldRegistry {
 							mergePools.add(compatibleControllers);
 						} else if (candidatePools.size() == 1) {
 							// Only one pool nearby, simply add to that one
-							candidatePools.get(0).addAll(compatibleControllers);
+							candidatePools.getFirst().addAll(compatibleControllers);
 						} else {
 							// Multiple pools- merge into one, then add the compatible controllers
-							Set<IMultiblockControllerInternal> masterPool = candidatePools.get(0);
+							Set<IMultiblockControllerInternal> masterPool = candidatePools.getFirst();
 							Set<IMultiblockControllerInternal> consumedPool;
 							for (int i = 1; i < candidatePools.size(); i++) {
 								consumedPool = candidatePools.get(i);
@@ -275,7 +275,7 @@ public class MultiblockWorldRegistry {
 		MultiblockLogic<?> logic = (MultiblockLogic<?>) part.getMultiblockLogic();
 		Class<?> controllerClass = logic.getControllerClass();
 		// Look for a compatible controller in our neighboring parts.
-		List<IMultiblockComponent> partsToCheck = MultiblockUtil.getNeighboringParts(this.world, part);
+		List<IMultiblockComponent> partsToCheck = MultiblockUtil.getNeighboringParts(this.level, part);
 		for (IMultiblockComponent neighborPart : partsToCheck) {
 			IMultiblockLogic neighborLogic = neighborPart.getMultiblockLogic();
 			if (neighborLogic.isConnected()) {
@@ -312,7 +312,7 @@ public class MultiblockWorldRegistry {
 	public void onPartAdded(IMultiblockComponent part) {
 		BlockPos worldLocation = part.getBlockPos();
 
-		if (!this.world.getChunkSource().hasChunk(worldLocation.getX() >> 4, worldLocation.getZ() >> 4)) {
+		if (!this.level.getChunkSource().hasChunk(worldLocation.getX() >> 4, worldLocation.getZ() >> 4)) {
 			// Part goes into the waiting-for-chunk-load list
 			Set<IMultiblockComponent> partSet;
 			long chunkHash = ChunkPos.asLong(worldLocation.getX() >> 4, worldLocation.getZ() >> 4);

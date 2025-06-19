@@ -7,6 +7,7 @@ import forestry.api.genetics.IGenome;
 import forestry.api.genetics.ISpeciesType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -14,10 +15,11 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
+import java.util.Map;
 
 public interface ITreeSpeciesType extends ISpeciesType<ITreeSpecies, ITree> {
 	@Override
-	IArboristTracker getBreedingTracker(LevelAccessor level, @Nullable GameProfile profile);
+	IArboristTracker getBreedingTracker(LevelAccessor level, @Nullable @Nullable ResolvableProfile profile);
 
 	/**
 	 * Register a leaf random tick handler. Used for butterfly spawner.
@@ -55,4 +57,6 @@ public interface ITreeSpeciesType extends ISpeciesType<ITreeSpecies, ITree> {
 	 */
 	@Nullable
 	ITree getVanillaIndividual(Item item);
+
+	Map<Item, ITree> getAllVanillaIndividuals();
 }

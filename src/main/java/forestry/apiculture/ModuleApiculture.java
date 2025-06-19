@@ -14,7 +14,7 @@ import forestry.apiculture.commands.CommandBee;
 import forestry.apiculture.features.ApicultureItems;
 import forestry.apiculture.items.EnumPollenCluster;
 import forestry.apiculture.items.ItemArmorApiarist;
-import forestry.apiculture.network.packets.PacketAlvearyChange;
+import forestry.apiculture.network.packets.PacketAlvearyControllerChange;
 import forestry.apiculture.network.packets.PacketBeeLogicActive;
 import forestry.apiculture.proxy.ApicultureClientHandler;
 import forestry.apiculture.villagers.ApicultureVillagers;
@@ -65,7 +65,7 @@ public class ModuleApiculture extends BlankForestryModule {
 	}
 
 	private static void registerCapabilities(RegisterCapabilitiesEvent event) {
-		event.registerItem(ForestryCapabilities.BEE_PROTECTION, (stack, v) -> ItemArmorApiarist.BeeProtection.INSTANCE, ApicultureItems.APIARIST_HELMET, ApicultureItems.APIARIST_CHEST, ApicultureItems.APIARIST_LEGS, ApicultureItems.APIARIST_BOOTS);
+		event.registerItem(ForestryCapabilities.BEE_PROTECTION, (stack, v) -> ItemArmorApiarist.PROTECTION, ApicultureItems.APIARIST_HELMET, ApicultureItems.APIARIST_CHEST, ApicultureItems.APIARIST_LEGS, ApicultureItems.APIARIST_BOOTS);
 	}
 
 	private static void onNetherBeeMate(BeeMatingEvent event) {
@@ -95,7 +95,7 @@ public class ModuleApiculture extends BlankForestryModule {
 	@Override
 	public void registerPackets(PayloadRegistrar registrar) {
 		registrar.playToClient(PacketIdClient.BEE_LOGIC_ACTIVE, StreamCodec.of(PacketBeeLogicActive::encode, PacketBeeLogicActive::decode), PacketBeeLogicActive::handle);
-		registrar.playToClient(PacketIdClient.ALVEARY_CONTROLLER_CHANGE, StreamCodec.of(PacketAlvearyChange::encode, PacketAlvearyChange::decode), PacketAlvearyChange::handle);
+		registrar.playToClient(PacketIdClient.ALVEARY_CONTROLLER_CHANGE, StreamCodec.of(PacketAlvearyControllerChange::encode, PacketAlvearyControllerChange::decode), PacketAlvearyControllerChange::handle);
 	}
 
 	@Override

@@ -1,10 +1,13 @@
 package forestry.core.network;
 
-import forestry.apiculture.network.packets.PacketAlvearyChange;
+import forestry.apiculture.network.packets.PacketAlvearyControllerChange;
 import forestry.apiculture.network.packets.PacketBeeLogicActive;
 import forestry.arboriculture.network.PacketRipeningUpdate;
-import forestry.core.network.packets.PacketGenomeTrackerSync;
-import forestry.core.network.packets.PacketTankLevelUpdate;
+import forestry.core.network.packets.*;
+import forestry.mail.network.packets.PacketLetterInfoResponsePlayer;
+import forestry.mail.network.packets.PacketLetterInfoResponseTrader;
+import forestry.mail.network.packets.PacketPOBoxInfoResponse;
+import forestry.mail.network.packets.PacketTraderAddressResponse;
 import forestry.worktable.network.packets.PacketWorktableMemoryUpdate;
 import forestry.worktable.network.packets.PacketWorktableRecipeUpdate;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -16,34 +19,34 @@ import static forestry.core.network.PacketIdServer.type;
  */
 public class PacketIdClient {
 	// Core
-	public static final CustomPacketPayload.Type<?> RECIPE_CACHE = type("recipe_cache");
+	public static final CustomPacketPayload.Type<RecipeCachePacket> RECIPE_CACHE = type("recipe_cache");
 	// Core Gui
-	public static final CustomPacketPayload.Type<?> ERROR_UPDATE = type("error_update");
-	public static final CustomPacketPayload.Type<?> GUI_UPDATE = type("gui_update");
-	public static final CustomPacketPayload.Type<?> GUI_LAYOUT_SELECT = type("gui_layout_select");
-	public static final CustomPacketPayload.Type<?> GUI_ENERGY = type("gui_energy");
-	public static final CustomPacketPayload.Type<?> SOCKET_UPDATE = type("socket_update");
+	public static final CustomPacketPayload.Type<PacketErrorUpdate> ERROR_UPDATE = type("error_update");
+	public static final CustomPacketPayload.Type<PacketGuiStream> GUI_STREAM = type("gui_stream");
+	public static final CustomPacketPayload.Type<PacketGuiLayoutSelect> GUI_LAYOUT_SELECT = type("gui_layout_select");
+	public static final CustomPacketPayload.Type<PacketGuiEnergy> GUI_ENERGY = type("gui_energy");
+	public static final CustomPacketPayload.Type<PacketSocketUpdate> SOCKET_UPDATE = type("socket_update");
 	// Core Tile Entities
-	public static final CustomPacketPayload.Type<?> TILE_FORESTRY_UPDATE = type("tile_forestry_update");
-	public static final CustomPacketPayload.Type<?> ITEMSTACK_DISPLAY = type("itemstack_display");
+	public static final CustomPacketPayload.Type<PacketTileStream> TILE_STREAM = type("tile_stream");
+	public static final CustomPacketPayload.Type<PacketItemStackDisplay> ITEMSTACK_DISPLAY = type("itemstack_display");
 	public static final CustomPacketPayload.Type<PacketTankLevelUpdate> TANK_LEVEL_UPDATE = type("tank_level_update");
-	public static final CustomPacketPayload.Type<?> REFRACTORY_WAX_ON = type("refractory_wax_on");
+	public static final CustomPacketPayload.Type<PacketRefractoryWax> REFRACTORY_WAX_ON = type("refractory_wax_on");
 	// Core Genome
 	public static final CustomPacketPayload.Type<PacketGenomeTrackerSync> GENOME_TRACKER_UPDATE = type("genome_tracker_update");
 	// Factory
 	public static final CustomPacketPayload.Type<PacketWorktableMemoryUpdate> WORKTABLE_MEMORY_UPDATE = type("worktable_memory_update");
 	public static final CustomPacketPayload.Type<PacketWorktableRecipeUpdate> WORKTABLE_CRAFTING_UPDATE = type("worktable_crafting_update");
 	// Apiculture
-	public static final CustomPacketPayload.Type<?> TILE_FORESTRY_ACTIVE = type("tile_forestry_active");
+	public static final CustomPacketPayload.Type<PacketActiveUpdate> ACTIVE_UPDATE = type("active_update");
 	public static final CustomPacketPayload.Type<PacketBeeLogicActive> BEE_LOGIC_ACTIVE = type("bee_logic_active");
-	public static final CustomPacketPayload.Type<PacketAlvearyChange> ALVEARY_CONTROLLER_CHANGE = type("alveary_controller_change");
+	public static final CustomPacketPayload.Type<PacketAlvearyControllerChange> ALVEARY_CONTROLLER_CHANGE = type("alveary_controller_change");
 	// Arboriculture
 	public static final CustomPacketPayload.Type<PacketRipeningUpdate> RIPENING_UPDATE = type("ripening_update");
 	// Mail
-	public static final CustomPacketPayload.Type<?> TRADING_ADDRESS_RESPONSE = type("trading_address_response");
-	public static final CustomPacketPayload.Type<?> LETTER_INFO_RESPONSE_PLAYER = type("letter_info_response_player");
-	public static final CustomPacketPayload.Type<?> LETTER_INFO_RESPONSE_TRADER = type("letter_info_response_trader");
-	public static final CustomPacketPayload.Type<?> POBOX_INFO_RESPONSE = type("pobox_info_response");
+	public static final CustomPacketPayload.Type<PacketTraderAddressResponse> TRADING_ADDRESS_RESPONSE = type("trading_address_response");
+	public static final CustomPacketPayload.Type<PacketLetterInfoResponsePlayer> LETTER_INFO_RESPONSE_PLAYER = type("letter_info_response_player");
+	public static final CustomPacketPayload.Type<PacketLetterInfoResponseTrader> LETTER_INFO_RESPONSE_TRADER = type("letter_info_response_trader");
+	public static final CustomPacketPayload.Type<PacketPOBoxInfoResponse> POBOX_INFO_RESPONSE = type("pobox_info_response");
 	// Sorting
 	public static final CustomPacketPayload.Type<?> GUI_UPDATE_FILTER = type("gui_update_filter");
 	// JEI

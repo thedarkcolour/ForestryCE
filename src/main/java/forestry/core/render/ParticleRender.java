@@ -66,8 +66,7 @@ public class ParticleRender {
 		// Avoid rendering bee particles that are too far away, they're very small.
 		// At 32+ distance, have no bee particles. Make more particles up close.
 		BlockPos playerPosition = Minecraft.getInstance().player.blockPosition();
-		//TODO - correct?
-		double playerDistanceSq = playerPosition.distSqr(BlockPos.containing(particleStart.x, particleStart.y, particleStart.z));
+		double playerDistanceSq = playerPosition.distToCenterSqr(particleStart.x, particleStart.y, particleStart.z);
 		if (world.random.nextInt(1024) < playerDistanceSq) {
 			return;
 		}

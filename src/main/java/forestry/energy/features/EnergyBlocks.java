@@ -13,5 +13,5 @@ import forestry.modules.features.ModFeatureRegistry;
 public class EnergyBlocks {
 	private static final IFeatureRegistry REGISTRY = ModFeatureRegistry.get(ForestryModuleIds.ENERGY);
 
-	public static final FeatureBlockGroup<EngineBlock, EngineBlockType> ENGINES = REGISTRY.blockGroup(EngineBlock::new, EngineBlockType.VALUES).item(ItemBlockTesr::new).identifier("engine").create();
+	public static final FeatureBlockGroup<EngineBlock, EngineBlockType> ENGINES = REGISTRY.blockGroup(EngineBlock::new, EngineBlockType.values()).item(ItemBlockTesr::new).identifier("engine").create();
 }

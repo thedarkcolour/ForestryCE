@@ -10,7 +10,7 @@
  ******************************************************************************/
 package forestry.mail.inventory;
 
-import forestry.api.mail.IStamps;
+import forestry.api.mail.IStampItem;
 import forestry.core.inventory.InventoryAdapter;
 import forestry.core.utils.ItemStackUtil;
 import forestry.core.utils.SlotUtil;
@@ -73,7 +73,7 @@ public class InventoryTradeStation extends InventoryAdapter {
 			return item == Items.PAPER;
 		} else if (SlotUtil.isSlotInRange(slotIndex, TradeStation.SLOT_STAMPS_1, TradeStation.SLOT_STAMPS_COUNT)) {
 			Item item = stack.getItem();
-			return item instanceof IStamps;
+			return item instanceof IStampItem;
 		}
 
 		return false;

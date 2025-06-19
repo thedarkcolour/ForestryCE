@@ -15,13 +15,14 @@ import forestry.api.core.INbtReadable;
 import forestry.api.core.INbtWritable;
 import forestry.api.mail.ILetter;
 import forestry.api.mail.IMailAddress;
+import forestry.core.features.CoreDataComponents;
 import forestry.core.inventory.InventoryAdapter;
 import forestry.core.utils.InventoryUtil;
 import forestry.mail.IWatchable;
-import forestry.mail.Letter;
 import forestry.mail.LetterUtils;
 import forestry.mail.MailAddress;
-import forestry.mail.carriers.PostalCarriers;
+import forestry.mail.features.PostalCarriers;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Player;
@@ -49,42 +50,44 @@ public class POBox implements Container, IWatchable, INbtReadable, INbtWritable 
 		this.address = address;
 	}
 
-	public POBox(CompoundTag tag) {
-		read(tag);
+	public POBox(CompoundTag tag, HolderLookup.Provider registries) {
+		read(tag, registries);
 	}
 
-	public void read(CompoundTag tag) {
+	@Override
+	public void read(CompoundTag tag, HolderLookup.Provider registries) {
 		if (tag.contains("address")) {
 			this.address = new MailAddress(tag.getCompound("address"));
 		}
 
-        this.letters.read(tag);
+        this.letters.read(tag, registries);
 	}
 
-	public CompoundTag write(CompoundTag compoundNBT) {
+	@Override
+	public CompoundTag write(CompoundTag compoundNBT, HolderLookup.Provider registries) {
 		if (this.address != null) {
 			CompoundTag nbt = new CompoundTag();
-			this.address.write(nbt);
+			this.address.write(nbt, registries);
 			compoundNBT.put("address", nbt);
 		}
-        this.letters.write(compoundNBT);
+        this.letters.write(compoundNBT, registries);
 		return compoundNBT;
 	}
 
-	public boolean storeLetter(ItemStack letterstack) {
-		ILetter letter = LetterUtils.getLetter(letterstack);
+	public boolean storeLetter(ItemStack stack) {
+		ILetter letter = LetterUtils.getLetter(stack);
 		Preconditions.checkNotNull(letter, "Letter stack must be a valid letter");
 
 		// Mark letter as processed
 		letter.setProcessed(true);
 		letter.invalidatePostage();
 		CompoundTag compoundNBT = new CompoundTag();
-		letter.write(compoundNBT);
-		letterstack.setTag(compoundNBT);
+		letter.write(compoundNBT, IDK);
+		stack.setTag(compoundNBT);
 
 		this.setDirty();
 
-		return InventoryUtil.tryAddStack(this.letters, letterstack, true);
+		return InventoryUtil.tryAddStack(this.letters, stack, true);
 	}
 
 	public POBoxInfo getPOBoxInfo() {
@@ -94,10 +97,9 @@ public class POBox implements Container, IWatchable, INbtReadable, INbtWritable 
 			if (this.letters.getItem(i).isEmpty()) {
 				continue;
 			}
-			CompoundTag tagCompound = this.letters.getItem(i).getTag();
-			if (tagCompound != null) {
-				ILetter letter = new Letter(tagCompound);
-				if (letter.getSender().getCarrier().equals(PostalCarriers.PLAYER.get())) {
+			ILetter letter = this.letters.getItem(i).get(CoreDataComponents.LETTER);
+			if (letter != null) {
+				if (letter.getSender().getCarrier().equals(PostalCarriers.PLAYER.value())) {
 					playerLetters++;
 				} else {
 					tradeLetters++;
@@ -107,8 +109,6 @@ public class POBox implements Container, IWatchable, INbtReadable, INbtWritable 
 
 		return new POBoxInfo(playerLetters, tradeLetters);
 	}
-
-	/* IINVENTORY */
 
 	@Override
 	public boolean isEmpty() {

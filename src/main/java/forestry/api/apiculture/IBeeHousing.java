@@ -5,6 +5,7 @@ import forestry.api.climate.IBiomeProvider;
 import forestry.api.climate.IClimateProvider;
 import forestry.api.core.IErrorLogicSource;
 import forestry.api.core.ILocationProvider;
+import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nullable;
@@ -37,7 +38,7 @@ public interface IBeeHousing extends IErrorLogicSource, IClimateProvider, IBiome
 	boolean isRaining();
 
 	@Nullable
-	GameProfile getOwner();
+	ResolvableProfile getOwner();
 
 	/**
 	 * @return exact coordinates where bee particle FX should spawn from

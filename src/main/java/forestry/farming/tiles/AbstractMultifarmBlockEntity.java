@@ -71,14 +71,14 @@ public abstract class AbstractMultifarmBlockEntity extends MultiblockTileEntityF
 
 	/* IStreamableGui */
 	@Override
-	public void writeGuiData(RegistryFriendlyByteBuf data) {
-		getMultiblockLogic().getController().writeGuiData(data);
+	public void writeGuiData(RegistryFriendlyByteBuf buffer) {
+		getMultiblockLogic().getController().writeGuiData(buffer);
 	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void readGuiData(RegistryFriendlyByteBuf data) {
-		getMultiblockLogic().getController().readGuiData(data);
+	public void readGuiData(RegistryFriendlyByteBuf buffer) {
+		getMultiblockLogic().getController().readGuiData(buffer);
 	}
 
 	/* IErrorLogicSource */

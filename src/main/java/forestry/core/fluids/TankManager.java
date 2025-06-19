@@ -10,16 +10,16 @@ import forestry.core.network.packets.PacketTankLevelUpdate;
 import forestry.core.tiles.ILiquidTankTile;
 import forestry.core.tiles.IRenderableTile;
 import forestry.core.utils.NetworkUtil;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.IFluidTank;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import javax.annotation.Nonnull;
@@ -57,14 +57,14 @@ public class TankManager implements ITankManager, ITankUpdateHandler, IStreamabl
 	}
 
 	@Override
-	public CompoundTag write(CompoundTag data) {
+	public CompoundTag write(CompoundTag data, HolderLookup.Provider registries) {
 		ListTag tagList = new ListTag();
 		for (byte slot = 0; slot < this.tanks.size(); slot++) {
 			StandardTank tank = this.tanks.get(slot);
 			if (!tank.getFluid().isEmpty()) {
 				CompoundTag tag = new CompoundTag();
 				tag.putByte("tank", slot);
-				tank.writeToNBT(tag);
+				tank.writeToNBT(registries, tag);
 				tagList.add(tag);
 			}
 		}
@@ -73,13 +73,13 @@ public class TankManager implements ITankManager, ITankUpdateHandler, IStreamabl
 	}
 
 	@Override
-	public void read(CompoundTag data) {
+	public void read(CompoundTag data, HolderLookup.Provider registries) {
 		for (Tag tag : data.getList("tanks", Tag.TAG_COMPOUND)) {
 			CompoundTag compound = (CompoundTag) tag;
 			int slot = compound.getByte("tank");
 			if (slot >= 0 && slot < this.tanks.size()) {
 				StandardTank tank = this.tanks.get(slot);
-				tank.readFromNBT(compound);
+				tank.readFromNBT(registries, compound);
 				updateTankLevels(tank);
 			}
 		}
@@ -154,7 +154,7 @@ public class TankManager implements ITankManager, ITankUpdateHandler, IStreamabl
 	}
 
 	@Override
-	public void processTankUpdate(int tankIndex, @Nullable FluidStack contents) {
+	public void processTankUpdate(int tankIndex, FluidStack contents) {
 		if (tankIndex < 0 || tankIndex > this.tanks.size()) {
 			return;
 		}
@@ -230,13 +230,13 @@ public class TankManager implements ITankManager, ITankUpdateHandler, IStreamabl
 			return;
 		}
 
-		Level world = this.tile.getLevel();
-		if (world == null || world.isClientSide)
-			return;
+		if (!(this.tile.getLevel() instanceof ServerLevel serverLevel)) {
+            return;
+        }
 
 		int tankIndex = tank.getTankIndex();
 		PacketTankLevelUpdate tankLevelUpdate = new PacketTankLevelUpdate(this.tile.getBlockPos(), tankIndex, tank.getFluid());
-		NetworkUtil.sendToPlayersTrackingPos(tankLevelUpdate, this.tile.getBlockPos(), world);
+		NetworkUtil.sendToPlayersTrackingPos(tankLevelUpdate, this.tile.getBlockPos(), serverLevel);
 	}
 
 	@Override
@@ -302,7 +302,6 @@ public class TankManager implements ITankManager, ITankUpdateHandler, IStreamabl
 	}
 
 	private static boolean tankCanDrainFluid(StandardTank tank, FluidStack fluidStack) {
-		return ForestryFluids.areEqual(tank.getFluidType(), fluidStack) &&
-			tankCanDrain(tank);
+		return ForestryFluids.areEqual(tank.getFluidType(), fluidStack) && tankCanDrain(tank);
 	}
 }

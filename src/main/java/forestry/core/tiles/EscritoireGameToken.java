@@ -9,8 +9,8 @@ import forestry.api.genetics.ISpeciesType;
 import forestry.core.network.IStreamable;
 import forestry.core.utils.ColourUtil;
 import forestry.core.utils.NetworkUtil;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -136,7 +136,7 @@ public class EscritoireGameToken implements INbtWritable, IStreamable {
 	}
 
 	@Override
-	public CompoundTag write(CompoundTag nbt) {
+	public CompoundTag write(CompoundTag nbt, HolderLookup.Provider registries) {
 		nbt.putInt("state", this.state.ordinal());
 
 		if (this.tokenIndividual != null) {

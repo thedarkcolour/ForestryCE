@@ -10,7 +10,7 @@
  ******************************************************************************/
 package forestry.mail.gui;
 
-import forestry.api.mail.ITradeStationInfo;
+import forestry.api.mail.TradeStationInfo;
 import forestry.api.modules.IForestryPacketServer;
 import forestry.core.config.SessionVars;
 import forestry.core.gui.GuiForestry;
@@ -18,7 +18,7 @@ import forestry.core.gui.widgets.ItemStackWidget;
 import forestry.core.gui.widgets.Widget;
 import forestry.core.network.packets.PacketGuiSelectRequest;
 import forestry.core.render.ColourProperties;
-import forestry.mail.carriers.PostalCarriers;
+import forestry.mail.features.PostalCarriers;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -77,7 +77,7 @@ public class GuiCatalogue extends GuiForestry<ContainerCatalogue> {
 
 		clearTradeInfoWidgets();
 
-		ITradeStationInfo tradeInfo = this.menu.getTradeInfo();
+		TradeStationInfo tradeInfo = this.menu.getTradeInfo();
 
 		if (this.buttonUse != null) {
 			if (tradeInfo != null) {
@@ -98,7 +98,7 @@ public class GuiCatalogue extends GuiForestry<ContainerCatalogue> {
 		graphics.drawWordWrap(this.font, Component.translatable("for.gui.mail.notrades"), x, y + 18, 119, ColourProperties.INSTANCE.get("gui.book"));
 	}
 
-	private void drawTradePreview(GuiGraphics graphics, ITradeStationInfo tradeInfo, int x, int y) {
+	private void drawTradePreview(GuiGraphics graphics, TradeStationInfo tradeInfo, int x, int y) {
 		Font font = this.font;
 		graphics.drawString(font, BOLD_UNDERLINE + tradeInfo.address().getName(), x, y, ColourProperties.INSTANCE.get("gui.book"), false);
 
@@ -153,7 +153,7 @@ public class GuiCatalogue extends GuiForestry<ContainerCatalogue> {
                 PacketDistributor.sendToServer(packet);
             }
 			case 5 -> {
-				ITradeStationInfo info = this.menu.getTradeInfo();
+				TradeStationInfo info = this.menu.getTradeInfo();
 				if (info != null) {
 					SessionVars.setStringVar("mail.letter.recipient", info.address().getName());
 					SessionVars.setStringVar("mail.letter.carrier", PostalCarriers.TRADER.getKey().location().toString());

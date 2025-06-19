@@ -12,8 +12,6 @@ public enum EngineBlockType implements IBlockType {
 	BIOGAS(createEngineProperties(EnergyTiles.BIOGAS_ENGINE, "biogas")),
 	CLOCKWORK(createEngineProperties(EnergyTiles.CLOCKWORK_ENGINE, "clockwork"));
 
-	public static final EngineBlockType[] VALUES = values();
-
 	private final IMachineProperties<?> machineProperties;
 
 	EngineBlockType(IMachineProperties<?> machineProperties) {
@@ -33,7 +31,7 @@ public enum EngineBlockType implements IBlockType {
 	}
 
 	@Override
-	public String getSerializedName() {
-		return getMachineProperties().getSerializedName();
+	public String identifier() {
+		return getMachineProperties().identifier();
 	}
 }

@@ -1,7 +1,6 @@
 package forestry.apiculture.tiles;
 
 import com.google.common.base.Predicate;
-import com.mojang.authlib.GameProfile;
 import forestry.api.IForestryApi;
 import forestry.api.apiculture.*;
 import forestry.api.apiculture.bee.IBee;
@@ -40,6 +39,7 @@ import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.monster.ZombifiedPiglin;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -148,16 +148,16 @@ public class TileHive extends BlockEntity implements IActivatable, IBeeHousing, 
 	@Override
 	public void loadAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
 		super.loadAdditional(nbt, registries);
-		this.contained.read(nbt);
-		this.beeLogic.read(nbt);
+		this.contained.read(nbt, registries);
+		this.beeLogic.read(nbt, registries);
 	}
 
 
 	@Override
 	public void saveAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
 		super.saveAdditional(nbt, registries);
-		this.contained.write(nbt);
-		this.beeLogic.write(nbt);
+		this.contained.write(nbt, registries);
+		this.beeLogic.write(nbt, registries);
 	}
 
 	public void calmBees() {
@@ -229,7 +229,7 @@ public class TileHive extends BlockEntity implements IActivatable, IBeeHousing, 
 	public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
 		CompoundTag nbt = super.getUpdateTag(registries);
 		nbt.putBoolean("active", this.calmTime == 0);
-		this.beeLogic.write(nbt);
+		this.beeLogic.write(nbt, registries);
 		return nbt;
 	}
 
@@ -238,7 +238,7 @@ public class TileHive extends BlockEntity implements IActivatable, IBeeHousing, 
 	public void handleUpdateTag(CompoundTag tag, HolderLookup.Provider registries) {
 		super.handleUpdateTag(tag, registries);
 		setActive(tag.getBoolean("active"));
-		this.beeLogic.read(tag);
+		this.beeLogic.read(tag, registries);
 	}
 
 	@Override
@@ -305,7 +305,7 @@ public class TileHive extends BlockEntity implements IActivatable, IBeeHousing, 
 
 	@Override
 	@Nullable
-	public GameProfile getOwner() {
+	public ResolvableProfile getOwner() {
 		return null;
 	}
 

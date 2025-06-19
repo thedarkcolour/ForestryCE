@@ -1,6 +1,6 @@
 package forestry.api.genetics;
 
-import com.mojang.authlib.GameProfile;
+import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.level.LevelAccessor;
 
 import javax.annotation.Nullable;
@@ -13,5 +13,5 @@ public interface IBreedingTrackerManager {
 	 * @param profile The profile of the player whose breeding tracker should be queried.
 	 * @return The player-specific species tracker for the species type with the given ID.
 	 */
-	<T extends IBreedingTracker> T getTracker(ISpeciesType<?, ?> type, LevelAccessor level, @Nullable GameProfile profile);
+	<T extends IBreedingTracker> T getTracker(ISpeciesType<?, ?> type, LevelAccessor level, @Nullable ResolvableProfile profile);
 }

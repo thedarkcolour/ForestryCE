@@ -3,10 +3,10 @@ package forestry.arboriculture.tiles;
 import forestry.api.IForestryApi;
 import forestry.api.arboriculture.ForestryTreeSpecies;
 import forestry.api.arboriculture.ILeafTickHandler;
-import forestry.api.arboriculture.genetics.ITreeSpecies;
 import forestry.api.arboriculture.genetics.IFruit;
 import forestry.api.arboriculture.genetics.ITree;
 import forestry.api.arboriculture.genetics.ITreeEffect;
+import forestry.api.arboriculture.genetics.ITreeSpecies;
 import forestry.api.client.IForestryClientApi;
 import forestry.api.climate.IBiomeProvider;
 import forestry.api.core.HumidityType;
@@ -20,7 +20,6 @@ import forestry.api.genetics.alleles.*;
 import forestry.api.lepidopterology.IButterflyNursery;
 import forestry.api.lepidopterology.genetics.IButterfly;
 import forestry.arboriculture.features.ArboricultureTiles;
-import forestry.arboriculture.network.IRipeningPacketReceiver;
 import forestry.arboriculture.network.PacketRipeningUpdate;
 import forestry.core.ClientsideCode;
 import forestry.core.network.packets.PacketTileStream;
@@ -51,7 +50,7 @@ import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Objects;
 
-public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButterflyNursery, IRipeningPacketReceiver, IBiomeProvider, ISpectacleBlock {
+public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButterflyNursery, IBiomeProvider, ISpectacleBlock {
 	private static final String NBT_RIPENING = "RT";
 	private static final String NBT_DAMAGE = "ENC";
 	private static final String NBT_FRUIT_LEAF = "FL";
@@ -397,7 +396,6 @@ public class TileLeaves extends TileTreeContainer implements IFruitBearer, IButt
 		}
 	}
 
-	@Override
 	public void fromRipeningPacket(int newColourFruits) {
 		if (newColourFruits == this.colourFruits) {
 			return;

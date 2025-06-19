@@ -1,20 +1,9 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.energy.tiles;
 
+import forestry.api.ForestryDataMaps;
 import forestry.api.core.ForestryError;
 import forestry.api.core.IErrorLogic;
 import forestry.api.fuels.BiogasEngineFuel;
-import forestry.api.fuels.FuelManager;
-import forestry.core.config.Constants;
 import forestry.core.fluids.*;
 import forestry.core.tiles.ILiquidTankTile;
 import forestry.energy.features.EnergyTiles;
@@ -22,6 +11,7 @@ import forestry.energy.inventory.InventoryEngineBiogas;
 import forestry.energy.menu.BiogasEngineMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.WorldlyContainer;
@@ -34,19 +24,19 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
 import javax.annotation.Nullable;
 
-import static net.minecraftforge.fluids.FluidType.BUCKET_VOLUME;
+import static net.neoforged.neoforge.fluids.FluidType.BUCKET_VOLUME;
 
 public class BiogasEngineBlockEntity extends EngineBlockEntity implements WorldlyContainer, ILiquidTankTile {
 	public static final int ENGINE_BRONZE_HEAT_MAX = 10000;
 	public static final int ENGINE_BRONZE_HEAT_GENERATION_ENERGY = 1;
+	public static final int ENGINE_HEAT_VALUE_LAVA = 20;
+	// Energy
+	public static final int ENGINE_TANK_CAPACITY = 10 * BUCKET_VOLUME;
 	private final FilteredTank fuelTank;
 	private final FilteredTank heatingTank;
 	private final StandardTank burnTank;
@@ -54,19 +44,16 @@ public class BiogasEngineBlockEntity extends EngineBlockEntity implements Worldl
 
 	private boolean shutdown; // true if the engine is too cold and needs to warm itself up.
 
-	private final LazyOptional<IFluidHandler> fluidCap;
-
 	public BiogasEngineBlockEntity(BlockPos pos, BlockState state) {
 		super(EnergyTiles.BIOGAS_ENGINE.tileType(), pos, state, "engine.bronze", ENGINE_BRONZE_HEAT_MAX, 300000);
 
 		setInternalInventory(new InventoryEngineBiogas(this));
 
-		this.fuelTank = new FilteredTank(Constants.ENGINE_TANK_CAPACITY).setFilters(FuelManager.biogasEngineFuel.keySet());
-		this.heatingTank = new FilteredTank(Constants.ENGINE_TANK_CAPACITY, true, false).setFilter(FluidTagFilter.LAVA);
+		this.fuelTank = new FilteredTank(ENGINE_TANK_CAPACITY).setFilters(FuelManager.biogasEngineFuel.keySet());
+		this.heatingTank = new FilteredTank(ENGINE_TANK_CAPACITY, true, false).setFilter(FluidTagFilter.LAVA);
 		this.burnTank = new StandardTank(BUCKET_VOLUME, false, false);
 
 		this.tankManager = new TankManager(this, this.fuelTank, this.heatingTank, this.burnTank);
-		this.fluidCap = LazyOptional.of(() -> this.tankManager);
 	}
 
 	@Override
@@ -103,8 +90,7 @@ public class BiogasEngineBlockEntity extends EngineBlockEntity implements Worldl
 	 */
 	@Override
 	public void burn() {
-
-        this.currentOutput = 0;
+		this.currentOutput = 0;
 
 		if (isRedstoneActivated() && (this.fuelTank.getFluidAmount() >= BUCKET_VOLUME || this.burnTank.getFluidAmount() > 0)) {
 
@@ -115,8 +101,8 @@ public class BiogasEngineBlockEntity extends EngineBlockEntity implements Worldl
 				shutdown(false);
 			} else if (this.shutdown) {
 				if (this.heatingTank.getFluidAmount() > 0 && this.heatingTank.getFluidType() == Fluids.LAVA) {
-					addHeat(Constants.ENGINE_HEAT_VALUE_LAVA);
-                    this.heatingTank.drainInternal(1, IFluidHandler.FluidAction.EXECUTE);
+					addHeat(ENGINE_HEAT_VALUE_LAVA);
+					this.heatingTank.drainInternal(1, IFluidHandler.FluidAction.EXECUTE);
 				}
 			}
 
@@ -124,17 +110,17 @@ public class BiogasEngineBlockEntity extends EngineBlockEntity implements Worldl
 			if (heatStage > 0.2) {
 				if (this.burnTank.getFluidAmount() > 0) {
 					FluidStack drained = this.burnTank.drainInternal(1, IFluidHandler.FluidAction.EXECUTE);
-                    this.currentOutput = determineFuelValue(drained);
-                    this.energyStorage.generateEnergy(this.currentOutput);
-                    this.level.updateNeighbourForOutputSignal(this.worldPosition, getBlockState().getBlock());
+					this.currentOutput = determineFuelValue(drained);
+					this.energyStorage.generateEnergy(this.currentOutput);
+					this.level.updateNeighbourForOutputSignal(this.worldPosition, getBlockState().getBlock());
 				} else {
 					FluidStack fuel = this.fuelTank.drainInternal(BUCKET_VOLUME, IFluidHandler.FluidAction.EXECUTE);
 					int burnTime = determineBurnTime(fuel);
 					if (!fuel.isEmpty()) {
 						fuel.setAmount(burnTime);
 					}
-                    this.burnTank.setCapacity(burnTime);
-                    this.burnTank.setFluid(fuel);
+					this.burnTank.setCapacity(burnTime);
+					this.burnTank.setFluid(fuel);
 				}
 			} else {
 				shutdown(true);
@@ -143,7 +129,7 @@ public class BiogasEngineBlockEntity extends EngineBlockEntity implements Worldl
 	}
 
 	private void shutdown(boolean val) {
-        this.shutdown = val;
+		this.shutdown = val;
 	}
 
 	@Override
@@ -167,14 +153,14 @@ public class BiogasEngineBlockEntity extends EngineBlockEntity implements Worldl
 		if (this.fuelTank.getFluidAmount() > 0) {
 			FluidStack fuelFluidStack = this.fuelTank.getFluid();
 			if (!fuelFluidStack.isEmpty()) {
-				BiogasEngineFuel fuel = FuelManager.biogasEngineFuel.get(fuelFluidStack.getFluid());
+				BiogasEngineFuel fuel = fuelFluidStack.getFluidHolder().getData(ForestryDataMaps.BIOGAS_FUELS);
 				if (fuel != null) {
 					loss = loss * fuel.dissipationMultiplier();
 				}
 			}
 		}
 
-        this.heat -= loss;
+		this.heat -= loss;
 	}
 
 	@Override
@@ -193,19 +179,17 @@ public class BiogasEngineBlockEntity extends EngineBlockEntity implements Worldl
 			}
 		}
 
-        this.heat += generate;
+		this.heat += generate;
 
 	}
 
 	/**
 	 * Returns the fuel value (power per cycle) an item of the passed fluid
 	 */
-	private static int determineFuelValue(@Nullable FluidStack fluidStack) {
-		if (fluidStack != null) {
-			Fluid fluid = fluidStack.getFluid();
-			if (FuelManager.biogasEngineFuel.containsKey(fluid)) {
-				return FuelManager.biogasEngineFuel.get(fluid).powerPerCycle();
-			}
+	private static int determineFuelValue(FluidStack fluidStack) {
+		BiogasEngineFuel fluid = fluidStack.getFluidHolder().getData(ForestryDataMaps.BIOGAS_FUELS);
+		if (fluid != null) {
+			return fluid.powerPerCycle();
 		}
 		return 0;
 	}
@@ -213,17 +197,14 @@ public class BiogasEngineBlockEntity extends EngineBlockEntity implements Worldl
 	/**
 	 * @return Duration of burn cycle of one bucket
 	 */
-	private static int determineBurnTime(@Nullable FluidStack fluidStack) {
-		if (fluidStack != null) {
-			Fluid fluid = fluidStack.getFluid();
-			if (FuelManager.biogasEngineFuel.containsKey(fluid)) {
-				return FuelManager.biogasEngineFuel.get(fluid).burnDuration();
-			}
+	private static int determineBurnTime(FluidStack fluidStack) {
+		BiogasEngineFuel fluid = fluidStack.getFluidHolder().getData(ForestryDataMaps.BIOGAS_FUELS);
+		if (fluid != null) {
+			return fluid.burnDuration();
 		}
 		return 0;
 	}
 
-	// / STATE INFORMATION
 	@Override
 	protected boolean isBurning() {
 		return mayBurn() && this.burnTank.getFluidAmount() > 0;
@@ -243,53 +224,37 @@ public class BiogasEngineBlockEntity extends EngineBlockEntity implements Worldl
 	}
 
 	@Override
-	public void load(CompoundTag nbt) {
-		super.load(nbt);
+	public void loadAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+		super.loadAdditional(nbt, registries);
 
 		if (nbt.contains("shutdown")) {
-            this.shutdown = nbt.getBoolean("shutdown");
+			this.shutdown = nbt.getBoolean("shutdown");
 		}
-        this.tankManager.read(nbt);
+		this.tankManager.read(nbt, registries);
 	}
 
 	@Override
-	public void saveAdditional(CompoundTag nbt) {
-		super.saveAdditional(nbt);
+	public void saveAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+		super.saveAdditional(nbt, registries);
 
 		nbt.putBoolean("shutdown", this.shutdown);
-        this.tankManager.write(nbt);
+		this.tankManager.write(nbt, registries);
 	}
 
-	/* NETWORK */
 	@Override
 	public void writeData(RegistryFriendlyByteBuf buffer) {
 		super.writeData(buffer);
 		buffer.writeBoolean(this.shutdown);
-        this.tankManager.writeData(buffer);
-        this.burnTank.writeData(buffer);
+		this.tankManager.writeData(buffer);
+		this.burnTank.writeData(buffer);
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
 	public void readData(RegistryFriendlyByteBuf buffer) {
 		super.readData(buffer);
-        this.shutdown = buffer.readBoolean();
-        this.tankManager.readData(buffer);
-        this.burnTank.readData(buffer);
-	}
-
-	@Override
-	public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction facing) {
-		if (!this.remove && cap == ForgeCapabilities.FLUID_HANDLER) {
-			return this.fluidCap.cast();
-		}
-		return super.getCapability(cap, facing);
-	}
-
-	@Override
-	public void invalidateCaps() {
-		super.invalidateCaps();
-		this.fluidCap.invalidate();
+		this.shutdown = buffer.readBoolean();
+		this.tankManager.readData(buffer);
+		this.burnTank.readData(buffer);
 	}
 
 	@Override

@@ -52,7 +52,10 @@ public class RecipeUtil {
 	}
 
 	@Nullable
-	public static <I extends RecipeInput, T extends Recipe<I>> RecipeHolder<T> getRecipe(ResourceLocation name) {
+	public static <I extends RecipeInput, T extends Recipe<I>> RecipeHolder<T> getRecipe(@Nullable ResourceLocation name) {
+		if (name == null) {
+			return null;
+		}
 		RecipeManager manager = getRecipeManager();
 		if (manager == null) {
 			return null;
@@ -140,7 +143,7 @@ public class RecipeUtil {
 
 	@Nullable
 	public static RecipeHolder<IHygroregulatorRecipe> getHygroRegulatorRecipe(RecipeManager manager, FluidStack input) {
-		return getMatchingRecipe(manager, FactoryRecipeTypes.HYGROREGULATOR, recipe -> FluidStack.isSameFluidSameComponents(recipe.getInputFluid(), input));
+		return getMatchingRecipe(manager, FactoryRecipeTypes.HYGROREGULATOR, recipe -> recipe.getInputFluid().test(input));
 	}
 
 	@Nullable
@@ -243,5 +246,10 @@ public class RecipeUtil {
 			.filter(recipe -> ItemStack.isSameItem(recipe.value().getResultItem(registryAccess), output))
 			.findFirst()
 			.orElseThrow(() -> new IllegalStateException("Couldn't find a recipe with output: " + output));
+	}
+
+	@Nullable
+	public static <T extends Recipe<?>> T unwrap(@Nullable RecipeHolder<T> holder) {
+		return holder == null ? null : holder.value();
 	}
 }

@@ -35,11 +35,15 @@ public record Product(Item item, int count, DataComponentPatch data, float chanc
 	}
 
 	public static Product of(Item item) {
-		return new Product(item, 1, null, 1f);
+		return new Product(item, 1, DataComponentPatch.EMPTY, 1f);
+	}
+
+	public static Product of(Item item, float chance) {
+		return new Product(item, 1, DataComponentPatch.EMPTY, chance);
 	}
 
 	public static Product of(Item item, int amount, float chance) {
-		return new Product(item, amount, null, chance);
+		return new Product(item, amount, DataComponentPatch.EMPTY, chance);
 	}
 
 	public static void toNetwork(RegistryFriendlyByteBuf buffer, Product product) {

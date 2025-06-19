@@ -25,6 +25,7 @@ import forestry.core.genetics.root.BreedingTrackerManager;
 import forestry.core.utils.ItemStackUtil;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 
@@ -59,13 +60,13 @@ public class BeeSpeciesType extends SpeciesType<IBeeSpecies, IBee> implements IB
 	}
 
 	@Override
-	public IApiaristTracker getBreedingTracker(LevelAccessor level, @Nullable GameProfile profile) {
+	public IApiaristTracker getBreedingTracker(LevelAccessor level, @Nullable ResolvableProfile profile) {
 		return BreedingTrackerManager.INSTANCE.getTracker(this, level, profile);
 	}
 
 	@Override
-	public String getBreedingTrackerFile(@Nullable GameProfile profile) {
-		return "ApiaristTracker." + (profile == null ? "common" : profile.getId());
+	public String getBreedingTrackerFile(@Nullable ResolvableProfile profile) {
+		return "ApiaristTracker." + ((profile == null || profile.id().isEmpty()) ? "common" : profile.id().get());
 	}
 
 	@Override
@@ -74,7 +75,7 @@ public class BeeSpeciesType extends SpeciesType<IBeeSpecies, IBee> implements IB
 	}
 
 	@Override
-	public void initializeBreedingTracker(IBreedingTracker tracker, @Nullable Level world, @Nullable GameProfile profile) {
+	public void initializeBreedingTracker(IBreedingTracker tracker, @Nullable Level world, @Nullable ResolvableProfile profile) {
 		if (tracker instanceof BreedingTracker apiaristTracker) {
 			apiaristTracker.setLevel(world);
 			apiaristTracker.setUsername(profile);

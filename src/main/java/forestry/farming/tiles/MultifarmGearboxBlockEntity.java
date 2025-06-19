@@ -17,6 +17,7 @@ import forestry.energy.ForestryEnergyStorage;
 import forestry.farming.features.FarmingTiles;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
@@ -31,7 +32,6 @@ public class MultifarmGearboxBlockEntity extends AbstractMultifarmBlockEntity im
 	private static final int ENERGY_PER_OPERATION = WORK_CYCLES * 50;
 
 	private final ForestryEnergyStorage energyStorage;
-	private final LazyOptional<IEnergyStorage> energyCap;
 
 	private int activationDelay = 0;
 	private int previousDelays = 0;
@@ -41,29 +41,28 @@ public class MultifarmGearboxBlockEntity extends AbstractMultifarmBlockEntity im
 		super(FarmingTiles.GEARBOX.tileType(), pos, state);
 
 		this.energyStorage = new ForestryEnergyStorage(200, 10000);
-		this.energyCap = LazyOptional.of(() -> this.energyStorage);
 	}
 
 	/* SAVING & LOADING */
 	@Override
-	public void load(CompoundTag compoundNBT) {
-		super.load(compoundNBT);
+	public void loadAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+		super.loadAdditional(nbt, registries);
 
-        this.energyStorage.read(compoundNBT);
+        this.energyStorage.read(nbt, registries);
 
-        this.activationDelay = compoundNBT.getInt("ActivationDelay");
-        this.previousDelays = compoundNBT.getInt("PrevDelays");
+        this.activationDelay = nbt.getInt("ActivationDelay");
+        this.previousDelays = nbt.getInt("PrevDelays");
 	}
 
 
 	@Override
-	public void saveAdditional(CompoundTag compoundNBT) {
-		super.saveAdditional(compoundNBT);
+	public void saveAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+		super.saveAdditional(nbt, registries);
 
-        this.energyStorage.write(compoundNBT);
+        this.energyStorage.write(nbt, registries);
 
-		compoundNBT.putInt("ActivationDelay", this.activationDelay);
-		compoundNBT.putInt("PrevDelays", this.previousDelays);
+		nbt.putInt("ActivationDelay", this.activationDelay);
+		nbt.putInt("PrevDelays", this.previousDelays);
 	}
 
 	@Override
@@ -102,19 +101,5 @@ public class MultifarmGearboxBlockEntity extends AbstractMultifarmBlockEntity im
 
 	public ForestryEnergyStorage getEnergyManager() {
 		return this.energyStorage;
-	}
-
-	@Override
-	public <T> LazyOptional<T> getCapability(Capability<T> cap, @Nullable Direction facing) {
-		if (!this.remove && cap == ForgeCapabilities.ENERGY) {
-			return this.energyCap.cast();
-		}
-		return super.getCapability(cap, facing);
-	}
-
-	@Override
-	public void invalidateCaps() {
-		super.invalidateCaps();
-        this.energyCap.invalidate();
 	}
 }

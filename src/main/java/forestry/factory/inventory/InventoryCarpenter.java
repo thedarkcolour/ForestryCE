@@ -17,7 +17,7 @@ import forestry.core.utils.SlotUtil;
 import forestry.factory.tiles.TileCarpenter;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.fluids.FluidUtil;
+import net.neoforged.neoforge.fluids.FluidUtil;
 
 public class InventoryCarpenter extends InventoryAdapterTile<TileCarpenter> {
 	public final static int SLOT_BOX = 9;

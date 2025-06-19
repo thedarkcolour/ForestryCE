@@ -1,19 +1,8 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.factory.blocks;
 
 import forestry.core.blocks.IBlockType;
 import forestry.core.blocks.IMachineProperties;
 import forestry.core.blocks.MachineProperties;
-import forestry.core.config.Constants;
 import forestry.core.tiles.IForestryTicker;
 import forestry.core.tiles.TileBase;
 import forestry.core.tiles.TileMill;
@@ -36,7 +25,7 @@ public enum BlockTypeFactoryTesr implements IBlockType {
 	MOISTENER(FactoryTiles.MOISTENER, "moistener", TileMoistener::serverTick),
 	SQUEEZER(FactoryTiles.SQUEEZER, "squeezer", TileSqueezer::serverTick),
 	STILL(FactoryTiles.STILL, "still", TileStill::serverTick),
-	RAINMAKER(FactoryTiles.RAINMAKER, "rainmaker", Constants.TEXTURE_PATH_BLOCK + "/rainmaker_");
+	RAINMAKER(FactoryTiles.RAINMAKER, "rainmaker");
 
 	private final IMachineProperties<?> machineProperties;
 
@@ -59,7 +48,7 @@ public enum BlockTypeFactoryTesr implements IBlockType {
 			.create();
 	}
 
-	<T extends TileMill> BlockTypeFactoryTesr(FeatureTileType<T> teClass, String name, String renderMillTexture) {
+	<T extends TileMill> BlockTypeFactoryTesr(FeatureTileType<T> teClass, String name) {
 		final VoxelShape pedestal = Block.box(0D, 0D, 0D, 16, 1, 16);
 		final VoxelShape column = Block.box(5D, 1D, 4D, 11, 16, 12);
 		final VoxelShape extension = Block.box(1D, 8D, 7D, 15, 10, 9);
@@ -77,7 +66,7 @@ public enum BlockTypeFactoryTesr implements IBlockType {
 	}
 
 	@Override
-	public String getSerializedName() {
-		return getMachineProperties().getSerializedName();
+	public String identifier() {
+		return getMachineProperties().identifier();
 	}
 }

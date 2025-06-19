@@ -1,18 +1,7 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.core.multiblock;
 
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
-import com.mojang.authlib.GameProfile;
 import forestry.api.IForestryApi;
 import forestry.api.core.IErrorLogic;
 import forestry.api.core.IErrorLogicSource;
@@ -24,10 +13,12 @@ import forestry.core.owner.IOwnedTile;
 import forestry.core.owner.IOwnerHandler;
 import forestry.core.owner.OwnerHandler;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.level.Level;
 
 public abstract class MultiblockControllerForestry extends MultiblockControllerBase implements WorldlyContainer, IOwnedTile, IErrorLogicSource, ILocationProvider {
@@ -66,17 +57,17 @@ public abstract class MultiblockControllerForestry extends MultiblockControllerB
 
 		// Figure out who owns the multiblock, by majority
 
-		Multiset<GameProfile> owners = HashMultiset.create();
+		Multiset<ResolvableProfile> owners = HashMultiset.create();
 		for (IMultiblockComponent part : this.connectedParts) {
-			GameProfile owner = part.getOwner();
+			ResolvableProfile owner = part.getOwner();
 			if (owner != null) {
 				owners.add(owner);
 			}
 		}
 
-		GameProfile owner = null;
+		ResolvableProfile owner = null;
 		int max = 0;
-		for (Multiset.Entry<GameProfile> entry : owners.entrySet()) {
+		for (Multiset.Entry<ResolvableProfile> entry : owners.entrySet()) {
 			int count = entry.getCount();
 			if (count > max) {
 				max = count;
@@ -91,14 +82,14 @@ public abstract class MultiblockControllerForestry extends MultiblockControllerB
 
 	/* INbtWritable */
 	@Override
-	public CompoundTag write(CompoundTag data) {
-        this.ownerHandler.write(data);
+	public CompoundTag write(CompoundTag data, HolderLookup.Provider registries) {
+		this.ownerHandler.write(data, registries);
 		return data;
 	}
 
 	@Override
-	public void read(CompoundTag data) {
-        this.ownerHandler.read(data);
+	public void read(CompoundTag data, HolderLookup.Provider registries) {
+		this.ownerHandler.read(data, registries);
 	}
 
 	/* INVENTORY */

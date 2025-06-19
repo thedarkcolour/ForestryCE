@@ -1,64 +1,46 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.core.items;
 
 import forestry.api.core.IToolPipette;
-import forestry.core.fluids.PipetteContents;
+import forestry.core.features.CoreDataComponents;
 import forestry.core.items.definitions.IColoredItem;
 import forestry.core.utils.RenderUtil;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.Level;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.fluids.FluidType;
-import net.minecraftforge.fluids.capability.templates.FluidHandlerItemStack;
+import net.neoforged.neoforge.fluids.FluidType;
+import net.neoforged.neoforge.fluids.SimpleFluidContent;
 
-import javax.annotation.Nullable;
 import java.util.List;
 
 public class ItemPipette extends ItemForestry implements IToolPipette, IColoredItem {
 	public ItemPipette() {
-		super(new Properties().stacksTo(1));
+		super(new Properties().component(CoreDataComponents.FLUID_CONTENTS, SimpleFluidContent.EMPTY).stacksTo(1));
 	}
 
 	@Override
-	public boolean canPipette(ItemStack itemstack) {
-		PipetteContents contained = PipetteContents.create(itemstack);
-		return contained == null || !contained.isFull();
+	public boolean canPipette(ItemStack stack) {
+		SimpleFluidContent contained = stack.get(CoreDataComponents.FLUID_CONTENTS);
+		return contained == null || contained.getAmount() < FluidType.BUCKET_VOLUME;
 	}
 
 	@Override
-	public void appendHoverText(ItemStack itemstack, @Nullable Level world, List<Component> list, TooltipFlag flag) {
-		super.appendHoverText(itemstack, world, list, flag);
+	public void appendHoverText(ItemStack stack, TooltipContext ctx, List<Component> list, TooltipFlag flag) {
+		super.appendHoverText(stack, ctx, list, flag);
 
-		PipetteContents contained = PipetteContents.create(itemstack);
+		SimpleFluidContent contained = stack.get(CoreDataComponents.FLUID_CONTENTS);
 		if (contained != null) {
-			contained.addTooltip(list);
+			list.add(contained.copy().getHoverName().copy().append(" (" + contained.getAmount() + " mb)").withStyle(ChatFormatting.GRAY));
 		}
-	}
-
-	@Override
-	public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
-		return new FluidHandlerItemStack(stack, FluidType.BUCKET_VOLUME);
 	}
 
 	@Override
 	public int getColorFromItemStack(ItemStack stack, int tintIndex) {
 		if (tintIndex == 1) {
-			PipetteContents contents = PipetteContents.create(stack);
+			SimpleFluidContent contents = stack.get(CoreDataComponents.FLUID_CONTENTS);
 
 			if (contents != null) {
-				return RenderUtil.getFluidColor(contents.getContents().getFluid());
+				return RenderUtil.getFluidColor(contents.getFluid());
 			}
 		}
 		return 0xffffff;

@@ -3,6 +3,7 @@ package forestry.energy;
 import forestry.api.core.INbtReadable;
 import forestry.api.core.INbtWritable;
 import forestry.core.network.IStreamable;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.util.Mth;
@@ -22,12 +23,12 @@ public class ForestryEnergyStorage extends EnergyStorage implements IStreamable,
 	}
 
 	@Override
-	public void read(CompoundTag nbt) {
+	public void read(CompoundTag nbt, HolderLookup.Provider registries) {
 		setEnergyStored(nbt.getInt("Energy"));
 	}
 
 	@Override
-	public CompoundTag write(CompoundTag nbt) {
+	public CompoundTag write(CompoundTag nbt, HolderLookup.Provider registries) {
 		nbt.putInt("Energy", this.energy);
 		return nbt;
 	}

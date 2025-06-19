@@ -1,20 +1,10 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.mail.tiles;
 
 import com.google.common.base.Preconditions;
 import forestry.api.core.ForestryError;
 import forestry.api.core.IErrorLogic;
 import forestry.api.mail.IMailAddress;
-import forestry.api.mail.IStamps;
+import forestry.api.mail.IStampItem;
 import forestry.core.inventory.IInventoryAdapter;
 import forestry.core.owner.IOwnedTile;
 import forestry.core.owner.IOwnerHandler;
@@ -31,6 +21,7 @@ import forestry.mail.gui.TraderMenu;
 import forestry.mail.inventory.InventoryTradeStation;
 import forestry.mail.network.packets.PacketTraderAddressResponse;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.server.level.ServerLevel;
@@ -69,24 +60,24 @@ public class TileTrader extends TileBase implements IOwnedTile {
 
 	/* SAVING & LOADING */
 	@Override
-	public void saveAdditional(CompoundTag compoundNBT) {
-		super.saveAdditional(compoundNBT);
+	public void saveAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+		super.saveAdditional(nbt, registries);
 
-		CompoundTag nbt = new CompoundTag();
-        this.address.write(nbt);
-		compoundNBT.put("address", nbt);
+		CompoundTag address = new CompoundTag();
+        this.address.write(address, registries);
+		nbt.put("address", nbt);
 
-        this.ownerHandler.write(compoundNBT);
+        this.ownerHandler.write(nbt, registries);
 	}
 
 	@Override
-	public void load(CompoundTag compoundNBT) {
-		super.load(compoundNBT);
+	public void loadAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+		super.loadAdditional(nbt, registries);
 
-		if (compoundNBT.contains("address")) {
-            this.address = new MailAddress(compoundNBT.getCompound("address"));
+		if (nbt.contains("address")) {
+            this.address = new MailAddress(nbt.getCompound("address"));
 		}
-        this.ownerHandler.read(compoundNBT);
+        this.ownerHandler.read(nbt, registries);
 	}
 
 	/* NETWORK */
@@ -230,8 +221,8 @@ public class TileTrader extends TileBase implements IOwnedTile {
 		for (int i = TradeStation.SLOT_STAMPS_1; i < TradeStation.SLOT_STAMPS_1 + TradeStation.SLOT_STAMPS_COUNT; i++) {
 			ItemStack stamp = tradeInventory.getItem(i);
 			if (!stamp.isEmpty()) {
-				if (stamp.getItem() instanceof IStamps) {
-					posted += ((IStamps) stamp.getItem()).getPostage(stamp).getValue() * stamp.getCount();
+				if (stamp.getItem() instanceof IStampItem) {
+					posted += ((IStampItem) stamp.getItem()).getPostage(stamp).getValue() * stamp.getCount();
 					if (posted >= postage) {
 						return true;
 					}
@@ -253,7 +244,7 @@ public class TileTrader extends TileBase implements IOwnedTile {
 
 		if (updated) {
 			PacketTraderAddressResponse packetResponse = new PacketTraderAddressResponse(this.worldPosition, address);
-			NetworkUtil.sendToPlayersTrackingPos(packetResponse, this.worldPosition, this.level);
+			NetworkUtil.sendToPlayersTrackingPos(packetResponse, this.worldPosition, (ServerLevel) this.level);
 		}
 
 		return updated;

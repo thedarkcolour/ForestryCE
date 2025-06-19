@@ -11,7 +11,6 @@
 package forestry.core.gui;
 
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 
 import forestry.api.client.ForestrySprites;
@@ -23,6 +22,7 @@ import forestry.core.network.packets.PacketGuiStream;
 import forestry.core.tiles.EscritoireGame;
 import forestry.core.tiles.TileEscritoire;
 import forestry.core.tiles.TileUtil;
+import net.minecraft.world.entity.player.Player;
 
 public class EscritoireMenu extends TileMenu<TileEscritoire> implements IGuiSelectable {
 	private long lastUpdate;
@@ -61,7 +61,7 @@ public class EscritoireMenu extends TileMenu<TileEscritoire> implements IGuiSele
 	}
 
 	@Override
-	public void handleSelectionRequest(ServerPlayer player, int primary, int secondary) {
+	public void handleSelectionRequest(Player player, int primary, int secondary) {
 		EscritoireGame.Status status = tile.getGame().getStatus();
 		if (status != EscritoireGame.Status.PLAYING) {
 			return;

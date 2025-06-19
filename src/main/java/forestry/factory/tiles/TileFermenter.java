@@ -1,19 +1,9 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.factory.tiles;
 
+import forestry.api.ForestryDataMaps;
 import forestry.api.core.ForestryError;
 import forestry.api.core.IErrorLogic;
 import forestry.api.fuels.FermenterFuel;
-import forestry.api.fuels.FuelManager;
 import forestry.api.recipes.IFermenterRecipe;
 import forestry.api.recipes.IVariableFermentable;
 import forestry.core.config.Constants;
@@ -29,7 +19,7 @@ import forestry.factory.features.FactoryTiles;
 import forestry.factory.gui.FermenterMenu;
 import forestry.factory.inventory.InventoryFermenter;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.WorldlyContainer;
@@ -43,11 +33,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
 import javax.annotation.Nullable;
 
@@ -76,42 +63,42 @@ public class TileFermenter extends TilePowered implements WorldlyContainer, ILiq
 	}
 
 	@Override
-	public void saveAdditional(CompoundTag compoundNBT) {
-		super.saveAdditional(compoundNBT);
+	public void saveAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+		super.saveAdditional(nbt, registries);
 
-		compoundNBT.putInt("FermentationTime", this.fermentationTime);
-		compoundNBT.putInt("FermentationTotalTime", this.fermentationTotalTime);
-		compoundNBT.putInt("FuelBurnTime", this.fuelBurnTime);
-		compoundNBT.putInt("FuelTotalTime", this.fuelTotalTime);
-		compoundNBT.putInt("FuelCurrentFerment", this.fuelCurrentFerment);
+		nbt.putInt("FermentationTime", this.fermentationTime);
+		nbt.putInt("FermentationTotalTime", this.fermentationTotalTime);
+		nbt.putInt("FuelBurnTime", this.fuelBurnTime);
+		nbt.putInt("FuelTotalTime", this.fuelTotalTime);
+		nbt.putInt("FuelCurrentFerment", this.fuelCurrentFerment);
 
-        this.tankManager.write(compoundNBT);
+		this.tankManager.write(nbt, registries);
 	}
 
 	@Override
-	public void load(CompoundTag compoundNBT) {
-		super.load(compoundNBT);
+	public void loadAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+		super.loadAdditional(nbt, registries);
 
-        this.fermentationTime = compoundNBT.getInt("FermentationTime");
-        this.fermentationTotalTime = compoundNBT.getInt("FermentationTotalTime");
-        this.fuelBurnTime = compoundNBT.getInt("FuelBurnTime");
-        this.fuelTotalTime = compoundNBT.getInt("FuelTotalTime");
-        this.fuelCurrentFerment = compoundNBT.getInt("FuelCurrentFerment");
+		this.fermentationTime = nbt.getInt("FermentationTime");
+		this.fermentationTotalTime = nbt.getInt("FermentationTotalTime");
+		this.fuelBurnTime = nbt.getInt("FuelBurnTime");
+		this.fuelTotalTime = nbt.getInt("FuelTotalTime");
+		this.fuelCurrentFerment = nbt.getInt("FuelCurrentFerment");
 
-        this.tankManager.read(compoundNBT);
+		this.tankManager.read(nbt, registries);
 	}
 
 	@Override
 	public void writeData(RegistryFriendlyByteBuf buffer) {
 		super.writeData(buffer);
-        this.tankManager.writeData(buffer);
+		this.tankManager.writeData(buffer);
 	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void readData(RegistryFriendlyByteBuf buffer) {
 		super.readData(buffer);
-        this.tankManager.readData(buffer);
+		this.tankManager.readData(buffer);
 	}
 
 	@Override
@@ -136,18 +123,18 @@ public class TileFermenter extends TilePowered implements WorldlyContainer, ILiq
 
 		int fermented = Math.min(this.fermentationTime, this.fuelCurrentFerment);
 		int productAmount = Math.round(fermented * this.currentRecipe.getModifier() * this.currentResourceModifier);
-        this.productTank.fillInternal(new FluidStack(this.currentRecipe.getOutputFluid(), productAmount), IFluidHandler.FluidAction.EXECUTE);
+		this.productTank.fillInternal(new FluidStack(this.currentRecipe.getOutputFluid(), productAmount), IFluidHandler.FluidAction.EXECUTE);
 
-        this.fuelBurnTime--;
-        this.resourceTank.drain(fermented, IFluidHandler.FluidAction.EXECUTE);
-        this.fermentationTime -= fermented;
+		this.fuelBurnTime--;
+		this.resourceTank.drain(fermented, IFluidHandler.FluidAction.EXECUTE);
+		this.fermentationTime -= fermented;
 
 		// Not done yet
 		if (this.fermentationTime > 0) {
 			return false;
 		}
 
-        this.currentRecipe = null;
+		this.currentRecipe = null;
 		return true;
 	}
 
@@ -160,13 +147,13 @@ public class TileFermenter extends TilePowered implements WorldlyContainer, ILiq
 		FluidStack fluid = this.resourceTank.getFluid();
 
 		if (!fluid.isEmpty()) {
-            this.currentRecipe = RecipeUtil.getFermenterRecipe(this.level.getRecipeManager(), resource, fluid);
+			this.currentRecipe = RecipeUtil.unwrap(RecipeUtil.getFermenterRecipe(this.level.getRecipeManager(), resource, fluid));
 		}
 
-        this.fermentationTotalTime = this.fermentationTime = this.currentRecipe == null ? 0 : this.currentRecipe.getFermentationValue();
+		this.fermentationTotalTime = this.fermentationTime = this.currentRecipe == null ? 0 : this.currentRecipe.getFermentationValue();
 
 		if (this.currentRecipe != null) {
-            this.currentResourceModifier = determineResourceMod(resource);
+			this.currentResourceModifier = determineResourceMod(resource);
 			removeItem(InventoryFermenter.SLOT_RESOURCE, 1);
 		}
 	}
@@ -175,10 +162,10 @@ public class TileFermenter extends TilePowered implements WorldlyContainer, ILiq
 		if (this.fuelBurnTime <= 0) {
 			ItemStack fuel = getItem(InventoryFermenter.SLOT_FUEL);
 			if (!fuel.isEmpty()) {
-				FermenterFuel fermenterFuel = FuelManager.fermenterFuel.get(fuel);
+				FermenterFuel fermenterFuel = fuel.getItemHolder().getData(ForestryDataMaps.FERMENTER_FUELS);
 				if (fermenterFuel != null) {
-                    this.fuelBurnTime = this.fuelTotalTime = fermenterFuel.burnDuration();
-                    this.fuelCurrentFerment = fermenterFuel.fermentPerCycle();
+					this.fuelBurnTime = this.fuelTotalTime = fermenterFuel.burnDuration();
+					this.fuelCurrentFerment = fermenterFuel.fermentPerCycle();
 
 					removeItem(InventoryFermenter.SLOT_FUEL, 1);
 				}
@@ -191,26 +178,6 @@ public class TileFermenter extends TilePowered implements WorldlyContainer, ILiq
 			return fermentable.getFermentationModifier(stack);
 		}
 		return 1.0f;
-	}
-
-	@Override
-	public boolean hasResourcesMin(float percentage) {
-		ItemStack fermentationStack = getItem(InventoryFermenter.SLOT_RESOURCE);
-		if (fermentationStack.isEmpty()) {
-			return false;
-		}
-
-		return (float) fermentationStack.getCount() / (float) fermentationStack.getMaxStackSize() > percentage;
-	}
-
-	@Override
-	public boolean hasFuelMin(float percentage) {
-		ItemStack fuelStack = getItem(InventoryFermenter.SLOT_FUEL);
-		if (fuelStack.isEmpty()) {
-			return false;
-		}
-
-		return (float) fuelStack.getCount() / (float) fuelStack.getMaxStackSize() > percentage;
 	}
 
 	@Override
@@ -296,13 +263,5 @@ public class TileFermenter extends TilePowered implements WorldlyContainer, ILiq
 	@Override
 	public AbstractContainerMenu createMenu(int windowId, Inventory inv, Player player) {
 		return new FermenterMenu(windowId, inv, this);
-	}
-
-	@Override
-	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing) {
-		if (capability == ForgeCapabilities.FLUID_HANDLER) {
-			return LazyOptional.of(() -> this.tankManager).cast();
-		}
-		return super.getCapability(capability, facing);
 	}
 }

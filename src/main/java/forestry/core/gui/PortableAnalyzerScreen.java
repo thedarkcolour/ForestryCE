@@ -335,7 +335,7 @@ public class PortableAnalyzerScreen extends GuiForestry<PortableAnalyzerMenu> {
 		}
 	}
 
-	public void drawToleranceInfo(GuiGraphics graphics, IValueChromosome<ToleranceType> chromosome, IValueAllele<ToleranceType> toleranceAllele, int x) {
+	public void drawToleranceInfo(GuiGraphics graphics, IValueChromosome<ToleranceType> chromosome, IValueAllele<? extends ToleranceType> toleranceAllele, int x) {
 		int textColor = getColorCoding(toleranceAllele.dominant());
 		ToleranceType tolerance = toleranceAllele.value();
 		Component text = Component.literal("(").append(chromosome.getDisplayName(toleranceAllele)).append(")");

@@ -118,7 +118,7 @@ public abstract class MultiblockControllerBase implements IMultiblockControllerI
 		MultiblockLogic logic = (MultiblockLogic) part.getMultiblockLogic();
 
 		logic.setController(this);
-		this.onBlockAdded(part);
+		onBlockAdded(part);
 
 		if (logic.hasMultiblockSaveData()) {
 			CompoundTag savedData = logic.getMultiblockSaveData();

@@ -1,6 +1,5 @@
 package forestry.core.fluids;
 
-import forestry.api.ForestryTags;
 import forestry.core.utils.RecipeUtil;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
@@ -8,6 +7,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.material.Fluid;
+import net.neoforged.neoforge.common.Tags;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -15,7 +15,7 @@ import java.util.Set;
 public class FluidTagFilter extends ReloadableFluidFilter {
 	public static final FluidTagFilter WATER = new FluidTagFilter(FluidTags.WATER);
 	public static final FluidTagFilter LAVA = new FluidTagFilter(FluidTags.LAVA);
-	public static final FluidTagFilter HONEY = new FluidTagFilter(ForestryTags.Fluids.HONEY);
+	public static final FluidTagFilter HONEY = new FluidTagFilter(Tags.Fluids.HONEY);
 
 	public FluidTagFilter(TagKey<Fluid> tag) {
 		super(() -> {

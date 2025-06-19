@@ -3,7 +3,8 @@ package forestry.mail.carriers.players;
 import forestry.api.mail.IMailAddress;
 import forestry.mail.IWatchable;
 import forestry.mail.MailAddress;
-import forestry.mail.carriers.PostalCarriers;
+import forestry.mail.features.PostalCarriers;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.server.level.ServerLevel;
@@ -23,7 +24,7 @@ public class POBoxRegistry extends SavedData implements IWatchable.Watcher {
 	 * @return true if the passed address is valid for PO Boxes.
 	 */
 	public boolean isValidPOBox(IMailAddress address) {
-		return address.getCarrier().equals(PostalCarriers.PLAYER.get()) && address.getName().matches("^[a-zA-Z0-9]+$");
+		return address.getCarrier().equals(PostalCarriers.PLAYER.value()) && address.getName().matches("^[a-zA-Z0-9]+$");
 	}
 
 	private void registerPOBOx(IMailAddress address, POBox box) {
@@ -58,26 +59,26 @@ public class POBoxRegistry extends SavedData implements IWatchable.Watcher {
 		return new POBoxRegistry();
 	}
 
-	private static POBoxRegistry load(CompoundTag compoundTag) {
+	private static POBoxRegistry load(CompoundTag compoundTag, HolderLookup.Provider registries) {
 		POBoxRegistry registry = new POBoxRegistry();
 		ListTag tradeStations = compoundTag.getList("poboxes", 10);
 		for (int i = 0; i < tradeStations.size(); ++i) {
 			CompoundTag stationTag = tradeStations.getCompound(i);
 
 			IMailAddress address = new MailAddress(stationTag.getCompound("address"));
-			POBox pobox = new POBox(stationTag.getCompound("pobox"));
+			POBox pobox = new POBox(stationTag.getCompound("pobox"), registries);
 			registry.registerPOBOx(address, pobox);
 		}
 		return registry;
 	}
 
 	@Override
-	public CompoundTag save(CompoundTag compoundTag) {
+	public CompoundTag save(CompoundTag compoundTag, HolderLookup.Provider registries) {
 		ListTag poboxes = new ListTag();
 		for (Map.Entry<IMailAddress, POBox> entry : this.cachedPOBoxes.entrySet()) {
 			CompoundTag entryTag = new CompoundTag();
-			entryTag.put("address", entry.getKey().write(new CompoundTag()));
-			entryTag.put("pobox", entry.getValue().write(new CompoundTag()));
+			entryTag.put("address", entry.getKey().write(new CompoundTag(), registries));
+			entryTag.put("pobox", entry.getValue().write(new CompoundTag(), registries));
 			poboxes.add(entryTag);
 		}
 		compoundTag.put("poboxes", poboxes);
@@ -85,6 +86,10 @@ public class POBoxRegistry extends SavedData implements IWatchable.Watcher {
 	}
 
 	public static POBoxRegistry getOrCreate(ServerLevel level) {
-		return level.getDataStorage().computeIfAbsent(POBoxRegistry::load, POBoxRegistry::create, SAVE_NAME);
+		return level.getDataStorage().computeIfAbsent(POBoxRegistry.factory(), SAVE_NAME);
+	}
+
+	public static SavedData.Factory<POBoxRegistry> factory() {
+		return new Factory<>(POBoxRegistry::create, POBoxRegistry::load);
 	}
 }

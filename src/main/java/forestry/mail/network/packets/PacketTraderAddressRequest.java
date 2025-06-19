@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.mail.network.packets;
 
 import forestry.api.modules.IForestryPacketServer;
@@ -15,36 +5,33 @@ import forestry.core.network.PacketIdServer;
 import forestry.core.tiles.TileUtil;
 import forestry.mail.tiles.TileTrader;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraftforge.network.NetworkHooks;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public record PacketTraderAddressRequest(BlockPos pos, String addressName) implements IForestryPacketServer {
 	public PacketTraderAddressRequest(TileTrader tile, String addressName) {
 		this(tile.getBlockPos(), addressName);
 	}
 
-	public static void handle(PacketTraderAddressRequest msg, ServerPlayer player) {
-		TileUtil.actOnTile(player.level(), msg.pos(), TileTrader.class, tile -> {
+	public static void handle(PacketTraderAddressRequest msg, IPayloadContext context) {
+		TileUtil.actOnTile(context.player().level(), msg.pos(), TileTrader.class, tile -> {
 			if (tile.handleSetAddressRequest(msg.addressName())) {
-				NetworkHooks.openScreen(player, tile, msg.pos());
+				context.player().openMenu(tile, msg.pos());
 			}
 		});
 	}
 
 	@Override
-	public ResourceLocation id() {
+	public Type<?> type() {
 		return PacketIdServer.TRADING_ADDRESS_REQUEST;
 	}
 
-	@Override
-	public void write(FriendlyByteBuf buffer) {
-		buffer.writeBlockPos(this.pos);
-		buffer.writeUtf(this.addressName);
+	public static void encode(RegistryFriendlyByteBuf buffer, PacketTraderAddressRequest msg) {
+		buffer.writeBlockPos(msg.pos);
+		buffer.writeUtf(msg.addressName);
 	}
 
-	public static PacketTraderAddressRequest decode(FriendlyByteBuf buffer) {
+	public static PacketTraderAddressRequest decode(RegistryFriendlyByteBuf buffer) {
 		return new PacketTraderAddressRequest(buffer.readBlockPos(), buffer.readUtf());
 	}
 }

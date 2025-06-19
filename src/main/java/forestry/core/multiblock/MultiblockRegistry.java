@@ -49,11 +49,11 @@ public class MultiblockRegistry {
 	/**
 	 * Register a new part in the system. The part has been created either through user action or via a chunk loading.
 	 *
-	 * @param world The world into which this part is loading.
+	 * @param level The world into which this part is loading.
 	 * @param part  The part being loaded.
 	 */
-	public static void onPartAdded(Level world, IMultiblockComponent part) {
-		MultiblockWorldRegistry registry = getOrCreateRegistry(world);
+	public static void onPartAdded(Level level, IMultiblockComponent part) {
+		MultiblockWorldRegistry registry = getOrCreateRegistry(level);
 		registry.onPartAdded(part);
 	}
 
@@ -125,12 +125,12 @@ public class MultiblockRegistry {
 	}
 
 	/// *** PRIVATE HELPERS *** ///
-	private static MultiblockWorldRegistry getOrCreateRegistry(Level world) {
-		if (registries.containsKey(world)) {
-			return registries.get(world);
+	private static MultiblockWorldRegistry getOrCreateRegistry(Level level) {
+		if (registries.containsKey(level)) {
+			return registries.get(level);
 		} else {
-			MultiblockWorldRegistry newRegistry = new MultiblockWorldRegistry(world);
-			registries.put(world, newRegistry);
+			MultiblockWorldRegistry newRegistry = new MultiblockWorldRegistry(level);
+			registries.put(level, newRegistry);
 			return newRegistry;
 		}
 	}

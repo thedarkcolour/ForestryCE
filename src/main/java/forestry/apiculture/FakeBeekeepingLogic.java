@@ -2,6 +2,7 @@ package forestry.apiculture;
 
 import forestry.api.apiculture.IBeekeepingLogic;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 
@@ -52,11 +53,11 @@ public enum FakeBeekeepingLogic implements IBeekeepingLogic {
 	}
 
 	@Override
-	public void read(CompoundTag nbt) {
+	public void read(CompoundTag nbt, HolderLookup.Provider registries) {
 	}
 
 	@Override
-	public CompoundTag write(CompoundTag nbt) {
+	public CompoundTag write(CompoundTag nbt, HolderLookup.Provider registries) {
 		return nbt;
 	}
 }

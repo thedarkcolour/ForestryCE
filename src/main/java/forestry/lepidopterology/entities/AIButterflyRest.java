@@ -18,7 +18,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.IPlantable;
 
 import java.util.EnumSet;
 
@@ -108,8 +107,6 @@ public class AIButterflyRest extends AIButterflyBase {
 	private static boolean isPlant(BlockState state) {
 		Block block = state.getBlock();
 		if (state.is(BlockTags.FLOWERS)) {
-			return true;
-		} else if (block instanceof IPlantable) {
 			return true;
 		} else if (block instanceof BonemealableBlock) {
 			return true;

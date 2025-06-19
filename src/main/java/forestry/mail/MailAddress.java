@@ -1,21 +1,13 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.mail;
 
 import com.google.common.base.Preconditions;
 import com.mojang.authlib.GameProfile;
+import forestry.api.ForestryRegistries;
 import forestry.api.mail.IMailAddress;
 import forestry.api.mail.IPostalCarrier;
 import forestry.core.utils.PlayerUtil;
-import forestry.mail.carriers.PostalCarriers;
+import forestry.mail.features.PostalCarriers;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.resources.ResourceLocation;
@@ -25,16 +17,15 @@ import java.util.Locale;
 import java.util.UUID;
 
 public class MailAddress implements IMailAddress {
+	private static final GameProfile INVALID_GAME_PROFILE = new GameProfile(new UUID(0, 0), "");
 
-	private static final GameProfile invalidGameProfile = new GameProfile(new UUID(0, 0), "");
-	public static final MailAddress INVALID = new MailAddress(invalidGameProfile);
+	public static final MailAddress INVALID = new MailAddress(INVALID_GAME_PROFILE);
 
 	private final IPostalCarrier carrier;
 	private final GameProfile gameProfile; // gameProfile is a fake GameProfile for traders, and real for players
 
 	public MailAddress(GameProfile gameProfile) {
-
-		this.carrier = PostalCarriers.PLAYER.get();
+		this.carrier = PostalCarriers.PLAYER.value();
 		this.gameProfile = gameProfile;
 	}
 
@@ -42,25 +33,24 @@ public class MailAddress implements IMailAddress {
 		Preconditions.checkNotNull(name, "name must not be null");
 		Preconditions.checkArgument(StringUtils.isNotBlank(name), "name must not be blank");
 
-		this.carrier = PostalCarriers.TRADER.get();
+		this.carrier = PostalCarriers.TRADER.value();
 		this.gameProfile = new GameProfile(null, name);
 	}
 
 	public MailAddress(CompoundTag nbt) {
 		IPostalCarrier carrier = null;
-		GameProfile gameProfile = invalidGameProfile;
+		GameProfile gameProfile = INVALID_GAME_PROFILE;
 		if (nbt.contains("carrier")) {
-			carrier = PostalCarriers.REGISTRY.get().getValue(ResourceLocation.tryParse(nbt.getString("carrier")));
+			carrier = ForestryRegistries.POSTAL_CARRIER.get(ResourceLocation.tryParse(nbt.getString("carrier")));
 		}
 
 		if (carrier == null) {
-			carrier = PostalCarriers.PLAYER.get();
-			gameProfile = invalidGameProfile;
-		} else if (nbt.contains("profile")) {
+			carrier = PostalCarriers.PLAYER.value();
+        } else if (nbt.contains("profile")) {
 			CompoundTag profileTag = nbt.getCompound("profile");
 			gameProfile = NbtUtils.readGameProfile(profileTag);
 			if (gameProfile == null) {
-				gameProfile = invalidGameProfile;
+				gameProfile = INVALID_GAME_PROFILE;
 			}
 		}
 
@@ -80,13 +70,13 @@ public class MailAddress implements IMailAddress {
 
 	@Override
 	public boolean isValid() {
-		return this.gameProfile.getName() != null && !PlayerUtil.isSameGameProfile(this.gameProfile, invalidGameProfile);
+		return this.gameProfile.getName() != null && !PlayerUtil.isSameGameProfile(this.gameProfile, INVALID_GAME_PROFILE);
 	}
 
 	@Override
 	public GameProfile getPlayerProfile() {
 		if (!this.carrier.equals(PostalCarriers.PLAYER.get())) {
-			return invalidGameProfile;
+			return INVALID_GAME_PROFILE;
 		}
 		return this.gameProfile;
 	}
@@ -116,10 +106,10 @@ public class MailAddress implements IMailAddress {
 	}
 
 	@Override
-	public CompoundTag write(CompoundTag compoundNBT) {
+	public CompoundTag write(CompoundTag compoundNBT, HolderLookup.Provider registries) {
 		compoundNBT.putString("carrier", PostalCarriers.REGISTRY.get().getKey(this.carrier).toString());
 
-		if (this.gameProfile != invalidGameProfile) {
+		if (this.gameProfile != INVALID_GAME_PROFILE) {
 			CompoundTag profileNbt = new CompoundTag();
 			NbtUtils.writeGameProfile(profileNbt, this.gameProfile);
 			compoundNBT.put("profile", profileNbt);

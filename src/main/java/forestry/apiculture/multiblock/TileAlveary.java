@@ -17,7 +17,6 @@ import forestry.core.owner.IOwnedTile;
 import forestry.core.owner.IOwnerHandler;
 import forestry.core.tiles.ITitled;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -32,13 +31,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.wrapper.InvWrapper;
-import net.minecraftforge.items.wrapper.SidedInvWrapper;
-
-import javax.annotation.Nullable;
 
 public class TileAlveary extends MultiblockTileEntityForestry<MultiblockLogicAlveary> implements IBeeHousing, IAlvearyComponent<MultiblockLogicAlveary>, IOwnedTile, IStreamableGui, ITitled, IClimateProvider {
 	private final String translationKey;
@@ -70,19 +62,6 @@ public class TileAlveary extends MultiblockTileEntityForestry<MultiblockLogicAlv
 			this.level.setBlockAndUpdate(getBlockPos(), alveary.getNewState(this));
 		}
 		setChanged();
-	}
-
-	@Override
-	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing) {
-		if (capability == ForgeCapabilities.ITEM_HANDLER) {
-			if (facing != null) {
-				// TODO why is sided inventory used here? the side is actually ignored, see in InventoryAdapter
-				return LazyOptional.of(() -> new SidedInvWrapper(getInternalInventory(), facing)).cast();
-			} else {
-				return LazyOptional.of(() -> new InvWrapper(getInternalInventory())).cast();
-			}
-		}
-		return super.getCapability(capability, facing);
 	}
 
 	/* IHousing */
@@ -165,14 +144,14 @@ public class TileAlveary extends MultiblockTileEntityForestry<MultiblockLogicAlv
 
 	/* IStreamableGui */
 	@Override
-	public void writeGuiData(RegistryFriendlyByteBuf data) {
-		getMultiblockLogic().getController().writeGuiData(data);
+	public void writeGuiData(RegistryFriendlyByteBuf buffer) {
+		getMultiblockLogic().getController().writeGuiData(buffer);
 	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void readGuiData(RegistryFriendlyByteBuf data) {
-		getMultiblockLogic().getController().readGuiData(data);
+	public void readGuiData(RegistryFriendlyByteBuf buffer) {
+		getMultiblockLogic().getController().readGuiData(buffer);
 	}
 
 	@Override

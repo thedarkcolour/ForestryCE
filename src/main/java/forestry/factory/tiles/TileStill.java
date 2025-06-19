@@ -1,16 +1,5 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.factory.tiles;
 
-import com.google.common.base.Preconditions;
 import forestry.api.core.ForestryError;
 import forestry.api.core.IErrorLogic;
 import forestry.api.recipes.IStillRecipe;
@@ -27,20 +16,18 @@ import forestry.factory.features.FactoryTiles;
 import forestry.factory.gui.StillMenu;
 import forestry.factory.inventory.InventoryStill;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
 import javax.annotation.Nullable;
 import java.util.Objects;
@@ -53,7 +40,7 @@ public class TileStill extends TilePowered implements WorldlyContainer, ILiquidT
 	private final TankManager tankManager;
 
 	@Nullable
-	private IStillRecipe currentRecipe = null;
+	private RecipeHolder<IStillRecipe> currentRecipe = null;
 	private FluidStack bufferedLiquid = FluidStack.EMPTY;
 
 	public TileStill(BlockPos pos, BlockState state) {
@@ -66,38 +53,38 @@ public class TileStill extends TilePowered implements WorldlyContainer, ILiquidT
 	}
 
 	@Override
-	public void saveAdditional(CompoundTag compoundNBT) {
-		super.saveAdditional(compoundNBT);
-        this.tankManager.write(compoundNBT);
+	public void saveAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+		super.saveAdditional(nbt, registries);
+		this.tankManager.write(nbt, registries);
 
 		if (!this.bufferedLiquid.isEmpty()) {
 			CompoundTag buffer = new CompoundTag();
-            this.bufferedLiquid.writeToNBT(buffer);
-			compoundNBT.put("Buffer", buffer);
+			this.bufferedLiquid.writeToNBT(buffer);
+			nbt.put("Buffer", buffer);
 		}
 	}
 
 	@Override
-	public void load(CompoundTag compoundNBT) {
-		super.load(compoundNBT);
-        this.tankManager.read(compoundNBT);
+	public void loadAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+		super.loadAdditional(nbt, registries);
+		this.tankManager.read(nbt, registries);
 
-		if (compoundNBT.contains("Buffer")) {
-			CompoundTag buffer = compoundNBT.getCompound("Buffer");
-            this.bufferedLiquid = FluidStack.loadFluidStackFromNBT(buffer);
+		if (nbt.contains("Buffer")) {
+			CompoundTag buffer = nbt.getCompound("Buffer");
+			this.bufferedLiquid = FluidStack.loadFluidStackFromNBT(buffer);
 		}
 	}
 
 	@Override
 	public void writeData(RegistryFriendlyByteBuf buffer) {
 		super.writeData(buffer);
-        this.tankManager.writeData(buffer);
+		this.tankManager.writeData(buffer);
 	}
 
 	@Override
 	public void readData(RegistryFriendlyByteBuf buffer) {
 		super.readData(buffer);
-        this.tankManager.readData(buffer);
+		this.tankManager.readData(buffer);
 	}
 
 	@Override
@@ -116,14 +103,13 @@ public class TileStill extends TilePowered implements WorldlyContainer, ILiquidT
 
 	@Override
 	public boolean workCycle() {
-		Preconditions.checkNotNull(this.currentRecipe);
 		int cycles = this.currentRecipe.getCyclesPerUnit();
 		FluidStack output = this.currentRecipe.getOutput();
 
 		FluidStack product = new FluidStack(output, output.getAmount() * cycles);
-        this.productTank.fillInternal(product, IFluidHandler.FluidAction.EXECUTE);
+		this.productTank.fillInternal(product, IFluidHandler.FluidAction.EXECUTE);
 
-        this.bufferedLiquid = FluidStack.EMPTY;
+		this.bufferedLiquid = FluidStack.EMPTY;
 
 		return true;
 	}
@@ -131,11 +117,11 @@ public class TileStill extends TilePowered implements WorldlyContainer, ILiquidT
 	private void checkRecipe() {
 		FluidStack recipeLiquid = !this.bufferedLiquid.isEmpty() ? this.bufferedLiquid : this.resourceTank.getFluid();
 
-		if (this.currentRecipe == null || !this.currentRecipe.matches(recipeLiquid)) {
+		if (this.currentRecipe == null || !this.currentRecipe.value().matches(recipeLiquid)) {
 			Level level = Objects.requireNonNull(this.level);
 			this.currentRecipe = RecipeUtil.getStillRecipe(level.getRecipeManager(), recipeLiquid);
 
-			int recipeTime = this.currentRecipe == null ? 0 : this.currentRecipe.getCyclesPerUnit();
+			int recipeTime = this.currentRecipe == null ? 0 : this.currentRecipe.value().getCyclesPerUnit();
 			setEnergyPerWorkCycle(ENERGY_PER_RECIPE_TIME * recipeTime);
 			setStepsPerWorkCycle(recipeTime);
 		}
@@ -159,8 +145,8 @@ public class TileStill extends TilePowered implements WorldlyContainer, ILiquidT
 				FluidStack drained = this.resourceTank.drain(drainAmount, IFluidHandler.FluidAction.SIMULATE);
 				hasLiquidResource = !drained.isEmpty() && drained.getAmount() == drainAmount;
 				if (hasLiquidResource) {
-                    this.bufferedLiquid = new FluidStack(input, drainAmount);
-                    this.resourceTank.drain(drainAmount, IFluidHandler.FluidAction.EXECUTE);
+					this.bufferedLiquid = input.copyWithAmount(drainAmount);
+					this.resourceTank.drain(drainAmount, IFluidHandler.FluidAction.EXECUTE);
 				}
 			}
 		}
@@ -189,18 +175,8 @@ public class TileStill extends TilePowered implements WorldlyContainer, ILiquidT
 		return this.tankManager;
 	}
 
-
-	@Override
-	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing) {
-		if (capability == ForgeCapabilities.FLUID_HANDLER) {
-			return LazyOptional.of(() -> this.tankManager).cast();
-		}
-		return super.getCapability(capability, facing);
-	}
-
 	@Override
 	public AbstractContainerMenu createMenu(int windowId, Inventory inv, Player player) {
 		return new StillMenu(windowId, player.getInventory(), this);
 	}
-
 }

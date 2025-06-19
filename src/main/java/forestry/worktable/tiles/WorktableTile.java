@@ -13,6 +13,7 @@ import forestry.worktable.recipes.MemorizedRecipe;
 import forestry.worktable.recipes.RecipeMemory;
 import forestry.worktable.screens.WorktableMenu;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -48,19 +49,19 @@ public class WorktableTile extends TileBase implements ICrafterWorktable {
 	}
 
 	@Override
-	public void saveAdditional(CompoundTag data) {
-		super.saveAdditional(data);
+	public void saveAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+		super.saveAdditional(nbt, registries);
 
-        this.craftingDisplay.write(data);
-        this.memory.write(data);
+        this.craftingDisplay.write(nbt, registries);
+        this.memory.write(nbt, registries);
 	}
 
 	@Override
-	public void load(CompoundTag data) {
-		super.load(data);
+	public void loadAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+		super.loadAdditional(nbt, registries);
 
-        this.craftingDisplay.read(data);
-        this.memory = new RecipeMemory(data);
+        this.craftingDisplay.read(nbt, registries);
+        this.memory = new RecipeMemory(nbt, registries);
 	}
 
 	@Override
@@ -125,7 +126,7 @@ public class WorktableTile extends TileBase implements ICrafterWorktable {
 		}
 
 		NonNullList<ItemStack> inventoryStacks = InventoryUtil.getStacks(this);
-		WorktableCraftingContainer usedMatrix = RecipeUtil.getUsedMatrix(this.currentRecipe.getCraftMatrix(), inventoryStacks, this.level, selectedRecipe);
+		WorktableCraftingContainer usedMatrix = RecipeUtil.getUsedMatrix(this.currentRecipe.getCraftMatrix(), inventoryStacks, this.level, selectedRecipe.value());
 		if (usedMatrix == null) {
 			return false;
 		}

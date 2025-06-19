@@ -26,5 +26,5 @@ public interface ITankManager extends IFluidHandler {
 	/**
 	 * For updating tanks on the client
 	 */
-	void processTankUpdate(int tankIndex, @Nullable FluidStack contents);
+	void processTankUpdate(int tankIndex, FluidStack contents);
 }

@@ -114,8 +114,8 @@ public class PostOffice extends SavedData implements IPostOffice {
 				continue;
 			}
 
-			if (stamp.getItem() instanceof IStamps) {
-				EnumPostage postage = ((IStamps) stamp.getItem()).getPostage(stamp);
+			if (stamp.getItem() instanceof IStampItem) {
+				EnumPostage postage = ((IStampItem) stamp.getItem()).getPostage(stamp);
                 this.collectedPostage[postage.ordinal()] += stamp.getCount();
 			}
 		}

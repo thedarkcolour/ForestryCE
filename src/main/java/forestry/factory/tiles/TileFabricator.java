@@ -22,7 +22,7 @@ import forestry.factory.gui.FabricatorMenu;
 import forestry.factory.inventory.InventoryFabricator;
 import forestry.factory.recipes.FabricatorSmeltingRecipe;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.Container;
@@ -36,17 +36,18 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidType;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 
 import javax.annotation.Nullable;
+import java.util.Optional;
 
 public class TileFabricator extends TilePowered implements ISlotPickupWatcher, ILiquidTankTile, WorldlyContainer {
 	private static final int MAX_HEAT = 5000;
 
-	private final InventoryAdapterTile craftingInventory;
+	private final InventoryAdapterTile<?> craftingInventory;
 	private final TankManager tankManager;
 	private final FilteredTank moltenTank;
 	private int heat = 0;
@@ -55,46 +56,44 @@ public class TileFabricator extends TilePowered implements ISlotPickupWatcher, I
 	public TileFabricator(BlockPos pos, BlockState state) {
 		super(FactoryTiles.FABRICATOR.tileType(), pos, state, 1100, 3300);
 		setEnergyPerWorkCycle(200);
-        this.craftingInventory = new InventoryGhostCrafting<>(this, InventoryGhostCrafting.SLOT_CRAFTING_COUNT);
+		this.craftingInventory = new InventoryGhostCrafting<>(this, InventoryGhostCrafting.SLOT_CRAFTING_COUNT);
 		setInternalInventory(new InventoryFabricator(this));
 
-        this.moltenTank = new FilteredTank(8 * FluidType.BUCKET_VOLUME, false, true).setFilter(FluidRecipeFilter.FABRICATOR_SMELTING_OUTPUT);
+		this.moltenTank = new FilteredTank(8 * FluidType.BUCKET_VOLUME, false, true).setFilter(FluidRecipeFilter.FABRICATOR_SMELTING_OUTPUT);
 
-        this.tankManager = new TankManager(this, this.moltenTank);
+		this.tankManager = new TankManager(this, this.moltenTank);
 	}
 
 	/* SAVING & LOADING */
 
 	@Override
-	public void saveAdditional(CompoundTag compound) {
-		super.saveAdditional(compound);
+	public void saveAdditional(CompoundTag compound, HolderLookup.Provider registries) {
+		super.saveAdditional(compound, registries);
 
 		compound.putInt("Heat", this.heat);
-        this.tankManager.write(compound);
-        this.craftingInventory.write(compound);
+		this.tankManager.write(compound, registries);
+		this.craftingInventory.write(compound, registries);
 	}
 
 	@Override
-	public void load(CompoundTag compound) {
-		super.load(compound);
+	public void loadAdditional(CompoundTag compound, HolderLookup.Provider registries) {
+		super.loadAdditional(compound, registries);
 
-        this.heat = compound.getInt("Heat");
-        this.tankManager.read(compound);
-        this.craftingInventory.read(compound);
+		this.heat = compound.getInt("Heat");
+		this.tankManager.read(compound, registries);
+		this.craftingInventory.read(compound, registries);
 	}
 
 	@Override
 	public void writeData(RegistryFriendlyByteBuf buffer) {
-        this.tankManager.writeData(buffer);
+		this.tankManager.writeData(buffer);
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
 	public void readData(RegistryFriendlyByteBuf buffer) {
-        this.tankManager.readData(buffer);
+		this.tankManager.readData(buffer);
 	}
 
-	/* UPDATING */
 	@Override
 	public void serverTick(Level level, BlockPos pos, BlockState state) {
 		super.serverTick(level, pos, state);
@@ -106,7 +105,7 @@ public class TileFabricator extends TilePowered implements ISlotPickupWatcher, I
 		if (!this.moltenTank.isEmpty()) {
 			// Remove smelt if we have gone below melting point
 			if (this.heat < getMeltingPoint() - 100) {
-                this.moltenTank.drain(5, IFluidHandler.FluidAction.EXECUTE);
+				this.moltenTank.drain(5, IFluidHandler.FluidAction.EXECUTE);
 			}
 		}
 
@@ -137,8 +136,8 @@ public class TileFabricator extends TilePowered implements ISlotPickupWatcher, I
 		FluidStack smeltFluid = smelt.result();
 		if (this.moltenTank.fillInternal(smeltFluid, IFluidHandler.FluidAction.SIMULATE) == smeltFluid.getAmount()) {
 			this.removeItem(InventoryFabricator.SLOT_METAL, 1);
-            this.moltenTank.fillInternal(smeltFluid, IFluidHandler.FluidAction.EXECUTE);
-            this.meltingPoint = smelt.meltingPoint();
+			this.moltenTank.fillInternal(smeltFluid, IFluidHandler.FluidAction.EXECUTE);
+			this.meltingPoint = smelt.meltingPoint();
 		}
 	}
 
@@ -160,10 +159,13 @@ public class TileFabricator extends TilePowered implements ISlotPickupWatcher, I
 		ItemStack plan = inventory.getItem(InventoryFabricator.SLOT_PLAN);
 		FluidStack liquid = this.moltenTank.getFluid();
 		RecipeHolder<IFabricatorRecipe> recipe = RecipeUtil.getFabricatorRecipe(this.level.getRecipeManager(), this.level, liquid, plan, this.craftingInventory);
-		if (!liquid.isEmpty() && recipe != null && !liquid.containsFluid(recipe.getRequiredFluid())) {
-			return null;
+		if (!liquid.isEmpty() && recipe != null) {
+			Optional<SizedFluidIngredient> requiredFluid = recipe.value().getRequiredFluid();
+			if (requiredFluid.isPresent() && !requiredFluid.get().test(liquid)) {
+				return null;
+			}
 		}
-		return recipe;
+		return recipe.value();
 	}
 
 	public ItemStack getResult(@Nullable IFabricatorRecipe myRecipe) {
@@ -187,20 +189,34 @@ public class TileFabricator extends TilePowered implements ISlotPickupWatcher, I
 		ItemStack craftResult = getResult(myRecipe);
 
 		if (myRecipe != null && !craftResult.isEmpty() && getItem(InventoryFabricator.SLOT_RESULT).isEmpty()) {
-			FluidStack liquid = myRecipe.getRequiredFluid();
-
 			// Remove resources
 			if (removeFromInventory(myRecipe, false)) {
-				FluidStack drained = this.moltenTank.drainInternal(liquid, IFluidHandler.FluidAction.SIMULATE);
-				if (!drained.isEmpty() && drained.isFluidStackIdentical(liquid)) {
+				Optional<SizedFluidIngredient> liquid = myRecipe.getRequiredFluid();
+				boolean consumedLiquid;
+
+				if (liquid.isPresent()) {
+					SizedFluidIngredient ingredient = liquid.get();
+					int amount = ingredient.amount();
+					FluidStack drained = this.moltenTank.drainInternal(amount, IFluidHandler.FluidAction.SIMULATE);
+
+					if (ingredient.test(drained)) {
+						this.moltenTank.drainInternal(amount, IFluidHandler.FluidAction.EXECUTE);
+						consumedLiquid = true;
+					} else {
+						consumedLiquid = false;
+					}
+				} else {
+					consumedLiquid = true;
+				}
+
+				if (consumedLiquid) {
 					removeFromInventory(myRecipe, true);
-                    this.moltenTank.drain(liquid.getAmount(), IFluidHandler.FluidAction.EXECUTE);
 
 					// Damage plan
 					if (!getItem(InventoryFabricator.SLOT_PLAN).isEmpty()) {
 						Item planItem = getItem(InventoryFabricator.SLOT_PLAN).getItem();
-						if (planItem instanceof ICraftingPlan) {
-							ItemStack planUsed = ((ICraftingPlan) planItem).planUsed(getItem(InventoryFabricator.SLOT_PLAN), craftResult);
+						if (planItem instanceof ICraftingPlan plan) {
+							ItemStack planUsed = plan.planUsed(getItem(InventoryFabricator.SLOT_PLAN), craftResult);
 							setItem(InventoryFabricator.SLOT_PLAN, planUsed);
 						}
 					}
@@ -223,12 +239,17 @@ public class TileFabricator extends TilePowered implements ISlotPickupWatcher, I
 		boolean hasResources = true;
 
 		ItemStack plan = getItem(InventoryFabricator.SLOT_PLAN);
-		IFabricatorRecipe recipe = RecipeUtil.getFabricatorRecipe(this.level.getRecipeManager(), this.level, this.moltenTank.getFluid(), plan, this.craftingInventory);
-		if (recipe != null) {
+		RecipeHolder<IFabricatorRecipe> holder = RecipeUtil.getFabricatorRecipe(this.level.getRecipeManager(), this.level, this.moltenTank.getFluid(), plan, this.craftingInventory);
+		if (holder != null) {
+			IFabricatorRecipe recipe = holder.value();
 			hasResources = removeFromInventory(recipe, false);
-			FluidStack toDrain = recipe.getRequiredFluid();
-			FluidStack drained = this.moltenTank.drainInternal(toDrain, IFluidHandler.FluidAction.SIMULATE);
-			hasLiquidResources = !drained.isEmpty() && drained.isFluidStackIdentical(toDrain);
+
+			Optional<SizedFluidIngredient> toDrain = recipe.getRequiredFluid();
+			if (toDrain.isPresent()) {
+				SizedFluidIngredient requiredFluid = toDrain.get();
+				FluidStack drained = this.moltenTank.drainInternal(requiredFluid.amount(), IFluidHandler.FluidAction.SIMULATE);
+				hasLiquidResources = requiredFluid.test(drained);
+			}
 		} else {
 			hasRecipe = RecipeUtil.getFabricatorMeltingRecipe(this.level.getRecipeManager(), getItem(InventoryFabricator.SLOT_METAL)) != null;
 		}
@@ -247,8 +268,8 @@ public class TileFabricator extends TilePowered implements ISlotPickupWatcher, I
 
 	private int getMeltingPoint() {
 		if (!this.getItem(InventoryFabricator.SLOT_METAL).isEmpty()) {
-			IFabricatorSmeltingRecipe meltingRecipe = RecipeUtil.getFabricatorMeltingRecipe(getLevel().getRecipeManager(), this.getItem(InventoryFabricator.SLOT_METAL));
-			return meltingRecipe == null ? 0 : meltingRecipe.meltingPoint();
+			RecipeHolder<FabricatorSmeltingRecipe> meltingRecipe = RecipeUtil.getFabricatorMeltingRecipe(getLevel().getRecipeManager(), this.getItem(InventoryFabricator.SLOT_METAL));
+			return meltingRecipe == null ? 0 : meltingRecipe.value().meltingPoint();
 		} else if (this.moltenTank.getFluidAmount() > 0) {
 			return this.meltingPoint;
 		}
@@ -269,9 +290,9 @@ public class TileFabricator extends TilePowered implements ISlotPickupWatcher, I
 	/* SMP */
 	public void getGUINetworkData(int i, int j) {
 		if (i == 0) {
-            this.heat = j;
+			this.heat = j;
 		} else if (i == 1) {
-            this.meltingPoint = j;
+			this.meltingPoint = j;
 		}
 	}
 
@@ -290,14 +311,6 @@ public class TileFabricator extends TilePowered implements ISlotPickupWatcher, I
 	@Override
 	public TankManager getTankManager() {
 		return this.tankManager;
-	}
-
-	@Override
-	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing) {
-		if (capability == ForgeCapabilities.FLUID_HANDLER) {
-			return LazyOptional.of(() -> this.tankManager).cast();
-		}
-		return super.getCapability(capability, facing);
 	}
 
 	@Override

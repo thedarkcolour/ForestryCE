@@ -16,7 +16,7 @@ import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import forestry.api.mail.ITradeStation;
-import forestry.api.mail.ITradeStationInfo;
+import forestry.api.mail.TradeStationInfo;
 import forestry.core.commands.CommandHelpers;
 import forestry.core.utils.StringUtil;
 import forestry.mail.MailAddress;
@@ -54,7 +54,7 @@ public class CommandMail {
 			return 1;
 		}
 
-		private static Component makeTradeListEntry(ITradeStationInfo info) {
+		private static Component makeTradeListEntry(TradeStationInfo info) {
 			ChatFormatting formatting = info.state().isOk() ? ChatFormatting.GREEN : ChatFormatting.RED;
 
 			String tradegood = "[ ? ]";

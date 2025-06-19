@@ -41,9 +41,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
@@ -86,7 +83,7 @@ public abstract class TilePlanter extends TilePowered implements IFarmHousingInt
 
 	@Override
 	public Component getDisplayName() {
-		String name = getBlockType(BlockTypePlanter.ARBORETUM).getSerializedName();
+		String name = getBlockType(BlockTypePlanter.ARBORETUM).identifier();
 		return Component.translatable("block.forestry.planter." + (this.manual ? "manual" : "managed"), Component.translatable("block.forestry." + name));
 	}
 
@@ -112,31 +109,31 @@ public abstract class TilePlanter extends TilePowered implements IFarmHousingInt
 	}
 
 	@Override
-	public void saveAdditional(CompoundTag data) {
-		super.saveAdditional(data);
-		this.manager.write(data);
-		this.ownerHandler.write(data);
+	public void saveAdditional(CompoundTag data, HolderLookup.Provider registries) {
+		super.saveAdditional(data, registries);
+		this.manager.write(data, registries);
+		this.ownerHandler.write(data, registries);
 		data.putBoolean("manual", this.manual);
 	}
 
 	@Override
-	public void load(CompoundTag data) {
-		super.load(data);
-		this.manager.read(data);
-		this.ownerHandler.read(data);
+	public void loadAdditional(CompoundTag data, HolderLookup.Provider registries) {
+		super.loadAdditional(data, registries);
+		this.manager.read(data, registries);
+		this.ownerHandler.read(data, registries);
 		setManual(data.getBoolean("manual"));
 	}
 
 	@Override
-	public void writeGuiData(RegistryFriendlyByteBuf data) {
-		super.writeGuiData(data);
-		this.manager.writeData(data);
+	public void writeGuiData(RegistryFriendlyByteBuf buffer) {
+		super.writeGuiData(buffer);
+		this.manager.writeData(buffer);
 	}
 
 	@Override
-	public void readGuiData(RegistryFriendlyByteBuf data) {
-		super.readGuiData(data);
-		this.manager.readData(data);
+	public void readGuiData(RegistryFriendlyByteBuf buffer) {
+		super.readGuiData(buffer);
+		this.manager.readData(buffer);
 
 	}
 
@@ -279,7 +276,7 @@ public abstract class TilePlanter extends TilePowered implements IFarmHousingInt
 	@Override
 	public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
 		CompoundTag data = super.getUpdateTag(registries);
-		this.manager.write(data);
+		this.manager.write(data, registries);
 		return data;
 	}
 
@@ -305,14 +302,6 @@ public abstract class TilePlanter extends TilePowered implements IFarmHousingInt
 	@Override
 	public ITankManager getTankManager() {
 		return this.manager.getTankManager();
-	}
-
-	@Override
-	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing) {
-		if (capability == ForgeCapabilities.FLUID_HANDLER) {
-			return LazyOptional.of(this::getTankManager).cast();
-		}
-		return super.getCapability(capability, facing);
 	}
 
 	public abstract List<ItemStack> createGermlingStacks();

@@ -10,7 +10,7 @@
  ******************************************************************************/
 package forestry.mail.tiles;
 
-import forestry.api.mail.IStamps;
+import forestry.api.mail.IStampItem;
 import forestry.core.inventory.IInventoryAdapter;
 import forestry.core.tiles.TileBase;
 import forestry.core.utils.InventoryUtil;
@@ -47,8 +47,8 @@ public class TileStampCollector extends TileBase implements Container {
 			stamp = PostOffice.getOrCreate((ServerLevel) level).getAnyStamp(1);
 		} else {
 			ItemStack filter = inventory.getItem(InventoryStampCollector.SLOT_FILTER);
-			if (filter.getItem() instanceof IStamps) {
-				stamp = PostOffice.getOrCreate((ServerLevel) level).getAnyStamp(((IStamps) filter.getItem()).getPostage(filter), 1);
+			if (filter.getItem() instanceof IStampItem) {
+				stamp = PostOffice.getOrCreate((ServerLevel) level).getAnyStamp(((IStampItem) filter.getItem()).getPostage(filter), 1);
 			}
 		}
 

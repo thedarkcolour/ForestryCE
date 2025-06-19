@@ -19,29 +19,29 @@ import forestry.factory.tiles.TileFabricator;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public record PacketRecipeTransferUpdate(BlockPos pos,
 										 NonNullList<ItemStack> craftingInventory) implements IForestryPacketClient {
-	@Override
-	public ResourceLocation id() {
+	public Type<?> type() {
 		return PacketIdClient.RECIPE_TRANSFER_UPDATE;
 	}
 
-	@Override
-	public void write(FriendlyByteBuf buffer) {
+	public void write(RegistryFriendlyByteBuf buffer) {
 		buffer.writeBlockPos(this.pos);
 		NetworkUtil.writeItemStacks(buffer, this.craftingInventory);
 	}
 
-	public static PacketRecipeTransferUpdate decode(FriendlyByteBuf buffer) {
+	public static PacketRecipeTransferUpdate decode(RegistryFriendlyByteBuf buffer) {
 		return new PacketRecipeTransferUpdate(buffer.readBlockPos(), NetworkUtil.readItemStacks(buffer));
 	}
 
-	public static void handle(PacketRecipeTransferUpdate msg, Player player) {
+	public static void handle(PacketRecipeTransferUpdate msg, IPayloadContext ctx) {
 		BlockEntity tile = TileUtil.getTile(player.level(), msg.pos);
 		if (tile instanceof TileCarpenter carpenter) {
 			int index = 0;

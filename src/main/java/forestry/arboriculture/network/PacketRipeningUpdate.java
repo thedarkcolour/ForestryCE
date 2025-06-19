@@ -7,6 +7,7 @@ import forestry.core.tiles.TileUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.entity.player.Player;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public record PacketRipeningUpdate(BlockPos pos, int value) implements IForestryPacketClient {
 	public PacketRipeningUpdate(TileLeaves leaves) {
@@ -18,7 +19,7 @@ public record PacketRipeningUpdate(BlockPos pos, int value) implements IForestry
 		return PacketIdClient.RIPENING_UPDATE;
 	}
 
-	public static void write(RegistryFriendlyByteBuf buffer, PacketRipeningUpdate msg) {
+	public static void encode(RegistryFriendlyByteBuf buffer, PacketRipeningUpdate msg) {
 		buffer.writeBlockPos(msg.pos);
 		buffer.writeVarInt(msg.value);
 	}
@@ -27,7 +28,7 @@ public record PacketRipeningUpdate(BlockPos pos, int value) implements IForestry
 		return new PacketRipeningUpdate(buffer.readBlockPos(), buffer.readVarInt());
 	}
 
-	public static void handle(PacketRipeningUpdate msg, Player player) {
-		TileUtil.actOnTile(player.level(), msg.pos, IRipeningPacketReceiver.class, tile -> tile.fromRipeningPacket(msg.value));
+	public static void handle(PacketRipeningUpdate msg, IPayloadContext ctx) {
+		TileUtil.actOnTile(ctx.player().level(), msg.pos, TileLeaves.class, tile -> tile.fromRipeningPacket(msg.value));
 	}
 }

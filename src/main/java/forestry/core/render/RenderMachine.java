@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.core.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -92,17 +82,14 @@ public class RenderMachine implements BlockEntityRenderer<TileBase> {
 	private void renderTank(PoseStack stack, ModelPart tankModel, MultiBufferSource buffers, ResourceLocation textureBase, TankRenderInfo renderInfo, int light, int overlay) {
 		tankModel.render(stack, buffers.getBuffer(RenderType.entityCutout(textureBase)), light, overlay);
 
-		ResourceLocation textureResourceTankLevel = this.texturesTankLevels.get(renderInfo.getLevel());
+		ResourceLocation textureResourceTankLevel = this.texturesTankLevels.get(renderInfo.level());
 		if (textureResourceTankLevel == null) {
 			return;
 		}
 
-		int color = RenderUtil.getFluidColor(renderInfo.getFluidStack().getFluid());
-		float r = (color >> 16 & 255) / 255f;
-		float g = (color >> 8 & 255) / 255f;
-		float b = (color & 255) / 255f;
+		int color = RenderUtil.getFluidColor(renderInfo.fluidStack().getFluid());
 
-		tankModel.render(stack, buffers.getBuffer(RenderType.entityCutout(textureResourceTankLevel)), light, overlay, r, g, b, 1.0f);
+		tankModel.render(stack, buffers.getBuffer(RenderType.entityCutout(textureResourceTankLevel)), light, overlay, color);
 	}
 
 	@Override

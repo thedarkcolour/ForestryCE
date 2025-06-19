@@ -8,9 +8,9 @@ import com.mojang.serialization.Codec;
 import forestry.api.IForestryApi;
 import forestry.api.arboriculture.IArboristTracker;
 import forestry.api.arboriculture.ILeafTickHandler;
-import forestry.api.arboriculture.genetics.ITreeSpecies;
 import forestry.api.arboriculture.genetics.IFruit;
 import forestry.api.arboriculture.genetics.ITree;
+import forestry.api.arboriculture.genetics.ITreeSpecies;
 import forestry.api.arboriculture.genetics.ITreeSpeciesType;
 import forestry.api.core.IProduct;
 import forestry.api.genetics.*;
@@ -32,6 +32,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
@@ -40,10 +41,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nullable;
-import java.util.Collection;
-import java.util.IdentityHashMap;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class TreeSpeciesType extends SpeciesType<ITreeSpecies, ITree> implements ITreeSpeciesType, IBreedingTrackerHandler {
 	// todo make both of these reloadable
@@ -78,7 +76,7 @@ public class TreeSpeciesType extends SpeciesType<ITreeSpecies, ITree> implements
 			if (species != null) {
 				type.setSpecies(species);
 			} else {
-				throw new IllegalStateException("Invalid ForestryLeafType " + type.getSerializedName() + ": no tree species found with ID: " + type.getSpeciesId());
+				throw new IllegalStateException("Invalid ForestryLeafType " + type.identifier() + ": no tree species found with ID: " + type.getSpeciesId());
 			}
 		}
 	}
@@ -147,7 +145,7 @@ public class TreeSpeciesType extends SpeciesType<ITreeSpecies, ITree> implements
 		}
 
 		sapling.setTree(tree.copy());
-		sapling.getOwnerHandler().setOwner(owner);
+		sapling.getOwnerHandler().setOwner(new ResolvableProfile(owner));
 
 		BlockUtil.sendPlaceSound(level, pos, blockState);
 
@@ -155,12 +153,12 @@ public class TreeSpeciesType extends SpeciesType<ITreeSpecies, ITree> implements
 	}
 
 	@Override
-	public IArboristTracker getBreedingTracker(LevelAccessor level, @Nullable GameProfile profile) {
+	public IArboristTracker getBreedingTracker(LevelAccessor level, @Nullable @Nullable ResolvableProfile profile) {
 		return BreedingTrackerManager.INSTANCE.getTracker(this, level, profile);
 	}
 
 	@Override
-	public String getBreedingTrackerFile(@Nullable GameProfile profile) {
+	public String getBreedingTrackerFile(@Nullable @Nullable ResolvableProfile profile) {
 		return "ArboristTracker." + (profile == null ? "common" : profile.getId());
 	}
 
@@ -170,7 +168,7 @@ public class TreeSpeciesType extends SpeciesType<ITreeSpecies, ITree> implements
 	}
 
 	@Override
-	public void initializeBreedingTracker(IBreedingTracker tracker, @Nullable Level world, @Nullable GameProfile profile) {
+	public void initializeBreedingTracker(IBreedingTracker tracker, @Nullable Level world, @Nullable @Nullable ResolvableProfile profile) {
 		if (tracker instanceof ArboristTracker arboristTracker) {
 			arboristTracker.setLevel(world);
 			arboristTracker.setUsername(profile);
@@ -202,6 +200,11 @@ public class TreeSpeciesType extends SpeciesType<ITreeSpecies, ITree> implements
 	@Override
 	public ITree getVanillaIndividual(Item item) {
 		return this.vanillaItems.get(item);
+	}
+
+	@Override
+	public Map<Item, ITree> getAllVanillaIndividuals() {
+		return Collections.unmodifiableMap(this.vanillaItems);
 	}
 
 	@Override

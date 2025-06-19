@@ -37,7 +37,7 @@ public abstract class ItemInventory implements Container, IFilterSlotDelegate {
 			String slotKey = getSlotNBTKey(i);
 			if (nbtSlots.contains(slotKey)) {
 				CompoundTag itemNbt = nbtSlots.getCompound(slotKey);
-				ItemStack itemStack = ItemStack.of(itemNbt);
+				ItemStack itemStack = ItemStack.parseOptional(registries, itemNbt);
 				this.inventoryStacks.set(i, itemStack);
 			} else {
 				this.inventoryStacks.set(i, ItemStack.EMPTY);

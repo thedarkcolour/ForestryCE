@@ -29,6 +29,7 @@ import forestry.factory.features.FactoryTiles;
 import forestry.factory.gui.CentrifugeMenu;
 import forestry.factory.inventory.InventoryCentrifuge;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -40,6 +41,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ResultContainer;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
@@ -69,34 +71,34 @@ public class TileCentrifuge extends TilePowered implements ISocketable, WorldlyC
 	/* LOADING & SAVING */
 
 	@Override
-	public void saveAdditional(CompoundTag compound) {
-		super.saveAdditional(compound);
+	public void saveAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+		super.saveAdditional(nbt, registries);
 
-        this.sockets.write(compound);
+        this.sockets.write(nbt, registries);
 
-		ListTag nbttaglist = new ListTag();
+		ListTag list = new ListTag();
 		ItemStack[] offspring = this.pendingProducts.toArray(new ItemStack[0]);
 		for (int i = 0; i < offspring.length; i++) {
 			if (offspring[i] != null) {
 				CompoundTag products = new CompoundTag();
 				products.putByte("Slot", (byte) i);
 				offspring[i].save(products);
-				nbttaglist.add(products);
+				list.add(products);
 			}
 		}
-		compound.put("PendingProducts", nbttaglist);
+		nbt.put("PendingProducts", list);
 	}
 
 	@Override
-	public void load(CompoundTag compound) {
-		super.load(compound);
+	public void loadAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+		super.loadAdditional(nbt, registries);
 
-		ListTag nbttaglist = compound.getList("PendingProducts", 10);
+		ListTag nbttaglist = nbt.getList("PendingProducts", 10);
 		for (int i = 0; i < nbttaglist.size(); i++) {
 			CompoundTag CompoundNBT1 = nbttaglist.getCompound(i);
-            this.pendingProducts.add(ItemStack.of(CompoundNBT1));
+            this.pendingProducts.add(ItemStack.parseOptional(registries, CompoundNBT1));
 		}
-        this.sockets.read(compound);
+        this.sockets.read(nbt, registries);
 
 		ItemStack chip = this.sockets.getItem(0);
 		if (!chip.isEmpty()) {
@@ -109,16 +111,16 @@ public class TileCentrifuge extends TilePowered implements ISocketable, WorldlyC
 	}
 
 	@Override
-	public void writeGuiData(RegistryFriendlyByteBuf data) {
-		super.writeGuiData(data);
-        this.sockets.writeData(data);
+	public void writeGuiData(RegistryFriendlyByteBuf buffer) {
+		super.writeGuiData(buffer);
+        this.sockets.writeData(buffer);
 	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void readGuiData(RegistryFriendlyByteBuf data) {
-		super.readGuiData(data);
-        this.sockets.readData(data);
+	public void readGuiData(RegistryFriendlyByteBuf buffer) {
+		super.readGuiData(buffer);
+        this.sockets.readData(buffer);
 	}
 
 	@Override
@@ -151,7 +153,7 @@ public class TileCentrifuge extends TilePowered implements ISocketable, WorldlyC
 
 	private void checkRecipe() {
 		ItemStack resource = getItem(InventoryCentrifuge.SLOT_RESOURCE);
-		ICentrifugeRecipe matchingRecipe = RecipeUtil.getCentrifugeRecipe(getLevel().getRecipeManager(), resource);
+		RecipeHolder<ICentrifugeRecipe> matchingRecipe = RecipeUtil.getCentrifugeRecipe(getLevel().getRecipeManager(), resource);
 
 		if (this.currentRecipe != matchingRecipe) {
             this.currentRecipe = matchingRecipe;

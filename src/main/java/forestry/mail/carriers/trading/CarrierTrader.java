@@ -42,13 +42,13 @@ public class CarrierTrader implements IPostalCarrier {
 	}
 
 	@Override
-	public IPostalState deliverLetter(ServerLevel world, IPostOffice office, IMailAddress recipient, ItemStack letterStack, boolean doDeliver) {
-		ITradeStation trade = TradeStationRegistry.getOrCreate(world).getTradeStation(recipient);
+	public IPostalState deliverLetter(ServerLevel level, IPostOffice office, IMailAddress recipient, ItemStack letterStack, boolean doDeliver) {
+		ITradeStation trade = TradeStationRegistry.getOrCreate(level).getTradeStation(recipient);
 		if (trade == null) {
 			return EnumDeliveryState.NO_MAILBOX;
 		}
 
-		return trade.handleLetter(world, recipient, letterStack, doDeliver);
+		return trade.handleLetter(level, recipient, letterStack, doDeliver);
 	}
 
 	@Override

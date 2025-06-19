@@ -87,12 +87,4 @@ public abstract class TileUtil {
 
 		return null;
 	}
-
-	public static <T> LazyOptional<T> getInterface(Level world, BlockPos pos, Capability<T> capability, @Nullable Direction facing) {
-		BlockEntity tileEntity = world.getBlockEntity(pos);
-		if (tileEntity == null) {
-			return LazyOptional.empty();
-		}
-		return tileEntity.getCapability(capability, facing);
-	}
 }

@@ -13,8 +13,9 @@ import forestry.apiculture.tiles.TileHive;
 import forestry.core.utils.NetworkUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
@@ -40,33 +41,33 @@ public class WorldgenBeekeepingLogic implements IBeekeepingLogic {
 
 	// / SAVING & LOADING
 	@Override
-	public void read(CompoundTag CompoundNBT) {
+	public void read(CompoundTag CompoundNBT, HolderLookup.Provider registries) {
 		setActive(CompoundNBT.getBoolean("Active"));
-        this.hasFlowersCache.read(CompoundNBT);
+        this.hasFlowersCache.read(CompoundNBT, registries);
 	}
 
 	@Override
-	public CompoundTag write(CompoundTag CompoundNBT) {
+	public CompoundTag write(CompoundTag CompoundNBT, HolderLookup.Provider registries) {
 		CompoundNBT.putBoolean("Active", this.active);
-        this.hasFlowersCache.write(CompoundNBT);
+        this.hasFlowersCache.write(CompoundNBT, registries);
 
 		return CompoundNBT;
 	}
 
 	@Override
-	public void writeData(FriendlyByteBuf data) {
-		data.writeBoolean(this.active);
+	public void writeData(RegistryFriendlyByteBuf buffer) {
+		buffer.writeBoolean(this.active);
 		if (this.active) {
-            this.hasFlowersCache.writeData(data);
+            this.hasFlowersCache.writeData(buffer);
 		}
 	}
 
 	@Override
-	public void readData(FriendlyByteBuf data) {
-		boolean active = data.readBoolean();
+	public void readData(RegistryFriendlyByteBuf buffer) {
+		boolean active = buffer.readBoolean();
 		setActive(active);
 		if (active) {
-            this.hasFlowersCache.readData(data);
+            this.hasFlowersCache.readData(buffer);
 		}
 	}
 

@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.core.multiblock;
 
 import forestry.api.climate.IClimateProvider;
@@ -19,6 +9,7 @@ import forestry.api.multiblock.IMultiblockController;
 import forestry.core.network.IStreamableGui;
 import forestry.core.owner.IOwnedTile;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
 
@@ -101,16 +92,18 @@ public interface IMultiblockControllerInternal extends IMultiblockController, IN
 	/**
 	 * Called when the save delegate's tile entity is being asked for its description packet
 	 *
-	 * @param data A fresh compound tag to write your multiblock data into
+	 * @param data       A fresh compound tag to write your multiblock data into
+	 * @param registries Registry access
 	 */
-	void formatDescriptionPacket(CompoundTag data);
+	void encodeUpdatePacket(CompoundTag data, HolderLookup.Provider registries);
 
 	/**
 	 * Called when the save delegate's tile entity receiving a description packet
 	 *
-	 * @param data A compound tag containing multiblock data to import
+	 * @param data       A compound tag containing multiblock data to import
+	 * @param registries
 	 */
-	void decodeDescriptionPacket(CompoundTag data);
+	void decodeUpdatePacket(CompoundTag data, HolderLookup.Provider registries);
 
 	Level getLevel();
 

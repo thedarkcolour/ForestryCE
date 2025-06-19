@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.core.network.packets;
 
 import forestry.api.modules.IForestryPacketClient;
@@ -16,10 +6,9 @@ import forestry.core.network.PacketIdClient;
 import forestry.core.tiles.TileUtil;
 import forestry.core.utils.NetworkUtil;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 import javax.annotation.Nullable;
 
@@ -28,7 +17,7 @@ public class PacketTileStream implements IForestryPacketClient {
 	@Nullable
 	protected final IStreamable streamable;
 	@Nullable
-	protected final FriendlyByteBuf payload;
+	protected final RegistryFriendlyByteBuf payload;
 
 	public <T extends BlockEntity & IStreamable> PacketTileStream(T streamable) {
 		this.pos = streamable.getBlockPos();
@@ -36,29 +25,28 @@ public class PacketTileStream implements IForestryPacketClient {
 		this.payload = null;
 	}
 
-	private PacketTileStream(BlockPos pos, FriendlyByteBuf payload) {
+	private PacketTileStream(BlockPos pos, RegistryFriendlyByteBuf payload) {
 		this.pos = pos;
 		this.streamable = null;
 		this.payload = payload;
 	}
 
 	@Override
-	public ResourceLocation id() {
-		return PacketIdClient.TILE_FORESTRY_UPDATE;
+	public Type<?> type() {
+		return PacketIdClient.TILE_STREAM;
 	}
 
-	@Override
-	public void write(FriendlyByteBuf buffer) {
-		buffer.writeBlockPos(this.pos);
-		NetworkUtil.writePayloadBuffer(buffer, this.streamable::writeData);
+	public static void encode(RegistryFriendlyByteBuf buffer, PacketTileStream msg) {
+		buffer.writeBlockPos(msg.pos);
+		NetworkUtil.writePayloadBuffer(buffer, msg.streamable::writeData);
 	}
 
-	public static PacketTileStream decode(FriendlyByteBuf data) {
-		return new PacketTileStream(data.readBlockPos(), NetworkUtil.readPayloadBuffer(data));
+	public static PacketTileStream decode(RegistryFriendlyByteBuf buffer) {
+		return new PacketTileStream(buffer.readBlockPos(), NetworkUtil.readPayloadBuffer(buffer));
 	}
 
-	public static void handle(PacketTileStream msg, Player player) {
-		IStreamable tile = TileUtil.getTile(player.level(), msg.pos, IStreamable.class);
+	public static void handle(PacketTileStream msg, IPayloadContext ctx) {
+		IStreamable tile = TileUtil.getTile(ctx.player().level(), msg.pos, IStreamable.class);
 
 		if (tile != null) {
 			tile.readData(msg.payload);

@@ -39,7 +39,7 @@ public class LetterProperties {
 		}
 		ItemStack ret = MailItems.LETTERS.stack(size, state, parent.getCount());
 		ret.setTag(parent.getTag());
-		letter.write(parent.getTag());
+		letter.write(parent.getTag(), IDK);
 		return ret;
 	}
 

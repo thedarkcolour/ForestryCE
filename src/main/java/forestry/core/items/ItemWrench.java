@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.core.items;
 
 import net.minecraft.core.BlockPos;
@@ -34,13 +24,12 @@ public class ItemWrench extends ItemForestry {
 		if (player == null) {
 			return InteractionResult.FAIL;
 		}
-		Direction facing = context.getClickedFace();
 		InteractionHand hand = context.getHand();
 
 		BlockState state = worldIn.getBlockState(pos);
 		Block block = state.getBlock();
 		BlockState rotatedState = block.rotate(state, worldIn, pos, Rotation.CLOCKWISE_90);
-		if (rotatedState != state) {    //TODO - how to rotate based on a direction, might need helper method
+		if (rotatedState != state) {
 			player.swing(hand);
 			worldIn.setBlock(pos, rotatedState, Block.UPDATE_CLIENTS);
 			return InteractionResult.SUCCESS;

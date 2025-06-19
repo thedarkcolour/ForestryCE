@@ -39,14 +39,14 @@ public class TileEscritoire extends TileBase implements WorldlyContainer, ISlotP
 	@Override
 	public void loadAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
 		super.loadAdditional(nbt, registries);
-        this.game.read(nbt);
+        this.game.read(nbt, registries);
 	}
 
 
 	@Override
 	public void saveAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
 		super.saveAdditional(nbt, registries);
-        this.game.write(nbt);
+        this.game.write(nbt, registries);
 	}
 
 	/* GAME */
@@ -102,13 +102,13 @@ public class TileEscritoire extends TileBase implements WorldlyContainer, ISlotP
 
 	/* NETWORK */
 	@Override
-	public void writeGuiData(RegistryFriendlyByteBuf data) {
-        this.game.writeData(data);
+	public void writeGuiData(RegistryFriendlyByteBuf buffer) {
+        this.game.writeData(buffer);
 	}
 
 	@Override
-	public void readGuiData(RegistryFriendlyByteBuf data) {
-        this.game.readData(data);
+	public void readGuiData(RegistryFriendlyByteBuf buffer) {
+        this.game.readData(buffer);
 	}
 
 	@Override

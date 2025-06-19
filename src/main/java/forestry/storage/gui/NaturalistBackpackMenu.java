@@ -11,8 +11,8 @@ import forestry.storage.inventory.ItemInventoryBackpackPaged;
 import forestry.storage.items.ItemBackpack;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
 
 public class NaturalistBackpackMenu extends ItemInventoryMenu<ItemInventoryBackpackPaged> implements IGuiSelectable, INaturalistMenu {
 	private final int currentPage;
@@ -33,7 +33,7 @@ public class NaturalistBackpackMenu extends ItemInventoryMenu<ItemInventoryBackp
 	}
 
 	@Override
-	public void handleSelectionRequest(ServerPlayer player, int primary, int secondary) {
+	public void handleSelectionRequest(Player player, int primary, int secondary) {
         this.inventory.flipPage(player, (short) primary);
 	}
 

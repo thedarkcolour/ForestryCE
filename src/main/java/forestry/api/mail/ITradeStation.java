@@ -7,7 +7,6 @@ import net.minecraft.world.Container;
 import javax.annotation.Nullable;
 
 public interface ITradeStation extends ILetterHandler, Container, IWatchable, IInventoryAdapter {
-
 	@Nullable
 	IMailAddress getAddress();
 
@@ -19,6 +18,5 @@ public interface ITradeStation extends ILetterHandler, Container, IWatchable, II
 
 	boolean isVirtual();
 
-	ITradeStationInfo getTradeInfo();
-
+	TradeStationInfo getTradeInfo();
 }

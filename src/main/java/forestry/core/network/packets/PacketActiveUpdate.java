@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.core.network.packets;
 
 import forestry.api.modules.IForestryPacketClient;
@@ -16,33 +6,30 @@ import forestry.core.network.PacketIdClient;
 import forestry.core.tiles.IActivatable;
 import forestry.core.tiles.TileUtil;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public record PacketActiveUpdate(BlockPos pos, boolean active) implements IForestryPacketClient {
 	public PacketActiveUpdate(IActivatable tile) {
 		this(tile.getBlockPos(), tile.isActive());
 	}
 
-	@Override
-	public ResourceLocation id() {
-		return PacketIdClient.TILE_FORESTRY_ACTIVE;
+	public Type<?> type() {
+		return PacketIdClient.ACTIVE_UPDATE;
 	}
 
-	@Override
-	public void write(FriendlyByteBuf buffer) {
-		buffer.writeBlockPos(this.pos);
-		buffer.writeBoolean(this.active);
+	public static void encode(RegistryFriendlyByteBuf buffer, PacketActiveUpdate msg) {
+		buffer.writeBlockPos(msg.pos);
+		buffer.writeBoolean(msg.active);
 	}
 
-	public static PacketActiveUpdate decode(FriendlyByteBuf buffer) {
+	public static PacketActiveUpdate decode(RegistryFriendlyByteBuf buffer) {
 		return new PacketActiveUpdate(buffer.readBlockPos(), buffer.readBoolean());
 	}
 
-	public static void handle(PacketActiveUpdate msg, Player player) {
-		BlockEntity tile = TileUtil.getTile(player.level(), msg.pos);
+	public static void handle(PacketActiveUpdate msg, IPayloadContext ctx) {
+		BlockEntity tile = TileUtil.getTile(ctx.player().level(), msg.pos);
 
 		if (tile instanceof IActivatable activatable) {
 			activatable.setActive(msg.active);

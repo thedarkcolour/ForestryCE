@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.factory.tiles;
 
 import forestry.api.IForestryApi;
@@ -15,6 +5,7 @@ import forestry.api.circuits.ForestryCircuitSocketTypes;
 import forestry.api.circuits.ICircuitBoard;
 import forestry.api.core.ForestryError;
 import forestry.api.core.IErrorLogic;
+import forestry.api.recipes.ISqueezerContainerRecipe;
 import forestry.api.recipes.ISqueezerRecipe;
 import forestry.core.circuits.ISocketable;
 import forestry.core.circuits.ISpeedUpgradable;
@@ -34,6 +25,7 @@ import forestry.factory.gui.SqueezerMenu;
 import forestry.factory.inventory.InventorySqueezer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -43,15 +35,13 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -80,17 +70,17 @@ public class TileSqueezer extends TilePowered implements ISocketable, WorldlyCon
 	/* LOADING & SAVING */
 
 	@Override
-	public void saveAdditional(CompoundTag compoundNBT) {
-		super.saveAdditional(compoundNBT);
-        this.tankManager.write(compoundNBT);
-        this.sockets.write(compoundNBT);
+	public void saveAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+		super.saveAdditional(nbt, registries);
+        this.tankManager.write(nbt, registries);
+        this.sockets.write(nbt, registries);
 	}
 
 	@Override
-	public void load(CompoundTag compoundNBT) {
-		super.load(compoundNBT);
-        this.tankManager.read(compoundNBT);
-        this.sockets.read(compoundNBT);
+	public void loadAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+		super.loadAdditional(nbt, registries);
+        this.tankManager.read(nbt, registries);
+        this.sockets.read(nbt, registries);
 
 		ItemStack chip = this.sockets.getItem(0);
 		if (!chip.isEmpty()) {
@@ -116,16 +106,16 @@ public class TileSqueezer extends TilePowered implements ISocketable, WorldlyCon
 	}
 
 	@Override
-	public void writeGuiData(RegistryFriendlyByteBuf data) {
-		super.writeGuiData(data);
-        this.sockets.writeData(data);
+	public void writeGuiData(RegistryFriendlyByteBuf buffer) {
+		super.writeGuiData(buffer);
+        this.sockets.writeData(buffer);
 	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
-	public void readGuiData(RegistryFriendlyByteBuf data) {
-		super.readGuiData(data);
-        this.sockets.readData(data);
+	public void readGuiData(RegistryFriendlyByteBuf buffer) {
+		super.readGuiData(buffer);
+        this.sockets.readData(buffer);
 	}
 
 	// / WORKING
@@ -177,13 +167,15 @@ public class TileSqueezer extends TilePowered implements ISocketable, WorldlyCon
 			if (this.currentRecipe != null && containsSets) {
 				matchingRecipe = this.currentRecipe;
 			} else {
-				matchingRecipe = RecipeUtil.getSqueezerRecipe(getLevel().getRecipeManager(), resources);
+				RecipeHolder<ISqueezerRecipe> holder = RecipeUtil.getSqueezerRecipe(getLevel().getRecipeManager(), resources);
+				matchingRecipe = holder == null ? null : holder.value();
 			}
 
 			if (matchingRecipe == null) {
 				for (ItemStack resource : resources) {
 					if (matchingRecipe == null) {
-						matchingRecipe = RecipeUtil.getSqueezerContainerRecipe(getLevel().getRecipeManager(), resource);
+						RecipeHolder<ISqueezerContainerRecipe> holder = RecipeUtil.getSqueezerContainerRecipe(getLevel().getRecipeManager(), resource);
+						matchingRecipe = holder == null ? null : holder.value();
 					}
 				}
 			}
@@ -284,14 +276,6 @@ public class TileSqueezer extends TilePowered implements ISocketable, WorldlyCon
 	@Override
 	public ResourceLocation getSocketType() {
 		return ForestryCircuitSocketTypes.MACHINE;
-	}
-
-	@Override
-	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing) {
-		if (capability == ForgeCapabilities.FLUID_HANDLER) {
-			return LazyOptional.of(() -> this.tankManager).cast();
-		}
-		return super.getCapability(capability, facing);
 	}
 
 	@Override

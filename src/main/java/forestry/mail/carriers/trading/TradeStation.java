@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.mail.carriers.trading;
 
 import com.mojang.authlib.GameProfile;
@@ -16,13 +6,14 @@ import forestry.core.inventory.InventoryAdapter;
 import forestry.core.utils.InventoryUtil;
 import forestry.core.utils.ItemStackUtil;
 import forestry.mail.*;
-import forestry.mail.carriers.PostalCarriers;
+import forestry.mail.features.PostalCarriers;
 import forestry.mail.features.MailItems;
 import forestry.mail.inventory.InventoryTradeStation;
 import forestry.mail.items.EnumStampDefinition;
 import forestry.mail.postalstates.EnumDeliveryState;
 import forestry.mail.postalstates.ResponseNotMailable;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
@@ -64,7 +55,7 @@ public class TradeStation implements ITradeStation {
 	private final Set<Watcher> updateWatchers = new HashSet<>();
 
 	public TradeStation(@Nullable GameProfile owner, IMailAddress address) {
-		if (!address.getCarrier().equals(PostalCarriers.TRADER.get())) {
+		if (!address.getCarrier().equals(PostalCarriers.TRADER.value())) {
 			throw new IllegalArgumentException("TradeStation address must be a trader");
 		}
 
@@ -72,8 +63,8 @@ public class TradeStation implements ITradeStation {
 		this.address = address;
 	}
 
-	public TradeStation(CompoundTag tag) {
-		read(tag);
+	public TradeStation(CompoundTag tag, HolderLookup.Provider registries) {
+		read(tag, registries);
 	}
 
 	@Override
@@ -81,33 +72,28 @@ public class TradeStation implements ITradeStation {
 		return this.address;
 	}
 
-	// / SAVING & LOADING
-	public CompoundTag save(CompoundTag compoundNBT) {
+	@Override
+	public CompoundTag write(CompoundTag nbt, HolderLookup.Provider registries) {
 		if (this.owner != null) {
-			CompoundTag nbt = new CompoundTag();
-			NbtUtils.writeGameProfile(nbt, this.owner);
-			compoundNBT.put("owner", nbt);
+			CompoundTag ownerNbt = new CompoundTag();
+			NbtUtils.writeGameProfile(ownerNbt, this.owner);
+			compoundNBT.put("owner", ownerNbt);
 		}
 
 		if (this.address != null) {
-			CompoundTag nbt = new CompoundTag();
-            this.address.write(nbt);
-			compoundNBT.put("address", nbt);
+			CompoundTag addressNbt = new CompoundTag();
+			this.address.write(addressNbt, registries);
+			nbt.put("address", addressNbt);
 		}
 
-		compoundNBT.putBoolean("VRT", this.isVirtual);
-		compoundNBT.putBoolean("IVL", this.isInvalid);
-        this.inventory.write(compoundNBT);
-		return compoundNBT;
+		nbt.putBoolean("VRT", this.isVirtual);
+		nbt.putBoolean("IVL", this.isInvalid);
+		this.inventory.write(nbt, registries);
+		return nbt;
 	}
 
 	@Override
-	public CompoundTag write(CompoundTag nbt) {
-		return save(nbt);
-	}
-
-	@Override
-	public void read(CompoundTag nbt) {
+	public void read(CompoundTag nbt, HolderLookup.Provider registries) {
 		if (nbt.contains("owner")) {
             this.owner = NbtUtils.readGameProfile(nbt.getCompound("owner"));
 		}
@@ -118,7 +104,7 @@ public class TradeStation implements ITradeStation {
 
 		this.isVirtual = nbt.getBoolean("VRT");
 		this.isInvalid = nbt.getBoolean("IVL");
-        this.inventory.read(nbt);
+        this.inventory.read(nbt, registries);
 	}
 
 	/* INVALIDATING */
@@ -172,7 +158,7 @@ public class TradeStation implements ITradeStation {
 
 	/* ILETTERHANDLER */
 	@Override
-	public IPostalState handleLetter(ServerLevel world, IMailAddress recipient, ItemStack letterstack, boolean doLodge) {
+	public IPostalState handleLetter(ServerLevel level, IMailAddress recipient, ItemStack letterstack, boolean doLodge) {
 		boolean sendOwnerNotice = doLodge && this.owner != null;
 
 		ILetter letter = LetterUtils.getLetter(letterstack);
@@ -241,12 +227,12 @@ public class TradeStation implements ITradeStation {
 
 		// Send the letter
 		CompoundTag compoundNBT = new CompoundTag();
-		mail.write(compoundNBT);
+		mail.write(compoundNBT, IDK);
 
 		ItemStack mailstack = LetterProperties.createStampedLetterStack(mail);
 		mailstack.setTag(compoundNBT);
 
-		IPostalState responseState = PostOffice.getOrCreate(world).lodgeLetter(world, mailstack, doLodge);
+		IPostalState responseState = PostOffice.getOrCreate(level).lodgeLetter(level, mailstack, doLodge);
 
 		if (!responseState.isOk()) {
 			return new ResponseNotMailable(responseState);
@@ -286,12 +272,12 @@ public class TradeStation implements ITradeStation {
 
 			confirm.setText(orderFilledMessage);
 			confirm.addStamps(MailItems.STAMPS.stack(EnumStampDefinition.P_1, 1));
-			confirm.write(compoundNBT);
+			confirm.write(compoundNBT, IDK);
 
 			ItemStack confirmstack = LetterProperties.createStampedLetterStack(confirm);
 			confirmstack.setTag(compoundNBT);
 
-			PostOffice.getOrCreate(world).lodgeLetter(world, confirmstack, doLodge);
+			PostOffice.getOrCreate(level).lodgeLetter(level, confirmstack, doLodge);
 
 			removePaper();
 			removeStamps(new int[]{0, 1});
@@ -402,11 +388,11 @@ public class TradeStation implements ITradeStation {
 				continue;
 			}
 
-			if (!(stamp.getItem() instanceof IStamps)) {
+			if (!(stamp.getItem() instanceof IStampItem)) {
 				continue;
 			}
 
-			posted += ((IStamps) stamp.getItem()).getPostage(stamp).getValue() * stamp.getCount();
+			posted += ((IStampItem) stamp.getItem()).getPostage(stamp).getValue() * stamp.getCount();
 
 			if (posted >= postage) {
 				return true;
@@ -485,11 +471,11 @@ public class TradeStation implements ITradeStation {
 			if (stamp == null) {
 				continue;
 			}
-			if (!(stamp.getItem() instanceof IStamps)) {
+			if (!(stamp.getItem() instanceof IStampItem)) {
 				continue;
 			}
 
-			if (((IStamps) stamp.getItem()).getPostage(stamp) == postage) {
+			if (((IStampItem) stamp.getItem()).getPostage(stamp) == postage) {
 				count += stamp.getCount();
 			}
 
@@ -515,11 +501,11 @@ public class TradeStation implements ITradeStation {
 					continue;
 				}
 
-				if (!(stamp.getItem() instanceof IStamps)) {
+				if (!(stamp.getItem() instanceof IStampItem)) {
 					continue;
 				}
 
-				if (((IStamps) stamp.getItem()).getPostage(stamp) == EnumPostage.values()[i]) {
+				if (((IStampItem) stamp.getItem()).getPostage(stamp) == EnumPostage.values()[i]) {
 					ItemStack decrease = this.inventory.removeItem(j, stampCount[i]);
 					stampCount[i] -= decrease.getCount();
 				}

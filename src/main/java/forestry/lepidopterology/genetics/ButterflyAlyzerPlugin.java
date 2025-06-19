@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.lepidopterology.genetics;
 
 import forestry.api.core.IProduct;
@@ -20,8 +10,8 @@ import forestry.api.genetics.alleles.*;
 import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.api.lepidopterology.genetics.ButterflyLifeStage;
 import forestry.api.lepidopterology.genetics.IButterflySpecies;
-import forestry.core.gui.PortableAnalyzerScreen;
 import forestry.core.gui.GuiForestry;
+import forestry.core.gui.PortableAnalyzerScreen;
 import forestry.core.gui.TextLayoutHelper;
 import forestry.core.gui.widgets.ItemStackWidget;
 import forestry.core.gui.widgets.WidgetManager;
@@ -114,8 +104,8 @@ public enum ButterflyAlyzerPlugin implements IAlyzerPlugin {
 				textLayout.newLine();
 
 				Component indentedTolerance = Component.literal("  ").append(Component.translatable("for.gui.tolerance"));
-				IValueAllele<ToleranceType> tempToleranceActive = genome.getActiveAllele(ButterflyChromosomes.TEMPERATURE_TOLERANCE);
-				IValueAllele<ToleranceType> tempToleranceInactive = genome.getInactiveAllele(ButterflyChromosomes.TEMPERATURE_TOLERANCE);
+				IValueAllele<? extends ToleranceType> tempToleranceActive = genome.getActiveAllele(ButterflyChromosomes.TEMPERATURE_TOLERANCE);
+				IValueAllele<? extends ToleranceType> tempToleranceInactive = genome.getInactiveAllele(ButterflyChromosomes.TEMPERATURE_TOLERANCE);
 
 				textLayout.drawLine(graphics, indentedTolerance, PortableAnalyzerScreen.COLUMN_0);
 				guiAlyzer.drawToleranceInfo(graphics, BeeChromosomes.TEMPERATURE_TOLERANCE, tempToleranceActive, PortableAnalyzerScreen.COLUMN_1);
@@ -128,8 +118,8 @@ public enum ButterflyAlyzerPlugin implements IAlyzerPlugin {
 					ClimateHelper.toDisplay(secondaryAllele.getHumidity()), individual, ButterflyChromosomes.SPECIES);
 				textLayout.newLine();
 
-				IValueAllele<ToleranceType> humidToleranceActive = genome.getActiveAllele(ButterflyChromosomes.HUMIDITY_TOLERANCE);
-				IValueAllele<ToleranceType> humidToleranceInactive = genome.getInactiveAllele(ButterflyChromosomes.HUMIDITY_TOLERANCE);
+				IValueAllele<? extends ToleranceType> humidToleranceActive = genome.getActiveAllele(ButterflyChromosomes.HUMIDITY_TOLERANCE);
+				IValueAllele<? extends ToleranceType> humidToleranceInactive = genome.getInactiveAllele(ButterflyChromosomes.HUMIDITY_TOLERANCE);
 				textLayout.drawLine(graphics, indentedTolerance, PortableAnalyzerScreen.COLUMN_0);
 				guiAlyzer.drawToleranceInfo(graphics, BeeChromosomes.TEMPERATURE_TOLERANCE, humidToleranceActive, PortableAnalyzerScreen.COLUMN_1);
 				guiAlyzer.drawToleranceInfo(graphics, BeeChromosomes.TEMPERATURE_TOLERANCE, humidToleranceInactive, PortableAnalyzerScreen.COLUMN_2);

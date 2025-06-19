@@ -46,7 +46,7 @@ public class ItemInventoryLetter extends ItemInventory implements IErrorSource {
 		ItemStack result = this.letter.removeItem(index, count);
 		CompoundTag tagCompound = getParent().getTag();
 		Preconditions.checkNotNull(tagCompound);
-        this.letter.write(tagCompound);
+        this.letter.write(tagCompound, IDK);
 		return result;
 	}
 
@@ -55,7 +55,7 @@ public class ItemInventoryLetter extends ItemInventory implements IErrorSource {
         this.letter.setItem(index, itemstack);
 		CompoundTag tagCompound = getParent().getTag();
 		Preconditions.checkNotNull(tagCompound);
-        this.letter.write(tagCompound);
+        this.letter.write(tagCompound, IDK);
 	}
 
 	@Override

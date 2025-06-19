@@ -18,7 +18,7 @@ import forestry.core.gui.ItemInventoryMenu;
 import forestry.core.gui.slots.SlotFiltered;
 import forestry.mail.Letter;
 import forestry.mail.MailAddress;
-import forestry.mail.carriers.PostalCarriers;
+import forestry.mail.features.PostalCarriers;
 import forestry.mail.carriers.trading.TradeStationRegistry;
 import forestry.mail.features.MailMenuTypes;
 import forestry.mail.inventory.ItemInventoryLetter;
@@ -43,7 +43,7 @@ import java.util.Iterator;
 public class LetterMenu extends ItemInventoryMenu<ItemInventoryLetter> implements ILetterInfoReceiver {
 	private IPostalCarrier carrier = PostalCarriers.PLAYER.get();
 	@Nullable
-	private ITradeStationInfo tradeInfo = null;
+	private TradeStationInfo tradeInfo = null;
 
 	public static LetterMenu fromNetwork(int windowId, Inventory playerInv, FriendlyByteBuf extraData) {
 		InteractionHand hand = extraData.readBoolean() ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
@@ -202,7 +202,7 @@ public class LetterMenu extends ItemInventoryMenu<ItemInventoryLetter> implement
 	}
 
 	@Override
-	public void handleLetterInfoUpdate(IPostalCarrier carrier, @Nullable IMailAddress address, @Nullable ITradeStationInfo tradeInfo) {
+	public void handleLetterInfoUpdate(IPostalCarrier carrier, @Nullable IMailAddress address, @Nullable TradeStationInfo tradeInfo) {
 		this.carrier = carrier;
 		if (carrier.equals(PostalCarriers.PLAYER.get())) {
 			getLetter().setRecipient(address);
@@ -212,11 +212,11 @@ public class LetterMenu extends ItemInventoryMenu<ItemInventoryLetter> implement
 	}
 
 	@Nullable
-	public ITradeStationInfo getTradeInfo() {
+	public TradeStationInfo getTradeInfo() {
 		return this.tradeInfo;
 	}
 
-	private void setTradeInfo(@Nullable ITradeStationInfo info) {
+	private void setTradeInfo(@Nullable TradeStationInfo info) {
 		this.tradeInfo = info;
 		if (this.tradeInfo == null) {
 			getLetter().setRecipient(null);

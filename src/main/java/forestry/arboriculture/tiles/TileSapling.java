@@ -43,7 +43,7 @@ public class TileSapling extends TileTreeContainer implements IOwnedTile {
 		super.loadAdditional(nbt, registries);
 
 		this.timesTicked = nbt.getInt("TT");
-		this.ownerHandler.read(nbt);
+		this.ownerHandler.read(nbt, registries);
 	}
 
 	@Override
@@ -51,7 +51,7 @@ public class TileSapling extends TileTreeContainer implements IOwnedTile {
 		super.saveAdditional(nbt, registries);
 
 		nbt.putInt("TT", this.timesTicked);
-		this.ownerHandler.write(nbt);
+		this.ownerHandler.write(nbt, registries);
 	}
 
 	@Override

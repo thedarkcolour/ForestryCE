@@ -1,6 +1,5 @@
 package forestry.apiculture.multiblock;
 
-import com.mojang.authlib.GameProfile;
 import forestry.api.IForestryApi;
 import forestry.api.apiculture.IBeeHousingInventory;
 import forestry.api.apiculture.IBeeListener;
@@ -31,6 +30,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.Containers;
+import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
@@ -38,6 +38,7 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
+import javax.annotation.Nullable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -99,7 +100,7 @@ public class AlvearyController extends RectangularMultiblockControllerBase imple
 
 	@Override
 	public void onAttachedPartWithMultiblockData(IMultiblockComponent part, CompoundTag data) {
-		this.read(data);
+		read(data, this.level.registryAccess());
 	}
 
 	@Override
@@ -277,38 +278,38 @@ public class AlvearyController extends RectangularMultiblockControllerBase imple
 	}
 
 	@Override
-	public CompoundTag write(CompoundTag data) {
-		data = super.write(data);
+	public CompoundTag write(CompoundTag data, HolderLookup.Provider registries) {
+		data = super.write(data, registries);
 
 		data.putByte("temperatureSteps", this.temperatureSteps);
 		data.putByte("humiditySteps", this.humiditySteps);
 
-		this.beekeepingLogic.write(data);
-		this.inventory.write(data);
+		this.beekeepingLogic.write(data, registries);
+		this.inventory.write(data, registries);
 		return data;
 	}
 
 	@Override
-	public void read(CompoundTag data) {
-		super.read(data);
+	public void read(CompoundTag data, HolderLookup.Provider registries) {
+		super.read(data, registries);
 
 		this.temperatureSteps = data.getByte("temperatureSteps");
 		this.humiditySteps = data.getByte("humiditySteps");
 
-		this.beekeepingLogic.read(data);
-		this.inventory.read(data);
+		this.beekeepingLogic.read(data, registries);
+		this.inventory.read(data, registries);
 	}
 
 	@Override
-	public void formatDescriptionPacket(CompoundTag data) {
-		this.write(data);
-		this.beekeepingLogic.write(data);
+	public void encodeUpdatePacket(CompoundTag data, HolderLookup.Provider registries) {
+		write(data, registries);
+		this.beekeepingLogic.write(data, registries);
 	}
 
 	@Override
-	public void decodeDescriptionPacket(CompoundTag data) {
-		this.read(data);
-		this.beekeepingLogic.read(data);
+	public void decodeUpdatePacket(CompoundTag data, HolderLookup.Provider registries) {
+		this.read(data, registries);
+		this.beekeepingLogic.read(data, registries);
 	}
 
 	/* IActivatable */
@@ -343,7 +344,7 @@ public class AlvearyController extends RectangularMultiblockControllerBase imple
 	}
 
 	@Override
-	public GameProfile getOwner() {
+	public @Nullable ResolvableProfile getOwner() {
 		return getOwnerHandler().getOwner();
 	}
 
@@ -392,18 +393,18 @@ public class AlvearyController extends RectangularMultiblockControllerBase imple
 	}
 
 	@Override
-	public void writeGuiData(RegistryFriendlyByteBuf data) {
-		data.writeVarInt(this.beekeepingLogic.getBeeProgressPercent());
-		NetworkUtil.writeClimateState(data, this.climate.temperature(), this.climate.humidity());
-		data.writeByte(this.temperatureSteps);
-		data.writeByte(this.humiditySteps);
+	public void writeGuiData(RegistryFriendlyByteBuf buffer) {
+		buffer.writeVarInt(this.beekeepingLogic.getBeeProgressPercent());
+		NetworkUtil.writeClimateState(buffer, this.climate.temperature(), this.climate.humidity());
+		buffer.writeByte(this.temperatureSteps);
+		buffer.writeByte(this.humiditySteps);
 	}
 
 	@Override
-	public void readGuiData(RegistryFriendlyByteBuf data) {
-		this.breedingProgressPercent = data.readVarInt();
-		this.climate = NetworkUtil.readClimateState(data);
-		this.temperatureSteps = data.readByte();
-		this.humiditySteps = data.readByte();
+	public void readGuiData(RegistryFriendlyByteBuf buffer) {
+		this.breedingProgressPercent = buffer.readVarInt();
+		this.climate = NetworkUtil.readClimateState(buffer);
+		this.temperatureSteps = buffer.readByte();
+		this.humiditySteps = buffer.readByte();
 	}
 }

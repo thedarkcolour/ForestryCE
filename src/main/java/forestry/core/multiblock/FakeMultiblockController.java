@@ -19,6 +19,7 @@ import forestry.core.errors.FakeErrorLogic;
 import forestry.core.owner.FakeOwnerHandler;
 import forestry.core.owner.IOwnerHandler;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.level.Level;
@@ -66,11 +67,11 @@ public interface FakeMultiblockController extends IMultiblockControllerInternal,
 	}
 
 	@Override
-	default void formatDescriptionPacket(CompoundTag data) {
+	default void encodeUpdatePacket(CompoundTag data, HolderLookup.Provider registries) {
 	}
 
 	@Override
-	default void decodeDescriptionPacket(CompoundTag data) {
+	default void decodeUpdatePacket(CompoundTag data, HolderLookup.Provider registries) {
 	}
 
 	@Override
@@ -127,11 +128,11 @@ public interface FakeMultiblockController extends IMultiblockControllerInternal,
 	}
 
 	@Override
-	default void read(CompoundTag CompoundNBT) {
+	default void read(CompoundTag CompoundNBT, HolderLookup.Provider registries) {
 	}
 
 	@Override
-	default CompoundTag write(CompoundTag CompoundNBT) {
+	default CompoundTag write(CompoundTag CompoundNBT, HolderLookup.Provider registries) {
 		return CompoundNBT;
 	}
 
@@ -156,10 +157,10 @@ public interface FakeMultiblockController extends IMultiblockControllerInternal,
 	}
 
 	@Override
-	default void writeGuiData(RegistryFriendlyByteBuf data) {
+	default void writeGuiData(RegistryFriendlyByteBuf buffer) {
 	}
 
 	@Override
-	default void readGuiData(RegistryFriendlyByteBuf data) {
+	default void readGuiData(RegistryFriendlyByteBuf buffer) {
 	}
 }

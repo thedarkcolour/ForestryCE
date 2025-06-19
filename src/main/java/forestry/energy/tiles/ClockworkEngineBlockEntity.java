@@ -1,10 +1,10 @@
 package forestry.energy.tiles;
 
-import forestry.core.config.Constants;
 import forestry.core.features.CoreDamageTypes;
 import forestry.core.tiles.TemperatureState;
 import forestry.energy.features.EnergyTiles;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -14,7 +14,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
 public class ClockworkEngineBlockEntity extends EngineBlockEntity {
-
 	private final static float WIND_EXHAUSTION = 0.05f;
 	private final static float WIND_TENSION_BASE = 0.5f;
 	private final static int WIND_DELAY = 10;
@@ -54,18 +53,16 @@ public class ClockworkEngineBlockEntity extends EngineBlockEntity {
 		return true;
 	}
 
-	/* LOADING & SAVING */
 	@Override
-	public void load(CompoundTag nbt) {
-		super.load(nbt);
+	public void loadAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+		super.loadAdditional(nbt, registries);
 
         this.tension = nbt.getFloat("tension");
 	}
 
-
 	@Override
-	public void saveAdditional(CompoundTag nbt) {
-		super.saveAdditional(nbt);
+	public void saveAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+		super.saveAdditional(nbt, registries);
 
 		nbt.putFloat("tension", this.tension);
 	}
@@ -130,7 +127,7 @@ public class ClockworkEngineBlockEntity extends EngineBlockEntity {
 			return 0;
 		}
 
-		float fromClockwork = this.tension / ENGINE_CLOCKWORK_WIND_MAX * Constants.ENGINE_PISTON_SPEED_MAX;
+		float fromClockwork = this.tension / ENGINE_CLOCKWORK_WIND_MAX * EngineBlockEntity.ENGINE_PISTON_SPEED_MAX;
 
 		fromClockwork = Math.round(fromClockwork * 100f) / 100f;
 

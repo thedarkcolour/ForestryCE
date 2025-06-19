@@ -2,6 +2,7 @@ package forestry.core.data.recipe;
 
 import forestry.api.ForestryConstants;
 import forestry.api.ForestryTags;
+import forestry.api.core.Product;
 import forestry.apiculture.blocks.NaturalistChestBlockType;
 import forestry.apiculture.features.ApicultureItems;
 import forestry.apiculture.items.EnumHoneyComb;
@@ -65,8 +66,10 @@ import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 import thedarkcolour.modkit.data.MKRecipeProvider;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
@@ -423,6 +426,7 @@ public class CoreRecipes {
 			recipe.pattern("#");
 			recipe.define('#', ItemTags.LOGS);
 		});
+		carpenterShapeless(output, recipes, 5, SizedFluidIngredient.of(Fluids.WATER, 250), Ingredient.EMPTY, CoreItems.CRAFTING_MATERIALS.item(EnumCraftingMaterial.WOOD_PULP), 4, shapeless -> shapeless);
 		new CarpenterRecipeBuilder()
 			.setLiquid(new FluidStack(Fluids.WATER, 250))
 			.setBox(Ingredient.EMPTY)
@@ -700,129 +704,98 @@ public class CoreRecipes {
 
 	private static void carpenterShapeless(RecipeOutput output, MKRecipeProvider recipes, int packingTime, @Nullable SizedFluidIngredient inputFluid, Ingredient box, ItemLike result, int resultCount, Consumer<MKRecipeProvider> shapeless) {
 		recipes.pushRecipeOutput(
-			(id, recipe) -> output.accept(id("carpenter", MKRecipeProvider.path(result)), new CarpenterRecipe(packingTime, Optional.ofNullable(inputFluid), box, (CraftingRecipe) recipe), null),
+			(id, recipe) -> output.accept(id("carpenter", MKRecipeProvider.path(recipe.getResultItem(null).getItem())), new CarpenterRecipe(packingTime, Optional.ofNullable(inputFluid), box, (CraftingRecipe) recipe), null),
 			newOutput -> shapeless.accept(recipes)
 		);
 	}
 
-	private static void registerCentrifuge(RecipeOutput consumer) {
-		ItemStack honeyDrop = ApicultureItems.HONEY_DROP.stack();
+	private static void registerCentrifuge(RecipeOutput output) {
+		Item honeyDrop = ApicultureItems.HONEY_DROP.item();
 
-		new CentrifugeRecipeBuilder()
-			.setProcessingTime(20)
-			.setInput(Ingredient.of(ApicultureItems.BEE_COMBS.get(EnumHoneyComb.HONEY)))
-			.product(1.0f, CoreItems.BEESWAX.stack())
-			.product(0.9F, honeyDrop)
-			.build(consumer, id("centrifuge", "honey_comb"));
-		new CentrifugeRecipeBuilder()
-			.setProcessingTime(20)
-			.setInput(Ingredient.of(ApicultureItems.BEE_COMBS.get(EnumHoneyComb.COCOA)))
-			.product(1.0f, CoreItems.BEESWAX.stack())
-			.product(0.5f, new ItemStack(Items.COCOA_BEANS))
-			.build(consumer, id("centrifuge", "cocoa_comb"));
-		new CentrifugeRecipeBuilder()
-			.setProcessingTime(20)
-			.setInput(Ingredient.of(ApicultureItems.BEE_COMBS.get(EnumHoneyComb.SIMMERING)))
-			.product(1.0f, CoreItems.REFRACTORY_WAX.stack())
-			.product(0.7f, honeyDrop)
-			.build(consumer, id("centrifuge", "simmering_comb"));
-		new CentrifugeRecipeBuilder()
-			.setProcessingTime(20)
-			.setInput(Ingredient.of(ApicultureItems.BEE_COMBS.get(EnumHoneyComb.STRINGY)))
-			.product(1.0f, ApicultureItems.PROPOLIS.stack(EnumPropolis.NORMAL, 1))
-			.product(0.4f, honeyDrop)
-			.build(consumer, id("centrifuge", "stringy_comb"));
-		new CentrifugeRecipeBuilder()
-			.setProcessingTime(20)
-			.setInput(Ingredient.of(ApicultureItems.BEE_COMBS.get(EnumHoneyComb.DRIPPING)))
-			.product(1.0f, ApicultureItems.HONEYDEW.stack())
-			.product(0.4f, honeyDrop)
-			.build(consumer, id("centrifuge", "dripping_comb"));
-		new CentrifugeRecipeBuilder()
-			.setProcessingTime(20)
-			.setInput(Ingredient.of(ApicultureItems.BEE_COMBS.get(EnumHoneyComb.FROZEN)))
-			.product(0.8f, CoreItems.BEESWAX.stack())
-			.product(0.7f, honeyDrop)
-			.product(0.4f, new ItemStack(Items.SNOWBALL))
-			.product(0.2f, ApicultureItems.POLLEN_CLUSTER.stack(EnumPollenCluster.CRYSTALLINE, 1))
-			.build(consumer, id("centrifuge", "frozen_comb"));
-		new CentrifugeRecipeBuilder()
-			.setProcessingTime(20)
-			.setInput(Ingredient.of(ApicultureItems.BEE_COMBS.get(EnumHoneyComb.SILKY)))
-			.product(1.0f, honeyDrop)
-			.product(0.8f, ApicultureItems.PROPOLIS.stack(EnumPropolis.SILKY, 1))
-			.build(consumer, id("centrifuge", "silky_comb"));
-		new CentrifugeRecipeBuilder()
-			.setProcessingTime(20)
-			.setInput(Ingredient.of(ApicultureItems.BEE_COMBS.get(EnumHoneyComb.PARCHED)))
-			.product(1.0f, CoreItems.BEESWAX.stack())
-			.product(0.9f, honeyDrop)
-			.build(consumer, id("centrifuge", "parched_comb"));
-		new CentrifugeRecipeBuilder()
-			.setProcessingTime(20)
-			.setInput(Ingredient.of(ApicultureItems.BEE_COMBS.get(EnumHoneyComb.MYSTERIOUS)))
-			.product(1.0f, ApicultureItems.PROPOLIS.stack(EnumPropolis.PULSATING, 1))
-			.product(0.4f, honeyDrop)
-			.build(consumer, id("centrifuge", "mysterious_comb"));
-		new CentrifugeRecipeBuilder()
-			.setProcessingTime(20)
-			.setInput(Ingredient.of(ApicultureItems.BEE_COMBS.get(EnumHoneyComb.POWDERY)))
-			.product(0.2f, honeyDrop)
-			.product(0.2f, CoreItems.BEESWAX.stack())
-			.product(0.9f, new ItemStack(Items.GUNPOWDER))
-			.build(consumer, id("centrifuge", "powdery_comb"));
-		new CentrifugeRecipeBuilder()
-			.setProcessingTime(20)
-			.setInput(Ingredient.of(ApicultureItems.BEE_COMBS.get(EnumHoneyComb.WHEATEN)))
-			.product(0.2f, honeyDrop)
-			.product(0.2f, CoreItems.BEESWAX.stack())
-			.product(0.8f, new ItemStack(Items.WHEAT))
-			.build(consumer, id("centrifuge", "wheaten_comb"));
-		new CentrifugeRecipeBuilder()
-			.setProcessingTime(20)
-			.setInput(Ingredient.of(ApicultureItems.BEE_COMBS.get(EnumHoneyComb.MOSSY)))
-			.product(1.0f, CoreItems.BEESWAX.stack())
-			.product(0.9f, honeyDrop)
-			.build(consumer, id("centrifuge", "mossy_comb"));
-		new CentrifugeRecipeBuilder()
-			.setProcessingTime(20)
-			.setInput(Ingredient.of(ApicultureItems.BEE_COMBS.get(EnumHoneyComb.KAOLIN)))
-			.product(1.0f, new ItemStack(Items.CLAY_BALL))
-			.product(0.9f, honeyDrop)
-			.build(consumer, id("centrifuge", "kaolin_comb"));
-		new CentrifugeRecipeBuilder()
-			.setProcessingTime(20)
-			.setInput(Ingredient.of(ApicultureItems.BEE_COMBS.get(EnumHoneyComb.MELLOW)))
-			.product(0.6f, ApicultureItems.HONEYDEW.stack())
-			.product(0.2f, CoreItems.BEESWAX.stack())
-			.product(0.3f, new ItemStack(Items.QUARTZ))
-			.build(consumer, id("centrifuge", "mellow_comb"));
-		new CentrifugeRecipeBuilder()
-			.setProcessingTime(20)
-			.setInput(Ingredient.of(ApicultureItems.BEE_COMBS.get(EnumHoneyComb.VINTAGE)))
-			.product(1.0f, CoreItems.BEESWAX.stack())
-			.product(0.9f, ApicultureItems.HONEYDEW.stack())
-			.build(consumer, id("centrifuge", "vintage_comb"));
-		new CentrifugeRecipeBuilder()
-			.setProcessingTime(20)
-			.setInput(Ingredient.of(ApicultureItems.BEE_COMBS.get(EnumHoneyComb.SCULKEN)))
-			.product(1.0f, CoreItems.BEESWAX.stack())
-			.product(0.9f, ApicultureItems.EXPERIENCE_DROP.stack())
-			.product(0.2F, new ItemStack(Items.SCULK))
-			.build(consumer, id("centrifuge", "sculken_comb"));
-		new CentrifugeRecipeBuilder()
-			.setProcessingTime(5)
-			.setInput(Ingredient.of(ApicultureItems.PROPOLIS.get(EnumPropolis.SILKY)))
-			.product(0.6f, CoreItems.CRAFTING_MATERIALS.stack(EnumCraftingMaterial.SILK_WISP, 1))
-			.product(0.1f, ApicultureItems.PROPOLIS.stack(EnumPropolis.NORMAL, 1))
-			.build(consumer, id("centrifuge", "silky_propolis"));
+		centrifuge(output, 20, ApicultureItems.BEE_COMBS.get(EnumHoneyComb.HONEY), products -> {
+			products.accept(1.0f, CoreItems.BEESWAX);
+			products.accept(0.9f, honeyDrop);
+		});
+		centrifuge(output, 20, ApicultureItems.BEE_COMBS.get(EnumHoneyComb.COCOA), products -> {
+			products.accept(1.0f, CoreItems.BEESWAX);
+			products.accept(0.5f, Items.COCOA_BEANS);
+		});
+		centrifuge(output, 20, ApicultureItems.BEE_COMBS.get(EnumHoneyComb.SIMMERING), products -> {
+			products.accept(1.0f, CoreItems.REFRACTORY_WAX);
+			products.accept(0.7f, honeyDrop);
+		});
+		centrifuge(output, 20, ApicultureItems.BEE_COMBS.get(EnumHoneyComb.STRINGY), products -> {
+			products.accept(1.0f, ApicultureItems.PROPOLIS.get(EnumPropolis.NORMAL));
+			products.accept(0.4f, honeyDrop);
+		});
+		centrifuge(output, 20, ApicultureItems.BEE_COMBS.get(EnumHoneyComb.DRIPPING), products -> {
+			products.accept(1.0f, ApicultureItems.HONEYDEW);
+			products.accept(0.4f, honeyDrop);
+		});
+		centrifuge(output, 20, ApicultureItems.BEE_COMBS.get(EnumHoneyComb.FROZEN), products -> {
+			products.accept(0.8f, CoreItems.BEESWAX);
+			products.accept(0.7f, honeyDrop);
+			products.accept(0.4f, Items.SNOWBALL);
+			products.accept(0.2f, ApicultureItems.POLLEN_CLUSTER.get(EnumPollenCluster.CRYSTALLINE));
+		});
+		centrifuge(output, 20, ApicultureItems.BEE_COMBS.get(EnumHoneyComb.SILKY), products -> {
+			products.accept(1.0f, honeyDrop);
+			products.accept(0.8f, ApicultureItems.PROPOLIS.get(EnumPropolis.SILKY));
+		});
+		centrifuge(output, 20, ApicultureItems.BEE_COMBS.get(EnumHoneyComb.PARCHED), products -> {
+			products.accept(1.0f, CoreItems.BEESWAX);
+			products.accept(0.9f, honeyDrop);
+		});
+		centrifuge(output, 20, ApicultureItems.BEE_COMBS.get(EnumHoneyComb.MYSTERIOUS), products -> {
+			products.accept(1.0f, ApicultureItems.PROPOLIS.get(EnumPropolis.PULSATING));
+			products.accept(0.4f, honeyDrop);
+		});
+		centrifuge(output, 20, ApicultureItems.BEE_COMBS.get(EnumHoneyComb.POWDERY), products -> {
+			products.accept(0.2f, honeyDrop);
+			products.accept(0.2f, CoreItems.BEESWAX);
+			products.accept(0.9f, Items.GUNPOWDER);
+		});
+		centrifuge(output, 20, ApicultureItems.BEE_COMBS.get(EnumHoneyComb.WHEATEN), products -> {
+			products.accept(0.2f, honeyDrop);
+			products.accept(0.2f, CoreItems.BEESWAX);
+			products.accept(0.8f, Items.WHEAT);
+		});
+		centrifuge(output, 20, ApicultureItems.BEE_COMBS.get(EnumHoneyComb.MOSSY), products -> {
+			products.accept(1.0f, CoreItems.BEESWAX);
+			products.accept(0.9f, honeyDrop);
+		});
+		centrifuge(output, 20, ApicultureItems.BEE_COMBS.get(EnumHoneyComb.KAOLIN), products -> {
+			products.accept(1.0f, Items.CLAY_BALL);
+			products.accept(0.9f, honeyDrop);
+		});
+		centrifuge(output, 20, ApicultureItems.BEE_COMBS.get(EnumHoneyComb.MELLOW), products -> {
+			products.accept(0.6f, ApicultureItems.HONEYDEW);
+			products.accept(0.2f, CoreItems.BEESWAX);
+			products.accept(0.3f, Items.QUARTZ);
+		});
+		centrifuge(output, 20, ApicultureItems.BEE_COMBS.get(EnumHoneyComb.VINTAGE), products -> {
+			products.accept(1.0f, CoreItems.BEESWAX);
+			products.accept(0.9f, ApicultureItems.HONEYDEW);
+		});
+		centrifuge(output, 20, ApicultureItems.BEE_COMBS.get(EnumHoneyComb.SCULKEN), products -> {
+			products.accept(1.0f, CoreItems.BEESWAX);
+			products.accept(0.9f, ApicultureItems.EXPERIENCE_DROP);
+			products.accept(0.2f, Items.SCULK);
+		});
+		centrifuge(output, 5, ApicultureItems.PROPOLIS.get(EnumPropolis.SILKY), products -> {
+			products.accept(0.6f, CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.SILK_WISP));
+			products.accept(0.1f, ApicultureItems.PROPOLIS.get(EnumPropolis.NORMAL));
+		});
 
+		centrifuge(output, 20, Items.HONEYCOMB, products -> {
+			products.accept(1.0f, CoreItems.BEESWAX);
+		});
+	}
 
-		new CentrifugeRecipeBuilder()
-			.setProcessingTime(20)
-			.setInput(Ingredient.of(Items.HONEYCOMB))
-			.product(1.0f, CoreItems.BEESWAX.stack())
-			.build(consumer, id("centrifuge", "comb_to_wax"));
+	private static void centrifuge(RecipeOutput output, int processingTime, ItemLike input, Consumer<BiConsumer<Float, ItemLike>> products) {
+		ArrayList<Product> productsList = new ArrayList<>();
+		products.accept((chance, item) -> productsList.add(Product.of(item.asItem(), chance)));
+		output.accept(id("centrifuge", MKRecipeProvider.path(input)), new CentrifugeRecipe(processingTime, Ingredient.of(input), productsList), null);
 	}
 
 	private static void registerFermenter(RecipeOutput output) {
@@ -861,49 +834,38 @@ public class CoreRecipes {
 		output.accept(id("hygroregulator", name), new HygroregulatorRecipe(new SizedFluidIngredient(input, 1), retainTime, (byte) temperatureSteps, (byte) humiditySteps), null);
 	}
 
-	private static void registerSqueezerContainer(RecipeOutput consumer) {
-		new SqueezerContainerRecipeBuilder()
-			.setProcessingTime(10)
-			.setEmptyContainer(FluidsItems.CONTAINERS.stack(EnumContainerType.CAN))
-			.setRemnants(CoreItems.INGOT_TIN.stack())
-			.setRemnantsChance(0.05f)
-			.build(consumer, id("squeezer", "container", "can"));
-		new SqueezerContainerRecipeBuilder()
-			.setProcessingTime(10)
-			.setEmptyContainer(FluidsItems.CONTAINERS.stack(EnumContainerType.CAPSULE))
-			.setRemnants(CoreItems.BEESWAX.stack())
-			.setRemnantsChance(0.10f)
-			.build(consumer, id("squeezer", "container", "capsule"));
-		new SqueezerContainerRecipeBuilder()
-			.setProcessingTime(10)
-			.setEmptyContainer(FluidsItems.CONTAINERS.stack(EnumContainerType.REFRACTORY))
-			.setRemnants(CoreItems.REFRACTORY_WAX.stack())
-			.setRemnantsChance(0.10f)
-			.build(consumer, id("squeezer", "container", "refractory"));
+	private static void registerSqueezerContainer(RecipeOutput output) {
+		squeezerContainer(output, EnumContainerType.CAN, CoreItems.INGOT_TIN, 0.05f);
+		squeezerContainer(output, EnumContainerType.CAPSULE, CoreItems.BEESWAX, 0.10f);
+		squeezerContainer(output, EnumContainerType.REFRACTORY, CoreItems.REFRACTORY_WAX, 0.10f);
+	}
+
+	private static void squeezerContainer(RecipeOutput output, EnumContainerType type, ItemLike remnants, float remnantsChance) {
+		output.accept(id("squeezer_container", type.identifier()), new SqueezerContainerRecipe(FluidsItems.CONTAINERS.stack(type), 10, new ItemStack(remnants), remnantsChance), null);
 	}
 
 	private static void registerSqueezer(RecipeOutput output) {
 		FluidStack honeyDropFluid = ForestryFluids.HONEY.getFluid(Constants.FLUID_PER_HONEY_DROP);
 		FluidStack honeyBlockFluid = ForestryFluids.HONEY.getFluid(Constants.FLUID_PER_HONEY_DROP * 8);
 
-		squeezerRecipe(output, "honey_drop", 10, List.of(Ingredient.of(ApicultureItems.HONEY_DROP)), honeyDropFluid, ApicultureItems.PROPOLIS.stack(EnumPropolis.NORMAL, 1), 5 / 100f);
-		squeezerRecipe(output, "sponge_comb", 10, List.of(Ingredient.of(ApicultureItems.BEE_COMBS.stack(EnumHoneyComb.SPONGE))), honeyDropFluid, new ItemStack(Items.SPONGE), 2 / 100f);
-		squeezerRecipe(output, "honey_block", 60, List.of(Ingredient.of(Items.HONEY_BLOCK)), honeyBlockFluid);
-		squeezerRecipe(output, "honey_dew", 10, List.of(Ingredient.of(ApicultureItems.HONEYDEW)), honeyDropFluid);
-		squeezerRecipe(output, "lava_sand", 20, List.of(Ingredient.of(ApicultureItems.PROPOLIS.get(EnumPropolis.VOLCANIC)), Ingredient.of(Items.SAND, Items.RED_SAND)), new FluidStack(Fluids.LAVA, 500));
-		squeezerRecipe(output, "lava", 30, List.of(Ingredient.of(ApicultureItems.PROPOLIS.get(EnumPropolis.VOLCANIC)), Ingredient.of(Items.COBBLESTONE)), new FluidStack(Fluids.LAVA, 500));
-		squeezerRecipe(output, "lava_magma", 20, List.of(Ingredient.of(ApicultureItems.PROPOLIS.get(EnumPropolis.VOLCANIC)), Ingredient.of(Items.MAGMA_BLOCK)), new FluidStack(Fluids.LAVA, 1000));
+		squeezer(output, "honey_drop", 10, List.of(Ingredient.of(ApicultureItems.HONEY_DROP)), honeyDropFluid, ApicultureItems.PROPOLIS.stack(EnumPropolis.NORMAL, 1), 5 / 100f);
+		squeezer(output, "sponge_comb", 10, List.of(Ingredient.of(ApicultureItems.BEE_COMBS.stack(EnumHoneyComb.SPONGE))), honeyDropFluid, new ItemStack(Items.SPONGE), 2 / 100f);
+		squeezer(output, "honey_block", 60, List.of(Ingredient.of(Items.HONEY_BLOCK)), honeyBlockFluid);
+		squeezer(output, "honey_dew", 10, List.of(Ingredient.of(ApicultureItems.HONEYDEW)), honeyDropFluid);
+		squeezer(output, "lava_sand", 20, List.of(Ingredient.of(ApicultureItems.PROPOLIS.get(EnumPropolis.VOLCANIC)), Ingredient.of(Items.SAND, Items.RED_SAND)), new FluidStack(Fluids.LAVA, 500));
+		squeezer(output, "lava", 30, List.of(Ingredient.of(ApicultureItems.PROPOLIS.get(EnumPropolis.VOLCANIC)), Ingredient.of(Items.COBBLESTONE)), new FluidStack(Fluids.LAVA, 500));
+		squeezer(output, "lava_magma", 20, List.of(Ingredient.of(ApicultureItems.PROPOLIS.get(EnumPropolis.VOLCANIC)), Ingredient.of(Items.MAGMA_BLOCK)), new FluidStack(Fluids.LAVA, 1000));
 
 		int seedOilAmount = 10;
 
-		squeezerRecipe(output, "seeds", 10, List.of(Ingredient.of(Tags.Items.SEEDS)), ForestryFluids.SEED_OIL.getFluid(seedOilAmount));
+		squeezer(output, "seeds", 10, List.of(Ingredient.of(Tags.Items.SEEDS)), ForestryFluids.SEED_OIL.getFluid(seedOilAmount));
 
 		float mulchMultiplier = 0.2f;
 		int juiceMultiplier = 200;
 
-		squeezerRecipe(output, "mulch", 10, List.of(Ingredient.of(Items.APPLE, Items.CARROT)), ForestryFluids.JUICE.getFluid(juiceMultiplier), CoreItems.MULCH.stack(), mulchMultiplier);
-		squeezerRecipe(output, "cactus", 10, List.of(Ingredient.of(Items.CACTUS)), new FluidStack(Fluids.WATER, 500));
-		squeezerRecipe(output, "ice", 10, List.of(Ingredient.of(Items.SNOWBALL), Ingredient.of(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.ICE_SHARD)), Ingredient.of(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.ICE_SHARD)), Ingredient.of(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.ICE_SHARD)), Ingredient.of(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.ICE_SHARD))), ForestryFluids.ICE.getFluid(4000));
+		squeezer(output, "mulch", 10, List.of(Ingredient.of(Items.APPLE, Items.CARROT)), ForestryFluids.JUICE.getFluid(juiceMultiplier), CoreItems.MULCH.stack(), mulchMultiplier);
+		squeezer(output, "cactus", 10, List.of(Ingredient.of(Items.CACTUS)), new FluidStack(Fluids.WATER, 500));
+		squeezer(output, "ice", 10, List.of(Ingredient.of(Items.SNOWBALL), Ingredient.of(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.ICE_SHARD)), Ingredient.of(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.ICE_SHARD)), Ingredient.of(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.ICE_SHARD)), Ingredient.of(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.ICE_SHARD))), ForestryFluids.ICE.getFluid(4000));
 
 		int seedOilMultiplier = 10;
 
@@ -911,20 +873,20 @@ public class CoreRecipes {
 		Fluid seedOil = ForestryFluids.SEED_OIL.getFluid();
 		Fluid juice = ForestryFluids.JUICE.getFluid();
 
-		squeezerRecipe(output, "cherry", 20, List.of(Ingredient.of(ForestryTags.Items.CHERRY)), new FluidStack(seedOil, seedOilMultiplier * 5), mulch, 0.05F);
-		squeezerRecipe(output, "walnut", 60, List.of(Ingredient.of(ForestryTags.Items.WALNUT)), new FluidStack(seedOil, seedOilMultiplier * 18), mulch, 0.05F);
-		squeezerRecipe(output, "chestnut", 70, List.of(Ingredient.of(ForestryTags.Items.CHESTNUT)), new FluidStack(seedOil, seedOilMultiplier * 22), mulch, 0.02F);
-		squeezerRecipe(output, "lemon", 10, List.of(Ingredient.of(ForestryTags.Items.LEMON)), new FluidStack(juice, juiceMultiplier * 2), mulch, mulchMultiplier / 2f);
-		squeezerRecipe(output, "plum", 10, List.of(Ingredient.of(ForestryTags.Items.PLUM)), new FluidStack(juice, juiceMultiplier / 2), mulch, mulchMultiplier * 3f);
-		squeezerRecipe(output, "papaya", 10, List.of(Ingredient.of(ForestryTags.Items.PAPAYA)), new FluidStack(juice, juiceMultiplier * 3), mulch, mulchMultiplier / 2f);
-		squeezerRecipe(output, "dates", 10, List.of(Ingredient.of(ForestryTags.Items.DATE)), new FluidStack(juice, juiceMultiplier / 4), mulch, mulchMultiplier);
+		squeezer(output, "cherry", 20, List.of(Ingredient.of(ForestryTags.Items.CHERRY)), new FluidStack(seedOil, seedOilMultiplier * 5), mulch, 0.05F);
+		squeezer(output, "walnut", 60, List.of(Ingredient.of(ForestryTags.Items.WALNUT)), new FluidStack(seedOil, seedOilMultiplier * 18), mulch, 0.05F);
+		squeezer(output, "chestnut", 70, List.of(Ingredient.of(ForestryTags.Items.CHESTNUT)), new FluidStack(seedOil, seedOilMultiplier * 22), mulch, 0.02F);
+		squeezer(output, "lemon", 10, List.of(Ingredient.of(ForestryTags.Items.LEMON)), new FluidStack(juice, juiceMultiplier * 2), mulch, mulchMultiplier / 2f);
+		squeezer(output, "plum", 10, List.of(Ingredient.of(ForestryTags.Items.PLUM)), new FluidStack(juice, juiceMultiplier / 2), mulch, mulchMultiplier * 3f);
+		squeezer(output, "papaya", 10, List.of(Ingredient.of(ForestryTags.Items.PAPAYA)), new FluidStack(juice, juiceMultiplier * 3), mulch, mulchMultiplier / 2f);
+		squeezer(output, "dates", 10, List.of(Ingredient.of(ForestryTags.Items.DATE)), new FluidStack(juice, juiceMultiplier / 4), mulch, mulchMultiplier);
 	}
 
-	private static void squeezerRecipe(RecipeOutput output, String id, int processingTime, List<Ingredient> inputs, FluidStack result) {
-		squeezerRecipe(output, id, processingTime, inputs, result, ItemStack.EMPTY, 0f);
+	private static void squeezer(RecipeOutput output, String id, int processingTime, List<Ingredient> inputs, FluidStack result) {
+		squeezer(output, id, processingTime, inputs, result, ItemStack.EMPTY, 0f);
 	}
 
-	private static void squeezerRecipe(RecipeOutput output, String id, int processingTime, List<Ingredient> inputs, FluidStack result, ItemStack remnants, float remnantsChance) {
+	private static void squeezer(RecipeOutput output, String id, int processingTime, List<Ingredient> inputs, FluidStack result, ItemStack remnants, float remnantsChance) {
 		output.accept(id("squeezer", id), new SqueezerRecipe(processingTime, inputs, result, remnants, remnantsChance), null);
 	}
 

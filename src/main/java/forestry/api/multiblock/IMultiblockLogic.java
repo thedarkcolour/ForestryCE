@@ -1,6 +1,8 @@
 package forestry.api.multiblock;
 
+import forestry.api.core.INbtReadable;
 import forestry.api.core.INbtWritable;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
 
@@ -11,10 +13,9 @@ import net.minecraft.world.level.Level;
  * IMultiblockComponent tile entities must wire up the methods in the "Updating and Synchronization" section.
  * As a starting point, you can use MultiblockTileEntityBase.
  */
-public interface IMultiblockLogic extends INbtWritable {
-
+public interface IMultiblockLogic extends INbtWritable, INbtReadable {
 	/**
-	 * @return True if this block is connected to a multiblock controller. False otherwise.
+	 * @return {@code true} if this block is connected to a multiblock controller. False otherwise.
 	 */
 	boolean isConnected();
 
@@ -28,40 +29,41 @@ public interface IMultiblockLogic extends INbtWritable {
 	/**
 	 * call on Tile.validate()
 	 **/
-	void validate(Level world, IMultiblockComponent part);
+	void validate(Level level, IMultiblockComponent part);
 
 	/**
-	 * call on Tile.invalidate()
+	 * call on Tile.setRemoved()
 	 **/
-	void invalidate(Level world, IMultiblockComponent part);
+	void setRemoved(Level level, IMultiblockComponent part);
 
 	/**
 	 * call on Tile.onChunkUnload()
 	 **/
-	void onChunkUnload(Level world, IMultiblockComponent part);
+	void onChunkUnload(Level level, IMultiblockComponent part);
 
 	/**
 	 * Writes data for client synchronization.
 	 * Use this in Tile.getDescriptionPacket()
 	 */
-	void encodeDescriptionPacket(CompoundTag packetData);
+	void encodeUpdatePacket(CompoundTag nbt, HolderLookup.Provider registries);
 
 	/**
 	 * Reads data for client synchronization.
 	 * Use this in Tile.onDataPacket()
 	 */
-	void decodeDescriptionPacket(CompoundTag packetData);
+	void decodeUpdatePacket(CompoundTag nbt, HolderLookup.Provider registries);
 
 	/**
 	 * Read the logic's data from file.
 	 * Use this in Tile.read()
 	 */
-	void readFromNBT(CompoundTag CompoundNBT);
+	@Override
+	void read(CompoundTag nbt, HolderLookup.Provider registries);
 
 	/**
 	 * Write the logic's data to file.
 	 * Use this in Tile.write()
 	 */
 	@Override
-	CompoundTag write(CompoundTag CompoundNBT);
+	CompoundTag write(CompoundTag nbt, HolderLookup.Provider registries);
 }

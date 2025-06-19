@@ -10,7 +10,7 @@
  ******************************************************************************/
 package forestry.mail.inventory;
 
-import forestry.api.mail.IStamps;
+import forestry.api.mail.IStampItem;
 import forestry.core.inventory.InventoryAdapterTile;
 import forestry.mail.tiles.TileStampCollector;
 import net.minecraft.world.item.ItemStack;
@@ -26,6 +26,6 @@ public class InventoryStampCollector extends InventoryAdapterTile<TileStampColle
 
 	@Override
 	public boolean canSlotAccept(int slotIndex, ItemStack stack) {
-		return stack.getItem() instanceof IStamps;
+		return stack.getItem() instanceof IStampItem;
 	}
 }

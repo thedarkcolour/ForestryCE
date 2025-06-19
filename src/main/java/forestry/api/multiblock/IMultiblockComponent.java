@@ -1,8 +1,8 @@
 package forestry.api.multiblock;
 
-import com.mojang.authlib.GameProfile;
 import forestry.core.inventory.IInventoryAdapter;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.item.component.ResolvableProfile;
 
 import javax.annotation.Nullable;
 
@@ -22,7 +22,7 @@ public interface IMultiblockComponent {
 	 * @return the gameProfile of the player who owns this single component (not the entire multiblock)
 	 */
 	@Nullable
-	GameProfile getOwner();
+	ResolvableProfile getOwner();
 
 	/**
 	 * @return the multiblock logic for this part

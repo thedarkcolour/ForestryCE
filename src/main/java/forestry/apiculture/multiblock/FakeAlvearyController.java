@@ -1,6 +1,5 @@
 package forestry.apiculture.multiblock;
 
-import com.mojang.authlib.GameProfile;
 import forestry.api.apiculture.IBeeHousingInventory;
 import forestry.api.apiculture.IBeeListener;
 import forestry.api.apiculture.IBeeModifier;
@@ -13,6 +12,7 @@ import forestry.core.multiblock.FakeMultiblockController;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.phys.Vec3;
@@ -60,7 +60,7 @@ public enum FakeAlvearyController implements FakeMultiblockController, IAlvearyC
 
 	@Override
 	@Nullable
-	public GameProfile getOwner() {
+	public @Nullable ResolvableProfile getOwner() {
 		return null;
 	}
 

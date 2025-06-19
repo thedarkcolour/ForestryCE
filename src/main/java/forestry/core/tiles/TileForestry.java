@@ -1,6 +1,5 @@
 package forestry.core.tiles;
 
-import com.google.common.base.Preconditions;
 import forestry.api.core.IErrorLogic;
 import forestry.api.core.IErrorLogicSource;
 import forestry.api.core.ILocationProvider;
@@ -27,6 +26,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.wrapper.InvWrapper;
+import net.neoforged.neoforge.items.wrapper.SidedInvWrapper;
 
 import javax.annotation.Nullable;
 
@@ -50,18 +52,18 @@ public abstract class TileForestry extends BlockEntity implements IStreamable, I
 	}
 
 	public void onNeighborTileChange(Level level, BlockPos pos, BlockPos neighbor) {
-        this.tileCache.onNeighborChange();
+		this.tileCache.onNeighborChange();
 	}
 
 	@Override
 	public void setRemoved() {
-        this.tileCache.purge();
+		this.tileCache.purge();
 		super.setRemoved();
 	}
 
 	@Override
 	public void clearRemoved() {
-        this.tileCache.purge();
+		this.tileCache.purge();
 		super.clearRemoved();
 	}
 
@@ -80,13 +82,13 @@ public abstract class TileForestry extends BlockEntity implements IStreamable, I
 	@Override
 	public void loadAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
 		super.loadAdditional(nbt, registries);
-        this.inventory.read(nbt);
+		this.inventory.read(nbt, registries);
 	}
 
 	@Override
 	public void saveAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
 		super.saveAdditional(nbt, registries);
-        this.inventory.write(nbt);
+		this.inventory.write(nbt, registries);
 	}
 
 	@Nullable
@@ -151,7 +153,6 @@ public abstract class TileForestry extends BlockEntity implements IStreamable, I
 	}
 
 	protected final void setInternalInventory(IInventoryAdapter inv) {
-		Preconditions.checkNotNull(inv);
 		this.inventory = inv;
 	}
 
@@ -241,16 +242,8 @@ public abstract class TileForestry extends BlockEntity implements IStreamable, I
 	public void clearContent() {
 	}
 
-	@Override
-	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing) {
-		if (capability == ForgeCapabilities.ITEM_HANDLER) {
-			if (facing != null) {
-				return LazyOptional.of(() -> new SidedInvWrapper(getInternalInventory(), facing)).cast();
-			} else {
-				return LazyOptional.of(() -> new InvWrapper(getInternalInventory())).cast();
-			}
-		}
-		return super.getCapability(capability, facing);
+	public IItemHandler getInventory(@Nullable Direction facing) {
+		return facing == null ? new InvWrapper(getInternalInventory()) : new SidedInvWrapper(getInternalInventory(), facing);
 	}
 
 	@Override

@@ -14,9 +14,11 @@ import com.mojang.authlib.GameProfile;
 import forestry.api.core.INbtReadable;
 import forestry.api.core.INbtWritable;
 import forestry.core.network.IStreamable;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.world.item.component.ResolvableProfile;
 
 import javax.annotation.Nullable;
 import java.util.UUID;
@@ -32,7 +34,7 @@ public class OwnerHandler implements IOwnerHandler, IStreamable, INbtWritable, I
 	}
 
 	@Override
-	public void setOwner(GameProfile owner) {
+	public void setOwner(ResolvableProfile owner) {
 		this.owner = owner;
 	}
 
@@ -57,7 +59,7 @@ public class OwnerHandler implements IOwnerHandler, IStreamable, INbtWritable, I
 	}
 
 	@Override
-	public void read(CompoundTag data) {
+	public void read(CompoundTag data, HolderLookup.Provider registries) {
 		if (data.contains("owner")) {
 			GameProfile owner = NbtUtils.readGameProfile(data.getCompound("owner"));
 			if (owner != null) {
@@ -67,7 +69,7 @@ public class OwnerHandler implements IOwnerHandler, IStreamable, INbtWritable, I
 	}
 
 	@Override
-	public CompoundTag write(CompoundTag data) {
+	public CompoundTag write(CompoundTag data, HolderLookup.Provider registries) {
 		if (this.owner != null) {
 			CompoundTag nbt = new CompoundTag();
 			NbtUtils.writeGameProfile(nbt, this.owner);

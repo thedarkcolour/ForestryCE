@@ -1,19 +1,10 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.core.multiblock;
 
 import forestry.Forestry;
 import forestry.api.multiblock.IMultiblockComponent;
 import forestry.api.multiblock.IMultiblockLogic;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
 
@@ -62,22 +53,22 @@ public abstract class MultiblockLogic<T extends IMultiblockControllerInternal> i
 	 * <p>
 	 * TL;DR: Here there be dragons.
 	 *
-	 * @see net.minecraft.tileentity.TileEntity#validate()
+	 * @see net.minecraft.world.level.block.entity.BlockEntity#validate()
 	 */
 	@Override
-	public void validate(Level world, IMultiblockComponent part) {
-		MultiblockRegistry.onPartAdded(world, part);
+	public void validate(Level level, IMultiblockComponent part) {
+		MultiblockRegistry.onPartAdded(level, part);
 	}
 
 	/**
 	 * Called when a block is removed by game actions, such as a player breaking the block
 	 * or the block being changed into another block.
 	 *
-	 * @see net.minecraft.tileentity.TileEntity#invalidate()
+	 * @see net.minecraft.world.level.block.entity.BlockEntity#setRemoved()
 	 */
 	@Override
-	public final void invalidate(Level world, IMultiblockComponent part) {
-		detachSelf(world, part, false);
+	public final void setRemoved(Level level, IMultiblockComponent part) {
+		detachSelf(level, part, false);
 	}
 
 	/**
@@ -85,11 +76,11 @@ public abstract class MultiblockLogic<T extends IMultiblockControllerInternal> i
 	 * as the chunk in which this tile entity is contained is unloading.
 	 * Happens before the Forge TickEnd event.
 	 *
-	 * @see net.minecraft.tileentity.TileEntity#onChunkUnload()
+	 * @see net.minecraft.world.level.block.entity.BlockEntity#onChunkUnloaded()
 	 */
 	@Override
-	public final void onChunkUnload(Level world, IMultiblockComponent part) {
-		detachSelf(world, part, true);
+	public final void onChunkUnload(Level level, IMultiblockComponent part) {
+		detachSelf(level, part, true);
 	}
 
 	/*
@@ -109,22 +100,22 @@ public abstract class MultiblockLogic<T extends IMultiblockControllerInternal> i
 	}
 
 	@Override
-	public void readFromNBT(CompoundTag data) {
+	public void read(CompoundTag nbt, HolderLookup.Provider registries) {
 		// We can't directly initialize a multiblock controller yet, so we cache the data here until
 		// we receive a validate() call, which creates the controller and hands off the cached data.
-		if (data.contains("multiblockData")) {
-			this.cachedMultiblockData = data.getCompound("multiblockData");
+		if (nbt.contains("multiblockData")) {
+			this.cachedMultiblockData = nbt.getCompound("multiblockData");
 		}
 	}
 
 	@Override
-	public CompoundTag write(CompoundTag data) {
+	public CompoundTag write(CompoundTag nbt, HolderLookup.Provider registries) {
 		if (isMultiblockSaveDelegate() && this.controller != null) {
 			CompoundTag multiblockData = new CompoundTag();
-			this.controller.write(multiblockData);
-			data.put("multiblockData", multiblockData);
+			this.controller.write(multiblockData, registries);
+			nbt.put("multiblockData", multiblockData);
 		}
-		return data;
+		return nbt;
 	}
 
 	public final void assertDetached(IMultiblockComponent part) {
@@ -180,31 +171,33 @@ public abstract class MultiblockLogic<T extends IMultiblockControllerInternal> i
 	/**
 	 * Override this to easily modify the description packet's data without having
 	 * to worry about sending the packet itself.
-	 * Decode this data in decodeDescriptionPacket.
+	 * Decode this data in decodeUpdatePacket.
 	 *
-	 * @param packetData An NBT compound tag into which you should write your custom description data.
+	 * @param nbt An NBT compound tag into which you should write your custom description data.
+	 * @param registries Registry access
 	 */
 	@Override
-	public void encodeDescriptionPacket(CompoundTag packetData) {
+	public void encodeUpdatePacket(CompoundTag nbt, HolderLookup.Provider registries) {
 		if (this.isMultiblockSaveDelegate() && this.controller != null) {
 			CompoundTag tag = new CompoundTag();
-            this.controller.formatDescriptionPacket(tag);
-			packetData.put("multiblockData", tag);
+            this.controller.encodeUpdatePacket(tag, registries);
+			nbt.put("multiblockData", tag);
 		}
 	}
 
 	/**
 	 * Override this to easily read in data from a TileEntity's description packet.
-	 * Encoded in encodeDescriptionPacket.
+	 * Encoded in encodeUpdatePacket.
 	 *
-	 * @param packetData The NBT data from the tile entity's description packet.
+	 * @param nbt The NBT data from the tile entity's description packet.
+	 * @param registries Registry access
 	 */
 	@Override
-	public void decodeDescriptionPacket(CompoundTag packetData) {
-		if (packetData.contains("multiblockData")) {
-			CompoundTag tag = packetData.getCompound("multiblockData");
+	public void decodeUpdatePacket(CompoundTag nbt, HolderLookup.Provider registries) {
+		if (nbt.contains("multiblockData")) {
+			CompoundTag tag = nbt.getCompound("multiblockData");
 			if (this.controller != null) {
-                this.controller.decodeDescriptionPacket(tag);
+                this.controller.decodeUpdatePacket(tag, registries);
 			} else {
 				// This part hasn't been added to a machine yet, so cache the data.
 				this.cachedMultiblockData = tag;

@@ -1,16 +1,7 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.core.items;
 
 import forestry.core.config.Constants;
+import forestry.core.features.CoreDataComponents;
 import forestry.core.fluids.ForestryFluids;
 import forestry.core.items.definitions.DrinkProperties;
 import forestry.core.items.definitions.EnumContainerType;
@@ -19,7 +10,6 @@ import forestry.core.items.definitions.IColoredItem;
 import forestry.core.models.FluidContainerModel;
 import forestry.core.utils.ModUtil;
 import forestry.core.utils.Translator;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -37,12 +27,12 @@ import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.fluids.FluidActionResult;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.items.ItemHandlerHelper;
+import net.neoforged.neoforge.fluids.FluidActionResult;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidUtil;
+import net.neoforged.neoforge.fluids.SimpleFluidContent;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.items.ItemHandlerHelper;
 
 import javax.annotation.Nullable;
 
@@ -50,7 +40,7 @@ public class ItemFluidContainerForestry extends ItemForestry implements IColored
 	private final EnumContainerType type;
 
 	public ItemFluidContainerForestry(EnumContainerType type) {
-		super(new Item.Properties());
+		super(new Item.Properties().component(CoreDataComponents.FLUID_CONTENTS, SimpleFluidContent.EMPTY));
 		this.type = type;
 	}
 
@@ -76,7 +66,7 @@ public class ItemFluidContainerForestry extends ItemForestry implements IColored
 				String exactTranslationKey = Constants.TRANSLATION_KEY_ITEM + this.type.getSerializedName() + '.' + ModUtil.getRegistryName(fluid.getFluid());
 				return Translator.tryTranslate(exactTranslationKey, () -> {
 					String grammarKey = Constants.TRANSLATION_KEY_ITEM + this.type.getSerializedName() + ".grammar";
-					return Component.translatable(grammarKey, fluid.getDisplayName());
+					return Component.translatable(grammarKey, fluid.getHoverName());
 				});
 			} else {
 				String unlocalizedname = Constants.TRANSLATION_KEY_ITEM + this.type.getSerializedName() + ".empty";
@@ -114,7 +104,7 @@ public class ItemFluidContainerForestry extends ItemForestry implements IColored
 	protected DrinkProperties getDrinkProperties(ItemStack itemStack) {
 		FluidStack contained = getContained(itemStack);
 		if (!contained.isEmpty()) {
-			ForestryFluids definition = ForestryFluids.getFluidDefinition(contained);
+			ForestryFluids definition = ForestryFluids.getFluidDefinition(contained.getFluid());
 			if (definition != null) {
 				return definition.getDrinkProperties();
 			}
@@ -123,12 +113,12 @@ public class ItemFluidContainerForestry extends ItemForestry implements IColored
 	}
 
 	@Override
-	public int getUseDuration(ItemStack itemstack) {
-		DrinkProperties drinkProperties = getDrinkProperties(itemstack);
+	public int getUseDuration(ItemStack stack, LivingEntity living) {
+		DrinkProperties drinkProperties = getDrinkProperties(stack);
 		if (drinkProperties != null) {
 			return drinkProperties.maxItemUseDuration();
 		} else {
-			return super.getUseDuration(itemstack);
+			return super.getUseDuration(stack, living);
 		}
 	}
 
@@ -174,11 +164,6 @@ public class ItemFluidContainerForestry extends ItemForestry implements IColored
 			}
 			return super.use(world, player, handIn);
 		}
-	}
-
-	@Override
-	public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
-		return new FluidHandlerItemForestry(stack, this.type);
 	}
 
 	@Override

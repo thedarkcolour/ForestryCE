@@ -3,13 +3,11 @@ package forestry.api;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.material.Fluid;
 import org.jetbrains.annotations.ApiStatus;
 
 public class ForestryTags {
@@ -101,6 +99,7 @@ public class ForestryTags {
 		public static final TagKey<Item> STAMPS = itemTag("stamps");
 
 		public static final TagKey<Item> SCOOPS = itemTag("scoops");
+		public static final TagKey<Item> SOLDERING_IRONS = itemTag("soldering_irons");
 
 		public static final TagKey<Item> FORESTRY_FRUITS = itemTag("forestry_fruits");
 		public static final TagKey<Item> FRUITS = forgeTag("fruits");
@@ -130,10 +129,6 @@ public class ForestryTags {
 		public static final TagKey<Item> HUNTER_ALLOW = itemTag("backpack/allow/hunter");
 		public static final TagKey<Item> HUNTER_REJECT = itemTag("backpack/reject/hunter");
 
-		// needed because forge doesn't have it and mods can't agree on a crafting table tag...
-		// todo: remove in 1.21 when Neo merges the tags unification PR
-		public static final TagKey<Item> CRAFTING_TABLES = itemTag("crafting_tables");
-
 		public static final TagKey<Item> BEES = itemTag("bees");
 
 		private static TagKey<Item> forgeTag(String name) {
@@ -161,14 +156,6 @@ public class ForestryTags {
 
 		private static TagKey<Biome> tag(String path) {
 			return TagKey.create(Registries.BIOME, ForestryConstants.forestry(path));
-		}
-	}
-
-	public static class Fluids {
-		public static final TagKey<Fluid> HONEY = forgeTag("honey");
-
-		private static TagKey<Fluid> forgeTag(String name) {
-			return FluidTags.create(ResourceLocation.fromNamespaceAndPath("c", name));
 		}
 	}
 

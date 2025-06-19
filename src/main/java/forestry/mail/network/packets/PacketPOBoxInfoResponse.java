@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.mail.network.packets;
 
 import forestry.api.modules.IForestryPacketClient;
@@ -16,9 +6,8 @@ import forestry.core.network.PacketIdClient;
 import forestry.mail.carriers.players.POBoxInfo;
 import forestry.mail.gui.ToastMailboxInfo;
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public record PacketPOBoxInfoResponse(int playerLetters, int tradeLetters,
 									  boolean silent) implements IForestryPacketClient {
@@ -26,23 +15,21 @@ public record PacketPOBoxInfoResponse(int playerLetters, int tradeLetters,
 		this(info.playerLetters(), info.tradeLetters(), silent);
 	}
 
-	@Override
-	public ResourceLocation id() {
+	public Type<?> type() {
 		return PacketIdClient.POBOX_INFO_RESPONSE;
 	}
 
-	@Override
-	public void write(FriendlyByteBuf buffer) {
-		buffer.writeInt(this.playerLetters);
-		buffer.writeInt(this.tradeLetters);
-		buffer.writeBoolean(this.silent);
+	public static void write(RegistryFriendlyByteBuf buffer, PacketPOBoxInfoResponse msg) {
+		buffer.writeInt(msg.playerLetters);
+		buffer.writeInt(msg.tradeLetters);
+		buffer.writeBoolean(msg.silent);
 	}
 
-	public static PacketPOBoxInfoResponse decode(FriendlyByteBuf buffer) {
+	public static PacketPOBoxInfoResponse decode(RegistryFriendlyByteBuf buffer) {
 		return new PacketPOBoxInfoResponse(buffer.readInt(), buffer.readInt(), buffer.readBoolean());
 	}
 
-	public static void handle(PacketPOBoxInfoResponse msg, Player player) {
+	public static void handle(PacketPOBoxInfoResponse msg, IPayloadContext ctx) {
 		POBoxInfo poBox = new POBoxInfo(msg.playerLetters, msg.tradeLetters);
 		if (player.equals(Minecraft.getInstance().player) && ForestryConfig.CLIENT.mailAlertsEnabled.get()) {
 			ToastMailboxInfo.addOrUpdate(Minecraft.getInstance().getToasts(), poBox, msg.silent);

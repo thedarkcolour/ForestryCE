@@ -16,14 +16,14 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraftforge.client.ForgeHooksClient;
-import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
-import net.minecraftforge.client.model.CompositeModel;
-import net.minecraftforge.client.model.DynamicFluidContainerModel;
-import net.minecraftforge.client.model.QuadTransformers;
-import net.minecraftforge.client.model.geometry.*;
-import net.minecraftforge.fluids.FluidUtil;
-import net.neoforged.neoforge.client.model.geometry.IGeometryLoader;
+import net.neoforged.neoforge.client.ClientHooks;
+import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
+import net.neoforged.neoforge.client.model.CompositeModel;
+import net.neoforged.neoforge.client.model.DynamicFluidContainerModel;
+import net.neoforged.neoforge.client.model.QuadTransformers;
+import net.neoforged.neoforge.client.model.geometry.*;
+import net.neoforged.neoforge.fluids.FluidUtil;
+import net.neoforged.neoforge.internal.versions.neoforge.NeoForgeVersion;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
@@ -50,12 +50,12 @@ public class FluidContainerModel implements IUnbakedGeometry<FluidContainerModel
 
 	// Note: The fluid mask is ignored, the fluid element is always from (4, 2) to (12, 14).
 	@Override
-	public BakedModel bake(IGeometryBakingContext context, ModelBaker baker, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ItemOverrides overrides, ResourceLocation modelLocation) {
+	public BakedModel bake(IGeometryBakingContext context, ModelBaker baker, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ItemOverrides overrides) {
 		Material baseLocation = context.hasMaterial("base") ? context.getMaterial("base") : null;
 		Material fluidMaskLocation = context.hasMaterial("fluid") ? context.getMaterial("fluid") : null;
 		Material coverLocation = context.hasMaterial("cover") ? context.getMaterial("cover") : null;
 		TextureAtlasSprite baseSprite = baseLocation != null ? spriteGetter.apply(baseLocation) : null;
-		TextureAtlasSprite fluidSprite = this.fluid != Fluids.EMPTY ? spriteGetter.apply(ForgeHooksClient.getBlockMaterial(IClientFluidTypeExtensions.of(this.fluid).getStillTexture())) : null;
+		TextureAtlasSprite fluidSprite = this.fluid != Fluids.EMPTY ? spriteGetter.apply(ClientHooks.getBlockMaterial(IClientFluidTypeExtensions.of(this.fluid).getStillTexture())) : null;
 		TextureAtlasSprite coverSprite = (coverLocation != null && (!this.coverIsMask || baseLocation != null)) ? spriteGetter.apply(coverLocation) : null;
 
 		TextureAtlasSprite particleSprite = fluidSprite;
@@ -65,13 +65,14 @@ public class FluidContainerModel implements IUnbakedGeometry<FluidContainerModel
 			particleSprite = coverSprite;
 		}
 
-		var itemContext = StandaloneGeometryBakingContext.builder(context).withGui3d(false).withUseBlockLight(false).build(modelLocation);
+		// todo is this modelLocation correct?
+		var itemContext = StandaloneGeometryBakingContext.builder(context).withGui3d(false).withUseBlockLight(false).build(ResourceLocation.fromNamespaceAndPath("neoforge", "dynamic_fluid_container"));
 		var modelBuilder = CompositeModel.Baked.builder(itemContext, particleSprite, new ContainedFluidOverrideHandler(baker, itemContext, this), context.getTransforms());
 		var normalRenderTypes = DynamicFluidContainerModel.getLayerRenderTypes(false);
 
 		if (baseLocation != null && baseSprite != null) {
-			var baseElement = UnbakedGeometryHelper.createUnbakedItemElements(0, baseSprite.contents());
-			var quads = UnbakedGeometryHelper.bakeElements(baseElement, $ -> baseSprite, modelState, modelLocation);
+			var baseElement = UnbakedGeometryHelper.createUnbakedItemElements(0, baseSprite);
+			var quads = UnbakedGeometryHelper.bakeElements(baseElement, $ -> baseSprite, modelState);
 			modelBuilder.addQuads(normalRenderTypes, quads);
 		}
 
@@ -79,7 +80,7 @@ public class FluidContainerModel implements IUnbakedGeometry<FluidContainerModel
 		if (fluidMaskLocation != null && fluidSprite != null) {
 			// no edges
 			var fluidElement = Collections.singletonList(FilledCrateModel.make2dElement(1, 4, 2, 12, 14, -0.002f));
-			var quads = UnbakedGeometryHelper.bakeElements(fluidElement, $ -> fluidSprite, modelState, modelLocation);
+			var quads = UnbakedGeometryHelper.bakeElements(fluidElement, $ -> fluidSprite, modelState);
 
 			var emissive = this.applyFluidLuminosity && this.fluid.getFluidType().getLightLevel() > 0;
 			var renderTypes = DynamicFluidContainerModel.getLayerRenderTypes(emissive);
@@ -95,7 +96,7 @@ public class FluidContainerModel implements IUnbakedGeometry<FluidContainerModel
 			if (sprite != null) {
 				// no edges
 				var coverElement = Collections.singletonList(FilledCrateModel.make2dElement(2, 0, 0, 16, 16, 0.002f)); // Use cover as mask
-				var quads = UnbakedGeometryHelper.bakeElements(coverElement, $ -> sprite, modelState, modelLocation); // Bake with selected texture
+				var quads = UnbakedGeometryHelper.bakeElements(coverElement, $ -> sprite, modelState); // Bake with selected texture
 				modelBuilder.addQuads(normalRenderTypes, quads);
 			}
 		}
@@ -139,7 +140,7 @@ public class FluidContainerModel implements IUnbakedGeometry<FluidContainerModel
 
 					if (!this.cache.containsKey(name)) {
 						FluidContainerModel unbaked = this.parent.withFluid(fluid);
-						BakedModel bakedModel = unbaked.bake(this.owner, this.bakery, Material::sprite, BlockModelRotation.X0_Y0, this, new ResourceLocation("forge:bucket_override"));
+						BakedModel bakedModel = unbaked.bake(this.owner, this.bakery, Material::sprite, BlockModelRotation.X0_Y0, this, ResourceLocation.fromNamespaceAndPath(NeoForgeVersion.MOD_ID, "bucket_override"));
 						this.cache.put(name, bakedModel);
 						return bakedModel;
 					}

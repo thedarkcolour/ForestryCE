@@ -9,6 +9,7 @@ import forestry.api.genetics.IGenome;
 import forestry.api.genetics.alleles.BeeChromosomes;
 import forestry.api.util.TickHelper;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
@@ -156,7 +157,7 @@ public class HasFlowersCache implements INbtWritable, INbtReadable {
 	}
 
 	@Override
-	public void read(CompoundTag compoundNBT) {
+	public void read(CompoundTag compoundNBT, HolderLookup.Provider registries) {
 		if (!compoundNBT.contains(NBT_KEY)) {
 			return;
 		}
@@ -182,7 +183,7 @@ public class HasFlowersCache implements INbtWritable, INbtReadable {
 	}
 
 	@Override
-	public CompoundTag write(CompoundTag CompoundNBT) {
+	public CompoundTag write(CompoundTag CompoundNBT, HolderLookup.Provider registries) {
 		CompoundTag hasFlowerCacheNBT = new CompoundTag();
 
 		if (!this.flowerCoords.isEmpty()) {

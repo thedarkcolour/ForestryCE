@@ -10,7 +10,6 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public interface ILetter extends Container, INbtWritable {
-
 	NonNullList<ItemStack> getPostage();
 
 	void setProcessed(boolean flag);

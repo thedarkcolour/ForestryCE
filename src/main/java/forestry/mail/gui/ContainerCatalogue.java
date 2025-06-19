@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.mail.gui;
 
 import forestry.api.mail.*;
@@ -34,7 +24,7 @@ public class ContainerCatalogue extends AbstractContainerMenu implements IGuiSel
 	private final List<ITradeStation> stations = new ArrayList<>();
 
 	@Nullable
-	private ITradeStationInfo currentTrade = null;
+	private TradeStationInfo currentTrade = null;
 
 	private final DataSlot stationIndex = DataSlot.standalone();
 
@@ -99,7 +89,7 @@ public class ContainerCatalogue extends AbstractContainerMenu implements IGuiSel
 		Map<IMailAddress, ITradeStation> tradeStations = TradeStationRegistry.getOrCreate((ServerLevel) this.player.level()).getActiveTradeStations();
 
 		for (ITradeStation station : tradeStations.values()) {
-			ITradeStationInfo info = station.getTradeInfo();
+			TradeStationInfo info = station.getTradeInfo();
 
 			// Filter out any trade stations which do not actually offer anything.
 			if (FILTERS.get(this.currentFilter.get()).contains(info.state())) {
@@ -148,16 +138,16 @@ public class ContainerCatalogue extends AbstractContainerMenu implements IGuiSel
 	}
 
 	@Override
-	public void handleLetterInfoUpdate(IPostalCarrier carrier, @Nullable IMailAddress address, @Nullable ITradeStationInfo tradeInfo) {
+	public void handleLetterInfoUpdate(IPostalCarrier carrier, @Nullable IMailAddress address, @Nullable TradeStationInfo tradeInfo) {
 		setTradeInfo(tradeInfo);
 	}
 
 	@Nullable
-	public ITradeStationInfo getTradeInfo() {
+	public TradeStationInfo getTradeInfo() {
 		return this.currentTrade;
 	}
 
-	private void setTradeInfo(@Nullable ITradeStationInfo info) {
+	private void setTradeInfo(@Nullable TradeStationInfo info) {
         this.currentTrade = info;
 	}
 
@@ -178,7 +168,7 @@ public class ContainerCatalogue extends AbstractContainerMenu implements IGuiSel
 	}
 
 	@Override
-	public void handleSelectionRequest(ServerPlayer player, int primary, int secondary) {
+	public void handleSelectionRequest(Player player, int primary, int secondary) {
 		switch (primary) {
 			case 0 -> nextPage();
 			case 1 -> previousPage();

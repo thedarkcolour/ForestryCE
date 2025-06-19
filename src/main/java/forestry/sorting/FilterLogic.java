@@ -4,7 +4,6 @@ import forestry.api.IForestryApi;
 import forestry.api.core.ILocationProvider;
 import forestry.api.genetics.IIndividual;
 import forestry.api.genetics.ISpecies;
-import forestry.api.genetics.alleles.IAlleleManager;
 import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.api.genetics.filter.FilterData;
 import forestry.api.genetics.filter.IFilterLogic;
@@ -16,6 +15,7 @@ import forestry.sorting.network.packets.PacketFilterChangeRule;
 import forestry.sorting.network.packets.PacketGuiFilterUpdate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -45,7 +45,7 @@ public class FilterLogic implements IFilterLogic {
 	}
 
 	@Override
-	public CompoundTag write(CompoundTag data) {
+	public CompoundTag write(CompoundTag data, HolderLookup.Provider registries) {
 		for (int i = 0; i < this.filterRules.length; i++) {
 			data.putString("TypeFilter" + i, this.filterRules[i].getId());
 		}
@@ -68,7 +68,7 @@ public class FilterLogic implements IFilterLogic {
 	}
 
 	@Override
-	public void read(CompoundTag data) {
+	public void read(CompoundTag data, HolderLookup.Provider registries) {
 		for (int i = 0; i < this.filterRules.length; i++) {
 			this.filterRules[i] = IForestryApi.INSTANCE.getFilterManager().getRuleOrDefault(data.getString("TypeFilter" + i));
 		}
@@ -77,10 +77,10 @@ public class FilterLogic implements IFilterLogic {
 			for (int j = 0; j < 3; j++) {
 				AlleleFilter filter = new AlleleFilter();
 				if (data.contains("GenomeFilterS" + i + "-" + j + "-" + 0)) {
-					filter.activeSpecies = SpeciesUtil.getAnySpecies(new ResourceLocation(data.getString("GenomeFilterS" + i + "-" + j + "-" + 0)));
+					filter.activeSpecies = SpeciesUtil.getAnySpecies(ResourceLocation.parse(data.getString("GenomeFilterS" + i + "-" + j + "-" + 0)));
 				}
 				if (data.contains("GenomeFilterS" + i + "-" + j + "-" + 1)) {
-					filter.inactiveSpecies = SpeciesUtil.getAnySpecies(new ResourceLocation(data.getString("GenomeFilterS" + i + "-" + j + "-" + 1)));
+					filter.inactiveSpecies = SpeciesUtil.getAnySpecies(ResourceLocation.parse(data.getString("GenomeFilterS" + i + "-" + j + "-" + 1)));
 				}
 				this.genomeFilter[i][j] = filter;
 			}
@@ -95,8 +95,8 @@ public class FilterLogic implements IFilterLogic {
 
 	@Override
 	public void readGuiData(FriendlyByteBuf buffer) {
-        this.filterRules = readFilterRules(buffer);
-        this.genomeFilter = readGenomeFilters(buffer);
+		this.filterRules = readFilterRules(buffer);
+		this.genomeFilter = readGenomeFilters(buffer);
 	}
 
 	public static void writeFilterRules(FriendlyByteBuf buffer, IFilterRuleType[] filterRules) {
@@ -140,8 +140,7 @@ public class FilterLogic implements IFilterLogic {
 	}
 
 	public static AlleleFilter[][] readGenomeFilters(FriendlyByteBuf buffer) {
-		AlleleFilter[][] genomeFilters = new AlleleFilter[6][32023];
-		IAlleleManager alleles = IForestryApi.INSTANCE.getAlleleManager();
+		AlleleFilter[][] genomeFilters = new AlleleFilter[6][3];
 
 		for (int i = 0; i < 6; i++) {
 			for (int j = 0; j < 3; j++) {
@@ -211,7 +210,7 @@ public class FilterLogic implements IFilterLogic {
 
 	public boolean setRule(Direction facing, IFilterRuleType rule) {
 		if (this.filterRules[facing.ordinal()] != rule) {
-            this.filterRules[facing.ordinal()] = rule;
+			this.filterRules[facing.ordinal()] = rule;
 			return true;
 		}
 		return false;
@@ -249,15 +248,15 @@ public class FilterLogic implements IFilterLogic {
 
 	@Override
 	public void sendToServer(Direction facing, int index, boolean active, @Nullable ISpecies<?> allele) {
-        IForestryPacketServer packet = new PacketFilterChangeGenome(this.locatable.getBlockPos(), facing, (short) index, active, allele);
-        PacketDistributor.sendToServer(packet);
-    }
+		IForestryPacketServer packet = new PacketFilterChangeGenome(this.locatable.getBlockPos(), facing, (short) index, active, allele);
+		PacketDistributor.sendToServer(packet);
+	}
 
 	@Override
 	public void sendToServer(Direction facing, IFilterRuleType rule) {
-        IForestryPacketServer packet = new PacketFilterChangeRule(this.locatable.getBlockPos(), facing, rule);
-        PacketDistributor.sendToServer(packet);
-    }
+		IForestryPacketServer packet = new PacketFilterChangeRule(this.locatable.getBlockPos(), facing, rule);
+		PacketDistributor.sendToServer(packet);
+	}
 
 	public PacketGuiFilterUpdate createGuiUpdatePacket(BlockPos pos) {
 		return new PacketGuiFilterUpdate(pos, this.filterRules, this.genomeFilter);

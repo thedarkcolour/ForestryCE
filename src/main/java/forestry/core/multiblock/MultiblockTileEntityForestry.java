@@ -1,16 +1,5 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.core.multiblock;
 
-import com.mojang.authlib.GameProfile;
 import forestry.api.core.ILocationProvider;
 import forestry.api.core.ISpectacleBlock;
 import forestry.api.multiblock.IMultiblockLogic;
@@ -21,23 +10,23 @@ import forestry.core.inventory.IInventoryAdapter;
 import forestry.core.tiles.IFilterSlotDelegate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtUtils;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
+import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.network.NetworkHooks;
 
 import javax.annotation.Nullable;
 
 public abstract class MultiblockTileEntityForestry<T extends IMultiblockLogic> extends MultiblockTileEntityBase<T> implements WorldlyContainer, IFilterSlotDelegate, ILocationProvider, MenuProvider, ISpectacleBlock {
 	@Nullable
-	private GameProfile owner;
+	private ResolvableProfile owner;
 
 	public MultiblockTileEntityForestry(BlockEntityType<?> tileEntityType, BlockPos pos, BlockState state, T multiblockLogic) {
 		super(tileEntityType, pos, state, multiblockLogic);
@@ -47,32 +36,32 @@ public abstract class MultiblockTileEntityForestry<T extends IMultiblockLogic> e
 	 * Called by a structure block when it is right clicked by a player.
 	 */
 	public void openGui(ServerPlayer player, BlockPos pos) {
-		NetworkHooks.openScreen(player, this, pos);
+		player.openMenu(this, pos);
 	}
 
 	@Override
-	public void load(CompoundTag data) {
-		super.load(data);
+	public void loadAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+		super.loadAdditional(nbt, registries);
 
-		if (data.contains("owner")) {
-			CompoundTag ownerNbt = data.getCompound("owner");
-			this.owner = NbtUtils.readGameProfile(ownerNbt);
+		if (nbt.contains("owner")) {
+			ResolvableProfile.CODEC
+				.parse(NbtOps.INSTANCE, nbt.get("profile"))
+				.result()
+				.ifPresent(this::setOwner);
 		}
 
-		getInternalInventory().read(data);
+		getInternalInventory().read(nbt, registries);
 	}
 
 	@Override
-	public void saveAdditional(CompoundTag data) {
-		super.saveAdditional(data);
+	public void saveAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+		super.saveAdditional(nbt, registries);
 
 		if (this.owner != null) {
-			CompoundTag nbt = new CompoundTag();
-			NbtUtils.writeGameProfile(nbt, this.owner);
-			data.put("owner", nbt);
+			nbt.put("owner", ResolvableProfile.CODEC.encodeStart(NbtOps.INSTANCE, this.owner).getOrThrow());
 		}
 
-		getInternalInventory().write(data);
+		getInternalInventory().write(nbt, registries);
 	}
 
 	/* INVENTORY */
@@ -168,21 +157,13 @@ public abstract class MultiblockTileEntityForestry<T extends IMultiblockLogic> e
 		return getInternalInventory().isLocked(slotIndex);
 	}
 
-	/* ILocatable */
-	@Override
-	public final @Nullable Level getLevel() {
-		return this.level;
-	}
-
-	/* IMultiblockComponent */
-
 	@Override
 	@Nullable
-	public final GameProfile getOwner() {
+	public final @Nullable ResolvableProfile getOwner() {
 		return this.owner;
 	}
 
-	public final void setOwner(GameProfile owner) {
+	public final void setOwner(@Nullable ResolvableProfile owner) {
 		this.owner = owner;
 	}
 

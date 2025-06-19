@@ -2,11 +2,9 @@ package forestry.arboriculture;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import forestry.api.ForestryCapabilities;
-import forestry.api.arboriculture.genetics.ITree;
 import forestry.api.arboriculture.genetics.ITreeSpeciesType;
 import forestry.api.arboriculture.genetics.TreeLifeStage;
 import forestry.api.client.IClientModuleHandler;
-import forestry.api.genetics.IIndividual;
 import forestry.api.modules.ForestryModule;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.arboriculture.capabilities.SpectacleVision;
@@ -22,8 +20,8 @@ import forestry.core.network.PacketIdClient;
 import forestry.core.utils.SpeciesUtil;
 import forestry.modules.BlankForestryModule;
 import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.neoforged.bus.api.IEventBus;
@@ -49,20 +47,6 @@ public class ModuleArboriculture extends BlankForestryModule {
 		modBus.addListener(ModuleArboriculture::commonSetup);
 	}
 
-	private static void attachCapabilities(AttachCapabilitiesEvent<ItemStack> event) {
-		// Add genetics capabilities to vanilla saplings
-		if (!event.getCapabilities().containsKey(IIndividual.CAPABILITY_ID)) {
-			ItemStack stack = event.getObject();
-
-			ITreeSpeciesType type = SpeciesUtil.TREE_TYPE.get();
-			ITree individual = type.getVanillaIndividual(stack.getItem());
-
-			if (individual != null) {
-				event.addCapability(IIndividual.CAPABILITY_ID, new IndividualHandlerItem(type, stack, individual, TreeLifeStage.SAPLING));
-			}
-		}
-	}
-
 	@Override
 	public void addToRootCommand(LiteralArgumentBuilder<CommandSourceStack> command) {
 		command.then(CommandTree.register());
@@ -70,7 +54,10 @@ public class ModuleArboriculture extends BlankForestryModule {
 
 	private static void registerCapabilities(RegisterCapabilitiesEvent event) {
 		event.registerItem(ForestryCapabilities.SPECTACLE_VISION, (stack, v) -> SpectacleVision.INSTANCE, CoreItems.SPECTACLES);
-		event.registerItem();
+
+		// Add genetics capabilities to vanilla saplings
+		ITreeSpeciesType type = SpeciesUtil.TREE_TYPE.get();
+		type.getAllVanillaIndividuals().forEach((item, individual) -> event.registerItem(ForestryCapabilities.INDIVIDUAL_HANDLER_ITEM, (stack, v) -> new IndividualHandlerItem(type, stack, individual, TreeLifeStage.SAPLING), item));
 	}
 
 	private static void commonSetup(FMLCommonSetupEvent event) {
@@ -85,7 +72,7 @@ public class ModuleArboriculture extends BlankForestryModule {
 
 	@Override
 	public void registerPackets(PayloadRegistrar registrar) {
-		registrar.clientbound(PacketIdClient.RIPENING_UPDATE, PacketRipeningUpdate.class, PacketRipeningUpdate::decode, PacketRipeningUpdate::handle);
+		registrar.playToClient(PacketIdClient.RIPENING_UPDATE, StreamCodec.of(PacketRipeningUpdate::encode, PacketRipeningUpdate::decode), PacketRipeningUpdate::handle);
 	}
 
 	@Override

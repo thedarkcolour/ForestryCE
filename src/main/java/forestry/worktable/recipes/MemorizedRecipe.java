@@ -7,6 +7,7 @@ import forestry.core.utils.InventoryUtil;
 import forestry.core.utils.NetworkUtil;
 import forestry.core.utils.RecipeUtil;
 import forestry.worktable.inventory.WorktableCraftingContainer;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
@@ -36,8 +37,8 @@ public class MemorizedRecipe implements INbtWritable, INbtReadable, IStreamable 
 		readData(buffer);
 	}
 
-	public MemorizedRecipe(CompoundTag nbt) {
-		read(nbt);
+	public MemorizedRecipe(CompoundTag nbt, HolderLookup.Provider registries) {
+		read(nbt, registries);
 	}
 
 	public MemorizedRecipe(CraftingContainer craftMatrix, List<RecipeHolder<CraftingRecipe>> recipes) {
@@ -163,18 +164,18 @@ public class MemorizedRecipe implements INbtWritable, INbtReadable, IStreamable 
 	}
 
 	@Override
-	public void read(CompoundTag compoundNBT) {
-		InventoryUtil.readFromNBT(this.craftMatrix, "inventory", compoundNBT);
-		this.lastUsed = compoundNBT.getLong("LastUsed");
-		this.locked = compoundNBT.getBoolean("Locked");
+	public void read(CompoundTag nbt, HolderLookup.Provider registries) {
+		InventoryUtil.readFromNBT(this.craftMatrix, "inventory", nbt);
+		this.lastUsed = nbt.getLong("LastUsed");
+		this.locked = nbt.getBoolean("Locked");
 
-		if (compoundNBT.contains("SelectedRecipe")) {
-			this.selectedRecipe = compoundNBT.getInt("SelectedRecipe");
+		if (nbt.contains("SelectedRecipe")) {
+			this.selectedRecipe = nbt.getInt("SelectedRecipe");
 		}
 
 		this.recipes.clear();
 		this.recipeIds.clear();
-		ListTag recipesNbt = compoundNBT.getList("Recipes", Tag.TAG_STRING);
+		ListTag recipesNbt = nbt.getList("Recipes", Tag.TAG_STRING);
 		for (int i = 0; i < recipesNbt.size(); i++) {
 			String recipeKey = recipesNbt.getString(i);
 			ResourceLocation recipeId = ResourceLocation.tryParse(recipeKey);
@@ -190,7 +191,7 @@ public class MemorizedRecipe implements INbtWritable, INbtReadable, IStreamable 
 	}
 
 	@Override
-	public CompoundTag write(CompoundTag compoundNBT) {
+	public CompoundTag write(CompoundTag compoundNBT, HolderLookup.Provider registries) {
 		InventoryUtil.writeToNBT(this.craftMatrix, "inventory", compoundNBT);
 		compoundNBT.putLong("LastUsed", this.lastUsed);
 		compoundNBT.putBoolean("Locked", this.locked);

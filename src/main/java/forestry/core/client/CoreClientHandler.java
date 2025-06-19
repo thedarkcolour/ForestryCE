@@ -27,7 +27,7 @@ import forestry.core.gui.*;
 import forestry.core.models.ClientManager;
 import forestry.core.models.FluidContainerModel;
 import forestry.core.models.ModelBlockCached;
-import forestry.core.particles.CoreParticles;
+import forestry.core.features.CoreParticles;
 import forestry.core.render.*;
 import forestry.core.utils.GeneticsUtil;
 import forestry.core.utils.RenderUtil;

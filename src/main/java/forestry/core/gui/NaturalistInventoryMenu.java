@@ -53,7 +53,7 @@ public class NaturalistInventoryMenu extends TileMenu<TileNaturalistChest> imple
 	}
 
 	@Override
-	public void handleSelectionRequest(ServerPlayer player, int primary, int secondary) {
+	public void handleSelectionRequest(Player player, int primary, int secondary) {
         this.closing = false;
         this.tile.flipPage(player, (short) primary);
 	}

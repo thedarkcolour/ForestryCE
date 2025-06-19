@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.core.fluids;
 
 import forestry.modules.features.FeatureFluid;
@@ -30,18 +20,16 @@ import net.minecraft.world.phys.AABB;
 public class BlockForestryFluid extends LiquidBlock {
 	private final boolean spreadsFire;
 	private final int flammability;
-	private final int color;
 	private final boolean freezing;
 	private final boolean burning;
 	private final float explosionPower;
 	private final boolean explodes;
 
 	public BlockForestryFluid(FeatureFluid feature) {
-		super(feature::fluid, Block.Properties.of().liquid().noCollission().noLootTable().replaceable());
+		super(feature.fluid(), Block.Properties.of().liquid().noCollission().noLootTable().replaceable());
 		FluidProperties properties = feature.properties();
 		this.flammability = properties.flammability;
 		this.spreadsFire = properties.spreadsFire;
-		this.color = properties.particleColor;
 		this.freezing = properties.temperature < 270;
 		this.burning = properties.temperature > 505;
 		// Explosion size is determined by flammability, up to size 4.
@@ -54,7 +42,7 @@ public class BlockForestryFluid extends LiquidBlock {
 		if (this.freezing) {
 			entity.setIsInPowderSnow(true);
 		} else if (this.burning) {
-			entity.setSecondsOnFire(5);
+			entity.igniteForSeconds(5);
 			entity.hurt(pLevel.damageSources().lava(), 1);
 		}
 	}

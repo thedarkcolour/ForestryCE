@@ -1,44 +1,32 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.mail.network.packets;
 
+import forestry.api.ForestryRegistries;
 import forestry.api.mail.IPostalCarrier;
 import forestry.api.modules.IForestryPacketServer;
 import forestry.core.network.PacketIdServer;
-import forestry.mail.carriers.PostalCarriers;
 import forestry.mail.gui.LetterMenu;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 
-public record PacketLetterInfoRequest(String recipientName,
-									  IPostalCarrier addressType) implements IForestryPacketServer {
-	public static void handle(PacketLetterInfoRequest msg, ServerPlayer player) {
-		if (player.containerMenu instanceof LetterMenu containerLetter) {
-			containerLetter.handleRequestLetterInfo(player, msg.recipientName(), msg.addressType());
+public record PacketLetterInfoRequest(String recipientName, IPostalCarrier addressType) implements IForestryPacketServer {
+	public static void handle(PacketLetterInfoRequest msg, IPayloadContext ctx) {
+		if (ctx.player().containerMenu instanceof LetterMenu containerLetter) {
+			containerLetter.handleRequestLetterInfo(ctx.player(), msg.recipientName(), msg.addressType());
 		}
 	}
 
 	@Override
-	public ResourceLocation id() {
+	public Type<?> type() {
 		return PacketIdServer.LETTER_INFO_REQUEST;
 	}
 
-	@Override
-	public void write(FriendlyByteBuf buffer) {
-		buffer.writeUtf(this.recipientName);
-		buffer.writeUtf(PostalCarriers.REGISTRY.get().getKey(this.addressType).toString());
+	public static void encode(RegistryFriendlyByteBuf buffer, PacketLetterInfoRequest msg) {
+		buffer.writeUtf(msg.recipientName);
+		buffer.writeUtf(ForestryRegistries.POSTAL_CARRIER.getKey(msg.addressType).toString());
 	}
 
-	public static PacketLetterInfoRequest decode(FriendlyByteBuf buffer) {
-		return new PacketLetterInfoRequest(buffer.readUtf(), PostalCarriers.REGISTRY.get().getValue(ResourceLocation.tryParse(buffer.readUtf())));
+	public static PacketLetterInfoRequest decode(RegistryFriendlyByteBuf buffer) {
+		return new PacketLetterInfoRequest(buffer.readUtf(), ForestryRegistries.POSTAL_CARRIER.get(ResourceLocation.tryParse(buffer.readUtf())));
 	}
 }

@@ -1,9 +1,10 @@
 package forestry.core.circuits;
 
+import forestry.api.circuits.CircuitLayout;
 import forestry.api.modules.IForestryPacketClient;
 import forestry.core.features.CoreMenuTypes;
-import forestry.core.gui.ItemInventoryMenu;
 import forestry.core.gui.IGuiSelectable;
+import forestry.core.gui.ItemInventoryMenu;
 import forestry.core.gui.slots.SlotFiltered;
 import forestry.core.gui.slots.SlotOutput;
 import forestry.core.inventory.ItemInventorySolderingIron;
@@ -40,7 +41,7 @@ public class SolderingIronMenu extends ItemInventoryMenu<ItemInventorySolderingI
 		this.addSlot(new SlotFiltered(inventory, 5, 12, 92));
 	}
 
-	public ICircuitLayout getLayout() {
+	public CircuitLayout getLayout() {
 		return this.inventory.getLayout();
 	}
 
@@ -57,20 +58,20 @@ public class SolderingIronMenu extends ItemInventoryMenu<ItemInventorySolderingI
 	}
 
 	@Override
-	public void handleSelectionRequest(ServerPlayer player, int primary, int secondary) {
+	public void handleSelectionRequest(Player player, int primary, int secondary) {
 		if (secondary == 0) {
 			if (primary == 0) {
-                this.inventory.advanceLayout();
+				this.inventory.advanceLayout();
 			}
 		} else if (primary == 0) {
-            this.inventory.regressLayout();
+			this.inventory.regressLayout();
 		}
 
 		IForestryPacketClient packetResponse = new PacketGuiLayoutSelect(this.inventory.getLayout().id());
-        PacketDistributor.sendToPlayer(player, packetResponse);
-    }
+		PacketDistributor.sendToPlayer((ServerPlayer) player, packetResponse);
+	}
 
-	public void setLayout(ICircuitLayout layout) {
-        this.inventory.setLayout(layout);
+	public void setLayout(CircuitLayout layout) {
+		this.inventory.setLayout(layout);
 	}
 }

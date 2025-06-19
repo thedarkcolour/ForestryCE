@@ -5,7 +5,8 @@ import forestry.api.mail.IMailAddress;
 import forestry.api.mail.ITradeStation;
 import forestry.mail.IWatchable;
 import forestry.mail.MailAddress;
-import forestry.mail.carriers.PostalCarriers;
+import forestry.mail.features.PostalCarriers;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.server.level.ServerLevel;
@@ -28,7 +29,7 @@ public class TradeStationRegistry extends SavedData implements IWatchable.Watche
 	 * @return true if the passed address can be an address for a trade station
 	 */
 	public boolean isValidTradeAddress(IMailAddress address) {
-		return address.getCarrier().equals(PostalCarriers.TRADER.get()) && TRADE_STATION_NAME_REGEX.matcher(address.getName()).matches();
+		return address.getCarrier().equals(PostalCarriers.TRADER.value()) && TRADE_STATION_NAME_REGEX.matcher(address.getName()).matches();
 	}
 
 	/**
@@ -90,26 +91,26 @@ public class TradeStationRegistry extends SavedData implements IWatchable.Watche
 		return new TradeStationRegistry();
 	}
 
-	private static TradeStationRegistry load(CompoundTag compoundTag) {
+	private static TradeStationRegistry load(CompoundTag compoundTag, HolderLookup.Provider registries) {
 		TradeStationRegistry registry = new TradeStationRegistry();
 		ListTag tradeStations = compoundTag.getList("tradeStations", 10);
 		for (int i = 0; i < tradeStations.size(); ++i) {
 			CompoundTag stationTag = tradeStations.getCompound(i);
 
 			IMailAddress address = new MailAddress(stationTag.getCompound("address"));
-			ITradeStation station = new TradeStation(stationTag.getCompound("station"));
+			ITradeStation station = new TradeStation(stationTag.getCompound("station"), registries);
 			registry.registerTradeStation(address, station);
 		}
 		return registry;
 	}
 
 	@Override
-	public CompoundTag save(CompoundTag compoundTag) {
+	public CompoundTag save(CompoundTag compoundTag, HolderLookup.Provider registries) {
 		ListTag tradeStations = new ListTag();
 		for (Map.Entry<IMailAddress, ITradeStation> entry : this.cachedTradeStations.entrySet()) {
 			CompoundTag entryTag = new CompoundTag();
-			entryTag.put("address", entry.getKey().write(new CompoundTag()));
-			entryTag.put("station", entry.getValue().write(new CompoundTag()));
+			entryTag.put("address", entry.getKey().write(new CompoundTag(), registries));
+			entryTag.put("station", entry.getValue().write(new CompoundTag(), registries));
 			tradeStations.add(entryTag);
 		}
 		compoundTag.put("tradeStations", tradeStations);
@@ -117,6 +118,10 @@ public class TradeStationRegistry extends SavedData implements IWatchable.Watche
 	}
 
 	public static TradeStationRegistry getOrCreate(ServerLevel level) {
-		return level.getDataStorage().computeIfAbsent(TradeStationRegistry::load, TradeStationRegistry::create, SAVE_NAME);
+		return level.getDataStorage().computeIfAbsent(TradeStationRegistry.factory(), SAVE_NAME);
+	}
+
+	public static SavedData.Factory<TradeStationRegistry> factory() {
+		return new Factory<>(TradeStationRegistry::create, TradeStationRegistry::load);
 	}
 }

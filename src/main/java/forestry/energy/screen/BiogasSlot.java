@@ -15,8 +15,8 @@ import forestry.api.core.tooltips.ToolTip;
 import forestry.core.gui.widgets.ReservoirWidget;
 import forestry.core.gui.widgets.WidgetManager;
 import net.minecraft.network.chat.Component;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.IFluidTank;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.IFluidTank;
 
 public class BiogasSlot extends ReservoirWidget {
 	public BiogasSlot(WidgetManager manager, int xPos, int yPos, int slot) {

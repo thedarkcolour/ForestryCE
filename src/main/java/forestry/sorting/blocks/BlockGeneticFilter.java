@@ -5,8 +5,6 @@ import forestry.core.tiles.TileUtil;
 import forestry.sorting.tiles.TileGeneticFilter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -19,9 +17,6 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.network.NetworkHooks;
-
-import javax.annotation.Nullable;
 
 public class BlockGeneticFilter extends BlockForestry implements EntityBlock {
 	public static final BooleanProperty NORTH = BooleanProperty.create("north");
@@ -42,9 +37,9 @@ public class BlockGeneticFilter extends BlockForestry implements EntityBlock {
 
 	public BlockGeneticFilter() {
 		super(Block.Properties.of()
-				.strength(0.25f, 3.0f)
-				.dynamicShape()
-				.noOcclusion()
+			.strength(0.25f, 3.0f)
+			.dynamicShape()
+			.noOcclusion()
 		);
 		this.registerDefaultState(this.getStateDefinition().any()
 			.setValue(NORTH, false)
@@ -69,17 +64,17 @@ public class BlockGeneticFilter extends BlockForestry implements EntityBlock {
 	}
 
 	@Override
-	public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player playerIn, InteractionHand hand, BlockHitResult rayTraceResult) {
-		TileGeneticFilter tile = TileUtil.getTile(worldIn, pos, TileGeneticFilter.class);
-		if (tile != null) {
-			if (TileUtil.isUsableByPlayer(playerIn, tile)) {
-				if (!worldIn.isClientSide) {
-					ServerPlayer sPlayer = (ServerPlayer) playerIn;
-					NetworkHooks.openScreen(sPlayer, tile, pos);
-				}
+	protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
+		if (level.getBlockEntity(pos) instanceof TileGeneticFilter filter) {
+			if (!level.isClientSide) {
+				player.openMenu(filter, pos);
+
+				return InteractionResult.CONSUME;
+			} else {
 				return InteractionResult.SUCCESS;
 			}
 		}
+
 		return InteractionResult.PASS;
 	}
 
@@ -89,7 +84,6 @@ public class BlockGeneticFilter extends BlockForestry implements EntityBlock {
 	}
 
 	@Override
-	@Nullable
 	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
 		return new TileGeneticFilter(pos, state);
 	}

@@ -17,12 +17,12 @@ public abstract class ForestryRecipeCategory<T> implements IRecipeCategory<T> {
 
 	@Override
 	public Component getTitle() {
-		return Component.translatable(localizedName);
+		return Component.translatable(this.localizedName);
 	}
 
 	@Override
 	public IDrawable getBackground() {
-		return background;
+		return this.background;
 	}
 
 	@Override

@@ -3,6 +3,7 @@ package forestry.worktable.recipes;
 import forestry.api.core.INbtWritable;
 import forestry.core.network.IStreamable;
 import forestry.core.utils.NetworkUtil;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -29,7 +30,7 @@ public class RecipeMemory implements INbtWritable, IStreamable {
 	public RecipeMemory() {
 	}
 
-	public RecipeMemory(CompoundTag nbt) {
+	public RecipeMemory(CompoundTag nbt, HolderLookup.Provider registries) {
 		if (!nbt.contains("RecipeMemory")) {
 			return;
 		}
@@ -38,7 +39,7 @@ public class RecipeMemory implements INbtWritable, IStreamable {
 
 		for (int j = 0; j < memoryNbt.size(); ++j) {
 			CompoundTag recipeNbt = memoryNbt.getCompound(j);
-			MemorizedRecipe recipe = new MemorizedRecipe(recipeNbt);
+			MemorizedRecipe recipe = new MemorizedRecipe(recipeNbt, registries);
 
 			if (recipe.hasSelectedRecipe()) {
 				this.memorizedRecipes.add(recipe);
@@ -148,12 +149,12 @@ public class RecipeMemory implements INbtWritable, IStreamable {
 	}
 
 	@Override
-	public CompoundTag write(CompoundTag compoundNBT) {
+	public CompoundTag write(CompoundTag compoundNBT, HolderLookup.Provider registries) {
 		ListTag listNBT = new ListTag();
 		for (MemorizedRecipe recipe : this.memorizedRecipes) {
 			if (recipe != null && recipe.hasSelectedRecipe()) {
 				CompoundTag recipeNbt = new CompoundTag();
-				recipe.write(recipeNbt);
+				recipe.write(recipeNbt, registries);
 				listNBT.add(recipeNbt);
 			}
 		}

@@ -28,10 +28,7 @@ public abstract class ItemStackUtil {
 			int result = 1;
 			result = 31 * result + o.getCount();
 			result = 31 * result + o.getItem().hashCode();
-			if (o.hasTag()) {
-				result = 31 * result + o.getTag().hashCode();
-			}
-
+			result = 31 * result + o.getComponents().hashCode();
 			return result;
 		}
 

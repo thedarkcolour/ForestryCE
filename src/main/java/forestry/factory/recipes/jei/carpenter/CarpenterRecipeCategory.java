@@ -10,7 +10,6 @@ import forestry.core.utils.RecipeUtil;
 import forestry.factory.blocks.BlockTypeFactoryTesr;
 import forestry.factory.features.FactoryBlocks;
 import mezz.jei.api.constants.VanillaTypes;
-import mezz.jei.api.forge.ForgeTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.builder.IRecipeSlotBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -19,6 +18,7 @@ import mezz.jei.api.gui.drawable.IDrawableStatic;
 import mezz.jei.api.gui.ingredient.ICraftingGridHelper;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
+import mezz.jei.api.neoforge.NeoForgeTypes;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
@@ -26,9 +26,11 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingRecipe;
-import net.minecraftforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 public class CarpenterRecipeCategory extends ForestryRecipeCategory<ICarpenterRecipe> {
 	private final static ResourceLocation guiTexture = ForestryConstants.forestry(Constants.TEXTURE_PATH_GUI + "/carpenter.png");
@@ -81,10 +83,8 @@ public class CarpenterRecipeCategory extends ForestryRecipeCategory<ICarpenterRe
 			.setFluidRenderer(10000, false, 16, 58)
 			.setOverlay(this.tankOverlay, 0, 0);
 
-		FluidStack fluidResource = recipe.getInputFluid();
-		if (!fluidResource.isEmpty()) {
-			tankSlot.addIngredient(ForgeTypes.FLUID_STACK, fluidResource);
-		}
+		Optional<SizedFluidIngredient> fluidResource = recipe.getInputFluid();
+        fluidResource.ifPresent(sizedFluidIngredient -> tankSlot.addIngredients(NeoForgeTypes.FLUID_STACK, Arrays.asList(sizedFluidIngredient.getFluids())));
 	}
 
 	@Override

@@ -1,21 +1,12 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.mail;
 
 import forestry.api.mail.ILetter;
 import forestry.api.mail.IMailAddress;
-import forestry.api.mail.IStamps;
+import forestry.api.mail.IStampItem;
 import forestry.core.inventory.InventoryAdapter;
 import forestry.core.utils.InventoryUtil;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -50,34 +41,33 @@ public class Letter implements ILetter {
 		this.uid = rand.nextInt();
 	}
 
-	public Letter(CompoundTag compoundNBT) {
-		this.isProcessed = compoundNBT.getBoolean("PRC");
-		this.sender = new MailAddress(compoundNBT.getCompound("SDR"));
-		this.recipient = new MailAddress(compoundNBT.getCompound("RC"));
+	public Letter(CompoundTag nbt, HolderLookup.Provider registries) {
+		this.isProcessed = nbt.getBoolean("PRC");
+		this.sender = new MailAddress(nbt.getCompound("SDR"));
+		this.recipient = new MailAddress(nbt.getCompound("RC"));
 
-		this.text = compoundNBT.getString("TXT");
-		this.uid = compoundNBT.getInt("UID");
-		this.inventory.read(compoundNBT);
+		this.text = nbt.getString("TXT");
+		this.uid = nbt.getInt("UID");
+		this.inventory.read(nbt, registries);
 	}
 
 	@Override
-	public CompoundTag write(CompoundTag compoundNBT) {
-
+	public CompoundTag write(CompoundTag compoundNBT, HolderLookup.Provider registries) {
 		compoundNBT.putBoolean("PRC", this.isProcessed);
 
 		CompoundTag subcompound = new CompoundTag();
-		this.sender.write(subcompound);
+		this.sender.write(subcompound, registries);
 		compoundNBT.put("SDR", subcompound);
 
 		if (this.recipient != null) {
 			subcompound = new CompoundTag();
-			this.recipient.write(subcompound);
+			this.recipient.write(subcompound, registries);
 			compoundNBT.put("RC", subcompound);
 		}
 
 		compoundNBT.putString("TXT", this.text);
 		compoundNBT.putInt("UID", this.uid);
-        this.inventory.write(compoundNBT);
+        this.inventory.write(compoundNBT, registries);
 		return compoundNBT;
 	}
 
@@ -148,11 +138,11 @@ public class Letter implements ILetter {
 			if (stamp.isEmpty()) {
 				continue;
 			}
-			if (!(stamp.getItem() instanceof IStamps)) {
+			if (!(stamp.getItem() instanceof IStampItem)) {
 				continue;
 			}
 
-			posted += ((IStamps) stamp.getItem()).getPostage(stamp).getValue() * stamp.getCount();
+			posted += ((IStampItem) stamp.getItem()).getPostage(stamp).getValue() * stamp.getCount();
 		}
 
 		return posted >= requiredPostage();

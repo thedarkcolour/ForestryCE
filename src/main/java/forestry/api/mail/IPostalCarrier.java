@@ -17,7 +17,6 @@ import net.neoforged.api.distmarker.OnlyIn;
  * "trader" - Handles mail addressed to trade stations.
  */
 public interface IPostalCarrier {
-
 	/**
 	 * @return The translation key for the human-readable name for this carrier.
 	 */
@@ -33,14 +32,14 @@ public interface IPostalCarrier {
 	/**
 	 * Handle delivery of a letter addressed to this carrier.
 	 *
-	 * @param world       The world the {@link IPostOffice} handles.
+	 * @param level       The world the {@link IPostOffice} handles.
 	 * @param office      {link @IPostOffice} which received this letter and handed it to the carrier.
 	 * @param recipient   An identifier for the recipient as typed by the player into the address field.
 	 * @param letterstack ItemStack representing the letter. See {@link LetterUtils} for helper functions to validate and extract it.
 	 * @param doDeliver   Whether or not the letter is supposed to actually be delivered or if delivery is only to be simulated.
 	 * @return {link IPostalState} holding information on success or failure for delivery.
 	 */
-	IPostalState deliverLetter(ServerLevel world, IPostOffice office, IMailAddress recipient, ItemStack letterstack, boolean doDeliver);
+	IPostalState deliverLetter(ServerLevel level, IPostOffice office, IMailAddress recipient, ItemStack letterstack, boolean doDeliver);
 
 	IMailAddress getRecipient(MinecraftServer minecraftServer, String recipientName);
 }

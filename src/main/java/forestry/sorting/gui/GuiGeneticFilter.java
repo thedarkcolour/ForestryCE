@@ -47,7 +47,7 @@ public class GuiGeneticFilter extends GuiForestryTitled<GeneticFilterMenu> {
 			}
 		}
 
-		this.scrollBar = new WidgetScrollBar(this.widgetManager, 157 + 36, 150, 12, 64, new Drawable(new ResourceLocation(Constants.TEXTURE_PATH_GUI + "/container/creative_inventory/tabs.png"), 232, 0, 12, 15));
+		this.scrollBar = new WidgetScrollBar(this.widgetManager, 157 + 36, 150, 12, 64, new Drawable(ResourceLocation.withDefaultNamespace(Constants.TEXTURE_PATH_GUI + "/container/creative_inventory/tabs.png"), 232, 0, 12, 15));
         this.widgetManager.add(this.selection = new SelectionWidget(this.widgetManager, 0, 134, this.scrollBar, this));
         this.widgetManager.add(this.scrollBar);
         this.scrollBar.setVisible(false);

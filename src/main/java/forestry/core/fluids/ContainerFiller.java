@@ -4,8 +4,8 @@ import forestry.core.utils.ItemStackUtil;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.templates.FluidTank;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 
 import javax.annotation.Nullable;
 
@@ -35,8 +35,8 @@ public class ContainerFiller {
 	public void updateServerSide() {
 		ItemStack input = this.inventory.getItem(this.inputSlot);
 		if (this.usedInput == null || !ItemStackUtil.isIdenticalItem(this.usedInput, input)) {
-            this.fillingProgress = 0;
-            this.usedInput = input;
+			this.fillingProgress = 0;
+			this.usedInput = input;
 		}
 
 		if (this.usedInput != null) {
@@ -46,15 +46,15 @@ public class ContainerFiller {
 					Fluid tankFluid = tankContents.getFluid();
 					FluidHelper.FillStatus canFill = FluidHelper.fillContainers(this.fluidTank, this.inventory, this.inputSlot, this.outputSlot, tankFluid, false);
 					if (canFill == FluidHelper.FillStatus.SUCCESS) {
-                        this.fillingProgress = 1;
+						this.fillingProgress = 1;
 					}
 				} else {
-                    this.fillingProgress++;
+					this.fillingProgress++;
 					if (this.fillingProgress >= this.fillingTime) {
 						Fluid tankFluid = tankContents.getFluid();
 						FluidHelper.FillStatus filled = FluidHelper.fillContainers(this.fluidTank, this.inventory, this.inputSlot, this.outputSlot, tankFluid, true);
 						if (filled == FluidHelper.FillStatus.SUCCESS) {
-                            this.fillingProgress = 0;
+							this.fillingProgress = 0;
 						}
 					}
 				}

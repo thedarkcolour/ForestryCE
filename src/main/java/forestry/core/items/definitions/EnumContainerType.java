@@ -10,7 +10,7 @@ public enum EnumContainerType implements IItemSubtype {
 	REFRACTORY;
 
 	@Override
-	public String getSerializedName() {
+	public String identifier() {
 		return name().toLowerCase(Locale.ENGLISH);
 	}
 }

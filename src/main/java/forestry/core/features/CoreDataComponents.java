@@ -1,6 +1,7 @@
 package forestry.core.features;
 
 import com.mojang.serialization.Codec;
+import forestry.api.mail.ILetter;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.core.circuits.CircuitBoard;
 import forestry.modules.features.FeatureProvider;
@@ -20,6 +21,7 @@ public class CoreDataComponents {
 	public static final DeferredHolder<DataComponentType<?>, DataComponentType<CircuitBoard>> CIRCUIT_BOARD = type("circuit_board", builder -> builder.persistent(CircuitBoard.CODEC));
 	public static final DeferredHolder<DataComponentType<?>, DataComponentType<SimpleFluidContent>> FLUID_CONTENTS = type("fluid_contents", builder -> builder.persistent(SimpleFluidContent.CODEC));
 	public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> ANALYZER_CHARGES = type("analyzer_charges", builder -> builder.persistent(Codec.INT));
+	public static final DeferredHolder<DataComponentType<?>, DataComponentType<ILetter>> LETTER = type("letter", builder -> builder.persistent(IDK));
 
 	private static <T> DeferredHolder<DataComponentType<?>, DataComponentType<T>> type(String name, UnaryOperator<DataComponentType.Builder<T>> configure) {
 		return REGISTRY.register(name, () -> configure.apply(DataComponentType.builder()).build());

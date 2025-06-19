@@ -1,4 +1,4 @@
-package forestry.core.tab;
+package forestry.core.features;
 
 import forestry.api.ForestryConstants;
 import forestry.api.apiculture.ForestryBeeSpecies;
@@ -23,9 +23,6 @@ import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.features.ArboricultureItems;
 import forestry.arboriculture.features.CharcoalBlocks;
 import forestry.core.blocks.BlockTypeCoreTesr;
-import forestry.core.features.CoreBlocks;
-import forestry.core.features.CoreItems;
-import forestry.core.features.FluidsItems;
 import forestry.core.fluids.ForestryFluids;
 import forestry.core.items.definitions.EnumContainerType;
 import forestry.core.items.definitions.FluidHandlerItemForestry;
@@ -55,11 +52,10 @@ import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.FluidType;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandlerItem;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidType;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
 
 @FeatureProvider
 public class ForestryCreativeTabs {
@@ -213,10 +209,8 @@ public class ForestryCreativeTabs {
 		items.accept(ApicultureItems.FRAME_UNTREATED);
 		items.accept(ApicultureItems.FRAME_IMPREGNATED);
 		items.accept(ApicultureItems.FRAME_PROVEN);
-		ItemStack creativeFrameMaxMutation = ApicultureItems.FRAME_CREATIVE.stack();
-		creativeFrameMaxMutation.addTagElement(ItemCreativeHiveFrame.NBT_FORCE_MUTATIONS, ByteTag.valueOf((byte) 1));
-		items.accept(ApicultureItems.FRAME_CREATIVE);
-		items.accept(creativeFrameMaxMutation);
+		items.accept(ApicultureItems.FRAME_CREATIVE.get(ItemCreativeHiveFrame.Variant.FRAME_CREATIVE));
+		items.accept(ApicultureItems.FRAME_CREATIVE.get(ItemCreativeHiveFrame.Variant.FRAME_CREATIVE_FORCE_MUTATIONS));
 
 		// Food
 		items.accept(ApicultureItems.HONEYED_SLICE);

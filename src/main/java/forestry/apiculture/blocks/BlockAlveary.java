@@ -3,7 +3,7 @@ package forestry.apiculture.blocks;
 import forestry.api.core.IBlockSubtype;
 import forestry.apiculture.features.ApicultureTiles;
 import forestry.apiculture.multiblock.*;
-import forestry.apiculture.network.packets.PacketAlvearyChange;
+import forestry.apiculture.network.packets.PacketAlvearyControllerChange;
 import forestry.core.blocks.BlockStructure;
 import forestry.core.tiles.IActivatable;
 import forestry.core.tiles.TileUtil;
@@ -144,7 +144,7 @@ public class BlockAlveary extends BlockStructure implements EntityBlock {
 			alveary.reassemble();
 			BlockPos referenceCoord = alveary.getReferenceCoord();
 			if (level instanceof ServerLevel serverLevel) {
-				NetworkUtil.sendToPlayersTrackingPos(new PacketAlvearyChange(referenceCoord), referenceCoord, serverLevel);
+				NetworkUtil.sendToPlayersTrackingPos(new PacketAlvearyControllerChange(referenceCoord), referenceCoord, serverLevel);
 			}
 		});
 	}

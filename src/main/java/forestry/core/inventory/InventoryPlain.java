@@ -3,7 +3,7 @@ package forestry.core.inventory;
 import forestry.api.core.INbtReadable;
 import forestry.api.core.INbtWritable;
 import forestry.core.utils.InventoryUtil;
-import net.minecraft.core.NonNullList;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Player;
@@ -81,12 +81,12 @@ public class InventoryPlain implements Container, INbtWritable, INbtReadable {
 	}
 
 	@Override
-	public void read(CompoundTag nbt) {
+	public void read(CompoundTag nbt, HolderLookup.Provider registries) {
 		InventoryUtil.readFromNBT(this, this.name, nbt);
 	}
 
 	@Override
-	public CompoundTag write(CompoundTag nbt) {
+	public CompoundTag write(CompoundTag nbt, HolderLookup.Provider registries) {
 		InventoryUtil.writeToNBT(this, this.name, nbt);
 		return nbt;
 	}

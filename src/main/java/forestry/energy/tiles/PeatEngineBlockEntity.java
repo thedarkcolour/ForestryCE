@@ -1,18 +1,8 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.energy.tiles;
 
+import forestry.api.ForestryDataMaps;
 import forestry.api.core.ForestryError;
-import forestry.api.fuels.FuelManager;
-import forestry.core.config.Constants;
+import forestry.api.fuels.PeatEngineFuel;
 import forestry.core.features.CoreItems;
 import forestry.core.inventory.IInventoryAdapter;
 import forestry.core.tiles.TemperatureState;
@@ -20,6 +10,7 @@ import forestry.energy.features.EnergyTiles;
 import forestry.energy.inventory.InventoryEnginePeat;
 import forestry.energy.menu.PeatEngineMenu;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.WorldlyContainer;
@@ -33,6 +24,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import javax.annotation.Nullable;
 
 public class PeatEngineBlockEntity extends EngineBlockEntity implements WorldlyContainer {
+	public static final int ENGINE_COPPER_HEAT_MAX = 10000;
+	public static final int ENGINE_COPPER_ASH_FOR_ITEM = 7500;
 	private ItemStack fuel = ItemStack.EMPTY;
 	private int burnTime;
 	private int totalBurnTime;
@@ -40,9 +33,9 @@ public class PeatEngineBlockEntity extends EngineBlockEntity implements WorldlyC
 	private final int ashForItem;
 
 	public PeatEngineBlockEntity(BlockPos pos, BlockState state) {
-		super(EnergyTiles.PEAT_ENGINE.tileType(), pos, state, "engine.copper", Constants.ENGINE_COPPER_HEAT_MAX, 200000);
+		super(EnergyTiles.PEAT_ENGINE.tileType(), pos, state, "engine.copper", ENGINE_COPPER_HEAT_MAX, 200000);
 
-        this.ashForItem = Constants.ENGINE_COPPER_ASH_FOR_ITEM;
+        this.ashForItem = ENGINE_COPPER_ASH_FOR_ITEM;
 		setInternalInventory(new InventoryEnginePeat(this));
 	}
 
@@ -92,7 +85,6 @@ public class PeatEngineBlockEntity extends EngineBlockEntity implements WorldlyC
 
 	@Override
 	public void burn() {
-
         this.currentOutput = 0;
 
 		if (this.burnTime > 0) {
@@ -142,7 +134,6 @@ public class PeatEngineBlockEntity extends EngineBlockEntity implements WorldlyC
 
 	@Override
 	public void generateHeat() {
-
 		int heatToAdd = 0;
 
 		if (isBurning()) {
@@ -156,7 +147,6 @@ public class PeatEngineBlockEntity extends EngineBlockEntity implements WorldlyC
 	}
 
 	private void addAsh(int amount) {
-
         this.ashProduction += amount;
 		if (this.ashProduction < this.ashForItem) {
 			return;
@@ -180,23 +170,17 @@ public class PeatEngineBlockEntity extends EngineBlockEntity implements WorldlyC
 	/**
 	 * Returns the fuel value (power per cycle) an item of the passed ItemStack provides
 	 */
-	private static int determineFuelValue(ItemStack fuel) {
-		if (FuelManager.peatEngineFuel.containsKey(fuel)) {
-			return FuelManager.peatEngineFuel.get(fuel).powerPerCycle();
-		} else {
-			return 0;
-		}
+	private static int determineFuelValue(ItemStack stack) {
+		PeatEngineFuel fuel = stack.getItemHolder().getData(ForestryDataMaps.PEAT_FUELS);
+        return fuel != null ? fuel.powerPerCycle() : 0;
 	}
 
 	/**
 	 * Returns the fuel value (power per cycle) an item of the passed ItemStack provides
 	 */
-	private static int determineBurnDuration(ItemStack fuel) {
-		if (FuelManager.peatEngineFuel.containsKey(fuel)) {
-			return FuelManager.peatEngineFuel.get(fuel).burnDuration();
-		} else {
-			return 0;
-		}
+	private static int determineBurnDuration(ItemStack stack) {
+		PeatEngineFuel fuel = stack.getItemHolder().getData(ForestryDataMaps.PEAT_FUELS);
+		return fuel != null ? fuel.burnDuration() : 0;
 	}
 
 	// / STATE INFORMATION
@@ -227,28 +211,27 @@ public class PeatEngineBlockEntity extends EngineBlockEntity implements WorldlyC
 
 	// / LOADING AND SAVING
 	@Override
-	public void load(CompoundTag compoundNBT) {
-		super.load(compoundNBT);
+	public void loadAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+		super.loadAdditional(nbt, registries);
 
-		if (compoundNBT.contains("EngineFuelItemStack")) {
-			CompoundTag fuelItemNbt = compoundNBT.getCompound("EngineFuelItemStack");
-            this.fuel = ItemStack.of(fuelItemNbt);
+		if (nbt.contains("EngineFuelItemStack")) {
+            this.fuel = ItemStack.parseOptional(registries, nbt.getCompound("EngineFuelItemStack"));
 		}
 
-        this.burnTime = compoundNBT.getInt("EngineBurnTime");
-        this.totalBurnTime = compoundNBT.getInt("EngineTotalTime");
-		if (compoundNBT.contains("AshProduction")) {
-            this.ashProduction = compoundNBT.getInt("AshProduction");
+        this.burnTime = nbt.getInt("EngineBurnTime");
+        this.totalBurnTime = nbt.getInt("EngineTotalTime");
+		if (nbt.contains("AshProduction")) {
+            this.ashProduction = nbt.getInt("AshProduction");
 		}
 	}
 
 
 	@Override
-	public void saveAdditional(CompoundTag nbt) {
-		super.saveAdditional(nbt);
+	public void saveAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+		super.saveAdditional(nbt, registries);
 
 		if (!this.fuel.isEmpty()) {
-			nbt.put("EngineFuelItemStack", this.fuel.serializeNBT());
+			nbt.put("EngineFuelItemStack", this.fuel.save(registries));
 		}
 
 		nbt.putInt("EngineBurnTime", this.burnTime);
@@ -257,17 +240,17 @@ public class PeatEngineBlockEntity extends EngineBlockEntity implements WorldlyC
 	}
 
 	@Override
-	public void writeGuiData(RegistryFriendlyByteBuf data) {
-		super.writeGuiData(data);
-		data.writeInt(this.burnTime);
-		data.writeInt(this.totalBurnTime);
+	public void writeGuiData(RegistryFriendlyByteBuf buffer) {
+		super.writeGuiData(buffer);
+		buffer.writeInt(this.burnTime);
+		buffer.writeInt(this.totalBurnTime);
 	}
 
 	@Override
-	public void readGuiData(RegistryFriendlyByteBuf data) {
-		super.readGuiData(data);
-        this.burnTime = data.readInt();
-        this.totalBurnTime = data.readInt();
+	public void readGuiData(RegistryFriendlyByteBuf buffer) {
+		super.readGuiData(buffer);
+        this.burnTime = buffer.readInt();
+        this.totalBurnTime = buffer.readInt();
 	}
 
 	@Nullable

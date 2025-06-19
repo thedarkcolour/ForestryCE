@@ -19,7 +19,7 @@ import forestry.core.gui.GuiTextBox;
 import forestry.core.gui.widgets.ItemStackWidget;
 import forestry.core.gui.widgets.Widget;
 import forestry.core.render.ColourProperties;
-import forestry.mail.carriers.PostalCarriers;
+import forestry.mail.features.PostalCarriers;
 import forestry.mail.inventory.ItemInventoryLetter;
 import forestry.mail.network.packets.PacketLetterInfoRequest;
 import net.minecraft.client.Minecraft;

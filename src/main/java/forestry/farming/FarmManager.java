@@ -21,6 +21,7 @@ import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.item.ItemStack;
@@ -266,18 +267,18 @@ public class FarmManager implements INbtReadable, INbtWritable, IStreamable, IEx
 	}
 
 	@Override
-	public CompoundTag write(CompoundTag data) {
-        this.hydrationManager.write(data);
-        this.tankManager.write(data);
-        this.fertilizerManager.write(data);
+	public CompoundTag write(CompoundTag data, HolderLookup.Provider registries) {
+        this.hydrationManager.write(data, registries);
+        this.tankManager.write(data, registries);
+        this.fertilizerManager.write(data, registries);
 		return data;
 	}
 
 	@Override
-	public void read(CompoundTag data) {
-        this.hydrationManager.read(data);
-        this.tankManager.read(data);
-        this.fertilizerManager.read(data);
+	public void read(CompoundTag data, HolderLookup.Provider registries) {
+        this.hydrationManager.read(data, registries);
+        this.tankManager.read(data, registries);
+        this.fertilizerManager.read(data, registries);
 	}
 
 	@Override

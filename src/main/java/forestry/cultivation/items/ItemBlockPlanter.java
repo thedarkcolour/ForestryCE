@@ -12,7 +12,7 @@ public class ItemBlockPlanter extends ItemBlockForestry<BlockPlanter> {
 
 	@Override
 	public Component getName(ItemStack stack) {
-		String name = getBlock().blockType.getSerializedName();
+		String name = getBlock().blockType.identifier();
 		return Component.translatable("block.forestry.planter." + (getBlock().isManual() ? "manual" : "managed"), Component.translatable("block.forestry." + name));
 	}
 }

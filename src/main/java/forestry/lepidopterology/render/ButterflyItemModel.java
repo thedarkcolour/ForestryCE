@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.lepidopterology.render;
 
 import com.google.common.cache.Cache;
@@ -40,10 +30,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.client.model.SeparateTransformsModel;
-import net.minecraftforge.client.model.geometry.IGeometryBakingContext;
-import net.minecraftforge.client.model.geometry.IGeometryLoader;
-import net.minecraftforge.client.model.geometry.IUnbakedGeometry;
+import net.neoforged.neoforge.client.model.SeparateTransformsModel;
+import net.neoforged.neoforge.client.model.geometry.IGeometryBakingContext;
+import net.neoforged.neoforge.client.model.geometry.IGeometryLoader;
+import net.neoforged.neoforge.client.model.geometry.IUnbakedGeometry;
 
 import javax.annotation.Nullable;
 import java.util.IdentityHashMap;
@@ -89,7 +79,7 @@ public class ButterflyItemModel extends AbstractBakedModel {
 	public record Geometry(
 		IdentityHashMap<IButterflySpecies, ResourceLocation> subModels) implements IUnbakedGeometry<Geometry> {
 		@Override
-		public BakedModel bake(IGeometryBakingContext context, ModelBaker baker, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ItemOverrides overrides, ResourceLocation modelLocation) {
+		public BakedModel bake(IGeometryBakingContext context, ModelBaker baker, Function<Material, TextureAtlasSprite> spriteGetter, ModelState modelState, ItemOverrides overrides) {
 			UnbakedModel modelButterfly = baker.getModel(ForestryConstants.forestry("item/butterfly"));
 
 			if (!(modelButterfly instanceof BlockModel modelBlock)) {
@@ -104,15 +94,14 @@ public class ButterflyItemModel extends AbstractBakedModel {
 				ResourceLocation texture = subModel.getValue();
 
 				BlockModel model = new BlockModel(parentLocation, elements, ImmutableMap.of("butterfly", Either.left(new Material(InventoryMenu.BLOCK_ATLAS, texture))), modelBlock.hasAmbientOcclusion, modelBlock.getGuiLight(), modelBlock.getTransforms(), modelBlock.getOverrides());
-				ResourceLocation location = ForestryConstants.forestry("item/butterfly");
 				ModelState transform = ResourceUtil.loadTransform(ForestryConstants.forestry("item/butterfly"));
-				subModelBuilder.put(identifier, model.bake(baker, model, spriteGetter, transform, location, true));
+				subModelBuilder.put(identifier, model.bake(baker, model, spriteGetter, transform, true));
 			}
 			return new ButterflyItemModel(subModelBuilder);
 		}
 	}
 
-	public static class Loader implements IGeometryLoader<ButterflyItemModel.Geometry> {
+	public static class Loader implements IGeometryLoader<Geometry> {
 		@Override
 		public ButterflyItemModel.Geometry read(JsonObject modelContents, JsonDeserializationContext context) throws JsonParseException {
 			IdentityHashMap<IButterflySpecies, ResourceLocation> subModels = new IdentityHashMap<>();

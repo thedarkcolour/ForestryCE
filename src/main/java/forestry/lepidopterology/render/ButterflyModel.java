@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.lepidopterology.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -68,11 +58,11 @@ public class ButterflyModel extends EntityModel<EntityButterfly> {
 	}
 
 	@Override
-	public void renderToBuffer(PoseStack poseStack, VertexConsumer builder, int light, int overlay, float ageInTicks, float netHeadYaw, float headPitch, float alpha) {
+	public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int light, int overlay, int color) {
 		poseStack.scale(this.scale, this.scale, this.scale);
 		poseStack.translate(0.0F, 1.45f / this.scale, 0.0F);
 
-        this.root.render(poseStack, builder, light, overlay);
+		this.root.render(poseStack, buffer, light, overlay, color);
 	}
 
 	@Override

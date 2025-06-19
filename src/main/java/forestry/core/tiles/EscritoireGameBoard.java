@@ -7,6 +7,7 @@ import forestry.api.genetics.ISpeciesType;
 import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.core.network.IStreamable;
 import forestry.core.utils.NetworkUtil;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -179,7 +180,7 @@ public class EscritoireGameBoard implements INbtWritable, IStreamable {
 	}
 
 	@Override
-	public CompoundTag write(CompoundTag compoundNBT) {
+	public CompoundTag write(CompoundTag compoundNBT, HolderLookup.Provider registries) {
 		if (this.tokenCount > 0) {
 			compoundNBT.putInt("TokenCount", this.tokenCount);
 			ListTag nbttaglist = new ListTag();
@@ -192,7 +193,7 @@ public class EscritoireGameBoard implements INbtWritable, IStreamable {
 
 				CompoundTag compoundNBT2 = new CompoundTag();
 				compoundNBT2.putByte("Slot", (byte) i);
-				token.write(compoundNBT2);
+				token.write(compoundNBT2, registries);
 				nbttaglist.add(compoundNBT2);
 			}
 

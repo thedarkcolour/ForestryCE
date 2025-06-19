@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.core.utils;
 
 import forestry.core.circuits.ISocketable;
@@ -22,8 +12,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.ForgeHooks;
-import net.minecraftforge.items.IItemHandler;
+import net.neoforged.neoforge.common.CommonHooks;
+import net.neoforged.neoforge.items.IItemHandler;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -298,7 +288,7 @@ public abstract class InventoryUtil {
 			if (!inventoryStack.isStackable()) {
 				continue;
 			}
-			if (!ItemStack.isSameItemSameTags(inventoryStack, stack)) {
+			if (!ItemStack.isSameItemSameComponents(inventoryStack, stack)) {
 				continue;
 			}
 
@@ -366,7 +356,7 @@ public abstract class InventoryUtil {
 			}
 
 			// Not same type
-			if (!ItemStack.isSameItemSameTags(inventoryStack, stack)) {
+			if (!ItemStack.isSameItemSameComponents(inventoryStack, stack)) {
 				continue;
 			}
 
@@ -398,7 +388,7 @@ public abstract class InventoryUtil {
 			return;
 		}
 
-		ItemStack container = ForgeHooks.getCraftingRemainingItem(itemstack);
+		ItemStack container = CommonHooks.getCraftingRemainingItem(itemstack);
 		if (!container.isEmpty()) {
 			if (!tryAddStack(stowing, container, slotIndex, 1, true)) {
 				if (!tryAddStack(stowing, container, true) && player != null) {
@@ -449,7 +439,7 @@ public abstract class InventoryUtil {
 		for (int j = 0; j < nbttaglist.size(); ++j) {
 			CompoundTag compoundNBT2 = nbttaglist.getCompound(j);
 			int index = compoundNBT2.getInt("Slot");
-			inventory.setItem(index, ItemStack.of(compoundNBT2));
+			inventory.setItem(index, ItemStack.parseOptional(registries, compoundNBT2));
 		}
 	}
 

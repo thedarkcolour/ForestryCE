@@ -1,6 +1,5 @@
 package forestry.apiculture.tiles;
 
-import com.mojang.authlib.GameProfile;
 import forestry.api.IForestryApi;
 import forestry.api.apiculture.IBeeHousing;
 import forestry.api.apiculture.IBeekeepingLogic;
@@ -20,11 +19,14 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+
+import javax.annotation.Nullable;
 
 public abstract class TileBeeHousingBase extends TileBase implements IBeeHousing, IOwnedTile, IClimateProvider, IGuiBeeHousingDelegate, IStreamableGui {
 	private final String hintKey;
@@ -57,35 +59,33 @@ public abstract class TileBeeHousingBase extends TileBase implements IBeeHousing
 		return this.beeLogic;
 	}
 
-	/* LOADING & SAVING */
 	@Override
-	public void saveAdditional(CompoundTag compoundNBT) {
-		super.saveAdditional(compoundNBT);
-		this.beeLogic.write(compoundNBT);
-		this.ownerHandler.write(compoundNBT);
+	public void saveAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+		super.saveAdditional(nbt, registries);
+		this.beeLogic.write(nbt, registries);
+		this.ownerHandler.write(nbt, registries);
 	}
 
 	@Override
-	public void load(CompoundTag compoundNBT) {
-		super.load(compoundNBT);
-		this.beeLogic.read(compoundNBT);
-		this.ownerHandler.read(compoundNBT);
+	public void loadAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+		super.loadAdditional(nbt, registries);
+		this.beeLogic.read(nbt, registries);
+		this.ownerHandler.read(nbt, registries);
 	}
 
 	@Override
-	public CompoundTag getUpdateTag() {
-		CompoundTag updateTag = super.getUpdateTag();
-		this.beeLogic.write(updateTag);
-		this.ownerHandler.write(updateTag);
+	public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+		CompoundTag updateTag = super.getUpdateTag(registries);
+		this.beeLogic.write(updateTag, registries);
+		this.ownerHandler.write(updateTag, registries);
 		return updateTag;
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
-	public void handleUpdateTag(CompoundTag tag) {
-		super.handleUpdateTag(tag);
-		this.beeLogic.read(tag);
-		this.ownerHandler.read(tag);
+	public void handleUpdateTag(CompoundTag tag, HolderLookup.Provider registries) {
+		super.handleUpdateTag(tag, registries);
+		this.beeLogic.read(tag, registries);
+		this.ownerHandler.read(tag, registries);
 	}
 
 	@Override
@@ -116,20 +116,19 @@ public abstract class TileBeeHousingBase extends TileBase implements IBeeHousing
 		}
 	}
 
-	@OnlyIn(Dist.CLIENT)
-	public static void doPollenFX(Level world, double xCoord, double yCoord, double zCoord) {
+	public static void doPollenFX(Level level, double xCoord, double yCoord, double zCoord) {
 		double fxX = xCoord + 0.5F;
 		double fxY = yCoord + 0.25F;
 		double fxZ = zCoord + 0.5F;
 		float distanceFromCenter = 0.6F;
-		float leftRightSpreadFromCenter = distanceFromCenter * (world.random.nextFloat() - 0.5F);
-		float upSpread = world.random.nextFloat() * 6F / 16F;
+		float leftRightSpreadFromCenter = distanceFromCenter * (level.random.nextFloat() - 0.5F);
+		float upSpread = level.random.nextFloat() * 6F / 16F;
 		fxY += upSpread;
 
-		ParticleRender.addEntityHoneyDustFX(world, fxX - distanceFromCenter, fxY, fxZ + leftRightSpreadFromCenter);
-		ParticleRender.addEntityHoneyDustFX(world, fxX + distanceFromCenter, fxY, fxZ + leftRightSpreadFromCenter);
-		ParticleRender.addEntityHoneyDustFX(world, fxX + leftRightSpreadFromCenter, fxY, fxZ - distanceFromCenter);
-		ParticleRender.addEntityHoneyDustFX(world, fxX + leftRightSpreadFromCenter, fxY, fxZ + distanceFromCenter);
+		ParticleRender.addEntityHoneyDustFX(level, fxX - distanceFromCenter, fxY, fxZ + leftRightSpreadFromCenter);
+		ParticleRender.addEntityHoneyDustFX(level, fxX + distanceFromCenter, fxY, fxZ + leftRightSpreadFromCenter);
+		ParticleRender.addEntityHoneyDustFX(level, fxX + leftRightSpreadFromCenter, fxY, fxZ - distanceFromCenter);
+		ParticleRender.addEntityHoneyDustFX(level, fxX + leftRightSpreadFromCenter, fxY, fxZ + distanceFromCenter);
 	}
 
 	@Override
@@ -150,15 +149,15 @@ public abstract class TileBeeHousingBase extends TileBase implements IBeeHousing
 	}
 
 	@Override
-	public void writeGuiData(RegistryFriendlyByteBuf data) {
-		data.writeVarInt(this.beeLogic.getBeeProgressPercent());
-		NetworkUtil.writeClimateState(data, this.climate);
+	public void writeGuiData(RegistryFriendlyByteBuf buffer) {
+		buffer.writeVarInt(this.beeLogic.getBeeProgressPercent());
+		NetworkUtil.writeClimateState(buffer, this.climate);
 	}
 
 	@Override
-	public void readGuiData(RegistryFriendlyByteBuf data) {
-		this.breedingProgressPercent = data.readVarInt();
-		this.climate = NetworkUtil.readClimateState(data);
+	public void readGuiData(RegistryFriendlyByteBuf buffer) {
+		this.breedingProgressPercent = buffer.readVarInt();
+		this.climate = NetworkUtil.readClimateState(buffer);
 	}
 
 	// / IBEEHOUSING
@@ -184,7 +183,7 @@ public abstract class TileBeeHousingBase extends TileBase implements IBeeHousing
 	}
 
 	@Override
-	public GameProfile getOwner() {
+	public @Nullable ResolvableProfile getOwner() {
 		return getOwnerHandler().getOwner();
 	}
 

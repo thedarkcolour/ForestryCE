@@ -21,9 +21,10 @@ import forestry.core.utils.NetworkUtil;
 import forestry.core.utils.SpeciesUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -69,7 +70,7 @@ public class BeekeepingLogic implements IBeekeepingLogic {
 
 	// / SAVING & LOADING
 	@Override
-	public CompoundTag write(CompoundTag compoundNBT) {
+	public CompoundTag write(CompoundTag compoundNBT, HolderLookup.Provider registries) {
 		compoundNBT.putInt("BreedingTime", this.beeProgress);
 		compoundNBT.putInt("Throttle", this.workThrottleCounter);
 
@@ -81,7 +82,7 @@ public class BeekeepingLogic implements IBeekeepingLogic {
 
 		compoundNBT.putBoolean("Active", this.active);
 
-		this.hasFlowersCache.write(compoundNBT);
+		this.hasFlowersCache.write(compoundNBT, registries);
 
 		ArrayDeque<ItemStack> spawnCopy = new ArrayDeque<>(this.spawn);
 		ListTag nbttaglist = new ListTag();
@@ -95,14 +96,14 @@ public class BeekeepingLogic implements IBeekeepingLogic {
 	}
 
 	@Override
-	public void read(CompoundTag compoundNBT) {
+	public void read(CompoundTag compoundNBT, HolderLookup.Provider registries) {
 		this.beeProgress = compoundNBT.getInt("BreedingTime");
 		this.workThrottleCounter = compoundNBT.getInt("Throttle");
 
 		// sadly this means duplicated NBT
 		if (compoundNBT.contains("queen")) {
 			CompoundTag queenNBT = compoundNBT.getCompound("queen");
-			this.queenStack = ItemStack.of(queenNBT);
+			this.queenStack = ItemStack.parseOptional(registries, queenNBT);
 			this.queen = (IBee) IIndividualHandlerItem.getIndividual(this.queenStack);
 			if (this.queen != null) {
 				this.beeProgressMax = this.queen.getMaxHealth();
@@ -111,33 +112,33 @@ public class BeekeepingLogic implements IBeekeepingLogic {
 
 		setActive(compoundNBT.getBoolean("Active"));
 
-		this.hasFlowersCache.read(compoundNBT);
+		this.hasFlowersCache.read(compoundNBT, registries);
 
 		ListTag list = compoundNBT.getList("Offspring", 10);
 		for (int i = 0; i < list.size(); i++) {
-			this.spawn.add(ItemStack.of(list.getCompound(i)));
+			this.spawn.add(ItemStack.parseOptional(registries, list.getCompound(i)));
 		}
 	}
 
 	@Override
-	public void writeData(FriendlyByteBuf data) {
-		data.writeBoolean(this.active);
+	public void writeData(RegistryFriendlyByteBuf buffer) {
+		buffer.writeBoolean(this.active);
 		if (this.active) {
-			data.writeItem(this.queenStack);
-			this.hasFlowersCache.writeData(data);
+			buffer.writeItem(this.queenStack);
+			this.hasFlowersCache.writeData(buffer);
 		}
 	}
 
 	@Override
-	public void readData(FriendlyByteBuf data) {
-		boolean active = data.readBoolean();
+	public void readData(RegistryFriendlyByteBuf buffer) {
+		boolean active = buffer.readBoolean();
 
 		setActive(active);
 
 		if (active) {
-			this.queenStack = data.readItem();
+			this.queenStack = buffer.readItem();
 			this.queen = (IBee) IIndividualHandlerItem.getIndividual(this.queenStack);
-			this.hasFlowersCache.readData(data);
+			this.hasFlowersCache.readData(buffer);
 		}
 	}
 

@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.core.items.definitions;
 
 import forestry.core.items.ItemOverlay;
@@ -29,7 +19,6 @@ public enum EnumElectronTube implements ItemOverlay.IOverlayInfo {
 	LAPIS(TextColor.fromRgb(0x1c57c6)),
 	ENDER(TextColor.fromRgb(0x33adad), TextColor.fromRgb(0x255661));
 
-	private final String uid;
 	private final int primaryColor;
 	private final int secondaryColor;
 
@@ -38,14 +27,13 @@ public enum EnumElectronTube implements ItemOverlay.IOverlayInfo {
 	}
 
 	EnumElectronTube(TextColor secondaryColor, TextColor primaryColor) {
-		this.uid = name().toLowerCase(Locale.ENGLISH);
 		this.primaryColor = primaryColor.getValue();
 		this.secondaryColor = secondaryColor.getValue();
 	}
 
 	@Override
-	public String getSerializedName() {
-		return this.uid;
+	public String identifier() {
+		return this.name().toLowerCase(Locale.ENGLISH);
 	}
 
 	@Override

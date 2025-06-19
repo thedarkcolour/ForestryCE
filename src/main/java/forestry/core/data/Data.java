@@ -10,7 +10,6 @@ import net.minecraft.data.PackOutput;
 import forestry.api.ForestryConstants;
 import forestry.apiimpl.plugin.PluginManager;
 import forestry.core.data.models.ForestryBlockStateProvider;
-import forestry.core.data.models.ForestryItemModelProvider;
 import forestry.core.data.models.ForestryWoodModelProvider;
 import forestry.core.data.recipe.CoreRecipes;
 

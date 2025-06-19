@@ -17,6 +17,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 
@@ -131,7 +132,7 @@ public interface ISpeciesType<S extends ISpecies<I>, I extends IIndividual> exte
 	 * @param profile The player whose breeding tracker should be returned.
 	 * @return The breeding tracker for species of this type.
 	 */
-	IBreedingTracker getBreedingTracker(LevelAccessor level, @Nullable GameProfile profile);
+	IBreedingTracker getBreedingTracker(LevelAccessor level, @Nullable ResolvableProfile profile);
 
 	/**
 	 * The type of the species that will be displayed at the given position of the mutation recipe in the gui.
@@ -196,7 +197,7 @@ public interface ISpeciesType<S extends ISpecies<I>, I extends IIndividual> exte
 	/**
 	 * @return The name of the breeding tracker save file for the given player.
 	 */
-	String getBreedingTrackerFile(@Nullable GameProfile profile);
+	String getBreedingTrackerFile(@Nullable ResolvableProfile profile);
 
 	/**
 	 * @return A new breeding tracker.
@@ -220,7 +221,7 @@ public interface ISpeciesType<S extends ISpecies<I>, I extends IIndividual> exte
 	 * @param world   The world this tracker is saved to. Always the overworld dimension.
 	 * @param profile The player to whom the breeding tracker belongs to.
 	 */
-	void initializeBreedingTracker(IBreedingTracker tracker, @Nullable Level world, @Nullable GameProfile profile);
+	void initializeBreedingTracker(IBreedingTracker tracker, @Nullable Level world, @Nullable ResolvableProfile profile);
 
 	/**
 	 * Used to register species and related data for this species type from an {@link IForestryPlugin}.

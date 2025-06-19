@@ -15,18 +15,17 @@ import forestry.core.inventory.IInventoryAdapter;
 import forestry.core.tiles.ILiquidTankTile;
 import forestry.core.utils.RecipeUtil;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
 import javax.annotation.Nullable;
 
@@ -36,7 +35,7 @@ public class TileAlvearyHygroregulator extends TileAlveary implements Container,
 	private final IInventoryAdapter inventory;
 
 	@Nullable
-	private IHygroregulatorRecipe currentRecipe;
+	private RecipeHolder<IHygroregulatorRecipe> currentRecipe;
 	// number of ticks the current temperature change lasts for.
 	private int heatTicks;
 
@@ -68,7 +67,7 @@ public class TileAlvearyHygroregulator extends TileAlveary implements Container,
 				this.currentRecipe = RecipeUtil.getHygroRegulatorRecipe(this.level.getRecipeManager(), fluid);
 
 				if (this.currentRecipe != null) {
-					this.liquidTank.drainInternal(this.currentRecipe.getInputFluid().getAmount(), IFluidHandler.FluidAction.EXECUTE);
+					this.liquidTank.drainInternal(this.currentRecipe.value().getInputFluid().amount(), IFluidHandler.FluidAction.EXECUTE);
 					this.heatTicks = 20;
 				}
 			}
@@ -77,8 +76,8 @@ public class TileAlvearyHygroregulator extends TileAlveary implements Container,
 		if (this.heatTicks > 0) {
 			this.heatTicks--;
 			if (this.currentRecipe != null) {
-				climateControlled.addHumidityChange(this.currentRecipe.getHumiditySteps());
-				climateControlled.addTemperatureChange(this.currentRecipe.getTemperatureSteps());
+				climateControlled.addHumidityChange(this.currentRecipe.value().getHumiditySteps());
+				climateControlled.addTemperatureChange(this.currentRecipe.value().getTemperatureSteps());
 			} else {
 				this.heatTicks = 0;
 			}
@@ -92,48 +91,32 @@ public class TileAlvearyHygroregulator extends TileAlveary implements Container,
 
 	/* SAVING & LOADING */
 	@Override
-	public void load(CompoundTag compoundNBT) {
-		super.load(compoundNBT);
-        this.tankManager.read(compoundNBT);
+	public void loadAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+		super.loadAdditional(nbt, registries);
+		this.tankManager.read(nbt, registries);
 
-        this.heatTicks = compoundNBT.getInt("TransferTime");
+		this.heatTicks = nbt.getInt("TransferTime");
 
-		if (compoundNBT.contains("CurrentLiquid")) {
-			FluidStack liquid = FluidStack.loadFluidStackFromNBT(compoundNBT.getCompound("CurrentLiquid"));
-            this.currentRecipe = RecipeUtil.getHygroRegulatorRecipe(RecipeUtil.getRecipeManager(), liquid);
+		if (nbt.contains("currentRecipe")) {
+			this.currentRecipe = RecipeUtil.getRecipe(ResourceLocation.tryParse(nbt.getString("currentRecipe")));
 		}
 	}
 
 
 	@Override
-	public void saveAdditional(CompoundTag compoundNBT) {
-		super.saveAdditional(compoundNBT);
-        this.tankManager.write(compoundNBT);
+	public void saveAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+		super.saveAdditional(nbt, registries);
+		this.tankManager.write(nbt, registries);
 
-		compoundNBT.putInt("TransferTime", this.heatTicks);
+		nbt.putInt("TransferTime", this.heatTicks);
 		if (this.currentRecipe != null) {
-			CompoundTag subcompound = new CompoundTag();
-            this.currentRecipe.getInputFluid().writeToNBT(subcompound);
-			compoundNBT.put("CurrentLiquid", subcompound);
+			nbt.putString("currentRecipe", this.currentRecipe.id().toString());
 		}
 	}
 
-	/* ILIQUIDTANKCONTAINER */
 	@Override
 	public TankManager getTankManager() {
 		return this.tankManager;
-	}
-
-	@Override
-	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing) {
-		LazyOptional<T> superCap = super.getCapability(capability, facing);
-		if (superCap.isPresent()) {
-			return superCap;
-		}
-		if (capability == ForgeCapabilities.FLUID_HANDLER) {
-			return LazyOptional.of(() -> this.tankManager).cast();
-		}
-		return LazyOptional.empty();
 	}
 
 	@Override

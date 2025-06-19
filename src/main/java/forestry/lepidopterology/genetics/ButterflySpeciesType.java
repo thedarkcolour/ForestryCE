@@ -45,6 +45,7 @@ import forestry.lepidopterology.tiles.TileCocoon;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
@@ -164,12 +165,12 @@ public class ButterflySpeciesType extends SpeciesType<IButterflySpecies, IButter
 	}
 
 	@Override
-	public ILepidopteristTracker getBreedingTracker(LevelAccessor level, @Nullable GameProfile profile) {
+	public ILepidopteristTracker getBreedingTracker(LevelAccessor level, @Nullable @Nullable ResolvableProfile profile) {
 		return BreedingTrackerManager.INSTANCE.getTracker(this, level, profile);
 	}
 
 	@Override
-	public String getBreedingTrackerFile(@Nullable GameProfile profile) {
+	public String getBreedingTrackerFile(@Nullable @Nullable ResolvableProfile profile) {
 		return "LepidopteristTracker." + (profile == null ? "common" : profile.getId());
 	}
 
@@ -179,7 +180,7 @@ public class ButterflySpeciesType extends SpeciesType<IButterflySpecies, IButter
 	}
 
 	@Override
-	public void initializeBreedingTracker(IBreedingTracker tracker, @Nullable Level world, @Nullable GameProfile profile) {
+	public void initializeBreedingTracker(IBreedingTracker tracker, @Nullable Level world, @Nullable @Nullable ResolvableProfile profile) {
 		if (tracker instanceof LepidopteristTracker butterflyTracker) {
 			butterflyTracker.setLevel(world);
 			butterflyTracker.setUsername(profile);
