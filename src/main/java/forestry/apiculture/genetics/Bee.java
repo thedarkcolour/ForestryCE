@@ -2,6 +2,7 @@ package forestry.apiculture.genetics;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import forestry.api.IForestryApi;
 import forestry.api.apiculture.*;
@@ -38,7 +39,7 @@ import javax.annotation.Nullable;
 import java.util.*;
 
 public class Bee extends IndividualLiving<IBeeSpecies, IBee, IBeeSpeciesType> implements IBee {
-	public static final Codec<Bee> CODEC = RecordCodecBuilder.create(instance -> {
+	public static final MapCodec<Bee> CODEC = RecordCodecBuilder.mapCodec(instance -> {
 		Codec<IGenome> genomeCodec = SpeciesUtil.BEE_TYPE.get().getKaryotype().getGenomeCodec();
 
 		return IndividualLiving.livingFields(instance, genomeCodec).and(instance.group(

@@ -18,7 +18,7 @@ public class ItemInventoryBackpackPaged extends ItemInventoryBackpack implements
 	@Override
 	public void flipPage(ServerPlayer player, short page) {
 		ItemStack backpack = getParent();
-		SimpleMenuProvider provider = new SimpleMenuProvider((windowId, playerInv, p) -> NaturalistBackpackMenu.makeContainer(windowId, p, backpack, page, this.typeId), backpack.getHoverName());
+		SimpleMenuProvider provider = new SimpleMenuProvider((windowId, playerInv, p) -> NaturalistBackpackMenu.makeContainer(windowId, playerInv, this.slotIndex, page, this.typeId), backpack.getHoverName());
 		player.openMenu(provider, buffer -> {
 			buffer.writeByte(page);
 			buffer.writeResourceLocation(this.typeId);

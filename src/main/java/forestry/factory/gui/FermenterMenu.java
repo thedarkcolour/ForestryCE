@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.factory.gui;
 
 import forestry.core.gui.LiquidTanksMenu;
@@ -21,10 +11,7 @@ import forestry.factory.inventory.InventoryFermenter;
 import forestry.factory.tiles.TileFermenter;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.ContainerListener;
 import net.minecraft.world.inventory.SimpleContainerData;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 
 public class FermenterMenu extends LiquidTanksMenu<TileFermenter> {
 	public static FermenterMenu fromNetwork(int windowId, Inventory inv, FriendlyByteBuf data) {
@@ -44,19 +31,19 @@ public class FermenterMenu extends LiquidTanksMenu<TileFermenter> {
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
 	public void setData(int messageId, int data) {
 		super.setData(messageId, data);
 
-        this.tile.getGUINetworkData(messageId, data);
+		this.tile.getGUINetworkData(messageId, data);
 	}
 
 	@Override
 	public void broadcastChanges() {
 		super.broadcastChanges();
 
-		for (ContainerListener crafter : this.containerListeners) {
-            this.tile.sendGUINetworkData(this, crafter);
-		}
+		// todo is this used?
+		//for (ContainerListener crafter : this.containerListeners) {
+		//    this.tile.sendGUINetworkData(this, crafter);
+		//}
 	}
 }

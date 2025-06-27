@@ -8,9 +8,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.fluids.FluidActionResult;
 import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.FluidType;
 import net.neoforged.neoforge.fluids.FluidUtil;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
 
 // todo nah wtf is this
 //TODO: Fix isFillable's
@@ -53,14 +56,11 @@ public class FluidHelper {
 			emptyStack = filled;
 		}
 
-		LazyOptional<IFluidHandlerItem> fluidFilledHandlerCap = FluidUtil.getFluidHandler(filled);
-		LazyOptional<IFluidHandlerItem> fluidEmptyHandlerCap = FluidUtil.getFluidHandler(emptyStack);
-		if (!fluidFilledHandlerCap.isPresent() || !fluidEmptyHandlerCap.isPresent()) {
+		IFluidHandlerItem fluidFilledHandler = filled.getCapability(Capabilities.FluidHandler.ITEM);
+		IFluidHandlerItem fluidEmptyHandler = emptyStack.getCapability(Capabilities.FluidHandler.ITEM);
+		if (fluidFilledHandler == null || fluidEmptyHandler == null) {
 			return FillStatus.INVALID_INPUT;
 		}
-
-		IFluidHandlerItem fluidFilledHandler = fluidFilledHandlerCap.orElse(null);
-		IFluidHandlerItem fluidEmptyHandler = fluidEmptyHandlerCap.orElse(null);
 
 		int containerEmptyCapacity = fluidEmptyHandler.fill(new FluidStack(fluidToFill, Integer.MAX_VALUE), IFluidHandler.FluidAction.SIMULATE);
 		int containerCapacity = fluidFilledHandler.fill(new FluidStack(fluidToFill, Integer.MAX_VALUE), IFluidHandler.FluidAction.SIMULATE);
@@ -186,32 +186,23 @@ public class FluidHelper {
 	}
 
 	public static boolean isFillableContainer(ItemStack container, FluidStack content) {
-		LazyOptional<IFluidHandlerItem> fluidHandlerCap = FluidUtil.getFluidHandler(container);
-		if (!fluidHandlerCap.isPresent()) {
-			return false;
-		}
+		IFluidHandlerItem handler = container.getCapability(Capabilities.FluidHandler.ITEM);
 
-		return fluidHandlerCap.filter(handler -> handler.fill(new FluidStack(content, 1), IFluidHandler.FluidAction.SIMULATE) > 0).isPresent();
+		return handler != null && (handler.fill(content.copyWithAmount(1), IFluidHandler.FluidAction.SIMULATE) > 0);
 	}
 
 	public static boolean isFillableContainerAndEmpty(ItemStack container, FluidStack content) {
-		LazyOptional<IFluidHandlerItem> fluidHandlerCap = FluidUtil.getFluidHandler(container);
-		if (!fluidHandlerCap.isPresent()) {
-			return false;
-		}
+		IFluidHandlerItem handler = container.getCapability(Capabilities.FluidHandler.ITEM);
 
-		return fluidHandlerCap.filter(handler -> handler.fill(new FluidStack(content, 1), IFluidHandler.FluidAction.SIMULATE) > 0 && handler.drain(Integer.MAX_VALUE, IFluidHandler.FluidAction.SIMULATE).isEmpty()).isPresent();
+		return handler != null && (handler.fill(content.copyWithAmount(1), IFluidHandler.FluidAction.SIMULATE) > 0) && (handler.drain(Integer.MAX_VALUE, IFluidHandler.FluidAction.SIMULATE).isEmpty());
 	}
 
 	public static ItemStack getEmptyContainer(ItemStack container) {
 		ItemStack empty = container.copy();
 		empty.setCount(1);
-		LazyOptional<IFluidHandlerItem> fluidHandlerCap = FluidUtil.getFluidHandler(empty);
-		if (!fluidHandlerCap.isPresent()) {
-			return ItemStack.EMPTY;
-		}
+		IFluidHandlerItem handler = empty.getCapability(Capabilities.FluidHandler.ITEM);
 
-		return fluidHandlerCap.filter(fluidHandler -> fluidHandler.drain(Integer.MAX_VALUE, IFluidHandler.FluidAction.EXECUTE) != null).isPresent() ? empty : ItemStack.EMPTY;
+		return (handler != null && handler.drain(Integer.MAX_VALUE, IFluidHandler.FluidAction.EXECUTE).isEmpty()) ? empty : ItemStack.EMPTY;
 	}
 
 	public static boolean isFillableContainerWithRoom(ItemStack container) {

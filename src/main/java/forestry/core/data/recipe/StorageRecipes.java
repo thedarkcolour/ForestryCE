@@ -28,6 +28,7 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 import thedarkcolour.modkit.data.MKRecipeProvider;
 
 public class StorageRecipes {
@@ -139,10 +140,10 @@ public class StorageRecipes {
 		crate(output, CrateItems.CRATED_SPRUCE_LOG.get(), Ingredient.of(Items.SPRUCE_LOG));
 		crate(output, CrateItems.CRATED_ACACIA_LOG.get(), Ingredient.of(Items.ACACIA_LOG));
 		crate(output, CrateItems.CRATED_DARK_OAK_LOG.get(), Ingredient.of(Items.DARK_OAK_LOG));
-		crate(output, CrateItems.CRATED_COBBLESTONE.get(), Ingredient.of(Tags.Items.COBBLESTONE));
+		crate(output, CrateItems.CRATED_COBBLESTONE.get(), Ingredient.of(Tags.Items.COBBLESTONES));
 		crate(output, CrateItems.CRATED_DIRT.get(), Ingredient.of(Items.DIRT));
 		crate(output, CrateItems.CRATED_GRASS_BLOCK.get(), Ingredient.of(Items.GRASS_BLOCK));
-		crate(output, CrateItems.CRATED_STONE.get(), Ingredient.of(Tags.Items.STONE));
+		crate(output, CrateItems.CRATED_STONE.get(), Ingredient.of(Tags.Items.STONES));
 		crate(output, CrateItems.CRATED_GRANITE.get(), Ingredient.of(Items.GRANITE));
 		crate(output, CrateItems.CRATED_DIORITE.get(), Ingredient.of(Items.DIORITE));
 		crate(output, CrateItems.CRATED_ANDESITE.get(), Ingredient.of(Items.ANDESITE));
@@ -153,13 +154,13 @@ public class StorageRecipes {
 		crate(output, CrateItems.CRATED_CACTUS.get(), Ingredient.of(Items.CACTUS));
 		crate(output, CrateItems.CRATED_SAND.get(), Ingredient.of(Items.SAND));
 		crate(output, CrateItems.CRATED_RED_SAND.get(), Ingredient.of(Items.RED_SAND));
-		crate(output, CrateItems.CRATED_OBSIDIAN.get(), Ingredient.of(Tags.Items.OBSIDIAN));
-		crate(output, CrateItems.CRATED_NETHERRACK.get(), Ingredient.of(Tags.Items.NETHERRACK));
+		crate(output, CrateItems.CRATED_OBSIDIAN.get(), Ingredient.of(Tags.Items.OBSIDIANS));
+		crate(output, CrateItems.CRATED_NETHERRACK.get(), Ingredient.of(Tags.Items.NETHERRACKS));
 		crate(output, CrateItems.CRATED_SOUL_SAND.get(), Ingredient.of(Items.SOUL_SAND));
-		crate(output, CrateItems.CRATED_SANDSTONE.get(), Ingredient.of(Tags.Items.SANDSTONE));
+		crate(output, CrateItems.CRATED_SANDSTONE.get(), Ingredient.of(Tags.Items.SANDSTONE_BLOCKS));
 		crate(output, CrateItems.CRATED_NETHER_BRICKS.get(), Ingredient.of(Items.NETHER_BRICKS));
 		crate(output, CrateItems.CRATED_MYCELIUM.get(), Ingredient.of(Items.MYCELIUM));
-		crate(output, CrateItems.CRATED_GRAVEL.get(), Ingredient.of(Tags.Items.GRAVEL));
+		crate(output, CrateItems.CRATED_GRAVEL.get(), Ingredient.of(Tags.Items.GRAVELS));
 		crate(output, CrateItems.CRATED_OAK_SAPLING.get(), Ingredient.of(Items.OAK_SAPLING));
 		crate(output, CrateItems.CRATED_BIRCH_SAPLING.get(), Ingredient.of(Items.BIRCH_SAPLING));
 		crate(output, CrateItems.CRATED_JUNGLE_SAPLING.get(), Ingredient.of(Items.JUNGLE_SAPLING));
@@ -193,19 +194,15 @@ public class StorageRecipes {
 		});
 	}
 
-	static void wovenBackpack(RecipeOutput consumer, String id, FeatureItem<?> tier1, FeatureItem<?> tier2) {
-		new CarpenterRecipeBuilder()
-			.setPackagingTime(200)
-			.setLiquid(new FluidStack(Fluids.WATER, 1000))
-			.setBox(Ingredient.EMPTY)
-			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, tier2)
-				.pattern("WXW")
-				.pattern("WTW")
-				.pattern("WWW")
-				.define('W', CoreItems.CRAFTING_MATERIALS.stack(EnumCraftingMaterial.WOVEN_SILK).getItem())
-				.define('X', Items.DIAMOND)
-				.define('T', tier1))
-			.build(consumer, CoreRecipes.id("woven_backpack", id));
+	static void wovenBackpack(RecipeOutput consumer, MKRecipeProvider recipes, String id, FeatureItem<?> tier1, FeatureItem<?> tier2) {
+		CoreRecipes.carpenter(consumer, recipes, 200, SizedFluidIngredient.of(Fluids.WATER, 1000), Ingredient.EMPTY, tier2, 1, recipe -> {
+			recipe.pattern("WXW");
+			recipe.pattern("WTW");
+			recipe.pattern("WWW");
+			recipe.define('W', CoreItems.CRAFTING_MATERIALS.stack(EnumCraftingMaterial.WOVEN_SILK).getItem());
+			recipe.define('X', Items.DIAMOND);
+			recipe.define('T', tier1);
+		});
 	}
 
 	static void crate(RecipeOutput consumer, ItemCrated crated, Ingredient ingredient) {

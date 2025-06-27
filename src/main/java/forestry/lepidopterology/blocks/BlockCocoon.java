@@ -24,6 +24,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.EntityBlock;
@@ -74,8 +75,8 @@ public class BlockCocoon extends Block implements EntityBlock {
 	}
 
 	@Override
-	public ItemStack getCloneItemStack(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
-		TileCocoon tile = TileUtil.getTile(world, pos, TileCocoon.class);
+	public ItemStack getCloneItemStack(BlockState state, HitResult target, LevelReader level, BlockPos pos, Player player) {
+		TileCocoon tile = TileUtil.getTile(level, pos, TileCocoon.class);
 		if (tile == null) {
 			return ItemStack.EMPTY;
 		}
@@ -84,9 +85,10 @@ public class BlockCocoon extends Block implements EntityBlock {
 		int age = state.getValue(AGE);
 
 		ItemStack stack = SpeciesUtil.BUTTERFLY_TYPE.get().createStack(caterpillar, ButterflyLifeStage.COCOON);
-		if (!stack.isEmpty() && stack.getTag() != null) {
-			stack.getTag().putInt(ItemButterflyGE.NBT_AGE, age);
-		}
+		// todo
+		//if (!stack.isEmpty() && stack.getTag() != null) {
+		//	stack.getTag().putInt(ItemButterflyGE.NBT_AGE, age);
+		//}
 		return stack;
 	}
 

@@ -124,7 +124,7 @@ public class DumpCommand {
 		Forestry.LOGGER.debug("Listing Forestry backpack filters for {} backpack types (excluding Naturalist bags)", definitions.size());
 
 		for (FeatureItem<ItemBackpack> backpack : definitions) {
-			Predicate<ItemStack> filter = backpack.get().getDefinition().getFilter();
+			Predicate<ItemStack> filter = backpack.get().getDefinition().filter();
 			ArrayList<Item> allowedItems = new ArrayList<>();
 
 			for (Item item : ctx.getSource().registryAccess().registryOrThrow(Registries.ITEM)) {

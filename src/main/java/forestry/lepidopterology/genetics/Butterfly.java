@@ -2,6 +2,7 @@ package forestry.lepidopterology.genetics;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import forestry.api.IForestryApi;
 import forestry.api.core.HumidityType;
@@ -40,7 +41,7 @@ import java.util.Optional;
 public class Butterfly extends IndividualLiving<IButterflySpecies, IButterfly, IButterflySpeciesType> implements IButterfly {
 	private static final RandomSource rand = RandomSource.create();
 
-	public static final Codec<Butterfly> CODEC = RecordCodecBuilder.create(instance -> {
+	public static final MapCodec<Butterfly> CODEC = RecordCodecBuilder.mapCodec(instance -> {
 		Codec<IGenome> genomeCodec = SpeciesUtil.BUTTERFLY_TYPE.get().getKaryotype().getGenomeCodec();
 
 		return IndividualLiving.livingFields(instance, genomeCodec).apply(instance, Butterfly::new);

@@ -1,16 +1,5 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.core.genetics;
 
-import com.mojang.authlib.GameProfile;
 import forestry.api.IForestryApi;
 import forestry.api.genetics.*;
 import forestry.core.features.CoreItems;
@@ -27,6 +16,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.level.Level;
 
 import javax.annotation.Nullable;
@@ -47,16 +37,16 @@ public class ItemResearchNote extends ItemForestry {
 		super(new Item.Properties());
 	}
 
-    @Nullable
-    public static <S extends ISpecies<I>, I extends IIndividual> S getSpecies(ISpeciesType<S, I> speciesType, CompoundTag nbt, String key) {
-        String idString = nbt.getString(key);
-        if (idString.isEmpty()) {
-            return null;
-        }
-        return speciesType.getSpeciesSafe(ResourceLocation.tryParse(idString));
-    }
+	@Nullable
+	public static <S extends ISpecies<I>, I extends IIndividual> S getSpecies(ISpeciesType<S, I> speciesType, CompoundTag nbt, String key) {
+		String idString = nbt.getString(key);
+		if (idString.isEmpty()) {
+			return null;
+		}
+		return speciesType.getSpeciesSafe(ResourceLocation.tryParse(idString));
+	}
 
-    @Override
+	@Override
 	public Component getName(ItemStack itemstack) {
 		ResearchNote note = new ResearchNote(itemstack.getTag());
 		String researcherName;
@@ -180,7 +170,7 @@ public class ItemResearchNote extends ItemForestry {
 		return true;
 	}
 
-	public static ResearchNote createMutationNote(GameProfile researcher, IMutation<?> mutation) {
+	public static ResearchNote createMutationNote(ResolvableProfile researcher, IMutation<?> mutation) {
 		CompoundTag compound = new CompoundTag();
 		compound.putString(TYPE_KEY, mutation.getType().id().toString());
 		compound.putString(PARENT_0_KEY, mutation.getFirstParent().id().toString());
@@ -189,7 +179,7 @@ public class ItemResearchNote extends ItemForestry {
 		return new ResearchNote(researcher, compound);
 	}
 
-	public static ItemStack createMutationNoteStack(GameProfile researcher, IMutation<?> mutation) {
+	public static ItemStack createMutationNoteStack(ResolvableProfile researcher, IMutation<?> mutation) {
 		ResearchNote note = createMutationNote(researcher, mutation);
 		CompoundTag compound = new CompoundTag();
 		note.writeToNBT(compound);
@@ -200,10 +190,10 @@ public class ItemResearchNote extends ItemForestry {
 
 	public static class ResearchNote {
 		@Nullable
-		private final GameProfile researcher;
+		private final ResolvableProfile researcher;
 		private final CompoundTag inner;
 
-		public ResearchNote(GameProfile researcher, CompoundTag inner) {
+		public ResearchNote(ResolvableProfile researcher, CompoundTag inner) {
 			this.researcher = researcher;
 			this.inner = inner;
 		}

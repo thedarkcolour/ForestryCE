@@ -57,7 +57,7 @@ public class ApicultureJeiPlugin implements IModPlugin {
 
 	@Override
 	public void registerItemSubtypes(ISubtypeRegistration registry) {
-		JeiUtil.registerItemSubtypes(registry, BeeChromosomes.SPECIES, SpeciesUtil.BEE_TYPE.get());
+		JeiUtil.registerItemSubtypes(registry, SpeciesUtil.BEE_TYPE.get());
 	}
 
 	@Override

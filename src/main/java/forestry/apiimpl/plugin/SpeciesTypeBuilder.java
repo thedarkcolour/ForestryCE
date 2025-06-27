@@ -19,8 +19,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
 
-public class SpeciesTypeBuilder implements ISpeciesTypeBuilder {
-	private final ISpeciesTypeFactory typeFactory;
+public class SpeciesTypeBuilder<T extends ISpeciesType<?, ?>> implements ISpeciesTypeBuilder {
+	private final ISpeciesTypeFactory<T> typeFactory;
 	private final Set<ILifeStage> stages;
 
 	@Nullable
@@ -29,7 +29,7 @@ public class SpeciesTypeBuilder implements ISpeciesTypeBuilder {
 	private Consumer<IKaryotypeBuilder> karyotype = null;
 	private Consumer<Reference2FloatMap<Item>> researchMaterials;
 
-	public SpeciesTypeBuilder(ISpeciesTypeFactory typeFactory) {
+	public SpeciesTypeBuilder(ISpeciesTypeFactory<T> typeFactory) {
 		this.typeFactory = typeFactory;
 		this.stages = new LinkedHashSet<>();
 
@@ -86,7 +86,7 @@ public class SpeciesTypeBuilder implements ISpeciesTypeBuilder {
 		this.researchMaterials.accept(materialMap);
 	}
 
-	public ISpeciesType<?, ?> build() {
+	public T build() {
 		Preconditions.checkState(this.karyotype != null, "Missing karyotype for species type");
 
 		Karyotype.Builder builder = new Karyotype.Builder();

@@ -23,6 +23,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.ResolvableProfile;
 
 import javax.annotation.Nullable;
 import java.util.IdentityHashMap;
@@ -45,7 +46,7 @@ public class SpeciesWidget extends Widget implements ISelectableProvider<ISpecie
 		ImmutableSet.Builder<ISpecies<?>> entries = ImmutableSet.builder();
 
 		for (ISpeciesType<?, ?> type : IForestryApi.INSTANCE.getGeneticManager().getSpeciesTypes()) {
-			IBreedingTracker tracker = type.getBreedingTracker(manager.minecraft.level, manager.minecraft.player.getGameProfile());
+			IBreedingTracker tracker = type.getBreedingTracker(manager.minecraft.level, new ResolvableProfile(manager.minecraft.player.getGameProfile()));
 
 			for (ResourceLocation id : tracker.getDiscoveredSpecies()) {
 				ISpecies<?> species = type.getSpeciesSafe(id);

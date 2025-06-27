@@ -30,7 +30,7 @@ public class ArboricultureJeiPlugin implements IModPlugin {
 
 	@Override
 	public void registerItemSubtypes(ISubtypeRegistration registration) {
-		JeiUtil.registerItemSubtypes(registration, TreeChromosomes.SPECIES, SpeciesUtil.TREE_TYPE.get());
+		JeiUtil.registerItemSubtypes(registration, SpeciesUtil.TREE_TYPE.get());
 	}
 
 	@Override

@@ -25,8 +25,8 @@ public class SolderingIronMenu extends ItemInventoryMenu<ItemInventorySolderingI
 		return new SolderingIronMenu(windowId, player, inv);
 	}
 
-	public SolderingIronMenu(int windowId, Player player, ItemInventorySolderingIron inventory) {
-		super(CoreMenuTypes.SOLDERING_IRON.menuType(), windowId, inventory, player.getInventory(), 8, 123);
+	public SolderingIronMenu(int windowId, Inventory playerInv, ItemInventorySolderingIron inventory) {
+		super(CoreMenuTypes.SOLDERING_IRON.menuType(), windowId, inventory, playerInv, 8, 123);
 
 		// Input
 		this.addSlot(new SlotFiltered(inventory, 0, 152, 12));
@@ -58,7 +58,7 @@ public class SolderingIronMenu extends ItemInventoryMenu<ItemInventorySolderingI
 	}
 
 	@Override
-	public void handleSelectionRequest(Player player, int primary, int secondary) {
+	public void handleSelectionRequest(ServerPlayer player, int primary, int secondary) {
 		if (secondary == 0) {
 			if (primary == 0) {
 				this.inventory.advanceLayout();
@@ -68,7 +68,7 @@ public class SolderingIronMenu extends ItemInventoryMenu<ItemInventorySolderingI
 		}
 
 		IForestryPacketClient packetResponse = new PacketGuiLayoutSelect(this.inventory.getLayout().id());
-		PacketDistributor.sendToPlayer((ServerPlayer) player, packetResponse);
+		PacketDistributor.sendToPlayer(player, packetResponse);
 	}
 
 	public void setLayout(CircuitLayout layout) {

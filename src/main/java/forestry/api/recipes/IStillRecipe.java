@@ -1,6 +1,7 @@
 package forestry.api.recipes;
 
 import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 
 public interface IStillRecipe extends IForestryRecipe {
 	/**
@@ -11,7 +12,7 @@ public interface IStillRecipe extends IForestryRecipe {
 	/**
 	 * @return FluidStack representing the input liquid.
 	 */
-	FluidStack getInput();
+	SizedFluidIngredient getInput();
 
 	/**
 	 * @return FluidStack representing the output liquid.

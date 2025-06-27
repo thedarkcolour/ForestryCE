@@ -25,6 +25,7 @@ public abstract class ItemWithGui extends ItemForestry {
 		ItemStack stack = player.getItemInHand(hand);
 
 		if (!level.isClientSide) {
+			// keep track of the item's slot so we can lock it
 			int slotIndex = hand == InteractionHand.OFF_HAND ? Inventory.SLOT_OFFHAND : player.getInventory().selected;
 
 			player.openMenu(new SimpleMenuProvider(
@@ -54,5 +55,5 @@ public abstract class ItemWithGui extends ItemForestry {
 	}
 
 	@Nullable
-	public abstract AbstractContainerMenu createMenu(int windowId, Inventory playerInv, int slotIndex);
+	public abstract AbstractContainerMenu createMenu(int containerId, Inventory playerInv, int slotIndex);
 }

@@ -105,7 +105,7 @@ public class ItemLetter extends ItemWithGui {
 	}
 
 	@Override
-	public AbstractContainerMenu createMenu(int windowId, Inventory playerInv, int slotIndex) {
-		return new LetterMenu(windowId, playerInv, new ItemInventoryLetter(playerInv, heldItem));
+	public AbstractContainerMenu createMenu(int containerId, Inventory playerInv, int slotIndex) {
+		return new LetterMenu(containerId, playerInv, new ItemInventoryLetter(playerInv, heldItem));
 	}
 }

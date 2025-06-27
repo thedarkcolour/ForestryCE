@@ -2,7 +2,6 @@ package forestry.core.genetics;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
-import com.mojang.authlib.GameProfile;
 import forestry.api.genetics.*;
 import forestry.api.genetics.alleles.IKaryotype;
 import forestry.api.plugin.ISpeciesTypeBuilder;
@@ -14,6 +13,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.level.Level;
 
 import javax.annotation.Nullable;
@@ -59,8 +59,7 @@ public abstract class SpeciesType<S extends ISpecies<I>, I extends IIndividual> 
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
-	public S getDefaultSpecies() {
+    public S getDefaultSpecies() {
 		return (S) this.karyotype.getDefaultAllele(this.karyotype.getSpeciesChromosome()).value();
 	}
 
@@ -166,7 +165,7 @@ public abstract class SpeciesType<S extends ISpecies<I>, I extends IIndividual> 
 	}
 
 	@Override
-	public List<ItemStack> getResearchBounty(S species, Level level, GameProfile researcher, I individual, int bountyLevel) {
+	public List<ItemStack> getResearchBounty(S species, Level level, ResolvableProfile researcher, I individual, int bountyLevel) {
 		ArrayList<ItemStack> list = new ArrayList<>();
 
 		if (level.random.nextFloat() < bountyLevel / 16f) {

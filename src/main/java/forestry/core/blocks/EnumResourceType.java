@@ -10,7 +10,7 @@ public enum EnumResourceType implements IBlockSubtype {
 	BRONZE;
 
 	@Override
-	public String getSerializedName() {
+	public String identifier() {
 		return name().toLowerCase(Locale.ENGLISH);
 	}
 }

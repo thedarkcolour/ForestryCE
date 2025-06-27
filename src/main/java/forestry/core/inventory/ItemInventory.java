@@ -1,7 +1,6 @@
 package forestry.core.inventory;
 
 import forestry.core.tiles.IFilterSlotDelegate;
-import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
@@ -11,6 +10,8 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.wrapper.InvWrapper;
 
+import java.util.Arrays;
+
 /**
  * An inventory that belongs to an item, like the Portable Analyzer, or a backpack.
  */
@@ -18,18 +19,19 @@ public abstract class ItemInventory implements Container, IFilterSlotDelegate {
 	private static final String KEY_SLOTS = "Slots";
 
 	private final IItemHandler itemHandler = new InvWrapper(this);
+	private final ItemStack[] slots;
+	private final int slotIndex;
 
-	private ItemStack parent;
-	private final NonNullList<ItemStack> inventoryStacks;
+	public ItemInventory(int size, int slotIndex) {
+		this.slots = new ItemStack[size];
+		this.slotIndex = slotIndex;
 
-	public ItemInventory(int size, ItemStack parent) {
-		this.parent = parent;
-		this.inventoryStacks = NonNullList.withSize(size, ItemStack.EMPTY);
+		Arrays.fill(slots, ItemStack.EMPTY);
 
-		CompoundTag nbt = parent.getTag();
+		CompoundTag nbt = slotIndex.getTag();
 		if (nbt == null) {
 			nbt = new CompoundTag();
-			parent.setTag(nbt);
+			slotIndex.setTag(nbt);
 		}
 
 		CompoundTag nbtSlots = nbt.getCompound(KEY_SLOTS);

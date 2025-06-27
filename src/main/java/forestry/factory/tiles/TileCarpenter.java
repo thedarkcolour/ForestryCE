@@ -232,8 +232,8 @@ public class TileCarpenter extends TilePowered implements WorldlyContainer, ILiq
 	}
 
 	@Override
-	public void handleItemStackForDisplay(ItemStack itemStack) {
-        this.craftPreviewInventory.setItem(0, itemStack);
+	public void handleItemStackForDisplay(ItemStack stack) {
+        this.craftPreviewInventory.setItem(0, stack);
 	}
 
 

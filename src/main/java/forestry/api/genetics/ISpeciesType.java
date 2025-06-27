@@ -2,9 +2,8 @@ package forestry.api.genetics;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
-import com.mojang.authlib.GameProfile;
 import com.mojang.datafixers.util.Pair;
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import forestry.api.ForestryCapabilities;
 import forestry.api.genetics.alleles.IKaryotype;
 import forestry.api.genetics.capability.IIndividualHandlerItem;
@@ -155,7 +154,7 @@ public interface ISpeciesType<S extends ISpecies<I>, I extends IIndividual> exte
 	/**
 	 * @return The codec used to serialize/deserialize individuals of this species.
 	 */
-	Codec<? extends I> getIndividualCodec();
+	MapCodec<? extends I> getIndividualCodec();
 
 	/**
 	 * Used to check whether the given {@link IIndividual} is member of this class.
@@ -192,7 +191,7 @@ public interface ISpeciesType<S extends ISpecies<I>, I extends IIndividual> exte
 	 *                    The lowest level is 1. Rewards players for memorizing the tiles and using good research material.
 	 * @return A list of reward items granted upon researching a specimen in the Escritoire. Might be empty.
 	 */
-	List<ItemStack> getResearchBounty(S species, Level level, GameProfile researcher, I individual, int bountyLevel);
+	List<ItemStack> getResearchBounty(S species, Level level, ResolvableProfile researcher, I individual, int bountyLevel);
 
 	/**
 	 * @return The name of the breeding tracker save file for the given player.
@@ -218,10 +217,10 @@ public interface ISpeciesType<S extends ISpecies<I>, I extends IIndividual> exte
 	 * Used to initialize a breeding tracker with additional information.
 	 *
 	 * @param tracker The tracker to add information to.
-	 * @param world   The world this tracker is saved to. Always the overworld dimension.
+	 * @param level   The world this tracker is saved to. Always the overworld dimension.
 	 * @param profile The player to whom the breeding tracker belongs to.
 	 */
-	void initializeBreedingTracker(IBreedingTracker tracker, @Nullable Level world, @Nullable ResolvableProfile profile);
+	void initializeBreedingTracker(IBreedingTracker tracker, @Nullable Level level, @Nullable ResolvableProfile profile);
 
 	/**
 	 * Used to register species and related data for this species type from an {@link IForestryPlugin}.

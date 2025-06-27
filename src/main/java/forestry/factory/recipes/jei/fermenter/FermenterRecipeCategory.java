@@ -77,11 +77,13 @@ public class FermenterRecipeCategory extends ForestryRecipeCategory<IFermenterRe
 		builder.addSlot(RecipeIngredientRole.INPUT, 41, 39)
 			.addItemStacks(this.fuels);
 
-		FluidStack fluidInput = new FluidStack(recipe.getInputFluid(), recipe.getFermentationValue());
+		int fermentationValue = recipe.getFermentationValue();
 		builder.addSlot(RecipeIngredientRole.INPUT, 1, 1)
 			.setFluidRenderer(3000, false, 16, 58)
 			.setOverlay(this.tankOverlay, 0, 0)
-			.addIngredient(NeoForgeTypes.FLUID_STACK, fluidInput);
+			.addIngredients(NeoForgeTypes.FLUID_STACK, Arrays.stream(recipe.getInputFluid().getStacks())
+				.map(stack -> stack.copyWithAmount(fermentationValue))
+				.toList());
 
 		final int baseAmount = Math.round(recipe.getFermentationValue() * recipe.getModifier());
 		List<FluidStack> outputs =

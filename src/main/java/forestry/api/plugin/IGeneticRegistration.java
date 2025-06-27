@@ -1,5 +1,6 @@
 package forestry.api.plugin;
 
+import forestry.api.genetics.ISpeciesType;
 import forestry.api.genetics.filter.IFilterRuleType;
 import net.minecraft.resources.ResourceLocation;
 
@@ -31,15 +32,6 @@ public interface IGeneticRegistration {
 	 * @see forestry.api.genetics.ForestryTaxa For builtin taxon names.
 	 */
 	void defineTaxon(String parent, String name, Consumer<ITaxonBuilder> action);
-
-	/**
-	 * Register a new type of species. Can only be called from {@link IForestryPlugin#registerGenetics}.
-	 *
-	 * @param id          The ID of the species.
-	 * @param typeFactory The function to use to create the species type, given the completed karyotype.
-	 * @return A builder that can be used to define properties of the species.
-	 */
-	ISpeciesTypeBuilder registerSpeciesType(ResourceLocation id, ISpeciesTypeFactory typeFactory);
 
 	/**
 	 * Modify an existing species, for example, adding an extra chromosome to bees, or adding additional permitted alleles to chromosomes.

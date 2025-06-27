@@ -25,21 +25,23 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.Tags;
-import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 import thedarkcolour.modkit.data.MKRecipeProvider;
 
 import java.util.List;
+
+import static forestry.core.data.recipe.CoreRecipes.fabricator;
 
 class ArboricultureRecipes {
 	static void registerArboricultureRecipes(RecipeOutput output, MKRecipeProvider recipes) {
 		registerWoodRecipes(recipes);
 
 		for (ForestryWoodType type : ForestryWoodType.values()) {
-			addFireproofRecipes(output, type);
+			addFireproofRecipes(output, recipes, type);
 		}
 
 		for (VanillaWoodType type : VanillaWoodType.values()) {
-			addFireproofRecipes(output, type);
+			addFireproofRecipes(output, recipes, type);
 		}
 
 		recipes.shapedCrafting(RecipeCategory.TOOLS, ArboricultureItems.GRAFTER, recipe -> {
@@ -164,37 +166,31 @@ class ArboricultureRecipes {
 		recipes.shapelessCrafting("wood_pile_from_decorative", RecipeCategory.BUILDING_BLOCKS, CharcoalBlocks.LOG_PILE.block(), 1, CharcoalBlocks.DECORATIVE_LOG_PILE.block());
 	}
 
-	static void addFireproofRecipes(RecipeOutput consumer, IWoodType type) {
-		FluidStack liquidGlass = ForestryFluids.GLASS.getFluid(500);
+	static void addFireproofRecipes(RecipeOutput consumer, MKRecipeProvider recipes, IWoodType type) {
+		SizedFluidIngredient liquidGlass = ForestryFluids.GLASS.ingredient(500);
 
 		List<WoodBlockKind> logLike = List.of(WoodBlockKind.LOG, WoodBlockKind.WOOD, WoodBlockKind.STRIPPED_LOG, WoodBlockKind.STRIPPED_WOOD);
 		IWoodAccess woodAccess = IForestryApi.INSTANCE.getTreeManager().getWoodAccess();
 
 		for (WoodBlockKind woodKind : logLike) {
 			try {
-				new FabricatorRecipeBuilder()
-					.setPlan(Ingredient.EMPTY)
-					.setMolten(liquidGlass)
-					.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, woodAccess.getBlock(type, woodKind, true).getBlock(), 2)
-						.pattern("   ")
-						.pattern("X#X")
-						.pattern("   ")
-						.define('#', CoreItems.REFRACTORY_WAX)
-						.define('X', woodAccess.getBlock(type, woodKind, false).getBlock()))
-					.build(consumer, CoreRecipes.id("fabricator", "fireproof", woodKind.getSerializedName(), type.toString()));
+				fabricator(consumer, recipes, liquidGlass, woodAccess.getBlock(type, woodKind, true), 2, recipe -> {
+					recipe.pattern("   ");
+					recipe.pattern("X#X");
+					recipe.pattern("   ");
+					recipe.define('#', CoreItems.REFRACTORY_WAX);
+					recipe.define('X', woodAccess.getBlock(type, woodKind, false).getBlock()));
+				});
 			} catch (IllegalStateException ignored) {
 			}
 		}
 
-		new FabricatorRecipeBuilder()
-			.setPlan(Ingredient.EMPTY)
-			.setMolten(liquidGlass)
-			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, woodAccess.getBlock(type, WoodBlockKind.PLANKS, true).getBlock(), 8)
-				.pattern("XXX")
-				.pattern("X#X")
-				.pattern("XXX")
-				.define('#', CoreItems.REFRACTORY_WAX)
-				.define('X', woodAccess.getBlock(type, WoodBlockKind.PLANKS, false).getBlock()))
-			.build(consumer, CoreRecipes.id("fabricator", "fireproof", "planks", type.toString()));
+		fabricator(consumer, recipes, liquidGlass, woodAccess.getBlock(type, WoodBlockKind.PLANKS, true), 8, recipe -> {
+			recipe.pattern("XXX");
+			recipe.pattern("X#X");
+			recipe.pattern("XXX");
+			recipe.define('#', CoreItems.REFRACTORY_WAX);
+			recipe.define('X', woodAccess.getBlock(type, WoodBlockKind.PLANKS, false).getBlock()));
+		});
 	}
 }

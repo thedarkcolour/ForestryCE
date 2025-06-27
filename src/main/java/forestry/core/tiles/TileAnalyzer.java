@@ -19,10 +19,10 @@ import forestry.core.utils.NetworkUtil;
 import forestry.core.utils.SpeciesUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Container;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -33,6 +33,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
 import javax.annotation.Nullable;
 
@@ -117,7 +119,7 @@ public class TileAnalyzer extends TilePowered implements WorldlyContainer, ILiqu
 
 		setItem(InventoryAnalyzer.SLOT_ANALYZE, ItemStack.EMPTY);
 		PacketItemStackDisplay packet = new PacketItemStackDisplay(this, getIndividualOnDisplay());
-		NetworkUtil.sendToPlayersTrackingPos(packet, this.worldPosition, this.level);
+		NetworkUtil.sendToPlayersTrackingPos(packet, this.worldPosition, (ServerLevel) this.level);
 
 		return true;
 	}
@@ -138,26 +140,21 @@ public class TileAnalyzer extends TilePowered implements WorldlyContainer, ILiqu
 	public void writeData(RegistryFriendlyByteBuf buffer) {
 		super.writeData(buffer);
 		ItemStack displayStack = getIndividualOnDisplay();
-		buffer.writeItem(displayStack);
+		ItemStack.OPTIONAL_STREAM_CODEC.encode(buffer, displayStack);
 		this.tankManager.writeData(buffer);
 	}
 
 	@Override
-	@OnlyIn(Dist.CLIENT)
 	public void readData(RegistryFriendlyByteBuf buffer) {
 		super.readData(buffer);
-		this.individualOnDisplayClient = buffer.readItem();
+		this.individualOnDisplayClient = ItemStack.OPTIONAL_STREAM_CODEC.decode(buffer);
 		this.tankManager.readData(buffer);
 	}
 
 	@Override
-	public void handleItemStackForDisplay(ItemStack itemStack) {
-		if (!ItemStack.matches(itemStack, this.individualOnDisplayClient)) {
-			this.individualOnDisplayClient = itemStack;
-			//TODO
-			BlockPos pos = getBlockPos();
-			Minecraft.getInstance().levelRenderer.setSectionDirty(pos.getX(), pos.getY(), pos.getZ());
-			//			world.markForRerender(getPos());
+	public void handleItemStackForDisplay(ItemStack stack) {
+		if (!ItemStack.matches(stack, this.individualOnDisplayClient)) {
+			this.individualOnDisplayClient = stack;
 		}
 	}
 
@@ -224,7 +221,7 @@ public class TileAnalyzer extends TilePowered implements WorldlyContainer, ILiqu
 		}
 
 		PacketItemStackDisplay packet = new PacketItemStackDisplay(this, getIndividualOnDisplay());
-		NetworkUtil.sendToPlayersTrackingPos(packet, this.worldPosition, this.level);
+		NetworkUtil.sendToPlayersTrackingPos(packet, this.worldPosition, ((ServerLevel) this.level));
 	}
 
 	public ItemStack getIndividualOnDisplay() {
@@ -235,20 +232,9 @@ public class TileAnalyzer extends TilePowered implements WorldlyContainer, ILiqu
 		return getItem(InventoryAnalyzer.SLOT_ANALYZE);
 	}
 
-	/* ILiquidTankTile */
-
 	@Override
 	public TankManager getTankManager() {
 		return this.tankManager;
-	}
-
-
-	@Override
-	public <T> LazyOptional<T> getCapability(Capability<T> capability, @Nullable Direction facing) {
-		if (capability == ForgeCapabilities.FLUID_HANDLER) {
-			return LazyOptional.of(() -> this.tankManager).cast();
-		}
-		return super.getCapability(capability, facing);
 	}
 
 	@Override

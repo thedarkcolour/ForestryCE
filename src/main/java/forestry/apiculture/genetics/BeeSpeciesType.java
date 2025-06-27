@@ -1,9 +1,8 @@
 package forestry.apiculture.genetics;
 
 import com.google.common.collect.ImmutableMap;
-import com.mojang.authlib.GameProfile;
 import com.mojang.datafixers.util.Pair;
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import forestry.api.IForestryApi;
 import forestry.api.apiculture.IApiaristTracker;
 import forestry.api.apiculture.bee.BeeLifeStage;
@@ -75,9 +74,9 @@ public class BeeSpeciesType extends SpeciesType<IBeeSpecies, IBee> implements IB
 	}
 
 	@Override
-	public void initializeBreedingTracker(IBreedingTracker tracker, @Nullable Level world, @Nullable ResolvableProfile profile) {
+	public void initializeBreedingTracker(IBreedingTracker tracker, @Nullable Level level, @Nullable ResolvableProfile profile) {
 		if (tracker instanceof BreedingTracker apiaristTracker) {
-			apiaristTracker.setLevel(world);
+			apiaristTracker.setLevel(level);
 			apiaristTracker.setUsername(profile);
 		}
 	}
@@ -93,7 +92,7 @@ public class BeeSpeciesType extends SpeciesType<IBeeSpecies, IBee> implements IB
 	}
 
 	@Override
-	public Codec<? extends IBee> getIndividualCodec() {
+	public MapCodec<? extends IBee> getIndividualCodec() {
 		return Bee.CODEC;
 	}
 
@@ -113,7 +112,7 @@ public class BeeSpeciesType extends SpeciesType<IBeeSpecies, IBee> implements IB
 	}
 
 	@Override
-	public List<ItemStack> getResearchBounty(IBeeSpecies species, Level level, GameProfile researcher, IBee individual, int bountyLevel) {
+	public List<ItemStack> getResearchBounty(IBeeSpecies species, Level level, ResolvableProfile researcher, IBee individual, int bountyLevel) {
 		List<ItemStack> bounty = super.getResearchBounty(species, level, researcher, individual, bountyLevel);
 		if (bountyLevel > 10) {
 			for (IProduct stack : species.getSpecialties()) {

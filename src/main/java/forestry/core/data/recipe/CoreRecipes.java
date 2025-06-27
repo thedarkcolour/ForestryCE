@@ -271,7 +271,7 @@ public class CoreRecipes {
 
 	private static void registerFluidsRecipes(MKRecipeProvider recipes) {
 		for (EnumContainerType containerType : EnumContainerType.values()) {
-			recipes.shapedCrafting("cake_" + containerType.getSerializedName(), RecipeCategory.FOOD, Items.CAKE, recipe -> {
+			recipes.shapedCrafting("cake_" + containerType.identifier(), RecipeCategory.FOOD, Items.CAKE, recipe -> {
 				recipe.define('A', getContainer(containerType, NeoForgeMod.MILK.get()));
 				recipe.define('B', Items.SUGAR);
 				recipe.define('C', Items.WHEAT);
@@ -693,7 +693,7 @@ public class CoreRecipes {
 			.build(output, id("carpenter", "letter_pulp"));
 	}
 
-	private static void carpenter(RecipeOutput output, MKRecipeProvider recipes, int packingTime, @Nullable SizedFluidIngredient inputFluid, Ingredient box, ItemLike result, int resultCount, Consumer<ShapedRecipeBuilder> pattern) {
+	protected static void carpenter(RecipeOutput output, MKRecipeProvider recipes, int packingTime, @Nullable SizedFluidIngredient inputFluid, Ingredient box, ItemLike result, int resultCount, Consumer<ShapedRecipeBuilder> pattern) {
 		recipes.pushRecipeOutput(
 			// the recipe is passed in by newOutput, letting us obtain the finished recipe instance from ModKit
 			(id, recipe) -> output.accept(id("carpenter", MKRecipeProvider.path(result)), new CarpenterRecipe(packingTime, Optional.ofNullable(inputFluid), box, (CraftingRecipe) recipe), null),
@@ -900,5 +900,18 @@ public class CoreRecipes {
 
 	static ResourceLocation id(String... path) {
 		return ForestryConstants.forestry(String.join("/", path));
+	}
+
+	static void fabricator(RecipeOutput output, MKRecipeProvider recipes, @Nullable SizedFluidIngredient inputFluid, ItemLike result, int resultCount, Consumer<ShapedRecipeBuilder> pattern) {
+		recipes.pushRecipeOutput(
+			// the recipe is passed in by newOutput, letting us obtain the finished recipe instance from ModKit
+			(id, recipe) -> output.accept(id("carpenter", MKRecipeProvider.path(result)), new FabricatorRecipe(Ingredient.EMPTY, Optional.ofNullable(inputFluid), (CraftingRecipe) recipe), null),
+			// create a shaped recipe with the new output, which ModKit will pass into the above function
+			newOutput -> recipes.shapedCrafting(RecipeCategory.MISC, result, resultCount, pattern)
+		);
+	}
+
+	static void fabricatorSmelting(RecipeOutput output, String id, Ingredient input, FluidStack result, int meltingPoint) {
+		output.accept(id("fabricator_smelting", id), new FabricatorSmeltingRecipe(input, result, meltingPoint), null);
 	}
 }

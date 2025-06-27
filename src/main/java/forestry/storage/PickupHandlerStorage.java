@@ -33,7 +33,7 @@ public class PickupHandlerStorage {
 			}
 
 			BackpackDefinition backpackDefinition = backpack.getDefinition();
-			if (backpackDefinition.getFilter().test(itemstack)) {
+			if (backpackDefinition.filter().test(itemstack)) {
 				ItemBackpack.tryStowing(player, pack, itemstack);
 			}
 		}

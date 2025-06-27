@@ -1,19 +1,8 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.lepidopterology.genetics;
 
 import com.google.common.collect.ImmutableMap;
-import com.mojang.authlib.GameProfile;
 import com.mojang.datafixers.util.Pair;
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import forestry.api.core.IProduct;
 import forestry.api.genetics.*;
 import forestry.api.genetics.alleles.ButterflyChromosomes;
@@ -165,13 +154,13 @@ public class ButterflySpeciesType extends SpeciesType<IButterflySpecies, IButter
 	}
 
 	@Override
-	public ILepidopteristTracker getBreedingTracker(LevelAccessor level, @Nullable @Nullable ResolvableProfile profile) {
+	public ILepidopteristTracker getBreedingTracker(LevelAccessor level, @Nullable ResolvableProfile profile) {
 		return BreedingTrackerManager.INSTANCE.getTracker(this, level, profile);
 	}
 
 	@Override
-	public String getBreedingTrackerFile(@Nullable @Nullable ResolvableProfile profile) {
-		return "LepidopteristTracker." + (profile == null ? "common" : profile.getId());
+	public String getBreedingTrackerFile(@Nullable ResolvableProfile profile) {
+		return "LepidopteristTracker." + ((profile == null || profile.id().isEmpty()) ? "common" : profile.id().get());
 	}
 
 	@Override
@@ -180,9 +169,9 @@ public class ButterflySpeciesType extends SpeciesType<IButterflySpecies, IButter
 	}
 
 	@Override
-	public void initializeBreedingTracker(IBreedingTracker tracker, @Nullable Level world, @Nullable @Nullable ResolvableProfile profile) {
+	public void initializeBreedingTracker(IBreedingTracker tracker, @Nullable Level level, @Nullable ResolvableProfile profile) {
 		if (tracker instanceof LepidopteristTracker butterflyTracker) {
-			butterflyTracker.setLevel(world);
+			butterflyTracker.setLevel(level);
 			butterflyTracker.setUsername(profile);
 		}
 	}
@@ -208,14 +197,14 @@ public class ButterflySpeciesType extends SpeciesType<IButterflySpecies, IButter
 	}
 
 	@Override
-	public List<ItemStack> getResearchBounty(IButterflySpecies species, Level level, GameProfile researcher, IButterfly individual, int bountyLevel) {
+	public List<ItemStack> getResearchBounty(IButterflySpecies species, Level level, ResolvableProfile researcher, IButterfly individual, int bountyLevel) {
 		List<ItemStack> bounty = super.getResearchBounty(species, level, researcher, individual, bountyLevel);
 		bounty.add(individual.createStack(ButterflyLifeStage.SERUM));
 		return bounty;
 	}
 
 	@Override
-	public Codec<? extends IButterfly> getIndividualCodec() {
+	public MapCodec<? extends IButterfly> getIndividualCodec() {
 		return Butterfly.CODEC;
 	}
 }

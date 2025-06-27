@@ -74,11 +74,6 @@ public final class GeneticRegistration implements IGeneticRegistration {
 	}
 
 	@Override
-	public ISpeciesTypeBuilder registerSpeciesType(ResourceLocation id, ISpeciesTypeFactory factory) {
-		return this.speciesTypes.create(id, new SpeciesTypeBuilder(factory));
-	}
-
-	@Override
 	public void modifySpeciesType(ResourceLocation id, Consumer<ISpeciesTypeBuilder> action) {
 		this.speciesTypes.modify(id, action);
 	}

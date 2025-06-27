@@ -25,7 +25,7 @@ public class ItemCatalogue extends ItemWithGui {
 
 	@Nullable
 	@Override
-	public AbstractContainerMenu createMenu(int windowId, Inventory playerInv, int slotIndex) {
-		return new ContainerCatalogue(windowId, playerInv.getInventory());
+	public AbstractContainerMenu createMenu(int containerId, Inventory playerInv, int slotIndex) {
+		return new ContainerCatalogue(containerId, playerInv.getInventory());
 	}
 }

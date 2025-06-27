@@ -19,6 +19,6 @@ public class ItemInventoryBackpack extends ItemInventory {
 
 	@Override
 	public boolean canSlotAccept(int slotIndex, ItemStack stack) {
-		return this.backpackDefinition.getFilter().test(stack);
+		return this.backpackDefinition.filter().test(stack);
 	}
 }

@@ -4,18 +4,20 @@ import forestry.core.features.CoreDataComponents;
 import forestry.core.gui.PortableAnalyzerMenu;
 import forestry.core.inventory.PortableAnalyzerInventory;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.ItemContainerContents;
 
 import java.util.List;
 
 public class ItemPortableAnalyzer extends ItemWithGui {
 	public ItemPortableAnalyzer() {
-		super(new Item.Properties().stacksTo(1));
+		super(new Item.Properties().stacksTo(1).component(DataComponents.CONTAINER, ItemContainerContents.EMPTY));
 	}
 
 	@Override
@@ -29,7 +31,7 @@ public class ItemPortableAnalyzer extends ItemWithGui {
 	}
 
 	@Override
-	public AbstractContainerMenu createMenu(int windowId, Inventory playerInv, int slotIndex) {
-		return new PortableAnalyzerMenu(windowId, new PortableAnalyzerInventory(playerInv.player, playerInv.getItem(slotIndex)), playerInv);
+	public AbstractContainerMenu createMenu(int containerId, Inventory playerInv, int slotIndex) {
+		return new PortableAnalyzerMenu(containerId, playerInv, slotIndex);
 	}
 }

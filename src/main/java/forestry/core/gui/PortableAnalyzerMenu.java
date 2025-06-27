@@ -8,7 +8,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 
-public class PortableAnalyzerMenu extends ItemInventoryMenu<PortableAnalyzerInventory> {
+public class PortableAnalyzerMenu extends ForestryMenu {
 	public static PortableAnalyzerMenu fromNetwork(int windowId, Inventory playerInv, FriendlyByteBuf extraData) {
 		InteractionHand hand = extraData.readBoolean() ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
 		Player player = playerInv.player;
@@ -16,7 +16,7 @@ public class PortableAnalyzerMenu extends ItemInventoryMenu<PortableAnalyzerInve
 		return new PortableAnalyzerMenu(windowId, inv, player);
 	}
 
-	public PortableAnalyzerMenu(int windowId, PortableAnalyzerInventory inventory, Inventory playerInv) {
+	public PortableAnalyzerMenu(int windowId, Inventory playerInv, int slotIndex) {
 		super(CoreMenuTypes.ALYZER.menuType(), windowId, inventory, playerInv, 43, 156);
 
 		int xPosLeftSlots = 223;

@@ -1,35 +1,23 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.core.owner;
 
-import com.mojang.authlib.GameProfile;
 import forestry.api.core.INbtReadable;
 import forestry.api.core.INbtWritable;
 import forestry.core.network.IStreamable;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NbtUtils;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.world.item.component.ResolvableProfile;
 
 import javax.annotation.Nullable;
-import java.util.UUID;
 
 public class OwnerHandler implements IOwnerHandler, IStreamable, INbtWritable, INbtReadable {
 	@Nullable
-	private GameProfile owner = null;
+	private ResolvableProfile owner = null;
 
 	@Override
 	@Nullable
-	public GameProfile getOwner() {
+	public ResolvableProfile getOwner() {
 		return this.owner;
 	}
 
@@ -40,20 +28,18 @@ public class OwnerHandler implements IOwnerHandler, IStreamable, INbtWritable, I
 
 	@Override
 	public void writeData(RegistryFriendlyByteBuf buffer) {
-		if (this.owner == null) {
+		if (this.owner == null || this.owner.id().isEmpty()) {
 			buffer.writeBoolean(false);
 		} else {
 			buffer.writeBoolean(true);
-			buffer.writeLong(this.owner.getId().getMostSignificantBits());
-			buffer.writeLong(this.owner.getId().getLeastSignificantBits());
-			buffer.writeUtf(this.owner.getName());
+			ResolvableProfile.STREAM_CODEC.encode(buffer, this.owner);
 		}
 	}
 
 	@Override
 	public void readData(RegistryFriendlyByteBuf buffer) {
 		if (buffer.readBoolean()) {
-			GameProfile owner = new GameProfile(new UUID(buffer.readLong(), buffer.readLong()), buffer.readUtf());
+			ResolvableProfile owner = ResolvableProfile.STREAM_CODEC.decode(buffer);
 			setOwner(owner);
 		}
 	}
@@ -61,19 +47,17 @@ public class OwnerHandler implements IOwnerHandler, IStreamable, INbtWritable, I
 	@Override
 	public void read(CompoundTag data, HolderLookup.Provider registries) {
 		if (data.contains("owner")) {
-			GameProfile owner = NbtUtils.readGameProfile(data.getCompound("owner"));
-			if (owner != null) {
-				setOwner(owner);
-			}
+			ResolvableProfile.CODEC
+				.parse(NbtOps.INSTANCE, data.get("profile"))
+				.result()
+				.ifPresent(this::setOwner);
 		}
 	}
 
 	@Override
 	public CompoundTag write(CompoundTag data, HolderLookup.Provider registries) {
 		if (this.owner != null) {
-			CompoundTag nbt = new CompoundTag();
-			NbtUtils.writeGameProfile(nbt, this.owner);
-			data.put("owner", nbt);
+			data.put("owner", ResolvableProfile.CODEC.encodeStart(NbtOps.INSTANCE, this.owner).getOrThrow());
 		}
 		return data;
 	}

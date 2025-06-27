@@ -1,7 +1,6 @@
 package forestry.core.genetics.mutations;
 
 import com.google.common.collect.ImmutableList;
-import com.mojang.authlib.GameProfile;
 import forestry.api.climate.IClimateProvider;
 import forestry.api.genetics.*;
 import forestry.api.genetics.alleles.AllelePair;
@@ -12,6 +11,7 @@ import forestry.core.genetics.ItemResearchNote;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.level.Level;
 
 import java.util.List;
@@ -135,7 +135,7 @@ public class Mutation<S extends ISpecies<?>> implements IMutation<S> {
 	}
 
 	@Override
-	public ItemStack getMutationNote(GameProfile researcher) {
+	public ItemStack getMutationNote(ResolvableProfile researcher) {
 		return ItemResearchNote.createMutationNoteStack(researcher, this);
 	}
 }

@@ -1,17 +1,13 @@
 package forestry.sorting.network.packets;
 
-import forestry.api.ForestryCapabilities;
 import forestry.api.genetics.filter.IFilterRuleType;
 import forestry.api.modules.IForestryPacketClient;
 import forestry.core.network.PacketIdClient;
-import forestry.core.tiles.TileUtil;
 import forestry.sorting.AlleleFilter;
 import forestry.sorting.FilterLogic;
+import forestry.sorting.tiles.TileGeneticFilter;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public record PacketGuiFilterUpdate(BlockPos pos, IFilterRuleType[] filterRules,
@@ -31,10 +27,8 @@ public record PacketGuiFilterUpdate(BlockPos pos, IFilterRuleType[] filterRules,
 	}
 
 	public static void handle(PacketGuiFilterUpdate msg, IPayloadContext ctx) {
-		TileUtil.getInterface(player.level(), msg.pos(), ForestryCapabilities.FILTER_LOGIC, null).ifPresent(l -> {
-			if (l instanceof FilterLogic logic) {
-				logic.readGuiUpdatePacket(msg);
-			}
-		});
+		if (ctx.player().level().getBlockEntity(msg.pos) instanceof TileGeneticFilter filter) {
+			filter.getLogic().readGuiUpdatePacket(msg);
+		}
 	}
 }

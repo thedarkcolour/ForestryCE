@@ -1,8 +1,8 @@
 package forestry.core.gui;
 
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
 
 public interface IGuiSelectable {
 	// server
-	void handleSelectionRequest(Player player, int primary, int secondary);
+	void handleSelectionRequest(ServerPlayer player, int primary, int secondary);
 }

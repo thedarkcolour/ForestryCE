@@ -166,7 +166,7 @@ public class ItemBackpack extends ItemWithGui implements IColoredItem {
 
 	private void receiveFromChest(ItemInventoryBackpack backpackInventory, IItemHandler target) {
 		ItemHandlerInventoryManipulator manipulator = new ItemHandlerInventoryManipulator(target);
-		manipulator.transferStacks(backpackInventory.getItemHandler(), this.definition.getFilter());
+		manipulator.transferStacks(backpackInventory.getItemHandler(), this.definition.filter());
 	}
 
 	public int getBackpackSize() {
@@ -188,11 +188,11 @@ public class ItemBackpack extends ItemWithGui implements IColoredItem {
 	}
 
 	@Override
-	public int getColorFromItemStack(ItemStack itemstack, int layer) {
+	public int getColorFromItemStack(ItemStack stack, int layer) {
 		if (layer == 0) {
-			return this.definition.getPrimaryColour();
+			return this.definition.primaryColor();
 		} else if (layer == 1) {
-			return this.definition.getSecondaryColour();
+			return this.definition.secondaryColor();
 		} else {
 			return 0xffffff;
 		}
@@ -225,10 +225,10 @@ public class ItemBackpack extends ItemWithGui implements IColoredItem {
 
 	@Override
 	@Nullable
-	public AbstractContainerMenu createMenu(int windowId, Inventory playerInv, int slotIndex) {
+	public AbstractContainerMenu createMenu(int containerId, Inventory playerInv, int slotIndex) {
 		return switch (this.type) {
-			case NORMAL -> new BackpackMenu(windowId, playerInv, BackpackMenu.Size.DEFAULT, slotIndex);
-			case WOVEN -> new BackpackMenu(windowId, playerInv, BackpackMenu.Size.T2, slotIndex);
+			case NORMAL -> new BackpackMenu(containerId, playerInv, BackpackMenu.Size.DEFAULT, slotIndex);
+			case WOVEN -> new BackpackMenu(containerId, playerInv, BackpackMenu.Size.T2, slotIndex);
 			default -> null;
 		};
 	}

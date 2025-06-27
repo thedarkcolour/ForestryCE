@@ -47,7 +47,7 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 		}
 
 		for (BlockTypePlanter farmType : BlockTypePlanter.values()) {
-			ModelFile file = models().getExistingFile(modBlock(farmType.getSerializedName()));
+			ModelFile file = models().getExistingFile(modBlock(farmType.identifier()));
 			horizontalBlock(CultivationBlocks.MANAGED_PLANTER.get(farmType).block(), file);
 			horizontalBlock(CultivationBlocks.MANUAL_PLANTER.get(farmType).block(), file);
 		}
@@ -123,7 +123,7 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 	private void singleFarm(FarmBlock block) {
 		EnumFarmMaterial material = block.getFarmMaterial();
 		Block base = material.getBase();
-		ResourceLocation texture = modLoc("block/farm/" + block.getType().getSerializedName());
+		ResourceLocation texture = modLoc("block/farm/" + block.getType().identifier());
 
 		singleModelBlock(this, block, farmPillar(path(block), base, texture, texture));
 	}

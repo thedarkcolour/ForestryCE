@@ -1,6 +1,5 @@
 package forestry.core.tiles;
 
-import com.mojang.authlib.GameProfile;
 import forestry.api.genetics.IIndividual;
 import forestry.api.genetics.ISpecies;
 import forestry.api.genetics.ISpeciesType;
@@ -24,6 +23,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class TileEscritoire extends TileBase implements WorldlyContainer, ISlotPickupWatcher, IStreamableGui, IItemStackDisplay {
@@ -54,12 +54,12 @@ public class TileEscritoire extends TileBase implements WorldlyContainer, ISlotP
 		return this.game;
 	}
 
-	public void choose(GameProfile gameProfile, int index) {
+	public void choose(ResolvableProfile gameProfile, int index) {
         this.game.choose(index);
 		processTurnResult(gameProfile);
 	}
 
-	private void processTurnResult(GameProfile gameProfile) {
+	private void processTurnResult(ResolvableProfile gameProfile) {
 		if (getGame().getStatus() != EscritoireGame.Status.SUCCESS) {
 			return;
 		}
@@ -151,9 +151,9 @@ public class TileEscritoire extends TileBase implements WorldlyContainer, ISlotP
 	}
 
 	@Override
-	public void handleItemStackForDisplay(ItemStack itemStack) {
-		if (!ItemStack.matches(itemStack, this.individualOnDisplayClient)) {
-            this.individualOnDisplayClient = itemStack;
+	public void handleItemStackForDisplay(ItemStack stack) {
+		if (!ItemStack.matches(stack, this.individualOnDisplayClient)) {
+            this.individualOnDisplayClient = stack;
 		}
 	}
 

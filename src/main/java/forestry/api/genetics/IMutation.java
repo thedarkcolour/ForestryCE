@@ -5,6 +5,7 @@ import com.mojang.authlib.GameProfile;
 import forestry.api.genetics.alleles.AllelePair;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.ResolvableProfile;
 
 import java.util.List;
 
@@ -71,5 +72,5 @@ public interface IMutation<S extends ISpecies<?>> {
 	 */
 	boolean isSecret();
 
-	ItemStack getMutationNote(GameProfile researcher);
+	ItemStack getMutationNote(ResolvableProfile researcher);
 }

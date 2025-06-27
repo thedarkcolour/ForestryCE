@@ -267,7 +267,7 @@ public class TileCentrifuge extends TilePowered implements ISocketable, WorldlyC
 	}
 
 	@Override
-	public void handleItemStackForDisplay(ItemStack itemStack) {
-        this.craftPreviewInventory.setItem(0, itemStack);
+	public void handleItemStackForDisplay(ItemStack stack) {
+        this.craftPreviewInventory.setItem(0, stack);
 	}
 }

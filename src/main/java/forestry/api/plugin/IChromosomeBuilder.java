@@ -13,7 +13,7 @@ public interface IChromosomeBuilder<A extends IAllele> {
 	/**
 	 * Add alleles as valid values for this chromosome.
 	 */
-	IChromosomeBuilder<A> addAlleles(List<A> alleles);
+	IChromosomeBuilder<A> addAlleles(List<? extends A> alleles);
 
 	/**
 	 * Override the default value of this chromosome that was previously set in {@link IKaryotypeBuilder#set}.

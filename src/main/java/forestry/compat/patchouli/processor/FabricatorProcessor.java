@@ -5,10 +5,12 @@ import forestry.api.recipes.IFabricatorRecipe;
 import forestry.core.utils.ModUtil;
 import forestry.core.utils.RecipeUtil;
 import forestry.factory.features.FactoryRecipeTypes;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 import vazkii.patchouli.api.IComponentProcessor;
 import vazkii.patchouli.api.IVariable;
 import vazkii.patchouli.api.IVariableProvider;
@@ -23,9 +25,10 @@ public class FabricatorProcessor implements IComponentProcessor {
 
 	@Override
 	public void setup(Level level, IVariableProvider variables) {
-		ItemStack stack = variables.get("item").as(ItemStack.class, ItemStack.EMPTY);
+		RegistryAccess registries = level.registryAccess();
+		ItemStack stack = variables.get("item", registries).as(ItemStack.class, ItemStack.EMPTY);
 
-		this.recipe = RecipeUtil.getRecipeByOutput(FactoryRecipeTypes.FABRICATOR, level.registryAccess(), stack);
+		this.recipe = RecipeUtil.getRecipeByOutput(FactoryRecipeTypes.FABRICATOR, registries, stack).value();
 	}
 
 	@Override
@@ -36,7 +39,7 @@ public class FabricatorProcessor implements IComponentProcessor {
 		} else if (key.equals("fluid")) {
 			return IVariable.wrap(ModUtil.getRegistryName(this.recipe.getRequiredFluid().getFluid()).toString());
 		} else if (key.equals("fluidAmount")) {
-			return IVariable.wrap(this.recipe.getRequiredFluid().getAmount());
+			return IVariable.wrap(this.recipe.getRequiredFluid().map(SizedFluidIngredient::amount).orElse(0));
 		} else if (key.startsWith("ingredient")) {
 			int index = Integer.parseInt(key.substring("ingredient".length()));
 			if (index < 1 || index > 9) {

@@ -20,9 +20,9 @@ import forestry.worktable.recipes.MemorizedRecipe;
 import forestry.worktable.recipes.RecipeMemory;
 import forestry.worktable.tiles.WorktableTile;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.network.PacketDistributor;
@@ -115,7 +115,7 @@ public class WorktableMenu extends TileMenu<WorktableTile> implements IContainer
 	}
 
 	@Override
-	public void handleSelectionRequest(Player player, int primary, int secondary) {
+	public void handleSelectionRequest(ServerPlayer player, int primary, int secondary) {
 		switch (primary) {
 			case -1: { // clicked clear button
 				this.tile.clearCraftMatrix();

@@ -60,7 +60,7 @@ public enum FakeAlvearyController implements FakeMultiblockController, IAlvearyC
 
 	@Override
 	@Nullable
-	public @Nullable ResolvableProfile getOwner() {
+	public ResolvableProfile getOwner() {
 		return null;
 	}
 

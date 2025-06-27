@@ -1,5 +1,6 @@
 package forestry.core.items;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
@@ -21,7 +22,7 @@ public class ForestersManualItem extends Item {
 		ItemStack stack = player.getItemInHand(hand);
 
 		if (player instanceof ServerPlayer) {
-			PatchouliAPI.get().openBookGUI((ServerPlayer) player, ForgeRegistries.ITEMS.getKey(this));
+			PatchouliAPI.get().openBookGUI((ServerPlayer) player, BuiltInRegistries.ITEM.getKey(this));
 			player.playSound(SoundEvents.BOOK_PAGE_TURN, 1F, (float) (0.7 + Math.random() * 0.4));
 		}
 

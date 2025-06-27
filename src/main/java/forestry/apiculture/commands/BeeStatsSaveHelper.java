@@ -8,6 +8,7 @@ import forestry.core.commands.IStatsSaveHelper;
 import forestry.core.utils.SpeciesUtil;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.level.Level;
 
 import java.util.Collection;
@@ -48,7 +49,7 @@ public class BeeStatsSaveHelper implements IStatsSaveHelper {
 
 	@Override
 	public IBreedingTracker getBreedingTracker(Level level, GameProfile gameProfile) {
-		return SpeciesUtil.BEE_TYPE.get().getBreedingTracker(level, gameProfile);
+		return SpeciesUtil.BEE_TYPE.get().getBreedingTracker(level, new ResolvableProfile(gameProfile));
 	}
 
 }

@@ -1,16 +1,7 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.core.items;
 
 import forestry.api.IForestryApi;
+import forestry.api.circuits.CircuitLayout;
 import forestry.api.circuits.ICircuit;
 import forestry.api.circuits.ICircuitManager;
 import it.unimi.dsi.fastutil.Pair;
@@ -18,9 +9,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.Level;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,9 +19,9 @@ public class ItemElectronTube extends ItemOverlay {
 	}
 
 	@Override
-	public void appendHoverText(ItemStack itemstack, @Nullable Level world, List<Component> list, TooltipFlag flag) {
-		super.appendHoverText(itemstack, world, list, flag);
-		ArrayList<Pair<ICircuitLayout, ICircuit>> circuits = getCircuits(itemstack);
+	public void appendHoverText(ItemStack itemstack, TooltipContext ctx, List<Component> list, TooltipFlag flag) {
+		super.appendHoverText(itemstack, ctx, list, flag);
+		ArrayList<Pair<CircuitLayout, ICircuit>> circuits = getCircuits(itemstack);
 		if (!circuits.isEmpty()) {
 			for (var entry : circuits) {
 				list.add(entry.left().getUsage().withStyle(ChatFormatting.WHITE, ChatFormatting.UNDERLINE));
@@ -45,11 +34,11 @@ public class ItemElectronTube extends ItemOverlay {
 		}
 	}
 
-	private static ArrayList<Pair<ICircuitLayout, ICircuit>> getCircuits(ItemStack stack) {
-		ArrayList<Pair<ICircuitLayout, ICircuit>> circuits = new ArrayList<>();
+	private static ArrayList<Pair<CircuitLayout, ICircuit>> getCircuits(ItemStack stack) {
+		ArrayList<Pair<CircuitLayout, ICircuit>> circuits = new ArrayList<>();
 		ICircuitManager manager = IForestryApi.INSTANCE.getCircuitManager();
 
-		for (ICircuitLayout layout : manager.getLayouts()) {
+		for (CircuitLayout layout : manager.getLayouts()) {
 			ICircuit circuit = manager.getCircuit(layout, stack);
 			if (circuit != null) {
 				circuits.add(Pair.of(layout, circuit));

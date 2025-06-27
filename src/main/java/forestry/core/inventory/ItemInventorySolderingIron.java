@@ -24,8 +24,8 @@ public class ItemInventorySolderingIron extends ItemInventory implements IErrorS
 
 	private int layoutIndex;
 
-	public ItemInventorySolderingIron(ItemStack stack) {
-		super(6, stack);
+	public ItemInventorySolderingIron(int slotIndex) {
+		super(6, slotIndex);
 
 		this.layoutIndex = 0;
 	}

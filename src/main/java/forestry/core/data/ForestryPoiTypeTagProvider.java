@@ -9,6 +9,6 @@ import thedarkcolour.modkit.data.MKTagsProvider;
 
 public class ForestryPoiTypeTagProvider {
 	protected static void addTags(MKTagsProvider<PoiType> tags, HolderLookup.Provider lookup) {
-		tags.tag(PoiTypeTags.ACQUIRABLE_JOB_SITE).add(ArboricultureVillagers.POI_TREE_CHEST.get(), ApicultureVillagers.POI_ESCRITOIRE.get());
+		tags.tag(PoiTypeTags.ACQUIRABLE_JOB_SITE).add(ArboricultureVillagers.POI_TREE_CHEST.value(), ApicultureVillagers.POI_ESCRITOIRE.value());
 	}
 }

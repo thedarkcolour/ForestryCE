@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.mojang.authlib.GameProfile;
 import com.mojang.datafixers.util.Pair;
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import forestry.api.IForestryApi;
 import forestry.api.arboriculture.IArboristTracker;
 import forestry.api.arboriculture.ILeafTickHandler;
@@ -168,9 +168,9 @@ public class TreeSpeciesType extends SpeciesType<ITreeSpecies, ITree> implements
 	}
 
 	@Override
-	public void initializeBreedingTracker(IBreedingTracker tracker, @Nullable Level world, @Nullable @Nullable ResolvableProfile profile) {
+	public void initializeBreedingTracker(IBreedingTracker tracker, @Nullable Level level, @Nullable @Nullable ResolvableProfile profile) {
 		if (tracker instanceof ArboristTracker arboristTracker) {
-			arboristTracker.setLevel(world);
+			arboristTracker.setLevel(level);
 			arboristTracker.setUsername(profile);
 		}
 	}
@@ -208,7 +208,7 @@ public class TreeSpeciesType extends SpeciesType<ITreeSpecies, ITree> implements
 	}
 
 	@Override
-	public Codec<? extends ITree> getIndividualCodec() {
+	public MapCodec<? extends ITree> getIndividualCodec() {
 		return Tree.CODEC;
 	}
 

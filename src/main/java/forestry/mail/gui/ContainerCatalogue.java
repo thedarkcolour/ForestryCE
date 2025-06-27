@@ -168,7 +168,7 @@ public class ContainerCatalogue extends AbstractContainerMenu implements IGuiSel
 	}
 
 	@Override
-	public void handleSelectionRequest(Player player, int primary, int secondary) {
+	public void handleSelectionRequest(ServerPlayer player, int primary, int secondary) {
 		switch (primary) {
 			case 0 -> nextPage();
 			case 1 -> previousPage();

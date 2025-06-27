@@ -14,7 +14,7 @@ public record PacketGuiSelectRequest(int primaryIndex, int secondaryIndex) imple
 		AbstractContainerMenu container = ctx.player().containerMenu;
 
 		if (container instanceof IGuiSelectable guiSelectable) {
-			guiSelectable.handleSelectionRequest(ctx.player(), msg.primaryIndex(), msg.secondaryIndex());
+			guiSelectable.handleSelectionRequest((ServerPlayer) ctx.player(), msg.primaryIndex(), msg.secondaryIndex());
 		}
 	}
 

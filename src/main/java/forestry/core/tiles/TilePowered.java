@@ -125,7 +125,7 @@ public abstract class TilePowered extends TileBase implements IRenderableTile, I
 	}
 
 	/**
-	 * Called when the tile reaches the end of a work cycle. Consume inputs and produce outputs here.
+	 * Called on the server when the tile reaches the end of a work cycle. Consume inputs and produce outputs here.
 	 *
 	 * @return Whether the work cycle completed successfully. If {@code false}, the machine will call this again every step until it returns {@code true}.
 	 */

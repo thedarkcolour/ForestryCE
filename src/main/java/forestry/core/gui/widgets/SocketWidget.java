@@ -2,10 +2,10 @@ package forestry.core.gui.widgets;
 
 import forestry.api.core.tooltips.ToolTip;
 import forestry.core.circuits.ISocketable;
-import forestry.core.circuits.ISolderingIron;
 import forestry.core.circuits.ItemCircuitBoard;
 import forestry.core.gui.GuiUtil;
 import forestry.core.gui.IContainerSocketed;
+import forestry.core.items.ItemSolderingIron;
 import forestry.core.utils.ItemTooltipUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -14,9 +14,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
-import org.lwjgl.glfw.GLFW;
 
 public class SocketWidget extends Widget {
 
@@ -37,7 +34,6 @@ public class SocketWidget extends Widget {
 		}
 	}
 
-	@OnlyIn(Dist.CLIENT)
 	@Override
 	public ToolTip getToolTip(int mouseX, int mouseY) {
 		return this.toolTip;
@@ -45,7 +41,6 @@ public class SocketWidget extends Widget {
 
 	private final ToolTip toolTip = new ToolTip(250) {
 		@Override
-		@OnlyIn(Dist.CLIENT)
 		public void refresh() {
             SocketWidget.this.toolTip.clear();
 			ItemStack stack = SocketWidget.this.tile.getSocket(SocketWidget.this.slot);
@@ -63,9 +58,6 @@ public class SocketWidget extends Widget {
 		ItemStack itemstack = Minecraft.getInstance().player.containerMenu.getCarried();
 
 		if (itemstack.isEmpty()) {
-			if (mouseButton == GLFW.GLFW_MOUSE_BUTTON_MIDDLE) {
-
-			}
 			return;
 		}
 
@@ -79,7 +71,7 @@ public class SocketWidget extends Widget {
 		// Insert chipsets
 		if (held instanceof ItemCircuitBoard) {
 			containerSocketed.handleChipsetClick(this.slot);
-		} else if (held instanceof ISolderingIron) {
+		} else if (held instanceof ItemSolderingIron) {
 			containerSocketed.handleSolderingIronClick(this.slot);
 		}
 	}

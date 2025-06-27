@@ -1,7 +1,7 @@
 package forestry.api.genetics;
 
-import forestry.api.ForestryConstants;
-import net.minecraft.resources.ResourceLocation;
+import com.mojang.serialization.Codec;
+import forestry.api.ForestryRegistries;
 import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nullable;
@@ -12,15 +12,7 @@ import java.util.Optional;
  * It can be mated with another individual to produce offspring.
  */
 public interface IIndividual {
-	ResourceLocation CAPABILITY_ID = new ResourceLocation(ForestryConstants.MOD_ID, "individual") {
-		// Used for AttachCapabilitiesEvent. Hashcode is cached for performance.
-		private final int hashCode = super.hashCode();
-
-		@Override
-		public int hashCode() {
-			return this.hashCode;
-		}
-	};
+	Codec<IIndividual> CODEC = ForestryRegistries.SPECIES_TYPE.byNameCodec().dispatch(IIndividual::getType, ISpeciesType::getIndividualCodec);
 
 	/**
 	 * @return The genome of this individual.

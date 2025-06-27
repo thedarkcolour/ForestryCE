@@ -18,6 +18,6 @@ public class LepidopterologyJeiPlugin implements IModPlugin {
 
 	@Override
 	public void registerItemSubtypes(ISubtypeRegistration registry) {
-		JeiUtil.registerItemSubtypes(registry, ButterflyChromosomes.SPECIES, SpeciesUtil.BUTTERFLY_TYPE.get());
+		JeiUtil.registerItemSubtypes(registry, SpeciesUtil.BUTTERFLY_TYPE.get());
 	}
 }

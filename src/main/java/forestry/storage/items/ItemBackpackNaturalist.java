@@ -28,7 +28,7 @@ public class ItemBackpackNaturalist extends ItemBackpack {
 	}
 
 	@Override
-	public AbstractContainerMenu createMenu(int windowId, Inventory playerInv, int slotIndex) {
-		return NaturalistBackpackMenu.makeContainer(windowId, playerInv, slotIndex, 0, this.typeId);
+	public AbstractContainerMenu createMenu(int containerId, Inventory playerInv, int slotIndex) {
+		return NaturalistBackpackMenu.makeContainer(containerId, playerInv, slotIndex, 0, this.typeId);
 	}
 }
