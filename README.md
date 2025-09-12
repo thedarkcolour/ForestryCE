@@ -8,7 +8,7 @@ went inactive after the 1.13+ flattening.
 
 ### Building
 To build a mod JAR, open a command line and type "gradlew build".
-The finished JAR will be under `./build/libs`.
+The finished JAR will be under `./build/libs`. 
 
 ### Reporting Bugs
 Please make sure the bug has not already been reported by [searching the issues](https://github.com/ForestryMC/ForestryMC/issues?q=is%3Aissue).
