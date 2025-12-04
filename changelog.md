@@ -1,3 +1,6 @@
+## Forestry 2.8.1
+- Fix incorrect bee particle positioning (#247)
+
 ## Forestry 2.8.0
 - Added Survivalist's Axe, Sword, and Hoe (#117)
 - Fix Spectacles Curio not working when wearing a helmet (#251)
