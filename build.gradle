@@ -6,13 +6,13 @@ plugins {
 	id('maven-publish')
 	id('com.modrinth.minotaur') version '2.+'
 	id('com.matthewprenger.cursegradle') version '1.4.0'
-	id 'org.jetbrains.gradle.plugin.idea-ext' version '1.1.9'
+	id 'org.jetbrains.gradle.plugin.idea-ext' version '1.3'
 	id 'net.neoforged.moddev.legacyforge' version '2.0.80'
 }
 
-group = "thedarkcolour.forestry"
+group = 'thedarkcolour.forestry'
 version = forestryVersion
-archivesBaseName = "forestry-$minecraftVersion"
+base.archivesName = "forestry-$minecraftVersion"
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
@@ -48,7 +48,7 @@ legacyForge {
 
 		data {
 			data()
-			programArguments.addAll("--mod", "forestry", "--all", "--output", file("src/generated/resources/").absolutePath, "--existing", file("src/main/resources/").absolutePath)
+			programArguments.addAll('--mod', 'forestry', '--all', '--output', file('src/generated/resources/').absolutePath, '--existing', file('src/main/resources/').absolutePath)
 		}
 	}
 
@@ -63,16 +63,16 @@ repositories {
 	maven {
 		name = 'jei'
 		url = 'https://maven.blamejared.com/'
-		content { includeGroup "mezz.jei" }
+		content { includeGroup 'mezz.jei' }
 	}
 	maven {
-		name = "Patchouli"
-		url = "https://maven.blamejared.com/"
+		name = 'Patchouli'
+		url = 'https://maven.blamejared.com/'
 	}
 	maven {
 		name = 'Architectury API'
-		url = "https://maven.architectury.dev"
-		content { includeGroup "dev.architectury" }
+		url = 'https://maven.architectury.dev'
+		content { includeGroup 'dev.architectury' }
 	}
 	maven {
 		name = 'KubeJS and Rhino'
@@ -85,19 +85,18 @@ repositories {
 		content { includeGroup 'mekanism' }
 	}
 	maven {
-		name = "Curios"
-		url = "https://maven.theillusivec4.top/"
+		name = 'Curios'
+		url = 'https://maven.theillusivec4.top/'
 		content { includeGroup 'top.theillusivec4.curios' }
 	}
 	maven {
-		url "https://cursemaven.com"
-		content {
-			includeGroup "curse.maven"
-		}
+		name = 'CurseMaven'
+		url = 'https://cursemaven.com'
+		content { includeGroup 'curse.maven' }
 	}
 	maven {
 		name = 'ModKit'
-		url 'https://jitpack.io'
+		url = 'https://jitpack.io'
 		content { includeGroup 'com.github.thedarkcolour' }
 	}
 }
@@ -120,26 +119,26 @@ dependencies {
 	modImplementation 'com.github.thedarkcolour:ModKit:cc8f1c11ec'
 
 	// DEV ONLY
-	compileOnly "org.jetbrains:annotations:23.0.0"
+	compileOnly 'org.jetbrains:annotations:23.0.0'
 }
 
-var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
+var generateModMetadata = tasks.register('generateModMetadata', ProcessResources) {
 	var replaceProperties = [
-			"version"              : project.version,
-			"forgeVersionRange"    : forgeVersionRange,
-			"jeiVersionRange"      : jeiVersionRange,
-			"patchouliVersionRange": patchouliVersionRange,
-			"fmlVersionRange"      : fmlVersionRange,
+			'version'              : project.version,
+			'forgeVersionRange'    : forgeVersionRange,
+			'jeiVersionRange'      : jeiVersionRange,
+			'patchouliVersionRange': patchouliVersionRange,
+			'fmlVersionRange'      : fmlVersionRange,
 	]
 	inputs.properties replaceProperties
 	expand replaceProperties
 
-	from "src/main/templates"
-	into "build/generated/sources/modMetadata"
+	from 'src/main/templates'
+	into 'build/generated/sources/modMetadata'
 }
 
 // merge generated JSON into main JSON
-var generateEnUsLang = tasks.register("generateEnUsLang", DefaultTask) {
+var generateEnUsLang = tasks.register('generateEnUsLang', DefaultTask) {
 	var manualFile = project.file('src/main/resources/assets/forestry/lang/en_us.json')
 	var generatedFile = project.file('src/generated/resources/assets/forestry/lang/en_us.json')
 	var mergedFile = project.file('build/generated/sources/mergedAssets/assets/forestry/lang/en_us.json')
@@ -208,20 +207,20 @@ jar {
 
 	manifest {
 		attributes([
-				"Specification-Title"     : "Forestry",
-				"Specification-Vendor"    : "SirSengir",
-				"Specification-Version"   : "${project.version}",
-				"Implementation-Title"    : "${project.name}",
-				"Implementation-Version"  : "${project.version}",
-				"Implementation-Vendor"   : "SirSengir",
-				"Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+				'Specification-Title'     : 'Forestry',
+				'Specification-Vendor'    : 'SirSengir',
+				'Specification-Version'   : "${project.version}",
+				'Implementation-Title'    : "${project.name}",
+				'Implementation-Version'  : "${project.version}",
+				'Implementation-Vendor'   : 'SirSengir',
+				'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
 		])
 	}
 }
 
 tasks.withType(JavaCompile).configureEach {
-	options.encoding = "UTF-8"
-	options.compilerArgs << "-Xmaxerrs" << "400"
+	options.encoding = 'UTF-8'
+	options.compilerArgs << '-Xmaxerrs' << '400'
 }
 
 idea {
@@ -235,36 +234,36 @@ javadoc {
 	source = sourceSets.main.allJava
 	classpath = sourceSets.main.compileClasspath + sourceSets.main.output
 
-	options.addStringOption("Xdoclint:none", "-quiet")
-	options.encoding = "UTF-8"
+	options.addStringOption('Xdoclint:none', '-quiet')
+	options.encoding = 'UTF-8'
 
-	include "forestry/api/**"
+	include 'forestry/api/**'
 }
 
 tasks.register('javadocJar', Jar) {
 	dependsOn javadoc
-	archiveClassifier.set("javadoc")
+	archiveClassifier.set('javadoc')
 	from javadoc.destinationDir
 }
 
 tasks.register('sourcesJar', Jar) {
-	archiveClassifier.set("sources")
+	archiveClassifier.set('sources')
 	from sourceSets.main.allJava
 }
 
 tasks.register('apiJar', Jar) {
-	archiveClassifier.set("api")
+	archiveClassifier.set('api')
 	// api jar ist just a development aid and serves as both a binary and source jar simultaneously
 	from sourceSets.main.output
 	from sourceSets.main.allJava
 
-	include "forestry/api/**"
+	include 'forestry/api/**'
 }
 
-artifacts {
-	archives javadocJar
-	archives sourcesJar
-	archives apiJar
+tasks.named('assemble') {
+	dependsOn javadocJar
+	dependsOn sourcesJar
+	dependsOn apiJar
 }
 
 publishing {
@@ -272,7 +271,7 @@ publishing {
 		publications {
 			mavenJava(MavenPublication) {
 				groupId = project.group
-				artifactId = project.archivesBaseName
+				artifactId = project.base.archivesName
 				version = project.version
 
 				// ForgeGradle will generate wild dependency definitions, see https://github.com/MinecraftForge/ForgeGradle/issues/584
@@ -291,39 +290,39 @@ publishing {
 
 	repositories {
 		maven {
-			def releasesRepoUrl = uri("$buildDir/repos/releases")
-			def snapshotsRepoUrl = uri("$buildDir/repos/snapshots")
+			def releasesRepoUrl = uri(layout.buildDirectory.dir('repos/releases'))
+			def snapshotsRepoUrl = uri(layout.buildDirectory.dir('repos/snapshots'))
 
-			name = "Project"
-			url = version.toString().endsWith("SNAPSHOT") ? snapshotsRepoUrl : releasesRepoUrl
+			name = 'Project'
+			url = version.toString().endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
 		}
 
 		maven {
 			credentials {
-				username System.getenv("MODMAVEN_USER")
-				password System.getenv("MODMAVEN_PASSWORD")
+				username = System.getenv('MODMAVEN_USER')
+				password = System.getenv('MODMAVEN_PASSWORD')
 			}
 
-			name = "Modmaven"
-			url = "https://modmaven.dev/artifactory/local-releases/"
+			name = 'Modmaven'
+			url = 'https://modmaven.dev/artifactory/local-releases/'
 		}
 	}
 }
 
-if (System.getenv("CURSEFORGE_TOKEN")) {
+if (System.getenv('CURSEFORGE_TOKEN')) {
 	curseforge {
-		apiKey = System.getenv("CURSEFORGE_TOKEN")
+		apiKey = System.getenv('CURSEFORGE_TOKEN')
 
 		project {
 			id = project.curseforgeId
-			changelogType = "markdown"
+			changelogType = 'markdown'
 			changelog = getChangelog(version)
 
-			releaseType = "release"
+			releaseType = 'release'
 
 			addGameVersion(project.minecraftVersion)
-			addGameVersion("Forge")
-			addGameVersion("Java 17")
+			addGameVersion('Forge')
+			addGameVersion('Java 17')
 
 			mainArtifact(reobfJar.archiveFile) {
 				displayName = "Forestry: Community Edition ${project.version}"
@@ -337,13 +336,13 @@ if (System.getenv("CURSEFORGE_TOKEN")) {
 }
 
 modrinth {
-	token = System.getenv("MODRINTH_TOKEN")
+	token = System.getenv('MODRINTH_TOKEN')
 	projectId = project.modrinthId
 	versionName = "Forestry: Community Edition $version"
 	versionNumber = version.toString()
-	versionType = "release"
+	versionType = 'release'
 	gameVersions = [minecraftVersion]
-	loaders = ["forge"]
+	loaders = ['forge']
 	changelog = getChangelog(project.version)
 
 	uploadFile = reobfJar
@@ -352,8 +351,8 @@ modrinth {
 	additionalFiles.add(javadocJar)
 
 	dependencies {
-		optional.project("jei")
-		required.project("patchouli")
+		optional.project('jei')
+		required.project('patchouli')
 	}
 }
 
@@ -362,7 +361,7 @@ static def getChangelog(Object version) {
 
 	def file = new File('changelog.md')
 	if (!file.exists()) {
-		return "Changelog file not found"
+		return 'Changelog file not found'
 	}
 
 	// Relies on the changelog block being "##blahblahblah_VERSION" where _ is a space
