@@ -32,6 +32,7 @@ public class Data {
 		DataHelper dataHelper = new DataHelper(ForestryConstants.MOD_ID, event);
 		CompletableFuture<HolderLookup.Provider> lookup = event.getLookupProvider();
 
+		dataHelper.createEnglish(true, ForestryEnglishProvider::addTranslations);
 		dataHelper.createTags(Registries.BLOCK, ForestryBlockTagsProvider::addTags);
 		dataHelper.createTags(Registries.ITEM, (tags, l) -> {
 			ForestryItemTagsProvider.addTags(tags);

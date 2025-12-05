@@ -168,8 +168,14 @@ public class ForestryCreativeTabs {
 		items.accept(CoreItems.CARTON);
 		items.accept(CoreItems.BRONZE_PICKAXE);
 		items.accept(CoreItems.BRONZE_SHOVEL);
+		items.accept(CoreItems.BRONZE_AXE);
+		items.accept(CoreItems.BRONZE_SWORD);
+		items.accept(CoreItems.BRONZE_HOE);
 		items.accept(CoreItems.KIT_PICKAXE);
 		items.accept(CoreItems.KIT_SHOVEL);
+		items.accept(CoreItems.KIT_AXE);
+		items.accept(CoreItems.KIT_SWORD);
+		items.accept(CoreItems.KIT_HOE);
 		items.accept(CoreItems.GEAR_TIN);
 		items.accept(CoreItems.GEAR_COPPER);
 		items.accept(CoreItems.GEAR_BRONZE);
@@ -375,6 +381,9 @@ public class ForestryCreativeTabs {
 		// Filled cartons
 		items.accept(CoreItems.KIT_PICKAXE);
 		items.accept(CoreItems.KIT_SHOVEL);
+		items.accept(CoreItems.KIT_AXE);
+		items.accept(CoreItems.KIT_SWORD);
+		items.accept(CoreItems.KIT_HOE);
 
 		// Filled containers
 		for (EnumContainerType type : EnumContainerType.values()) {

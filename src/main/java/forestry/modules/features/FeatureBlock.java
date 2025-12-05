@@ -52,6 +52,11 @@ public class FeatureBlock<B extends Block, I extends BlockItem> extends ModFeatu
 	}
 
 	@Override
+	public ResourceLocation id() {
+		return this.itemObject.getId();
+	}
+
+	@Override
 	public ResourceKey<? extends Registry<?>> getRegistry() {
 		return Registries.BLOCK;
 	}

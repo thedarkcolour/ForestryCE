@@ -1,0 +1,28 @@
+{
+  "type": "forestry:carpenter",
+  "box": {
+    "item": "forestry:carton"
+  },
+  "recipe": {
+    "type": "minecraft:crafting_shaped",
+    "category": "equipment",
+    "key": {
+      "#": {
+        "tag": "forge:ingots/bronze"
+      },
+      "X": {
+        "item": "minecraft:stick"
+      }
+    },
+    "pattern": [
+      "## ",
+      " X ",
+      " X "
+    ],
+    "result": {
+      "item": "forestry:hoe_kit"
+    },
+    "show_notification": true
+  },
+  "time": 20
+}

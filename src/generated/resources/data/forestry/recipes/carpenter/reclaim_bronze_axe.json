@@ -1,0 +1,18 @@
+{
+  "type": "forestry:carpenter",
+  "box": [],
+  "recipe": {
+    "type": "minecraft:crafting_shapeless",
+    "category": "misc",
+    "ingredients": [
+      {
+        "item": "forestry:broken_axe"
+      }
+    ],
+    "result": {
+      "count": 2,
+      "item": "forestry:ingot_bronze"
+    }
+  },
+  "time": 5
+}

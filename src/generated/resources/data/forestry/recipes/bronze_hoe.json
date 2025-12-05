@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "#": {
+      "tag": "forge:ingots/bronze"
+    },
+    "X": {
+      "tag": "forge:rods/wooden"
+    }
+  },
+  "pattern": [
+    "## ",
+    " X ",
+    " X "
+  ],
+  "result": {
+    "item": "forestry:bronze_hoe"
+  },
+  "show_notification": true
+}

@@ -13,7 +13,7 @@
         "tag": "forge:dusts/redstone"
       },
       "X": {
-        "item": "minecraft:copper_ingot"
+        "tag": "forge:ingots/copper"
       }
     },
     "pattern": [

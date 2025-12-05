@@ -6,7 +6,7 @@
     "FluidName": "forestry:ice"
   },
   "remnant": {
-    "Count": 0,
+    "Count": 1,
     "id": "minecraft:air"
   },
   "resources": [

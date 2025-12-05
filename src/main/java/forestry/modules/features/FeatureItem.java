@@ -26,4 +26,9 @@ public class FeatureItem<I extends Item> extends ModFeature implements IItemFeat
 	public I item() {
 		return this.itemObject.get();
 	}
+
+	@Override
+	public ResourceLocation id() {
+		return this.itemObject.getId();
+	}
 }

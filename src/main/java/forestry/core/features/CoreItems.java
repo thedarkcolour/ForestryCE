@@ -11,9 +11,12 @@ import forestry.core.items.definitions.EnumCraftingMaterial;
 import forestry.core.items.definitions.EnumElectronTube;
 import forestry.core.items.definitions.ToolTier;
 import forestry.modules.features.*;
+import net.minecraft.world.item.AxeItem;
+import net.minecraft.world.item.HoeItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.PickaxeItem;
 import net.minecraft.world.item.ShovelItem;
+import net.minecraft.world.item.SwordItem;
 
 @FeatureProvider
 public class CoreItems {
@@ -46,12 +49,22 @@ public class CoreItems {
 
 	/* Packaged Tools */
 	public static final FeatureItem<ItemForestry> CARTON = REGISTRY.item(ItemForestry::new, "carton");
+	// todo change IDs and names in 1.21.1
 	public static final FeatureItem<ItemForestry> BROKEN_BRONZE_PICKAXE = REGISTRY.item(ItemForestry::new, "broken_bronze_pickaxe");
 	public static final FeatureItem<ItemForestry> BROKEN_BRONZE_SHOVEL = REGISTRY.item(ItemForestry::new, "broken_bronze_shovel");
+	public static final FeatureItem<ItemForestry> BROKEN_BRONZE_AXE = REGISTRY.item(ItemForestry::new, "broken_axe");
+	public static final FeatureItem<ItemForestry> BROKEN_BRONZE_SWORD = REGISTRY.item(ItemForestry::new, "broken_sword");
+	public static final FeatureItem<ItemForestry> BROKEN_BRONZE_HOE = REGISTRY.item(ItemForestry::new, "broken_hoe");
 	public static final FeatureItem<PickaxeItem> BRONZE_PICKAXE = REGISTRY.item(() -> new HasRemnants.Pickaxe(ToolTier.SURVIVALIST, 1, -2.8f, new Item.Properties(), BROKEN_BRONZE_PICKAXE::stack), "bronze_pickaxe");
 	public static final FeatureItem<ShovelItem> BRONZE_SHOVEL = REGISTRY.item(() -> new HasRemnants.Shovel(ToolTier.SURVIVALIST, 1.5f, -3.0f, new Item.Properties(), BROKEN_BRONZE_SHOVEL::stack), "bronze_shovel");
+	public static final FeatureItem<AxeItem> BRONZE_AXE = REGISTRY.item(() -> new HasRemnants.Axe(ToolTier.SURVIVALIST, 5.5f, -3.2f, new Item.Properties(), BROKEN_BRONZE_AXE::stack), "bronze_axe");
+	public static final FeatureItem<SwordItem> BRONZE_SWORD = REGISTRY.item(() -> new HasRemnants.Sword(ToolTier.SURVIVALIST, 3, -2.4f, new Item.Properties(), BROKEN_BRONZE_SWORD::stack), "bronze_sword");
+	public static final FeatureItem<HoeItem> BRONZE_HOE = REGISTRY.item(() -> new HasRemnants.Hoe(ToolTier.SURVIVALIST, -2, -1.0f, new Item.Properties(), BROKEN_BRONZE_HOE::stack), "bronze_hoe");
 	public static final FeatureItem<ItemAssemblyKit> KIT_SHOVEL = REGISTRY.item(() -> new ItemAssemblyKit(BRONZE_SHOVEL::stack), "kit_shovel");
 	public static final FeatureItem<ItemAssemblyKit> KIT_PICKAXE = REGISTRY.item(() -> new ItemAssemblyKit(BRONZE_PICKAXE::stack), "kit_pickaxe");
+	public static final FeatureItem<ItemAssemblyKit> KIT_AXE = REGISTRY.item(() -> new ItemAssemblyKit(BRONZE_AXE::stack), "axe_kit");
+	public static final FeatureItem<ItemAssemblyKit> KIT_SWORD = REGISTRY.item(() -> new ItemAssemblyKit(BRONZE_SWORD::stack), "sword_kit");
+	public static final FeatureItem<ItemAssemblyKit> KIT_HOE = REGISTRY.item(() -> new ItemAssemblyKit(BRONZE_HOE::stack), "hoe_kit");
 
 	/* Machine Parts */
 	public static final FeatureItem<ItemForestry> STURDY_CASING = REGISTRY.item(ItemForestry::new, "sturdy_machine");

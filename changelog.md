@@ -1,3 +1,7 @@
+## Forestry 2.8.0
+- Added Survivalist's Axe, Sword, and Hoe (#117)
+- Fix Spectacles Curio not working when wearing a helmet (#251)
+
 ## Forestry 2.7.0
 - Fixed Apiarist/Arborist/Lepidopterist chest not always closing lid (#257)
 - Fix crash with Bog Earth page in Forester's Manual (#279)

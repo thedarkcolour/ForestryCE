@@ -1,10 +1,22 @@
-// 1.20.1	2025-04-17T14:51:41.2584036	ModKit Item Models for mod 'forestry'
+// 1.20.1	2025-11-28T22:44:11.0594877	ModKit Item Models for mod 'forestry'
 5c9a34aaa9fead3fd80793cfe9596223bf8783f0 assets/forestry/models/item/acacia_desert_boat.json
 72934de9e502d03a3a3cf9f0f6d4f24e8ee34571 assets/forestry/models/item/acacia_desert_chest_boat.json
+8f2200f73d917fa31d1e154c725213fa5984fdd6 assets/forestry/models/item/axe_kit.json
 9b0e3ae0b83b5c30fe64d5488c10a81b21c890ac assets/forestry/models/item/balsa_boat.json
 c39ee65b490e6dfd61d1f47514af240c1875d7a9 assets/forestry/models/item/balsa_chest_boat.json
 8a5e030b3ca26503e1a4efdce98aa377a477b44c assets/forestry/models/item/baobab_boat.json
 501f55af1f71ba289b3053ab4ae1185b321ab622 assets/forestry/models/item/baobab_chest_boat.json
+b9eaa41540f362fd1af3919cee8b49d23de847e6 assets/forestry/models/item/broken_axe.json
+be71e5e85daef0a53c3599c1fdefe8bcec9bc0eb assets/forestry/models/item/broken_bronze_pickaxe.json
+4a6f22d0cf2d1994358b1647eb2f39e09d3eae5c assets/forestry/models/item/broken_bronze_shovel.json
+1fa64e716a225cb9f15b99103eb8205befb2c55f assets/forestry/models/item/broken_hoe.json
+a16efa8e67ecbc3dc61954c9e11f0d485e056dde assets/forestry/models/item/broken_sword.json
+a97a8b1fbff90da237b2bbed14796824bc455294 assets/forestry/models/item/bronze_axe.json
+019a8301decb6152f6915a1181bb8c4481dc1596 assets/forestry/models/item/bronze_hoe.json
+a65222b562d250da81a8c4c626c37413e3c88823 assets/forestry/models/item/bronze_pickaxe.json
+9e9b9da50dd294165ba4c93b7d7bbc0d95ed6d77 assets/forestry/models/item/bronze_shovel.json
+086396e6e8a8018c2b6a655188bdd636819ccbc4 assets/forestry/models/item/bronze_sword.json
+f802e4294815ef1a6ad3c52ad848002b3103888e assets/forestry/models/item/carton.json
 8b9b64852ab51e0be0e51416d10807d1792a51f4 assets/forestry/models/item/chestnut_boat.json
 a23a48a49aadba028163e5ba5ba3db55a13fab7e assets/forestry/models/item/chestnut_chest_boat.json
 a4c53497e454a92b10c7eedf379ca4cfc645f718 assets/forestry/models/item/citrus_boat.json
@@ -20,6 +32,7 @@ b137d8c183cd262cf908fcc699596c32afa0ec8c assets/forestry/models/item/greenheart_
 c12e84c9b2b7ab06556c284c6e9279a0f6c0aa48 assets/forestry/models/item/greenheart_chest_boat.json
 53e6d4a4d20ba9ff3c6d07179f6d3e5888db5921 assets/forestry/models/item/hill_cherry_boat.json
 c0b69a7febbefda83b2e7399195be7de6647842c assets/forestry/models/item/hill_cherry_chest_boat.json
+2c41e589ab5aff7b821656b3632eb5c67c523ef1 assets/forestry/models/item/hoe_kit.json
 d55ce973081fa9ba48b01a7359d7aa6e4a31ff43 assets/forestry/models/item/honeydew.json
 a1bf7d720d131cf8013e3195316681359b4c3566 assets/forestry/models/item/honeyed_slice.json
 e091d169fc356d896e94ab50ae77a291477e9a34 assets/forestry/models/item/honey_drop.json
@@ -28,6 +41,8 @@ e091d169fc356d896e94ab50ae77a291477e9a34 assets/forestry/models/item/honey_drop.
 ee1205d9fa4e97bfef6e5297ea36ea3c675a5683 assets/forestry/models/item/ipe_chest_boat.json
 d6ef8fb90a7236af5d5dca32af05bb5923f10dc5 assets/forestry/models/item/kapok_boat.json
 37fd3743acbc5cee1d6fb8ff6afc2508ea9bb89d assets/forestry/models/item/kapok_chest_boat.json
+2b5a7b964821ad9a37e00a01fb298fb43671476b assets/forestry/models/item/kit_pickaxe.json
+defa747d19aae603d361c52d4ce12bc4abf2920a assets/forestry/models/item/kit_shovel.json
 9b2fe5ab0a195a4269b8047f2d58ef6424349528 assets/forestry/models/item/larch_boat.json
 b65d3affe0149a00cc96f8f8ea3e92b8e44b7bd6 assets/forestry/models/item/larch_chest_boat.json
 fdd3cab3bf9384a8de5f9149a62a02149eea8678 assets/forestry/models/item/lime_boat.json
@@ -52,6 +67,7 @@ a3e28dce62461a3a7c41f31bb80fbb2769166441 assets/forestry/models/item/plum_chest_
 4851c47019924db565a99ddbff638aab26ff8f4b assets/forestry/models/item/poplar_chest_boat.json
 9b8db04397b2398ceb24e1ed9adafaeb259ee37d assets/forestry/models/item/sequoia_boat.json
 cecf3689229b94c925e23e52fc6bbaf0501b01ca assets/forestry/models/item/sequoia_chest_boat.json
+1c0b232f6d2945ad41a288da36238f196576fb8b assets/forestry/models/item/sword_kit.json
 badaad1d445bc4c1423da884872cb12c4a4d09bd assets/forestry/models/item/teak_boat.json
 d3d0c6981f2704ca90727e0c5f985d17c434b15a assets/forestry/models/item/teak_chest_boat.json
 1c2a6d132035fd0c9affb27780ad43fec3bbfc58 assets/forestry/models/item/walnut_boat.json

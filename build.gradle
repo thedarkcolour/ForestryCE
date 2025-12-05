@@ -1,3 +1,6 @@
+import groovy.json.JsonBuilder
+import groovy.json.JsonSlurper
+
 plugins {
 	id('idea')
 	id('maven-publish')
@@ -120,8 +123,6 @@ dependencies {
 	compileOnly "org.jetbrains:annotations:23.0.0"
 }
 
-sourceSets.main.resources { srcDir 'src/generated/resources' }
-
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
 	var replaceProperties = [
 			"version"              : project.version,
@@ -136,7 +137,64 @@ var generateModMetadata = tasks.register("generateModMetadata", ProcessResources
 	from "src/main/templates"
 	into "build/generated/sources/modMetadata"
 }
-sourceSets.main.resources.srcDir generateModMetadata
+
+// merge generated JSON into main JSON
+var generateEnUsLang = tasks.register("generateEnUsLang", DefaultTask) {
+	var manualFile = project.file('src/main/resources/assets/forestry/lang/en_us.json')
+	var generatedFile = project.file('src/generated/resources/assets/forestry/lang/en_us.json')
+	var mergedFile = project.file('build/generated/sources/mergedAssets/assets/forestry/lang/en_us.json')
+
+	inputs.file(manualFile)
+	inputs.file(generatedFile).skipWhenEmpty(true)
+	outputs.file(mergedFile)
+
+	doLast {
+		mergedFile.parentFile.mkdirs()
+
+		if (manualFile.exists() && generatedFile.exists()) {
+			def slurper = new JsonSlurper()
+			def builder = new JsonBuilder()
+
+			def mainData = slurper.parse(manualFile)
+			def generatedData = slurper.parse(generatedFile)
+
+			// Merge: manual data overwrites main data for duplicate keys
+			def merged = generatedData + mainData
+			builder.call(merged)
+
+			mergedFile.text = builder.toPrettyString()
+		} else if (manualFile.exists()) {
+			copy {
+				from manualFile
+				into mergedFile.parentFile
+			}
+		} else if (generatedFile.exists()) {
+			copy {
+				from generatedFile
+				into mergedFile.parentFile
+			}
+		}
+	}
+}
+
+tasks.named('processResources', ProcessResources) {
+	dependsOn(generateEnUsLang)
+
+	filesMatching('assets/forestry/lang/en_us.json') { fileCopyDetails ->
+		def file = fileCopyDetails.file
+		if (!file.absolutePath.contains('mergedAssets')) {
+			fileCopyDetails.exclude()
+		}
+	}
+}
+
+sourceSets.main {
+	resources {
+		srcDir 'src/generated/resources'
+		srcDir 'build/generated/sources/mergedAssets'
+		srcDir generateModMetadata
+	}
+}
 
 idea.project.settings {
 	taskTriggers {
@@ -324,4 +382,3 @@ static def getChangelog(Object version) {
 	// Fallback in case this fails
 	return "Forestry Update ${version}"
 }
-

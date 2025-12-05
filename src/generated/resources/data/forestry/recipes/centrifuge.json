@@ -6,7 +6,7 @@
       "tag": "forge:glass"
     },
     "X": {
-      "item": "minecraft:copper_ingot"
+      "tag": "forge:ingots/copper"
     },
     "Y": {
       "item": "forestry:sturdy_machine"

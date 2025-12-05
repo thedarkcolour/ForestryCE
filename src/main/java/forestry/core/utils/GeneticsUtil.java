@@ -10,11 +10,31 @@
  ******************************************************************************/
 package forestry.core.utils;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.IdentityHashMap;
+import java.util.Map;
+import java.util.Set;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+
+import net.minecraftforge.common.util.LazyOptional;
+
 import forestry.api.ForestryCapabilities;
 import forestry.api.apiculture.genetics.IBeeSpecies;
 import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.core.IArmorNaturalist;
-import forestry.api.genetics.*;
+import forestry.api.genetics.ILifeStage;
+import forestry.api.genetics.IMutation;
+import forestry.api.genetics.IMutationManager;
+import forestry.api.genetics.ISpecies;
+import forestry.api.genetics.ISpeciesType;
 import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.api.lepidopterology.IButterflyNursery;
 import forestry.api.lepidopterology.genetics.IButterfly;
@@ -23,16 +43,6 @@ import forestry.arboriculture.capabilities.ArmorNaturalist;
 import forestry.compat.curios.CuriosCompat;
 import forestry.core.genetics.ItemGE;
 import forestry.core.tiles.TileUtil;
-import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
-import net.minecraftforge.common.util.LazyOptional;
-
-import java.util.*;
 
 public class GeneticsUtil {
 	private static String getKeyPrefix(ISpecies<?> allele) {
@@ -70,19 +80,13 @@ public class GeneticsUtil {
 	}
 
 	public static boolean hasNaturalistEye(Player player) {
-		ItemStack armorItemStack = player.getItemBySlot(EquipmentSlot.HEAD);
-		if (armorItemStack.isEmpty()) {
-			if (CuriosCompat.IS_LOADED) {
-				return CuriosCompat.hasNaturalistEye(player);
-			} else {
-				return false;
-			}
-		}
-
-		return hasNaturalistEye(player, armorItemStack);
+		return hasNaturalistEye(player, player.getItemBySlot(EquipmentSlot.HEAD)) || (CuriosCompat.IS_LOADED && CuriosCompat.hasNaturalistEye(player));
 	}
 
 	public static boolean hasNaturalistEye(Player player, ItemStack armorItemStack) {
+		if (armorItemStack.isEmpty()) {
+			return false;
+		}
 		final IArmorNaturalist armorNaturalist;
 		LazyOptional<IArmorNaturalist> armorCap = armorItemStack.getCapability(ForestryCapabilities.ARMOR_NATURALIST);
 		if (armorCap.isPresent()) {
