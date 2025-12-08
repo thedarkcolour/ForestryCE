@@ -2,6 +2,7 @@ package forestry.api.client.plugin;
 
 import forestry.api.client.arboriculture.ILeafSprite;
 import forestry.api.client.arboriculture.ILeafTint;
+import forestry.api.client.genetics.IAnalyzerPlugin;
 import forestry.api.genetics.ILifeStage;
 import net.minecraft.resources.ResourceLocation;
 
@@ -65,4 +66,6 @@ public interface IClientRegistration {
 	 * @param entityTexture The path to the entity texture.
 	 */
 	void setButterflySprites(ResourceLocation speciesId, ResourceLocation itemTexture, ResourceLocation entityTexture);
+
+	void setAnalyzerPlugin(ResourceLocation speciesTypeId, IAnalyzerPlugin<?, ?> plugin);
 }
