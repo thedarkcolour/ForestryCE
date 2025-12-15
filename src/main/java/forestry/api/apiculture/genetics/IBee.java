@@ -57,11 +57,13 @@ public interface IBee extends IIndividualLiving {
 	/**
 	 * @return A list of item stacks used for displaying this bee's products in the Analyzer GUI.
 	 */
+	@Deprecated
 	List<ItemStack> getProduceList();
 
 	/**
 	 * @return A list of item stacks used for displaying this bee's specialty products in the Analyzer GUI.
 	 */
+	@Deprecated
 	List<ItemStack> getSpecialtyList();
 
 	List<ItemStack> produceStacks(IBeeHousing housing);

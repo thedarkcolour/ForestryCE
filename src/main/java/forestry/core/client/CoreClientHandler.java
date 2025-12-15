@@ -110,7 +110,7 @@ public class CoreClientHandler implements IClientModuleHandler {
 				ItemBlockRenderTypes.setRenderLayer(fluid.getFlowing(), RenderType.translucent());
 			}
 
-			MenuScreens.register(CoreMenuTypes.ALYZER.menuType(), GuiAlyzer::new);
+			MenuScreens.register(CoreMenuTypes.ALYZER.menuType(), PortableAnalyzerScreen::new);
 			MenuScreens.register(CoreMenuTypes.ANALYZER.menuType(), GuiAnalyzer::new);
 			MenuScreens.register(CoreMenuTypes.NATURALIST_INVENTORY.menuType(), GuiNaturalistInventory<ContainerNaturalistInventory>::new);
 			MenuScreens.register(CoreMenuTypes.ESCRITOIRE.menuType(), GuiEscritoire::new);

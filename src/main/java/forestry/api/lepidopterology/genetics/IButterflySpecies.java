@@ -1,28 +1,18 @@
 package forestry.api.lepidopterology.genetics;
 
-import forestry.api.core.HumidityType;
-import forestry.api.core.IProduct;
-import forestry.api.core.TemperatureType;
-import forestry.api.genetics.ISpecies;
-import net.minecraft.tags.TagKey;
-import net.minecraft.world.level.biome.Biome;
-
 import javax.annotation.Nullable;
 import java.util.List;
 
-public interface IButterflySpecies extends ISpecies<IButterfly> {
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.level.biome.Biome;
+
+import forestry.api.core.IClimateSensitive;
+import forestry.api.core.IProduct;
+import forestry.api.genetics.ISpecies;
+
+public interface IButterflySpecies extends ISpecies<IButterfly>, IClimateSensitive {
 	@Override
 	IButterflySpeciesType getType();
-
-	/**
-	 * @return The ideal temperature for this butterfly to spawn and fly around in.
-	 */
-	TemperatureType getTemperature();
-
-	/**
-	 * @return The ideal humidity for this butterfly to spawn and fly around in.
-	 */
-	HumidityType getHumidity();
 
 	/**
 	 * Allows butterflies to restrict random spawns beyond the restrictions set by temperature() and humidity().

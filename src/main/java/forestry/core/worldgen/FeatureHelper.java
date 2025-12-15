@@ -57,8 +57,12 @@ public class FeatureHelper {
 			for (int y = height - 1; y >= 0; y--) { // generating top-down is faster for lighting calculations
 				for (int z = 0; z < radius * 2 + 1; z++) {
 					BlockPos position = start.offset(x, y, z);
-					Vec3i treeCenter = new Vec3i(center.getX(), position.getY(), center.getZ());
-					if (position.distSqr(treeCenter) <= radius * radius + 0.01) {
+					// use relative coordinates to avoid floating-point precision issues at high coordinates
+					double dx = position.getX() - center.getX();
+					double dz = position.getZ() - center.getZ();
+					double distSqr = dx * dx + dz * dz;
+					if (distSqr <= radius * radius + 0.01) {
+						Vec3i treeCenter = new Vec3i(center.getX(), position.getY(), center.getZ());
 						Direction direction = VecUtil.direction(position, treeCenter);
 						block.setDirection(direction);
 						if (addBlock(world, position, block, replace)) {

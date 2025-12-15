@@ -3,16 +3,17 @@ package forestry.api.client.genetics;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.function.Function;
-import java.util.function.UnaryOperator;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 
+import forestry.api.client.InteractableTextOptions;
+import forestry.api.client.TextOptions;
 import forestry.api.core.IClimateSensitive;
 import forestry.api.core.IProduct;
 import forestry.api.core.ToleranceType;
 import forestry.api.genetics.IIndividual;
-import forestry.api.genetics.ILifeStage;
 import forestry.api.genetics.ISpecies;
 import forestry.api.genetics.alleles.IAllele;
 import forestry.api.genetics.alleles.IChromosome;
@@ -25,8 +26,8 @@ public interface IAnalyzerGraphics<S extends ISpecies<I>, I extends IIndividual>
 	 *
 	 * @param chromosome The chromosome to display.
 	 */
-	default <A extends IAllele> void drawChromosomeRow(IChromosome<A> chromosome) {
-		drawChromosomeRow(chromosome, UnaryOperator.identity());
+	default <C extends IChromosome<A>, A extends IAllele> void drawChromosomeRow(C chromosome) {
+		drawChromosomeRow(chromosome, null);
 	}
 
 	/**
@@ -35,21 +36,21 @@ public interface IAnalyzerGraphics<S extends ISpecies<I>, I extends IIndividual>
 	 * @param chromosome The chromosome to display.
 	 * @param options    Further configuration of how the row is drawn and/or interacted with.
 	 */
-	<A extends IAllele> void drawChromosomeRow(IChromosome<A> chromosome, UnaryOperator<IChromosomeRow> options);
+	<C extends IChromosome<A>, A extends IAllele> void drawChromosomeRow(C chromosome, @Nullable IChromosomeRowOptions<C, A> options);
 
 	/**
 	 * Displays a table of the specimen's chromosomes. Automatically adds a species header with or without species icons.
 	 * Supports haploid display as well, in which case the inactive column is omitted.
 	 *
-	 * @param stage  The stage used to render icons for the active/inactive species, or {@code null} for no icons.
+	 * @param iconGetter The function used to map species to item-s icons for the active/inactive species, or {@code null} for no icons.
 	 */
-	void drawSpeciesRow(@Nullable ILifeStage stage);
+	void drawSpeciesIconsRow(@Nullable Function<S, ItemStack> iconGetter);
 
 	/**
 	 * Draws a row displaying information about the fertility chromosome of a specimen.
 	 * It includes visual elements for the active allele value and an offspring sprite.
 	 *
-	 * @param chromosome     The fertility chromosome to display, containing alleles representing fertility values.
+	 * @param chromosome      The fertility chromosome to display, containing alleles representing fertility values.
 	 * @param offspringSprite The visual representation of the offspring associated with the chromosome.
 	 */
 	void drawFertilityRow(IIntegerChromosome chromosome, ResourceLocation offspringSprite);
@@ -72,18 +73,14 @@ public interface IAnalyzerGraphics<S extends ISpecies<I>, I extends IIndividual>
 	void drawProductList(Function<S, List<IProduct>> getProducts);
 
 	default void drawText(Component text) {
-		drawText(text, TextAlign.LEFT);
+		drawText(text, 0);
 	}
 
 	default void drawText(Component text, int x) {
-		drawText(text, TextAlign.LEFT, x);
+		drawText(text, x, null);
 	}
 
-	default void drawText(Component text, TextAlign align) {
-		drawText(text, align, 0);
-	}
-
-	void drawText(Component text, TextAlign align, int x);
+	void drawText(Component text, int x, @Nullable InteractableTextOptions options);
 
 	/**
 	 * Adds an empty horizontal space by the specified number of pixels.
@@ -100,19 +97,46 @@ public interface IAnalyzerGraphics<S extends ISpecies<I>, I extends IIndividual>
 	void addVerticalSpacing(int y);
 
 	/**
+	 * Adds an empty vertical space by the specified number of lines.
+	 * Similar to {@link #addVerticalSpacing(int)}, but uses font lines as a unit instead of pixels.
+	 *
+	 * @param lines The number of lines to shift down by. Line height is usually 12 pixels.
+	 */
+	void addLineSpacing(int lines);
+
+	/**
 	 * Determines whether the inactive alleles of the current genome should be shown.
 	 *
 	 * @param haploid If {@code true}, only the active alleles are shown.
 	 */
 	void setHaploid(boolean haploid);
 
-	enum TextAlign {
-		LEFT,
-		CENTER,
-		RIGHT,
+	default void drawTooltip(int x, int y, Component tooltip) {
+		drawTooltip(x, y, tooltip, null);
 	}
 
-	interface IChromosomeRow {
-		IChromosomeRow setHover();
+	/**
+	 *
+	 * @param x
+	 * @param y
+	 * @param tooltip
+	 * @param options Text styling options. Note that "on hover" and "on click" behaviors aren't supported.
+	 */
+	default void drawTooltip(int x, int y, Component tooltip, @Nullable TextOptions options) {
+		drawTooltip(x, y, List.of(tooltip), options);
+	}
+
+	void drawTooltip(int x, int y, List<Component> tooltip, @Nullable TextOptions options);
+
+	/**
+	 * Calculates the x offset needed to center the text.
+	 *
+	 * @param text The input text.
+	 * @return The x offset to add to the text coordinates to horizontally center it.
+	 */
+	int center(Component text);
+
+	interface IChromosomeRowOptions<C extends IChromosome<A>, A extends IAllele> {
+		Component apply(boolean active, C chromosome, A allele, InteractableTextOptions existing, Component text);
 	}
 }

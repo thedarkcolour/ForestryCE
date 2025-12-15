@@ -20,7 +20,7 @@ import forestry.api.genetics.alleles.*;
 import forestry.api.genetics.capability.IIndividualHandlerItem;
 import forestry.api.lepidopterology.genetics.ButterflyLifeStage;
 import forestry.api.lepidopterology.genetics.IButterflySpecies;
-import forestry.core.gui.GuiAlyzer;
+import forestry.core.gui.PortableAnalyzerScreen;
 import forestry.core.gui.GuiForestry;
 import forestry.core.gui.TextLayoutHelper;
 import forestry.core.gui.widgets.ItemStackWidget;
@@ -44,16 +44,16 @@ public enum ButterflyAlyzerPlugin implements IAlyzerPlugin {
 
 	@Override
 	public void drawAnalyticsPage1(GuiGraphics graphics, Screen gui, ItemStack stack) {
-		if (gui instanceof GuiAlyzer guiAlyzer) {
+		if (gui instanceof PortableAnalyzerScreen guiAlyzer) {
 			IIndividualHandlerItem.ifPresent(stack, (butterfly, stage) -> {
 				IGenome genome = butterfly.getGenome();
 
 				TextLayoutHelper textLayout = guiAlyzer.getTextLayout();
 
-				textLayout.startPage(graphics, GuiAlyzer.COLUMN_0, GuiAlyzer.COLUMN_1, GuiAlyzer.COLUMN_2);
+				textLayout.startPage(graphics, PortableAnalyzerScreen.COLUMN_0, PortableAnalyzerScreen.COLUMN_1, PortableAnalyzerScreen.COLUMN_2);
 
-				textLayout.drawLine(graphics, Component.translatable("for.gui.active"), GuiAlyzer.COLUMN_1);
-				textLayout.drawLine(graphics, Component.translatable("for.gui.inactive"), GuiAlyzer.COLUMN_2);
+				textLayout.drawLine(graphics, Component.translatable("for.gui.active"), PortableAnalyzerScreen.COLUMN_1);
+				textLayout.drawLine(graphics, Component.translatable("for.gui.inactive"), PortableAnalyzerScreen.COLUMN_2);
 
 				textLayout.newLine();
 				textLayout.newLine();
@@ -73,10 +73,10 @@ public enum ButterflyAlyzerPlugin implements IAlyzerPlugin {
 				guiAlyzer.drawChromosomeRow(graphics, butterfly, ButterflyChromosomes.METABOLISM);
 				textLayout.newLine();
 
-				textLayout.drawLine(graphics, ButterflyChromosomes.FERTILITY.getChromosomeDisplayName(), GuiAlyzer.COLUMN_0);
+				textLayout.drawLine(graphics, ButterflyChromosomes.FERTILITY.getChromosomeDisplayName(), PortableAnalyzerScreen.COLUMN_0);
 				AllelePair<IIntegerAllele> fertilityPair = genome.getAllelePair(ButterflyChromosomes.FERTILITY);
-				guiAlyzer.drawFertilityInfo(graphics, fertilityPair.active().value(), GuiAlyzer.COLUMN_1, GuiAlyzer.getColorCoding(fertilityPair.active().dominant()), 8);
-				guiAlyzer.drawFertilityInfo(graphics, fertilityPair.inactive().value(), GuiAlyzer.COLUMN_2, GuiAlyzer.getColorCoding(fertilityPair.inactive().dominant()), 8);
+				guiAlyzer.drawFertilityInfo(graphics, fertilityPair.active().value(), PortableAnalyzerScreen.COLUMN_1, PortableAnalyzerScreen.getColorCoding(fertilityPair.active().dominant()), 8);
+				guiAlyzer.drawFertilityInfo(graphics, fertilityPair.inactive().value(), PortableAnalyzerScreen.COLUMN_2, PortableAnalyzerScreen.getColorCoding(fertilityPair.inactive().dominant()), 8);
 				textLayout.newLine();
 
 				guiAlyzer.drawChromosomeRow(graphics, butterfly, ButterflyChromosomes.FLOWER_TYPE);
@@ -92,7 +92,7 @@ public enum ButterflyAlyzerPlugin implements IAlyzerPlugin {
 
 	@Override
 	public void drawAnalyticsPage2(GuiGraphics graphics, Screen gui, ItemStack stack) {
-		if (gui instanceof GuiAlyzer guiAlyzer) {
+		if (gui instanceof PortableAnalyzerScreen guiAlyzer) {
 			IIndividualHandlerItem.ifPresent(stack, (individual, stage) -> {
 				IGenome genome = individual.getGenome();
 				IButterflySpecies primaryAllele = genome.getActiveValue(ButterflyChromosomes.SPECIES);
@@ -100,10 +100,10 @@ public enum ButterflyAlyzerPlugin implements IAlyzerPlugin {
 
 				TextLayoutHelper textLayout = guiAlyzer.getTextLayout();
 
-				textLayout.startPage(graphics, GuiAlyzer.COLUMN_0, GuiAlyzer.COLUMN_1, GuiAlyzer.COLUMN_2);
+				textLayout.startPage(graphics, PortableAnalyzerScreen.COLUMN_0, PortableAnalyzerScreen.COLUMN_1, PortableAnalyzerScreen.COLUMN_2);
 
-				textLayout.drawLine(graphics, Component.translatable("for.gui.active"), GuiAlyzer.COLUMN_1);
-				textLayout.drawLine(graphics, Component.translatable("for.gui.inactive"), GuiAlyzer.COLUMN_2);
+				textLayout.drawLine(graphics, Component.translatable("for.gui.active"), PortableAnalyzerScreen.COLUMN_1);
+				textLayout.drawLine(graphics, Component.translatable("for.gui.inactive"), PortableAnalyzerScreen.COLUMN_2);
 
 				textLayout.newLine();
 				textLayout.newLine();
@@ -117,9 +117,9 @@ public enum ButterflyAlyzerPlugin implements IAlyzerPlugin {
 				IValueAllele<ToleranceType> tempToleranceActive = genome.getActiveAllele(ButterflyChromosomes.TEMPERATURE_TOLERANCE);
 				IValueAllele<ToleranceType> tempToleranceInactive = genome.getInactiveAllele(ButterflyChromosomes.TEMPERATURE_TOLERANCE);
 
-				textLayout.drawLine(graphics, indentedTolerance, GuiAlyzer.COLUMN_0);
-				guiAlyzer.drawToleranceInfo(graphics, BeeChromosomes.TEMPERATURE_TOLERANCE, tempToleranceActive, GuiAlyzer.COLUMN_1);
-				guiAlyzer.drawToleranceInfo(graphics, BeeChromosomes.TEMPERATURE_TOLERANCE, tempToleranceInactive, GuiAlyzer.COLUMN_2);
+				textLayout.drawLine(graphics, indentedTolerance, PortableAnalyzerScreen.COLUMN_0);
+				guiAlyzer.drawToleranceInfo(graphics, BeeChromosomes.TEMPERATURE_TOLERANCE, tempToleranceActive, PortableAnalyzerScreen.COLUMN_1);
+				guiAlyzer.drawToleranceInfo(graphics, BeeChromosomes.TEMPERATURE_TOLERANCE, tempToleranceInactive, PortableAnalyzerScreen.COLUMN_2);
 
 				textLayout.newLine();
 
@@ -130,9 +130,9 @@ public enum ButterflyAlyzerPlugin implements IAlyzerPlugin {
 
 				IValueAllele<ToleranceType> humidToleranceActive = genome.getActiveAllele(ButterflyChromosomes.HUMIDITY_TOLERANCE);
 				IValueAllele<ToleranceType> humidToleranceInactive = genome.getInactiveAllele(ButterflyChromosomes.HUMIDITY_TOLERANCE);
-				textLayout.drawLine(graphics, indentedTolerance, GuiAlyzer.COLUMN_0);
-				guiAlyzer.drawToleranceInfo(graphics, BeeChromosomes.TEMPERATURE_TOLERANCE, humidToleranceActive, GuiAlyzer.COLUMN_1);
-				guiAlyzer.drawToleranceInfo(graphics, BeeChromosomes.TEMPERATURE_TOLERANCE, humidToleranceInactive, GuiAlyzer.COLUMN_2);
+				textLayout.drawLine(graphics, indentedTolerance, PortableAnalyzerScreen.COLUMN_0);
+				guiAlyzer.drawToleranceInfo(graphics, BeeChromosomes.TEMPERATURE_TOLERANCE, humidToleranceActive, PortableAnalyzerScreen.COLUMN_1);
+				guiAlyzer.drawToleranceInfo(graphics, BeeChromosomes.TEMPERATURE_TOLERANCE, humidToleranceInactive, PortableAnalyzerScreen.COLUMN_2);
 
 				textLayout.newLine();
 				textLayout.newLine();
@@ -154,14 +154,14 @@ public enum ButterflyAlyzerPlugin implements IAlyzerPlugin {
 					diurnal1 = !secondaryAllele.isNocturnal() ? yes : no;
 				}
 
-				textLayout.drawLine(graphics, Component.translatable("for.gui.diurnal"), GuiAlyzer.COLUMN_0);
-				textLayout.drawLine(graphics, diurnal0, GuiAlyzer.COLUMN_1, GuiAlyzer.getColorCoding(false));
-				textLayout.drawLine(graphics, diurnal1, GuiAlyzer.COLUMN_2, GuiAlyzer.getColorCoding(false));
+				textLayout.drawLine(graphics, Component.translatable("for.gui.diurnal"), PortableAnalyzerScreen.COLUMN_0);
+				textLayout.drawLine(graphics, diurnal0, PortableAnalyzerScreen.COLUMN_1, PortableAnalyzerScreen.getColorCoding(false));
+				textLayout.drawLine(graphics, diurnal1, PortableAnalyzerScreen.COLUMN_2, PortableAnalyzerScreen.getColorCoding(false));
 				textLayout.newLine();
 
-				textLayout.drawLine(graphics, Component.translatable("for.gui.nocturnal"), GuiAlyzer.COLUMN_0);
-				textLayout.drawLine(graphics, nocturnal0, GuiAlyzer.COLUMN_1, GuiAlyzer.getColorCoding(false));
-				textLayout.drawLine(graphics, nocturnal1, GuiAlyzer.COLUMN_2, GuiAlyzer.getColorCoding(false));
+				textLayout.drawLine(graphics, Component.translatable("for.gui.nocturnal"), PortableAnalyzerScreen.COLUMN_0);
+				textLayout.drawLine(graphics, nocturnal0, PortableAnalyzerScreen.COLUMN_1, PortableAnalyzerScreen.getColorCoding(false));
+				textLayout.drawLine(graphics, nocturnal1, PortableAnalyzerScreen.COLUMN_2, PortableAnalyzerScreen.getColorCoding(false));
 				textLayout.newLine();
 
 				Component primary = genome.getActiveValue(ButterflyChromosomes.TOLERATES_RAIN) ? yes : no;
@@ -182,24 +182,24 @@ public enum ButterflyAlyzerPlugin implements IAlyzerPlugin {
 
 	@Override
 	public void drawAnalyticsPage3(GuiGraphics graphics, Screen gui, ItemStack stack) {
-		if (gui instanceof GuiAlyzer guiAlyzer) {
+		if (gui instanceof PortableAnalyzerScreen guiAlyzer) {
 			IIndividualHandlerItem.ifPresent(stack, individual -> {
 				IGenome genome = individual.getGenome();
 				TextLayoutHelper textLayout = guiAlyzer.getTextLayout();
 				WidgetManager widgetManager = guiAlyzer.getWidgetManager();
 
-				textLayout.startPage(graphics, GuiAlyzer.COLUMN_0, GuiAlyzer.COLUMN_1, GuiAlyzer.COLUMN_2);
+				textLayout.startPage(graphics, PortableAnalyzerScreen.COLUMN_0, PortableAnalyzerScreen.COLUMN_1, PortableAnalyzerScreen.COLUMN_2);
 
-				textLayout.drawLine(graphics, Component.translatable("for.gui.loot.butterfly").append(":"), GuiAlyzer.COLUMN_0);
+				textLayout.drawLine(graphics, Component.translatable("for.gui.loot.butterfly").append(":"), PortableAnalyzerScreen.COLUMN_0);
 				textLayout.newLine();
 
-				int x = GuiAlyzer.COLUMN_0;
+				int x = PortableAnalyzerScreen.COLUMN_0;
 
 				for (IProduct product : genome.getActiveValue(ButterflyChromosomes.SPECIES).getButterflyLoot()) {
 					widgetManager.add(new ItemStackWidget(widgetManager, x, textLayout.getLineY(), product.createStack()));
 					x += 18;
 					if (x > 148) {
-						x = GuiAlyzer.COLUMN_0;
+						x = PortableAnalyzerScreen.COLUMN_0;
 						textLayout.newLine();
 					}
 				}
@@ -207,15 +207,15 @@ public enum ButterflyAlyzerPlugin implements IAlyzerPlugin {
 				textLayout.newLine();
 				textLayout.newLine();
 
-				textLayout.drawLine(graphics, Component.translatable("for.gui.loot.caterpillar").append(":"), GuiAlyzer.COLUMN_0);
+				textLayout.drawLine(graphics, Component.translatable("for.gui.loot.caterpillar").append(":"), PortableAnalyzerScreen.COLUMN_0);
 				textLayout.newLine();
 
-				x = GuiAlyzer.COLUMN_0;
+				x = PortableAnalyzerScreen.COLUMN_0;
 				for (IProduct product : genome.getActiveValue(ButterflyChromosomes.SPECIES).getCaterpillarProducts()) {
 					widgetManager.add(new ItemStackWidget(widgetManager, x, textLayout.getLineY(), product.createStack()));
 					x += 18;
 					if (x > 148) {
-						x = GuiAlyzer.COLUMN_0;
+						x = PortableAnalyzerScreen.COLUMN_0;
 						textLayout.newLine();
 					}
 				}
@@ -223,15 +223,15 @@ public enum ButterflyAlyzerPlugin implements IAlyzerPlugin {
 				textLayout.newLine();
 				textLayout.newLine();
 
-				textLayout.drawLine(graphics, Component.translatable("for.gui.loot.cocoon").append(":"), GuiAlyzer.COLUMN_0);
+				textLayout.drawLine(graphics, Component.translatable("for.gui.loot.cocoon").append(":"), PortableAnalyzerScreen.COLUMN_0);
 				textLayout.newLine();
 
-				x = GuiAlyzer.COLUMN_0;
+				x = PortableAnalyzerScreen.COLUMN_0;
 				for (IProduct product : genome.getActiveValue(ButterflyChromosomes.COCOON).getProducts()) {
 					widgetManager.add(new ItemStackWidget(widgetManager, x, textLayout.getLineY(), product.createStack()));
 					x += 18;
 					if (x > 148) {
-						x = GuiAlyzer.COLUMN_0;
+						x = PortableAnalyzerScreen.COLUMN_0;
 						textLayout.newLine();
 					}
 				}

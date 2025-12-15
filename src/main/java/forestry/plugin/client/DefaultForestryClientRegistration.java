@@ -6,6 +6,7 @@ import forestry.api.apiculture.genetics.BeeLifeStage;
 import forestry.api.arboriculture.ForestryTreeSpecies;
 import forestry.api.client.arboriculture.ForestryLeafSprites;
 import forestry.api.client.plugin.IClientRegistration;
+import forestry.api.genetics.ForestrySpeciesTypes;
 import forestry.arboriculture.client.BiomeLeafTint;
 import forestry.arboriculture.client.FixedLeafTint;
 import net.minecraft.resources.ResourceLocation;
@@ -21,6 +22,8 @@ public class DefaultForestryClientRegistration implements Consumer<IClientRegist
 	}
 
 	private static void registerApiculture(IClientRegistration client) {
+		client.setAnalyzerPlugin(ForestrySpeciesTypes.BEE, new BeeAnalyzerPlugin());
+
 		client.setDefaultBeeModel(BeeLifeStage.DRONE, ForestryConstants.forestry("item/bee_drone_default"));
 		client.setDefaultBeeModel(BeeLifeStage.PRINCESS, ForestryConstants.forestry("item/bee_princess_default"));
 		client.setDefaultBeeModel(BeeLifeStage.QUEEN, ForestryConstants.forestry("item/bee_queen_default"));

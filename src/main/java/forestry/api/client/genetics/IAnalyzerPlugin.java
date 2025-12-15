@@ -36,8 +36,4 @@ public interface IAnalyzerPlugin<S extends ISpecies<I>, I extends IIndividual> {
 	default void drawPage5(IAnalyzerGraphics<S, I> graphics, I individual, ILifeStage stage, ItemStack specimen) {
 		// todo taxonomy and flavor text
 	}
-
-	default <T extends IAnalyzerPlugin<?, ?>> T cast() {
-		return (T) this;
-	}
 }
