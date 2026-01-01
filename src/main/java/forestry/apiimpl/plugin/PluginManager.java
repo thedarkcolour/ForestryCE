@@ -298,7 +298,7 @@ public class PluginManager {
 		for (ITreeSpecies species : treeSpecies) {
 			ResourceLocation id = species.id();
 
-			ILeafSprite sprite = Objects.requireNonNull(spritesById.get(id), "No leaf tint registered for tree species " + id);
+			ILeafSprite sprite = Objects.requireNonNull(spritesById.get(id), "No leaf sprite registered for tree species " + id + ", did you call IClientRegistration.setLeafSprite ?");
 			ILeafTint tint = tintsById.getOrDefault(id, new FixedLeafTint(species.getEscritoireColor()));
 			Pair<ResourceLocation, ResourceLocation> modelPair = modelsById.get(id);
 

@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import forestry.core.ForestryColors;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
@@ -60,7 +61,7 @@ public class PortableAnalyzerScreen extends GuiForestry<ContainerAlyzer> {
 	}
 
 	public static int getColorCoding(boolean dominant) {
-		return dominant ? 0xec3661 : 0x3687ec;
+		return dominant ? ForestryColors.DOMINANT_RED : ForestryColors.RECESSIVE_BLUE;
 	}
 
 	public final void drawLine(GuiGraphics graphics, String text, int x, IIndividual individual, IChromosome<?> chromosome, boolean inactive) {
@@ -151,17 +152,17 @@ public class PortableAnalyzerScreen extends GuiForestry<ContainerAlyzer> {
 		ItemStack stackInSlot = this.itemInventory.getItem(specimenSlot);
 
 		IIndividualHandlerItem.ifPresent(stackInSlot, (individual, stage) -> {
-			drawIndividualInfo(graphics, partialTicks, mouseX, mouseY, specimenSlot, individual, stage, stackInSlot);
+			drawIndividualInfo(graphics, mouseX, mouseY, specimenSlot, individual, stage, stackInSlot);
 		});
 	}
 
-	private <S extends ISpecies<I>, I extends IIndividual> void drawIndividualInfo(GuiGraphics graphics, float partialTicks, int mouseX, int mouseY, int slot, I individual, ILifeStage stage, ItemStack stack) {
+	private <S extends ISpecies<I>, I extends IIndividual> void drawIndividualInfo(GuiGraphics graphics, int mouseX, int mouseY, int slot, I individual, ILifeStage stage, ItemStack stack) {
 		ISpeciesType<S, I> type = individual.getType().cast();
 		IAnalyzerPlugin<S, I> plugin = IForestryClientApi.INSTANCE.getGeneticManager().getAnalyzerPlugin(type);
 
 		// prefer new style plugin, but fallback to old style
 		if (plugin != null) {
-			IAnalyzerGraphics<S, I> analyzerGraphics = new AnalyzerScreenGraphics<>(graphics, this, partialTicks, mouseX, mouseY, individual);
+			IAnalyzerGraphics<S, I> analyzerGraphics = new AnalyzerScreenGraphics<>(graphics, this, mouseX, mouseY, individual);
 
 			switch (slot) {
 				case ItemInventoryAlyzer.SLOT_ANALYZE_1 -> plugin.drawPage1(analyzerGraphics, individual, stage, stack);

@@ -1,9 +1,8 @@
 package forestry.api.client;
 
-import javax.annotation.Nullable;
-
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.Style;
 
 public class TextOptions {
 	private int color = 0xffffff;
@@ -12,18 +11,21 @@ public class TextOptions {
 	private boolean italic;
 
 	private boolean dropShadow = false;
-	private @Nullable InteractableTextOptions.OnHover onHover;
-	private @Nullable Runnable onClick;
 
 	public MutableComponent transform(Component text) {
 		return directTransform(text.copy());
 	}
 
 	public MutableComponent directTransform(MutableComponent text) {
-		return text.withStyle(s -> s
+		return text.withStyle(this::applyStyle);
+	}
+
+	public Style applyStyle(Style original) {
+		return original
+			.withColor(this.color)
 			.withBold(this.bold)
 			.withUnderlined(this.underlined)
-			.withItalic(this.italic));
+			.withItalic(this.italic);
 	}
 
 	public int color() {

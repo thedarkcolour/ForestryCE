@@ -1,15 +1,12 @@
 package forestry.plugin.client;
 
-import java.util.Map;
-
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.ItemStack;
-
+import com.google.common.collect.Lists;
 import forestry.api.apiculture.genetics.BeeLifeStage;
 import forestry.api.apiculture.genetics.IBee;
 import forestry.api.apiculture.genetics.IBeeSpecies;
 import forestry.api.client.ForestrySprites;
 import forestry.api.client.InteractableTextOptions;
+import forestry.api.client.TextOptions;
 import forestry.api.client.genetics.IAnalyzerGraphics;
 import forestry.api.client.genetics.IAnalyzerPlugin;
 import forestry.api.core.IProductProducer;
@@ -17,33 +14,70 @@ import forestry.api.core.ISpecialtyProducer;
 import forestry.api.genetics.ILifeStage;
 import forestry.api.genetics.ISpecies;
 import forestry.api.genetics.alleles.BeeChromosomes;
+import forestry.api.genetics.alleles.IAllele;
+import forestry.api.genetics.alleles.IChromosome;
+import forestry.api.genetics.alleles.IValueAllele;
+import forestry.apiculture.FlowerType;
+import forestry.core.ForestryColors;
 import forestry.core.config.ForestryConfig;
 import forestry.core.gui.PortableAnalyzerScreen;
 import forestry.core.utils.GeneticsUtil;
 import forestry.core.utils.SpeciesUtil;
+import forestry.core.utils.Translator;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
+
+import java.util.List;
+import java.util.Map;
 
 public class BeeAnalyzerPlugin implements IAnalyzerPlugin<IBeeSpecies, IBee> {
 	private final Map<ISpecies<?>, ItemStack> iconStacks = GeneticsUtil.getIconStacks(BeeLifeStage.DRONE, SpeciesUtil.BEE_TYPE.get());
 
+	private static <A extends IAllele> Component addHoverDescription(IAnalyzerGraphics<?, ?> graphics, IChromosome<A> chromosome, A allele, InteractableTextOptions options, Component text) {
+		options.setOnHover((x, y) -> {
+			String effectDescription = chromosome.getTranslationKey(allele) + ".desc";
+
+			if (Translator.canTranslateToLocal(effectDescription)) {
+				graphics.drawTooltip(x, y, Component.translatable(effectDescription));
+				options.setUnderlined(true);
+			}
+		});
+
+		return text;
+	}
+
+	private static <A extends IAllele> Component addFlowerTypeTooltip(IAnalyzerGraphics<?, ?> graphics, IChromosome<A> chromosome, A allele, InteractableTextOptions options, Component text) {
+		if (allele instanceof IValueAllele<?> valueAllele && valueAllele.value() instanceof FlowerType type) {
+			options.setOnHover((x, y) -> {
+				graphics.drawTooltip(x, y, List.of(
+					Component.literal("Accepts the following:"),
+					Component.literal("#" + type.getAcceptableFlowers().location())
+				), Lists.newArrayList(
+					null,
+					new TextOptions().setColor(ForestryColors.LIGHT_GRAY)
+				));
+				options.setUnderlined(true);
+			});
+		} else {
+			addHoverDescription(graphics, chromosome, allele, options, text);
+		}
+
+		return text;
+	}
+
 	@Override
 	public void drawPage1(IAnalyzerGraphics<IBeeSpecies, IBee> graphics, IBee individual, ILifeStage stage, ItemStack specimen) {
 		graphics.setHaploid(ForestryConfig.SERVER.useHaploidDrones.get() && stage == BeeLifeStage.DRONE);
-		graphics.drawSpeciesIconsRow(iconStacks::get);
+		graphics.drawSpeciesIconsRow(this.iconStacks::get);
 		graphics.drawChromosomeRow(BeeChromosomes.SPECIES);
 		graphics.addLineSpacing(1);
 		graphics.drawChromosomeRow(BeeChromosomes.LIFESPAN);
 		graphics.drawChromosomeRow(BeeChromosomes.SPEED);
 		graphics.drawChromosomeRow(BeeChromosomes.POLLINATION);
-		graphics.drawChromosomeRow(BeeChromosomes.FLOWER_TYPE);
+		graphics.drawChromosomeRow(BeeChromosomes.FLOWER_TYPE, (active, chromosome, allele, options, text) -> addFlowerTypeTooltip(graphics, chromosome, allele, options, text));
 		graphics.drawFertilityRow(BeeChromosomes.FERTILITY, ForestrySprites.ANALYZER_BEE_FERTILITY);
 		graphics.drawChromosomeRow(BeeChromosomes.TERRITORY);
-		graphics.drawChromosomeRow(BeeChromosomes.EFFECT, (active, c, a, options, text) -> {
-			options.setOnHover((x, y) -> {
-				graphics.drawTooltip(x, y, Component.literal("Testing"));
-				options.setUnderlined(true);
-			});
-			return text;
-		});
+		graphics.drawChromosomeRow(BeeChromosomes.EFFECT, (active, chromosome, allele, options, text) -> addHoverDescription(graphics, chromosome, allele, options, text));
 	}
 
 	@Override
@@ -67,7 +101,6 @@ public class BeeAnalyzerPlugin implements IAnalyzerPlugin<IBeeSpecies, IBee> {
 				.withStyle(style -> style
 					.withColor(0x14d50b)
 					.withItalic(pristine));
-			// todo center text
 			graphics.drawText(text, graphics.center(text), new InteractableTextOptions().setColor(0x14d50b).setItalic(pristine));
 			graphics.addLineSpacing(1);
 			if (individual.getGeneration() > 0) {
@@ -81,12 +114,23 @@ public class BeeAnalyzerPlugin implements IAnalyzerPlugin<IBeeSpecies, IBee> {
 	@Override
 	public void drawPage3(IAnalyzerGraphics<IBeeSpecies, IBee> graphics, IBee individual, ILifeStage stage, ItemStack specimen) {
 		graphics.setHaploid(ForestryConfig.SERVER.useHaploidDrones.get() && stage == BeeLifeStage.DRONE);
-		graphics.drawText(Component.translatable("for.gui.beealyzer.produce"));
+		graphics.drawText(Component.translatable("for.gui.beealyzer.produce").append(Component.literal(":")));
+		graphics.addLineSpacing(1);
 		graphics.drawProductList(IProductProducer::getProducts);
+
+		graphics.addLineSpacing(4);
 
 		// set as haploid to exclude inactive specialties
 		graphics.setHaploid(true);
-		graphics.drawText(Component.translatable("for.gui.beealyzer.specialty"));
+		graphics.drawText(Component.translatable("for.gui.beealyzer.specialty").append(Component.literal(":")));
+		graphics.addLineSpacing(1);
 		graphics.drawProductList(ISpecialtyProducer::getSpecialties);
+
+		// 1.7 Forestry used to print the jubilance condition here. should I add it back?
+	}
+
+	@Override
+	public void drawPage4(IAnalyzerGraphics<IBeeSpecies, IBee> graphics, IBee individual, ILifeStage stage, ItemStack specimen) {
+		graphics.drawMutationsPage(this.iconStacks::get);
 	}
 }

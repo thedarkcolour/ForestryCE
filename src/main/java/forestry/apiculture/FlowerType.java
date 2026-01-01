@@ -30,7 +30,7 @@ public class FlowerType implements IFlowerType {
 
 	@Override
 	public boolean plantRandomFlower(Level level, BlockPos pos, List<BlockState> nearbyFlowers) {
-		if (level.hasChunkAt(pos) && level.isEmptyBlock(pos)) {
+		if (level.hasChunkAt(pos) && isPlantablePosition(level, pos)) {
 			for (BlockState state : nearbyFlowers) {
 				if (state.is(ForestryTags.Blocks.PLANTABLE_FLOWERS)) {
 					if (state.canSurvive(level, pos)) {
@@ -51,8 +51,16 @@ public class FlowerType implements IFlowerType {
 		return false;
 	}
 
+	public boolean isPlantablePosition(Level level, BlockPos pos) {
+		return level.isEmptyBlock(pos);
+	}
+
 	@Override
 	public boolean isDominant() {
 		return this.dominant;
+	}
+
+	public TagKey<Block> getAcceptableFlowers() {
+		return this.acceptableFlowers;
 	}
 }

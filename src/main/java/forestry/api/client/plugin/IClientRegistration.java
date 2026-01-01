@@ -8,6 +8,29 @@ import net.minecraft.resources.ResourceLocation;
 
 /**
  * Handles client registration for Forestry plugins.
+ * To access, override {@link forestry.api.plugin.IForestryPlugin#registerClient}. Here's an example of doing so
+ * safely without loading client-only code on the server:
+ * <pre>
+ * {@code
+ * public class MyForestryPlugin implements IForestryPlugin {
+ *     @Override
+ *     public void registerClient(Consumer<Consumer<IClientRegistration>> registrar) {
+ *         registrar.accept(new MyForestryClientRegistration());
+ *     }
+ * }
+ * }
+ * </pre>
+ * <pre>
+ * {@code
+ * public class MyForestryClientRegistration implements Consumer<IClientRegistration> {
+ *     @Override
+ *     public void accept(IClientRegistration client) {
+ *         client.setLeafSprite(MySpecies.SUPER_OAK, ForestryLeafSprites.WILLOW);
+ *         // ... and more
+ *     }
+ * }
+ * }
+ * </pre>
  */
 public interface IClientRegistration {
 	/**
