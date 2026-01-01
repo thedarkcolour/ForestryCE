@@ -187,11 +187,6 @@ public class ButterflySpeciesType extends SpeciesType<IButterflySpecies, IButter
 	}
 
 	@Override
-	public IAlyzerPlugin getAlyzerPlugin() {
-		return ButterflyAlyzerPlugin.INSTANCE;
-	}
-
-	@Override
 	public float getResearchSuitability(IButterflySpecies species, ItemStack stack) {
 		for (IProduct product : species.getButterflyLoot()) {
 			if (stack.is(product.item())) {

@@ -143,11 +143,6 @@ public interface ISpeciesType<S extends ISpecies<I>, I extends IIndividual> exte
 		return getDefaultStage();
 	}
 
-	/**
-	 * Plugin to add information for the handheld genetic analyzer.
-	 */
-	IAlyzerPlugin getAlyzerPlugin();
-
 	ItemStack createStack(I individual, ILifeStage type);
 
 	ItemStack createStack(ResourceLocation speciesId, ILifeStage stage);

@@ -235,11 +235,6 @@ public class TreeSpeciesType extends SpeciesType<ITreeSpecies, ITree> implements
 		return this.leafTickHandlers;
 	}
 
-	@Override
-	public IAlyzerPlugin getAlyzerPlugin() {
-		return TreeAlyzerPlugin.INSTANCE;
-	}
-
 	@Nullable
 	@Override
 	public ITree getVanillaIndividual(BlockState state) {

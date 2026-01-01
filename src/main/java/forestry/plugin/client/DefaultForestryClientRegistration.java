@@ -34,6 +34,8 @@ public class DefaultForestryClientRegistration implements Consumer<IClientRegist
 	}
 
 	private static void registerArboriculture(IClientRegistration client) {
+		client.setAnalyzerPlugin(ForestrySpeciesTypes.TREE, new TreeAnalyzerPlugin());
+
 		// Vanilla sapling models
 		registerSapling(client, "minecraft", ForestryTreeSpecies.OAK);
 		registerSapling(client, "minecraft", ForestryTreeSpecies.DARK_OAK);
@@ -100,6 +102,6 @@ public class DefaultForestryClientRegistration implements Consumer<IClientRegist
 	}
 
 	private static void registerLepidopterology(IClientRegistration client) {
-		// todo
+		client.setAnalyzerPlugin(ForestrySpeciesTypes.BUTTERFLY, new ButterflyAnalyzerPlugin());
 	}
 }

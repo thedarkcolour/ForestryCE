@@ -20,6 +20,7 @@ import forestry.api.genetics.alleles.IValueAllele;
 import forestry.apiculture.FlowerType;
 import forestry.core.ForestryColors;
 import forestry.core.config.ForestryConfig;
+import forestry.core.gui.GuiForestry;
 import forestry.core.gui.PortableAnalyzerScreen;
 import forestry.core.utils.GeneticsUtil;
 import forestry.core.utils.SpeciesUtil;
@@ -132,5 +133,10 @@ public class BeeAnalyzerPlugin implements IAnalyzerPlugin<IBeeSpecies, IBee> {
 	@Override
 	public void drawPage4(IAnalyzerGraphics<IBeeSpecies, IBee> graphics, IBee individual, ILifeStage stage, ItemStack specimen) {
 		graphics.drawMutationsPage(this.iconStacks::get);
+	}
+
+	@Override
+	public List<String> getHints() {
+		return GuiForestry.HINTS.get("beealyzer");
 	}
 }

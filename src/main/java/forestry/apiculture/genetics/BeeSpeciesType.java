@@ -98,11 +98,6 @@ public class BeeSpeciesType extends SpeciesType<IBeeSpecies, IBee> implements IB
 	}
 
 	@Override
-	public IAlyzerPlugin getAlyzerPlugin() {
-		return BeeAlyzerPlugin.INSTANCE;
-	}
-
-	@Override
 	public Codec<? extends IBee> getIndividualCodec() {
 		return Bee.CODEC;
 	}
@@ -159,9 +154,9 @@ public class BeeSpeciesType extends SpeciesType<IBeeSpecies, IBee> implements IB
 	private ItemStack formBountyStack(IProduct product, int bountyLevel, RandomSource rand) {
 		double productGenChance = product.chance() * ForestryConfig.SERVER.escritoireBountyMultiplier.get();
 		int productGenSuccessCounter = 0;
-		for(int i = 0; i < bountyLevel; i++) {
+		for (int i = 0; i < bountyLevel; i++) {
 			double randVal = rand.nextDouble();
-			if(randVal < productGenChance){
+			if (randVal < productGenChance) {
 				productGenSuccessCounter++;
 			}
 		}

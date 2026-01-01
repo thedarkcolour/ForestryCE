@@ -228,6 +228,6 @@ public class TreeSpecies extends Species<ITreeSpeciesType, ITree> implements ITr
 
 	@Override
 	public List<IProduct> getSpecialties() {
-		return this.defaultGenome.getActiveValue(TreeChromosomes.FRUIT).getSpecialty();
+		return this.defaultGenome.getActiveValue(TreeChromosomes.FRUIT).getSpecialties();
 	}
 }

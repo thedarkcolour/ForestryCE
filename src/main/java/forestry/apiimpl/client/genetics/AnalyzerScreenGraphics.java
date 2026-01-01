@@ -124,7 +124,9 @@ public class AnalyzerScreenGraphics<S extends ISpecies<I>, I extends IIndividual
 	}
 
 	private void drawIcon(int x, int y, S species, Function<S, ItemStack> iconGetter) {
-		drawItemStack(x, y, iconGetter.apply(species));
+		ItemStack stack = iconGetter.apply(species);
+		if (stack == null || stack.isEmpty()) return;
+		drawItemStack(x, y, stack);
 	}
 
 	private void drawItemStack(int x, int y, ItemStack stack) {
@@ -456,7 +458,7 @@ public class AnalyzerScreenGraphics<S extends ISpecies<I>, I extends IIndividual
 			}
 		} else {
 			// todo anchor to bottom of view
-			drawText(Component.translatable("for.gui.alyzer.nodescription"), 0, new InteractableTextOptions().setColor(ForestryColors.GRAY));
+			drawTextWrapped(Component.translatable("for.gui.alyzer.nodescription"), new InteractableTextOptions().setColor(ForestryColors.GRAY));
 		}
 	}
 }

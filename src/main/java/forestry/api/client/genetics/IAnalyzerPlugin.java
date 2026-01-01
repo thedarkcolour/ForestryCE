@@ -3,6 +3,8 @@ package forestry.api.client.genetics;
 import forestry.api.genetics.*;
 import net.minecraft.world.item.ItemStack;
 
+import java.util.List;
+
 public interface IAnalyzerPlugin<S extends ISpecies<I>, I extends IIndividual> {
 	/**
 	 * The first page of the analyzer, typically used to display the most important chromosomes.
@@ -56,5 +58,9 @@ public interface IAnalyzerPlugin<S extends ISpecies<I>, I extends IIndividual> {
 	 */
 	default void drawPage5(IAnalyzerGraphics<S, I> graphics, I individual, ILifeStage stage, ItemStack specimen) {
 		graphics.drawTaxonomyPage();
+	}
+
+	default List<String> getHints() {
+		return List.of();
 	}
 }
