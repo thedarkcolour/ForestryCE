@@ -1,6 +1,7 @@
 package forestry.core.utils;
 
 import forestry.api.core.tooltips.ToolTip;
+import forestry.core.TranslationKeys;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
@@ -22,20 +23,12 @@ public class ItemTooltipUtil {
 		String tooltipKey = unlocalizedName + ".tooltip";
 		if (Translator.canTranslateToLocal(tooltipKey)) {
 			tooltip.add(Component.translatable(tooltipKey).withStyle(ChatFormatting.GRAY));
-			/*Minecraft minecraft = Minecraft.getInstance();
-			List<ITextProperties> tooltipInfoWrapped = minecraft.fontRenderer.split(tooltipInfo, 150);
-			tooltipInfoWrapped.forEach(s -> {
-				if(s instanceof IFormattableTextComponent) {
-					s = ((IFormattableTextComponent) s).mergeStyle(TextFormatting.GRAY);
-				}
-				tooltip.add((ITextComponent) s);
-				CharacterManager
-			});*/
 		}
 	}
 
+	@Deprecated
 	public static void addShiftInformation(ItemStack stack, @Nullable BlockGetter world, List<Component> tooltip, TooltipFlag flag) {
-		tooltip.add(Component.translatable("for.gui.tooltip.tmi", "< %s >").withStyle(ChatFormatting.ITALIC, ChatFormatting.GRAY));
+		tooltip.add(Component.translatable(TranslationKeys.HOLD_SHIFT_FOR_DETAILS, "< %s >").withStyle(ChatFormatting.ITALIC, ChatFormatting.GRAY));
 	}
 
 	@Nullable

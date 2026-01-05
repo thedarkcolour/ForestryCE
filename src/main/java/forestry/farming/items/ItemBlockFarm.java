@@ -1,17 +1,7 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.farming.items;
 
+import forestry.core.TranslationKeys;
 import forestry.core.items.ItemBlockForestry;
-import forestry.core.utils.ItemTooltipUtil;
 import forestry.farming.blocks.FarmBlock;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
@@ -34,7 +24,7 @@ public class ItemBlockFarm extends ItemBlockForestry<FarmBlock> {
 		if (Screen.hasShiftDown()) {
 			tooltip.add(Component.translatable("block.forestry.farm.tooltip").withStyle(ChatFormatting.GRAY));
 		} else {
-			ItemTooltipUtil.addShiftInformation(stack, world, tooltip, flag);
+			tooltip.add(Component.translatable(TranslationKeys.HOLD_SHIFT_FOR_DETAILS).withStyle(ChatFormatting.GRAY));
 		}
 	}
 

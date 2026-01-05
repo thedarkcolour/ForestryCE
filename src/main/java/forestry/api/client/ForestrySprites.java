@@ -50,6 +50,12 @@ public class ForestrySprites {
 	public static final ResourceLocation ANALYZER_SERUM = ForestryConstants.forestry("analyzer/serum");
 	public static final ResourceLocation ANALYZER_CATERPILLAR = ForestryConstants.forestry("analyzer/caterpillar");
 	public static final ResourceLocation ANALYZER_COCOON = ForestryConstants.forestry("analyzer/cocoon");
+	public static final ResourceLocation ANALYZER_BEE_FERTILITY = ForestryConstants.forestry("analyzer/bee_fertility");
+	public static final ResourceLocation ANALYZER_BUTTERFLY_FERTILITY = ForestryConstants.forestry("analyzer/butterfly_fertility");
+	public static final ResourceLocation ANALYZER_TOLERANCE_NONE = ForestryConstants.forestry("analyzer/tolerance_none");
+	public static final ResourceLocation ANALYZER_TOLERANCE_UP = ForestryConstants.forestry("analyzer/tolerance_up");
+	public static final ResourceLocation ANALYZER_TOLERANCE_DOWN = ForestryConstants.forestry("analyzer/tolerance_down");
+	public static final ResourceLocation ANALYZER_TOLERANCE_BOTH = ForestryConstants.forestry("analyzer/tolerance_both");
 	public static final ResourceLocation ERROR_ERRORED = ForestryConstants.forestry("errors/errored");
 	public static final ResourceLocation ERROR_UNKNOWN = ForestryConstants.forestry("errors/unknown");
 	public static final ResourceLocation SLOT_BLOCKED = ForestryConstants.forestry("slots/blocked");

@@ -4,6 +4,7 @@ import forestry.api.client.IForestryClientApi;
 import forestry.api.client.ITextureManager;
 import forestry.api.client.apiculture.IBeeClientManager;
 import forestry.api.client.arboriculture.ITreeClientManager;
+import forestry.api.client.genetics.IGeneticClientManager;
 import forestry.api.client.lepidopterology.IButterflyClientManager;
 import forestry.api.client.plugin.IClientHelper;
 import forestry.apiimpl.client.plugin.ClientHelper;
@@ -13,9 +14,12 @@ import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
 public class ForestryClientApiImpl implements IForestryClientApi {
+	private final IClientHelper helper = new ClientHelper();
+
 	@Nullable
 	private ITextureManager textureManager;
-	private final IClientHelper helper = new ClientHelper();
+	@Nullable
+	private IGeneticClientManager geneticManager;
 	@Nullable
 	private IBeeClientManager beeManager;
 	@Nullable
@@ -23,17 +27,21 @@ public class ForestryClientApiImpl implements IForestryClientApi {
 	@Nullable
 	private IButterflyClientManager butterflyManager;
 
-	// Must be called after textureManager is initialized in Minecraft's constructor.
-	public void initializeTextureManager(RegisterClientReloadListenersEvent event) {
-		this.textureManager = new ForestryTextureManager();
-	}
-
 	@Override
 	public ITextureManager getTextureManager() {
 		if (this.textureManager == null) {
 			throw new IllegalStateException("ITextureManager not initialized yet. Please wait until Minecraft constructor has been called");
 		}
 		return this.textureManager;
+	}
+
+	@Override
+	public IGeneticClientManager getGeneticManager() {
+		IGeneticClientManager manager = this.geneticManager;
+		if (manager == null) {
+			throw new IllegalStateException("IGeneticClientManager not initialized yet");
+		}
+		return manager;
 	}
 
 	public IBeeClientManager getBeeManager() {
@@ -67,15 +75,27 @@ public class ForestryClientApiImpl implements IForestryClientApi {
 		return this.helper;
 	}
 
+	// Must be called after textureManager is initialized in Minecraft's constructor.
+	public void initializeTextureManager(RegisterClientReloadListenersEvent event) {
+		this.textureManager = new ForestryTextureManager();
+	}
+
+	@ApiStatus.Internal
+	public void setGeneticsManager(IGeneticClientManager treeManager) {
+		this.geneticManager = treeManager;
+	}
+
 	@ApiStatus.Internal
 	public void setTreeManager(ITreeClientManager treeManager) {
 		this.treeManager = treeManager;
 	}
 
+	@ApiStatus.Internal
 	public void setButterflyManager(IButterflyClientManager butterflyManager) {
 		this.butterflyManager = butterflyManager;
 	}
 
+	@ApiStatus.Internal
 	public void setBeeManager(BeeClientManager beeManager) {
 		this.beeManager = beeManager;
 	}

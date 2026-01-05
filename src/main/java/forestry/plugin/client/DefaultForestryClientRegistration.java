@@ -6,6 +6,7 @@ import forestry.api.apiculture.genetics.BeeLifeStage;
 import forestry.api.arboriculture.ForestryTreeSpecies;
 import forestry.api.client.arboriculture.ForestryLeafSprites;
 import forestry.api.client.plugin.IClientRegistration;
+import forestry.api.genetics.ForestrySpeciesTypes;
 import forestry.arboriculture.client.BiomeLeafTint;
 import forestry.arboriculture.client.FixedLeafTint;
 import net.minecraft.resources.ResourceLocation;
@@ -21,6 +22,8 @@ public class DefaultForestryClientRegistration implements Consumer<IClientRegist
 	}
 
 	private static void registerApiculture(IClientRegistration client) {
+		client.setAnalyzerPlugin(ForestrySpeciesTypes.BEE, new BeeAnalyzerPlugin());
+
 		client.setDefaultBeeModel(BeeLifeStage.DRONE, ForestryConstants.forestry("item/bee_drone_default"));
 		client.setDefaultBeeModel(BeeLifeStage.PRINCESS, ForestryConstants.forestry("item/bee_princess_default"));
 		client.setDefaultBeeModel(BeeLifeStage.QUEEN, ForestryConstants.forestry("item/bee_queen_default"));
@@ -31,6 +34,8 @@ public class DefaultForestryClientRegistration implements Consumer<IClientRegist
 	}
 
 	private static void registerArboriculture(IClientRegistration client) {
+		client.setAnalyzerPlugin(ForestrySpeciesTypes.TREE, new TreeAnalyzerPlugin());
+
 		// Vanilla sapling models
 		registerSapling(client, "minecraft", ForestryTreeSpecies.OAK);
 		registerSapling(client, "minecraft", ForestryTreeSpecies.DARK_OAK);
@@ -62,7 +67,7 @@ public class DefaultForestryClientRegistration implements Consumer<IClientRegist
 		client.setLeafSprite(ForestryTreeSpecies.SEQUOIA, ForestryLeafSprites.SPRUCE);
 		client.setLeafSprite(ForestryTreeSpecies.GIANT_SEQUOIA, ForestryLeafSprites.SPRUCE);
 		client.setLeafSprite(ForestryTreeSpecies.TEAK, ForestryLeafSprites.JUNGLE);
-		client.setLeafSprite(ForestryTreeSpecies.IPE, ForestryLeafSprites.JUNGLE);
+		client.setLeafSprite(ForestryTreeSpecies.IPE, ForestryLeafSprites.ACACIA);
 		client.setLeafSprite(ForestryTreeSpecies.KAPOK, ForestryLeafSprites.JUNGLE);
 		client.setLeafSprite(ForestryTreeSpecies.EBONY, ForestryLeafSprites.JUNGLE);
 		client.setLeafSprite(ForestryTreeSpecies.ZEBRAWOOD, ForestryLeafSprites.JUNGLE);
@@ -97,6 +102,6 @@ public class DefaultForestryClientRegistration implements Consumer<IClientRegist
 	}
 
 	private static void registerLepidopterology(IClientRegistration client) {
-		// todo
+		client.setAnalyzerPlugin(ForestrySpeciesTypes.BUTTERFLY, new ButterflyAnalyzerPlugin());
 	}
 }

@@ -31,7 +31,7 @@ public class CathemeralActivityType implements IActivityType {
 
 	@Override
 	public boolean isActive(long gameTime, long dayTime, BlockPos pos) {
-		long adjustedTime = dayTime + getOffset(pos);
+		long adjustedTime = gameTime + getOffset(pos);
 
 		return adjustedTime % 24000L < 12000L;
 	}

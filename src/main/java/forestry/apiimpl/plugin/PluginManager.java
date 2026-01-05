@@ -13,6 +13,7 @@ import forestry.api.circuits.ICircuitLayout;
 import forestry.api.client.IForestryClientApi;
 import forestry.api.client.arboriculture.ILeafSprite;
 import forestry.api.client.arboriculture.ILeafTint;
+import forestry.api.client.genetics.IAnalyzerPlugin;
 import forestry.api.core.IError;
 import forestry.api.genetics.ILifeStage;
 import forestry.api.genetics.IMutationManager;
@@ -28,6 +29,7 @@ import forestry.apiimpl.client.BeeClientManager;
 import forestry.apiimpl.client.ButterflyClientManager;
 import forestry.apiimpl.client.ForestryClientApiImpl;
 import forestry.apiimpl.client.TreeClientManager;
+import forestry.apiimpl.client.genetics.GeneticClientManager;
 import forestry.apiimpl.client.plugin.ClientRegistration;
 import forestry.arboriculture.client.FixedLeafTint;
 import forestry.core.circuits.CircuitLayout;
@@ -296,7 +298,7 @@ public class PluginManager {
 		for (ITreeSpecies species : treeSpecies) {
 			ResourceLocation id = species.id();
 
-			ILeafSprite sprite = Objects.requireNonNull(spritesById.get(id), "No leaf tint registered for tree species " + id);
+			ILeafSprite sprite = Objects.requireNonNull(spritesById.get(id), "No leaf sprite registered for tree species " + id + ", did you call IClientRegistration.setLeafSprite ?");
 			ILeafTint tint = tintsById.getOrDefault(id, new FixedLeafTint(species.getEscritoireColor()));
 			Pair<ResourceLocation, ResourceLocation> modelPair = modelsById.get(id);
 
@@ -338,5 +340,17 @@ public class PluginManager {
 			}
 		}
 		((ForestryClientApiImpl) IForestryClientApi.INSTANCE).setButterflyManager(new ButterflyClientManager(butterflyTextures));
+
+		HashMap<ResourceLocation, IAnalyzerPlugin<?, ?>> analyzerPluginsById = registration.getAnalyzerPlugins();
+		IdentityHashMap<ISpeciesType<?, ?>, IAnalyzerPlugin<?, ?>> analyzerPlugins = new IdentityHashMap<>(analyzerPluginsById.size());
+		for (ISpeciesType<?, ?> type : IForestryApi.INSTANCE.getGeneticManager().getSpeciesTypes()) {
+			IAnalyzerPlugin<?, ?> plugin = analyzerPluginsById.get(type.id());
+			if (plugin == null) {
+				Forestry.LOGGER.warn("No IAnalyzerPlugin registered for species type {}", type.id());
+			} else {
+				analyzerPlugins.put(type, plugin);
+			}
+		}
+		((ForestryClientApiImpl) IForestryClientApi.INSTANCE).setGeneticsManager(new GeneticClientManager(analyzerPlugins));
 	}
 }

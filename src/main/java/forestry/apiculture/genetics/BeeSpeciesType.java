@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.apiculture.genetics;
 
 import com.google.common.collect.ImmutableMap;
@@ -98,11 +88,6 @@ public class BeeSpeciesType extends SpeciesType<IBeeSpecies, IBee> implements IB
 	}
 
 	@Override
-	public IAlyzerPlugin getAlyzerPlugin() {
-		return BeeAlyzerPlugin.INSTANCE;
-	}
-
-	@Override
 	public Codec<? extends IBee> getIndividualCodec() {
 		return Bee.CODEC;
 	}
@@ -159,9 +144,9 @@ public class BeeSpeciesType extends SpeciesType<IBeeSpecies, IBee> implements IB
 	private ItemStack formBountyStack(IProduct product, int bountyLevel, RandomSource rand) {
 		double productGenChance = product.chance() * ForestryConfig.SERVER.escritoireBountyMultiplier.get();
 		int productGenSuccessCounter = 0;
-		for(int i = 0; i < bountyLevel; i++) {
+		for (int i = 0; i < bountyLevel; i++) {
 			double randVal = rand.nextDouble();
-			if(randVal < productGenChance){
+			if (randVal < productGenChance) {
 				productGenSuccessCounter++;
 			}
 		}

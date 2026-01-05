@@ -1,29 +1,18 @@
 package forestry.api.apiculture.genetics;
 
 import forestry.api.apiculture.IBeeHousing;
-import forestry.api.core.HumidityType;
+import forestry.api.core.IClimateSensitive;
 import forestry.api.core.IProductProducer;
 import forestry.api.core.ISpecialtyProducer;
-import forestry.api.core.TemperatureType;
 import forestry.api.genetics.IGenome;
 import forestry.api.genetics.ISpecies;
 
 /**
  * Represents a bee species. Defines a bee's traits, default genome, and produce.
  */
-public interface IBeeSpecies extends ISpecies<IBee>, IProductProducer, ISpecialtyProducer {
+public interface IBeeSpecies extends ISpecies<IBee>, IProductProducer, ISpecialtyProducer, IClimateSensitive {
 	@Override
 	IBeeSpeciesType getType();
-
-	/**
-	 * @return The preferred/ideal temperature for this bee.
-	 */
-	TemperatureType getTemperature();
-
-	/**
-	 * @return The preferred/ideal humidity for this bee.
-	 */
-	HumidityType getHumidity();
 
 	/**
 	 * Determines whether a bee of this species is in a jubilant state. Bees in a jubilant state are able

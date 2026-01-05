@@ -1,22 +1,13 @@
-/*******************************************************************************
- * Copyright (c) 2011-2014 SirSengir.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Lesser Public License v3
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/lgpl-3.0.txt
- *
- * Various Contributors including, but not limited to:
- * SirSengir (original work), CovertJaguar, Player, Binnie, MysteriousAges
- ******************************************************************************/
 package forestry.apiculture.blocks;
 
 import forestry.apiculture.multiblock.*;
 import forestry.apiculture.network.packets.PacketAlvearyChange;
+import forestry.core.TranslationKeys;
 import forestry.core.blocks.BlockStructure;
 import forestry.core.tiles.IActivatable;
 import forestry.core.tiles.TileUtil;
-import forestry.core.utils.ItemTooltipUtil;
 import forestry.core.utils.NetworkUtil;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -34,8 +25,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -162,14 +151,12 @@ public class BlockAlveary extends BlockStructure implements EntityBlock {
 		});
 	}
 
-	// todo this method isn't client only
-	@OnlyIn(Dist.CLIENT)
 	@Override
 	public void appendHoverText(ItemStack stack, @Nullable BlockGetter world, List<Component> tooltip, TooltipFlag flag) {
 		if (Screen.hasShiftDown()) {
 			tooltip.add(Component.translatable("block.forestry.alveary_tooltip"));
 		} else {
-			ItemTooltipUtil.addShiftInformation(stack, world, tooltip, flag);
+			tooltip.add(Component.translatable(TranslationKeys.HOLD_SHIFT_FOR_DETAILS).withStyle(ChatFormatting.GRAY));
 		}
 	}
 }

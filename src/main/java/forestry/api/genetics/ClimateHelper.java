@@ -36,10 +36,12 @@ public class ClimateHelper {
 		return humidity.isWetterOrEqual(min) && humidity.isDrierOrEqual(max);
 	}
 
+	// todo move into TemperatureType
 	public static MutableComponent toDisplay(TemperatureType temperature) {
 		return Component.translatable("for.gui." + temperature.toString().toLowerCase(Locale.ENGLISH));
 	}
 
+	// todo move into HumidityType
 	public static MutableComponent toDisplay(HumidityType humidity) {
 		return Component.translatable("for.gui." + humidity.toString().toLowerCase(Locale.ENGLISH));
 	}

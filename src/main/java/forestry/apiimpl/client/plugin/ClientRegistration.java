@@ -3,6 +3,7 @@ package forestry.apiimpl.client.plugin;
 import com.mojang.datafixers.util.Pair;
 import forestry.api.client.arboriculture.ILeafSprite;
 import forestry.api.client.arboriculture.ILeafTint;
+import forestry.api.client.genetics.IAnalyzerPlugin;
 import forestry.api.client.plugin.IClientRegistration;
 import forestry.api.genetics.ILifeStage;
 import net.minecraft.resources.ResourceLocation;
@@ -24,6 +25,8 @@ public class ClientRegistration implements IClientRegistration {
 	private final HashMap<ResourceLocation, ILeafSprite> leafSprites = new HashMap<>();
 	// ID -> leaf tints
 	private final HashMap<ResourceLocation, ILeafTint> leafTints = new HashMap<>();
+	// ID -> Analyzer plugin
+	private final HashMap<ResourceLocation, IAnalyzerPlugin<?, ?>> analyzerPlugins = new HashMap<>();
 
 	@Override
 	public void setDefaultBeeModel(ILifeStage stage, ResourceLocation modelLocation) {
@@ -55,6 +58,11 @@ public class ClientRegistration implements IClientRegistration {
 		this.butterflyTextures.put(speciesId, Pair.of(itemTexture, entityTexture));
 	}
 
+	@Override
+	public void setAnalyzerPlugin(ResourceLocation speciesTypeId, IAnalyzerPlugin<?, ?> plugin) {
+		this.analyzerPlugins.put(speciesTypeId, plugin);
+	}
+
 	public Map<ILifeStage, Map<ResourceLocation, ResourceLocation>> getBeeModels() {
 		return this.beeModels;
 	}
@@ -77,5 +85,9 @@ public class ClientRegistration implements IClientRegistration {
 
 	public ResourceLocation getDefaultBeeModel(ILifeStage stage) {
 		return this.defaultBeeModels.get(stage);
+	}
+
+	public HashMap<ResourceLocation, IAnalyzerPlugin<?, ?>> getAnalyzerPlugins() {
+		return this.analyzerPlugins;
 	}
 }
