@@ -201,14 +201,16 @@ public class DefaultForestryPlugin implements IForestryPlugin {
 			.addDrop(0.03, ForestryBeeSpecies.VALIANT, silkyComb);
 
 		apiculture.registerHive(ForestryBeeSpecies.ENDED, HiveDefinition.END)
-			.addDrop(0.90, ForestryBeeSpecies.ENDED, mysteriousComb);
+			.addDrop(0.90, ForestryBeeSpecies.ENDED, mysteriousComb, 0.7f)
+			.addDrop(0.09, ForestryBeeSpecies.ENDED, mysteriousComb, 0.7f, Map.of(BeeChromosomes.EFFECT, ForestryAlleles.EFFECT_PHASING))
+			.addDrop(0.03, ForestryBeeSpecies.ENDED, mysteriousComb, 0.7f, Map.of(BeeChromosomes.EFFECT, ForestryAlleles.EFFECT_ASCENSION));
 
 		apiculture.registerHive(ForestryBeeSpecies.WINTRY, HiveDefinition.SNOW)
 			.addDrop(0.80, ForestryBeeSpecies.WINTRY, frozenComb, 0.5f)
 			.addDrop(0.03, ForestryBeeSpecies.VALIANT, frozenComb);
 
 		apiculture.registerHive(ForestryBeeSpecies.MARSHY, HiveDefinition.SWAMP)
-			.addDrop(0.80, ForestryBeeSpecies.MARSHY, mossyComb, 0.4f)
+			.addDrop(0.80, ForestryBeeSpecies.MARSHY, mossyComb, 0.7f)
 			.addDrop(0.03, ForestryBeeSpecies.VALIANT, mossyComb);
 
 		apiculture.registerHive(ForestryBeeSpecies.SAVANNA, HiveDefinition.SAVANNA)
@@ -290,6 +292,7 @@ public class DefaultForestryPlugin implements IForestryPlugin {
 		apiculture.registerBeeEffect(ForestryBeeEffects.PHASING, new PhasingBeeEffect());
 		apiculture.registerBeeEffect(ForestryBeeEffects.ASCENSION, new AscensionBeeEffect());
 		apiculture.registerBeeEffect(ForestryBeeEffects.SCULK, new SculkSpreadBeeEffect());
+		apiculture.registerBeeEffect(ForestryBeeEffects.DARKNESS, new PotionBeeEffect(false, MobEffects.DARKNESS, 150));
 
 		apiculture.registerActivityType(ForestryActivityTypes.DIURNAL, new SingleActivityType(0, 12000, ForestryError.NOT_DAY, LightPreference.ANY));
 		apiculture.registerActivityType(ForestryActivityTypes.NOCTURNAL, new SingleActivityType(12000, 24000, ForestryError.NOT_NIGHT, LightPreference.DARK));

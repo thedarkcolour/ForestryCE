@@ -96,7 +96,7 @@ public class ModuleApiculture extends BlankForestryModule {
 			if (main != null) {
 				LootPoolEntryContainer[] entries = new LootPoolEntryContainer[main.entries.length + 1];
 				System.arraycopy(main.entries, 0, entries, 0, main.entries.length);
-				entries[main.entries.length] = LootTableHelper.beeLoot(ForestryBeeSpecies.RELIC).build();
+				entries[main.entries.length] = LootTableHelper.beeLoot(ForestryBeeSpecies.CHRONOFUGE).build();
 				main.entries = entries;
 			}
 		}

@@ -30,6 +30,7 @@ import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.Containers;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
@@ -362,13 +363,15 @@ public class AlvearyController extends RectangularMultiblockControllerBase imple
 	@Override
 	public boolean canBlockSeeTheSky() {
 		BlockPos topCenter = getTopCenterCoord();
-		return this.level.canSeeSkyFromBelowWater(topCenter.offset(0, 2, 0));
+		return this.level.getBrightness(LightLayer.SKY,topCenter.offset(0,2,0))>=10;
+		//return this.level.canSeeSkyFromBelowWater(topCenter.offset(0, 2, 0));
 	}
 
 	@Override
 	public boolean isRaining() {
 		BlockPos topCenter = getTopCenterCoord();
-		return this.level.isRainingAt(topCenter.offset(0, 2, 0));
+		return this.level.isRaining() && this.level.getBrightness(LightLayer.SKY,topCenter.offset(0,2,0))>7;
+		//return this.level.isRainingAt(topCenter.offset(0, 2, 0));
 	}
 
 	@Override

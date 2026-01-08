@@ -1,4 +1,4 @@
-// 1.20.1	2025-05-24T21:16:45.3277104	Tags for minecraft:item mod id forestry
+// 1.20.1	2026-01-08T02:08:52.823843459	Tags for minecraft:item mod id forestry
 e550164a90c24f9d4255e205d402a80533c986dd data/curios/tags/items/head.json
 77279fa9dbfdb14e92622b6424ee1b16dab95207 data/forestry/tags/items/acacia_desert_logs.json
 35133e95f1c8fdd7a1c21afcc231fc0bffefb9a8 data/forestry/tags/items/backpack/allow/adventurer.json
@@ -88,9 +88,9 @@ c0020e6f377758179d2d7f23812e757851ba1ff2 data/forestry/tags/items/stamps.json
 a53617c07723524a62f108cef691b2adbfdbfe51 data/forestry/tags/items/zebrawood_logs.json
 e736c96d74e1d9b8799f108ba1e8b1e2173926fb data/forge/tags/items/chests.json
 997ede0ad811c9479aabe6bd63d0a5b90a75c3e6 data/forge/tags/items/dusts/ash.json
-ce6210a1da642c35100b944ac690d4e987fbd2fe data/forge/tags/items/fences.json
 ee1e6658ba85691c68370f191c913c187944b6b2 data/forge/tags/items/fence_gates.json
 ee1e6658ba85691c68370f191c913c187944b6b2 data/forge/tags/items/fence_gates/wooden.json
+ce6210a1da642c35100b944ac690d4e987fbd2fe data/forge/tags/items/fences.json
 7f5a98d8fa19572ce1d617975f4c7d0449b04380 data/forge/tags/items/fruits.json
 364116e996f1a0fd286e6ea38477fb15cccf46bb data/forge/tags/items/fruits/cherry.json
 3c22c5eb89477aab32b100953d3e3684a5c1e20a data/forge/tags/items/fruits/chestnut.json

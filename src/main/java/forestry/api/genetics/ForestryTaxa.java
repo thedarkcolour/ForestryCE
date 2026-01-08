@@ -95,6 +95,7 @@ public class ForestryTaxa {
 	public static final String GENUS_AGRARIAN = "rustapis";
 	public static final String GENUS_BOGGY = "paludapis";
 	public static final String GENUS_SAVANNA = "afrapis";
+	public static final String GENUS_VULTURE = "trigona";
 	public static final String GENUS_MONASTIC = "monapis";
 	public static final String GENUS_LUSH = "troglobites";
 	public static final String GENUS_KLEPTOPLASTIC = "phytapis";
@@ -203,12 +204,14 @@ public class ForestryTaxa {
 	public static final String SPECIES_RURAL = "rustico";
 	public static final String SPECIES_FARMERLY = "arator";
 	public static final String SPECIES_AGRARIAN = "agrarius";
+	public static final String SPECIES_SAKE = "oryza";
 	public static final String SPECIES_MARSHY = "adorasti";
 	public static final String SPECIES_MIRY = "humidium";
 	public static final String SPECIES_BOGGY = "paluster";
 	public static final String SPECIES_SAVANNA = "scutellata";
 	public static final String SPECIES_ARGIL = "argillata";
 	public static final String SPECIES_PRIDE = "rafikii";
+	public static final String SPECIES_VULTURE = "crassipes";
 	public static final String SPECIES_MONASTIC = "monachus";
 	public static final String SPECIES_SECLUDED = "contractus";
 	public static final String SPECIES_HERMITIC = "anachoreta";
@@ -220,7 +223,7 @@ public class ForestryTaxa {
 	public static final String SPECIES_AUTOTROPHIC = "solaris";
 	public static final String SPECIES_PRIMEVAL = "antiqua";
 	public static final String SPECIES_ANACHRONE = "tempuraptor";
-	public static final String SPECIES_RELIC = "elizabethii";
+	public static final String SPECIES_CHRONOFUGE = "elizabethii";
 	public static final String SPECIES_AQUATIC = "squarepantsii";//a real species name
 	public static final String SPECIES_PIRATE = "pirata";
 	public static final String SPECIES_PRISMATIC = "orichalcus";

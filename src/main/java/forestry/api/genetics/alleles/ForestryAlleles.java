@@ -160,6 +160,7 @@ public class ForestryAlleles {
 	public static final IRegistryAllele<IBeeEffect> EFFECT_PHASING = REGISTRY.registryAllele(ForestryBeeEffects.PHASING, BeeChromosomes.EFFECT);
 	public static final IRegistryAllele<IBeeEffect> EFFECT_ASCENSION = REGISTRY.registryAllele(ForestryBeeEffects.ASCENSION, BeeChromosomes.EFFECT);
 	public static final IRegistryAllele<IBeeEffect> EFFECT_SCULK = REGISTRY.registryAllele(ForestryBeeEffects.SCULK, BeeChromosomes.EFFECT);
+	public static final IRegistryAllele<IBeeEffect> EFFECT_DARKNESS = REGISTRY.registryAllele(ForestryBeeEffects.DARKNESS, BeeChromosomes.EFFECT);
 	//public static final IRegistryAllele<IBeeEffect> EFFECT_PATRIOTIC = Todos.todo();
 
 	// Speed

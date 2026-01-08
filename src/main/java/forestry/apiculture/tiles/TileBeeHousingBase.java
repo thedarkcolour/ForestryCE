@@ -20,6 +20,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -176,12 +177,14 @@ public abstract class TileBeeHousingBase extends TileBase implements IBeeHousing
 
 	@Override
 	public boolean canBlockSeeTheSky() {
-		return this.level.canSeeSky(getBlockPos().above());
+		return this.level.getBrightness(LightLayer.SKY,getBlockPos().above())>=10;
+		//return this.level.canSeeSky(getBlockPos().above());
 	}
 
 	@Override
 	public boolean isRaining() {
-		return this.level.isRainingAt(getBlockPos().above());
+		return this.level.isRaining() && this.level.getBrightness(LightLayer.SKY,getBlockPos().above())>7;
+		//return this.level.isRainingAt(getBlockPos().above());
 	}
 
 	@Override

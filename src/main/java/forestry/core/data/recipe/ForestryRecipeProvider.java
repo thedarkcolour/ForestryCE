@@ -2072,7 +2072,7 @@ public class ForestryRecipeProvider {
 		new SqueezerRecipeBuilder()
 			.setProcessingTime(20)
 			.setResources(Util.make(NonNullList.create(), (ingredients) -> {
-				ingredients.add(Ingredient.of(ApicultureItems.PROPOLIS.get(EnumPropolis.VOLCANIC)));
+				ingredients.add(Ingredient.of(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.PHOSPHOR)));
 				ingredients.add(Ingredient.of(Items.SAND, Items.RED_SAND));
 			}))
 			.setFluidOutput(new FluidStack(Fluids.LAVA, 500))
@@ -2081,7 +2081,7 @@ public class ForestryRecipeProvider {
 		new SqueezerRecipeBuilder()
 			.setProcessingTime(30)
 			.setResources(Util.make(NonNullList.create(), (ingredients) -> {
-				ingredients.add(Ingredient.of(ApicultureItems.PROPOLIS.get(EnumPropolis.VOLCANIC)));
+				ingredients.add(Ingredient.of(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.PHOSPHOR)));
 				ingredients.add(Ingredient.of(Items.COBBLESTONE));
 			}))
 			.setFluidOutput(new FluidStack(Fluids.LAVA, 500))
@@ -2090,7 +2090,7 @@ public class ForestryRecipeProvider {
 		new SqueezerRecipeBuilder()
 			.setProcessingTime(20)
 			.setResources(Util.make(NonNullList.create(), (ingredients) -> {
-				ingredients.add(Ingredient.of(ApicultureItems.PROPOLIS.get(EnumPropolis.VOLCANIC)));
+				ingredients.add(Ingredient.of(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.PHOSPHOR)));
 				ingredients.add(Ingredient.of(Items.MAGMA_BLOCK));
 			}))
 			.setFluidOutput(new FluidStack(Fluids.LAVA, 1000))

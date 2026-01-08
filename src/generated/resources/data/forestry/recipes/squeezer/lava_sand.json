@@ -6,12 +6,12 @@
     "FluidName": "minecraft:lava"
   },
   "remnant": {
-    "Count": 1,
+    "Count": 0,
     "id": "minecraft:air"
   },
   "resources": [
     {
-      "item": "forestry:propolis_volcanic"
+      "item": "forestry:phosphor"
     },
     [
       {

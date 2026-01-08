@@ -1,4 +1,4 @@
-// 1.20.1	2025-05-24T21:16:45.3247096	Tags for minecraft:block mod id forestry
+// 1.20.1	2026-01-06T01:06:38.56050114	Tags for minecraft:block mod id forestry
 77279fa9dbfdb14e92622b6424ee1b16dab95207 data/forestry/tags/blocks/acacia_desert_logs.json
 feccd800314ac054d3b904de8bb3398221fc29c9 data/forestry/tags/blocks/balsa_logs.json
 5a5c071e2bc4586b9723ee0a17626cd69cb400ac data/forestry/tags/blocks/baobab_logs.json
@@ -63,6 +63,7 @@ a4e8097fff07f9a74259d6b5dd583f3437ff28a2 data/forestry/tags/blocks/grafter.json
 14aa1bd296d7a5426e8a5b40df80de85126ffea7 data/forestry/tags/blocks/greenheart_logs.json
 fdd6e78557d0368cc2f48f65e403fe13102607b2 data/forestry/tags/blocks/hill_cherry_logs.json
 c547bcea8bc1ab3a88bba8caaf4d02e7897efb12 data/forestry/tags/blocks/hive_grounds/cave_extra_replaceable.json
+9994f212884e8264af96eaba34aa7e89696d8994 data/forestry/tags/blocks/hive_grounds/ended.json
 02d0d7f14f7fcab4acadaf6d779d37b734afe834 data/forestry/tags/blocks/hive_grounds/lush.json
 8bb7638e4835f6c3a07cd7620655ab015c154fc1 data/forestry/tags/blocks/hive_grounds/modest.json
 af10429d2ec86cd12fa17c8bdeb5aeef7d124e8b data/forestry/tags/blocks/hive_grounds/nether_extra_replaceable.json
@@ -89,9 +90,9 @@ b841a00870fdcf55fc0e81960a6fefeec9a84f96 data/forestry/tags/blocks/valid_farm_ba
 76c2959a0df83d4bb8cfe0f282b1c0f0a59ef6bb data/forestry/tags/blocks/willow_logs.json
 a53617c07723524a62f108cef691b2adbfdbfe51 data/forestry/tags/blocks/zebrawood_logs.json
 e736c96d74e1d9b8799f108ba1e8b1e2173926fb data/forge/tags/blocks/chests.json
-ce6210a1da642c35100b944ac690d4e987fbd2fe data/forge/tags/blocks/fences.json
 ee1e6658ba85691c68370f191c913c187944b6b2 data/forge/tags/blocks/fence_gates.json
 ee1e6658ba85691c68370f191c913c187944b6b2 data/forge/tags/blocks/fence_gates/wooden.json
+ce6210a1da642c35100b944ac690d4e987fbd2fe data/forge/tags/blocks/fences.json
 bb21d3539a79b0026a6f6669c4d05d2cf714868b data/forge/tags/blocks/ores.json
 8bc630a1df34e3623f9a5554a01ae2dfc2362023 data/forge/tags/blocks/ores/apatite.json
 6b5b215353862ea81225290f3c38054df67a245f data/forge/tags/blocks/ores/tin.json
