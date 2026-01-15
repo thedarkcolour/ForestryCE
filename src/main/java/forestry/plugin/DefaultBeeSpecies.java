@@ -13,7 +13,6 @@ import forestry.apiculture.genetics.FireworkProduct;
 import forestry.apiculture.genetics.HermitBeeJubilance;
 import forestry.apiculture.items.EnumHoneyComb;
 import forestry.apiculture.items.EnumPollenCluster;
-import forestry.apiculture.items.EnumPropolis;
 import forestry.core.features.CoreItems;
 import forestry.core.genetics.mutations.MutationConditionCave;
 import forestry.core.items.definitions.EnumCraftingMaterial;
@@ -512,6 +511,50 @@ public class DefaultBeeSpecies {
 			.setGlint(true)
 			.setAuthority("EnderiumSmith");
 
+		// Vindictive
+		apiculture.registerSpecies(ForestryBeeSpecies.VINDICTIVE, GENUS_VENGEFUL, SPECIES_VINDICTIVE, true, new Color(0xeafff3))
+			.setTemperature(TemperatureType.WARM)
+			.setHumidity(HumidityType.ARID)
+			.addProduct(BEE_COMBS.stack(EnumHoneyComb.PARCHED), 0.25f)
+			.setGenome(genome -> {
+				genome.set(BeeChromosomes.SPEED, ForestryAlleles.SPEED_SLOWER);
+				genome.set(BeeChromosomes.LIFESPAN, ForestryAlleles.LIFESPAN_NORMAL);
+			})
+			.addMutations(mutations -> {
+				mutations.add(ForestryBeeSpecies.SAVANNA, ForestryBeeSpecies.COMMON, 12);
+			})
+			.setSecret(true);
+
+		// Vengeful
+		apiculture.registerSpecies(ForestryBeeSpecies.VENGEFUL, GENUS_VENGEFUL, SPECIES_VENGEFUL, true, new Color(0xc2de00))
+			.setTemperature(TemperatureType.WARM)
+			.setHumidity(HumidityType.ARID)
+			.addProduct(BEE_COMBS.stack(EnumHoneyComb.PARCHED), 0.40f)
+			.setGenome(genome -> {
+				genome.set(BeeChromosomes.SPEED, ForestryAlleles.SPEED_NORMAL);
+				genome.set(BeeChromosomes.LIFESPAN, ForestryAlleles.LIFESPAN_LONGER);
+			})
+			.addMutations(mutations -> {
+				mutations.add(ForestryBeeSpecies.VINDICTIVE, ForestryBeeSpecies.CULTIVATED, 8);
+			})
+			.setSecret(true);
+
+		// Avenging
+		apiculture.registerSpecies(ForestryBeeSpecies.AVENGING, GENUS_VENGEFUL, SPECIES_AVENGING, true, new Color(0xddff00))
+			.setTemperature(TemperatureType.WARM)
+			.setHumidity(HumidityType.ARID)
+			.addProduct(BEE_COMBS.stack(EnumHoneyComb.PARCHED), 0.40f)
+			.setGenome(genome -> {
+				genome.set(BeeChromosomes.SPEED, ForestryAlleles.SPEED_SLOWEST);
+				genome.set(BeeChromosomes.LIFESPAN, ForestryAlleles.LIFESPAN_LONGEST);
+				genome.set(BeeChromosomes.EFFECT, ForestryAlleles.EFFECT_RADIOACTIVE);
+			})
+			.addMutations(mutations -> {
+				mutations.add(ForestryBeeSpecies.VINDICTIVE, ForestryBeeSpecies.VENGEFUL, 4);
+			})
+			.setGlint(true)
+			.setSecret(true);
+
 		// Steadfast
 		apiculture.registerSpecies(ForestryBeeSpecies.STEADFAST, GENUS_HEROIC, SPECIES_STEADFAST, false, new Color(0x4d2b15))
 			.addProduct(BEE_COMBS.stack(EnumHoneyComb.COCOA), 0.20f)
@@ -878,13 +921,13 @@ public class DefaultBeeSpecies {
 				genome.set(BeeChromosomes.EFFECT, ForestryAlleles.EFFECT_CHRONOPHAGE);
 			})
 			.addMutations(mutations -> {
-				mutations.add(ForestryBeeSpecies.CHRONOFUGE, ForestryBeeSpecies.STEADFAST, 10);
+				mutations.add(ForestryBeeSpecies.RELIC, ForestryBeeSpecies.STEADFAST, 10);
 			})
 			.setGlint(true)
 			.setAuthority("EnderiumSmith");
 
 		// RELIC
-		apiculture.registerSpecies(ForestryBeeSpecies.CHRONOFUGE, GENUS_RELIC, SPECIES_CHRONOFUGE, false, new Color(16733695))
+		apiculture.registerSpecies(ForestryBeeSpecies.RELIC, GENUS_RELIC, SPECIES_RELIC, false, new Color(16733695))
 			.setTemperature(TemperatureType.WARM)
 			.addProduct(BEE_COMBS.stack(EnumHoneyComb.VINTAGE), 0.20F)
 			.addSpecialty(ApicultureItems.ROYAL_JELLY.stack(), 0.15F)
@@ -911,50 +954,6 @@ public class DefaultBeeSpecies {
 
 
 		// todo move to IC2 plugin when that's ported
-
-		// Vindictive
-		apiculture.registerSpecies(ForestryBeeSpecies.VINDICTIVE, GENUS_VENGEFUL, SPECIES_VINDICTIVE, true, new Color(0xeafff3))
-				.setTemperature(TemperatureType.WARM)
-				.setHumidity(HumidityType.ARID)
-				.addProduct(BEE_COMBS.stack(EnumHoneyComb.PARCHED), 0.25f)
-				.setGenome(genome -> {
-					genome.set(BeeChromosomes.SPEED, ForestryAlleles.SPEED_SLOWER);
-					genome.set(BeeChromosomes.LIFESPAN, ForestryAlleles.LIFESPAN_NORMAL);
-				})
-				.addMutations(mutations -> {
-					mutations.add(ForestryBeeSpecies.SAVANNA, ForestryBeeSpecies.COMMON, 12);
-				})
-				.setSecret(true);
-
-		// Vengeful
-		apiculture.registerSpecies(ForestryBeeSpecies.VENGEFUL, GENUS_VENGEFUL, SPECIES_VENGEFUL, true, new Color(0xc2de00))
-				.setTemperature(TemperatureType.WARM)
-				.setHumidity(HumidityType.ARID)
-				.addProduct(BEE_COMBS.stack(EnumHoneyComb.PARCHED), 0.40f)
-				.setGenome(genome -> {
-					genome.set(BeeChromosomes.SPEED, ForestryAlleles.SPEED_NORMAL);
-					genome.set(BeeChromosomes.LIFESPAN, ForestryAlleles.LIFESPAN_LONGER);
-				})
-				.addMutations(mutations -> {
-					mutations.add(ForestryBeeSpecies.VINDICTIVE, ForestryBeeSpecies.CULTIVATED, 8);
-				})
-				.setSecret(true);
-
-		// Avenging
-		apiculture.registerSpecies(ForestryBeeSpecies.AVENGING, GENUS_VENGEFUL, SPECIES_AVENGING, true, new Color(0xddff00))
-				.setTemperature(TemperatureType.WARM)
-				.setHumidity(HumidityType.ARID)
-				.addProduct(BEE_COMBS.stack(EnumHoneyComb.PARCHED), 0.40f)
-				.setGenome(genome -> {
-					genome.set(BeeChromosomes.SPEED, ForestryAlleles.SPEED_SLOWEST);
-					genome.set(BeeChromosomes.LIFESPAN, ForestryAlleles.LIFESPAN_LONGEST);
-					genome.set(BeeChromosomes.EFFECT, ForestryAlleles.EFFECT_RADIOACTIVE);
-				})
-				.addMutations(mutations -> {
-					mutations.add(ForestryBeeSpecies.VINDICTIVE, ForestryBeeSpecies.VENGEFUL, 4);
-				})
-				.setGlint(true)
-				.setSecret(true);
 
 		// Leporine (Easter secret)
 		apiculture.registerSpecies(ForestryBeeSpecies.LEPORINE, GENUS_FESTIVE, SPECIES_LEPORINE, false, new Color(0xfeff8f))
