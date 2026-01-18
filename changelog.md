@@ -1,3 +1,23 @@
+## Forestry 2.10.0
+- More Bee Tweaks, thanks to EnderiumSmith (#291)
+  - Changed "0" fertility to display as "Infertile"
+  - Crepuscular activity period extended to work during 0..2000, 10000..15000, and 21000..24000
+  - Scoops can now be enchanted (Unbreaking, Silk Touch, Fortune)
+  - Hives can now be silk-touched
+  - Hive drops are now affected by Fortune
+  - End Hives now generate properly
+  - End Hives now have a rare chance to drop bees with "Phasing" or "Ascension" effects
+  - Increased drop rates of bees from Marshy hives
+  - Relaxed skylight requirements so that bees don't have to see the sky directly above them, now only requiring hives to be in a skylight of 10 or greater.
+  - Phosphor makes lava again instead of Volcanic Propolis
+  - Sinister produces Phosphor instead of Volcanic Propolis
+  - Luxuriant no longer produces phosphor, now only produces combs
+  - Abyssal species now has the "Darkness" effect, which blinds nearby players
+  - Savanna and Aquatic lines now uses Crepuscular activity instead of Nocturnal activity
+  - Added the Vindictive line back, no longer tied to IndustrialCraft2
+  - Vindictive line no longer uses Radioactive effect, uses aggressive instead, and has BOTH_1 climate tolerances
+  - Flower spawning fixed to no longer fill the area with the same kind of flower
+
 ## Forestry 2.9.0
 - Fix incorrect bee particle positioning (#247)
 - Added tooltips to bee flower types in the portable analyzer (still missing Photosynth)

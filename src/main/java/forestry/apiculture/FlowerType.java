@@ -2,6 +2,8 @@ package forestry.apiculture;
 
 import forestry.api.ForestryTags;
 import forestry.api.apiculture.IFlowerType;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.Level;
@@ -10,13 +12,11 @@ import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class FlowerType implements IFlowerType {
 	private final TagKey<Block> acceptableFlowers;
 	private final boolean dominant;
-	private final Random rand = new Random();
 
 	public FlowerType(TagKey<Block> acceptableFlowers, boolean dominant) {
 		this.acceptableFlowers = acceptableFlowers;
@@ -32,29 +32,22 @@ public class FlowerType implements IFlowerType {
 
 	@Override
 	public boolean plantRandomFlower(Level level, BlockPos pos, List<BlockState> nearbyFlowers) {
-		if (level.hasChunkAt(pos) && level.isEmptyBlock(pos)) {
-			loop1:
-			for (int i = 0; i < 8; i++) {
-				BlockState randState = nearbyFlowers.get(rand.nextInt(nearbyFlowers.size()));
-				if (randState.is(ForestryTags.Blocks.PLANTABLE_FLOWERS) && randState.canSurvive(level, pos)) {
-					int count = 5;
-					for (BlockPos blockpos : BlockPos.betweenClosed(pos.offset(-4, -1, -4), pos.offset(4, 1, 4))) {
-						if (level.getBlockState(blockpos).is(randState.getBlock())) {
-							--count;
-							if (count <= 0) {
-								continue loop1;
-							}
-						}
-					}
-					if (randState.hasProperty(DoublePlantBlock.HALF)) {
+		if (level.hasChunkAt(pos) && isPlantablePosition(level, pos)) {
+			// nearbyFlowers can contain duplicate flowers, but we don't want biased flower selection
+			ObjectArrayList<BlockState> uniqueNearbyFlowers = new ObjectArrayList<>(new HashSet<>(nearbyFlowers));
+			Util.shuffle(uniqueNearbyFlowers, level.random);
+
+			for (BlockState state : uniqueNearbyFlowers) {
+				if (state.is(ForestryTags.Blocks.PLANTABLE_FLOWERS) && state.canSurvive(level, pos)) {
+					if (state.hasProperty(DoublePlantBlock.HALF)) {
 						BlockPos topPos = pos.above();
 
 						if (level.isEmptyBlock(topPos)) {
-							return level.setBlockAndUpdate(pos, randState.setValue(DoublePlantBlock.HALF, DoubleBlockHalf.LOWER))
-								&& level.setBlockAndUpdate(topPos, randState.setValue(DoublePlantBlock.HALF, DoubleBlockHalf.UPPER));
+							return level.setBlockAndUpdate(pos, state.setValue(DoublePlantBlock.HALF, DoubleBlockHalf.LOWER))
+								&& level.setBlockAndUpdate(topPos, state.setValue(DoublePlantBlock.HALF, DoubleBlockHalf.UPPER));
 						}
 					} else {
-						return level.setBlockAndUpdate(pos, randState);
+						return level.setBlockAndUpdate(pos, state);
 					}
 				}
 			}
