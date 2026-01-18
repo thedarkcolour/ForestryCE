@@ -391,7 +391,7 @@ public class DefaultBeeSpecies {
 			});
 
 		// Icy
-		apiculture.registerSpecies(ForestryBeeSpecies.ICY, GENUS_FROZEN, SPECIES_ICY, true, new Color(0xa0ffc8))
+		apiculture.registerSpecies(ForestryBeeSpecies.ICY, GENUS_FROZEN, SPECIES_ICY, true, new Color(0xa0ffff))
 			.setBody(new Color(0xdaf5f3))
 			.setTemperature(TemperatureType.ICY)
 			.addProduct(BEE_COMBS.stack(EnumHoneyComb.FROZEN), 0.20f)
@@ -406,7 +406,7 @@ public class DefaultBeeSpecies {
 			});
 
 		// Glacial
-		apiculture.registerSpecies(ForestryBeeSpecies.GLACIAL, GENUS_FROZEN, SPECIES_GLACIAL, false, new Color(0xa0ffc8))
+		apiculture.registerSpecies(ForestryBeeSpecies.GLACIAL, GENUS_FROZEN, SPECIES_GLACIAL, false, new Color(0xefffff))
 			.setBody(new Color(0xdaf5f3))
 			.setTemperature(TemperatureType.ICY)
 			.addProduct(BEE_COMBS.stack(EnumHoneyComb.FROZEN), 0.20f)
