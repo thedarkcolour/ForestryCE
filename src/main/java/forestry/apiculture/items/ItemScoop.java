@@ -3,7 +3,6 @@ package forestry.apiculture.items;
 import forestry.api.ForestryTags;
 import forestry.api.apiculture.ForestryBeeSpecies;
 import forestry.api.apiculture.genetics.BeeLifeStage;
-import forestry.core.items.ItemForestry;
 import forestry.core.utils.ItemTooltipUtil;
 import forestry.core.utils.SpeciesUtil;
 import net.minecraft.core.BlockPos;
@@ -29,7 +28,7 @@ import java.util.List;
 
 public class ItemScoop extends TieredItem {
 	public ItemScoop() {
-		super(Tiers.WOOD,new Item.Properties().durability(10));
+		super(Tiers.WOOD, new Item.Properties().durability(10));
 	}
 
 	@Override
@@ -60,16 +59,15 @@ public class ItemScoop extends TieredItem {
 	public InteractionResult interactLivingEntity(ItemStack stack, Player player, LivingEntity interactionTarget, InteractionHand usedHand) {
 		Level level = interactionTarget.level();
 
-		if (!level.isClientSide()) {
-			if (interactionTarget instanceof Bee) {
+		if (interactionTarget instanceof Bee) {
+			if (!level.isClientSide()) {
 				ItemEntity bee = new ItemEntity(level, interactionTarget.getX(), interactionTarget.getY(), interactionTarget.getZ(), SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.VANILLA, BeeLifeStage.DRONE));
 				level.addFreshEntity(bee);
 				level.playSound(null, interactionTarget.blockPosition(), SoundEvents.BEE_HURT, SoundSource.PLAYERS, 1f, 1f);
 				interactionTarget.setRemoved(Entity.RemovalReason.DISCARDED);
 				stack.hurtAndBreak(1, player, living -> living.broadcastBreakEvent(usedHand));
-				return InteractionResult.SUCCESS;
 			}
-			return InteractionResult.PASS;
+			return InteractionResult.sidedSuccess(level.isClientSide);
 		}
 		return InteractionResult.PASS;
 	}
