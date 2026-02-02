@@ -17,6 +17,8 @@
   - Added the Vindictive line back, no longer tied to IndustrialCraft2
   - Vindictive line no longer uses Radioactive effect, uses aggressive instead, and has BOTH_1 climate tolerances
   - Flower spawning fixed to no longer fill the area with the same kind of flower
+  - Steadfast species now has Cathemeral activity
+  - Sculk species is now bred from Abyssal and Hermitic rather than Abyssal and Phantasmal
 
 ## Forestry 2.9.0
 - Fix incorrect bee particle positioning (#247)
