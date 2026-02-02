@@ -522,8 +522,7 @@ public class DefaultBeeSpecies {
 			})
 			.addMutations(mutations -> {
 				mutations.add(ForestryBeeSpecies.SAVANNA, ForestryBeeSpecies.COMMON, 12);
-			})
-			.setSecret(true);
+			});
 
 		// Vengeful
 		apiculture.registerSpecies(ForestryBeeSpecies.VENGEFUL, GENUS_VENGEFUL, SPECIES_VENGEFUL, true, new Color(0xc2de00))
@@ -536,8 +535,7 @@ public class DefaultBeeSpecies {
 			})
 			.addMutations(mutations -> {
 				mutations.add(ForestryBeeSpecies.VINDICTIVE, ForestryBeeSpecies.CULTIVATED, 8);
-			})
-			.setSecret(true);
+			});
 
 		// Avenging
 		apiculture.registerSpecies(ForestryBeeSpecies.AVENGING, GENUS_VENGEFUL, SPECIES_AVENGING, true, new Color(0xddff00))
@@ -552,8 +550,7 @@ public class DefaultBeeSpecies {
 			.addMutations(mutations -> {
 				mutations.add(ForestryBeeSpecies.VINDICTIVE, ForestryBeeSpecies.VENGEFUL, 4);
 			})
-			.setGlint(true)
-			.setSecret(true);
+			.setGlint(true);
 
 		// Steadfast
 		apiculture.registerSpecies(ForestryBeeSpecies.STEADFAST, GENUS_HEROIC, SPECIES_STEADFAST, false, new Color(0x4d2b15))
