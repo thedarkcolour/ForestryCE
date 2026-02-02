@@ -160,7 +160,7 @@ public class DefaultBeeSpecies {
 			.setTemperature(TemperatureType.HELLISH)
 			.setHumidity(HumidityType.ARID)
 			.addProduct(BEE_COMBS.stack(EnumHoneyComb.SIMMERING), 0.45f)
-			.addProduct(CoreItems.CRAFTING_MATERIALS.stack(EnumCraftingMaterial.PHOSPHOR,2), 0.30F)
+			.addProduct(CoreItems.CRAFTING_MATERIALS.stack(EnumCraftingMaterial.PHOSPHOR, 2), 0.30F)
 			.setGenome(genome -> {
 				genome.set(BeeChromosomes.SPEED, ForestryAlleles.SPEED_SLOWER);
 				genome.set(BeeChromosomes.LIFESPAN, ForestryAlleles.LIFESPAN_NORMAL);

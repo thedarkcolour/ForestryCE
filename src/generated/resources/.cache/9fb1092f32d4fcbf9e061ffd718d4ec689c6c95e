@@ -1,4 +1,4 @@
-// 1.20.1	2026-01-08T05:26:20.741990496	Recipes
+// 1.20.1	2026-02-02T11:57:11.856536286	Recipes
 6867bbb8c2b291d6e111aae900a9ce8be0cf8ebe data/forestry/advancements/recipes/building_blocks/acacia_desert_fence.json
 92d402b3f91419af71a9913fbddab9c5e9183779 data/forestry/advancements/recipes/building_blocks/acacia_desert_fence_gate.json
 756f6f4fa8d9fdc7fe1895f6bd02cb5e107c6acf data/forestry/advancements/recipes/building_blocks/acacia_desert_fireproof_fence.json
@@ -749,6 +749,7 @@ ebd29408d952358e6e1c603788ddc05ca798a10b data/forestry/advancements/recipes/misc
 a9e00759c5781bddbcc9865e989ed29a48dbc743 data/forestry/advancements/recipes/misc/torch_from_wax.json
 7599e4e0a0891ceb576b72d164f65c2edba5cce3 data/forestry/advancements/recipes/misc/trade_station.json
 af3c6a072d8de507e7c833fd99e1cef8d00e89e9 data/forestry/advancements/recipes/misc/tree_chest.json
+430b83a3def7256554a5c74e60f192249544c8a7 data/forestry/advancements/recipes/misc/volcanic_propolis_to_phosphor.json
 055d9bc85e6bb250afe9c52bae863973e8fa9b18 data/forestry/advancements/recipes/misc/walnut_boat.json
 9e90dc430c6e6d81afce1a8c0b5319aca3bd6440 data/forestry/advancements/recipes/misc/walnut_chest_boat.json
 7056f9bf48d7cea5abd19e1faed61ce97be61b34 data/forestry/advancements/recipes/misc/walnut_hanging_sign.json
@@ -2210,6 +2211,7 @@ d1829b14312672abd590ca7a5f6a73318df2091e data/forestry/recipes/teak_stripped_woo
 ec88dd63401b58d4b6bdf27afcee2c3f55e063e0 data/forestry/recipes/torch_from_wax.json
 053ffabc3e2a3e10e96c734f9f308af31f53b57c data/forestry/recipes/trade_station.json
 ef6678334f954268dec42f7fef2c08b9c3d1e493 data/forestry/recipes/tree_chest.json
+bc0cf6c150736d169b46f209d626da643213410d data/forestry/recipes/volcanic_propolis_to_phosphor.json
 dbb9ad27c18e9b38f6f20c8e0a45dba5804ca1fe data/forestry/recipes/walnut_boat.json
 52c1cab952c23dcacf31b444daa8477fc6a078a5 data/forestry/recipes/walnut_button.json
 f23cae9827dbeb4c66c2025fe10bf891b4fef36f data/forestry/recipes/walnut_chest_boat.json

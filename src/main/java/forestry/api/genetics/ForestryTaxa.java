@@ -95,7 +95,6 @@ public class ForestryTaxa {
 	public static final String GENUS_AGRARIAN = "rustapis";
 	public static final String GENUS_BOGGY = "paludapis";
 	public static final String GENUS_SAVANNA = "afrapis";
-	public static final String GENUS_VULTURE = "trigona";
 	public static final String GENUS_MONASTIC = "monapis";
 	public static final String GENUS_LUSH = "troglobites";
 	public static final String GENUS_KLEPTOPLASTIC = "phytapis";

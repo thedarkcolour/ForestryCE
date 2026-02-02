@@ -359,6 +359,9 @@ public class ForestryRecipeProvider {
 		});
 
 		recipes.shapelessCrafting("exp_bottle_from_exp_drop", RecipeCategory.MISC, Items.EXPERIENCE_BOTTLE, 1, Items.GLASS_BOTTLE, ApicultureItems.EXPERIENCE_DROP.item());
+
+		// todo remove in 1.21.1 when volcanic propolis is removed
+		recipes.shapelessCrafting("volcanic_propolis_to_phosphor", RecipeCategory.MISC, CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.PHOSPHOR), 1, ApicultureItems.PROPOLIS.get(EnumPropolis.VOLCANIC));
 	}
 
 	private static void registerCombRecipes(MKRecipeProvider recipes) {
