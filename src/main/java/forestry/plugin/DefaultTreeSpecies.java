@@ -71,9 +71,9 @@ public class DefaultTreeSpecies {
 		// Previously known as Hill Cherry, and this introduced a world of hurt.
 		arboriculture.registerSpecies(ForestryTreeSpecies.SOUR_CHERRY, GENUS_PRUNUS, SPECIES_SOUR_CHERRY, true, TextColor.fromRgb(0x84AA37), ForestryWoodType.HILL_CHERRY)
 				.setTreeFeature(FeatureSourCherry::new)
-				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.HILL_CHERRY))
-				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.HILL_CHERRY).block().getStateDefinition().getPossibleStates())
-				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.get(ForestryLeafType.HILL_CHERRY).block().getStateDefinition().getPossibleStates())
+				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.SOUR_CHERRY))
+				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.SOUR_CHERRY).block().getStateDefinition().getPossibleStates())
+				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.get(ForestryLeafType.SOUR_CHERRY).block().getStateDefinition().getPossibleStates())
 				.setGenome(genome -> {
 					genome.set(TreeChromosomes.FRUIT, ForestryAlleles.FRUIT_CHERRY);
 					genome.set(TreeChromosomes.SAPLINGS, ForestryAlleles.SAPLINGS_LOW);
@@ -777,9 +777,9 @@ public class DefaultTreeSpecies {
 		// Camelthorn https://www.catalogueoflife.org/data/taxon/BTCD3
 		arboriculture.registerSpecies(ForestryTreeSpecies.CAMELTHORN, GENUS_VACHELLIA, SPECIES_CAMELTHORN, true, TextColor.fromRgb(0x748C1C), ForestryWoodType.ACACIA_DESERT)
 				.setTreeFeature(FeatureCamelthorn::new)
-				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.DESERT_ACACIA))
-				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.DESERT_ACACIA).block().getStateDefinition().getPossibleStates())
-				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.get(ForestryLeafType.DESERT_ACACIA).block().getStateDefinition().getPossibleStates())
+				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.CAMELTHORN))
+				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.CAMELTHORN).block().getStateDefinition().getPossibleStates())
+				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.get(ForestryLeafType.CAMELTHORN).block().getStateDefinition().getPossibleStates())
 				.setTemperature(TemperatureType.WARM)
 				.setHumidity(HumidityType.ARID)
 				.setGenome(genome -> {

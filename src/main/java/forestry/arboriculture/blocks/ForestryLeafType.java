@@ -29,7 +29,7 @@ public final class ForestryLeafType implements IBlockSubtype {
 	public static final ForestryLeafType WALNUT = new ForestryLeafType(ForestryTreeSpecies.WALNUT);
 	public static final ForestryLeafType CHESTNUT = new ForestryLeafType(ForestryTreeSpecies.CHESTNUT);
 	public static final ForestryLeafType CHERRY_VANILLA = new ForestryLeafType(ForestryTreeSpecies.CHERRY_VANILLA);
-	public static final ForestryLeafType HILL_CHERRY = new ForestryLeafType(ForestryTreeSpecies.SOUR_CHERRY);
+	public static final ForestryLeafType SOUR_CHERRY = new ForestryLeafType(ForestryTreeSpecies.SOUR_CHERRY);
 	public static final ForestryLeafType LEMON = new ForestryLeafType(ForestryTreeSpecies.LEMON);
 	public static final ForestryLeafType PLUM = new ForestryLeafType(ForestryTreeSpecies.PLUM);
 	public static final ForestryLeafType MAPLE = new ForestryLeafType(ForestryTreeSpecies.MAPLE);
@@ -46,7 +46,7 @@ public final class ForestryLeafType implements IBlockSubtype {
 	public static final ForestryLeafType ZEBRANO = new ForestryLeafType(ForestryTreeSpecies.ZEBRANO);
 	public static final ForestryLeafType MAHOGANY = new ForestryLeafType(ForestryTreeSpecies.MAHOGANY);
 	public static final ForestryLeafType ACACIA_VANILLA = new ForestryLeafType(ForestryTreeSpecies.ACACIA_VANILLA);
-	public static final ForestryLeafType DESERT_ACACIA = new ForestryLeafType(ForestryTreeSpecies.CAMELTHORN);
+	public static final ForestryLeafType CAMELTHORN = new ForestryLeafType(ForestryTreeSpecies.CAMELTHORN);
 	public static final ForestryLeafType PADAUK = new ForestryLeafType(ForestryTreeSpecies.PADAUK);
 	public static final ForestryLeafType BALSA = new ForestryLeafType(ForestryTreeSpecies.BALSA);
 	public static final ForestryLeafType COCOBOLO = new ForestryLeafType(ForestryTreeSpecies.COCOBOLO);
@@ -115,9 +115,9 @@ public final class ForestryLeafType implements IBlockSubtype {
 	// Default values used by Forestry to make its leaf blocks (includes all the fields)
 	@ApiStatus.Internal
 	public static List<ForestryLeafType> values() {
-		return Arrays.asList(OAK, DARK_OAK, BIRCH, LIME, WALNUT, CHESTNUT, CHERRY_VANILLA, HILL_CHERRY,
+		return Arrays.asList(OAK, DARK_OAK, BIRCH, LIME, WALNUT, CHESTNUT, CHERRY_VANILLA, SOUR_CHERRY,
 				LEMON, PLUM, MAPLE, SPRUCE, LARCH, PINE, SEQUOIA, GIANT_SEQUOIA, JUNGLE, TEAK, IPE, KAPOK,
-				EBONY, ZEBRANO, MAHOGANY, ACACIA_VANILLA, DESERT_ACACIA, PADAUK, BALSA, COCOBOLO, WENGE,
+				EBONY, ZEBRANO, MAHOGANY, ACACIA_VANILLA, CAMELTHORN, PADAUK, BALSA, COCOBOLO, WENGE,
 				BAOBAB, MAHOE, WILLOW, GREENHEART, PAPAYA, DATE, POPLAR, ELM, FIR, COCONUT, BEECH, FEIJOA,
 				DOGWOOD, GINKGO, JACARANDA, PEWEN, MACROCARPA, OLIVE, ORANGE, PEAR, KAURI);
 	}

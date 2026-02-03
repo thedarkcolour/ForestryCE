@@ -28,7 +28,7 @@ import java.util.stream.Stream;
 public enum ForestryWoodType implements IWoodType {
 	LARCH(ForestryLeafType.LARCH),
 	TEAK(ForestryLeafType.TEAK),
-	ACACIA_DESERT(ForestryLeafType.DESERT_ACACIA),
+	ACACIA_DESERT(ForestryLeafType.CAMELTHORN),
 	LIME(ForestryLeafType.LIME),
 	CHESTNUT(ForestryLeafType.CHESTNUT),
 	WENGE(ForestryLeafType.WENGE),
@@ -43,7 +43,7 @@ public enum ForestryWoodType implements IWoodType {
 	WILLOW(ForestryLeafType.WILLOW),
 	WALNUT(ForestryLeafType.WALNUT),
 	GREENHEART(ForestryLeafType.GREENHEART, 7.5f), //TODO - 1.21.1 - Rename to Sipiri?
-	HILL_CHERRY(ForestryLeafType.HILL_CHERRY),
+	HILL_CHERRY(ForestryLeafType.SOUR_CHERRY),
 
 	MAHOE(ForestryLeafType.MAHOE),
 	POPLAR(ForestryLeafType.POPLAR),
