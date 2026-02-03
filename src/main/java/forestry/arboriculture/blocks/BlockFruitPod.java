@@ -11,19 +11,23 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.CocoaBlock;
-import net.minecraft.world.level.block.EntityBlock;
-import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 import java.util.List;
 
 public class BlockFruitPod extends CocoaBlock implements EntityBlock {
+	protected static final VoxelShape[] EAST_SMALL_AABB = new VoxelShape[]{Block.box(11, 8, 6, 15, 12, 10), Block.box(9, 6, 5, 15, 12, 11), Block.box(7, 4, 4, 15, 12, 12)};
+	protected static final VoxelShape[] WEST_SMALL_AABB = new VoxelShape[]{Block.box(1, 8, 6, 5, 12, 10), Block.box(1, 6, 5, 7, 12, 11), Block.box(1, 4, 4, 9, 12, 12)};
+	protected static final VoxelShape[] NORTH_SMALL_AABB = new VoxelShape[]{Block.box(6, 8, 1, 10, 12, 5), Block.box(5, 6, 1, 11, 12, 7), Block.box(4, 4, 1, 12, 12, 9)};
+	protected static final VoxelShape[] SOUTH_SMALL_AABB = new VoxelShape[]{Block.box(6, 8, 11, 10, 12, 15), Block.box(5, 6, 9, 11, 12, 15), Block.box(4, 4, 7, 12, 12, 15)};
+
 	private final ForestryPodType podType;
 
 	public BlockFruitPod(ForestryPodType podType) {
@@ -93,5 +97,21 @@ public class BlockFruitPod extends CocoaBlock implements EntityBlock {
 		if (podTile != null) {
 			podTile.addRipeness(0.5f);
 		}
+	}
+
+	@Override
+	public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+		if (this.podType != ForestryPodType.COCONUT) {
+			return super.getShape(state, level, pos, context);
+		}
+
+		// smaller hitbox for Coconut
+		int i = state.getValue(AGE);
+		return switch (state.getValue(FACING)) {
+			case SOUTH -> SOUTH_SMALL_AABB[i];
+			case WEST -> WEST_SMALL_AABB[i];
+			case EAST -> EAST_SMALL_AABB[i];
+			default -> NORTH_SMALL_AABB[i];
+		};
 	}
 }
