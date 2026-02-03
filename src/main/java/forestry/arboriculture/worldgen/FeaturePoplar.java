@@ -13,7 +13,6 @@ public class FeaturePoplar extends FeatureTree {
 
 	@Override
 	protected void generateLeaves(LevelAccessor level, RandomSource rand, TreeBlockTypeLeaf leaf, TreeContour contour, BlockPos startPos) {
-
 		int leafSpawn = this.height + 1;
 		int leafRadius = (this.girth / 2) + 1;
 

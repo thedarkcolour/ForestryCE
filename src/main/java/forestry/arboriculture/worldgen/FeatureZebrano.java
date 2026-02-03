@@ -8,8 +8,8 @@ import net.minecraft.world.level.LevelAccessor;
 
 import java.util.List;
 
-public class FeatureZebrawood extends FeatureTree {
-	public FeatureZebrawood(ITreeGenData tree) {
+public class FeatureZebrano extends FeatureTree {
+	public FeatureZebrano(ITreeGenData tree) {
 		super(tree, 8, 8);
 	}
 

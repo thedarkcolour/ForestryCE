@@ -2,11 +2,11 @@ package forestry.arboriculture.worldgen;
 
 import forestry.api.arboriculture.ITreeGenData;
 import forestry.core.worldgen.FeatureHelper;
-import java.util.List;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
+
+import java.util.List;
 
 public class FeatureJungle extends FeatureTreeVanilla {
 	public FeatureJungle(ITreeGenData tree) {

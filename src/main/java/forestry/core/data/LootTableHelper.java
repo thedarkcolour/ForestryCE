@@ -134,7 +134,7 @@ public class LootTableHelper {
 			LootTable.lootTable().withPool(LootPool.lootPool()
 				.name("forestry_arboriculture_items")
 				.setRolls(ConstantValue.exactly(1))
-				.add(saplingLoot(ForestryTreeSpecies.SIPIRI))
+				.add(saplingLoot(ForestryTreeSpecies.GREENHEART))
 				.add(EmptyLootItem.emptyItem().setWeight(9))
 			));
 		add(BuiltInLootTables.NETHER_BRIDGE, "apiculture",

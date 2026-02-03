@@ -60,7 +60,7 @@ public sealed interface TreeContour {
 
 		@Override
 		public List<BlockPos> getTrunkOrigins() {
-			return trunkOrigins;
+			return this.trunkOrigins;
 		}
 	}
 
