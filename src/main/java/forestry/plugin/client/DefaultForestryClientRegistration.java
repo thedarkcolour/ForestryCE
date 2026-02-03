@@ -70,7 +70,7 @@ public class DefaultForestryClientRegistration implements Consumer<IClientRegist
 		client.setLeafSprite(ForestryTreeSpecies.IPE, ForestryLeafSprites.IPE);
 		client.setLeafSprite(ForestryTreeSpecies.KAPOK, ForestryLeafSprites.JUNGLE);
 		client.setLeafSprite(ForestryTreeSpecies.EBONY, ForestryLeafSprites.JUNGLE);
-		client.setLeafSprite(ForestryTreeSpecies.ZEBRAWOOD, ForestryLeafSprites.JUNGLE);
+		client.setLeafSprite(ForestryTreeSpecies.ZEBRANO, ForestryLeafSprites.JUNGLE);
 		client.setLeafSprite(ForestryTreeSpecies.MAHOGANY, ForestryLeafSprites.JUNGLE);
 		client.setLeafSprite(ForestryTreeSpecies.CAMELTHORN, ForestryLeafSprites.ACACIA);
 		client.setLeafSprite(ForestryTreeSpecies.PADAUK, ForestryLeafSprites.ACACIA);
@@ -80,7 +80,7 @@ public class DefaultForestryClientRegistration implements Consumer<IClientRegist
 		client.setLeafSprite(ForestryTreeSpecies.BAOBAB, ForestryLeafSprites.ACACIA);
 		client.setLeafSprite(ForestryTreeSpecies.MAHOE, ForestryLeafSprites.OAK);
 		client.setLeafSprite(ForestryTreeSpecies.WILLOW, ForestryLeafSprites.WILLOW);
-		client.setLeafSprite(ForestryTreeSpecies.SIPIRI, ForestryLeafSprites.MANGROVE);
+		client.setLeafSprite(ForestryTreeSpecies.GREENHEART, ForestryLeafSprites.MANGROVE);
 		client.setLeafSprite(ForestryTreeSpecies.PAPAYA, ForestryLeafSprites.PALM);
 		client.setLeafSprite(ForestryTreeSpecies.DATE, ForestryLeafSprites.PALM);
 		client.setLeafSprite(ForestryTreeSpecies.POPLAR, ForestryLeafSprites.BIRCH);
@@ -92,7 +92,7 @@ public class DefaultForestryClientRegistration implements Consumer<IClientRegist
 		client.setLeafSprite(ForestryTreeSpecies.DOGWOOD, ForestryLeafSprites.DOGWOOD);
 		client.setLeafSprite(ForestryTreeSpecies.GINKGO, ForestryLeafSprites.GINKGO);
 		client.setLeafSprite(ForestryTreeSpecies.JACARANDA, ForestryLeafSprites.JACARANDA);
-		client.setLeafSprite(ForestryTreeSpecies.MONKEY_PUZZLE, ForestryLeafSprites.SPRUCE);
+		client.setLeafSprite(ForestryTreeSpecies.PEWEN, ForestryLeafSprites.SPRUCE);
 		client.setLeafSprite(ForestryTreeSpecies.MACROCARPA, ForestryLeafSprites.SPRUCE);
 		client.setLeafSprite(ForestryTreeSpecies.OLIVE, ForestryLeafSprites.WILLOW);
 		client.setLeafSprite(ForestryTreeSpecies.ORANGE, ForestryLeafSprites.AZALEA);

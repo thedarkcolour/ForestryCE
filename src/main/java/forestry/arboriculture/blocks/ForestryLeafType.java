@@ -43,7 +43,7 @@ public final class ForestryLeafType implements IBlockSubtype {
 	public static final ForestryLeafType IPE = new ForestryLeafType(ForestryTreeSpecies.IPE);
 	public static final ForestryLeafType KAPOK = new ForestryLeafType(ForestryTreeSpecies.KAPOK);
 	public static final ForestryLeafType EBONY = new ForestryLeafType(ForestryTreeSpecies.EBONY);
-	public static final ForestryLeafType ZEBRAWOOD = new ForestryLeafType(ForestryTreeSpecies.ZEBRAWOOD);
+	public static final ForestryLeafType ZEBRANO = new ForestryLeafType(ForestryTreeSpecies.ZEBRANO);
 	public static final ForestryLeafType MAHOGANY = new ForestryLeafType(ForestryTreeSpecies.MAHOGANY);
 	public static final ForestryLeafType ACACIA_VANILLA = new ForestryLeafType(ForestryTreeSpecies.ACACIA_VANILLA);
 	public static final ForestryLeafType DESERT_ACACIA = new ForestryLeafType(ForestryTreeSpecies.CAMELTHORN);
@@ -54,7 +54,7 @@ public final class ForestryLeafType implements IBlockSubtype {
 	public static final ForestryLeafType BAOBAB = new ForestryLeafType(ForestryTreeSpecies.BAOBAB);
 	public static final ForestryLeafType MAHOE = new ForestryLeafType(ForestryTreeSpecies.MAHOE);
 	public static final ForestryLeafType WILLOW = new ForestryLeafType(ForestryTreeSpecies.WILLOW);
-	public static final ForestryLeafType SIPIRI = new ForestryLeafType(ForestryTreeSpecies.SIPIRI);
+	public static final ForestryLeafType GREENHEART = new ForestryLeafType(ForestryTreeSpecies.GREENHEART);
 	public static final ForestryLeafType PAPAYA = new ForestryLeafType(ForestryTreeSpecies.PAPAYA);
 	public static final ForestryLeafType DATE = new ForestryLeafType(ForestryTreeSpecies.DATE);
 	public static final ForestryLeafType POPLAR = new ForestryLeafType(ForestryTreeSpecies.POPLAR);
@@ -66,7 +66,7 @@ public final class ForestryLeafType implements IBlockSubtype {
 	public static final ForestryLeafType DOGWOOD = new ForestryLeafType(ForestryTreeSpecies.DOGWOOD);
 	public static final ForestryLeafType GINKGO = new ForestryLeafType(ForestryTreeSpecies.GINKGO);
 	public static final ForestryLeafType JACARANDA = new ForestryLeafType(ForestryTreeSpecies.JACARANDA);
-	public static final ForestryLeafType MONKEY_PUZZLE = new ForestryLeafType(ForestryTreeSpecies.MONKEY_PUZZLE);
+	public static final ForestryLeafType PEWEN = new ForestryLeafType(ForestryTreeSpecies.PEWEN);
 	public static final ForestryLeafType MACROCARPA = new ForestryLeafType(ForestryTreeSpecies.MACROCARPA);
 	public static final ForestryLeafType OLIVE = new ForestryLeafType(ForestryTreeSpecies.OLIVE);
 	public static final ForestryLeafType ORANGE = new ForestryLeafType(ForestryTreeSpecies.ORANGE);
@@ -117,9 +117,9 @@ public final class ForestryLeafType implements IBlockSubtype {
 	public static List<ForestryLeafType> values() {
 		return Arrays.asList(OAK, DARK_OAK, BIRCH, LIME, WALNUT, CHESTNUT, CHERRY_VANILLA, HILL_CHERRY,
 				LEMON, PLUM, MAPLE, SPRUCE, LARCH, PINE, SEQUOIA, GIANT_SEQUOIA, JUNGLE, TEAK, IPE, KAPOK,
-				EBONY, ZEBRAWOOD, MAHOGANY, ACACIA_VANILLA, DESERT_ACACIA, PADAUK, BALSA, COCOBOLO, WENGE,
-				BAOBAB, MAHOE, WILLOW, SIPIRI, PAPAYA, DATE, POPLAR, ELM, FIR, COCONUT, BEECH, FEIJOA,
-				DOGWOOD, GINKGO, JACARANDA, MONKEY_PUZZLE, MACROCARPA, OLIVE, ORANGE, PEAR, KAURI);
+				EBONY, ZEBRANO, MAHOGANY, ACACIA_VANILLA, DESERT_ACACIA, PADAUK, BALSA, COCOBOLO, WENGE,
+				BAOBAB, MAHOE, WILLOW, GREENHEART, PAPAYA, DATE, POPLAR, ELM, FIR, COCONUT, BEECH, FEIJOA,
+				DOGWOOD, GINKGO, JACARANDA, PEWEN, MACROCARPA, OLIVE, ORANGE, PEAR, KAURI);
 	}
 
 	@Override
