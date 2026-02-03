@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/slab",
-  "textures": {
-    "bottom": "forestry:block/kauri_planks",
-    "side": "forestry:block/kauri_planks",
-    "top": "forestry:block/kauri_planks"
-  }
-}

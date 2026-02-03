@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/slab",
-  "textures": {
-    "bottom": "forestry:block/feijoa_planks",
-    "side": "forestry:block/feijoa_planks",
-    "top": "forestry:block/feijoa_planks"
-  }
-}

@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/outer_stairs",
-  "textures": {
-    "bottom": "forestry:block/feijoa_planks",
-    "side": "forestry:block/feijoa_planks",
-    "top": "forestry:block/feijoa_planks"
-  }
-}

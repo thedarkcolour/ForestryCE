@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/slab_top",
-  "textures": {
-    "bottom": "forestry:block/monkey_puzzle_planks",
-    "side": "forestry:block/monkey_puzzle_planks",
-    "top": "forestry:block/monkey_puzzle_planks"
-  }
-}
