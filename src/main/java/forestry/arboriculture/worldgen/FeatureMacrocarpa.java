@@ -1,6 +1,7 @@
 package forestry.arboriculture.worldgen;
 
 import forestry.api.arboriculture.ITreeGenData;
+import forestry.api.genetics.IGenome;
 import forestry.core.worldgen.FeatureHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
@@ -31,7 +32,7 @@ public class FeatureMacrocarpa extends FeatureTree {
 	}
 
 	@Override
-	protected void generateLeaves(LevelAccessor level, RandomSource rand, TreeBlockTypeLeaf leaf, TreeContour contour, BlockPos startPos) {
+	protected void generateLeaves(IGenome genome, LevelAccessor level, RandomSource rand, TreeBlockTypeLeaf leaf, TreeContour contour, BlockPos startPos) {
 		// Top of Tree
 		float r = (this.girth / 2f) + 2.5f;
 		FeatureHelper.generateEllipsoid(level, startPos.offset(this.girth / 2, this.height - 1, this.girth / 2), r, 2f, r, 1.2f, leaf, FeatureHelper.EnumReplaceMode.SOFT, contour);

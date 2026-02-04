@@ -37,6 +37,7 @@ public interface ITreeSpeciesType extends ISpeciesType<ITreeSpecies, ITree> {
 
 	boolean plantSapling(Level level, ITree tree, GameProfile owner, BlockPos pos);
 
+	// todo move this logic to ITreeSpecies so individual species can override placement behavior
 	boolean setFruitBlock(LevelAccessor level, IGenome genome, IFruit fruit, float yield, BlockPos pos);
 
 	/**

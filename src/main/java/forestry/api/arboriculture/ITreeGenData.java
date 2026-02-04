@@ -8,6 +8,7 @@ import net.minecraft.world.level.LevelAccessor;
 
 import javax.annotation.Nullable;
 
+// todo merge into ITreeSpecies, this isn't actually "data"
 public interface ITreeGenData {
 	int getGirth(IGenome genome);
 
@@ -33,9 +34,7 @@ public interface ITreeGenData {
 
 	boolean setLogBlock(IGenome genome, LevelAccessor level, BlockPos pos, Direction facing);
 
-	boolean allowsFruitBlocks(IGenome genome);
-
-	boolean trySpawnFruitBlock(LevelAccessor level, RandomSource rand, BlockPos pos);
+	boolean trySpawnFruitBlock(IGenome genome, LevelAccessor level, RandomSource rand, BlockPos pos);
 
 	IGenome getDefaultGenome();
 }

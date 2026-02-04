@@ -2,6 +2,8 @@ package forestry.core.worldgen;
 
 import forestry.Forestry;
 import forestry.api.arboriculture.ITreeGenData;
+import forestry.api.arboriculture.ITreeSpecies;
+import forestry.api.genetics.IGenome;
 import forestry.api.genetics.alleles.TreeChromosomes;
 import forestry.arboriculture.ForestryWoodType;
 import forestry.arboriculture.features.ArboricultureBlocks;
@@ -408,31 +410,34 @@ public class FeatureHelper {
 		}
 	}
 
-	public static void generatePods(ITreeGenData tree, LevelAccessor world, RandomSource rand, BlockPos startPos, int height, int minHeight, int girth, TreeContour contour, EnumReplaceMode replaceMode) {
-
+	public static void generatePods(IGenome genome, LevelAccessor world, RandomSource rand, BlockPos startPos, int height, int minHeight, int girth, TreeContour contour, EnumReplaceMode replaceMode) {
 		for (BlockPos logPos : contour.getTrunkOrigins()) { // generating top-down is faster for lighting calculations
+			// Only generate pods within valid height range
+			int relativeY = logPos.getY() - startPos.getY();
+			if (relativeY < minHeight) {
+				continue;
+			}
 
 			for (int x = 0; x < girth; x++) {
 				for (int z = 0; z < girth; z++) {
-
-					//logic to skip over trying to spawn pods in the middle of a tree.
+					// logic to skip over trying to spawn pods in the middle of a tree.
 					if ((girth > 2) && (x > 0 && x < girth - 1) && (z > 0 && z < girth - 1)) {
 						continue;
 					}
 
-					trySpawnFruitBlock(tree, world, rand, logPos.offset(x + 1, 0, z), replaceMode);
-					trySpawnFruitBlock(tree, world, rand, logPos.offset(x - 1, 0, z), replaceMode);
-					trySpawnFruitBlock(tree, world, rand, logPos.offset(x, 0, z + 1), replaceMode);
-					trySpawnFruitBlock(tree, world, rand, logPos.offset(x, 0, z - 1), replaceMode);
+					trySpawnFruitBlock(genome, world, rand, logPos.offset(x + 1, 0, z), replaceMode);
+					trySpawnFruitBlock(genome, world, rand, logPos.offset(x - 1, 0, z), replaceMode);
+					trySpawnFruitBlock(genome, world, rand, logPos.offset(x, 0, z + 1), replaceMode);
+					trySpawnFruitBlock(genome, world, rand, logPos.offset(x, 0, z - 1), replaceMode);
 				}
 			}
 		}
 	}
 
-	private static void trySpawnFruitBlock(ITreeGenData tree, LevelAccessor world, RandomSource rand, BlockPos pos, EnumReplaceMode replaceMode) {
+	private static void trySpawnFruitBlock(IGenome genome, LevelAccessor world, RandomSource rand, BlockPos pos, EnumReplaceMode replaceMode) {
 		BlockState blockState = world.getBlockState(pos);
 		if (replaceMode.canReplace(blockState, world, pos)) {
-			tree.trySpawnFruitBlock(world, rand, pos);
+			genome.getActiveSpecies().<ITreeSpecies>cast().trySpawnFruitBlock(genome, world, rand, pos);
 		}
 	}
 

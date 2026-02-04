@@ -1,6 +1,7 @@
 package forestry.arboriculture.worldgen;
 
 import forestry.api.arboriculture.ITreeGenData;
+import forestry.api.genetics.IGenome;
 import forestry.core.worldgen.FeatureHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
@@ -25,7 +26,7 @@ public class FeatureJacaranda extends FeatureTree {
 	}
 
 	@Override
-	protected void generateLeaves(LevelAccessor level, RandomSource rand, TreeBlockTypeLeaf leaf, TreeContour contour, BlockPos startPos) {
+	protected void generateLeaves(IGenome genome, LevelAccessor level, RandomSource rand, TreeBlockTypeLeaf leaf, TreeContour contour, BlockPos startPos) {
 		float r = 2f + (float) Math.ceil(this.girth / 1.5f);
 		FeatureHelper.generateEllipsoid(level, startPos.offset(this.girth / 2, this.height - 1, this.girth / 2), r, 2, r, 1.3f, leaf, FeatureHelper.EnumReplaceMode.AIR, contour);
 

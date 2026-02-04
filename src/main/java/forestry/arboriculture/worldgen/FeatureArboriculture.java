@@ -85,8 +85,8 @@ public abstract class FeatureArboriculture extends FeatureBase {
 			TreeContour.Impl contour = new TreeContour.Impl(branchEnds, logOrigins);
 
 			// Generate leaves and pods
-			generateLeaves(level, rand, leaf, contour, genPos);
-			generateExtras(level, rand, genPos, contour);
+			generateLeaves(genome, level, rand, leaf, contour, genPos);
+			generateExtras(genome, level, rand, genPos, contour);
 
 			if (contour.boundingBox != null) {
 				// Correctly update the leaf distance states on the leaf blocks
@@ -181,9 +181,9 @@ public abstract class FeatureArboriculture extends FeatureBase {
 	 */
 	protected abstract void generateTrunk(LevelAccessor level, List<BlockPos> logOrigins, List<BlockPos> branchCoords, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos);
 
-	protected abstract void generateLeaves(LevelAccessor level, RandomSource rand, TreeBlockTypeLeaf leaf, TreeContour contour, BlockPos startPos);
+	protected abstract void generateLeaves(IGenome genome, LevelAccessor level, RandomSource rand, TreeBlockTypeLeaf leaf, TreeContour contour, BlockPos startPos);
 
-	protected abstract void generateExtras(LevelAccessor level, RandomSource rand, BlockPos startPos, TreeContour contour);
+	protected abstract void generateExtras(IGenome genome, LevelAccessor level, RandomSource rand, BlockPos startPos, TreeContour contour);
 
 	@Nullable
 	public abstract BlockPos getValidGrowthPos(LevelAccessor level, BlockPos pos);
@@ -201,9 +201,5 @@ public abstract class FeatureArboriculture extends FeatureBase {
 				}
 			}
 		}
-	}
-
-	public boolean hasPods() {
-		return this.tree.allowsFruitBlocks(this.tree.getDefaultGenome());
 	}
 }

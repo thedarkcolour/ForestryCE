@@ -1,6 +1,7 @@
 package forestry.arboriculture.worldgen;
 
 import forestry.api.arboriculture.ITreeGenData;
+import forestry.api.genetics.IGenome;
 import forestry.core.worldgen.FeatureHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
@@ -29,7 +30,7 @@ public class FeatureBeech extends FeatureTree {
 	}
 
 	@Override
-	protected void generateLeaves(LevelAccessor level, RandomSource rand, TreeBlockTypeLeaf leaf, TreeContour contour, BlockPos startPos) {
+	protected void generateLeaves(IGenome genome, LevelAccessor level, RandomSource rand, TreeBlockTypeLeaf leaf, TreeContour contour, BlockPos startPos) {
 		int r = 3;
 		for (BlockPos branchEnd : contour.getBranchEnds()) {
 			FeatureHelper.generateEllipsoid(level, branchEnd.offset(this.girth / 2, -1, this.girth / 2), r, 2, r, 1.5f, leaf, FeatureHelper.EnumReplaceMode.SOFT, contour);

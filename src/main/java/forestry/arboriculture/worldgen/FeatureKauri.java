@@ -1,6 +1,7 @@
 package forestry.arboriculture.worldgen;
 
 import forestry.api.arboriculture.ITreeGenData;
+import forestry.api.genetics.IGenome;
 import forestry.arboriculture.ForestryWoodType;
 import forestry.core.worldgen.FeatureHelper;
 import net.minecraft.core.BlockPos;
@@ -37,7 +38,7 @@ public class FeatureKauri extends FeatureTree {
 	}
 
 	@Override
-	protected void generateLeaves(LevelAccessor level, RandomSource rand, TreeBlockTypeLeaf leaf, TreeContour contour, BlockPos startPos) {
+	protected void generateLeaves(IGenome genome, LevelAccessor level, RandomSource rand, TreeBlockTypeLeaf leaf, TreeContour contour, BlockPos startPos) {
 		for (BlockPos blockPos : contour.getBranchEnds()) {
 			FeatureHelper.generateEllipsoid(level, blockPos.offset(0, 1, 0), 2, 2, 2, 1.25f, leaf, FeatureHelper.EnumReplaceMode.SOFT, contour);
 			FeatureHelper.generateCylinderFromPos(level, leaf, blockPos.offset(0, -1, 0), 2, 1.5f, 1, FeatureHelper.EnumReplaceMode.SOFT, contour);

@@ -2,6 +2,7 @@ package forestry.arboriculture.worldgen;
 
 import forestry.api.arboriculture.ITreeGenData;
 import forestry.api.genetics.IGenome;
+import forestry.api.genetics.alleles.TreeChromosomes;
 import forestry.core.worldgen.FeatureHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
@@ -40,7 +41,7 @@ public abstract class FeatureTree extends FeatureArboriculture {
 	}
 
 	@Override
-	protected void generateLeaves(LevelAccessor level, RandomSource rand, TreeBlockTypeLeaf leaf, TreeContour contour, BlockPos startPos) {
+	protected void generateLeaves(IGenome genome, LevelAccessor level, RandomSource rand, TreeBlockTypeLeaf leaf, TreeContour contour, BlockPos startPos) {
 		int leafHeight = this.height + 1;
 		FeatureHelper.generateCylinderFromTreeStartPos(level, leaf, startPos.offset(0, leafHeight--, 0), this.girth, this.girth, 1, FeatureHelper.EnumReplaceMode.AIR, contour);
 		FeatureHelper.generateCylinderFromTreeStartPos(level, leaf, startPos.offset(0, leafHeight--, 0), this.girth, 0.5f + this.girth, 1, FeatureHelper.EnumReplaceMode.AIR, contour);
@@ -49,9 +50,9 @@ public abstract class FeatureTree extends FeatureArboriculture {
 	}
 
 	@Override
-	protected void generateExtras(LevelAccessor level, RandomSource rand, BlockPos startPos, TreeContour contour) {
-		if (hasPods()) {
-			FeatureHelper.generatePods(this.tree, level, rand, startPos, this.height, minPodHeight, this.girth, contour, FeatureHelper.EnumReplaceMode.AIR);
+	protected void generateExtras(IGenome genome, LevelAccessor level, RandomSource rand, BlockPos startPos, TreeContour contour) {
+		if (genome.getActiveValue(TreeChromosomes.FRUIT).requiresFruitBlocks()) {
+			FeatureHelper.generatePods(genome, level, rand, startPos, this.height, minPodHeight, this.girth, contour, FeatureHelper.EnumReplaceMode.AIR);
 		}
 	}
 
