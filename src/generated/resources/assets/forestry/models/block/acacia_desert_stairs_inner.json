@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/inner_stairs",
-  "textures": {
-    "bottom": "forestry:block/acacia_desert_planks",
-    "side": "forestry:block/acacia_desert_planks",
-    "top": "forestry:block/acacia_desert_planks"
-  }
-}

@@ -1,6 +1,0 @@
-{
-  "loader": "forestry:filled_crate",
-  "textures": {
-    "layer1": "minecraft:block/granite"
-  }
-}

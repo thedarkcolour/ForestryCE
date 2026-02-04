@@ -1,7 +1,0 @@
-{
-  "parent": "minecraft:block/cube_column",
-  "textures": {
-    "end": "forestry:block/teak_log",
-    "side": "forestry:block/teak_log"
-  }
-}

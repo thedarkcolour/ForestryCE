@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/inner_stairs",
-  "textures": {
-    "bottom": "forestry:block/mahoe_planks",
-    "side": "forestry:block/mahoe_planks",
-    "top": "forestry:block/mahoe_planks"
-  }
-}

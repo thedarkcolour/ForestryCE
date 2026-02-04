@@ -1,5 +1,0 @@
-{
-  "parent": "forge:item/bucket",
-  "fluid": "forestry:glass",
-  "loader": "forge:fluid_container"
-}

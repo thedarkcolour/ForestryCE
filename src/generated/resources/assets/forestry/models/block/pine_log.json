@@ -1,7 +1,0 @@
-{
-  "parent": "minecraft:block/cube_column",
-  "textures": {
-    "end": "forestry:block/pine_log_top",
-    "side": "forestry:block/pine_log"
-  }
-}

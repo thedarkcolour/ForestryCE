@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/slab_top",
-  "textures": {
-    "bottom": "forestry:block/wenge_planks",
-    "side": "forestry:block/wenge_planks",
-    "top": "forestry:block/wenge_planks"
-  }
-}

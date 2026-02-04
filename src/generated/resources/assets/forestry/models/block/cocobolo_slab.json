@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/slab",
-  "textures": {
-    "bottom": "forestry:block/cocobolo_planks",
-    "side": "forestry:block/cocobolo_planks",
-    "top": "forestry:block/cocobolo_planks"
-  }
-}

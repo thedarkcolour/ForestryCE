@@ -1,7 +1,0 @@
-{
-  "name": "for.gui.book.patchouli.category.core.machines.title",
-  "parent": "forestry:core",
-  "description": "for.gui.book.patchouli.category.core.machines.desc",
-  "icon": "forestry:carpenter",
-  "sortnum": 0
-}

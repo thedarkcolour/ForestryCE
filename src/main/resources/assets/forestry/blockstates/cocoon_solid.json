@@ -1,7 +1,0 @@
-{
-  "variants": {
-    "age=0": { "model": "forestry:block/cocoon_early" },
-    "age=1": { "model": "forestry:block/cocoon_middle" },
-    "age=2": { "model": "forestry:block/cocoon_late" }
-  }
-}

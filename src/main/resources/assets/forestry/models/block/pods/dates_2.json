@@ -1,7 +1,0 @@
-{
-  "parent": "block/cocoa_stage2",
-  "textures": {
-    "particle": "forestry:block/pods/dates.2",
-    "cocoa": "forestry:block/pods/dates.2"
-  }
-}

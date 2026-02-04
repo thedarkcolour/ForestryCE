@@ -1,9 +1,0 @@
-{
-  "sources": [
-    {
-      "type": "minecraft:directory",
-      "prefix": "slots/",
-      "source": "forestry/atlas/gui/slots"
-    }
-  ]
-}

@@ -1,9 +1,0 @@
-{
-  "loader": "forestry:fluid_container",
-  "parent": "forge:item/default",
-  "gui_light": "front",
-  "textures": {
-    "base": "forestry:item/liquids/can.bottle",
-    "fluid": "forestry:item/liquids/can.contents"
-  }
-}

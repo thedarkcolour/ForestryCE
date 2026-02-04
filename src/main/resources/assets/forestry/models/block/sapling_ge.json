@@ -1,4 +1,0 @@
-{
-  "parent": "forge:block/default",
-  "loader": "forestry:sapling_ge"
-}

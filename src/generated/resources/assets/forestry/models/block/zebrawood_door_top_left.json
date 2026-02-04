@@ -1,7 +1,0 @@
-{
-  "parent": "minecraft:block/door_top_left",
-  "textures": {
-    "bottom": "forestry:block/zebrawood_door_bottom",
-    "top": "forestry:block/zebrawood_door_top"
-  }
-}
