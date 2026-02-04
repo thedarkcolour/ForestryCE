@@ -680,7 +680,7 @@ public class DefaultTreeSpecies {
 				});
 
 		// Zebrano https://www.catalogueoflife.org/data/taxon/42RTY
-		arboriculture.registerSpecies(ForestryTreeSpecies.ZEBRANO, GENUS_MICROBERLINIA, SPECIES_ZEBRANO, true, TextColor.fromRgb(0xa2d24a), ForestryWoodType.ZEBRANO)
+		arboriculture.registerSpecies(ForestryTreeSpecies.ZEBRANO, GENUS_MICROBERLINIA, SPECIES_ZEBRANO, true, TextColor.fromRgb(0xa2d24a), ForestryWoodType.ZEBRAWOOD)
 				.setTreeFeature(FeatureZebrano::new)
 				.setDecorativeLeaves(ArboricultureBlocks.LEAVES_DECORATIVE.stack(ForestryLeafType.ZEBRANO))
 				.addVanillaStates(ArboricultureBlocks.LEAVES_DEFAULT.get(ForestryLeafType.ZEBRANO).block().getStateDefinition().getPossibleStates())

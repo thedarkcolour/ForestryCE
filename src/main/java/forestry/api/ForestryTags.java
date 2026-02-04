@@ -61,7 +61,7 @@ public class ForestryTags {
 		public static final TagKey<Block> IPE_LOGS = ForestryWoodType.IPE.blockTag;
 		public static final TagKey<Block> PADAUK_LOGS = ForestryWoodType.PADAUK.blockTag;
 		public static final TagKey<Block> COCOBOLO_LOGS = ForestryWoodType.COCOBOLO.blockTag;
-		public static final TagKey<Block> ZEBRANO_LOGS = ForestryWoodType.ZEBRANO.blockTag;
+		public static final TagKey<Block> ZEBRANO_LOGS = ForestryWoodType.ZEBRAWOOD.blockTag;
 		public static final TagKey<Block> ELM_LOGS = ForestryWoodType.ELM.blockTag;
 		public static final TagKey<Block> FIR_LOGS = ForestryWoodType.FIR.blockTag;
 		public static final TagKey<Block> COCONUT_LOGS = ForestryWoodType.COCONUT.blockTag;
@@ -173,7 +173,7 @@ public class ForestryTags {
 		public static final TagKey<Item> IPE_LOGS = ForestryWoodType.IPE.itemTag;
 		public static final TagKey<Item> PADAUK_LOGS = ForestryWoodType.PADAUK.itemTag;
 		public static final TagKey<Item> COCOBOLO_LOGS = ForestryWoodType.COCOBOLO.itemTag;
-		public static final TagKey<Item> ZEBRANO_LOGS = ForestryWoodType.ZEBRANO.itemTag;
+		public static final TagKey<Item> ZEBRANO_LOGS = ForestryWoodType.ZEBRAWOOD.itemTag;
 		public static final TagKey<Item> ELM_LOGS = ForestryWoodType.ELM.itemTag;
 		public static final TagKey<Item> FIR_LOGS = ForestryWoodType.FIR.itemTag;
 		public static final TagKey<Item> COCONUT_LOGS = ForestryWoodType.COCONUT.itemTag;

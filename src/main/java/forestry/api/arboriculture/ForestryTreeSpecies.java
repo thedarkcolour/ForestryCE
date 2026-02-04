@@ -59,7 +59,7 @@ public class ForestryTreeSpecies {
 	public static final ResourceLocation DOGWOOD = forestry("tree_dogwood");
 	public static final ResourceLocation GINKGO = forestry("tree_ginkgo");
 	public static final ResourceLocation JACARANDA = forestry("tree_jacaranda");
-	public static final ResourceLocation PEWEN = forestry("tree_monkey_puzzle");
+	public static final ResourceLocation PEWEN = forestry("tree_pewen");
 	public static final ResourceLocation MACROCARPA = forestry("tree_macrocarpa");
 	public static final ResourceLocation OLIVE = forestry("tree_olive");
 	public static final ResourceLocation ORANGE = forestry("tree_orange");

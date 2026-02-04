@@ -33,8 +33,8 @@
                 "inactive": "forestry:5id"
               },
               "forestry:saplings": {
-                "active": "forestry:0.035fd",
-                "inactive": "forestry:0.035fd"
+                "active": "forestry:0.01fd",
+                "inactive": "forestry:0.01fd"
               },
               "forestry:sappiness": {
                 "active": "forestry:0.8f",

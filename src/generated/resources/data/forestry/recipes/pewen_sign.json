@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "P": [
+      {
+        "item": "forestry:pewen_planks"
+      },
+      {
+        "item": "forestry:pewen_fireproof_planks"
+      }
+    ],
+    "S": {
+      "tag": "forge:rods/wooden"
+    }
+  },
+  "pattern": [
+    "PPP",
+    "PPP",
+    " S "
+  ],
+  "result": {
+    "item": "forestry:pewen_sign"
+  },
+  "show_notification": true
+}

@@ -1,4 +1,4 @@
-// 1.20.1	2026-02-02T13:57:07.611227812	ModKit Item Models for mod 'forestry'
+// 1.20.1	2026-02-03T23:37:14.694994489	ModKit Item Models for mod 'forestry'
 5c9a34aaa9fead3fd80793cfe9596223bf8783f0 assets/forestry/models/item/acacia_desert_boat.json
 72934de9e502d03a3a3cf9f0f6d4f24e8ee34571 assets/forestry/models/item/acacia_desert_chest_boat.json
 8f2200f73d917fa31d1e154c725213fa5984fdd6 assets/forestry/models/item/axe_kit.json
@@ -73,8 +73,6 @@ d476d63293cf6362d1178f51aebde99c802cff32 assets/forestry/models/item/macrocarpa_
 bd9b161dcafab0bcb37c5c5660792500a13bb1e7 assets/forestry/models/item/mahogany_chest_boat.json
 1a65002487a1154d4cd7ad10f3a10f785eedfe80 assets/forestry/models/item/maple_boat.json
 8f9ab4aeae57cf79a56c5670d6a2666b207d3b8a assets/forestry/models/item/maple_chest_boat.json
-de0dcd15a23984f2f8f94c7be0530bc0774c2376 assets/forestry/models/item/monkey_puzzle_boat.json
-7d1cb119ab9da724a1dd8b02d8234db851c5a280 assets/forestry/models/item/monkey_puzzle_chest_boat.json
 cf2d84cfca5bd363f425b296afce9fb91e224bd5 assets/forestry/models/item/olive_boat.json
 2a60aed919f44a591576aece8d6e1d7d0fac6897 assets/forestry/models/item/olive_chest_boat.json
 668e1236b09118d71dbc871302155067aeb5956e assets/forestry/models/item/orange_boat.json
@@ -87,6 +85,8 @@ db9e2a20bd0c8fddabf84b95138612c4e08d80eb assets/forestry/models/item/papaya_boat
 c0aa1cadb8f5c382adcc1fdaae62e884f9ac18a0 assets/forestry/models/item/papaya_chest_boat.json
 f309cdeef6c9480b659938e57e83b39a3f702d71 assets/forestry/models/item/pear_boat.json
 e544f0d297c1be15bf97017ab889115c3e1832bf assets/forestry/models/item/pear_chest_boat.json
+4405d79642797d4661bbc466e2376ac7e4102d7f assets/forestry/models/item/pewen_boat.json
+7adfcde5bab3e05169d7b092aea21ab6e88384fe assets/forestry/models/item/pewen_chest_boat.json
 5d17429b24f78ecf001dea176a76c0b4eebd7856 assets/forestry/models/item/pine_boat.json
 1d0b16ca55770ec7a1de8867f3866eb320ef43d7 assets/forestry/models/item/pine_chest_boat.json
 d2d2ff797ccfd2a1306c29372f35c74900538921 assets/forestry/models/item/plum_boat.json

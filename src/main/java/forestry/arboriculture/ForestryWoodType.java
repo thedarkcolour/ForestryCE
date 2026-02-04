@@ -28,7 +28,7 @@ import java.util.stream.Stream;
 public enum ForestryWoodType implements IWoodType {
 	LARCH(ForestryLeafType.LARCH),
 	TEAK(ForestryLeafType.TEAK),
-	ACACIA_DESERT(ForestryLeafType.CAMELTHORN),
+	ACACIA_DESERT(ForestryLeafType.CAMELTHORN), // TODO - 1.21.1 - Rename to Camelthorn
 	LIME(ForestryLeafType.LIME),
 	CHESTNUT(ForestryLeafType.CHESTNUT),
 	WENGE(ForestryLeafType.WENGE),
@@ -42,8 +42,8 @@ public enum ForestryWoodType implements IWoodType {
 	BALSA(ForestryLeafType.BALSA, 1.0f),
 	WILLOW(ForestryLeafType.WILLOW),
 	WALNUT(ForestryLeafType.WALNUT),
-	GREENHEART(ForestryLeafType.GREENHEART, 7.5f), //TODO - 1.21.1 - Rename to Sipiri?
-	HILL_CHERRY(ForestryLeafType.SOUR_CHERRY),
+	GREENHEART(ForestryLeafType.GREENHEART, 7.5f),
+	HILL_CHERRY(ForestryLeafType.SOUR_CHERRY), // TODO - 1.21.1 - Rename to Sour Cherry
 
 	MAHOE(ForestryLeafType.MAHOE),
 	POPLAR(ForestryLeafType.POPLAR),
@@ -54,7 +54,7 @@ public enum ForestryWoodType implements IWoodType {
 	MAPLE(ForestryLeafType.MAPLE),
 	CITRUS(ForestryLeafType.LEMON), //TODO - 1.21.1 - Change from Citrus to Lemon, as Orange is also Citrus.
 
-	GIGANTEUM(ForestryLeafType.GIANT_SEQUOIA, 4.0f),
+	GIGANTEUM(ForestryLeafType.GIANT_SEQUOIA, 4.0f), // TODO - 1.21.1 - Rename to Giant Sequoia
 	IPE(ForestryLeafType.IPE),
 	PADAUK(ForestryLeafType.PADAUK),
 	COCOBOLO(ForestryLeafType.COCOBOLO),
@@ -71,7 +71,7 @@ public enum ForestryWoodType implements IWoodType {
 	ORANGE(ForestryLeafType.ORANGE),
 	PEAR(ForestryLeafType.PEAR),
 	KAURI(ForestryLeafType.KAURI),
-	ZEBRANO(ForestryLeafType.ZEBRANO); //TODO - 1.21.1 - Change to Zebrano
+	ZEBRAWOOD(ForestryLeafType.ZEBRANO); //TODO - 1.21.1 - Change to Zebrano
 
 	public static final float DEFAULT_HARDNESS = 2.0f;
 	public static final ForestryWoodType[] VALUES = values();
