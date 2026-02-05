@@ -10,6 +10,7 @@
     "forestry:sequoia_trapdoor",
     "forestry:kapok_trapdoor",
     "forestry:ebony_trapdoor",
+    "forestry:elm_trapdoor",
     "forestry:mahogany_trapdoor",
     "forestry:balsa_trapdoor",
     "forestry:willow_trapdoor",
@@ -28,6 +29,19 @@
     "forestry:ipe_trapdoor",
     "forestry:padauk_trapdoor",
     "forestry:cocobolo_trapdoor",
+    "forestry:fir_trapdoor",
+    "forestry:coconut_trapdoor",
+    "forestry:beech_trapdoor",
+    "forestry:feijoa_trapdoor",
+    "forestry:dogwood_trapdoor",
+    "forestry:ginkgo_trapdoor",
+    "forestry:jacaranda_trapdoor",
+    "forestry:pewen_trapdoor",
+    "forestry:macrocarpa_trapdoor",
+    "forestry:olive_trapdoor",
+    "forestry:orange_trapdoor",
+    "forestry:pear_trapdoor",
+    "forestry:kauri_trapdoor",
     "forestry:zebrawood_trapdoor"
   ]
 }

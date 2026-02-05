@@ -2,7 +2,7 @@
   "type": "forestry:squeezer",
   "chance": 0.05,
   "output": {
-    "Amount": 180,
+    "Amount": 50,
     "FluidName": "forestry:seed_oil"
   },
   "remnant": {

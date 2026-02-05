@@ -2,7 +2,7 @@ package forestry.core.tiles;
 
 import forestry.api.core.ForestryError;
 import forestry.api.core.IErrorLogic;
-import forestry.core.circuits.ISpeedUpgradable;
+import forestry.core.circuits.IMachineUpgradable;
 import forestry.core.network.IStreamableGui;
 import forestry.core.render.TankRenderInfo;
 import forestry.energy.EnergyHelper;
@@ -24,22 +24,20 @@ import net.minecraftforge.common.util.LazyOptional;
 import javax.annotation.Nullable;
 
 // todo rename "ticks" to "steps" in 1.21 to clarify they're different than actual ticks
-public abstract class TilePowered extends TileBase implements IRenderableTile, ISpeedUpgradable, IStreamableGui, IPowerHandler {
+public abstract class TilePowered extends TileBase implements IRenderableTile, IMachineUpgradable, IStreamableGui, IPowerHandler {
 	private static final int WORK_TICK_INTERVAL = 5; // one Forestry work tick happens every WORK_TICK_INTERVAL game ticks
 
 	private final ForestryEnergyStorage energyStorage;
 	private final LazyOptional<ForestryEnergyStorage> energyCap;
-
+	protected float speedMultiplier = 1.0f;
+	protected float powerMultiplier = 1.0f;
+	protected double outputMultiplier = 1.0f;
 	// The amount of "ticks" into the current work cycle. Between 0 and ticksPerWorkCycle
 	private int workCounter;
 	// The number of "ticks" a work cycle takes to complete. In reality, a "tick" here is 5 real ticks
 	private int ticksPerWorkCycle;
 	// The amount of energy consumed over the course of an entire work cycle
 	private int energyPerWorkCycle;
-
-	protected float speedMultiplier = 1.0f;
-	protected float powerMultiplier = 1.0f;
-
 	// the number of work ticks that this tile has had no power
 	private int noPowerTime = 0;
 
@@ -121,10 +119,10 @@ public abstract class TilePowered extends TileBase implements IRenderableTile, I
 			boolean consumedEnergy = EnergyHelper.consumeEnergyToDoWork(this.energyStorage, ticksPerWorkCycle, energyPerWorkCycle);
 			if (consumedEnergy) {
 				errorLogic.setCondition(false, ForestryError.NO_POWER);
-                this.workCounter++;
-                this.noPowerTime = 0;
+				this.workCounter++;
+				this.noPowerTime = 0;
 			} else {
-                this.noPowerTime++;
+				this.noPowerTime++;
 				if (this.noPowerTime > 4) {
 					errorLogic.setCondition(true, ForestryError.NO_POWER);
 				}
@@ -133,7 +131,7 @@ public abstract class TilePowered extends TileBase implements IRenderableTile, I
 
 		if (this.workCounter >= ticksPerWorkCycle) {
 			if (workCycle()) {
-                this.workCounter = 0;
+				this.workCounter = 0;
 			}
 		}
 	}
@@ -154,18 +152,18 @@ public abstract class TilePowered extends TileBase implements IRenderableTile, I
 	@Override
 	public void saveAdditional(CompoundTag nbt) {
 		super.saveAdditional(nbt);
-        this.energyStorage.write(nbt);
+		this.energyStorage.write(nbt);
 	}
 
 	@Override
 	public void load(CompoundTag nbt) {
 		super.load(nbt);
-        this.energyStorage.read(nbt);
+		this.energyStorage.read(nbt);
 	}
 
 	@Override
 	public void writeGuiData(FriendlyByteBuf data) {
-        this.energyStorage.writeData(data);
+		this.energyStorage.writeData(data);
 		data.writeVarInt(this.workCounter);
 		data.writeVarInt(getTicksPerWorkCycle());
 	}
@@ -173,17 +171,26 @@ public abstract class TilePowered extends TileBase implements IRenderableTile, I
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void readGuiData(FriendlyByteBuf data) {
-        this.energyStorage.readData(data);
-        this.workCounter = data.readVarInt();
-        this.ticksPerWorkCycle = data.readVarInt();
+		this.energyStorage.readData(data);
+		this.workCounter = data.readVarInt();
+		this.ticksPerWorkCycle = data.readVarInt();
 	}
 
-	/* ISpeedUpgradable */
+	/* IMachineUpgradable */
+	public void applyMachineUpgrade(double speedChange, double powerChange, double outputChange) {
+		this.speedMultiplier += speedChange;
+		this.powerMultiplier += powerChange;
+		this.outputMultiplier *= outputChange;
+		this.workCounter = 0;
+	}
+
+	/* IMachineUpgradable */
 	@Override
-	public void applySpeedUpgrade(double speedChange, double powerChange) {
-        this.speedMultiplier += speedChange;
-        this.powerMultiplier += powerChange;
-        this.workCounter = 0;
+	public void removeMachineUpgrade(double speedChange, double powerChange, double outputChange) {
+		this.speedMultiplier -= speedChange;
+		this.powerMultiplier -= powerChange;
+		this.outputMultiplier /= outputChange;
+		this.workCounter = 0;
 	}
 
 	/* IRenderableTile */

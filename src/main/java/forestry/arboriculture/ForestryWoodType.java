@@ -28,7 +28,7 @@ import java.util.stream.Stream;
 public enum ForestryWoodType implements IWoodType {
 	LARCH(ForestryLeafType.LARCH),
 	TEAK(ForestryLeafType.TEAK),
-	ACACIA_DESERT(ForestryLeafType.DESERT_ACACIA),
+	ACACIA_DESERT(ForestryLeafType.CAMELTHORN), // TODO - 1.21.1 - Rename to Camelthorn
 	LIME(ForestryLeafType.LIME),
 	CHESTNUT(ForestryLeafType.CHESTNUT),
 	WENGE(ForestryLeafType.WENGE),
@@ -37,12 +37,13 @@ public enum ForestryWoodType implements IWoodType {
 
 	KAPOK(ForestryLeafType.KAPOK),
 	EBONY(ForestryLeafType.EBONY),
+	ELM(ForestryLeafType.ELM),
 	MAHOGANY(ForestryLeafType.MAHOGANY),
 	BALSA(ForestryLeafType.BALSA, 1.0f),
 	WILLOW(ForestryLeafType.WILLOW),
 	WALNUT(ForestryLeafType.WALNUT),
-	GREENHEART(ForestryLeafType.SIPIRI, 7.5f),
-	HILL_CHERRY(ForestryLeafType.HILL_CHERRY),
+	GREENHEART(ForestryLeafType.GREENHEART, 7.5f),
+	HILL_CHERRY(ForestryLeafType.SOUR_CHERRY), // TODO - 1.21.1 - Rename to Sour Cherry
 
 	MAHOE(ForestryLeafType.MAHOE),
 	POPLAR(ForestryLeafType.POPLAR),
@@ -51,13 +52,26 @@ public enum ForestryWoodType implements IWoodType {
 	PINE(ForestryLeafType.PINE, 3.0f),
 	PLUM(ForestryLeafType.PLUM),
 	MAPLE(ForestryLeafType.MAPLE),
-	CITRUS(ForestryLeafType.LEMON),
+	CITRUS(ForestryLeafType.LEMON), //TODO - 1.21.1 - Change from Citrus to Lemon, as Orange is also Citrus.
 
-	GIGANTEUM(ForestryLeafType.GIANT_SEQUOIA, 4.0f),
+	GIGANTEUM(ForestryLeafType.GIANT_SEQUOIA, 4.0f), // TODO - 1.21.1 - Rename to Giant Sequoia
 	IPE(ForestryLeafType.IPE),
 	PADAUK(ForestryLeafType.PADAUK),
 	COCOBOLO(ForestryLeafType.COCOBOLO),
-	ZEBRAWOOD(ForestryLeafType.ZEBRAWOOD);
+	FIR(ForestryLeafType.FIR),
+	COCONUT(ForestryLeafType.COCONUT),
+	BEECH(ForestryLeafType.BEECH),
+	FEIJOA(ForestryLeafType.FEIJOA),
+	DOGWOOD(ForestryLeafType.DOGWOOD),
+	GINKGO(ForestryLeafType.GINKGO),
+	JACARANDA(ForestryLeafType.JACARANDA),
+	PEWEN(ForestryLeafType.PEWEN),
+	MACROCARPA(ForestryLeafType.MACROCARPA),
+	OLIVE(ForestryLeafType.OLIVE),
+	ORANGE(ForestryLeafType.ORANGE),
+	PEAR(ForestryLeafType.PEAR),
+	KAURI(ForestryLeafType.KAURI),
+	ZEBRAWOOD(ForestryLeafType.ZEBRANO); //TODO - 1.21.1 - Change to Zebrano
 
 	public static final float DEFAULT_HARDNESS = 2.0f;
 	public static final ForestryWoodType[] VALUES = values();

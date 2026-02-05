@@ -1,26 +1,19 @@
 package forestry.arboriculture.worldgen;
 
 import forestry.api.arboriculture.ITreeGenData;
+import forestry.api.genetics.IGenome;
 import forestry.core.worldgen.FeatureHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 
-import java.util.Set;
-
 public class FeatureCocobolo extends FeatureTree {
-
 	public FeatureCocobolo(ITreeGenData tree) {
 		super(tree, 8, 8);
 	}
 
 	@Override
-	public Set<BlockPos> generateTrunk(LevelAccessor level, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
-		return FeatureHelper.generateTreeTrunk(level, rand, wood, startPos, this.height, this.girth, 0, 0, null, 0);
-	}
-
-	@Override
-	protected void generateLeaves(LevelAccessor level, RandomSource rand, TreeBlockTypeLeaf leaf, TreeContour contour, BlockPos startPos) {
+	protected void generateLeaves(IGenome genome, LevelAccessor level, RandomSource rand, TreeBlockTypeLeaf leaf, TreeContour contour, BlockPos startPos) {
 		int leafSpawn = this.height;
 
 		for (BlockPos treeTop : contour.getBranchEnds()) {

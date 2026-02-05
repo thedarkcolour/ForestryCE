@@ -11,6 +11,10 @@
     {
       "chance": 0.9,
       "item": "forestry:honeydew"
+    },
+    {
+      "chance": 0.5,
+      "item": "forestry:amber"
     }
   ],
   "time": 20

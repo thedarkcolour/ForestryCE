@@ -2,6 +2,8 @@ package forestry.apiculture;
 
 import forestry.api.ForestryTags;
 import forestry.api.apiculture.IFlowerType;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.Level;
@@ -10,7 +12,7 @@ import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 
-import java.util.List;
+import java.util.*;
 
 public class FlowerType implements IFlowerType {
 	private final TagKey<Block> acceptableFlowers;
@@ -31,19 +33,21 @@ public class FlowerType implements IFlowerType {
 	@Override
 	public boolean plantRandomFlower(Level level, BlockPos pos, List<BlockState> nearbyFlowers) {
 		if (level.hasChunkAt(pos) && isPlantablePosition(level, pos)) {
-			for (BlockState state : nearbyFlowers) {
-				if (state.is(ForestryTags.Blocks.PLANTABLE_FLOWERS)) {
-					if (state.canSurvive(level, pos)) {
-						if (state.hasProperty(DoublePlantBlock.HALF)) {
-							BlockPos topPos = pos.above();
+			// nearbyFlowers can contain duplicate flowers, but we don't want biased flower selection
+			ObjectArrayList<BlockState> uniqueNearbyFlowers = new ObjectArrayList<>(new HashSet<>(nearbyFlowers));
+			Util.shuffle(uniqueNearbyFlowers, level.random);
 
-							if (level.isEmptyBlock(topPos)) {
-								return level.setBlockAndUpdate(pos, state.setValue(DoublePlantBlock.HALF, DoubleBlockHalf.LOWER))
-									&& level.setBlockAndUpdate(topPos, state.setValue(DoublePlantBlock.HALF, DoubleBlockHalf.UPPER));
-							}
-						} else {
-							return level.setBlockAndUpdate(pos, state);
+			for (BlockState state : uniqueNearbyFlowers) {
+				if (state.is(ForestryTags.Blocks.PLANTABLE_FLOWERS) && state.canSurvive(level, pos)) {
+					if (state.hasProperty(DoublePlantBlock.HALF)) {
+						BlockPos topPos = pos.above();
+
+						if (level.isEmptyBlock(topPos)) {
+							return level.setBlockAndUpdate(pos, state.setValue(DoublePlantBlock.HALF, DoubleBlockHalf.LOWER))
+								&& level.setBlockAndUpdate(topPos, state.setValue(DoublePlantBlock.HALF, DoubleBlockHalf.UPPER));
 						}
+					} else {
+						return level.setBlockAndUpdate(pos, state);
 					}
 				}
 			}

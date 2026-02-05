@@ -10,6 +10,7 @@
     "forestry:sequoia_button",
     "forestry:kapok_button",
     "forestry:ebony_button",
+    "forestry:elm_button",
     "forestry:mahogany_button",
     "forestry:balsa_button",
     "forestry:willow_button",
@@ -28,6 +29,19 @@
     "forestry:ipe_button",
     "forestry:padauk_button",
     "forestry:cocobolo_button",
+    "forestry:fir_button",
+    "forestry:coconut_button",
+    "forestry:beech_button",
+    "forestry:feijoa_button",
+    "forestry:dogwood_button",
+    "forestry:ginkgo_button",
+    "forestry:jacaranda_button",
+    "forestry:pewen_button",
+    "forestry:macrocarpa_button",
+    "forestry:olive_button",
+    "forestry:orange_button",
+    "forestry:pear_button",
+    "forestry:kauri_button",
     "forestry:zebrawood_button"
   ]
 }

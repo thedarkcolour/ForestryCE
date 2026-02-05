@@ -9,9 +9,9 @@ import net.minecraft.world.item.BoneMealItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.LevelEvent;
 
 public class ItemFertilizer extends ItemForestry {
-
 	@Override
 	public InteractionResult useOn(UseOnContext context) {
 		Player player = context.getPlayer();
@@ -29,7 +29,7 @@ public class ItemFertilizer extends ItemForestry {
 
 		if (BoneMealItem.applyBonemeal(heldItem, worldIn, pos, player)) {
 			if (!worldIn.isClientSide) {
-				worldIn.levelEvent(2005, pos, 0);
+				worldIn.levelEvent(LevelEvent.PARTICLES_AND_SOUND_PLANT_GROWTH, pos, 0);
 			}
 
 			return InteractionResult.SUCCESS;

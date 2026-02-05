@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "P": [
+      {
+        "item": "forestry:coconut_planks"
+      },
+      {
+        "item": "forestry:coconut_fireproof_planks"
+      }
+    ]
+  },
+  "pattern": [
+    "PP"
+  ],
+  "result": {
+    "item": "forestry:coconut_pressure_plate"
+  },
+  "show_notification": true
+}

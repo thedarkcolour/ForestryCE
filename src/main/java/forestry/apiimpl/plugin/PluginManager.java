@@ -311,8 +311,8 @@ public class PluginManager {
 				// default sapling block and item models (removes the "tree_" prefix)
 				String path = id.getPath().replace("tree_", "");
 				models.put(species, Pair.of(
-					new ResourceLocation(id.getNamespace(), "block/sapling/" + path),
-					new ResourceLocation(id.getNamespace(), "item/sapling/" + path)
+					new ResourceLocation(id.getNamespace(), "block/" + path + "_sapling"),
+					new ResourceLocation(id.getNamespace(), "item/" + path + "_sapling")
 				));
 			}
 		}

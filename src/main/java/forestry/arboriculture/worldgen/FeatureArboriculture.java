@@ -74,14 +74,19 @@ public abstract class FeatureArboriculture extends FeatureBase {
 			// Remove all saplings
 			clearSaplings(level, genPos);
 
+			// The positions of branch ends, as well as the positions of the first block placed in each log level.
+			ArrayList<BlockPos> branchEnds = new ArrayList<>();
+			ArrayList<BlockPos> logOrigins = new ArrayList<>();
+
 			// Generate a trunk and a list of branch end positions. Store those branch ends in a contour
-			ArrayList<BlockPos> branchEnds = new ArrayList<>(generateTrunk(level, rand, wood, genPos));
+			generateTrunk(level, logOrigins, branchEnds, rand, wood, genPos);
 			branchEnds.sort(VecUtil.TOP_DOWN_COMPARATOR);
-			TreeContour.Impl contour = new TreeContour.Impl(branchEnds);
+			logOrigins.sort(VecUtil.TOP_DOWN_COMPARATOR);
+			TreeContour.Impl contour = new TreeContour.Impl(branchEnds, logOrigins);
 
 			// Generate leaves and pods
-			generateLeaves(level, rand, leaf, contour, genPos);
-			generateExtras(level, rand, genPos);
+			generateLeaves(genome, level, rand, leaf, contour, genPos);
+			generateExtras(genome, level, rand, genPos, contour);
 
 			if (contour.boundingBox != null) {
 				// Correctly update the leaf distance states on the leaf blocks
@@ -172,13 +177,13 @@ public abstract class FeatureArboriculture extends FeatureBase {
 	}
 
 	/**
-	 * Generate the tree's trunk. Returns a list of positions of branch ends for leaves to generate at.
+	 * Generate the tree's trunk.
 	 */
-	protected abstract Set<BlockPos> generateTrunk(LevelAccessor level, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos);
+	protected abstract void generateTrunk(LevelAccessor level, List<BlockPos> logOrigins, List<BlockPos> branchCoords, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos);
 
-	protected abstract void generateLeaves(LevelAccessor level, RandomSource rand, TreeBlockTypeLeaf leaf, TreeContour contour, BlockPos startPos);
+	protected abstract void generateLeaves(IGenome genome, LevelAccessor level, RandomSource rand, TreeBlockTypeLeaf leaf, TreeContour contour, BlockPos startPos);
 
-	protected abstract void generateExtras(LevelAccessor level, RandomSource rand, BlockPos startPos);
+	protected abstract void generateExtras(IGenome genome, LevelAccessor level, RandomSource rand, BlockPos startPos, TreeContour contour);
 
 	@Nullable
 	public abstract BlockPos getValidGrowthPos(LevelAccessor level, BlockPos pos);
@@ -196,9 +201,5 @@ public abstract class FeatureArboriculture extends FeatureBase {
 				}
 			}
 		}
-	}
-
-	public boolean hasPods() {
-		return this.tree.allowsFruitBlocks(this.tree.getDefaultGenome());
 	}
 }

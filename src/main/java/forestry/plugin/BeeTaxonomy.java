@@ -69,7 +69,7 @@ public class BeeTaxonomy {
 					genus.setDefaultChromosome(BeeChromosomes.FLOWER_TYPE, ForestryAlleles.FLOWER_TYPE_GOURD);
 					genus.setDefaultChromosome(BeeChromosomes.HUMIDITY_TOLERANCE, ForestryAlleles.TOLERANCE_UP_1);
 					genus.setDefaultChromosome(BeeChromosomes.TEMPERATURE_TOLERANCE, ForestryAlleles.TOLERANCE_UP_1);
-					genus.setDefaultChromosome(BeeChromosomes.ACTIVITY, ForestryAlleles.ACTIVITY_NOCTURNAL);
+					genus.setDefaultChromosome(BeeChromosomes.ACTIVITY, ForestryAlleles.ACTIVITY_CREPUSCULAR);
 				});
 				family.defineSubTaxon(ForestryTaxa.GENUS_HEROIC, genus -> {
 					genus.setDefaultChromosome(BeeChromosomes.ACTIVITY, ForestryAlleles.ACTIVITY_CATHEMERAL);
@@ -92,6 +92,7 @@ public class BeeTaxonomy {
 				family.defineSubTaxon(ForestryTaxa.GENUS_AQUATIC, genus -> {
 					genus.setDefaultChromosome(BeeChromosomes.POLLINATION, ForestryAlleles.POLLINATION_SLOWEST);
 					genus.setDefaultChromosome(BeeChromosomes.TERRITORY, ForestryAlleles.TERRITORY_LARGEST);
+					genus.setDefaultChromosome(BeeChromosomes.ACTIVITY, ForestryAlleles.ACTIVITY_CREPUSCULAR);
 					genus.setDefaultChromosome(BeeChromosomes.TOLERATES_RAIN, ForestryAlleles.TRUE);
 				});
 				family.defineSubTaxon(ForestryTaxa.GENUS_EMBITTERED, genus -> {
@@ -121,7 +122,9 @@ public class BeeTaxonomy {
 				});
 				family.defineSubTaxon(ForestryTaxa.GENUS_VENGEFUL, genus -> {
 					genus.setDefaultChromosome(BeeChromosomes.TERRITORY, ForestryAlleles.TERRITORY_LARGEST);
-					genus.setDefaultChromosome(BeeChromosomes.EFFECT, ForestryAlleles.EFFECT_RADIOACTIVE);
+					genus.setDefaultChromosome(BeeChromosomes.EFFECT, ForestryAlleles.EFFECT_AGGRESSIVE);
+					genus.setDefaultChromosome(BeeChromosomes.TEMPERATURE_TOLERANCE, ForestryAlleles.TOLERANCE_BOTH_1);
+					genus.setDefaultChromosome(BeeChromosomes.HUMIDITY_TOLERANCE, ForestryAlleles.TOLERANCE_BOTH_1);
 				});
 				family.defineSubTaxon(ForestryTaxa.GENUS_FESTIVE, genus -> {
 					genus.setDefaultChromosome(BeeChromosomes.SPEED, ForestryAlleles.SPEED_SLOWER);

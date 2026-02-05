@@ -10,6 +10,7 @@
     "forestry:sequoia_chest_boat",
     "forestry:kapok_chest_boat",
     "forestry:ebony_chest_boat",
+    "forestry:elm_chest_boat",
     "forestry:mahogany_chest_boat",
     "forestry:balsa_chest_boat",
     "forestry:willow_chest_boat",
@@ -28,6 +29,19 @@
     "forestry:ipe_chest_boat",
     "forestry:padauk_chest_boat",
     "forestry:cocobolo_chest_boat",
+    "forestry:fir_chest_boat",
+    "forestry:coconut_chest_boat",
+    "forestry:beech_chest_boat",
+    "forestry:feijoa_chest_boat",
+    "forestry:dogwood_chest_boat",
+    "forestry:ginkgo_chest_boat",
+    "forestry:jacaranda_chest_boat",
+    "forestry:pewen_chest_boat",
+    "forestry:macrocarpa_chest_boat",
+    "forestry:olive_chest_boat",
+    "forestry:orange_chest_boat",
+    "forestry:pear_chest_boat",
+    "forestry:kauri_chest_boat",
     "forestry:zebrawood_chest_boat"
   ]
 }

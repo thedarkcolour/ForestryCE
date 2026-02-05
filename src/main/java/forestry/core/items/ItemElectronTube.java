@@ -21,6 +21,7 @@ public class ItemElectronTube extends ItemOverlay {
 		super(ItemGroups.tabForestry, type);
 	}
 
+	//TODO: Make it so total speed, efficiency, and fortune multipliers are shown?
 	@Override
 	public void appendHoverText(ItemStack itemstack, @Nullable Level world, List<Component> list, TooltipFlag flag) {
 		super.appendHoverText(itemstack, world, list, flag);

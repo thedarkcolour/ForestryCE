@@ -1,0 +1,18 @@
+{
+  "type": "forestry:squeezer",
+  "chance": 0.25,
+  "output": {
+    "Amount": 500,
+    "FluidName": "minecraft:milk"
+  },
+  "remnant": {
+    "Count": 1,
+    "id": "forestry:mulch"
+  },
+  "resources": [
+    {
+      "tag": "forge:fruits/coconut"
+    }
+  ],
+  "time": 10
+}

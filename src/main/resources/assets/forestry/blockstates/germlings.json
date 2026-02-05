@@ -34,6 +34,20 @@
 		"tree=sipiri": { "model": "forestry:germlings/sapling.tree_sipiri" },
 		"tree=papaya": { "model": "forestry:germlings/sapling.tree_papaya" },
 		"tree=date": { "model": "forestry:germlings/sapling.tree_date" },
-		"tree=poplar": { "model": "forestry:germlings/sapling.tree_poplar" }
+		"tree=poplar": { "model": "forestry:germlings/sapling.tree_poplar" },
+		"tree=elm": { "model": "forestry:germlings/sapling.tree_elm" },
+		"tree=fir": { "model": "forestry:germlings/sapling.tree_fir" },
+		"tree=coconut": { "model": "forestry:germlings/sapling.tree_coconut" },
+		"tree=beech": { "model": "forestry:germlings/sapling.tree_beech" },
+		"tree=feijoa": { "model": "forestry:germlings/sapling.tree_feijoa" },
+		"tree=dogwood": { "model": "forestry:germlings/sapling.tree_dogwood" },
+		"tree=ginkgo": { "model": "forestry:germlings/sapling.tree_ginkgo" },
+		"tree=jacaranda": { "model": "forestry:germlings/sapling.tree_jacaranda" },
+		"tree=monkey_puzzle": { "model": "forestry:germlings/sapling.tree_monkey_puzzle" },
+		"tree=macrocarpa": { "model": "forestry:germlings/sapling.tree_macrocarpa" },
+		"tree=olive": { "model": "forestry:germlings/sapling.tree_olive" },
+		"tree=orange": { "model": "forestry:germlings/sapling.tree_orange" },
+		"tree=pear": { "model": "forestry:germlings/sapling.tree_pear" },
+		"tree=kauri": { "model": "forestry:germlings/sapling.tree_kauri" }
 	}
 }

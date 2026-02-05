@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "group": "wooden_trapdoor",
+  "key": {
+    "#": [
+      {
+        "item": "forestry:beech_planks"
+      },
+      {
+        "item": "forestry:beech_fireproof_planks"
+      }
+    ]
+  },
+  "pattern": [
+    "###",
+    "###"
+  ],
+  "result": {
+    "count": 2,
+    "item": "forestry:beech_trapdoor"
+  },
+  "show_notification": true
+}

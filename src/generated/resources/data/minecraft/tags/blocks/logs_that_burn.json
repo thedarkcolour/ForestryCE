@@ -10,6 +10,7 @@
     "#forestry:sequoia_logs",
     "#forestry:kapok_logs",
     "#forestry:ebony_logs",
+    "#forestry:elm_logs",
     "#forestry:mahogany_logs",
     "#forestry:balsa_logs",
     "#forestry:willow_logs",
@@ -28,6 +29,19 @@
     "#forestry:ipe_logs",
     "#forestry:padauk_logs",
     "#forestry:cocobolo_logs",
+    "#forestry:fir_logs",
+    "#forestry:coconut_logs",
+    "#forestry:beech_logs",
+    "#forestry:feijoa_logs",
+    "#forestry:dogwood_logs",
+    "#forestry:ginkgo_logs",
+    "#forestry:jacaranda_logs",
+    "#forestry:pewen_logs",
+    "#forestry:macrocarpa_logs",
+    "#forestry:olive_logs",
+    "#forestry:orange_logs",
+    "#forestry:pear_logs",
+    "#forestry:kauri_logs",
     "#forestry:zebrawood_logs"
   ]
 }

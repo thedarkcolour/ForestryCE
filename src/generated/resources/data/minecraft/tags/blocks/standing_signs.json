@@ -10,6 +10,7 @@
     "forestry:sequoia_sign",
     "forestry:kapok_sign",
     "forestry:ebony_sign",
+    "forestry:elm_sign",
     "forestry:mahogany_sign",
     "forestry:balsa_sign",
     "forestry:willow_sign",
@@ -28,6 +29,19 @@
     "forestry:ipe_sign",
     "forestry:padauk_sign",
     "forestry:cocobolo_sign",
+    "forestry:fir_sign",
+    "forestry:coconut_sign",
+    "forestry:beech_sign",
+    "forestry:feijoa_sign",
+    "forestry:dogwood_sign",
+    "forestry:ginkgo_sign",
+    "forestry:jacaranda_sign",
+    "forestry:pewen_sign",
+    "forestry:macrocarpa_sign",
+    "forestry:olive_sign",
+    "forestry:orange_sign",
+    "forestry:pear_sign",
+    "forestry:kauri_sign",
     "forestry:zebrawood_sign"
   ]
 }

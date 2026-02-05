@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    {
+      "tag": "forestry:fireproof_beech_logs"
+    }
+  ],
+  "result": {
+    "count": 4,
+    "item": "forestry:beech_fireproof_planks"
+  }
+}

@@ -1,3 +1,58 @@
+## Forestry 2.10.0
+- More Bee Tweaks, thanks to EnderiumSmith (#291)
+  - Changed "0" fertility to display as "Infertile"
+  - Crepuscular activity period extended to work during 0..2000, 10000..15000, and 21000..24000
+  - Scoops can now be enchanted (Unbreaking, Silk Touch, Fortune)
+  - Hives can now be silk-touched
+  - Hive drops are now affected by Fortune
+  - End Hives now generate properly
+  - End Hives now have a rare chance to drop bees with "Phasing" or "Ascension" effects
+  - Increased drop rates of bees from Marshy hives
+  - Relaxed skylight requirements so that bees don't have to see the sky directly above them, now only requiring hives to be in a skylight of 10 or greater.
+  - Phosphor makes lava again instead of Volcanic Propolis
+  - Sinister produces Phosphor instead of Volcanic Propolis
+  - Luxuriant no longer produces phosphor, now only produces combs
+  - Abyssal species now has the "Darkness" effect, which blinds nearby players
+  - Savanna and Aquatic lines now uses Crepuscular activity instead of Nocturnal activity
+  - Added the Vindictive line back, no longer tied to IndustrialCraft2
+  - Vindictive line no longer uses Radioactive effect, uses aggressive instead, and has BOTH_1 climate tolerances
+  - Flower spawning fixed to no longer fill the area with the same kind of flower
+  - Steadfast species now has Cathemeral activity
+  - Sculk species is now bred from Abyssal and Hermitic rather than Abyssal and Phantasmal
+- New Growth Update, thanks to Spearkiller (#241)
+  - **Added 15 new Tree species**: Golden Elm, Balsam Fir, Coconut, Copper Beech, Feijoa, Dogwood, Ginkgo, Jacaranda, Pewen, Macrocarpa, Olive, Sweet Orange, D'Anjou Pear, Kauri
+  - **Added 5 new Fruits**:
+    - Pear - Can be squeezed into Juice (100 mB)
+    - Orange - Can be squeezed into Juice (400 mB)
+    - Coconut - Can be squeezed into Milk (500 mB)
+    - Feijoa - Can be squeezed into Juice (100 mB)
+    - Olive - Can be squeezed into Seed Oil (100 mB)
+      - In real life, Olive Oil is not a seed oil, but this is done to avoid having two separate Oil fluids. **New best source of Seed Oil**
+  - Added Amber Drone and Amber Sapling, which can be centrifuged to recover Relic Drones and Ginkgo Saplings, respectively
+  - Added Amber, a crafting and building material
+    - Used to create Amber Electron Tubes, which grant Fortune boosts on socketed machines (Centrifuge and Squeezer)
+    - Obtained from Vintage combs
+    - Also obtained from centrifuging Amber Drone and Amber Sapling
+  - Replaced Hill Cherry species with Sour Cherry
+    - Still produces cherries as fruit and has red bark with a yellow inside, but leaves are now green to avoid resembling the Cherry Blossom, which does not produce fruit in real life
+  - Replaced Bull Pine species with Ponderosa Pine
+    - Pine generation is now taller and skinnier, resembling the Ponderosa species
+  - Improved Acacia tree generation to more closely resemble Vanilla Acacia
+  - Improved Ipe leaves texture
+  - Improved Sugar Maple leaves texture
+  - Renamed Desert Acacia species to Camelthorn
+  - Renamed Zebrawood species to Zebrano
+  - Renamed Sipiri species to Greenheart
+  - Improved textures for almost all tree saplings
+  - Add JEI descriptions for Mulch, Fertilizier, and Compost
+  - Add Analyzer descriptions for nearly every tree species
+  - Cherries now produce Juice instead of Seed Oil
+  - Changed Squeezer Juice/Oil amounts: Cherry (50 mB), Walnut (50 mB), Chestnut (80 mB)
+  - Compost and Mulch can now be used as a fertilizer
+  - Make Fertilizer particles and sound match Vanilla Bone Meal
+  - TEXTURE PACKS: Sapling models and textures have been moved to follow Vanilla naming conventions.
+- Fixed pod fruits not respecting a tree's Yield allele
+
 ## Forestry 2.9.0
 - Fix incorrect bee particle positioning (#247)
 - Added tooltips to bee flower types in the portable analyzer (still missing Photosynth)

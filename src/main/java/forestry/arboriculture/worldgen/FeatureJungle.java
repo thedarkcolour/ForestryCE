@@ -1,13 +1,13 @@
 package forestry.arboriculture.worldgen;
 
 import forestry.api.arboriculture.ITreeGenData;
+import forestry.api.genetics.IGenome;
 import forestry.core.worldgen.FeatureHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 public class FeatureJungle extends FeatureTreeVanilla {
 	public FeatureJungle(ITreeGenData tree) {
@@ -15,17 +15,17 @@ public class FeatureJungle extends FeatureTreeVanilla {
 	}
 
 	@Override
-	public Set<BlockPos> generateTrunk(LevelAccessor level, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
-		int height = this.height;
-		float vinesChance = 0.0f;
-		if (this.girth >= 2) {
-			height *= 1.5f;
-			vinesChance = 0.8f;
+	public void generateTrunk(LevelAccessor level, List<BlockPos> logOrigins, List<BlockPos> branchCoords, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
+		if (this.girth == 1) {
+			super.generateTrunk(level, logOrigins, branchCoords, rand, wood, startPos);
+			return;
 		}
 
-		FeatureHelper.generateTreeTrunk(level, rand, wood, startPos, height, this.girth, 0, vinesChance, null, 0);
+		int height = (int) (this.height * 1.5f);
+		float vinesChance = 0.8f;
 
-		Set<BlockPos> branchCoords = new HashSet<>();
+		FeatureHelper.generateTreeTrunk(level, logOrigins, rand, wood, startPos, height, this.girth, 0, vinesChance, null, 0);
+
 		if (height > 10) {
 			int branchSpawn = 6;
 			while (branchSpawn < height - 2) {
@@ -33,16 +33,16 @@ public class FeatureJungle extends FeatureTreeVanilla {
 				branchSpawn += rand.nextInt(4);
 			}
 		}
-
-		return branchCoords;
 	}
 
 	@Override
-	protected void generateLeaves(LevelAccessor level, RandomSource rand, TreeBlockTypeLeaf leaf, TreeContour contour, BlockPos startPos) {
-		int height = this.height;
-		if (this.girth >= 2) {
-			height *= 1.5f;
+	protected void generateLeaves(IGenome genome, LevelAccessor level, RandomSource rand, TreeBlockTypeLeaf leaf, TreeContour contour, BlockPos startPos) {
+		if (this.girth == 1) {
+			super.generateLeaves(genome, level, rand, leaf, contour, startPos);
+			return;
 		}
+
+		int height = (int) (this.height * 1.5f);
 
 		for (BlockPos branchEnd : contour.getBranchEnds()) {
 			FeatureHelper.generateCylinderFromPos(level, leaf, branchEnd, this.girth, 1, FeatureHelper.EnumReplaceMode.AIR, contour);

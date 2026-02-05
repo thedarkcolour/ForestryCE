@@ -1,9 +1,9 @@
 package forestry.arboriculture.worldgen;
 
 import forestry.api.arboriculture.ITreeGenData;
+import forestry.api.genetics.IGenome;
 import forestry.core.worldgen.FeatureHelper;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 
@@ -14,24 +14,25 @@ public class FeatureBalsa extends FeatureTree {
 	}
 
 	@Override
-	protected void generateLeaves(LevelAccessor level, RandomSource rand, TreeBlockTypeLeaf leaf, TreeContour contour, BlockPos startPos) {
-		BlockPos topPos = startPos.offset(0, this.height + 1, 0);
-		BlockPos.MutableBlockPos leafCenter = new BlockPos.MutableBlockPos();
-		float leafRadius = (this.girth - 1.0f) / 2.0f;
+	protected void generateLeaves(IGenome genome, LevelAccessor level, RandomSource rand, TreeBlockTypeLeaf leaf, TreeContour contour, BlockPos startPos) {
 
-		FeatureHelper.addBlock(level, leafCenter.set(topPos), leaf, FeatureHelper.EnumReplaceMode.AIR, contour);
-		leafCenter.move(Direction.DOWN);
-		FeatureHelper.generateCylinderFromPos(level, leaf, leafCenter, leafRadius + this.girth, 1, FeatureHelper.EnumReplaceMode.SOFT, contour);
-		leafCenter.move(Direction.DOWN);
+		int leafRadius = (this.girth / 2) + 1;
 
-		if (this.height > 10) {
-			FeatureHelper.generateCylinderFromPos(level, leaf, leafCenter, leafRadius + this.girth, 1, FeatureHelper.EnumReplaceMode.SOFT, contour);
-			leafCenter.move(Direction.DOWN);
+		float heightMult = (this.height / 6f); //Taller trees have a longer canopy
+
+		int leafSpawn = this.height + 1;
+
+		FeatureHelper.generateCylinderFromPos(level, leaf, startPos.offset(this.girth / 2, leafSpawn--, this.girth / 2), this.girth / 2f, 1, FeatureHelper.EnumReplaceMode.SOFT, contour);
+
+		int canopyLength = (int) Math.min(Math.max((4 * heightMult), 4), 8);
+
+		while (canopyLength > 0) {
+
+			float failChance = 0.45f;
+			FeatureHelper.generateCylinderFromPosWithChance(level, leaf, startPos.offset(this.girth / 2, leafSpawn--, this.girth / 2), leafRadius, 2f, 1, FeatureHelper.EnumReplaceMode.SOFT, contour, rand, failChance);
+
+			canopyLength--;
 		}
 
-		while (leafCenter.getY() > topPos.getY() - 6) {
-			FeatureHelper.generateCylinderFromPos(level, leaf, leafCenter, leafRadius + this.girth, 1, FeatureHelper.EnumReplaceMode.SOFT, contour);
-			leafCenter.move(Direction.DOWN);
-		}
 	}
 }

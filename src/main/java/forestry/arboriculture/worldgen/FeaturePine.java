@@ -1,48 +1,34 @@
 package forestry.arboriculture.worldgen;
 
 import forestry.api.arboriculture.ITreeGenData;
+import forestry.api.genetics.IGenome;
 import forestry.core.worldgen.FeatureHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 
-import java.util.HashSet;
-import java.util.Set;
-
 public class FeaturePine extends FeatureTree {
-
 	public FeaturePine(ITreeGenData tree) {
-		super(tree, 6, 4);
+		super(tree, 11, 4);
 	}
 
 	@Override
-	public Set<BlockPos> generateTrunk(LevelAccessor level, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
-		FeatureHelper.generateTreeTrunk(level, rand, wood, startPos, this.height, this.girth, 0, 0, null, 0);
+	protected void generateLeaves(IGenome genome, LevelAccessor level, RandomSource rand, TreeBlockTypeLeaf leaf, TreeContour contour, BlockPos startPos) {
+		int vRadius = (int) (this.height * 0.4f);
 
-		Set<BlockPos> branchEnds = new HashSet<>();
-		for (int yBranch = 2; yBranch < this.height - 2; yBranch++) {
-			branchEnds.addAll(FeatureHelper.generateBranches(level, rand, wood, startPos.offset(0, yBranch, 0), this.girth, 0.05f, 0.1f, Math.round((this.height - yBranch) * 0.25f), 1, 0.25f));
-		}
-		return branchEnds;
-	}
+		// Make the initial leaf body - this is mainly to make the point
+		FeatureHelper.generateEllipsoid(level, startPos.offset(this.girth / 2, this.height - 2, this.girth / 2), 1 + (this.girth / 2f), vRadius, 1 + (this.girth / 2f), leaf, FeatureHelper.EnumReplaceMode.SOFT, contour);
 
-	@Override
-	protected void generateLeaves(LevelAccessor level, RandomSource rand, TreeBlockTypeLeaf leaf, TreeContour contour, BlockPos startPos) {
-		for (BlockPos branchEnd : contour.getBranchEnds()) {
-			FeatureHelper.generateCylinderFromPos(level, leaf, branchEnd, 2 + this.girth, 1, FeatureHelper.EnumReplaceMode.AIR, contour);
-		}
-
+		// Make the 'layers'
 		int leafSpawn = this.height + 1;
-		float diameterchange = 1.25f / this.height;
-		int leafSpawned = 2;
-
-		FeatureHelper.generateCylinderFromTreeStartPos(level, leaf, startPos.offset(0, leafSpawn--, 0), this.girth, this.girth, 1, FeatureHelper.EnumReplaceMode.SOFT, contour);
-		FeatureHelper.generateCylinderFromTreeStartPos(level, leaf, startPos.offset(0, leafSpawn--, 0), this.girth, (float) 1 + this.girth, 1, FeatureHelper.EnumReplaceMode.SOFT, contour);
-
-		while (leafSpawn > 1) {
-			FeatureHelper.generateCylinderFromTreeStartPos(level, leaf, startPos.offset(0, leafSpawn--, 0), this.girth, 3 * diameterchange * leafSpawned + this.girth, 1, FeatureHelper.EnumReplaceMode.SOFT, contour);
-			FeatureHelper.generateCylinderFromTreeStartPos(level, leaf, startPos.offset(0, leafSpawn--, 0), this.girth, 2 * diameterchange * leafSpawned + this.girth, 1, FeatureHelper.EnumReplaceMode.SOFT, contour);
-			leafSpawned += 2;
+		for (int y = 0; y < (vRadius * 2) - 6; y += 2) {
+			FeatureHelper.generateEllipsoid(level, startPos.offset(this.girth / 2, leafSpawn--, this.girth / 2), 1 + (this.girth / 2f), 1, 1 + (this.girth / 2f), leaf, FeatureHelper.EnumReplaceMode.SOFT, contour);
+			FeatureHelper.generateEllipsoid(level, startPos.offset(this.girth / 2, leafSpawn--, this.girth / 2), 2 + (this.girth / 2f), 1, 2 + (this.girth / 2f), leaf, FeatureHelper.EnumReplaceMode.SOFT, contour);
 		}
+
+		// Add the last little ring at the base of the canopy
+		leafSpawn--;
+		FeatureHelper.generateEllipsoid(level, startPos.offset(this.girth / 2, leafSpawn--, this.girth / 2), 0.5f + (this.girth / 2f), 1, 0.5f + (this.girth / 2f), leaf, FeatureHelper.EnumReplaceMode.SOFT, contour);
+		FeatureHelper.generateEllipsoid(level, startPos.offset(this.girth / 2, leafSpawn--, this.girth / 2), 1 + (this.girth / 2f), 1, 1 + (this.girth / 2f), leaf, FeatureHelper.EnumReplaceMode.SOFT, contour);
 	}
 }

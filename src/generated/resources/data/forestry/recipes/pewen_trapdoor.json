@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "group": "wooden_trapdoor",
+  "key": {
+    "#": [
+      {
+        "item": "forestry:pewen_planks"
+      },
+      {
+        "item": "forestry:pewen_fireproof_planks"
+      }
+    ]
+  },
+  "pattern": [
+    "###",
+    "###"
+  ],
+  "result": {
+    "count": 2,
+    "item": "forestry:pewen_trapdoor"
+  },
+  "show_notification": true
+}

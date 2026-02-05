@@ -159,10 +159,11 @@ public final class ForestryBlockTagsProvider {
 		tags.tag(ForestryTags.Blocks.ORES_APATITE).add(CoreBlocks.APATITE_ORE.block(), CoreBlocks.DEEPSLATE_APATITE_ORE.block());
 		tags.tag(ForestryTags.Blocks.STORAGE_BLOCKS_RAW_TIN).add(CoreBlocks.RAW_TIN_BLOCK.block());
 
-		tags.tag(Tags.Blocks.STORAGE_BLOCKS).addTags(ForestryTags.Blocks.STORAGE_BLOCKS_APATITE, ForestryTags.Blocks.STORAGE_BLOCKS_BRONZE, ForestryTags.Blocks.STORAGE_BLOCKS_TIN);
+		tags.tag(Tags.Blocks.STORAGE_BLOCKS).addTags(ForestryTags.Blocks.STORAGE_BLOCKS_APATITE, ForestryTags.Blocks.STORAGE_BLOCKS_BRONZE, ForestryTags.Blocks.STORAGE_BLOCKS_TIN, ForestryTags.Blocks.STORAGE_BLOCKS_AMBER);
 		tags.tag(ForestryTags.Blocks.STORAGE_BLOCKS_APATITE).add(CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.APATITE).block());
 		tags.tag(ForestryTags.Blocks.STORAGE_BLOCKS_TIN).add(CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.TIN).block());
 		tags.tag(ForestryTags.Blocks.STORAGE_BLOCKS_BRONZE).add(CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.BRONZE).block());
+		tags.tag(ForestryTags.Blocks.STORAGE_BLOCKS_AMBER).add(CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.AMBER).block());
 
 		tags.tag(BlockTags.DIRT).add(CoreBlocks.HUMUS.block());
 
@@ -192,6 +193,7 @@ public final class ForestryBlockTagsProvider {
 
 		tags.tag(ForestryTags.Blocks.MODEST_BEE_GROUND).addTag(BlockTags.SAND).addTag(BlockTags.TERRACOTTA);
 		tags.tag(ForestryTags.Blocks.WINTRY_BEE_GROUND).addTag(BlockTags.DIRT).addTag(BlockTags.SNOW);
+		tags.tag(ForestryTags.Blocks.ENDED_BEE_GROUND).add(Blocks.END_STONE);
 		tags.tag(ForestryTags.Blocks.LUSH_BEE_CEILING).add(Blocks.MOSS_BLOCK).add(Blocks.ROOTED_DIRT);
 		tags.tag(ForestryTags.Blocks.CAVE_EXTRA_REPLACEABLES).add(Blocks.POINTED_DRIPSTONE).add(Blocks.CAVE_VINES).add(Blocks.CAVE_VINES_PLANT).add(Blocks.HANGING_ROOTS).add(Blocks.GLOW_LICHEN);
 		tags.tag(ForestryTags.Blocks.NETHER_EXTRA_REPLACEABLES).add(Blocks.WEEPING_VINES, Blocks.WEEPING_VINES_PLANT, Blocks.TWISTING_VINES, Blocks.TWISTING_VINES_PLANT);

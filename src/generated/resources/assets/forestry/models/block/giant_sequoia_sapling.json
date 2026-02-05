@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "forestry:item/giant_sequoia_sapling"
+  }
+}

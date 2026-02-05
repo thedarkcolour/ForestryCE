@@ -15,7 +15,7 @@ public class CrepuscularActivityType implements IActivityType {
 	@Override
 	public boolean isActive(long gameTime, long dayTime, BlockPos pos) {
 		int time = (int) (dayTime % 24000);
-		return (0 <= time && time < 1000) || (12000 <= time && time < 13000);
+		return (0 <= time && time < 2000) || (10000 <= time && time < 15000) || 21000 <= time;
 	}
 
 	@Override

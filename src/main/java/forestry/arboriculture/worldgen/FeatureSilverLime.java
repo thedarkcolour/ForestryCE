@@ -1,28 +1,28 @@
 package forestry.arboriculture.worldgen;
 
 import forestry.api.arboriculture.ITreeGenData;
+import forestry.api.genetics.IGenome;
 import forestry.core.worldgen.FeatureHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 
-import java.util.Set;
+import java.util.List;
 
 public class FeatureSilverLime extends FeatureTree {
-
 	public FeatureSilverLime(ITreeGenData tree) {
 		super(tree, 6, 4);
 	}
 
 	@Override
-	public Set<BlockPos> generateTrunk(LevelAccessor level, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
-		FeatureHelper.generateTreeTrunk(level, rand, wood, startPos, this.height, this.girth, 0, 0, null, 0);
+	public void generateTrunk(LevelAccessor level, List<BlockPos> logOrigins, List<BlockPos> branchCoords, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
+		FeatureHelper.generateTreeTrunk(level, logOrigins, rand, wood, startPos, this.height, this.girth, 0, 0, null, 0);
 		BlockPos pos = startPos.offset(0, 3 + rand.nextInt(1), 0);
-		return FeatureHelper.generateBranches(level, rand, wood, pos, this.girth, 0.25f, 0.10f, Math.round(this.height * 0.25f), 2, 0.5f);
+		branchCoords.addAll(FeatureHelper.generateBranches(level, rand, wood, pos, this.girth, 0.25f, 0.10f, Math.round(this.height * 0.25f), 2, 0.5f));
 	}
 
 	@Override
-	protected void generateLeaves(LevelAccessor level, RandomSource rand, TreeBlockTypeLeaf leaf, TreeContour contour, BlockPos startPos) {
+	protected void generateLeaves(IGenome genome, LevelAccessor level, RandomSource rand, TreeBlockTypeLeaf leaf, TreeContour contour, BlockPos startPos) {
 		for (BlockPos branchEnd : contour.getBranchEnds()) {
 			FeatureHelper.generateCylinderFromPos(level, leaf, branchEnd, this.girth, 1, FeatureHelper.EnumReplaceMode.AIR, contour);
 		}

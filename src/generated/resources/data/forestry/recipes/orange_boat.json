@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "P": [
+      {
+        "item": "forestry:orange_planks"
+      },
+      {
+        "item": "forestry:orange_fireproof_planks"
+      }
+    ]
+  },
+  "pattern": [
+    "P P",
+    "PPP"
+  ],
+  "result": {
+    "item": "forestry:orange_boat"
+  },
+  "show_notification": true
+}

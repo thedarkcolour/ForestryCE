@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -17,19 +18,22 @@ public sealed interface TreeContour {
 	void addLeaf(BlockPos pos);
 
 	List<BlockPos> getBranchEnds();
+	List<BlockPos> getTrunkOrigins();
 
 	boolean hasLeaf(BlockPos pos);
 
 	final class Impl implements TreeContour {
 		public final Set<BlockPos> leavePositions;
 		public final List<BlockPos> branchEnds;
+		public final List<BlockPos> trunkOrigins;
 
 		@Nullable
 		public BoundingBox boundingBox;
 
-		public Impl(List<BlockPos> branchEnds) {
+		public Impl(List<BlockPos> ends, List<BlockPos> origins) {
 			this.leavePositions = new HashSet<>();
-			this.branchEnds = branchEnds;
+			this.branchEnds = ends;
+			this.trunkOrigins = origins;
 			this.boundingBox = null;
 		}
 
@@ -53,6 +57,11 @@ public sealed interface TreeContour {
 		public List<BlockPos> getBranchEnds() {
 			return this.branchEnds;
 		}
+
+		@Override
+		public List<BlockPos> getTrunkOrigins() {
+			return this.trunkOrigins;
+		}
 	}
 
 	final class Empty implements TreeContour {
@@ -70,6 +79,10 @@ public sealed interface TreeContour {
 
 		@Override
 		public List<BlockPos> getBranchEnds() {
+			return List.of();
+		}
+		@Override
+		public List<BlockPos> getTrunkOrigins() {
 			return List.of();
 		}
 	}

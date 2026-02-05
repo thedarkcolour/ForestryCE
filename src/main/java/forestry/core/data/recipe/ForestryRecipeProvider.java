@@ -2,9 +2,13 @@ package forestry.core.data.recipe;
 
 import forestry.api.ForestryTags;
 import forestry.api.IForestryApi;
+import forestry.api.apiculture.ForestryBeeSpecies;
+import forestry.api.apiculture.genetics.BeeLifeStage;
+import forestry.api.arboriculture.ForestryTreeSpecies;
 import forestry.api.arboriculture.IWoodAccess;
 import forestry.api.arboriculture.IWoodType;
 import forestry.api.arboriculture.WoodBlockKind;
+import forestry.api.arboriculture.genetics.TreeLifeStage;
 import forestry.api.circuits.ICircuit;
 import forestry.apiculture.blocks.BlockAlveary;
 import forestry.apiculture.blocks.BlockAlvearyType;
@@ -36,6 +40,7 @@ import forestry.core.items.definitions.EnumContainerType;
 import forestry.core.items.definitions.EnumCraftingMaterial;
 import forestry.core.items.definitions.EnumElectronTube;
 import forestry.core.utils.ModUtil;
+import forestry.core.utils.SpeciesUtil;
 import forestry.cultivation.blocks.BlockTypePlanter;
 import forestry.cultivation.features.CultivationBlocks;
 import forestry.energy.blocks.EngineBlockType;
@@ -359,6 +364,9 @@ public class ForestryRecipeProvider {
 		});
 
 		recipes.shapelessCrafting("exp_bottle_from_exp_drop", RecipeCategory.MISC, Items.EXPERIENCE_BOTTLE, 1, Items.GLASS_BOTTLE, ApicultureItems.EXPERIENCE_DROP.item());
+
+		// todo remove in 1.21.1 when volcanic propolis is removed
+		recipes.shapelessCrafting("volcanic_propolis_to_phosphor", RecipeCategory.MISC, CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.PHOSPHOR), 1, ApicultureItems.PROPOLIS.get(EnumPropolis.VOLCANIC));
 	}
 
 	private static void registerCombRecipes(MKRecipeProvider recipes) {
@@ -494,7 +502,6 @@ public class ForestryRecipeProvider {
 		});
 
 		recipes.shapelessCrafting("bottled_honey_drops", RecipeCategory.FOOD, Items.HONEY_BOTTLE, 1, Items.GLASS_BOTTLE, honeyDrop, honeyDrop);
-
 	}
 
 	private static void registerBackpackRecipes(MKRecipeProvider recipes) {
@@ -616,6 +623,11 @@ public class ForestryRecipeProvider {
 		recipes.storage3x3(CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.APATITE), CoreItems.APATITE);
 		recipes.storage3x3(CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.BRONZE), CoreItems.INGOT_BRONZE);
 		recipes.storage3x3(CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.TIN), CoreItems.INGOT_TIN);
+		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.AMBER), recipe -> {
+			recipe.define('#', CoreItems.AMBER);
+			recipe.pattern("##");
+			recipe.pattern("##");
+		});
 		recipes.shapedCrafting(RecipeCategory.TOOLS, CoreItems.BRONZE_PICKAXE, recipe -> {
 			recipe.define('#', ForestryTags.Items.INGOTS_BRONZE);
 			recipe.define('X', Tags.Items.RODS_WOODEN);
@@ -1704,6 +1716,7 @@ public class ForestryRecipeProvider {
 			.setInput(Ingredient.of(ApicultureItems.BEE_COMBS.get(EnumHoneyComb.VINTAGE)))
 			.product(1.0f, CoreItems.BEESWAX.stack())
 			.product(0.9f, ApicultureItems.HONEYDEW.stack())
+			.product(0.5f, CoreItems.AMBER.stack())
 			.build(consumer, id("centrifuge", "vintage_comb"));
 		new CentrifugeRecipeBuilder()
 			.setProcessingTime(20)
@@ -1719,6 +1732,18 @@ public class ForestryRecipeProvider {
 			.product(0.1f, ApicultureItems.PROPOLIS.stack(EnumPropolis.NORMAL, 1))
 			.build(consumer, id("centrifuge", "silky_propolis"));
 
+		new CentrifugeRecipeBuilder()
+			.setProcessingTime(180)
+			.setInput(Ingredient.of(ArboricultureItems.AMBER_SAPLING))
+			.product(0.25f, SpeciesUtil.TREE_TYPE.get().createStack(ForestryTreeSpecies.GINKGO, TreeLifeStage.SAPLING))
+			.product(0.8f, CoreItems.AMBER.stack())
+			.build(consumer, id("centrifuge", "amber_sapling"));
+		new CentrifugeRecipeBuilder()
+			.setProcessingTime(180)
+			.setInput(Ingredient.of(ApicultureItems.AMBER_DRONE))
+			.product(0.25f, SpeciesUtil.BEE_TYPE.get().createStack(ForestryBeeSpecies.RELIC, BeeLifeStage.DRONE))
+			.product(0.8f, CoreItems.AMBER.stack())
+			.build(consumer, id("centrifuge", "amber_drone"));
 
 		new CentrifugeRecipeBuilder()
 			.setProcessingTime(20)
@@ -1850,6 +1875,16 @@ public class ForestryRecipeProvider {
 				.define('#', Tags.Items.DUSTS_REDSTONE)
 				.define('X', ForestryTags.Items.GEMS_APATITE))
 			.build(consumer, id("fabricator", "electron_tubes", "apatite"));
+		new FabricatorRecipeBuilder()
+			.setPlan(Ingredient.EMPTY)
+			.setMolten(liquidGlass)
+			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CoreItems.ELECTRON_TUBES.get(EnumElectronTube.AMBER), 2)
+				.pattern(" X ")
+				.pattern("#X#")
+				.pattern("XXX")
+				.define('#', Tags.Items.DUSTS_REDSTONE)
+				.define('X', ForestryTags.Items.GEMS_AMBER))
+			.build(consumer, id("fabricator", "electron_tubes", "amber"));
 		new FabricatorRecipeBuilder()
 			.setPlan(Ingredient.EMPTY)
 			.setMolten(liquidGlass)
@@ -2072,7 +2107,7 @@ public class ForestryRecipeProvider {
 		new SqueezerRecipeBuilder()
 			.setProcessingTime(20)
 			.setResources(Util.make(NonNullList.create(), (ingredients) -> {
-				ingredients.add(Ingredient.of(ApicultureItems.PROPOLIS.get(EnumPropolis.VOLCANIC)));
+				ingredients.add(Ingredient.of(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.PHOSPHOR)));
 				ingredients.add(Ingredient.of(Items.SAND, Items.RED_SAND));
 			}))
 			.setFluidOutput(new FluidStack(Fluids.LAVA, 500))
@@ -2081,7 +2116,7 @@ public class ForestryRecipeProvider {
 		new SqueezerRecipeBuilder()
 			.setProcessingTime(30)
 			.setResources(Util.make(NonNullList.create(), (ingredients) -> {
-				ingredients.add(Ingredient.of(ApicultureItems.PROPOLIS.get(EnumPropolis.VOLCANIC)));
+				ingredients.add(Ingredient.of(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.PHOSPHOR)));
 				ingredients.add(Ingredient.of(Items.COBBLESTONE));
 			}))
 			.setFluidOutput(new FluidStack(Fluids.LAVA, 500))
@@ -2090,7 +2125,7 @@ public class ForestryRecipeProvider {
 		new SqueezerRecipeBuilder()
 			.setProcessingTime(20)
 			.setResources(Util.make(NonNullList.create(), (ingredients) -> {
-				ingredients.add(Ingredient.of(ApicultureItems.PROPOLIS.get(EnumPropolis.VOLCANIC)));
+				ingredients.add(Ingredient.of(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.PHOSPHOR)));
 				ingredients.add(Ingredient.of(Items.MAGMA_BLOCK));
 			}))
 			.setFluidOutput(new FluidStack(Fluids.LAVA, 1000))
@@ -2114,11 +2149,13 @@ public class ForestryRecipeProvider {
 			.setRemnants(CoreItems.MULCH.stack())
 			.setRemnantsChance(mulchMultiplier)
 			.build(consumer, id("squeezer", "mulch"));
+
 		new SqueezerRecipeBuilder()
 			.setProcessingTime(10)
 			.setResources(NonNullList.withSize(1, Ingredient.of(Items.CACTUS)))
 			.setFluidOutput(new FluidStack(Fluids.WATER, 500))
 			.build(consumer, id("squeezer", "cactus"));
+
 		new SqueezerRecipeBuilder()
 			.setProcessingTime(10)
 			.setResources(List.of(
@@ -2140,24 +2177,27 @@ public class ForestryRecipeProvider {
 		new SqueezerRecipeBuilder()
 			.setProcessingTime(20)
 			.setResources(NonNullList.withSize(1, Ingredient.of(ForestryTags.Items.CHERRY)))
-			.setFluidOutput(new FluidStack(seedOil, seedOilMultiplier * 5))
+			.setFluidOutput(new FluidStack(juice, juiceMultiplier / 4))
 			.setRemnants(mulch)
-			.setRemnantsChance(0.05F)
+			.setRemnantsChance(mulchMultiplier / 4)
 			.build(consumer, id("squeezer", "fruit", "cherry"));
+
 		new SqueezerRecipeBuilder()
 			.setProcessingTime(60)
 			.setResources(NonNullList.withSize(1, Ingredient.of(ForestryTags.Items.WALNUT)))
-			.setFluidOutput(new FluidStack(seedOil, seedOilMultiplier * 18))
+			.setFluidOutput(new FluidStack(seedOil, seedOilMultiplier * 5))
 			.setRemnants(mulch)
 			.setRemnantsChance(0.05F)
 			.build(consumer, id("squeezer", "fruit", "walnut"));
+
 		new SqueezerRecipeBuilder()
 			.setProcessingTime(70)
 			.setResources(NonNullList.withSize(1, Ingredient.of(ForestryTags.Items.CHESTNUT)))
-			.setFluidOutput(new FluidStack(seedOil, seedOilMultiplier * 22))
+			.setFluidOutput(new FluidStack(seedOil, seedOilMultiplier * 8))
 			.setRemnants(mulch)
 			.setRemnantsChance(0.02F)
 			.build(consumer, id("squeezer", "fruit", "chestnut"));
+
 		new SqueezerRecipeBuilder()
 			.setProcessingTime(10)
 			.setResources(NonNullList.withSize(1, Ingredient.of(ForestryTags.Items.LEMON)))
@@ -2165,6 +2205,7 @@ public class ForestryRecipeProvider {
 			.setRemnants(mulch)
 			.setRemnantsChance(mulchMultiplier / 2f)
 			.build(consumer, id("squeezer", "fruit", "lemon"));
+
 		new SqueezerRecipeBuilder()
 			.setProcessingTime(10)
 			.setResources(NonNullList.withSize(1, Ingredient.of(ForestryTags.Items.PLUM)))
@@ -2172,6 +2213,7 @@ public class ForestryRecipeProvider {
 			.setRemnants(mulch)
 			.setRemnantsChance(mulchMultiplier * 3f)
 			.build(consumer, id("squeezer", "fruit", "plum"));
+
 		new SqueezerRecipeBuilder()
 			.setProcessingTime(10)
 			.setResources(NonNullList.withSize(1, Ingredient.of(ForestryTags.Items.PAPAYA)))
@@ -2179,6 +2221,7 @@ public class ForestryRecipeProvider {
 			.setRemnants(mulch)
 			.setRemnantsChance(mulchMultiplier / 2f)
 			.build(consumer, id("squeezer", "fruit", "papaya"));
+
 		new SqueezerRecipeBuilder()
 			.setProcessingTime(10)
 			.setResources(NonNullList.withSize(1, Ingredient.of(ForestryTags.Items.DATE)))
@@ -2186,6 +2229,46 @@ public class ForestryRecipeProvider {
 			.setRemnants(mulch)
 			.setRemnantsChance(mulchMultiplier)
 			.build(consumer, id("squeezer", "fruit", "dates"));
+
+		new SqueezerRecipeBuilder()
+			.setProcessingTime(10)
+			.setResources(NonNullList.withSize(1, Ingredient.of(ForestryTags.Items.COCONUT)))
+			.setFluidOutput(new FluidStack(ForgeMod.MILK.get(), 500))
+			.setRemnants(mulch)
+			.setRemnantsChance(0.25f)
+			.build(consumer, id("squeezer", "fruit", "coconut"));
+
+		new SqueezerRecipeBuilder()
+			.setProcessingTime(10)
+			.setResources(NonNullList.withSize(1, Ingredient.of(ForestryTags.Items.FEIJOA)))
+			.setFluidOutput(new FluidStack(juice, juiceMultiplier / 2))
+			.setRemnants(mulch)
+			.setRemnantsChance(mulchMultiplier)
+			.build(consumer, id("squeezer", "fruit", "feijoa"));
+
+		new SqueezerRecipeBuilder()
+			.setProcessingTime(10)
+			.setResources(NonNullList.withSize(1, Ingredient.of(ForestryTags.Items.ORANGE)))
+			.setFluidOutput(new FluidStack(juice, juiceMultiplier * 2))
+			.setRemnants(mulch)
+			.setRemnantsChance(mulchMultiplier / 2f)
+			.build(consumer, id("squeezer", "fruit", "orange"));
+
+		new SqueezerRecipeBuilder()
+			.setProcessingTime(70)
+			.setResources(NonNullList.withSize(1, Ingredient.of(ForestryTags.Items.OLIVE)))
+			.setFluidOutput(new FluidStack(seedOil, seedOilMultiplier * 10))
+			.setRemnants(mulch)
+			.setRemnantsChance(0.02F)
+			.build(consumer, id("squeezer", "fruit", "olive"));
+
+		new SqueezerRecipeBuilder()
+			.setProcessingTime(10)
+			.setResources(NonNullList.withSize(1, Ingredient.of(ForestryTags.Items.PEAR)))
+			.setFluidOutput(new FluidStack(juice, juiceMultiplier / 2))
+			.setRemnants(mulch)
+			.setRemnantsChance(mulchMultiplier * 3f)
+			.build(consumer, id("squeezer", "fruit", "pear"));
 	}
 
 	private static void registerStill(Consumer<FinishedRecipe> consumer) {

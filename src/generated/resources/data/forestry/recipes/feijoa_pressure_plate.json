@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "P": [
+      {
+        "item": "forestry:feijoa_planks"
+      },
+      {
+        "item": "forestry:feijoa_fireproof_planks"
+      }
+    ]
+  },
+  "pattern": [
+    "PP"
+  ],
+  "result": {
+    "item": "forestry:feijoa_pressure_plate"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,30 @@
+{
+  "type": "forestry:fabricator",
+  "molten": {
+    "Amount": 500,
+    "FluidName": "forestry:glass"
+  },
+  "plan": [],
+  "recipe": {
+    "type": "minecraft:crafting_shaped",
+    "category": "building",
+    "key": {
+      "#": {
+        "item": "forestry:refractory_wax"
+      },
+      "X": {
+        "item": "forestry:ginkgo_wood"
+      }
+    },
+    "pattern": [
+      "   ",
+      "X#X",
+      "   "
+    ],
+    "result": {
+      "count": 2,
+      "item": "forestry:ginkgo_fireproof_wood"
+    },
+    "show_notification": true
+  }
+}

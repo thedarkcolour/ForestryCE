@@ -10,6 +10,7 @@
     "forestry:sequoia_boat",
     "forestry:kapok_boat",
     "forestry:ebony_boat",
+    "forestry:elm_boat",
     "forestry:mahogany_boat",
     "forestry:balsa_boat",
     "forestry:willow_boat",
@@ -28,6 +29,19 @@
     "forestry:ipe_boat",
     "forestry:padauk_boat",
     "forestry:cocobolo_boat",
+    "forestry:fir_boat",
+    "forestry:coconut_boat",
+    "forestry:beech_boat",
+    "forestry:feijoa_boat",
+    "forestry:dogwood_boat",
+    "forestry:ginkgo_boat",
+    "forestry:jacaranda_boat",
+    "forestry:pewen_boat",
+    "forestry:macrocarpa_boat",
+    "forestry:olive_boat",
+    "forestry:orange_boat",
+    "forestry:pear_boat",
+    "forestry:kauri_boat",
     "forestry:zebrawood_boat"
   ]
 }

@@ -14,4 +14,10 @@ public class ForestryFruits {
 	public static final ResourceLocation PAPAYA = ForestryConstants.forestry("fruit_papaya");
 	public static final ResourceLocation LEMON = ForestryConstants.forestry("fruit_lemon");
 	public static final ResourceLocation PLUM = ForestryConstants.forestry("fruit_plum");
+
+	public static final ResourceLocation PEAR = ForestryConstants.forestry("fruit_pear");
+	public static final ResourceLocation ORANGE = ForestryConstants.forestry("fruit_orange");
+	public static final ResourceLocation COCONUT = ForestryConstants.forestry("fruit_coconut");
+	public static final ResourceLocation FEIJOA = ForestryConstants.forestry("fruit_feijoa");
+	public static final ResourceLocation OLIVE = ForestryConstants.forestry("fruit_olive");
 }

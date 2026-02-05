@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "P": [
+      {
+        "item": "forestry:ginkgo_planks"
+      },
+      {
+        "item": "forestry:ginkgo_fireproof_planks"
+      }
+    ]
+  },
+  "pattern": [
+    "P P",
+    "PPP"
+  ],
+  "result": {
+    "item": "forestry:ginkgo_boat"
+  },
+  "show_notification": true
+}

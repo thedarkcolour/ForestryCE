@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "forestry:elm_boat"
+    },
+    {
+      "tag": "forge:chests/wooden"
+    }
+  ],
+  "result": {
+    "item": "forestry:elm_chest_boat"
+  }
+}

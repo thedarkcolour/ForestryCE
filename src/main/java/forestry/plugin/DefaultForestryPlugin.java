@@ -42,7 +42,7 @@ import forestry.core.features.CoreItems;
 import forestry.core.items.ItemFruit;
 import forestry.core.items.definitions.EnumCraftingMaterial;
 import forestry.core.items.definitions.EnumElectronTube;
-import forestry.factory.circuits.CircuitSpeedUpgrade;
+import forestry.factory.circuits.CircuitMachineUpgrade;
 import forestry.farming.circuits.CircuitFarmLogic;
 import forestry.lepidopterology.DummyButterflyEffect;
 import forestry.lepidopterology.LepidopterologyFilterRule;
@@ -201,14 +201,16 @@ public class DefaultForestryPlugin implements IForestryPlugin {
 			.addDrop(0.03, ForestryBeeSpecies.VALIANT, silkyComb);
 
 		apiculture.registerHive(ForestryBeeSpecies.ENDED, HiveDefinition.END)
-			.addDrop(0.90, ForestryBeeSpecies.ENDED, mysteriousComb);
+			.addDrop(0.90, ForestryBeeSpecies.ENDED, mysteriousComb, 0.7f)
+			.addDrop(0.09, ForestryBeeSpecies.ENDED, mysteriousComb, 0.7f, Map.of(BeeChromosomes.EFFECT, ForestryAlleles.EFFECT_PHASING))
+			.addDrop(0.03, ForestryBeeSpecies.ENDED, mysteriousComb, 0.7f, Map.of(BeeChromosomes.EFFECT, ForestryAlleles.EFFECT_ASCENSION));
 
 		apiculture.registerHive(ForestryBeeSpecies.WINTRY, HiveDefinition.SNOW)
 			.addDrop(0.80, ForestryBeeSpecies.WINTRY, frozenComb, 0.5f)
 			.addDrop(0.03, ForestryBeeSpecies.VALIANT, frozenComb);
 
 		apiculture.registerHive(ForestryBeeSpecies.MARSHY, HiveDefinition.SWAMP)
-			.addDrop(0.80, ForestryBeeSpecies.MARSHY, mossyComb, 0.4f)
+			.addDrop(0.80, ForestryBeeSpecies.MARSHY, mossyComb, 0.7f)
 			.addDrop(0.03, ForestryBeeSpecies.VALIANT, mossyComb);
 
 		apiculture.registerHive(ForestryBeeSpecies.SAVANNA, HiveDefinition.SAVANNA)
@@ -290,6 +292,7 @@ public class DefaultForestryPlugin implements IForestryPlugin {
 		apiculture.registerBeeEffect(ForestryBeeEffects.PHASING, new PhasingBeeEffect());
 		apiculture.registerBeeEffect(ForestryBeeEffects.ASCENSION, new AscensionBeeEffect());
 		apiculture.registerBeeEffect(ForestryBeeEffects.SCULK, new SculkSpreadBeeEffect());
+		apiculture.registerBeeEffect(ForestryBeeEffects.DARKNESS, new PotionBeeEffect(false, MobEffects.DARKNESS, 150));
 
 		apiculture.registerActivityType(ForestryActivityTypes.DIURNAL, new SingleActivityType(0, 12000, ForestryError.NOT_DAY, LightPreference.ANY));
 		apiculture.registerActivityType(ForestryActivityTypes.NOCTURNAL, new SingleActivityType(12000, 24000, ForestryError.NOT_NIGHT, LightPreference.DARK));
@@ -315,16 +318,22 @@ public class DefaultForestryPlugin implements IForestryPlugin {
 		ResourceLocation plums = ForestryConstants.forestry("block/leaves/fruits.plums");
 
 		arboriculture.registerFruit(ForestryFruits.NONE, new DummyFruit(false));
-		arboriculture.registerFruit(ForestryFruits.APPLE, new RipeningFruit(false, 10, pomes, 0xff2e2e, 0xe3f49c, List.of(Product.of(Items.APPLE))));
+		arboriculture.registerFruit(ForestryFruits.APPLE, new RipeningFruit(false, 10, pomes, 0xFF1C2B, 0xe3f49c, List.of(Product.of(Items.APPLE))));
 		// todo match vanilla cocoa and use fortune OR better yet, make pod fruits use actual loot tables
 		arboriculture.registerFruit(ForestryFruits.COCOA, new PodFruit(false, ForestryPodType.COCOA, List.of(Product.of(Items.COCOA_BEANS))));
-		arboriculture.registerFruit(ForestryFruits.CHESTNUT, new RipeningFruit(true, 6, nuts, 0x7f333d, 0xc4d24a, List.of(Product.of(CoreItems.FRUITS.item(ItemFruit.EnumFruit.CHESTNUT)))));
-		arboriculture.registerFruit(ForestryFruits.WALNUT, new RipeningFruit(true, 8, nuts, 0xfba248, 0xc4d24a, List.of(Product.of(CoreItems.FRUITS.item(ItemFruit.EnumFruit.WALNUT)))));
-		arboriculture.registerFruit(ForestryFruits.CHERRY, new RipeningFruit(true, 10, berries, 0xff2e2e, 0xc4d24a, List.of(Product.of(CoreItems.FRUITS.item(ItemFruit.EnumFruit.CHERRY)))));
+		arboriculture.registerFruit(ForestryFruits.CHESTNUT, new RipeningFruit(true, 6, nuts, 0x76403C, 0xc4d24a, List.of(Product.of(CoreItems.FRUITS.item(ItemFruit.EnumFruit.CHESTNUT)))));
+		arboriculture.registerFruit(ForestryFruits.WALNUT, new RipeningFruit(true, 8, nuts, 0xBC784E, 0xc4d24a, List.of(Product.of(CoreItems.FRUITS.item(ItemFruit.EnumFruit.WALNUT)))));
+		arboriculture.registerFruit(ForestryFruits.CHERRY, new RipeningFruit(true, 10, berries, 0xCC1C10, 0xc4d24a, List.of(Product.of(CoreItems.FRUITS.item(ItemFruit.EnumFruit.CHERRY))))); //Should be a Drupe, actually
 		arboriculture.registerFruit(ForestryFruits.DATES, new PodFruit(false, ForestryPodType.DATES, List.of(Product.of(CoreItems.FRUITS.item(ItemFruit.EnumFruit.DATES)))));
 		arboriculture.registerFruit(ForestryFruits.PAPAYA, new PodFruit(false, ForestryPodType.PAPAYA, List.of(Product.of(CoreItems.FRUITS.item(ItemFruit.EnumFruit.PAPAYA)))));
-		arboriculture.registerFruit(ForestryFruits.LEMON, new RipeningFruit(true, 10, citrus, 0xeeee00, 0x99ff00, List.of(Product.of(CoreItems.FRUITS.item(ItemFruit.EnumFruit.LEMON)))));
-		arboriculture.registerFruit(ForestryFruits.PLUM, new RipeningFruit(true, 10, plums, 0x663446, 0xeeff1a, List.of(Product.of(CoreItems.FRUITS.item(ItemFruit.EnumFruit.PLUM)))));
+		arboriculture.registerFruit(ForestryFruits.LEMON, new RipeningFruit(true, 10, citrus, 0xFFD500, 0x99ff00, List.of(Product.of(CoreItems.FRUITS.item(ItemFruit.EnumFruit.LEMON)))));
+		arboriculture.registerFruit(ForestryFruits.PLUM, new RipeningFruit(true, 10, plums, 0x773352, 0xeeff1a, List.of(Product.of(CoreItems.FRUITS.item(ItemFruit.EnumFruit.PLUM))))); //Should also be a drupe
+
+		arboriculture.registerFruit(ForestryFruits.COCONUT, new PodFruit(false, ForestryPodType.COCONUT, List.of(Product.of(CoreItems.FRUITS.item(ItemFruit.EnumFruit.COCONUT)))));
+		arboriculture.registerFruit(ForestryFruits.PEAR, new RipeningFruit(true, 10, pomes, 0xD8D345, 0xE3DD9C, List.of(Product.of(CoreItems.FRUITS.item(ItemFruit.EnumFruit.PEAR)))));
+		arboriculture.registerFruit(ForestryFruits.FEIJOA, new RipeningFruit(true, 10, berries, 0x7AB15C, 0x6A7D7B, List.of(Product.of(CoreItems.FRUITS.item(ItemFruit.EnumFruit.FEIJOA))))); //What actually is a feijoa? I couldn't find the answer.
+		arboriculture.registerFruit(ForestryFruits.ORANGE, new RipeningFruit(true, 10, citrus, 0xF4842D, 0xBCA627, List.of(Product.of(CoreItems.FRUITS.item(ItemFruit.EnumFruit.ORANGE)))));
+		arboriculture.registerFruit(ForestryFruits.OLIVE, new RipeningFruit(true, 10, berries, 0xAAC348, 0x604632, List.of(Product.of(CoreItems.FRUITS.item(ItemFruit.EnumFruit.OLIVE))))); //Should also be a drupe
 
 		arboriculture.registerTreeEffect(ForestryAlleles.TREE_EFFECT_NONE.alleleId(), new DummyTreeEffect(false));
 		arboriculture.registerTreeEffect(ForestryAlleles.TREE_EFFECT_BLOSSOMING.alleleId(), new BlossomingTreeEffect());
@@ -385,9 +394,10 @@ public class DefaultForestryPlugin implements IForestryPlugin {
 		registerFarmCircuit(circuits, EnumElectronTube.LAPIS, ForestryFarmTypes.COCOA, true);
 
 		// Factory
-		circuits.registerCircuit(ForestryCircuitLayouts.MACHINE_UPGRADE, CoreItems.ELECTRON_TUBES.stack(EnumElectronTube.EMERALD, 1), new CircuitSpeedUpgrade("machine.speed.boost.1", 0.125f, 0.05f));
-		circuits.registerCircuit(ForestryCircuitLayouts.MACHINE_UPGRADE, CoreItems.ELECTRON_TUBES.stack(EnumElectronTube.BLAZE, 1), new CircuitSpeedUpgrade("machine.speed.boost.2", 0.250f, 0.10f));
-		circuits.registerCircuit(ForestryCircuitLayouts.MACHINE_UPGRADE, CoreItems.ELECTRON_TUBES.stack(EnumElectronTube.GOLD, 1), new CircuitSpeedUpgrade("machine.efficiency.1", 0, -0.10f));
+		circuits.registerCircuit(ForestryCircuitLayouts.MACHINE_UPGRADE, CoreItems.ELECTRON_TUBES.stack(EnumElectronTube.EMERALD, 1), new CircuitMachineUpgrade("machine.speed.boost.1", 0.125f, 0.05f, 0));
+		circuits.registerCircuit(ForestryCircuitLayouts.MACHINE_UPGRADE, CoreItems.ELECTRON_TUBES.stack(EnumElectronTube.BLAZE, 1), new CircuitMachineUpgrade("machine.speed.boost.2", 0.250f, 0.10f, 0));
+		circuits.registerCircuit(ForestryCircuitLayouts.MACHINE_UPGRADE, CoreItems.ELECTRON_TUBES.stack(EnumElectronTube.GOLD, 1), new CircuitMachineUpgrade("machine.efficiency.1", 0, -0.10f, 0));
+		circuits.registerCircuit(ForestryCircuitLayouts.MACHINE_UPGRADE, CoreItems.ELECTRON_TUBES.stack(EnumElectronTube.AMBER, 1), new CircuitMachineUpgrade("machine.fortune.1", 0, 0.05f, 1.25f));
 	}
 
 	private static void registerFarmCircuit(ICircuitRegistration circuits, EnumElectronTube tube, ResourceLocation typeId, boolean manual) {

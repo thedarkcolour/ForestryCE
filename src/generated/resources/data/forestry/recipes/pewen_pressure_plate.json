@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "P": [
+      {
+        "item": "forestry:pewen_planks"
+      },
+      {
+        "item": "forestry:pewen_fireproof_planks"
+      }
+    ]
+  },
+  "pattern": [
+    "PP"
+  ],
+  "result": {
+    "item": "forestry:pewen_pressure_plate"
+  },
+  "show_notification": true
+}

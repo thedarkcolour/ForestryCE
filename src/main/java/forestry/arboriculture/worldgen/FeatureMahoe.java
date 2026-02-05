@@ -1,13 +1,13 @@
 package forestry.arboriculture.worldgen;
 
 import forestry.api.arboriculture.ITreeGenData;
+import forestry.api.genetics.IGenome;
 import forestry.core.worldgen.FeatureHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 public class FeatureMahoe extends FeatureTree {
 	public FeatureMahoe(ITreeGenData tree) {
@@ -15,17 +15,16 @@ public class FeatureMahoe extends FeatureTree {
 	}
 
 	@Override
-	public Set<BlockPos> generateTrunk(LevelAccessor level, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
-		Set<BlockPos> branchCoords = new HashSet<>(FeatureHelper.generateTreeTrunk(level, rand, wood, startPos, this.height, this.girth, 0, 0, null, 0));
+	public void generateTrunk(LevelAccessor level, List<BlockPos> logOrigins, List<BlockPos> branchCoords, RandomSource rand, TreeBlockTypeLog wood, BlockPos startPos) {
+		FeatureHelper.generateTreeTrunk(level, logOrigins, rand, wood, startPos, this.height, this.girth, 0, 0, null, 0);
 
 		for (int yBranch = 2; yBranch < this.height - 1; yBranch++) {
 			branchCoords.addAll(FeatureHelper.generateBranches(level, rand, wood, startPos.offset(0, yBranch, 0), this.girth, 0.15f, 0.25f, Math.round((this.height - yBranch) * 0.75f), 1, 0.25f));
 		}
-		return branchCoords;
 	}
 
 	@Override
-	protected void generateLeaves(LevelAccessor level, RandomSource rand, TreeBlockTypeLeaf leaf, TreeContour contour, BlockPos startPos) {
+	protected void generateLeaves(IGenome genome, LevelAccessor level, RandomSource rand, TreeBlockTypeLeaf leaf, TreeContour contour, BlockPos startPos) {
 		for (BlockPos branchEnd : contour.getBranchEnds()) {
 			FeatureHelper.generateCylinderFromPos(level, leaf, branchEnd, 2 + this.girth, 2, FeatureHelper.EnumReplaceMode.AIR, contour);
 		}

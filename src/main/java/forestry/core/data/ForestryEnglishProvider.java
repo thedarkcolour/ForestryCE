@@ -9,7 +9,9 @@ public class ForestryEnglishProvider {
 	// todo flesh this out more in 1.21 and change IDs of everything over for autogen lang
 	public static void addTranslations(MKEnglishProvider lang) {
 		// fertility
-		for (int i = 0; i <= 10; ++i) {
+			lang.add("allele." + ForestryConstants.MOD_ID + ".fertility." + 0 + "i", "Infertile");
+			lang.add("allele." + ForestryConstants.MOD_ID + ".fertility." + 0 + "id", "Infertile");
+		for (int i = 1; i <= 10; ++i) {
 			lang.add("allele." + ForestryConstants.MOD_ID + ".fertility." + i + "i", String.valueOf(i));
 			lang.add("allele." + ForestryConstants.MOD_ID + ".fertility." + i + "id", String.valueOf(i));
 		}

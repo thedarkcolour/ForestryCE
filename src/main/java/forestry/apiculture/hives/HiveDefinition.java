@@ -67,7 +67,7 @@ public enum HiveDefinition implements IHiveDefinition {
 		}
 	},
 	JUNGLE(ApicultureBlocks.BEEHIVE.get(BlockHiveType.JUNGLE).defaultState(), 6.0f, ForestryBeeSpecies.TROPICAL, HiveGenTree.INSTANCE),
-	END(ApicultureBlocks.BEEHIVE.get(BlockHiveType.END).defaultState(), 2.0f, ForestryBeeSpecies.ENDED, new HiveGenGround(ForestryTags.Blocks.ENDED_BEE_GROUND)) {
+	END(ApicultureBlocks.BEEHIVE.get(BlockHiveType.END).defaultState(), 0.25f, ForestryBeeSpecies.ENDED, new HiveGenGround(ForestryTags.Blocks.ENDED_BEE_GROUND)) {
 		@Override
 		public boolean isGoodBiome(Holder<Biome> biome) {
 			return biome.is(BiomeTags.IS_END);

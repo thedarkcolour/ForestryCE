@@ -10,6 +10,7 @@
     "forestry:sequoia_door",
     "forestry:kapok_door",
     "forestry:ebony_door",
+    "forestry:elm_door",
     "forestry:mahogany_door",
     "forestry:balsa_door",
     "forestry:willow_door",
@@ -28,6 +29,19 @@
     "forestry:ipe_door",
     "forestry:padauk_door",
     "forestry:cocobolo_door",
+    "forestry:fir_door",
+    "forestry:coconut_door",
+    "forestry:beech_door",
+    "forestry:feijoa_door",
+    "forestry:dogwood_door",
+    "forestry:ginkgo_door",
+    "forestry:jacaranda_door",
+    "forestry:pewen_door",
+    "forestry:macrocarpa_door",
+    "forestry:olive_door",
+    "forestry:orange_door",
+    "forestry:pear_door",
+    "forestry:kauri_door",
     "forestry:zebrawood_door"
   ]
 }

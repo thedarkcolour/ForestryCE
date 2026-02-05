@@ -1,0 +1,30 @@
+{
+  "type": "forestry:fabricator",
+  "molten": {
+    "Amount": 500,
+    "FluidName": "forestry:glass"
+  },
+  "plan": [],
+  "recipe": {
+    "type": "minecraft:crafting_shaped",
+    "category": "misc",
+    "key": {
+      "#": {
+        "tag": "forge:dusts/redstone"
+      },
+      "X": {
+        "tag": "forge:gems/amber"
+      }
+    },
+    "pattern": [
+      " X ",
+      "#X#",
+      "XXX"
+    ],
+    "result": {
+      "count": 2,
+      "item": "forestry:electron_tube_amber"
+    },
+    "show_notification": true
+  }
+}

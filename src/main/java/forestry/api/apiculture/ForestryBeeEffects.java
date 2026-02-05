@@ -36,4 +36,5 @@ public class ForestryBeeEffects {
 	public static final ResourceLocation PHASING = ForestryConstants.forestry("bee_effect_phasing");
 	public static final ResourceLocation ASCENSION = ForestryConstants.forestry("bee_effect_ascension");
 	public static final ResourceLocation SCULK = ForestryConstants.forestry("bee_effect_sculk");
+	public static final ResourceLocation DARKNESS = ForestryConstants.forestry("bee_effect_darkness");
 }

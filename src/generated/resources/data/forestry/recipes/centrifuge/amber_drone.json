@@ -1,0 +1,81 @@
+{
+  "type": "forestry:centrifuge",
+  "input": {
+    "item": "forestry:amber_drone"
+  },
+  "products": [
+    {
+      "chance": 0.25,
+      "item": "forestry:bee_drone_ge",
+      "tag": {
+        "ForgeCaps": {
+          "Parent": {
+            "analyzed": 0,
+            "genome": {
+              "forestry:activity": {
+                "active": "forestry:activity_diurnal",
+                "inactive": "forestry:activity_diurnal"
+              },
+              "forestry:bee_effect": {
+                "active": "forestry:bee_effect_rejuvenation",
+                "inactive": "forestry:bee_effect_rejuvenation"
+              },
+              "forestry:bee_species": {
+                "active": "forestry:bee_relic",
+                "inactive": "forestry:bee_relic"
+              },
+              "forestry:cave_dwelling": {
+                "active": "forestry:falsed",
+                "inactive": "forestry:falsed"
+              },
+              "forestry:fertility": {
+                "active": "forestry:1id",
+                "inactive": "forestry:1id"
+              },
+              "forestry:flower_type": {
+                "active": "forestry:flower_type_ancient",
+                "inactive": "forestry:flower_type_ancient"
+              },
+              "forestry:humidity_tolerance": {
+                "active": "forestry:tolerance_none",
+                "inactive": "forestry:tolerance_none"
+              },
+              "forestry:lifespan": {
+                "active": "forestry:2147483647i",
+                "inactive": "forestry:2147483647i"
+              },
+              "forestry:pollination": {
+                "active": "forestry:5id",
+                "inactive": "forestry:5id"
+              },
+              "forestry:speed": {
+                "active": "forestry:0.3fd",
+                "inactive": "forestry:0.3fd"
+              },
+              "forestry:temperature_tolerance": {
+                "active": "forestry:tolerance_down_1d",
+                "inactive": "forestry:tolerance_down_1d"
+              },
+              "forestry:territory": {
+                "active": "forestry:9_6_9",
+                "inactive": "forestry:9_6_9"
+              },
+              "forestry:tolerates_rain": {
+                "active": "forestry:falsed",
+                "inactive": "forestry:falsed"
+              }
+            },
+            "health": 2147483647,
+            "max_heath": 2147483647,
+            "pristine": 1
+          }
+        }
+      }
+    },
+    {
+      "chance": 0.8,
+      "item": "forestry:amber"
+    }
+  ],
+  "time": 180
+}

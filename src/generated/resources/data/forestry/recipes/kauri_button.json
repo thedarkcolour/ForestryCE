@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "ingredients": [
+    [
+      {
+        "item": "forestry:kauri_planks"
+      },
+      {
+        "item": "forestry:kauri_fireproof_planks"
+      }
+    ]
+  ],
+  "result": {
+    "item": "forestry:kauri_button"
+  }
+}

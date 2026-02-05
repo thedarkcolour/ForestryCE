@@ -160,6 +160,7 @@ public class ForestryAlleles {
 	public static final IRegistryAllele<IBeeEffect> EFFECT_PHASING = REGISTRY.registryAllele(ForestryBeeEffects.PHASING, BeeChromosomes.EFFECT);
 	public static final IRegistryAllele<IBeeEffect> EFFECT_ASCENSION = REGISTRY.registryAllele(ForestryBeeEffects.ASCENSION, BeeChromosomes.EFFECT);
 	public static final IRegistryAllele<IBeeEffect> EFFECT_SCULK = REGISTRY.registryAllele(ForestryBeeEffects.SCULK, BeeChromosomes.EFFECT);
+	public static final IRegistryAllele<IBeeEffect> EFFECT_DARKNESS = REGISTRY.registryAllele(ForestryBeeEffects.DARKNESS, BeeChromosomes.EFFECT);
 	//public static final IRegistryAllele<IBeeEffect> EFFECT_PATRIOTIC = Todos.todo();
 
 	// Speed
@@ -235,6 +236,11 @@ public class ForestryAlleles {
 	public static final IRegistryAllele<IFruit> FRUIT_PAPAYA = REGISTRY.registryAllele(ForestryFruits.PAPAYA, TreeChromosomes.FRUIT);
 	public static final IRegistryAllele<IFruit> FRUIT_LEMON = REGISTRY.registryAllele(ForestryFruits.LEMON, TreeChromosomes.FRUIT);
 	public static final IRegistryAllele<IFruit> FRUIT_PLUM = REGISTRY.registryAllele(ForestryFruits.PLUM, TreeChromosomes.FRUIT);
+	public static final IRegistryAllele<IFruit> FRUIT_PEAR = REGISTRY.registryAllele(ForestryFruits.PEAR, TreeChromosomes.FRUIT);
+	public static final IRegistryAllele<IFruit> FRUIT_ORANGE = REGISTRY.registryAllele(ForestryFruits.ORANGE, TreeChromosomes.FRUIT);
+	public static final IRegistryAllele<IFruit> FRUIT_COCONUT = REGISTRY.registryAllele(ForestryFruits.COCONUT, TreeChromosomes.FRUIT);
+	public static final IRegistryAllele<IFruit> FRUIT_FEIJOA = REGISTRY.registryAllele(ForestryFruits.FEIJOA, TreeChromosomes.FRUIT);
+	public static final IRegistryAllele<IFruit> FRUIT_OLIVE = REGISTRY.registryAllele(ForestryFruits.OLIVE, TreeChromosomes.FRUIT);
 
 	// Tree Effect
 	public static final IValueAllele<ITreeEffect> TREE_EFFECT_NONE = REGISTRY.registryAllele(ForestryConstants.forestry("tree_effect_none"), TreeChromosomes.EFFECT);

@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "forestry:block/feijoa_slab"
+    },
+    "type=double": {
+      "model": "forestry:block/feijoa_planks"
+    },
+    "type=top": {
+      "model": "forestry:block/feijoa_slab_top"
+    }
+  }
+}

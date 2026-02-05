@@ -1,0 +1,66 @@
+{
+  "type": "forestry:centrifuge",
+  "input": {
+    "item": "forestry:amber_sapling"
+  },
+  "products": [
+    {
+      "chance": 0.25,
+      "item": "forestry:sapling",
+      "tag": {
+        "ForgeCaps": {
+          "Parent": {
+            "analyzed": 0,
+            "genome": {
+              "forestry:fireproof": {
+                "active": "forestry:falsed",
+                "inactive": "forestry:falsed"
+              },
+              "forestry:fruits": {
+                "active": "forestry:fruit_none",
+                "inactive": "forestry:fruit_none"
+              },
+              "forestry:girth": {
+                "active": "forestry:1i",
+                "inactive": "forestry:1i"
+              },
+              "forestry:height": {
+                "active": "forestry:1.25f",
+                "inactive": "forestry:1.25f"
+              },
+              "forestry:maturation": {
+                "active": "forestry:5id",
+                "inactive": "forestry:5id"
+              },
+              "forestry:saplings": {
+                "active": "forestry:0.01fd",
+                "inactive": "forestry:0.01fd"
+              },
+              "forestry:sappiness": {
+                "active": "forestry:0.8f",
+                "inactive": "forestry:0.8f"
+              },
+              "forestry:tree_effect": {
+                "active": "forestry:tree_effect_none",
+                "inactive": "forestry:tree_effect_none"
+              },
+              "forestry:tree_species": {
+                "active": "forestry:tree_ginkgo",
+                "inactive": "forestry:tree_ginkgo"
+              },
+              "forestry:yield": {
+                "active": "forestry:0.025fd",
+                "inactive": "forestry:0.025fd"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "chance": 0.8,
+      "item": "forestry:amber"
+    }
+  ],
+  "time": 180
+}

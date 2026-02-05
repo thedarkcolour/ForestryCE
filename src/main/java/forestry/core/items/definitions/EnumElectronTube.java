@@ -17,7 +17,8 @@ public enum EnumElectronTube implements ItemOverlay.IOverlayInfo {
 	EMERALD(TextColor.fromRgb(0x00CC41)),
 	APATITE(TextColor.fromRgb(0x579CD9)),
 	LAPIS(TextColor.fromRgb(0x1c57c6)),
-	ENDER(TextColor.fromRgb(0x33adad), TextColor.fromRgb(0x255661));
+	ENDER(TextColor.fromRgb(0x33adad), TextColor.fromRgb(0x255661)),
+	AMBER(TextColor.fromRgb(0xE29536));
 
 	private final String uid;
 	private final int primaryColor;

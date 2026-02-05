@@ -134,7 +134,7 @@ public class LootTableHelper {
 			LootTable.lootTable().withPool(LootPool.lootPool()
 				.name("forestry_arboriculture_items")
 				.setRolls(ConstantValue.exactly(1))
-				.add(saplingLoot(ForestryTreeSpecies.SIPIRI))
+				.add(saplingLoot(ForestryTreeSpecies.GREENHEART))
 				.add(EmptyLootItem.emptyItem().setWeight(9))
 			));
 		add(BuiltInLootTables.NETHER_BRIDGE, "apiculture",
@@ -186,7 +186,7 @@ public class LootTableHelper {
 				.setRolls(ConstantValue.exactly(3))
 				.add(LootItem.lootTableItem(ArboricultureItems.GRAFTER.item()))
 				.add(saplingLoot(ForestryTreeSpecies.LIME).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 3))))
-				.add(saplingLoot(ForestryTreeSpecies.HILL_CHERRY).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 3))))
+				.add(saplingLoot(ForestryTreeSpecies.SOUR_CHERRY).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 3))))
 				.add(saplingLoot(ForestryTreeSpecies.LARCH).apply(SetItemCountFunction.setCount(UniformGenerator.between(1, 3))))
 				.add(saplingLoot(ForestryTreeSpecies.TEAK))
 				.add(saplingLoot(ForestryTreeSpecies.PADAUK))

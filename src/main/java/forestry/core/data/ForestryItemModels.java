@@ -1,11 +1,16 @@
 package forestry.core.data;
 
+import forestry.api.arboriculture.ForestryTreeSpecies;
+import forestry.api.arboriculture.ITreeSpecies;
 import forestry.apiculture.features.ApicultureItems;
 import forestry.arboriculture.ForestryWoodType;
 import forestry.arboriculture.features.ArboricultureItems;
 import forestry.core.features.CoreItems;
-
+import forestry.core.utils.SpeciesUtil;
+import net.minecraft.resources.ResourceLocation;
 import thedarkcolour.modkit.data.MKItemModelProvider;
+
+import java.util.Set;
 
 public class ForestryItemModels {
 	public static void addModels(MKItemModelProvider models) {
@@ -36,5 +41,23 @@ public class ForestryItemModels {
 		models.generic2d(CoreItems.KIT_AXE.get());
 		models.generic2d(CoreItems.KIT_SWORD.get());
 		models.generic2d(CoreItems.KIT_HOE.get());
+
+		Set<ResourceLocation> vanillaIds = Set.of(
+			ForestryTreeSpecies.OAK,
+			ForestryTreeSpecies.DARK_OAK,
+			ForestryTreeSpecies.BIRCH,
+			ForestryTreeSpecies.ACACIA_VANILLA,
+			ForestryTreeSpecies.SPRUCE,
+			ForestryTreeSpecies.JUNGLE,
+			ForestryTreeSpecies.CHERRY_VANILLA
+		);
+		// Saplings
+		for (ITreeSpecies species : SpeciesUtil.getAllTreeSpecies()) {
+			if (vanillaIds.contains(species.id())) continue;
+
+			String name = species.id().getPath().substring("tree_".length()) + "_sapling";
+			models.cross("block/" + name, models.modLoc("item/" + name));
+			models.generic2d(models.modLoc(name));
+		}
 	}
 }

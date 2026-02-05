@@ -1,0 +1,48 @@
+Hello chums! If you're reading this you're either just a bit nosy or you're looking to add a new tree to Forestry, either as a mod or as an addon.
+I've written this to make it a little easier to know what you have to in order to do that. Let's get stuck in.
+
+1. Make your textures. Just makes sense to do this step first. If you need a template, lookie here: https://imgur.com/a/11QWnVa
+	I recommend using this template because I made it. It's also a good way to ensure you keep your colours consistent (old Forestry didn't use colour palettes. Boo, hiss, etc.)
+	A note about the palettes:
+	- Column A is used strictly for boats.
+	- Column B is used strictly by signs.
+	- Column C is used by things like planks, stripped logs, and doors, and all the assets you *won't* just be recolouring. Stick to using these 7 shades unless you really know what you're doing.
+	- Column D is for the tree bark. This palette has eight shades, but some trees use as few as four or five. Use as few as you can to get the look yo desire.
+	The template for the chest boat isnt here because then the template would be unneccesarily large, so you'll have to make that yourself, but DON'T FORGET TO DO IT!
+
+2. Define your new species in ForestryTreeSpecies.java as "tree_(name)"
+
+3. Add your new species to the DefaultForestryClientRegistration.java. Use your ForestryTreeSpecies and a ForestryLeafSprite. There are a few to choose from already. This walkthrough won't tell you how to do it but it's a simple enough process.
+
+4. Define your leaf type in ForestryLeafType.java. You will first declare it at the top of the file, and then look for the values() method and add your new leaf type to the returned array. 
+
+5. Define your wood type in ForestryWoodType.java. You will need your newly created ForestryLeafType here. With this created, head to ForestryTags.java and add a tag for each of your logs. None of these are really used unless you're making a pod-fruit tree, but it's good to be consistent. You'll need to do this for both block and item tags.
+
+6. Now the fun part: You need to do your research. You need to figure out the taxonomy of the species of tree you want to add. The way I had done this is by first getting the scientific name from Wikipedia, and then looking it up on https://www.catalogueoflife.org/ - because this formats the taxonomy in the same way as forestry.
+	There are a lot of taxa already avaialable, so check to see if some of your tree's taxonomy is already added.
+	Head to ForestryTaxa.java. 
+	You likely won't need to add a new Domain, nor a new Kingdom, nor a Phylum- if you do it's fairly easy to do, just copy what's already there and put the new name of your thing in.
+	Add the class, order, genus, and species of your tree. If you do try to add something that is already there, your IDE will get grumpy at you so you shouldn't end up with any duplicates.
+	All entries should be in all lowercase, and only be one word. I don't think there are any real-world examples that are exception to the rule but someone will probably come along and correct me if they read this. 
+	
+7. Now with your taxa declared, you actually have to tell it where it belongs. Head to TreeTaxonomy.java and have a look through. The whole thing is, ignore the pun, a big tree. Find the domain, kingdom and phylum. Then, declare a new class, or find the class your tree belongs to, and use .defineSubTaxon() using your recently created taxa. Keep doing this until you finally declare the genus. If you get confused, just look at how the other trees/taxa were implemented.
+
+8. Now head to the aboriculture/worldgen directory. You will need to make a new Feature. Just copy one (it helps if you choose a tree that already has a similar look/shape to the tree you're adding) and change it so the class matches your tree name. So, for example, you'd have FeatureElm.java, and the class would be FeatureElm. You can leave this class for now, you'll come back to it later.
+
+9.  With your new FeatureTree added, you now need to make your way to DefaultTreeSpecies. Firstly, at the very top of the file, you'll need to import your newly created FeatureTree class. Next, much further down, you'll need to register the species. Just copy the most recent entry, or the entry that is close enough to the type of tree you want to create.
+	With it copied, you'll need to update the ForestryTreeSpecies, Genus, Species, leaf colour, ForestryWoodType, and basically everything else that doesn't match the name or specifications of your new tree. It's fairly self explanatory.
+	
+10. You're nearly there! Now head to the resources directory and find the language files. You'll need to add your tree species (around line 1600) and the wood type (around line 1660.) You can also define a description for your tree, but at time of writing, these don't display anywhere. Go to around line 1540 for that.
+
+11. Head to the blockstates folder now, and look for germlings.json. You'll need to add a line for the tree you've just created. 
+
+12. Go to the models folder, and create an item and block model for your sapling. Just copy files that are already there and change the names.
+
+13. Using your IDE of choice, execute the Gradle task RunData. It should take no less than a minute to run, the terminal will say "generated X files, Y stale, something something." It may continue to run even after finishing. Once you see a message like this though, you should be able to stop it.
+
+14. Run the game. All things going to plan, you should see your new wood and tree type in game. Your sapling should grow to.
+
+15. Return to your FeatureTree.java. You're on your own now, as you now have to figure out how to make your tree look how you want it to look in game. This is why I suggested copying a tree that looks similar enough to the one you want to make, so that you don't have to start from scratch.
+	If you want to change the girth, or other properties, add mutations, etc. all that is done in the DefaultTreeSpecies class.
+	
+That should be all you need to get started adding a new tree! Hopefully you find this guide helpful. GLHF.

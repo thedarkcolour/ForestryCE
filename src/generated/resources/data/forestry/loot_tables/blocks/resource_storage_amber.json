@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "forestry:resource_storage_amber"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "forestry:blocks/resource_storage_amber"
+}

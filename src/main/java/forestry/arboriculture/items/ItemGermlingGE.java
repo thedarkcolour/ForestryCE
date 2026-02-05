@@ -107,7 +107,7 @@ public class ItemGermlingGE extends ItemGE implements IVariableFermentable, ICol
 			if (!worldIn.isEmptyBlock(pos.above())) {
 				return InteractionResultHolder.pass(stack);
 			}
-			pos = pos.above();
+			pos = pos.above(); //TODO: Change this so saplings aren't placed on top of a block when clicking the side
 		}
 
 		if (tree.canStay(worldIn, pos)) {

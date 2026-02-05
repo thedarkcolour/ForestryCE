@@ -146,6 +146,9 @@ public class ForestryCreativeTabs {
 		// Raw Ores
 		items.accept(CoreItems.APATITE);
 		items.accept(CoreItems.RAW_TIN);
+		items.accept(CoreItems.AMBER);
+		items.accept(ApicultureItems.AMBER_DRONE);
+		items.accept(ArboricultureItems.AMBER_SAPLING);
 		// Processed ores
 		items.accept(CoreItems.FERTILIZER_COMPOUND);
 		items.accept(CoreItems.INGOT_TIN);
@@ -235,6 +238,7 @@ public class ForestryCreativeTabs {
 		ApicultureItems.POLLEN_CLUSTER.getItems().forEach(items::accept);
 		items.accept(ApicultureItems.ROYAL_JELLY);
 		items.accept(ApicultureItems.EXPERIENCE_DROP);
+		items.accept(ApicultureItems.AMBER_DRONE);
 
 		SpeciesUtil.addTypeToCreativeTab(items, ForestrySpeciesTypes.BEE);
 	}
@@ -274,6 +278,7 @@ public class ForestryCreativeTabs {
 
 		// Specimens
 		SpeciesUtil.addTypeToCreativeTab(items, ForestrySpeciesTypes.TREE);
+		items.accept(ArboricultureItems.AMBER_SAPLING);
 		ArboricultureBlocks.LEAVES_DECORATIVE.getItems().forEach(items::accept);
 	}
 

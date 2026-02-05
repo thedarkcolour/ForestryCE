@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "forestry:propolis_volcanic"
+    }
+  ],
+  "result": {
+    "item": "forestry:phosphor"
+  }
+}

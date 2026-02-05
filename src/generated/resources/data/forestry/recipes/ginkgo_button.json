@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "ingredients": [
+    [
+      {
+        "item": "forestry:ginkgo_planks"
+      },
+      {
+        "item": "forestry:ginkgo_fireproof_planks"
+      }
+    ]
+  ],
+  "result": {
+    "item": "forestry:ginkgo_button"
+  }
+}

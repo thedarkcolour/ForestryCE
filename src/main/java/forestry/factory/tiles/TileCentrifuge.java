@@ -44,15 +44,14 @@ public class TileCentrifuge extends TilePowered implements ISocketable, WorldlyC
 
 	private final InventoryAdapter sockets = new InventoryAdapter(1, "sockets");
 	private final ResultContainer craftPreviewInventory;
+	private final ArrayDeque<ItemStack> pendingProducts = new ArrayDeque<>();
 	@Nullable
 	private ICentrifugeRecipe currentRecipe;
-
-	private final ArrayDeque<ItemStack> pendingProducts = new ArrayDeque<>();
 
 	public TileCentrifuge(BlockPos pos, BlockState state) {
 		super(FactoryTiles.CENTRIFUGE.tileType(), pos, state, 800, Constants.MACHINE_MAX_ENERGY);
 		setInternalInventory(new InventoryCentrifuge(this));
-        this.craftPreviewInventory = new ResultContainer();
+		this.craftPreviewInventory = new ResultContainer();
 	}
 
 	/* LOADING & SAVING */
@@ -61,7 +60,7 @@ public class TileCentrifuge extends TilePowered implements ISocketable, WorldlyC
 	public void saveAdditional(CompoundTag compound) {
 		super.saveAdditional(compound);
 
-        this.sockets.write(compound);
+		this.sockets.write(compound);
 
 		ListTag nbttaglist = new ListTag();
 		ItemStack[] offspring = this.pendingProducts.toArray(new ItemStack[0]);
@@ -83,9 +82,9 @@ public class TileCentrifuge extends TilePowered implements ISocketable, WorldlyC
 		ListTag nbttaglist = compound.getList("PendingProducts", 10);
 		for (int i = 0; i < nbttaglist.size(); i++) {
 			CompoundTag CompoundNBT1 = nbttaglist.getCompound(i);
-            this.pendingProducts.add(ItemStack.of(CompoundNBT1));
+			this.pendingProducts.add(ItemStack.of(CompoundNBT1));
 		}
-        this.sockets.read(compound);
+		this.sockets.read(compound);
 
 		ItemStack chip = this.sockets.getItem(0);
 		if (!chip.isEmpty()) {
@@ -99,14 +98,14 @@ public class TileCentrifuge extends TilePowered implements ISocketable, WorldlyC
 	@Override
 	public void writeGuiData(FriendlyByteBuf data) {
 		super.writeGuiData(data);
-        this.sockets.writeData(data);
+		this.sockets.writeData(data);
 	}
 
 	@Override
 	@OnlyIn(Dist.CLIENT)
 	public void readGuiData(FriendlyByteBuf data) {
 		super.readGuiData(data);
-        this.sockets.readData(data);
+		this.sockets.readData(data);
 	}
 
 	@Override
@@ -116,7 +115,7 @@ public class TileCentrifuge extends TilePowered implements ISocketable, WorldlyC
 		}
 
 		if (!this.pendingProducts.isEmpty()) {
-            this.craftPreviewInventory.setItem(0, ItemStack.EMPTY);
+			this.craftPreviewInventory.setItem(0, ItemStack.EMPTY);
 			return false;
 		}
 
@@ -125,13 +124,13 @@ public class TileCentrifuge extends TilePowered implements ISocketable, WorldlyC
 		}
 
 		// We are done, add products to queue
-		Collection<ItemStack> products = this.currentRecipe.getProducts(this.level.random);
-        this.pendingProducts.addAll(products);
+		Collection<ItemStack> products = this.currentRecipe.getProducts(level.random, this.outputMultiplier);
+		this.pendingProducts.addAll(products);
 
 		//Add Item to preview slot.
 		ItemStack previewStack = getInternalInventory().getItem(InventoryCentrifuge.SLOT_RESOURCE).copy();
 		previewStack.setCount(1);
-        this.craftPreviewInventory.setItem(0, previewStack);
+		this.craftPreviewInventory.setItem(0, previewStack);
 
 		getInternalInventory().removeItem(InventoryCentrifuge.SLOT_RESOURCE, 1);
 		return true;
@@ -142,7 +141,7 @@ public class TileCentrifuge extends TilePowered implements ISocketable, WorldlyC
 		ICentrifugeRecipe matchingRecipe = RecipeUtils.getCentrifugeRecipe(getLevel().getRecipeManager(), resource);
 
 		if (this.currentRecipe != matchingRecipe) {
-            this.currentRecipe = matchingRecipe;
+			this.currentRecipe = matchingRecipe;
 			if (this.currentRecipe != null) {
 				int recipeTime = this.currentRecipe.getProcessingTime();
 				setTicksPerWorkCycle(recipeTime * TICKS_PER_RECIPE_TIME);
@@ -161,9 +160,9 @@ public class TileCentrifuge extends TilePowered implements ISocketable, WorldlyC
 		boolean added = InventoryUtil.tryAddStack(this, next, InventoryCentrifuge.SLOT_PRODUCT_1, InventoryCentrifuge.SLOT_PRODUCT_COUNT, true);
 
 		if (added) {
-            this.pendingProducts.removeFirst();
+			this.pendingProducts.removeFirst();
 			if (this.pendingProducts.isEmpty()) {
-                this.craftPreviewInventory.setItem(0, ItemStack.EMPTY);
+				this.craftPreviewInventory.setItem(0, ItemStack.EMPTY);
 			}
 		}
 
@@ -224,7 +223,7 @@ public class TileCentrifuge extends TilePowered implements ISocketable, WorldlyC
 			}
 		}
 
-        this.sockets.setItem(slot, stack);
+		this.sockets.setItem(slot, stack);
 		if (stack.isEmpty()) {
 			return;
 		}
@@ -251,6 +250,6 @@ public class TileCentrifuge extends TilePowered implements ISocketable, WorldlyC
 
 	@Override
 	public void handleItemStackForDisplay(ItemStack itemStack) {
-        this.craftPreviewInventory.setItem(0, itemStack);
+		this.craftPreviewInventory.setItem(0, itemStack);
 	}
 }

@@ -10,6 +10,7 @@
     "forestry:sequoia_hanging_sign",
     "forestry:kapok_hanging_sign",
     "forestry:ebony_hanging_sign",
+    "forestry:elm_hanging_sign",
     "forestry:mahogany_hanging_sign",
     "forestry:balsa_hanging_sign",
     "forestry:willow_hanging_sign",
@@ -28,6 +29,19 @@
     "forestry:ipe_hanging_sign",
     "forestry:padauk_hanging_sign",
     "forestry:cocobolo_hanging_sign",
+    "forestry:fir_hanging_sign",
+    "forestry:coconut_hanging_sign",
+    "forestry:beech_hanging_sign",
+    "forestry:feijoa_hanging_sign",
+    "forestry:dogwood_hanging_sign",
+    "forestry:ginkgo_hanging_sign",
+    "forestry:jacaranda_hanging_sign",
+    "forestry:pewen_hanging_sign",
+    "forestry:macrocarpa_hanging_sign",
+    "forestry:olive_hanging_sign",
+    "forestry:orange_hanging_sign",
+    "forestry:pear_hanging_sign",
+    "forestry:kauri_hanging_sign",
     "forestry:zebrawood_hanging_sign"
   ]
 }
