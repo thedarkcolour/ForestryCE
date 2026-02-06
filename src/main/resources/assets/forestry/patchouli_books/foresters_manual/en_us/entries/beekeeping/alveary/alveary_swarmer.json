@@ -6,11 +6,11 @@
     {
       "type": "patchouli:crafting",
       "recipe": "forestry:alveary_swarmer",
-      "text": ""
+      "text": "for.gui.book.patchouli.entry.beekeeping.alveary.swarmer1"
     },
     {
       "type": "patchouli:text",
-      "text": ""
+      "text": "for.gui.book.patchouli.entry.beekeeping.alveary.swarmer2"
     }
   ]
 }
