@@ -348,7 +348,7 @@
   "for.gui.temperature": "Температура",
   "for.gui.tolerance": "Устойчивость",
   "for.gui.temptol": "Устойчивость к температуре",
-  "for.gui.tooltip.tmi": " §7Удерживайте [§6Shift§7] для подробной информации ",
+  "for.gui.tooltip.tmi": "§7Удерживайте [§6Shift§7] для подробной информации",
   "for.gui.tooltip.liquid.amount": "%1$s / %2$s мВ",
   "for.gui.triple": "Тройной",
   "for.gui.unknown": "Неизвестный геном",
