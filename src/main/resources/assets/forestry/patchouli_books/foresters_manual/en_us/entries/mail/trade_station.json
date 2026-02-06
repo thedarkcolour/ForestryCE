@@ -1,6 +1,6 @@
 {
   "icon": "forestry:trade_station",
-  "name": "Trade Station",
+  "name": "for.gui.book.patchouli.entry.mail.trade_station",
   "category": "forestry:mail",
   "pages": [
     {
