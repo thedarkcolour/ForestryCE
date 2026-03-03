@@ -1,3 +1,6 @@
+## Forestry 2.10.1
+- Fix bug with Fortune upgrades causing zero drops for non-fortune circuits (#311)
+
 ## Forestry 2.10.0
 - More Bee Tweaks, thanks to EnderiumSmith (#291)
   - Changed "0" fertility to display as "Infertile"
