@@ -1,3 +1,7 @@
+## Forestry 2.10.2
+- Fix bugs in French translation, thanks to Horusbk (#313)
+- Add new Russian translations for New Growth Update, thanks to deaddiesel (#302)
+
 ## Forestry 2.10.1
 - Fix bug with Fortune upgrades causing zero drops for non-fortune circuits (#311)
 

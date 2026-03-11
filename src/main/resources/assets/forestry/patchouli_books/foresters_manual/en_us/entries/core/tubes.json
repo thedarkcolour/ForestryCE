@@ -5,9 +5,9 @@
   "pages": [
     {
       "type": "spotlight",
-      "title": "Electron Tubes",
+      "title": "for.gui.book.patchouli.entry.core.tubes",
       "item": "forestry:electron_tube_copper",
-      "text": "for.gui.book.patchouli.entry.core.tubes"
+      "text": "for.gui.book.patchouli.entry.core.tubes1"
     },
     {
       "type": "forestry:fabricator/double",

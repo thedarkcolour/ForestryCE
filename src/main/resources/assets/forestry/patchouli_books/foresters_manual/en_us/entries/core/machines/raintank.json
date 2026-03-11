@@ -6,7 +6,7 @@
     {
       "type": "crafting",
       "recipe":  "forestry:raintank",
-      "text": "for.gui.book.patchouli.entry.core.machine.raintank"
+      "text": "for.gui.book.patchouli.entry.core.machine.raintank1"
     }
   ]
 }
