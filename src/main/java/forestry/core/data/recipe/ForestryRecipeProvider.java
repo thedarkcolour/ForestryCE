@@ -1530,7 +1530,15 @@ public class ForestryRecipeProvider {
 		crate(consumer, CrateItems.CRATED_COBBLESTONE.get(), Ingredient.of(Tags.Items.COBBLESTONES));
 		crate(consumer, CrateItems.CRATED_DIRT.get(), Ingredient.of(Items.DIRT));
 		crate(consumer, CrateItems.CRATED_GRASS_BLOCK.get(), Ingredient.of(Items.GRASS_BLOCK));
-		crate(consumer, CrateItems.CRATED_STONE.get(), Ingredient.of(Tags.Items.STONES));
+		// Use Items.STONE rather than Tags.Items.STONES (= c:stones) so this recipe doesn't
+		// shadow the per-stone-variant recipes below. The c:stones tag includes diorite,
+		// granite, andesite, deepslate, and any modded stone variants — when the carpenter
+		// looks up a recipe for a given crafting-grid input, this recipe matches ANYTHING in
+		// the tag, masking the more specific crated_diorite/granite/andesite recipes whenever
+		// the BE finds it first in registry-iteration order. Per-item ingredient leaves the
+		// crated_stone recipe meaning "actual minecraft:stone" and the variant recipes meaning
+		// "actual minecraft:granite/diorite/andesite".
+		crate(consumer, CrateItems.CRATED_STONE.get(), Ingredient.of(Items.STONE));
 		crate(consumer, CrateItems.CRATED_GRANITE.get(), Ingredient.of(Items.GRANITE));
 		crate(consumer, CrateItems.CRATED_DIORITE.get(), Ingredient.of(Items.DIORITE));
 		crate(consumer, CrateItems.CRATED_ANDESITE.get(), Ingredient.of(Items.ANDESITE));

@@ -12,7 +12,7 @@
     "category": "misc",
     "key": {
       "#": {
-        "tag": "c:stones"
+        "item": "minecraft:stone"
       }
     },
     "pattern": [
