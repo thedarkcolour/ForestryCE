@@ -10,6 +10,10 @@ import net.minecraft.world.item.ItemStack;
 
 public class PickupHandlerStorage {
 	public static boolean onItemPickup(Player player, ItemEntity entityitem) {
+		if (entityitem.hasPickUpDelay() || (entityitem.getTarget() != null && !entityitem.getTarget().equals(player.getUUID()))) {
+			return false;
+		}
+
 		ItemStack itemstack = entityitem.getItem();
 		if (itemstack.isEmpty()) {
 			return false;
