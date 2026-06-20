@@ -1,7 +1,6 @@
 package forestry.core.multiblock.pattern;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -173,12 +172,10 @@ public final class MultiblockPattern {
 			}
 		}
 
-		// --- Match. members are produced in (x,y,z) order, so members.get(0) is the lowest = holder. ---
-		Collections.sort(members);
-		StructurePos min = members.get(0);
-		StructurePos holder = min;
+		// --- Match. The box is built in ascending (x,y,z) order from origin, so origin is by construction
+		// the lowest member = min = holder (spec §6.1); max is the opposite corner of the solid box. ---
 		StructurePos max = origin.offset(sizeX - 1, sizeY - 1, sizeZ - 1);
-		return new PatternResult.Match(members, min, max, holder, components);
+		return new PatternResult.Match(members, origin, max, origin, components);
 	}
 
 	/**

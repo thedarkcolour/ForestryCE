@@ -127,4 +127,27 @@ class FarmPatternTest {
 		PatternResult result = validate(b);
 		assertInstanceOf(PatternResult.Failure.class, result);
 	}
+
+	@Test
+	void d1_oversizedStructureRejectedNotClampedToMax() {
+		// A 6-wide (x) all-plain farm exceeds maxX=5. measureBox clamps X to 5, then the upper-maximality
+		// face-walk finds same-type components on the x=5 shell -> reject (do NOT silently form a 5-wide
+		// machine from a 6-wide blob). Guards checkUpperMaximality against removal/weakening.
+		PatternResult result = validate(validFarm(6, 4, 3));
+		PatternResult.Failure failure = assertInstanceOf(PatternResult.Failure.class, result);
+		assertEquals(Predicates.KEY_INVALID_PART, failure.firstKey());
+	}
+
+	@Test
+	void d1_strayComponentOnUpperShellRejected() {
+		// A complete 5x4x3 farm with a single stray same-type component on the +Z shell (z=3) at a cell
+		// OFF the (0,0,z) measurement edge. measureBox still measures sizeZ=3 (the edge hits air), but the
+		// full +Z face walk finds the stray -> reject with invalid.part. A weaker impl that only checked
+		// the measurement edge (not the whole face) would wrongly Match.
+		FakeStructureView.Builder b = validFarm(5, 4, 3);
+		b.component(4, 0, 3, FarmPattern.PLAIN); // +Z shell face, off the measurement edge
+		PatternResult result = validate(b);
+		PatternResult.Failure failure = assertInstanceOf(PatternResult.Failure.class, result);
+		assertEquals(Predicates.KEY_INVALID_PART, failure.firstKey());
+	}
 }
