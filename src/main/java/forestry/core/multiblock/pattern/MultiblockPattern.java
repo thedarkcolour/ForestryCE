@@ -82,14 +82,19 @@ public final class MultiblockPattern {
 	public PatternResult validate(StructureView view, StructurePos origin) {
 		// --- Maximality (lower faces): origin must actually be the lowest member. If a same-type
 		// component sits just below origin on any axis, this origin is non-maximal -> defer. We require
-		// those confirming cells to be loaded (loaded-shell). ---
+		// those confirming cells to be loaded (loaded-shell). Both branches mean "this candidate is not
+		// rooted at the structure's true min corner", a discovery artefact of probing many permissive
+		// candidate origins (spec §5.3) — NOT a real content/size error. They return the internal
+		// KEY_NOT_MAXIMAL so findValidationHint ranks them below the meaningful failure produced by the
+		// candidate that IS rooted at the true min corner (e.g. error.small / invalid.interior), instead
+		// of leaking the misleading "incompatible part (%s)" message for an incomplete machine. ---
 		for (StructurePos below : new StructurePos[]{
 				origin.offset(-1, 0, 0), origin.offset(0, -1, 0), origin.offset(0, 0, -1)}) {
 			if (!view.isLoaded(below)) {
-				return failure(below, Predicates.KEY_INVALID_INTERIOR);
+				return failure(below, Predicates.KEY_NOT_MAXIMAL);
 			}
 			if (isSameTypeComponent(view.sample(below))) {
-				return failure(below, Predicates.KEY_INVALID_PART);
+				return failure(below, Predicates.KEY_NOT_MAXIMAL);
 			}
 		}
 
@@ -104,8 +109,16 @@ public final class MultiblockPattern {
 		int sizeY = measure.sizeY;
 		int sizeZ = measure.sizeZ;
 
-		// --- Size-range check (parity small/large keys). ---
-		PatternResult.Failure sizeFailure = checkSize(origin, sizeX, sizeY, sizeZ);
+		// --- Size-range check (parity small/large keys). For a fixed-size axis measureBox does NOT measure
+		// the real extent (it returns the fixed value so an interior hole is caught later as
+		// invalid.interior, exact parity). That hides an UNDERSIZED structure (e.g. a 3x3x2 alveary): the
+		// per-cell loop would report the missing top layer as invalid.interior, when the old engine showed
+		// "must be 3x3x3" (error.small). So we measure the true contiguous same-type extent from origin and
+		// hand it to checkSize, which compares it against the configured minimums and surfaces error.small /
+		// error.small.{x,y,z}. A hole that does NOT shrink the outer extent (full shell, missing interior)
+		// leaves the extent at full size, so it still falls through to the per-cell invalid.interior path. ---
+		Measure extent = measureExtent(view, origin);
+		PatternResult.Failure sizeFailure = checkSize(origin, sizeX, sizeY, sizeZ, extent);
 		if (sizeFailure != null) {
 			return sizeFailure;
 		}
@@ -240,6 +253,68 @@ public final class MultiblockPattern {
 	}
 
 	/**
+	 * Measures the true contiguous same-type extent of the box from {@code origin} along +X/+Y/+Z, used
+	 * <em>only</em> for the undersized-structure ({@code error.small}) check — it is NOT used to build the
+	 * member set. Unlike {@link #measureAxis} it measures every axis (including fixed-size ones, whose
+	 * {@code measureAxis} short-circuits to the fixed value), so a genuinely undersized fixed-size machine
+	 * (a 3x3x2 alveary) reports its real extent.
+	 *
+	 * <p>To avoid mistaking a single missing <em>edge</em> cell (an interior/edge HOLE in an otherwise
+	 * full-extent box) for an undersized structure, the reach along an axis is the <b>maximum</b> run over
+	 * all column start cells in the {@code minA x minB} base patch of the perpendicular plane through
+	 * origin: a one-cell hole on one column leaves a parallel column full, so the max stays at full size and
+	 * the failure falls through to the per-cell {@code invalid.interior} path (parity). Only when an
+	 * <em>entire</em> layer is absent (every parallel column is short) does the max drop below the minimum
+	 * and surface {@code error.small}. The patch is bounded by the per-axis minimums (3 for the alveary), so
+	 * this is a handful of cheap reads. If origin is not itself a same-type component the extent is 0.
+	 */
+	private Measure measureExtent(StructureView view, StructurePos origin) {
+		if (!view.isLoaded(origin) || !isSameTypeComponent(view.sample(origin))) {
+			return new Measure(0, 0, 0);
+		}
+		// Unit vectors: X=(1,0,0) Y=(0,1,0) Z=(0,0,1). For each measured axis, pass the two perpendiculars
+		// and their per-axis minimums so the base patch spans the expected footprint of the perpendicular plane.
+		StructurePos x = new StructurePos(1, 0, 0);
+		StructurePos y = new StructurePos(0, 1, 0);
+		StructurePos z = new StructurePos(0, 0, 1);
+		return new Measure(
+				measureAxisExtent(view, origin, x, y, this.minSizeY, z, this.minSizeZ),
+				measureAxisExtent(view, origin, y, x, this.minSizeX, z, this.minSizeZ),
+				measureAxisExtent(view, origin, z, x, this.minSizeX, y, this.minSizeY));
+	}
+
+	/**
+	 * The maximum contiguous same-type run along {@code u}, taken over every column whose start cell lies in
+	 * the {@code minA x minB} base patch spanned by the two perpendicular unit vectors {@code pa}/{@code pb}
+	 * through origin. Taking the max makes a single-cell hole on one column irrelevant (a parallel column is
+	 * still full-length), so only a wholly-missing layer shrinks the measured extent below the minimum.
+	 */
+	private int measureAxisExtent(StructureView view, StructurePos origin, StructurePos u,
+			StructurePos pa, int minA, StructurePos pb, int minB) {
+		int best = 0;
+		for (int a = 0; a < minA; a++) {
+			for (int b = 0; b < minB; b++) {
+				StructurePos start = origin.offset(pa.x() * a + pb.x() * b, pa.y() * a + pb.y() * b, pa.z() * a + pb.z() * b);
+				if (!view.isLoaded(start) || !isSameTypeComponent(view.sample(start))) {
+					continue;
+				}
+				int run = 1;
+				while (true) {
+					StructurePos next = start.offset(u.x() * run, u.y() * run, u.z() * run);
+					if (!view.isLoaded(next) || !isSameTypeComponent(view.sample(next))) {
+						break;
+					}
+					run++;
+				}
+				if (run > best) {
+					best = run;
+				}
+			}
+		}
+		return best;
+	}
+
+	/**
 	 * Confirms the layer just beyond each grown face (+X/+Y/+Z) is loaded and contains no same-type
 	 * component (maximality). measureBox stopped at these layers, but only after checking each layer was
 	 * loaded; this re-walks the full face to ensure NO cell of it is a same-type component (a partial
@@ -287,29 +362,41 @@ public final class MultiblockPattern {
 		return null;
 	}
 
-	/** Parity size checks against the configured ranges (matches RectangularMultiblockControllerBase). */
-	private PatternResult.Failure checkSize(StructurePos origin, int sizeX, int sizeY, int sizeZ) {
-		int blocks = sizeX * sizeY * sizeZ;
+	/**
+	 * Parity size checks against the configured ranges (matches RectangularMultiblockControllerBase) with
+	 * the message format args filled in (spec Task A.3). {@code box} is the box size measureBox resolved
+	 * (fixed value on fixed axes); {@code extent} is the true contiguous same-type extent from origin
+	 * ({@link #measureExtent}). The aggregate count and the large checks use the box size (parity); the
+	 * per-axis small checks use the real extent so an UNDERSIZED fixed-size machine (a 3x3x2 alveary) is
+	 * reported as error.small / error.small.{x,y,z} rather than falling through to an invalid.interior on
+	 * its missing top layer. The args are: error.small → (minX,minY,minZ); error.small.{x,y,z} → that
+	 * minimum dimension; error.large.{x,y,z} → that maximum dimension (mirrors the old engine's args).
+	 */
+	private PatternResult.Failure checkSize(StructurePos origin, int boxX, int boxY, int boxZ, Measure extent) {
+		// Aggregate block-count too small -> error.small (minX, minY, minZ). Use the real extent's volume so
+		// a short blob (3x3x2 = 18 < 27) is caught here; a full-extent box with an interior hole keeps full
+		// volume and falls through to the per-cell invalid.interior path (exact parity).
+		int blocks = extent.sizeX * extent.sizeY * extent.sizeZ;
 		if (blocks < this.minBlocks) {
-			return new PatternResult.Failure(List.of(new FailingCell(origin, Predicates.KEY_SMALL)));
+			return failure(origin, Predicates.KEY_SMALL, this.minSizeX, this.minSizeY, this.minSizeZ);
 		}
-		if (this.maxSizeX > 0 && sizeX > this.maxSizeX) {
-			return new PatternResult.Failure(List.of(new FailingCell(origin, Predicates.KEY_LARGE_X)));
+		if (this.maxSizeX > 0 && boxX > this.maxSizeX) {
+			return failure(origin, Predicates.KEY_LARGE_X, this.maxSizeX);
 		}
-		if (this.maxSizeY > 0 && sizeY > this.maxSizeY) {
-			return new PatternResult.Failure(List.of(new FailingCell(origin, Predicates.KEY_LARGE_Y)));
+		if (this.maxSizeY > 0 && boxY > this.maxSizeY) {
+			return failure(origin, Predicates.KEY_LARGE_Y, this.maxSizeY);
 		}
-		if (this.maxSizeZ > 0 && sizeZ > this.maxSizeZ) {
-			return new PatternResult.Failure(List.of(new FailingCell(origin, Predicates.KEY_LARGE_Z)));
+		if (this.maxSizeZ > 0 && boxZ > this.maxSizeZ) {
+			return failure(origin, Predicates.KEY_LARGE_Z, this.maxSizeZ);
 		}
-		if (sizeX < this.minSizeX) {
-			return new PatternResult.Failure(List.of(new FailingCell(origin, Predicates.KEY_SMALL_X)));
+		if (extent.sizeX < this.minSizeX) {
+			return failure(origin, Predicates.KEY_SMALL_X, this.minSizeX);
 		}
-		if (sizeY < this.minSizeY) {
-			return new PatternResult.Failure(List.of(new FailingCell(origin, Predicates.KEY_SMALL_Y)));
+		if (extent.sizeY < this.minSizeY) {
+			return failure(origin, Predicates.KEY_SMALL_Y, this.minSizeY);
 		}
-		if (sizeZ < this.minSizeZ) {
-			return new PatternResult.Failure(List.of(new FailingCell(origin, Predicates.KEY_SMALL_Z)));
+		if (extent.sizeZ < this.minSizeZ) {
+			return failure(origin, Predicates.KEY_SMALL_Z, this.minSizeZ);
 		}
 		return null;
 	}
@@ -346,6 +433,11 @@ public final class MultiblockPattern {
 
 	private static PatternResult.Failure failure(StructurePos pos, String key) {
 		return new PatternResult.Failure(List.of(new FailingCell(pos, key)));
+	}
+
+	/** Failure carrying integer message format args (size keys, spec Task A.3). */
+	private static PatternResult.Failure failure(StructurePos pos, String key, int... args) {
+		return new PatternResult.Failure(List.of(new FailingCell(pos, key, args)));
 	}
 
 	private record Measure(int sizeX, int sizeY, int sizeZ) {

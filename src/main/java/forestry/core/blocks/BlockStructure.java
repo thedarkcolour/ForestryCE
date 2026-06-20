@@ -49,9 +49,9 @@ public abstract class BlockStructure extends BlockForestry {
 				// the hint on demand by running the pattern validator directly for this block (spec §11).
 				String validationError = controller.getLastValidationError();
 				if (validationError == null) {
-					String hintKey = MultiblockValidation.findValidationHint(worldIn, pos, part);
-					if (hintKey != null) {
-						validationError = Component.translatable(hintKey).getString();
+					Component hint = MultiblockValidation.findValidationHint(worldIn, pos, part);
+					if (hint != null) {
+						validationError = hint.getString();
 					}
 				}
 				if (validationError != null) {

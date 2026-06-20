@@ -11,6 +11,9 @@ import java.util.List;
  */
 public sealed interface PatternResult permits PatternResult.Match, PatternResult.Failure {
 
+	/** A {@link FailingCell} carrying no message format args. */
+	int[] NO_ARGS = new int[0];
+
 	/**
 	 * A successful match.
 	 *
@@ -37,13 +40,27 @@ public sealed interface PatternResult permits PatternResult.Match, PatternResult
 		public String firstKey() {
 			return this.cells.get(0).key();
 		}
+
+		/** The first failing cell (the one that drives the player-facing chat message). */
+		public FailingCell first() {
+			return this.cells.get(0);
+		}
 	}
 
 	/** A single member position paired with its component type id. */
 	record Component(StructurePos pos, String typeId) {
 	}
 
-	/** A failing cell: its position and the parity translation key explaining why it failed. */
-	record FailingCell(StructurePos pos, String key) {
+	/**
+	 * A failing cell: its position, the parity translation key explaining why it failed, and any integer
+	 * format args the key's lang string consumes ({@code error.small} → {@code minX,minY,minZ};
+	 * {@code error.small.x|y|z} / {@code error.large.x|y|z} → a single dimension). Content keys whose lang
+	 * string takes a block/type <em>name</em> ({@code invalid.interior} / {@code invalid.part}) carry no
+	 * integer args here — the {@code net.minecraft}-aware world layer resolves the name from {@link #pos()}.
+	 */
+	record FailingCell(StructurePos pos, String key, int[] args) {
+		public FailingCell(StructurePos pos, String key) {
+			this(pos, key, NO_ARGS);
+		}
 	}
 }

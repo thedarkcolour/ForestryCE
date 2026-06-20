@@ -50,7 +50,8 @@ public final class MultiblockValidation {
 		StructurePos origin = new StructurePos(pos.getX(), pos.getY(), pos.getZ());
 
 		@Nullable PatternResult.Match match = null;
-		@Nullable PatternResult.Failure firstFailure = null;
+		@Nullable PatternResult.Failure bestFailure = null;
+		int bestRank = Integer.MIN_VALUE;
 		for (StructurePos candidate : pattern.candidateOrigins(origin)) {
 			PatternResult result = pattern.validate(view, candidate);
 			if (result instanceof PatternResult.Match m) {
@@ -60,15 +61,22 @@ public final class MultiblockValidation {
 					match = m;
 					break;
 				}
-			} else if (firstFailure == null) {
-				firstFailure = (PatternResult.Failure) result;
+			} else {
+				// Track the most player-meaningful failure (not just the first) so the stored deactivation
+				// message matches what the right-click hint would show — never the internal NOT_MAXIMAL deferral.
+				PatternResult.Failure failure = (PatternResult.Failure) result;
+				int rank = hintRank(failure.firstKey());
+				if (rank > bestRank) {
+					bestRank = rank;
+					bestFailure = failure;
+				}
 			}
 		}
 
 		if (match != null) {
 			assemble(level, member, match);
 		} else {
-			deactivate(level, member, firstFailure);
+			deactivate(level, member, bestFailure);
 		}
 	}
 
@@ -85,7 +93,7 @@ public final class MultiblockValidation {
 	 * {@code error.small} over a generic deferral), mirroring the old engine's {@code isMachineWhole} message.
 	 */
 	@Nullable
-	public static String findValidationHint(Level level, BlockPos pos, MultiblockTileEntityForestry<?> member) {
+	public static net.minecraft.network.chat.Component findValidationHint(Level level, BlockPos pos, MultiblockTileEntityForestry<?> member) {
 		MultiblockPattern pattern = member.getPattern();
 		LevelStructureView view = new LevelStructureView(level);
 		StructurePos origin = new StructurePos(pos.getX(), pos.getY(), pos.getZ());
@@ -108,13 +116,50 @@ public final class MultiblockValidation {
 				}
 			}
 		}
-		return best == null ? null : best.firstKey();
+		// If only internal "wrong candidate origin" deferrals were seen (no real content/size error from any
+		// candidate), there is no actionable hint — suppress the message rather than show the internal key.
+		if (best == null || best.firstKey().equals(forestry.core.multiblock.pattern.Predicates.KEY_NOT_MAXIMAL)) {
+			return null;
+		}
+		return buildMessage(level, best.first());
+	}
+
+	/**
+	 * Builds the player-facing chat component for a failing cell, filling the lang key's format args (spec
+	 * Task A.3) so no literal {@code %s}/{@code %d} leaks. Size keys carry their integer args on the cell;
+	 * the content keys {@code invalid.interior}/{@code invalid.part} take the offending block's display name,
+	 * resolved here from the world (the pattern layer is {@code net.minecraft}-free and cannot).
+	 */
+	public static net.minecraft.network.chat.Component buildMessage(Level level, PatternResult.FailingCell cell) {
+		String key = cell.key();
+		if (key.equals(forestry.core.multiblock.pattern.Predicates.KEY_INVALID_INTERIOR)
+				|| key.equals(forestry.core.multiblock.pattern.Predicates.KEY_INVALID_PART)) {
+			BlockPos cellPos = new BlockPos(cell.pos().x(), cell.pos().y(), cell.pos().z());
+			net.minecraft.network.chat.Component blockName = level.getBlockState(cellPos).getBlock().getName();
+			return net.minecraft.network.chat.Component.translatable(key, blockName);
+		}
+		int[] args = cell.args();
+		if (args.length == 0) {
+			return net.minecraft.network.chat.Component.translatable(key);
+		}
+		Object[] boxed = new Object[args.length];
+		for (int i = 0; i < args.length; i++) {
+			boxed[i] = args[i];
+		}
+		return net.minecraft.network.chat.Component.translatable(key, boxed);
 	}
 
 	/** Ranks a failure key by how player-meaningful it is (higher = preferred for the chat hint, spec §11). */
 	private static int hintRank(String key) {
-		// Generic loaded-shell deferrals are least useful; a "this cell is/ isn't a component" message tells the
-		// player nothing actionable when they're staring at a half-built machine.
+		// The internal "wrong candidate origin" deferral (a same-type block sits below/around a non-min-corner
+		// candidate, spec §5.3) tells the player nothing — it is a discovery artefact of probing many permissive
+		// origins, not an error. Rank it LOWEST so the meaningful failure from the candidate rooted at the true
+		// min corner always wins (this is the Task A fix: it used to leak as the misleading invalid.part "%s").
+		if (key.equals(forestry.core.multiblock.pattern.Predicates.KEY_NOT_MAXIMAL)) {
+			return -1;
+		}
+		// A generic "this cell is/isn't a component" message is the next least useful, but still better than the
+		// internal deferral — it at least points at a real bad cell when the structure is the right size.
 		if (key.equals(forestry.core.multiblock.pattern.Predicates.KEY_INVALID_INTERIOR)) {
 			return 0;
 		}
@@ -263,8 +308,10 @@ public final class MultiblockValidation {
 				part.onMachineBroken();
 			}
 		}
-		if (failure != null) {
-			controller.setLastValidationError(net.minecraft.network.chat.Component.translatable(failure.firstKey()).getString());
+		if (failure != null && !failure.firstKey().equals(forestry.core.multiblock.pattern.Predicates.KEY_NOT_MAXIMAL)) {
+			// Build the localized message with its format args filled (spec Task A.3); skip the internal
+			// "wrong candidate origin" deferral, which is never shown to the player.
+			controller.setLastValidationError(buildMessage(level, failure.first()).getString());
 		}
 		// Deregister the now-unformed controller from the index so deactivated controllers don't accumulate
 		// (MAJOR 1: per-level leak). Before dropping the index entry, hand the live controller's payload back to

@@ -41,6 +41,21 @@ public final class Predicates {
 	 */
 	public static final String KEY_INVALID_PART = "for.multiblock.error.invalid.part";
 
+	/**
+	 * <b>Internal "wrong candidate origin" signal — never shown to the player.</b> Returned by the
+	 * <em>lower-face</em> maximality pre-check in {@link MultiblockPattern#validate} when a same-type
+	 * component sits just below the candidate origin: the origin is therefore NOT the structure's lowest
+	 * member, so this candidate must defer to the one rooted at the true min corner. It is a discovery
+	 * artefact of probing many permissive candidate origins (spec §5.3), not a real content/size error.
+	 *
+	 * <p>{@link forestry.core.multiblock.MultiblockValidation#findValidationHint} ranks it <em>below</em>
+	 * every real content/size key so the meaningful failure from the true-min-corner candidate wins (e.g.
+	 * {@code error.small} for an undersized alveary, {@code invalid.interior} for an interior hole) instead
+	 * of this generic deferral leaking the misleading "incompatible part (%s)" message. It is not a parity
+	 * key (the old engine had no such code path) and has no lang entry: it is consumed internally.
+	 */
+	public static final String KEY_NOT_MAXIMAL = "for.multiblock.error.internal.notMaximal";
+
 	/** Too few blocks for the minimum machine size ({@code error.small}, 3 dimension args). */
 	public static final String KEY_SMALL = "for.multiblock.error.small";
 	public static final String KEY_SMALL_X = "for.multiblock.error.small.x";
