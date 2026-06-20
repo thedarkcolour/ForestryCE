@@ -83,6 +83,17 @@ public abstract class MultiblockTileEntityForestry<T extends IMultiblockLogic> e
 		}
 	}
 
+	/**
+	 * Serializes {@code controller}'s live payload into this member's stash (spec §6.4). Used on a deactivate
+	 * (controller deregistered from the index but the holder BE remains loaded) so the payload survives a save
+	 * before re-validation and can be re-adopted via {@link #applyStashTo}.
+	 */
+	public void stashFrom(MultiblockController controller) {
+		CompoundTag payload = new CompoundTag();
+		controller.writePayload(payload);
+		setStash(payload);
+	}
+
 	/* ===== GUI ===== */
 
 	/**
@@ -182,15 +193,15 @@ public abstract class MultiblockTileEntityForestry<T extends IMultiblockLogic> e
 		// Chunk unload is a temporary pause, NOT a break (spec §6.4, §7.4): flip the anchor's assembled flag
 		// (stops ticking) but do NOT fire per-part onMachineBroken — those mutate blockstates (alveary
 		// entrance textures / farm BAND) and must not run during a chunk unload (mirrors the old PAUSED path,
-		// which fired no per-part callbacks). The state stays untouched in the anchor's NBT; reload re-fires
-		// the assembled callbacks via load-time validation.
+		// which fired no per-part callbacks). Likewise do NOT call controller.onBroken(): for the farm that
+		// clears the computed targets, which the old PAUSED path left intact (MINOR 6 parity). The state stays
+		// untouched in the anchor's NBT; reload re-fires the assembled callbacks via load-time validation.
 		if (this.level != null) {
 			BlockPos anchor = getAnchorPos();
 			if (anchor != null) {
 				MultiblockController controller = MultiblockIndex.get(this.level, anchor);
 				if (controller != null && controller.isAssembled()) {
 					controller.setAssembled(false);
-					controller.onBroken();
 				}
 			}
 		}
@@ -266,6 +277,12 @@ public abstract class MultiblockTileEntityForestry<T extends IMultiblockLogic> e
 			// Hand the live controller's serialized payload to the survivor as its stash (so a save before the
 			// next validation persists it on the survivor), re-point the holder, and re-key the index. The live
 			// controller already holds the in-memory state, so no re-read is needed.
+			//
+			// Single-holder invariant (spec §6.1): exactly one loaded member serializes the payload. After this
+			// hand-off the survivor is the sole holder. The broken holder must NOT retain a stash — clear it so
+			// that even if a save were to run on it before removal completes, its non-holder saveAdditional
+			// branch emits no PAYLOAD_KEY and only the survivor writes the payload.
+			clearStash();
 			CompoundTag payload = new CompoundTag();
 			controller.writePayload(payload);
 			survivorBe.setStash(payload);

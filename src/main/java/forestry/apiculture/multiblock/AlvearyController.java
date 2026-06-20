@@ -29,9 +29,11 @@ import net.minecraft.world.Containers;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -158,8 +160,10 @@ public class AlvearyController extends MultiblockController implements IAlvearyC
 			climatiser.changeClimate(tickCount, this);
 		}
 
-		// every 64 ticks, update the climate state in case of changed biome or climate (& is faster than modulus)
-		if ((this.level.getGameTime() & 63L) == 0L) {
+		// every 64 ticks, update the climate state in case of changed biome or climate (& is faster than modulus).
+		// Use the staggered tickCount (game time + per-controller phase, MINOR 7) so alvearies refresh climate on
+		// different ticks rather than all on the same game-time boundary.
+		if ((tickCount & 63) == 0) {
 			this.climate = IForestryApi.INSTANCE.getClimateManager().createClimateProvider(this.level, getCenterCoord());
 		}
 
@@ -274,7 +278,12 @@ public class AlvearyController extends MultiblockController implements IAlvearyC
 
 	@Override
 	public Holder<Biome> getBiome() {
-		return this.level.getBiome(getReferenceCoord());
+		// Reference coord is nullable before a structure is installed (spec §6.1); guard like FarmController.
+		BlockPos coords = getReferenceCoord();
+		if (coords == null) {
+			return ForgeRegistries.BIOMES.getDelegateOrThrow(Biomes.PLAINS);
+		}
+		return this.level.getBiome(coords);
 	}
 
 	@Override

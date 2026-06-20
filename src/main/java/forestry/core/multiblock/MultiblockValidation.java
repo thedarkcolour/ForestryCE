@@ -72,6 +72,59 @@ public final class MultiblockValidation {
 		}
 	}
 
+	/**
+	 * Computes the on-demand validation hint for an unassembled block (spec §11; plan Task 8.1): runs the
+	 * pattern validator over every candidate origin for {@code pos} and returns the most-informative failure's
+	 * translation key, or {@code null} if {@code pos} actually forms a structure (caller should defer to the
+	 * normal assembled path). Used by {@code BlockStructure.use} for the empty-hand right-click hint on a
+	 * never-formed block, where no controller (and thus no stored {@code lastValidationError}) exists yet.
+	 *
+	 * <p>Candidate origins are generated permissively over all sizes/offsets, so most candidates fail with a
+	 * generic loaded-shell deferral ({@code invalid.interior}/{@code invalid.part}). We pick the failure whose
+	 * key is the most player-meaningful (a content/size error like {@code needSlabs}/{@code needGearbox}/
+	 * {@code error.small} over a generic deferral), mirroring the old engine's {@code isMachineWhole} message.
+	 */
+	@Nullable
+	public static String findValidationHint(Level level, BlockPos pos, MultiblockTileEntityForestry<?> member) {
+		MultiblockPattern pattern = member.getPattern();
+		LevelStructureView view = new LevelStructureView(level);
+		StructurePos origin = new StructurePos(pos.getX(), pos.getY(), pos.getZ());
+
+		@Nullable PatternResult.Failure best = null;
+		int bestRank = Integer.MIN_VALUE;
+		for (StructurePos candidate : pattern.candidateOrigins(origin)) {
+			PatternResult result = pattern.validate(view, candidate);
+			if (result instanceof PatternResult.Match m) {
+				if (containsPos(m, pos)) {
+					// pos actually forms a structure; no hint needed (caller falls through to the assembled path).
+					return null;
+				}
+			} else {
+				PatternResult.Failure failure = (PatternResult.Failure) result;
+				int rank = hintRank(failure.firstKey());
+				if (rank > bestRank) {
+					bestRank = rank;
+					best = failure;
+				}
+			}
+		}
+		return best == null ? null : best.firstKey();
+	}
+
+	/** Ranks a failure key by how player-meaningful it is (higher = preferred for the chat hint, spec §11). */
+	private static int hintRank(String key) {
+		// Generic loaded-shell deferrals are least useful; a "this cell is/ isn't a component" message tells the
+		// player nothing actionable when they're staring at a half-built machine.
+		if (key.equals(forestry.core.multiblock.pattern.Predicates.KEY_INVALID_INTERIOR)) {
+			return 0;
+		}
+		if (key.equals(forestry.core.multiblock.pattern.Predicates.KEY_INVALID_PART)) {
+			return 1;
+		}
+		// Everything else is a real content/size error (needSlabs, needSpace, needGearbox, needPlain*, small/large).
+		return 2;
+	}
+
 	private static boolean containsPos(PatternResult.Match match, BlockPos pos) {
 		StructurePos sp = new StructurePos(pos.getX(), pos.getY(), pos.getZ());
 		return match.members().contains(sp);
@@ -102,15 +155,42 @@ public final class MultiblockValidation {
 			// Seed it from the holder's stashed payload (steady-state save or legacy migration).
 			holder.applyStashTo(controller);
 		} else {
-			// Canonicalize: re-point the index entry to the (possibly new) lowest member.
+			// Canonicalize the payload holder to the lowest member (spec §6.1 single-holder invariant:
+			// exactly one loaded member serializes the payload). When the live holder is not the lowest
+			// member, move hosting to the lowest member and FULLY demote the old holder: deregister its index
+			// entry, clear its stash, and re-point its anchor to the new holder. Clearing the old holder's
+			// stash is load-bearing — otherwise its saveAdditional non-holder branch would re-emit PAYLOAD_KEY
+			// from the stale stash and a second member would serialize the payload (RE-INTRODUCES corruption).
 			BlockPos oldHolder = controller.getHolderPos();
 			if (oldHolder != null && !oldHolder.equals(holderPos)) {
 				MultiblockIndex.deregister(level, oldHolder);
+				MultiblockTileEntityForestry<?> oldHolderBe = TileUtil.getTile(level, oldHolder, MultiblockTileEntityForestry.class);
+				if (oldHolderBe != null) {
+					oldHolderBe.clearStash();
+					oldHolderBe.setAnchorPos(holderPos);
+				}
 				MultiblockController.markChunkDirty(level, oldHolder);
 			}
 		}
 
+		// MINOR 4: only do the heavy re-bucket + per-part onMachineAssembled re-fire on a genuine transition
+		// (first formation, or deactivated→assembled including reload), or when the member set actually
+		// changed. A redundant re-validation on a stable assembled machine (every neighborChanged/onLoad)
+		// must not re-bucket — that re-randomizes FarmController's per-Active tick offsets and triggers N×N
+		// blockstate refreshes — nor re-fire the assembled visuals.
 		boolean wasAssembled = controller.isAssembled();
+		boolean sameMembers = wasAssembled && members.equals(controller.getMembers());
+		boolean holderUnchanged = holderPos.equals(controller.getHolderPos());
+
+		if (wasAssembled && sameMembers && holderUnchanged) {
+			// Stable, already-assembled machine: no structural change. Keep the index/error state fresh and make
+			// sure the triggering member is anchored (it may have just reloaded), but skip the expensive
+			// re-bucket and the per-part onMachineAssembled re-fire (MINOR 4).
+			controller.setLastValidationError(null);
+			member.setAnchorPos(holderPos);
+			MultiblockIndex.register(level, holderPos, controller);
+			return;
+		}
 
 		controller.setStructure(members, match.min() == null ? holderPos : toBlockPos(match.min()), toBlockPos(match.max()), holderPos);
 		controller.setHolderPos(holderPos);
@@ -126,7 +206,10 @@ public final class MultiblockValidation {
 			}
 		}
 
-		// Re-point the holder so its stash no longer shadows the live controller.
+		// Re-point the (new) holder so its stash no longer shadows the live controller. After this, exactly one
+		// loaded member (the holder) writes PAYLOAD_KEY: the old holder above had its stash cleared and anchor
+		// re-pointed, every other member is a non-holder with a null stash, and only the holder's isHolder()
+		// branch in saveAdditional serializes the controller payload (spec §6.1).
 		holder.clearStash();
 
 		// Owner vote-once (spec §3.1 E1): only the very first formation votes; reloads keep the payload owner.
@@ -167,6 +250,16 @@ public final class MultiblockValidation {
 		if (failure != null) {
 			controller.setLastValidationError(net.minecraft.network.chat.Component.translatable(failure.firstKey()).getString());
 		}
+		// Deregister the now-unformed controller from the index so deactivated controllers don't accumulate
+		// (MAJOR 1: per-level leak). Before dropping the index entry, hand the live controller's payload back to
+		// the holder BE as its stash so (a) a save before re-validation still persists it (holder-gated, via the
+		// saveAdditional stash branch) and (b) a later re-validation re-adopts it through applyStashTo. The
+		// genuine break / re-anchor hand-off in MultiblockTileEntityForestry deregisters separately.
+		MultiblockTileEntityForestry<?> holder = TileUtil.getTile(level, anchorPos, MultiblockTileEntityForestry.class);
+		if (holder != null) {
+			holder.stashFrom(controller);
+		}
+		MultiblockIndex.deregister(level, anchorPos);
 	}
 
 	/** Finds the controller currently hosted by any loaded member (steady or post-partial-reload). */

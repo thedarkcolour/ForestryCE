@@ -55,7 +55,9 @@ public final class MultiblockTicker {
 			if (controller == null) {
 				return;
 			}
-			int tickCount = (int) level.getGameTime();
+			// Stagger machines by a per-controller phase so they don't all hit interval boundaries on the same
+			// game tick (spec §7.1; MINOR 7 restores the old engine's per-machine random start offset).
+			int tickCount = (int) level.getGameTime() + controller.getTickPhase();
 			if (controller.serverTick(tickCount)) {
 				// State changed: mark the holder's chunk dirty so it persists (spec §6.1; the holder owns the
 				// payload). Per-chunk dirtying across the whole bbox is a Phase-4 refinement.
@@ -71,7 +73,7 @@ public final class MultiblockTicker {
 			if (controller == null) {
 				return;
 			}
-			controller.clientTick((int) level.getGameTime());
+			controller.clientTick((int) level.getGameTime() + controller.getTickPhase());
 		}
 	}
 }

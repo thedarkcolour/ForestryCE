@@ -4,6 +4,7 @@ import com.mojang.authlib.GameProfile;
 import forestry.api.multiblock.IMultiblockComponent;
 import forestry.api.multiblock.IMultiblockController;
 import forestry.core.multiblock.MultiblockTileEntityForestry;
+import forestry.core.multiblock.MultiblockValidation;
 import forestry.core.tiles.TileUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -43,7 +44,16 @@ public abstract class BlockStructure extends BlockForestry {
 		// multiblock-debugging message if the machine is not assembled.
 		if (heldItem.isEmpty()) {
 			if (!controller.isAssembled()) {
+				// Prefer a stored error from a controller that has tried (and failed) to (re)assemble; for a
+				// never-formed block the controller resolves to the Fake stand-in (no stored error), so compute
+				// the hint on demand by running the pattern validator directly for this block (spec §11).
 				String validationError = controller.getLastValidationError();
+				if (validationError == null) {
+					String hintKey = MultiblockValidation.findValidationHint(worldIn, pos, part);
+					if (hintKey != null) {
+						validationError = Component.translatable(hintKey).getString();
+					}
+				}
 				if (validationError != null) {
 					long tick = worldIn.getGameTime();
 					if (tick > this.previousMessageTick + 20) {
@@ -56,7 +66,7 @@ public abstract class BlockStructure extends BlockForestry {
 		}
 
 		// Don't open the GUI if the multiblock isn't assembled
-		if (controller == null || !controller.isAssembled()) {
+		if (!controller.isAssembled()) {
 			return InteractionResult.PASS;
 		}
 

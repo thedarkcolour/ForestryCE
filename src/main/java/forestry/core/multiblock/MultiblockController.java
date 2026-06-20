@@ -64,6 +64,15 @@ public abstract class MultiblockController implements IMultiblockController, Wor
 	private final IErrorLogic errorLogic;
 
 	/**
+	 * Per-controller random phase offset added to the game time before the ticker hands it to
+	 * {@link #serverTick(int)}/{@link #clientTick(int)} (spec §7.1; MINOR 7). The old engine started each
+	 * machine at a random tick, so cross-machine interval work (swarmer spawns, climate refresh, can-drain)
+	 * was staggered; the game-time ticker would otherwise hit every interval boundary on the same tick for
+	 * all loaded machines. Picked once at construction and never persisted (de-sync need not be deterministic).
+	 */
+	private final int tickPhase;
+
+	/**
 	 * The last validation error key (spec §11), set by the trigger code on a failed validation so
 	 * {@link #getLastValidationError()} can surface it in chat. {@code null} when assembled or never tried.
 	 */
@@ -96,6 +105,15 @@ public abstract class MultiblockController implements IMultiblockController, Wor
 		this.level = level;
 		this.ownerHandler = new OwnerHandler();
 		this.errorLogic = IForestryApi.INSTANCE.getErrorManager().createErrorLogic();
+		this.tickPhase = level.random.nextInt(256);
+	}
+
+	/**
+	 * The per-controller random tick phase the ticker adds to the game time (spec §7.1; MINOR 7), so machines
+	 * do not all hit interval boundaries on the same game tick.
+	 */
+	public int getTickPhase() {
+		return this.tickPhase;
 	}
 
 	/* ===== Structure / geometry (spec §6.1) ===== */
