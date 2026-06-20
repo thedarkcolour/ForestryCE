@@ -60,6 +60,7 @@ legacyForge {
 }
 
 repositories {
+	mavenCentral()
 	maven {
 		name = 'jei'
 		url = 'https://maven.blamejared.com/'
@@ -120,6 +121,17 @@ dependencies {
 
 	// DEV ONLY
 	compileOnly 'org.jetbrains:annotations:23.0.0'
+
+	// JUnit (Jupiter) — MC-free unit-test layer (pattern engine). The test source set deliberately does
+	// NOT pull the Minecraft classpath; Phase 1 pattern code imports no net.minecraft types.
+	// NOTE: the plan pins 5.10.2, but only 6.0.3 is available in this machine's offline Gradle cache.
+	// The Jupiter API surface used here is identical across 5/6; 6.x requires Java 17+ (satisfied by JBR 17).
+	testImplementation 'org.junit.jupiter:junit-jupiter:6.0.3'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+test {
+	useJUnitPlatform()
 }
 
 var generateModMetadata = tasks.register('generateModMetadata', ProcessResources) {
