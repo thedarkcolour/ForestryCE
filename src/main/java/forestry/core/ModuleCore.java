@@ -162,6 +162,7 @@ public class ModuleCore extends BlankForestryModule {
 
 		forestryCommand.then(DiagnosticsCommand.register());
 		forestryCommand.then(DumpCommand.register());
+		forestryCommand.then(forestry.core.commands.MultiblockDebugCommand.register());
 
 		for (IForestryModule module : IForestryApi.INSTANCE.getModuleManager().getModulesForMod(ForestryConstants.MOD_ID)) {
 			if (module instanceof BlankForestryModule forestryModule) {

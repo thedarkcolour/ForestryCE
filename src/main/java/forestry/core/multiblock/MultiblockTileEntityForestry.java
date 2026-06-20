@@ -32,8 +32,12 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public abstract class MultiblockTileEntityForestry<T extends IMultiblockLogic> extends MultiblockTileEntityBase<T> implements WorldlyContainer, IFilterSlotDelegate, ILocationProvider, MenuProvider, ISpectacleBlock {
-	/** NBT key for the round-tripped controller payload (legacy: same key, so migration is a rename). */
-	private static final String PAYLOAD_KEY = "multiblockData";
+	/**
+	 * NBT key for the round-tripped controller payload (legacy: same key, so migration is a rename). Public
+	 * so the {@code /forestry multiblock debug} command can assert the single-holder invariant (exactly one
+	 * member emits this key in its {@code saveAdditional}, spec §6.1) without duplicating the magic string.
+	 */
+	public static final String PAYLOAD_KEY = "multiblockData";
 	/** NBT key for this member's stored anchor position. */
 	private static final String ANCHOR_KEY = "anchorPos";
 	/** Description-packet-only key: the holder advertises that the structure is assembled (BUG 2 / spec §9). */
