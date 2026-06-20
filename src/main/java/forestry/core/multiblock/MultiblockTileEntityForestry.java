@@ -75,12 +75,23 @@ public abstract class MultiblockTileEntityForestry<T extends IMultiblockLogic> e
 		return anchor != null && anchor.equals(getBlockPos());
 	}
 
-	/** Seeds a freshly-created controller from this holder's stashed payload (spec §6.4 / §10). */
+	/** Seeds a freshly-created controller from this member's stashed payload (spec §6.4 / §10). */
 	public void applyStashTo(MultiblockController controller) {
 		CompoundTag stash = getStash();
 		if (stash != null) {
 			controller.readPayload(stash);
 		}
+	}
+
+	/**
+	 * True if this member currently carries a non-empty stashed payload (spec §6.4 / §10). Used by
+	 * {@code MultiblockValidation.assemble} to find the lowest member whose stash holds the real payload after
+	 * a re-anchor hand-off survivor (BUG 1) or a legacy multi-carrier migration (§10 tie-break), since the
+	 * carrier may be a non-lowest member and the (re-added) lowest corner's stash may be empty.
+	 */
+	public boolean hasStash() {
+		CompoundTag stash = getStash();
+		return stash != null && !stash.isEmpty();
 	}
 
 	/**

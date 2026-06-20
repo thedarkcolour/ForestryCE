@@ -152,8 +152,17 @@ public final class MultiblockValidation {
 		boolean firstFormation = controller == null;
 		if (controller == null) {
 			controller = holder.createController(level);
-			// Seed it from the holder's stashed payload (steady-state save or legacy migration).
-			holder.applyStashTo(controller);
+			// BUG 1 / §10 tie-break: seed from the lowest-(x,y,z) member that carries a NON-EMPTY stash — NOT
+			// just the holder's stash. The real payload may live on a non-lowest member: after a holder
+			// (anchor) break, handleHolderBreak hands the live payload to the lowest *loaded survivor* (a
+			// non-lowest member) as its stash; when the broken corner is re-added it becomes the new lowest
+			// member/holder but its own stash is EMPTY, so reading only the holder's stash would seed the
+			// controller empty and lose the inventory. Scanning all members for the lowest non-empty carrier
+			// recovers the payload regardless of which member holds it, and also implements the deferred §10
+			// multi-carrier migration tie-break (a C1/C3 world may leave a legacy tag on ≥2 members): the
+			// lowest non-empty wins and the rest are discarded (cleared below) — never overwrite populated
+			// state with an empty tag.
+			seedFromLowestStash(level, members, controller);
 		} else {
 			// Canonicalize the payload holder to the lowest member (spec §6.1 single-holder invariant:
 			// exactly one loaded member serializes the payload). When the live holder is not the lowest
@@ -206,11 +215,18 @@ public final class MultiblockValidation {
 			}
 		}
 
-		// Re-point the (new) holder so its stash no longer shadows the live controller. After this, exactly one
-		// loaded member (the holder) writes PAYLOAD_KEY: the old holder above had its stash cleared and anchor
-		// re-pointed, every other member is a non-holder with a null stash, and only the holder's isHolder()
-		// branch in saveAdditional serializes the controller payload (spec §6.1).
-		holder.clearStash();
+		// Single-holder invariant (spec §6.1): clear the stash on EVERY member so exactly one loaded member (the
+		// holder) writes PAYLOAD_KEY. The live controller now owns the canonical payload (seeded from the lowest
+		// non-empty stash above), so any residual stash on a member — the holder's own, a hand-off survivor's
+		// (BUG 1), or a discarded §10 multi-carrier tag — must be dropped: otherwise its saveAdditional non-holder
+		// branch would re-emit a stale PAYLOAD_KEY and a second member would serialize the payload (RE-INTRODUCES
+		// corruption). Every member is loaded at assembly, so this is always safe.
+		for (BlockPos mpos : members) {
+			MultiblockTileEntityForestry<?> mbe = TileUtil.getTile(level, mpos, MultiblockTileEntityForestry.class);
+			if (mbe != null) {
+				mbe.clearStash();
+			}
+		}
 
 		// Owner vote-once (spec §3.1 E1): only the very first formation votes; reloads keep the payload owner.
 		if (firstFormation && !controller.isOwnerResolved()) {
@@ -260,6 +276,29 @@ public final class MultiblockValidation {
 			holder.stashFrom(controller);
 		}
 		MultiblockIndex.deregister(level, anchorPos);
+	}
+
+	/**
+	 * Seeds a freshly-created controller from the lowest-(x,y,z) member that carries a NON-EMPTY stash (spec
+	 * §6.4 re-anchor recovery / §10 migration tie-break). The members list is produced lowest-first by the
+	 * pattern engine, but we compare positions explicitly so the result is independent of list order: the
+	 * lowest non-empty carrier wins, and members with no stash (the re-added corner) or an empty one are
+	 * skipped — so we never overwrite the recovered payload with an empty tag. If no member carries a stash
+	 * (a genuinely brand-new structure), the controller is left at its constructed empty defaults.
+	 */
+	private static void seedFromLowestStash(Level level, List<BlockPos> members, MultiblockController controller) {
+		MultiblockTileEntityForestry<?> bestCarrier = null;
+		BlockPos bestPos = null;
+		for (BlockPos pos : members) {
+			MultiblockTileEntityForestry<?> mbe = TileUtil.getTile(level, pos, MultiblockTileEntityForestry.class);
+			if (mbe != null && mbe.hasStash() && (bestPos == null || pos.compareTo(bestPos) < 0)) {
+				bestCarrier = mbe;
+				bestPos = pos;
+			}
+		}
+		if (bestCarrier != null) {
+			bestCarrier.applyStashTo(controller);
+		}
 	}
 
 	/** Finds the controller currently hosted by any loaded member (steady or post-partial-reload). */
