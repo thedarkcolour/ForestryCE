@@ -7,6 +7,7 @@ import java.util.TreeMap;
 
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.ArgumentBuilder;
+import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 
 import forestry.core.commands.MultiblockDebugLogic.Fingerprint;
@@ -25,6 +26,8 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nullable;
 
@@ -54,16 +57,7 @@ public final class MultiblockDebugCommand {
 	}
 
 	public static ArgumentBuilder<CommandSourceStack, ?> register() {
-		// /forestry multiblock debug <pos> [inspect | cycle [rounds] [order]]
-		// One tab-completable literal per Order token, all siblings under the rounds argument node.
-		var rounds = Commands.argument("rounds", IntegerArgumentType.integer(1, 1000))
-				.executes(ctx -> cycle(ctx, BlockPosArgument.getLoadedBlockPos(ctx, "pos"), IntegerArgumentType.getInteger(ctx, "rounds"), Order.ANCHOR_LAST));
-		for (String token : Order.tokens()) {
-			Order order = Order.parse(token);
-			rounds.then(Commands.literal(token)
-					.executes(ctx -> cycle(ctx, BlockPosArgument.getLoadedBlockPos(ctx, "pos"), IntegerArgumentType.getInteger(ctx, "rounds"), order)));
-		}
-
+		// /forestry multiblock debug <pos> [inspect | cycle [rounds] [order] | realcycle [rounds] [order]]
 		return Commands.literal("multiblock").requires(CommandHelpers.ADMIN)
 				.then(Commands.literal("debug")
 						.then(Commands.argument("pos", BlockPosArgument.blockPos())
@@ -72,7 +66,32 @@ public final class MultiblockDebugCommand {
 										.executes(ctx -> inspect(ctx, BlockPosArgument.getLoadedBlockPos(ctx, "pos"))))
 								.then(Commands.literal("cycle")
 										.executes(ctx -> cycle(ctx, BlockPosArgument.getLoadedBlockPos(ctx, "pos"), 1, Order.ANCHOR_LAST))
-										.then(rounds))));
+										.then(roundsArg(MultiblockDebugCommand::cycle)))
+								.then(Commands.literal("realcycle")
+										.executes(ctx -> realcycle(ctx, BlockPosArgument.getLoadedBlockPos(ctx, "pos"), 1, Order.ANCHOR_LAST))
+										.then(roundsArg(MultiblockDebugCommand::realcycle)))));
+	}
+
+	/** A cycle-style executor: {@code (ctx, pos, rounds, order) -> exit code}. Shared by {@code cycle}/{@code realcycle}. */
+	@FunctionalInterface
+	private interface CycleExec {
+		int run(CommandContext<CommandSourceStack> ctx, BlockPos pos, int rounds, Order order);
+	}
+
+	/**
+	 * Builds the {@code [rounds] [order]} argument subtree wired to {@code exec}: a {@code rounds} integer arg
+	 * (default order {@link Order#ANCHOR_LAST}) with one tab-completable literal per {@link Order} token as a
+	 * sibling. Used by both the {@code cycle} (in-place simulation) and {@code realcycle} (genuine BE reload) modes.
+	 */
+	private static RequiredArgumentBuilder<CommandSourceStack, Integer> roundsArg(CycleExec exec) {
+		var rounds = Commands.argument("rounds", IntegerArgumentType.integer(1, 1000))
+				.executes(ctx -> exec.run(ctx, BlockPosArgument.getLoadedBlockPos(ctx, "pos"), IntegerArgumentType.getInteger(ctx, "rounds"), Order.ANCHOR_LAST));
+		for (String token : Order.tokens()) {
+			Order order = Order.parse(token);
+			rounds.then(Commands.literal(token)
+					.executes(ctx -> exec.run(ctx, BlockPosArgument.getLoadedBlockPos(ctx, "pos"), IntegerArgumentType.getInteger(ctx, "rounds"), order)));
+		}
+		return rounds;
 	}
 
 	/* ===== Resolution ===== */
@@ -261,6 +280,180 @@ public final class MultiblockDebugCommand {
 		}
 
 		send(source, Component.literal("=== Cycle result: " + (allPass ? "PASS" : "FAIL") + " ===")
+				.withStyle(allPass ? ChatFormatting.GREEN : ChatFormatting.RED));
+		return allPass ? 1 : 0;
+	}
+
+	/* ===== realcycle ===== */
+
+	/**
+	 * The genuine-reload counterpart of {@link #cycle}: instead of resetting in-memory state in place, it really
+	 * tears down and re-creates each member block entity, firing the same lifecycle a chunk eviction does —
+	 * {@code onChunkUnloaded} → {@code setRemoved} (the unload path) → a fresh {@link BlockEntity#loadStatic} from
+	 * the member's real {@code saveWithId} NBT → {@code onLoad} (re-validation). It clears the in-memory
+	 * {@link MultiblockIndex} for the structure first, so the reload takes the fresh-world-load path (firstFormation
+	 * + seed-from-stash) — the exact save→load→validate→seed pipeline the old engine corrupted.
+	 *
+	 * <p>This is the stronger benchmark requested for cross-checking against the old multiblock system: it uses
+	 * fresh BlockEntity objects and real teardown callbacks rather than the {@code cycle} in-place simulation, so a
+	 * methodology that passes here is faithful to a real chunk reload. It does not evict the whole chunk (the blocks
+	 * stay put — that would fight the chunk ticket system); it reloads the block entities, where all multiblock
+	 * state lives. The anchor's ticker is restored via {@code addAndRegisterBlockEntity}, so the machine keeps
+	 * running afterwards.
+	 */
+	private static int realcycle(CommandContext<CommandSourceStack> ctx, BlockPos pos, int rounds, Order order) {
+		CommandSourceStack source = ctx.getSource();
+		ServerLevel level = source.getLevel();
+		Resolved resolved = resolve(source, level, pos);
+		if (resolved == null) {
+			return 0;
+		}
+		MultiblockController controller = resolved.controller();
+		if (controller == null || !controller.isAssembled() || controller.getHolderPos() == null) {
+			source.sendFailure(Component.literal("Multiblock at " + str(pos) + " is not assembled; cannot run a reload cycle."));
+			return 0;
+		}
+
+		send(source, Component.literal("=== Real reload @ " + str(pos) + "  rounds=" + rounds + "  order=" + order + " ===")
+				.withStyle(ChatFormatting.AQUA));
+		send(source, Component.literal("(genuinely recreates each member BE: onChunkUnloaded -> setRemoved -> loadStatic -> onLoad)")
+				.withStyle(ChatFormatting.DARK_GRAY));
+
+		// This command mutates a live world by recreating block entities. Refuse if any member sits in an unloaded
+		// chunk: we must never force-load + tear down a half-present structure (that would let validation auto-create
+		// empty BEs in the just-loaded chunk and corrupt a REAL machine). All members must be loaded up front.
+		for (BlockPos m : controller.getMembers()) {
+			if (!level.getChunkSource().hasChunk(m.getX() >> 4, m.getZ() >> 4)) {
+				source.sendFailure(Component.literal("Member at " + str(m) + " is in an unloaded chunk; load the whole multiblock first (see inspect)."));
+				return 0;
+			}
+		}
+
+		boolean allPass = true;
+		MultiblockController live = controller;
+		for (int round = 1; round <= rounds; round++) {
+			List<BlockPos> members = new ArrayList<>(live.getMembers());
+			BlockPos holder = live.getHolderPos();
+			if (holder == null || members.isEmpty()) {
+				send(source, Component.literal("round " + round + ": ABORTED (structure no longer assembled after a prior round)")
+						.withStyle(ChatFormatting.RED));
+				allPass = false;
+				break;
+			}
+			Fingerprint before = fingerprint(level, live, members);
+
+			// (1) Capture each member's real saved NBT (saveAdditional + id) and blockstate, and DRY-RUN the fresh
+			// recreation BEFORE any teardown: build every replacement BlockEntity via loadStatic up front. If any
+			// returns null (corrupt / incompatible tag), abort this round WITHOUT touching the live machine — so a
+			// "non-destructive" debug command can never leave a real multiblock damaged behind a half-done teardown.
+			Map<BlockPos, BlockEntity> fresh = new java.util.HashMap<>();
+			boolean prepOk = true;
+			for (BlockPos m : members) {
+				MultiblockTileEntityForestry<?> be = TileUtil.getTile(level, m, MultiblockTileEntityForestry.class);
+				if (be == null) {
+					prepOk = false;
+					send(source, Component.literal("round " + round + ": ABORTED (no block entity at member " + str(m) + ")").withStyle(ChatFormatting.RED));
+					break;
+				}
+				CompoundTag tag = be.saveWithId();
+				BlockState state = level.getBlockState(m);
+				BlockEntity recreated = BlockEntity.loadStatic(m, state, tag);
+				if (recreated == null) {
+					prepOk = false;
+					send(source, Component.literal("round " + round + ": ABORTED (loadStatic failed for member " + str(m) + " — machine left untouched)").withStyle(ChatFormatting.RED));
+					break;
+				}
+				fresh.put(m, recreated);
+			}
+			if (!prepOk) {
+				allPass = false;
+				break;
+			}
+
+			MultiblockController after;
+			try {
+				// (2) genuine unload: fire onChunkUnloaded on every member (matching the real chunk order), then remove
+				// each block entity (real setRemoved on the unload path — no re-anchor / drop).
+				for (BlockPos m : members) {
+					MultiblockTileEntityForestry<?> be = TileUtil.getTile(level, m, MultiblockTileEntityForestry.class);
+					if (be != null) {
+						be.onChunkUnloaded();
+					}
+				}
+				for (BlockPos m : members) {
+					level.removeBlockEntity(m);
+				}
+
+				// (3) drop the in-memory index for these positions so the reload re-forms from scratch (fresh-world-load
+				// path: firstFormation + seed-from-stash), the most adversarial / corruption-prone pipeline.
+				for (BlockPos m : members) {
+					MultiblockIndex.deregister(level, m);
+				}
+				MultiblockIndex.deregister(level, holder);
+
+				// (4a) place the pre-built fresh block entities WITHOUT firing onLoad, so every real member is present
+				// before any validation runs (otherwise the first member's onLoad would sample the not-yet-recreated
+				// positions and Level#getBlockEntity (IMMEDIATE) would auto-create EMPTY BEs for them, churning the
+				// seed-from-stash path and corrupting the result inside the test harness itself).
+				for (BlockPos m : members) {
+					BlockEntity be = fresh.get(m);
+					if (be != null) {
+						level.getChunkAt(m).setBlockEntity(be);
+					}
+				}
+
+				// (4b) fire onLoad in the chosen (adversarial) order via addAndRegisterBlockEntity, which also restores
+				// each member's ticker. All real members are present, so validation samples only real BEs.
+				List<BlockPos> replayOrder = MultiblockDebugLogic.orderMembers(members, holder, BlockPos::compareTo, order);
+				for (BlockPos m : replayOrder) {
+					BlockEntity be = fresh.get(m);
+					if (be != null) {
+						level.getChunkAt(m).addAndRegisterBlockEntity(be);
+					}
+				}
+			} catch (RuntimeException ex) {
+				// Defense-in-depth: a mid-teardown failure must not silently leave a real machine unassembled. Re-run
+				// validation from the holder to recover whatever survived, surface the error, and stop.
+				MultiblockValidation.validateAt(level, holder);
+				source.sendFailure(Component.literal("round " + round + ": EXCEPTION during reload (" + ex + "); attempted recovery via re-validation."));
+				allPass = false;
+				break;
+			}
+
+			// (5) recompute the fingerprint from the re-formed engine state and diff.
+			after = resolveAnyController(level, members);
+
+			// Push a block update on the re-formed holder so any client viewing the structure re-syncs promptly after
+			// the server-side BE swap (the fresh controller has a new inventory object; an open GUI rebinds/closes).
+			if (after != null && after.getHolderPos() != null) {
+				BlockPos h = after.getHolderPos();
+				level.sendBlockUpdated(h, level.getBlockState(h), level.getBlockState(h), 3);
+			}
+			Fingerprint afterFp = after == null
+					? new Fingerprint(false, 0, "null", 0, -1, countPayloadCarriers(level, members))
+					: fingerprint(level, after, after.getMembers());
+
+			List<String> diff = MultiblockDebugLogic.diff(before, afterFp);
+			boolean roundPass = diff.isEmpty() && afterFp.singleHolderOk();
+			allPass &= roundPass;
+			send(source, Component.literal("round " + round + ": " + (roundPass ? "PASS" : "FAIL"))
+					.withStyle(roundPass ? ChatFormatting.GREEN : ChatFormatting.RED));
+			if (!roundPass) {
+				if (!afterFp.singleHolderOk()) {
+					send(source, Component.literal("  single-holder invariant FAILED: payloadCarriers="
+							+ afterFp.payloadCarriers() + " (expected 1)").withStyle(ChatFormatting.RED));
+				}
+				for (String change : diff) {
+					send(source, Component.literal("  " + change).withStyle(ChatFormatting.RED));
+				}
+			}
+
+			if (after != null) {
+				live = after;
+			}
+		}
+
+		send(source, Component.literal("=== Real reload result: " + (allPass ? "PASS" : "FAIL") + " ===")
 				.withStyle(allPass ? ChatFormatting.GREEN : ChatFormatting.RED));
 		return allPass ? 1 : 0;
 	}

@@ -63,6 +63,14 @@ public class RenderUtil {
 		return Color.getHSBColor((180 * Mth.sin((time + partialTicks) / 30.0f) - 180) / 360.0f, 0.5f, 0.8f);
 	}
 
+	/**
+	 * Pulsing alpha in {@code [0.2, 1.0]} for the flashing-white spectacle outline drawn around the parts of an
+	 * unformed multiblock (a faster sine than the rainbow hue so the two styles read differently at a glance).
+	 */
+	public static float getFlashingAlpha(long time, float partialTicks) {
+		return 0.6f + 0.4f * Mth.sin((time + partialTicks) / 8.0f);
+	}
+
 	// VANILLA COPY
 	public static int getYImage(Button button) {
 		int i = 1;

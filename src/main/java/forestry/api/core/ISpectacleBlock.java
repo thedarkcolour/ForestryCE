@@ -15,4 +15,16 @@ public interface ISpectacleBlock {
 	default boolean isHighlighted(Player player) {
 		return true;
 	}
+
+	/**
+	 * Selects which highlight style the renderer draws for this block. The default is a steady rainbow outline
+	 * (pollinated leaves, assembled multiblock anchors); returning {@code true} draws a pulsing white outline
+	 * instead, used to flag work-in-progress markers such as the parts of an unformed multiblock.
+	 *
+	 * @param player The player wearing spectacles.
+	 * @return {@code true} for the flashing-white outline, {@code false} for the steady rainbow outline.
+	 */
+	default boolean usesFlashingHighlight(Player player) {
+		return false;
+	}
 }

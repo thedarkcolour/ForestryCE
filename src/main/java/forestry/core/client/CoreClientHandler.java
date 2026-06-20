@@ -279,9 +279,12 @@ public class CoreClientHandler implements IClientModuleHandler {
 
 					Color color = RenderUtil.getRainbowColor(minecraft.level.getGameTime(), event.getPartialTick());
 
+					// Steady rainbow outline (pollinated leaves, assembled multiblock anchors)...
 					float r = color.getRed() / 255f;
 					float g = color.getGreen() / 255f;
 					float b = color.getBlue() / 255f;
+					// ...and a pulsing white outline for work-in-progress markers (unformed multiblock parts).
+					float flashAlpha = RenderUtil.getFlashingAlpha(minecraft.level.getGameTime(), event.getPartialTick());
 
 					// Iterate through all chunks in render distance
 					for (int chunkX = playerChunkPos.x - renderDistance; chunkX <= playerChunkPos.x + renderDistance; chunkX++) {
@@ -293,12 +296,18 @@ public class CoreClientHandler implements IClientModuleHandler {
 								if (be instanceof ISpectacleBlock naturalist && naturalist.isHighlighted(player)) {
 									BlockPos pos = be.getBlockPos();
 
+									boolean flashing = naturalist.usesFlashingHighlight(player);
+									float cr = flashing ? 1.0F : r;
+									float cg = flashing ? 1.0F : g;
+									float cb = flashing ? 1.0F : b;
+									float ca = flashing ? flashAlpha : 1.0F;
+
 									stack.pushPose();
 									// Translate the matrix stack to avoid floating point precision errors
 									stack.translate(pos.getX() - cameraPos.x, pos.getY() - cameraPos.y, pos.getZ() - cameraPos.z);
 
 									// render at origin (inflate slightly to avoid weirdness with selection box)
-									LevelRenderer.renderLineBox(stack, lines, -0.001, -0.001, -0.001, 1.001, 1.001, 1.001, r, g, b, 1.0F);
+									LevelRenderer.renderLineBox(stack, lines, -0.001, -0.001, -0.001, 1.001, 1.001, 1.001, cr, cg, cb, ca);
 
 									stack.popPose();
 								}

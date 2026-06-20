@@ -244,7 +244,16 @@ public abstract class MultiblockTileEntityForestry<T extends IMultiblockLogic> e
 			return;
 		}
 
-		// Genuine break (spec §6.4).
+		// Genuine break (spec §6.4). Three cases by where the shared payload currently lives:
+		//   A. a LIVE controller is hosted at this (broken) holder        -> re-anchor controller state, or drop;
+		//   B. a LIVE controller is hosted at another member (non-holder)  -> just deactivate it (payload stays put);
+		//   C. NO live controller, but this BE carries the dormant stash   -> re-anchor the stash, or drop it.
+		// Case C is the load-bearing fix for the silent-wipe bug: the first break of any part deactivates the
+		// controller, which deregisters it from the index and hands the payload to the holder BE's stash. From then
+		// on there is no live controller, so a later break of the stash carrier would (before this fix) fall through
+		// every branch and the only copy of the inventory would die with the block — no re-anchor and no drop. Now
+		// the carrier hands its stash to a surviving sibling, or drops the contents into the world when it is the
+		// last member (parity with the GregTech-style "controller destroyed -> drop", spec §6.3.2 / §6.4).
 		MultiblockController controller = anchor == null ? null : MultiblockIndex.get(level, anchor);
 		if (controller != null && pos.equals(anchor)) {
 			handleHolderBreak(level, pos, controller);
@@ -258,6 +267,9 @@ public abstract class MultiblockTileEntityForestry<T extends IMultiblockLogic> e
 					part.onMachineBroken();
 				}
 			}
+		} else if (hasStash()) {
+			// Dormant payload carrier broken with no live controller (Case C).
+			handleStashCarrierBreak(level, pos);
 		}
 
 		// Re-validate neighbors so a still-valid sub/adjacent structure re-forms (spec §5.3).
@@ -309,6 +321,24 @@ public abstract class MultiblockTileEntityForestry<T extends IMultiblockLogic> e
 			controller.setHolderPos(survivor);
 			MultiblockIndex.register(level, survivor, controller);
 			MultiblockController.markChunkDirty(level, survivor);
+
+			// Keep the (about-to-be-dormant) structure anchor-consistent: re-point every OTHER surviving member
+			// to the new holder too. Without this, only the survivor knows the new anchor and the remaining members
+			// still point at the now-gone holder; a subsequent break of the survivor (Case C) could then no longer
+			// find its siblings by shared anchorPos and would drop the inventory prematurely while members remain.
+			for (BlockPos mpos : members) {
+				if (mpos.equals(brokenHolder) || mpos.equals(survivor)) {
+					continue;
+				}
+				MultiblockTileEntityForestry<?> mbe = TileUtil.getTile(level, mpos, MultiblockTileEntityForestry.class);
+				if (mbe != null && !mbe.isRemoved()) {
+					mbe.setAnchorPos(survivor);
+					// Persist the re-pointed anchor explicitly rather than relying on the per-part onMachineBroken ->
+					// setChanged below (mirrors the Case-C hand-off loop), so a save before re-validation keeps the
+					// dormant structure anchor-consistent.
+					MultiblockController.markChunkDirty(level, mpos);
+				}
+			}
 		}
 
 		// The structure is no longer whole; deactivate. A neighbor re-validation (caller) re-forms it if the
@@ -363,6 +393,133 @@ public abstract class MultiblockTileEntityForestry<T extends IMultiblockLogic> e
 		level.getChunk(best.getX() >> 4, best.getZ() >> 4, ChunkStatus.FULL, true);
 		MultiblockTileEntityForestry<?> be = TileUtil.getTile(level, best, MultiblockTileEntityForestry.class);
 		return (be != null && !be.isRemoved()) ? best : null;
+	}
+
+	/**
+	 * The §6.4 re-anchor hand-off for a <b>dormant</b> structure (Case C): {@code this} BE carries the shared
+	 * payload as a stash (the structure was deactivated and the index entry dropped), and it is now being
+	 * genuinely broken. There is no live controller and therefore no member list, so we recover the surviving
+	 * siblings by scanning the local neighbourhood for loaded same-family members that share this carrier's
+	 * {@code anchorPos} (members of two different machines never share an anchor, so the scan can never bleed
+	 * into a neighbouring machine). The lowest survivor becomes the new dormant carrier; if none survives, the
+	 * inventory is dropped into the world so nothing is ever silently lost.
+	 */
+	private void handleStashCarrierBreak(Level level, BlockPos brokenPos) {
+		CompoundTag stash = getStash();
+		if (stash == null || stash.isEmpty()) {
+			return;
+		}
+		BlockPos anchor = getAnchorPos();
+		BlockPos targetAnchor = anchor != null ? anchor : brokenPos;
+
+		List<BlockPos> siblings = collectSharedAnchorSiblings(level, brokenPos, targetAnchor);
+		if (siblings.isEmpty()) {
+			// No LOADED sibling found. Before treating this as the terminal member and dropping the inventory,
+			// mirror handleHolderBreak's force-load fallback: a still-standing sibling could just be in a
+			// neighbouring chunk that is currently unloaded (the structure straddles a chunk border). Force-load the
+			// (at most 2x2) chunks the radius-4 scan can reach, then try once more — so we re-anchor instead of
+			// dropping while real members survive on disk. In the common terminal case (truly the last block) the
+			// re-scan is still empty and we drop as before.
+			forceLoadNeighbourChunks(level, brokenPos);
+			siblings = collectSharedAnchorSiblings(level, brokenPos, targetAnchor);
+		}
+		BlockPos survivor = null;
+		for (BlockPos s : siblings) {
+			if (survivor == null || s.compareTo(survivor) < 0) {
+				survivor = s;
+			}
+		}
+
+		MultiblockTileEntityForestry<?> survivorBe = survivor == null ? null
+				: TileUtil.getTile(level, survivor, MultiblockTileEntityForestry.class);
+		if (survivorBe == null) {
+			// Terminal: this was the last loaded member. Drop the stashed inventory into the world (the fix for
+			// "destroy every block -> nothing drops"); then clear the stash so the dying BE writes nothing.
+			dropStashContents(level, brokenPos, stash);
+			clearStash();
+			return;
+		}
+
+		// Hand the stash to the lowest survivor and re-point every sibling (and the survivor) at it, so the chain
+		// stays anchor-consistent for the next break.
+		survivorBe.setStash(stash.copy());
+		clearStash();
+		for (BlockPos s : siblings) {
+			MultiblockTileEntityForestry<?> sbe = TileUtil.getTile(level, s, MultiblockTileEntityForestry.class);
+			if (sbe != null) {
+				sbe.setAnchorPos(survivor);
+				MultiblockController.markChunkDirty(level, s);
+			}
+		}
+	}
+
+	/**
+	 * Scans the bounded neighbourhood around {@code brokenPos} for loaded, not-removed, same-family
+	 * {@link MultiblockTileEntityForestry} members whose {@code anchorPos} equals {@code targetAnchor} (i.e. the
+	 * surviving siblings of {@code this} carrier's dormant structure), excluding {@code this}. The radius covers
+	 * the largest possible machine (a 5-wide farm: two members can be 4 blocks apart). The shared-anchor guard
+	 * makes the scan structure-exact even if a different machine of the same family sits adjacent.
+	 */
+	private List<BlockPos> collectSharedAnchorSiblings(Level level, BlockPos brokenPos, BlockPos targetAnchor) {
+		MultiblockPattern family = getPattern();
+		List<BlockPos> result = new java.util.ArrayList<>();
+		int r = 4;
+		for (int dx = -r; dx <= r; dx++) {
+			for (int dy = -r; dy <= r; dy++) {
+				for (int dz = -r; dz <= r; dz++) {
+					if (dx == 0 && dy == 0 && dz == 0) {
+						continue;
+					}
+					BlockPos p = brokenPos.offset(dx, dy, dz);
+					if (!level.getChunkSource().hasChunk(p.getX() >> 4, p.getZ() >> 4)) {
+						continue;
+					}
+					MultiblockTileEntityForestry<?> be = TileUtil.getTile(level, p, MultiblockTileEntityForestry.class);
+					if (be == null || be == this || be.isRemoved() || be.getPattern() != family) {
+						continue;
+					}
+					BlockPos a = be.getAnchorPos();
+					if (a != null && a.equals(targetAnchor)) {
+						result.add(p.immutable());
+					}
+				}
+			}
+		}
+		return result;
+	}
+
+	/**
+	 * Force-loads the (at most 2x2) chunks reachable by the radius-4 sibling scan around {@code center} that are
+	 * not already loaded. Used by {@link #handleStashCarrierBreak} as the §6.4 force-load fallback so a dormant
+	 * structure that straddles a chunk border re-anchors to a survivor across the border instead of dropping its
+	 * inventory while real members still exist on disk. A ±4 block span crosses at most one chunk boundary per
+	 * axis, so this loads no more than four chunks and only does so when the cheap loaded-only scan found nothing.
+	 */
+	private static void forceLoadNeighbourChunks(Level level, BlockPos center) {
+		int r = 4;
+		int minCx = (center.getX() - r) >> 4;
+		int maxCx = (center.getX() + r) >> 4;
+		int minCz = (center.getZ() - r) >> 4;
+		int maxCz = (center.getZ() + r) >> 4;
+		for (int cx = minCx; cx <= maxCx; cx++) {
+			for (int cz = minCz; cz <= maxCz; cz++) {
+				if (!level.getChunkSource().hasChunk(cx, cz)) {
+					level.getChunk(cx, cz, ChunkStatus.FULL, true);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Drops the shared inventory carried by a dormant {@code stash} into the world at {@code pos}. Reuses the
+	 * controller's {@link MultiblockController#onDestroyed} drop logic by reading the stash into a throwaway
+	 * controller (the same items a live controller would drop, e.g. the alveary's bee inventory or the farm's
+	 * inventory + sockets); fluids are intentionally not dropped, matching the live-controller path.
+	 */
+	private void dropStashContents(Level level, BlockPos pos, CompoundTag stash) {
+		MultiblockController throwaway = createController(level);
+		throwaway.readPayload(stash);
+		throwaway.onDestroyed(pos);
 	}
 
 	/* ===== Network sync (holder carries the controller payload, spec §9) ===== */
@@ -609,6 +766,20 @@ public abstract class MultiblockTileEntityForestry<T extends IMultiblockLogic> e
 			return false;
 		}
 		MultiblockController controller = getController();
-		return controller != null && controller.isAssembled() && getBlockPos().equals(controller.getReferenceCoord());
+		if (controller != null && controller.isAssembled()) {
+			// Assembled: highlight only the anchor (reference coord), in the rainbow colour.
+			return getBlockPos().equals(controller.getReferenceCoord());
+		}
+		// Unformed: highlight every multiblock part (in the flashing-white colour, see usesFlashingHighlight) so a
+		// player building a structure can see exactly which blocks the engine recognises as parts and where the
+		// would-be anchor (the lowest one) sits.
+		return true;
+	}
+
+	@Override
+	public boolean usesFlashingHighlight(Player player) {
+		// Flash white while unformed; steady rainbow once the machine is assembled (handled by the renderer).
+		MultiblockController controller = getController();
+		return controller == null || !controller.isAssembled();
 	}
 }
