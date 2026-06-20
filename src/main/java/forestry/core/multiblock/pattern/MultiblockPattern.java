@@ -131,13 +131,18 @@ public final class MultiblockPattern {
 			return maximalityFailure;
 		}
 
-		// --- Run the box cell predicates. ---
+		// --- Run the box cell predicates. Every box cell must also be loaded (loaded-shell rule, spec
+		// §5.2): an unloaded member cell means we cannot confirm the structure, so we defer (non-match)
+		// rather than assembling on a partial footprint. ---
 		List<Component> components = new ArrayList<>(sizeX * sizeY * sizeZ);
 		List<StructurePos> members = new ArrayList<>(sizeX * sizeY * sizeZ);
 		for (int dx = 0; dx < sizeX; dx++) {
 			for (int dy = 0; dy < sizeY; dy++) {
 				for (int dz = 0; dz < sizeZ; dz++) {
 					StructurePos worldPos = origin.offset(dx, dy, dz);
+					if (!view.isLoaded(worldPos)) {
+						return failure(worldPos, Predicates.KEY_INVALID_INTERIOR);
+					}
 					CellSample sample = view.sample(worldPos);
 					CellPredicate predicate = this.boxCellPredicate.predicateFor(sizeX, sizeY, sizeZ, dx, dy, dz);
 					String fail = predicate.test(sample);
@@ -176,41 +181,58 @@ public final class MultiblockPattern {
 		return new PatternResult.Match(members, min, max, holder, components);
 	}
 
-	/** Grows the maximal same-type-component box from origin; returns null if a needed cell is unloaded. */
+	/**
+	 * Determines the box size at {@code origin}.
+	 *
+	 * <p>For a <b>fixed axis</b> ({@code min == max}) the size is that fixed value with no measurement —
+	 * so an interior hole is caught later by the per-cell predicates as {@code invalid.interior} (exact
+	 * parity with the old bounding-box-then-validate-each-cell behaviour). For a <b>ranged axis</b> the
+	 * size is found by growing along the min-corner edge while the next edge cell is a same-type
+	 * component, clamped to {@code max}; this resolves which size variant a variable-size machine (the
+	 * farm) is, and remaining interior cells are still validated by predicates. Returns {@code null} if a
+	 * consulted cell is unloaded (defer; loaded-shell rule).
+	 */
 	private Measure measureBox(StructureView view, StructurePos origin) {
-		// origin must itself be a same-type component and loaded
 		if (!view.isLoaded(origin)) {
 			return null;
 		}
-		if (!isSameTypeComponent(view.sample(origin))) {
-			// not a component at origin; report a degenerate 1x1x1 so predicate/size checks produce a key
-			return new Measure(1, 1, 1);
-		}
+		// If origin is not even a same-type component, report 1x1x1 so size/predicate checks emit a key.
+		boolean originIsComponent = isSameTypeComponent(view.sample(origin));
 
-		int sizeX = grow(view, origin, Axis.X);
-		if (sizeX < 0) {
+		int sizeX = measureAxis(view, origin, 1, 0, 0, this.minSizeX, this.maxSizeX, originIsComponent);
+		if (sizeX == UNLOADED) {
 			return null;
 		}
-		int sizeY = growLayer(view, origin, sizeX, Axis.Y);
-		if (sizeY < 0) {
+		int sizeY = measureAxis(view, origin, 0, 1, 0, this.minSizeY, this.maxSizeY, originIsComponent);
+		if (sizeY == UNLOADED) {
 			return null;
 		}
-		int sizeZ = growLayer2(view, origin, sizeX, sizeY);
-		if (sizeZ < 0) {
+		int sizeZ = measureAxis(view, origin, 0, 0, 1, this.minSizeZ, this.maxSizeZ, originIsComponent);
+		if (sizeZ == UNLOADED) {
 			return null;
 		}
 		return new Measure(sizeX, sizeY, sizeZ);
 	}
 
-	private enum Axis {X, Y, Z}
+	private static final int UNLOADED = -1;
 
-	// Grow along X at (origin.y, origin.z) — the seed row.
-	private int grow(StructureView view, StructurePos origin, Axis axis) {
+	/**
+	 * Measures one axis. Fixed axes ({@code min == max}) return {@code max} immediately. Ranged axes grow
+	 * along the unit-vector edge from origin while the next edge cell is a same-type component, clamped to
+	 * {@code max}. Returns {@link #UNLOADED} if a consulted edge cell is unloaded.
+	 */
+	private int measureAxis(StructureView view, StructurePos origin, int ux, int uy, int uz, int min, int max, boolean originIsComponent) {
+		if (min == max) {
+			return max; // fixed-size axis: no measurement, predicates validate every cell
+		}
+		if (!originIsComponent) {
+			return 1; // degenerate; size check will fail with a small key
+		}
 		int size = 1;
-		while (true) {
-			StructurePos next = origin.offset(size, 0, 0);
+		while (size < max) {
+			StructurePos next = origin.offset(ux * size, uy * size, uz * size);
 			if (!view.isLoaded(next)) {
-				return -1; // cannot confirm extent
+				return UNLOADED;
 			}
 			if (!isSameTypeComponent(view.sample(next))) {
 				break;
@@ -218,55 +240,6 @@ public final class MultiblockPattern {
 			size++;
 		}
 		return size;
-	}
-
-	// Grow along Y: a Y-layer is added while the whole [0..sizeX) row at that y is same-type components.
-	private int growLayer(StructureView view, StructurePos origin, int sizeX, Axis axis) {
-		int sizeY = 1;
-		while (true) {
-			boolean allComponent = true;
-			for (int dx = 0; dx < sizeX; dx++) {
-				StructurePos p = origin.offset(dx, sizeY, 0);
-				if (!view.isLoaded(p)) {
-					return -1;
-				}
-				if (!isSameTypeComponent(view.sample(p))) {
-					allComponent = false;
-					break;
-				}
-			}
-			if (!allComponent) {
-				break;
-			}
-			sizeY++;
-		}
-		return sizeY;
-	}
-
-	// Grow along Z: a Z-layer is added while the whole [0..sizeX)x[0..sizeY) slice at that z is components.
-	private int growLayer2(StructureView view, StructurePos origin, int sizeX, int sizeY) {
-		int sizeZ = 1;
-		while (true) {
-			boolean allComponent = true;
-			outer:
-			for (int dx = 0; dx < sizeX; dx++) {
-				for (int dy = 0; dy < sizeY; dy++) {
-					StructurePos p = origin.offset(dx, dy, sizeZ);
-					if (!view.isLoaded(p)) {
-						return -1;
-					}
-					if (!isSameTypeComponent(view.sample(p))) {
-						allComponent = false;
-						break outer;
-					}
-				}
-			}
-			if (!allComponent) {
-				break;
-			}
-			sizeZ++;
-		}
-		return sizeZ;
 	}
 
 	/**
