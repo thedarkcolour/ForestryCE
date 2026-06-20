@@ -36,6 +36,10 @@ public abstract class MultiblockTileEntityForestry<T extends IMultiblockLogic> e
 	private static final String PAYLOAD_KEY = "multiblockData";
 	/** NBT key for this member's stored anchor position. */
 	private static final String ANCHOR_KEY = "anchorPos";
+	/** Description-packet-only key: the holder advertises that the structure is assembled (BUG 2 / spec §9). */
+	private static final String ASSEMBLED_KEY = "mbAssembled";
+	/** Description-packet-only key: the holder advertises the member positions so the client reconstructs (BUG 2). */
+	private static final String MEMBERS_KEY = "mbMembers";
 
 	@Nullable
 	private GameProfile owner;
@@ -368,7 +372,22 @@ public abstract class MultiblockTileEntityForestry<T extends IMultiblockLogic> e
 		}
 		if (isHolder()) {
 			MultiblockController controller = getController();
-			if (controller != null) {
+			if (controller != null && controller.isAssembled()) {
+				// BUG 2: the holder carries the FULL assembled state to the client so the client can reconstruct a
+				// real controller without relying on its own validation. The client chunk source's hasChunk (used by
+				// LevelStructureView.isLoaded) is unreliable, so the client's maximality/loaded-shell checks defer and
+				// the client controller would otherwise never form — making getController() resolve to the Fake
+				// controller (GUI crash) and breaking the spectacle highlight. Sending assembled=true + the member
+				// set + the payload lets decodeDescriptionPacket trust the server's authoritative state (spec §9).
+				packetData.putBoolean(ASSEMBLED_KEY, true);
+				CompoundTag members = new CompoundTag();
+				List<BlockPos> memberPositions = controller.getMembers();
+				members.putInt("count", memberPositions.size());
+				for (int i = 0; i < memberPositions.size(); i++) {
+					members.put(Integer.toString(i), NbtUtils.writeBlockPos(memberPositions.get(i)));
+				}
+				packetData.put(MEMBERS_KEY, members);
+
 				CompoundTag payload = new CompoundTag();
 				controller.writeDescriptionPayload(payload);
 				packetData.put(PAYLOAD_KEY, payload);
@@ -382,12 +401,84 @@ public abstract class MultiblockTileEntityForestry<T extends IMultiblockLogic> e
 		if (packetData.contains(ANCHOR_KEY)) {
 			setAnchorPos(NbtUtils.readBlockPos(packetData.getCompound(ANCHOR_KEY)));
 		}
+
+		// BUG 2: when the holder's packet carries the full assembled state, reconstruct/register a real
+		// client-side controller and adopt the synced payload. This is the authoritative client path — it does
+		// NOT depend on the client running its own (unreliable) validation, so the GUI and highlight resolve a
+		// real assembled controller after a world reload (spec §9).
+		if (this.level != null && this.level.isClientSide && packetData.getBoolean(ASSEMBLED_KEY) && packetData.contains(MEMBERS_KEY)) {
+			reconstructClientController(packetData);
+			return;
+		}
+
 		if (packetData.contains(PAYLOAD_KEY)) {
 			MultiblockController controller = getController();
 			if (controller != null) {
 				controller.readDescriptionPayload(packetData.getCompound(PAYLOAD_KEY));
 			} else {
 				setStash(packetData.getCompound(PAYLOAD_KEY).copy());
+			}
+		}
+	}
+
+	/**
+	 * Client-side reconstruction of the assembled controller from the holder's synced state (BUG 2 / spec §9).
+	 * Gets-or-creates the controller at this holder, installs the synced member set + bounding box, marks it
+	 * assembled, reads the description payload, registers it in the client {@link MultiblockIndex}, and wires
+	 * every loaded member's {@code anchorPos} to this holder so each member's {@code getController()} resolves
+	 * the real controller (instead of the Fake). Trusting the server's synced state avoids the client's
+	 * unreliable {@code hasChunk}-based validation.
+	 */
+	private void reconstructClientController(CompoundTag packetData) {
+		BlockPos holderPos = getBlockPos();
+
+		// Decode the synced member positions and derive the bounding box (the client controller's min/max).
+		CompoundTag membersTag = packetData.getCompound(MEMBERS_KEY);
+		int count = membersTag.getInt("count");
+		List<BlockPos> members = new java.util.ArrayList<>(count);
+		BlockPos min = null;
+		BlockPos max = null;
+		for (int i = 0; i < count; i++) {
+			BlockPos pos = NbtUtils.readBlockPos(membersTag.getCompound(Integer.toString(i)));
+			members.add(pos);
+			if (min == null) {
+				min = pos;
+				max = pos;
+			} else {
+				min = new BlockPos(Math.min(min.getX(), pos.getX()), Math.min(min.getY(), pos.getY()), Math.min(min.getZ(), pos.getZ()));
+				max = new BlockPos(Math.max(max.getX(), pos.getX()), Math.max(max.getY(), pos.getY()), Math.max(max.getZ(), pos.getZ()));
+			}
+		}
+		if (members.isEmpty()) {
+			return;
+		}
+
+		// Get-or-create the client controller hosted at this holder.
+		MultiblockController controller = MultiblockIndex.get(this.level, holderPos);
+		if (controller == null) {
+			controller = createController(this.level);
+		}
+
+		controller.setStructure(members, min, max, holderPos);
+		controller.setHolderPos(holderPos);
+		controller.setAssembled(true);
+		if (packetData.contains(PAYLOAD_KEY)) {
+			controller.readDescriptionPayload(packetData.getCompound(PAYLOAD_KEY));
+		}
+		// Fire the assembled transition so the controller's derived client state is real (e.g. the alveary's
+		// climate provider; farm is a no-op). Per-part onMachineAssembled visuals (entrance textures / BAND) are
+		// owned by the client's PacketAlvearyChange/validation path and are intentionally NOT re-fired here.
+		controller.onAssembled();
+		MultiblockIndex.register(this.level, holderPos, controller);
+		clearStash();
+
+		// Wire every loaded member's anchor to this holder so getController() resolves on each member (GUI is
+		// opened against the clicked member BE, and the highlight runs per-member). Members in unloaded client
+		// chunks are skipped; they receive their own anchorPos in their own description packet when they load.
+		for (BlockPos mpos : members) {
+			MultiblockTileEntityForestry<?> mbe = TileUtil.getTile(this.level, mpos, MultiblockTileEntityForestry.class);
+			if (mbe != null) {
+				mbe.setAnchorPos(holderPos);
 			}
 		}
 	}

@@ -1,9 +1,11 @@
 package forestry.farming.multiblock;
 
 import com.mojang.authlib.GameProfile;
+import forestry.api.IForestryApi;
 import forestry.api.core.HumidityType;
 import forestry.api.core.IErrorLogic;
 import forestry.api.core.TemperatureType;
+import forestry.api.farming.ForestryFarmTypes;
 import forestry.api.farming.IFarmLogic;
 import forestry.api.farming.IFarmable;
 import forestry.api.multiblock.IMultiblockComponent;
@@ -103,7 +105,11 @@ public enum FakeFarmController implements IFarmControllerInternal {
 
 	@Override
 	public IFarmLogic getFarmLogic(Direction direction) {
-		throw new IllegalStateException();
+		// BUG 2 (defensive): never throw from a render-reachable method. A transient Fake controller can be
+		// resolved by the GUI during a client reload (e.g. before the holder's description packet reconstructs
+		// the real controller). Return the default arboreal logic — the same default FarmController.resetFarmLogic
+		// installs — so GuiFarm/FarmLogicSlot draw a sane icon instead of crashing with IllegalStateException.
+		return IForestryApi.INSTANCE.getFarmingManager().getFarmType(ForestryFarmTypes.ARBOREAL).getLogic(false);
 	}
 
 	@Override
@@ -146,7 +152,10 @@ public enum FakeFarmController implements IFarmControllerInternal {
 
 	@Override
 	public IFarmLedgerDelegate getFarmLedgerDelegate() {
-		throw new IllegalStateException("Invalid farm");
+		// BUG 2 (defensive): never throw from a render-reachable method. GuiFarm.addLedgers and
+		// FarmLogicSlot's tooltip both call this on the resolved controller, which may transiently be the Fake
+		// during a client reload. Return a no-op delegate (zeros / NORMAL climate) instead of crashing.
+		return FakeFarmLedgerDelegate.INSTANCE;
 	}
 
 	@Override
@@ -238,6 +247,46 @@ public enum FakeFarmController implements IFarmControllerInternal {
 
 	@Override
 	public void cleanExtents(Direction direction) {
+	}
+
+	/** No-op ledger delegate so the farm GUI ledgers/tooltips never crash on a transient Fake (BUG 2 defensive). */
+	private enum FakeFarmLedgerDelegate implements IFarmLedgerDelegate {
+		INSTANCE;
+
+		@Override
+		public float getHydrationModifier() {
+			return 0;
+		}
+
+		@Override
+		public float getHydrationTempModifier() {
+			return 0;
+		}
+
+		@Override
+		public float getHydrationHumidModifier() {
+			return 0;
+		}
+
+		@Override
+		public float getHydrationRainfallModifier() {
+			return 0;
+		}
+
+		@Override
+		public double getDrought() {
+			return 0;
+		}
+
+		@Override
+		public TemperatureType temperature() {
+			return TemperatureType.NORMAL;
+		}
+
+		@Override
+		public HumidityType humidity() {
+			return HumidityType.NORMAL;
+		}
 	}
 
 	private enum FakeFarmInventory implements IFarmInventoryInternal {
