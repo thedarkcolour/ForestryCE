@@ -53,6 +53,14 @@ public class FarmBlock extends BlockStructure implements EntityBlock {
 		};
 	}
 
+	@Nullable
+	@Override
+	public <T extends BlockEntity> net.minecraft.world.level.block.entity.BlockEntityTicker<T> getTicker(net.minecraft.world.level.Level level, BlockState state, net.minecraft.world.level.block.entity.BlockEntityType<T> type) {
+		// The holder may be ANY farm member type, so return a ticker for every member; the body is guarded
+		// by the anchor + assembled check (spec §7.1).
+		return forestry.core.multiblock.MultiblockTicker.getTicker(level);
+	}
+
 	@Override
 	public boolean canConnectRedstone(BlockState state, BlockGetter level, BlockPos pos, @Nullable Direction side) {
 		return this.type == EnumFarmBlockType.CONTROL;

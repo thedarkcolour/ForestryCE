@@ -85,6 +85,10 @@ public class FarmManager implements INbtReadable, INbtWritable, IStreamable, IEx
         this.farmListeners.remove(listener);
 	}
 
+	public void clearListeners() {
+        this.farmListeners.clear();
+	}
+
 	public boolean doWork() {
         this.farmWorkTicks++;
 		if (this.targets.isEmpty() || this.farmWorkTicks % 20 == 0) {

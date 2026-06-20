@@ -1,35 +1,19 @@
 package forestry.apiculture.multiblock;
 
 import forestry.api.multiblock.IMultiblockLogicAlveary;
-import forestry.core.multiblock.MultiblockLogic;
-import net.minecraft.world.level.Level;
+import forestry.core.multiblock.MultiblockController;
+import forestry.core.multiblock.MultiblockLogicBase;
 
-public class MultiblockLogicAlveary extends MultiblockLogic<IAlvearyControllerInternal> implements IMultiblockLogicAlveary {
+public class MultiblockLogicAlveary extends MultiblockLogicBase implements IMultiblockLogicAlveary {
 	public MultiblockLogicAlveary() {
-		super(IAlvearyControllerInternal.class);
 	}
 
 	@Override
 	public IAlvearyControllerInternal getController() {
-		if (super.isConnected()) {
-			return this.controller;
-		} else {
-			return FakeAlvearyController.INSTANCE;
+		MultiblockController controller = resolveController();
+		if (controller instanceof IAlvearyControllerInternal internal && controller.isAssembled()) {
+			return internal;
 		}
-	}
-
-	@Override
-	public IAlvearyControllerInternal createNewController(Level level) {
-		return new AlvearyController(level);
-	}
-
-	@Override
-	public void becomeMultiblockSaveDelegate() {
-		super.becomeMultiblockSaveDelegate();
-	}
-
-	@Override
-	public void forfeitMultiblockSaveDelegate() {
-		super.forfeitMultiblockSaveDelegate();
+		return FakeAlvearyController.INSTANCE;
 	}
 }

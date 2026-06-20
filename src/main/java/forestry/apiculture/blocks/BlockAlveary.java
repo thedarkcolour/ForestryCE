@@ -90,6 +90,14 @@ public class BlockAlveary extends BlockStructure implements EntityBlock {
 		};
 	}
 
+	@Nullable
+	@Override
+	public <T extends BlockEntity> net.minecraft.world.level.block.entity.BlockEntityTicker<T> getTicker(Level level, BlockState state, net.minecraft.world.level.block.entity.BlockEntityType<T> type) {
+		// The holder may be ANY member type (lowest member could be a heater/sieve/...), so return a ticker
+		// for every alveary member type; the body is guarded by the anchor + assembled check (spec §7.1).
+		return forestry.core.multiblock.MultiblockTicker.getTicker(level);
+	}
+
 	public BlockState getNewState(TileAlveary tile) {
 		BlockState state = this.defaultBlockState();
 
@@ -142,12 +150,12 @@ public class BlockAlveary extends BlockStructure implements EntityBlock {
 
 	@Override
 	public void neighborChanged(BlockState state, Level worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean p_220069_6_) {
+		// The non-Forestry alveary cells (slab cap / entrance air ring) are caught here. Re-run the
+		// event-driven validation for this block (spec §5.3) instead of the deleted controller.reassemble().
 		TileUtil.actOnTile(worldIn, pos, TileAlveary.class, tileAlveary -> {
-			// We must check that the slabs on top were not removed
-			IAlvearyControllerInternal alveary = tileAlveary.getMultiblockLogic().getController();
-			alveary.reassemble();
-			BlockPos referenceCoord = alveary.getReferenceCoord();
-			NetworkUtil.sendNetworkPacket(new PacketAlvearyChange(referenceCoord), referenceCoord, worldIn);
+			forestry.core.multiblock.MultiblockValidation.validateFor(worldIn, pos, tileAlveary);
+			// Refresh the client so the entrance textures / assembled state update (spec §5.3, §7.3).
+			NetworkUtil.sendNetworkPacket(new PacketAlvearyChange(pos), pos, worldIn);
 		});
 	}
 

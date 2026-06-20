@@ -1,25 +1,19 @@
 package forestry.farming.multiblock;
 
 import forestry.api.multiblock.IMultiblockLogicFarm;
-import forestry.core.multiblock.MultiblockLogic;
-import net.minecraft.world.level.Level;
+import forestry.core.multiblock.MultiblockController;
+import forestry.core.multiblock.MultiblockLogicBase;
 
-public class MultiblockLogicFarm extends MultiblockLogic<IFarmControllerInternal> implements IMultiblockLogicFarm {
+public class MultiblockLogicFarm extends MultiblockLogicBase implements IMultiblockLogicFarm {
 	public MultiblockLogicFarm() {
-		super(IFarmControllerInternal.class);
 	}
 
 	@Override
 	public IFarmControllerInternal getController() {
-		if (this.controller != null) {
-			return this.controller;
-		} else {
-			return FakeFarmController.INSTANCE;
+		MultiblockController controller = resolveController();
+		if (controller instanceof IFarmControllerInternal internal && controller.isAssembled()) {
+			return internal;
 		}
-	}
-
-	@Override
-	public IFarmControllerInternal createNewController(Level level) {
-		return new FarmController(level);
+		return FakeFarmController.INSTANCE;
 	}
 }

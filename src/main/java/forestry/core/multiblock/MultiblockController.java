@@ -5,11 +5,14 @@ import forestry.api.IForestryApi;
 import forestry.api.core.IErrorLogic;
 import forestry.api.core.IErrorLogicSource;
 import forestry.api.core.ILocationProvider;
+import forestry.api.multiblock.IMultiblockComponent;
+import forestry.api.multiblock.IMultiblockController;
 import forestry.core.inventory.FakeInventoryAdapter;
 import forestry.core.inventory.IInventoryAdapter;
 import forestry.core.owner.IOwnedTile;
 import forestry.core.owner.IOwnerHandler;
 import forestry.core.owner.OwnerHandler;
+import forestry.core.tiles.TileUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -19,6 +22,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -53,11 +57,24 @@ import java.util.List;
  * supplies storage + accessors and the inventory plumbing; it deliberately does <em>not</em> re-implement
  * the old per-tick majority vote.
  */
-public abstract class MultiblockController implements WorldlyContainer, IOwnedTile, IErrorLogicSource, ILocationProvider {
+public abstract class MultiblockController implements IMultiblockController, WorldlyContainer, IOwnedTile, IErrorLogicSource, ILocationProvider {
 	protected final Level level;
 
 	private final OwnerHandler ownerHandler;
 	private final IErrorLogic errorLogic;
+
+	/**
+	 * The last validation error key (spec §11), set by the trigger code on a failed validation so
+	 * {@link #getLastValidationError()} can surface it in chat. {@code null} when assembled or never tried.
+	 */
+	@Nullable
+	private String lastValidationError;
+
+	/**
+	 * E1 owner-vote-once latch (spec §3.1): true once the majority owner has been resolved at first
+	 * formation (or adopted from a legacy payload), so reloads never re-vote.
+	 */
+	private boolean ownerResolved = false;
 
 	/**
 	 * The validated member set (lowest-first), the bounding box, and the holder position. These are set
@@ -183,12 +200,100 @@ public abstract class MultiblockController implements WorldlyContainer, IOwnedTi
 
 	/* ===== Assembled flag (spec §7.3) ===== */
 
+	@Override
 	public boolean isAssembled() {
 		return this.assembled;
 	}
 
 	public void setAssembled(boolean assembled) {
 		this.assembled = assembled;
+	}
+
+	/* ===== Public IMultiblockController surface (spec §11) ===== */
+
+	/**
+	 * Force a re-validation of this machine (spec §11). Used by the public API; the event-driven triggers
+	 * (Task 2.5) normally call the validator directly, but the public {@code reassemble()} contract is kept
+	 * by re-running validation from the current holder position.
+	 */
+	@Override
+	public void reassemble() {
+		BlockPos holder = this.holderPos;
+		if (holder != null) {
+			MultiblockValidation.validateAt(this.level, holder);
+		}
+	}
+
+	@Override
+	@Nullable
+	public String getLastValidationError() {
+		return this.lastValidationError;
+	}
+
+	public void setLastValidationError(@Nullable String lastValidationError) {
+		this.lastValidationError = lastValidationError;
+	}
+
+	/**
+	 * Resolves the live member BlockEntities from the validated member set (spec §5.2). Unloaded / missing
+	 * members are skipped, so this is the loaded subset.
+	 */
+	@Override
+	public List<IMultiblockComponent> getComponents() {
+		List<IMultiblockComponent> components = new ArrayList<>(this.members.size());
+		for (BlockPos pos : this.members) {
+			IMultiblockComponent component = TileUtil.getTile(this.level, pos, IMultiblockComponent.class);
+			if (component != null) {
+				components.add(component);
+			}
+		}
+		return components;
+	}
+
+	/* ===== E1 owner-vote-once (spec §3.1) ===== */
+
+	/**
+	 * Resolves the machine owner by majority vote over the member parts, but <b>only once</b> — at first
+	 * formation (spec §3.1 E1). Subsequent (re)assemblies and reloads do not re-vote, because the owner is
+	 * round-tripped in the payload and {@link #ownerResolved} stays set. On a legacy-migration / payload
+	 * read, {@link #markOwnerResolved()} latches this without a vote so the adopted owner is authoritative.
+	 */
+	protected final void voteOwnerOnceIfNeeded() {
+		if (this.ownerResolved || this.level.isClientSide) {
+			return;
+		}
+
+		com.google.common.collect.Multiset<GameProfile> owners = com.google.common.collect.HashMultiset.create();
+		for (IMultiblockComponent part : getComponents()) {
+			GameProfile owner = part.getOwner();
+			if (owner != null) {
+				owners.add(owner);
+			}
+		}
+
+		GameProfile owner = null;
+		int max = 0;
+		for (com.google.common.collect.Multiset.Entry<GameProfile> entry : owners.entrySet()) {
+			int count = entry.getCount();
+			if (count > max) {
+				max = count;
+				owner = entry.getElement();
+			}
+		}
+
+		if (owner != null) {
+			this.ownerHandler.setOwner(owner);
+		}
+		this.ownerResolved = true;
+	}
+
+	/** Latches the owner-vote (spec §3.1 E1) without voting (the owner came from the payload / legacy tag). */
+	protected final void markOwnerResolved() {
+		this.ownerResolved = true;
+	}
+
+	protected final boolean isOwnerResolved() {
+		return this.ownerResolved;
 	}
 
 	/* ===== Owner / error logic / world (ported from MultiblockControllerForestry) ===== */
@@ -233,6 +338,12 @@ public abstract class MultiblockController implements WorldlyContainer, IOwnedTi
 
 	/** Reads the shared payload from the holder BE's NBT. */
 	public abstract void readPayload(CompoundTag data);
+
+	/** Serializes the client-sync subset of the payload into the holder's description packet (spec §9). */
+	public abstract void writeDescriptionPayload(CompoundTag data);
+
+	/** Reads the client-sync subset of the payload from the holder's description packet (spec §9). */
+	public abstract void readDescriptionPayload(CompoundTag data);
 
 	/** Fired on the disassembled→assembled transition (spec §7.3). */
 	public abstract void onAssembled();
@@ -344,5 +455,30 @@ public abstract class MultiblockController implements WorldlyContainer, IOwnedTi
 	@Nullable
 	public GameProfile getOwner() {
 		return this.ownerHandler.getOwner();
+	}
+
+	/* ===== Payload owner round-trip (spec §3.1 E1, §6.1) ===== */
+
+	/** Writes the machine owner into the payload tag (the controller payload, not the per-part owner). */
+	protected final void writeOwner(CompoundTag data) {
+		this.ownerHandler.write(data);
+	}
+
+	/** Reads the machine owner from the payload tag and latches the vote-once flag (spec §3.1 E1). */
+	protected final void readOwner(CompoundTag data) {
+		this.ownerHandler.read(data);
+		// The owner is authoritative once it has been persisted in the payload; never re-vote on reload.
+		markOwnerResolved();
+	}
+
+	/**
+	 * Force-marks the chunk containing {@code pos} as unsaved so a stale holder copy is dropped on next save
+	 * (spec §6.1 canonicalization / §6.4 re-anchor). Idempotent; no-op if the chunk is not loaded.
+	 */
+	public static void markChunkDirty(Level level, BlockPos pos) {
+		net.minecraft.world.level.chunk.LevelChunk chunk = level.getChunkSource().getChunkNow(pos.getX() >> 4, pos.getZ() >> 4);
+		if (chunk != null) {
+			chunk.setUnsaved(true);
+		}
 	}
 }

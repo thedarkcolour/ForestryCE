@@ -56,6 +56,16 @@ public class TileAlveary extends MultiblockTileEntityForestry<MultiblockLogicAlv
 	}
 
 	@Override
+	public forestry.core.multiblock.MultiblockController createController(net.minecraft.world.level.Level level) {
+		return new AlvearyController(level);
+	}
+
+	@Override
+	public forestry.core.multiblock.pattern.MultiblockPattern getPattern() {
+		return AlvearyPattern.ALVEARY_PATTERN;
+	}
+
+	@Override
 	public void onMachineAssembled(IMultiblockController multiblockController, BlockPos minCoord, BlockPos maxCoord) {
 		Block block = getBlockState().getBlock();
 		if (block instanceof BlockAlveary alveary) {

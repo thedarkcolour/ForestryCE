@@ -1,67 +1,23 @@
 package forestry.api.multiblock;
 
-import forestry.api.core.INbtWritable;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.level.Level;
-
 /**
- * Multiblock Logic implements the basic logic for IMultiblockComponent tile entities.
- * Instances must come from MultiblockManager.logicFactory, most of the implementation is hidden.
- * <p>
- * IMultiblockComponent tile entities must wire up the methods in the "Updating and Synchronization" section.
- * As a starting point, you can use MultiblockTileEntityBase.
+ * Multiblock Logic implements the basic accessor for IMultiblockComponent tile entities.
+ *
+ * <p>After the engine rewrite (plan Phase 2) this is a thin accessor: it no longer drives validation,
+ * chunk events, persistence, or networking (those moved to the base member BlockEntity and the
+ * event-driven triggers). It only resolves the owning block's controller via the new
+ * {@code MultiblockIndex} (returning the machine's {@code Fake} controller when unassembled).
  */
-public interface IMultiblockLogic extends INbtWritable {
+public interface IMultiblockLogic {
 
 	/**
-	 * @return True if this block is connected to a multiblock controller. False otherwise.
+	 * @return True if this block is connected to an assembled multiblock controller. False otherwise.
 	 */
 	boolean isConnected();
 
 	/**
-	 * @return the multiblock controller for this logic
+	 * @return the multiblock controller for this logic, or the machine's {@code Fake} controller when this
+	 * block is not part of an assembled structure.
 	 */
 	IMultiblockController getController();
-
-	/* Updating and Synchronization */
-
-	/**
-	 * call on Tile.validate()
-	 **/
-	void validate(Level world, IMultiblockComponent part);
-
-	/**
-	 * call on Tile.invalidate()
-	 **/
-	void invalidate(Level world, IMultiblockComponent part);
-
-	/**
-	 * call on Tile.onChunkUnload()
-	 **/
-	void onChunkUnload(Level world, IMultiblockComponent part);
-
-	/**
-	 * Writes data for client synchronization.
-	 * Use this in Tile.getDescriptionPacket()
-	 */
-	void encodeDescriptionPacket(CompoundTag packetData);
-
-	/**
-	 * Reads data for client synchronization.
-	 * Use this in Tile.onDataPacket()
-	 */
-	void decodeDescriptionPacket(CompoundTag packetData);
-
-	/**
-	 * Read the logic's data from file.
-	 * Use this in Tile.read()
-	 */
-	void readFromNBT(CompoundTag CompoundNBT);
-
-	/**
-	 * Write the logic's data to file.
-	 * Use this in Tile.write()
-	 */
-	@Override
-	CompoundTag write(CompoundTag CompoundNBT);
 }

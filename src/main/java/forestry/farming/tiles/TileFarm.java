@@ -32,6 +32,16 @@ public abstract class TileFarm extends MultiblockTileEntityForestry<MultiblockLo
 	}
 
 	@Override
+	public forestry.core.multiblock.MultiblockController createController(net.minecraft.world.level.Level level) {
+		return new forestry.farming.multiblock.FarmController(level);
+	}
+
+	@Override
+	public forestry.core.multiblock.pattern.MultiblockPattern getPattern() {
+		return forestry.farming.multiblock.FarmPattern.FARM_PATTERN;
+	}
+
+	@Override
 	public void onMachineAssembled(IMultiblockController multiblockController, BlockPos minCoord, BlockPos maxCoord) {
         this.level.updateNeighborsAt(getBlockPos(), this.level.getBlockState(this.worldPosition).getBlock());    //TODO - removing false OK?
 		setChanged();
