@@ -50,6 +50,15 @@ legacyForge {
 			data()
 			programArguments.addAll('--mod', 'forestry', '--all', '--output', file('src/generated/resources/').absolutePath, '--existing', file('src/main/resources/').absolutePath)
 		}
+
+		// Multiblock inventory-conservation GameTest suite. Runs ONLY via `gradlew runGameTestServer`; the
+		// enabled-namespaces property is what makes Forge execute the @GameTestHolder("forestry") classes, so the
+		// tests are completely inert in normal client/server play.
+		gameTestServer {
+			type = "gameTestServer"
+			gameDirectory.set(project.layout.projectDirectory.dir('run/gametest'))
+			systemProperty 'forge.enabledGameTestNamespaces', 'forestry'
+		}
 	}
 
 	mods {

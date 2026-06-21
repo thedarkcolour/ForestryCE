@@ -12,6 +12,7 @@ import forestry.api.core.HumidityType;
 import forestry.api.core.TemperatureType;
 import forestry.api.multiblock.IAlvearyComponent;
 import forestry.api.multiblock.IMultiblockComponent;
+import forestry.api.multiblock.IMultiblockInventoryProbe;
 import forestry.apiculture.AlvearyBeeModifier;
 import forestry.apiculture.InventoryBeeHousing;
 import forestry.core.inventory.FakeInventoryAdapter;
@@ -26,6 +27,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.Containers;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.biome.Biome;
@@ -36,9 +38,10 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
-public class AlvearyController extends MultiblockController implements IAlvearyControllerInternal, IClimateControlled {
+public class AlvearyController extends MultiblockController implements IAlvearyControllerInternal, IClimateControlled, IMultiblockInventoryProbe {
 	private final InventoryBeeHousing inventory;
 	private final IBeekeepingLogic beekeepingLogic;
 	private IClimateProvider climate = IForestryApi.INSTANCE.getClimateManager().createDummyClimateProvider();
@@ -66,6 +69,11 @@ public class AlvearyController extends MultiblockController implements IAlvearyC
 	@Override
 	public IBeeHousingInventory getBeeInventory() {
 		return this.inventory;
+	}
+
+	@Override
+	public List<ItemStack> snapshotSharedInventory() {
+		return IMultiblockInventoryProbe.snapshotContainer(this.inventory);
 	}
 
 	@Override

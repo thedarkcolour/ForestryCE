@@ -15,6 +15,7 @@ import forestry.api.farming.IFarmLogic;
 import forestry.api.farming.IFarmable;
 import forestry.api.multiblock.IFarmComponent;
 import forestry.api.multiblock.IMultiblockComponent;
+import forestry.api.multiblock.IMultiblockInventoryProbe;
 import forestry.core.config.ForestryConfig;
 import forestry.core.fluids.TankManager;
 import forestry.core.inventory.FakeInventoryAdapter;
@@ -50,7 +51,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import javax.annotation.Nullable;
 import java.util.*;
 
-public class FarmController extends MultiblockController implements IFarmControllerInternal, ILiquidTankTile {
+public class FarmController extends MultiblockController implements IFarmControllerInternal, ILiquidTankTile, IMultiblockInventoryProbe {
 	private int allowedExtent = 0;
 
 	// active components are stored with a tick offset so they do not all tick together
@@ -92,6 +93,11 @@ public class FarmController extends MultiblockController implements IFarmControl
 		} else {
 			return FakeInventoryAdapter.INSTANCE;
 		}
+	}
+
+	@Override
+	public List<ItemStack> snapshotSharedInventory() {
+		return IMultiblockInventoryProbe.snapshotContainer(this.inventory);
 	}
 
 	@Override
