@@ -73,6 +73,7 @@ public class CentrifugeRecipeCategory extends ForestryRecipeCategory<ICentrifuge
 
 	@Override
 	public void draw(ICentrifugeRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics graphics, double mouseX, double mouseY) {
+		super.draw(recipe, recipeSlotsView, graphics, mouseX, mouseY);
 		this.arrow.draw(graphics, 32, 18);
 		this.arrow.draw(graphics, 56, 18);
 	}

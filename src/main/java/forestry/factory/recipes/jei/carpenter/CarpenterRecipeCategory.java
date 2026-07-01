@@ -88,6 +88,7 @@ public class CarpenterRecipeCategory extends ForestryRecipeCategory<ICarpenterRe
 
 	@Override
 	public void draw(ICarpenterRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics graphics, double mouseX, double mouseY) {
+		super.draw(recipe, recipeSlotsView, graphics, mouseX, mouseY);
 		this.arrow.draw(graphics, 89, 34);
 	}
 }

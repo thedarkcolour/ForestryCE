@@ -101,6 +101,7 @@ public class FermenterRecipeCategory extends ForestryRecipeCategory<IFermenterRe
 
 	@Override
 	public void draw(IFermenterRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics graphics, double mouseX, double mouseY) {
+		super.draw(recipe, recipeSlotsView, graphics, mouseX, mouseY);
 		this.progressBar0.draw(graphics, 40, 14);
 		this.progressBar1.draw(graphics, 64, 28);
 	}

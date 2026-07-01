@@ -63,6 +63,7 @@ public class StillRecipeCategory extends ForestryRecipeCategory<IStillRecipe> {
 
 	@Override
 	public void draw(IStillRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics graphics, double mouseX, double mouseY) {
+		super.draw(recipe, recipeSlotsView, graphics, mouseX, mouseY);
 		this.progressBar.draw(graphics, 50, 3);
 	}
 }

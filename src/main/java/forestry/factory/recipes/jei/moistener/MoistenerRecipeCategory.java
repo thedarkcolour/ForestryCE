@@ -96,6 +96,7 @@ public class MoistenerRecipeCategory extends ForestryRecipeCategory<IMoistenerRe
 
 	@Override
 	public void draw(IMoistenerRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics graphics, double mouseX, double mouseY) {
+		super.draw(recipe, recipeSlotsView, graphics, mouseX, mouseY);
 		this.arrow.draw(graphics, 78, 2);
 		this.progressBar.draw(graphics, 109, 22);
 	}

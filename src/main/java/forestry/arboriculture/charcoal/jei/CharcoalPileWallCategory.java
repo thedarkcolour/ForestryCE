@@ -54,6 +54,7 @@ public class CharcoalPileWallCategory extends ForestryRecipeCategory<ICharcoalPi
 
 	@Override
 	public void draw(ICharcoalPileWall recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics graphics, double mouseX, double mouseY) {
+		super.draw(recipe, recipeSlotsView, graphics, mouseX, mouseY);
 		this.flame.draw(graphics, 52, 0);
 		this.flameAnimated.draw(graphics, 52, 0);
 		this.arrow.draw(graphics, 50, 16);

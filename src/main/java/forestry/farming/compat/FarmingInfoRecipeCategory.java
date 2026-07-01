@@ -97,6 +97,7 @@ public class FarmingInfoRecipeCategory extends ForestryRecipeCategory<FarmingInf
 
 	@Override
 	public void draw(FarmingInfoRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics graphics, double mouseX, double mouseY) {
+        super.draw(recipe, recipeSlotsView, graphics, mouseX, mouseY);
         this.addition.draw(graphics, 37, 64);
         this.arrow.draw(graphics, 91, 64);
 		int recipeWidth = this.getWidth();

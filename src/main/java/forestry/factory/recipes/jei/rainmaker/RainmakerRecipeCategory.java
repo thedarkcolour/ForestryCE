@@ -50,6 +50,7 @@ public class RainmakerRecipeCategory extends ForestryRecipeCategory<RainSubstrat
 
 	@Override
 	public void draw(RainSubstrate recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics graphics, double mouseX, double mouseY) {
+		super.draw(recipe, recipeSlotsView, graphics, mouseX, mouseY);
 		Component effect = getEffectString(recipe);
 		Component speed = Component.translatable("for.jei.rainmaker.speed", recipe.speed());
 

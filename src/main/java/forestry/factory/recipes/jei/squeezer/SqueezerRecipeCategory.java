@@ -73,6 +73,7 @@ public class SqueezerRecipeCategory extends ForestryRecipeCategory<ISqueezerReci
 
 	@Override
 	public void draw(ISqueezerRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics graphics, double mouseX, double mouseY) {
+		super.draw(recipe, recipeSlotsView, graphics, mouseX, mouseY);
 		this.arrow.draw(graphics, 67, 25);
 	}
 }
