@@ -10,7 +10,6 @@ import forestry.api.apiculture.ForestryBeeJubilances;
 import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.core.HumidityType;
 import forestry.api.core.IProduct;
-import forestry.api.core.Product;
 import forestry.api.core.TemperatureType;
 import forestry.api.genetics.alleles.Allele;
 import forestry.api.lepidopterology.genetics.IButterflySpecies;
@@ -96,8 +95,8 @@ public final class TestSpeciesDefinitions {
 		private int body = 0xffdc16;
 		private int stripes = 0;
 		private int outline = -1;
-		private List<Product> products = List.of();
-		private List<Product> specialties = List.of();
+		private List<IProduct> products = List.of();
+		private List<IProduct> specialties = List.of();
 		private ResourceLocation jubilance = ForestryBeeJubilances.DEFAULT;
 
 		private Bee(String genus, String species) {
@@ -106,7 +105,7 @@ public final class TestSpeciesDefinitions {
 
 		public Bee dominant(boolean v) { this.dominant = v; return this; }
 		public Bee outline(int v) { this.outline = v; return this; }
-		public Bee products(List<Product> v) { this.products = v; return this; }
+		public Bee products(List<IProduct> v) { this.products = v; return this; }
 		public Bee jubilance(ResourceLocation v) { this.jubilance = v; return this; }
 		public Bee genome(Map<ResourceLocation, Allele<?>> v) { this.genome = v; return this; }
 

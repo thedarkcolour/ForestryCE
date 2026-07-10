@@ -29,8 +29,8 @@
       "item": "forestry:bee_comb_powdery"
     },
     {
-      "chance": 0.2,
-      "item": "minecraft:firework_rocket"
+      "type": "forestry:firework",
+      "chance": 0.2
     }
   ],
   "secret": true,

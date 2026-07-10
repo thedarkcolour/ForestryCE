@@ -16,13 +16,10 @@ import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.RegistryOps;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
 
 import forestry.api.apiculture.ForestryBeeJubilances;
 import forestry.api.apiculture.IBeeJubilance;
 import forestry.api.apiculture.genetics.IBeeSpeciesType;
-import forestry.api.core.IProduct;
-import forestry.api.core.Product;
 import forestry.api.plugin.IBeeSpeciesBuilder;
 import forestry.apiculture.genetics.BeeSpeciesDefinition;
 import forestry.apiculture.genetics.DefaultBeeJubilance;
@@ -118,8 +115,8 @@ public class BeeSpeciesProvider implements DataProvider {
 			builder.getBody(),
 			builder.getStripes(),
 			builder.getOutline(),
-			toProducts(builder.buildProducts()),
-			toProducts(builder.buildSpecialties()),
+			builder.buildProducts(),
+			builder.buildSpecialties(),
 			jubilanceId,
 			rec.overrides
 		);
@@ -128,30 +125,6 @@ public class BeeSpeciesProvider implements DataProvider {
 	private CompletableFuture<?> saveSpecies(CachedOutput cache, RegistryOps<JsonElement> ops, ResourceLocation id, BeeSpeciesDefinition def) {
 		JsonElement json = BeeSpeciesDefinition.codec().encodeStart(ops, def).getOrThrow();
 		return DataProvider.saveStable(cache, json, this.pathProvider.json(id));
-	}
-
-	private static List<Product> toProducts(List<IProduct> products) {
-		List<Product> result = new ArrayList<>(products.size());
-		for (IProduct product : products) {
-			result.add(toProduct(product));
-		}
-		return result;
-	}
-
-	/**
-	 * Converts an arbitrary {@link IProduct} into the static {@link Product} record the data-driven definition can
-	 * express. Most products already are {@link Product} instances; the sole exception in the built-ins is
-	 * {@code FireworkProduct} (the secret Patriotic bee), whose {@code createRandomStack} produces a randomized
-	 * firework at runtime. Its static snapshot - {@link IProduct#createStack()}, which is what both the definition
-	 * and {@code FireworkProduct} itself fall back to whenever randomness isn't in play - is captured instead;
-	 * only the random-variant behavior is out of scope for a static data definition.
-	 */
-	private static Product toProduct(IProduct product) {
-		if (product instanceof Product p) {
-			return p;
-		}
-		ItemStack stack = product.createStack();
-		return new Product(stack.getItem(), stack.getCount(), stack.getComponentsPatch(), product.chance());
 	}
 
 	@Override

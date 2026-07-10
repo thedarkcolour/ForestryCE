@@ -66,6 +66,9 @@ public final class ButterflySpeciesManager extends SimpleJsonResourceReloadListe
 		// (null on cold start). See BeeSpeciesManager's apply() for the full rationale.
 		RegistryOps<JsonElement> ops = RegistryOps.create(JsonOps.INSTANCE, getRegistryLookup());
 
+		// Idempotent safety net: the product dispatch codec resolves the optional `type` key against these ids.
+		forestry.core.genetics.ProductTypes.registerBuiltins();
+
 		Map<ResourceLocation, ButterflySpeciesDefinition> parsed = new LinkedHashMap<>();
 		for (Map.Entry<ResourceLocation, JsonElement> entry : object.entrySet()) {
 			ResourceLocation id = entry.getKey();

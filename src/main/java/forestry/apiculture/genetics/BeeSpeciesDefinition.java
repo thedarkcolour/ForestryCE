@@ -10,19 +10,19 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 
 import forestry.api.IForestryApi;
 import forestry.api.apiculture.ForestryBeeJubilances;
 import forestry.api.core.HumidityType;
-import forestry.api.core.Product;
+import forestry.api.core.IProduct;
 import forestry.api.core.TemperatureType;
 import forestry.api.genetics.ForestrySpeciesTypes;
 import forestry.api.genetics.alleles.Allele;
 import forestry.api.genetics.alleles.IKaryotype;
 import forestry.core.genetics.GenomeCodecs;
+import forestry.core.genetics.ProductTypes;
 import forestry.core.genetics.ISpeciesDefinition;
 import forestry.core.genetics.SpeciesCore;
 
@@ -68,8 +68,8 @@ public record BeeSpeciesDefinition(
 	int body,
 	int stripes,
 	int outline,
-	List<Product> products,
-	List<Product> specialties,
+	List<IProduct> products,
+	List<IProduct> specialties,
 	ResourceLocation jubilance,
 	Map<ResourceLocation, Allele<?>> genome
 ) implements ISpeciesDefinition {
@@ -125,8 +125,8 @@ public record BeeSpeciesDefinition(
 		return RecordCodecBuilder.create(instance -> instance.group(
 			SpeciesCore.MAP_CODEC.forGetter(BeeSpeciesDefinition::core),
 			SpritePalette.CODEC.forGetter(def -> new SpritePalette(def.body(), def.stripes(), def.outline())),
-			Product.CODEC.listOf().optionalFieldOf("products", List.of()).forGetter(BeeSpeciesDefinition::products),
-			Product.CODEC.listOf().optionalFieldOf("specialties", List.of()).forGetter(BeeSpeciesDefinition::specialties),
+			ProductTypes.LIST_CODEC.optionalFieldOf("products", List.of()).forGetter(BeeSpeciesDefinition::products),
+			ProductTypes.LIST_CODEC.optionalFieldOf("specialties", List.of()).forGetter(BeeSpeciesDefinition::specialties),
 			ResourceLocation.CODEC.optionalFieldOf("jubilance", DEFAULT_JUBILANCE).forGetter(BeeSpeciesDefinition::jubilance),
 			genomeCodec.optionalFieldOf("genome", Map.of()).forGetter(BeeSpeciesDefinition::genome)
 		).apply(instance, (core, palette, products, specialties, jubilance, genome) ->
@@ -137,7 +137,7 @@ public record BeeSpeciesDefinition(
 
 	private static StreamCodec<RegistryFriendlyByteBuf, BeeSpeciesDefinition> buildStreamCodec() {
 		StreamCodec<RegistryFriendlyByteBuf, Map<ResourceLocation, Allele<?>>> genomeStreamCodec = GenomeCodecs.alleleMapStreamCodec(karyotype());
-		StreamCodec<RegistryFriendlyByteBuf, List<Product>> productListStreamCodec = Product.STREAM_CODEC.apply(ByteBufCodecs.list());
+		StreamCodec<RegistryFriendlyByteBuf, List<IProduct>> productListStreamCodec = ProductTypes.LIST_STREAM_CODEC;
 		return StreamCodec.of(
 			(buf, def) -> {
 				SpeciesCore.STREAM_CODEC.encode(buf, def.core());
@@ -154,8 +154,8 @@ public record BeeSpeciesDefinition(
 				int body = buf.readInt();
 				int stripes = buf.readInt();
 				int outline = buf.readInt();
-				List<Product> products = productListStreamCodec.decode(buf);
-				List<Product> specialties = productListStreamCodec.decode(buf);
+				List<IProduct> products = productListStreamCodec.decode(buf);
+				List<IProduct> specialties = productListStreamCodec.decode(buf);
 				ResourceLocation jubilance = ResourceLocation.STREAM_CODEC.decode(buf);
 				Map<ResourceLocation, Allele<?>> genome = genomeStreamCodec.decode(buf);
 				return new BeeSpeciesDefinition(core.genus(), core.species(), core.dominant(), core.glint(), core.secret(),

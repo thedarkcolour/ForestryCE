@@ -58,4 +58,15 @@ public interface IProduct {
 	default ItemStack createRandomStack(RandomSource random) {
 		return createStack();
 	}
+
+	/**
+	 * The type of this product, used to (de)serialize it via the dispatch codec in
+	 * {@code forestry.core.genetics.ProductTypes}. Most products are plain {@link Product} instances and return
+	 * {@link Product#TYPE}, which the dispatch codec treats as the default: it serializes without a {@code "type"}
+	 * key. Dynamic products (e.g. a randomized firework) return their own type so their randomness survives the
+	 * round-trip through JSON and network sync.
+	 *
+	 * @return The type of this product.
+	 */
+	ProductType<?> type();
 }

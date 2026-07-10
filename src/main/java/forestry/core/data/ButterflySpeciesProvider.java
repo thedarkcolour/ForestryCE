@@ -16,10 +16,7 @@ import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.RegistryOps;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
 
-import forestry.api.core.IProduct;
-import forestry.api.core.Product;
 import forestry.api.lepidopterology.genetics.IButterflySpeciesType;
 import forestry.api.plugin.IButterflySpeciesBuilder;
 import forestry.apiimpl.plugin.LepidopterologyRegistration;
@@ -108,8 +105,8 @@ public class ButterflySpeciesProvider implements DataProvider {
 			builder.getFlightDistance(),
 			builder.getSerumColor(),
 			Optional.ofNullable(builder.getSpawnBiomes()),
-			toProducts(builder.buildProducts()),
-			toProducts(builder.buildCaterpillarProducts()),
+			builder.buildProducts(),
+			builder.buildCaterpillarProducts(),
 			rec.overrides
 		);
 	}
@@ -117,29 +114,6 @@ public class ButterflySpeciesProvider implements DataProvider {
 	private CompletableFuture<?> saveSpecies(CachedOutput cache, RegistryOps<JsonElement> ops, ResourceLocation id, ButterflySpeciesDefinition def) {
 		JsonElement json = ButterflySpeciesDefinition.codec().encodeStart(ops, def).getOrThrow();
 		return DataProvider.saveStable(cache, json, this.pathProvider.json(id));
-	}
-
-	private static List<IProduct> toProducts(List<IProduct> products) {
-		List<IProduct> result = new ArrayList<>(products.size());
-		for (IProduct product : products) {
-			result.add(toProduct(product));
-		}
-		return result;
-	}
-
-	/**
-	 * Converts an arbitrary {@link IProduct} into the static {@link Product} record the data-driven definition can
-	 * express. No built-in butterfly currently authors any products/caterpillar products ({@code
-	 * ButterflySpeciesBuilder#buildProducts}/{@code #buildCaterpillarProducts} are stubs returning {@code List.of()}),
-	 * so this is a no-op today; kept for parity with {@link BeeSpeciesProvider} so loot support can be added later
-	 * without revisiting this conversion.
-	 */
-	private static Product toProduct(IProduct product) {
-		if (product instanceof Product p) {
-			return p;
-		}
-		ItemStack stack = product.createStack();
-		return new Product(stack.getItem(), stack.getCount(), stack.getComponentsPatch(), product.chance());
 	}
 
 	@Override

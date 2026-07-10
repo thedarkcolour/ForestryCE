@@ -21,13 +21,13 @@ import net.minecraft.world.level.biome.Biome;
 import forestry.api.IForestryApi;
 import forestry.api.core.HumidityType;
 import forestry.api.core.IProduct;
-import forestry.api.core.Product;
 import forestry.api.core.TemperatureType;
 import forestry.api.genetics.ForestrySpeciesTypes;
 import forestry.api.genetics.alleles.Allele;
 import forestry.api.genetics.alleles.IKaryotype;
 import forestry.core.genetics.GenomeCodecs;
 import forestry.core.genetics.ISpeciesDefinition;
+import forestry.core.genetics.ProductTypes;
 import forestry.core.genetics.SpeciesCore;
 
 /**
@@ -111,19 +111,8 @@ public record ButterflySpeciesDefinition(
 		return IForestryApi.INSTANCE.getGeneticManager().getSpeciesType(ForestrySpeciesTypes.BUTTERFLY).getKaryotype();
 	}
 
-	/**
-	 * {@code List<IProduct>} carried over the concrete {@link Product} codec: {@link Product} is the sole
-	 * {@link IProduct} implementation, so the narrowing cast on encode is safe.
-	 */
-	private static final Codec<List<IProduct>> PRODUCTS_CODEC = Product.CODEC.listOf().xmap(
-		List::<IProduct>copyOf,
-		products -> products.stream().map(product -> (Product) product).toList()
-	);
-	private static final StreamCodec<RegistryFriendlyByteBuf, List<IProduct>> PRODUCTS_STREAM_CODEC =
-		Product.STREAM_CODEC.apply(ByteBufCodecs.list()).map(
-			List::<IProduct>copyOf,
-			products -> products.stream().map(product -> (Product) product).toList()
-		);
+	private static final Codec<List<IProduct>> PRODUCTS_CODEC = ProductTypes.LIST_CODEC;
+	private static final StreamCodec<RegistryFriendlyByteBuf, List<IProduct>> PRODUCTS_STREAM_CODEC = ProductTypes.LIST_STREAM_CODEC;
 
 	private static Codec<ButterflySpeciesDefinition> buildCodec() {
 		Codec<Map<ResourceLocation, Allele<?>>> genomeCodec = GenomeCodecs.alleleMapCodec(karyotype());

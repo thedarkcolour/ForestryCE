@@ -74,6 +74,9 @@ public final class BeeSpeciesManager extends SimpleJsonResourceReloadListener {
 		// only working from the second (/reload) pass onward.
 		RegistryOps<JsonElement> ops = RegistryOps.create(JsonOps.INSTANCE, getRegistryLookup());
 
+		// Idempotent safety net: the product dispatch codec resolves the optional `type` key against these ids.
+		forestry.core.genetics.ProductTypes.registerBuiltins();
+
 		Map<ResourceLocation, BeeSpeciesDefinition> parsed = new LinkedHashMap<>();
 		for (Map.Entry<ResourceLocation, JsonElement> entry : object.entrySet()) {
 			ResourceLocation id = entry.getKey();

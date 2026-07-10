@@ -1,8 +1,16 @@
 package forestry.apiculture.genetics;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+
 import forestry.api.core.IProduct;
+import forestry.api.core.ProductType;
 import it.unimi.dsi.fastutil.ints.IntList;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
@@ -17,6 +25,20 @@ import java.util.List;
 public record FireworkProduct(float chance) implements IProduct {
 	private static final DyeColor[] COLORS = {DyeColor.RED, DyeColor.WHITE, DyeColor.BLUE};
 	private static final FireworkExplosion.Shape[] SHAPES = FireworkExplosion.Shape.values();
+
+	public static final MapCodec<FireworkProduct> MAP_CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+		Codec.floatRange(0f, 1f).fieldOf("chance").forGetter(FireworkProduct::chance)
+	).apply(instance, FireworkProduct::new));
+	public static final StreamCodec<RegistryFriendlyByteBuf, FireworkProduct> STREAM_CODEC = StreamCodec.composite(
+		ByteBufCodecs.FLOAT, FireworkProduct::chance,
+		FireworkProduct::new
+	);
+	public static final ProductType<FireworkProduct> TYPE = new ProductType<>(MAP_CODEC, STREAM_CODEC);
+
+	@Override
+	public ProductType<?> type() {
+		return TYPE;
+	}
 
 	@Override
 	public Item item() {

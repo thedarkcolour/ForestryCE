@@ -159,6 +159,10 @@ public class PluginManager {
 		// datapack/recipe parse populates the mutation managers in a later reload handler.
 		forestry.core.genetics.mutations.MutationConditionTypes.registerBuiltins();
 
+		// Register the built-in product types so the optional `type` key on species products (e.g. the
+		// Patriotic bee's randomized firework) resolves before any species JSON parse or network sync.
+		forestry.core.genetics.ProductTypes.registerBuiltins();
+
 		ForestryApiImpl api = (ForestryApiImpl) IForestryApi.INSTANCE;
 		GeneticManager geneticManager = new GeneticManager(taxa, speciesTypes);
 		api.setGeneticManager(geneticManager);
