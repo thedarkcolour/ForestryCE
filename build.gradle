@@ -147,7 +147,7 @@ dependencies {
 	compileOnly "vazkii.patchouli:Patchouli:$patchouliVersion-NEOFORGE:api"
 	runtimeOnly "vazkii.patchouli:Patchouli:$patchouliVersion-NEOFORGE"
 	// ModKit DEV ONLY
-	implementation 'com.github.thedarkcolour:ModKit:0cfafa780c'
+	implementation 'com.github.thedarkcolour:ModKit:51b8760'
 }
 
 var generateModMetadata = tasks.register('generateModMetadata', ProcessResources) {
