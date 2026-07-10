@@ -13,7 +13,7 @@
           "functions": [
             {
               "function": "forestry:set_species_nbt",
-              "species_id": "forestry:tree_lime",
+              "species_id": "forestry:lime",
               "type_id": "forestry:tree_species"
             },
             {
@@ -33,7 +33,7 @@
           "functions": [
             {
               "function": "forestry:set_species_nbt",
-              "species_id": "forestry:tree_hill_cherry",
+              "species_id": "forestry:hill_cherry",
               "type_id": "forestry:tree_species"
             },
             {
@@ -53,7 +53,7 @@
           "functions": [
             {
               "function": "forestry:set_species_nbt",
-              "species_id": "forestry:tree_larch",
+              "species_id": "forestry:larch",
               "type_id": "forestry:tree_species"
             },
             {
@@ -73,7 +73,7 @@
           "functions": [
             {
               "function": "forestry:set_species_nbt",
-              "species_id": "forestry:tree_teak",
+              "species_id": "forestry:teak",
               "type_id": "forestry:tree_species"
             }
           ],
@@ -84,7 +84,7 @@
           "functions": [
             {
               "function": "forestry:set_species_nbt",
-              "species_id": "forestry:tree_padauk",
+              "species_id": "forestry:padauk",
               "type_id": "forestry:tree_species"
             }
           ],

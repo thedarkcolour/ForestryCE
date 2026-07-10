@@ -1,0 +1,20 @@
+{
+  "type": "forestry:tree_mutation",
+  "chance": 0.05,
+  "conditions": [
+    {
+      "type": "forestry:temperature",
+      "max": "normal",
+      "min": "normal"
+    },
+    {
+      "type": "forestry:humidity",
+      "max": "normal",
+      "min": "normal"
+    }
+  ],
+  "first": "forestry:walnut",
+  "id": "forestry:tree_mutation/chestnut_1",
+  "result": "forestry:chestnut",
+  "second": "forestry:lime"
+}

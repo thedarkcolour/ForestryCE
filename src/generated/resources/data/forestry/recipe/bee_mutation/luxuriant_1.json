@@ -1,0 +1,13 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.08,
+  "conditions": [
+    {
+      "type": "forestry:cave"
+    }
+  ],
+  "first": "forestry:lush",
+  "id": "forestry:bee_mutation/luxuriant_1",
+  "result": "forestry:luxuriant",
+  "second": "forestry:verdant"
+}

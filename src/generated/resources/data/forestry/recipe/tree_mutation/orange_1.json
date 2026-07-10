@@ -1,0 +1,8 @@
+{
+  "type": "forestry:tree_mutation",
+  "chance": 0.1,
+  "first": "forestry:lime",
+  "id": "forestry:tree_mutation/orange_1",
+  "result": "forestry:orange",
+  "second": "forestry:jungle"
+}

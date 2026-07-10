@@ -1,0 +1,8 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.12,
+  "first": "forestry:common",
+  "id": "forestry:bee_mutation/cultivated_4",
+  "result": "forestry:cultivated",
+  "second": "forestry:modest"
+}

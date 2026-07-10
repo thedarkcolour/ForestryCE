@@ -1,0 +1,20 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.15,
+  "conditions": [
+    {
+      "type": "forestry:temperature",
+      "max": "warm",
+      "min": "warm"
+    },
+    {
+      "type": "forestry:humidity",
+      "max": "damp",
+      "min": "damp"
+    }
+  ],
+  "first": "forestry:marshy",
+  "id": "forestry:bee_mutation/miry_1",
+  "result": "forestry:miry",
+  "second": "forestry:noble"
+}

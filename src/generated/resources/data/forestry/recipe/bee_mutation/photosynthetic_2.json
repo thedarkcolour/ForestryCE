@@ -1,0 +1,8 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.08,
+  "first": "forestry:kleptoplastic",
+  "id": "forestry:bee_mutation/photosynthetic_2",
+  "result": "forestry:photosynthetic",
+  "second": "forestry:monastic"
+}

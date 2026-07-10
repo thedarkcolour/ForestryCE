@@ -1,0 +1,8 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.08,
+  "first": "forestry:diligent",
+  "id": "forestry:bee_mutation/industrious_1",
+  "result": "forestry:industrious",
+  "second": "forestry:unweary"
+}

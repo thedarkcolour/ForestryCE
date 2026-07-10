@@ -1,8 +1,0 @@
-{
-  "type": "forestry:tree_mutation",
-  "chance": 0.1,
-  "first": "forestry:tree_pine",
-  "id": "forestry:tree_mutation/tree_macrocarpa_1",
-  "result": "forestry:tree_macrocarpa",
-  "second": "forestry:tree_fir"
-}

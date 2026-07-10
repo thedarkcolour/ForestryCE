@@ -1,0 +1,8 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.08,
+  "first": "forestry:aquatic",
+  "id": "forestry:bee_mutation/prismatic_1",
+  "result": "forestry:prismatic",
+  "second": "forestry:pirate"
+}

@@ -1,0 +1,8 @@
+{
+  "type": "forestry:tree_mutation",
+  "chance": 0.1,
+  "first": "forestry:balsa",
+  "id": "forestry:tree_mutation/ebony_1",
+  "result": "forestry:ebony",
+  "second": "forestry:teak"
+}

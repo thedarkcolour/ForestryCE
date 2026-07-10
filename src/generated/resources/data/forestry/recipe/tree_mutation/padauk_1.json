@@ -1,0 +1,8 @@
+{
+  "type": "forestry:tree_mutation",
+  "chance": 0.1,
+  "first": "forestry:desert_acacia",
+  "id": "forestry:tree_mutation/padauk_1",
+  "result": "forestry:padauk",
+  "second": "forestry:jungle"
+}

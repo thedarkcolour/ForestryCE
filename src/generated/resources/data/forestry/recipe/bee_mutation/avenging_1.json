@@ -1,0 +1,8 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.04,
+  "first": "forestry:vindictive",
+  "id": "forestry:bee_mutation/avenging_1",
+  "result": "forestry:avenging",
+  "second": "forestry:vengeful"
+}

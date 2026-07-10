@@ -1,0 +1,14 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.6,
+  "conditions": [
+    {
+      "type": "forestry:biome",
+      "biome": "minecraft:is_nether"
+    }
+  ],
+  "first": "forestry:cultivated",
+  "id": "forestry:bee_mutation/sinister_1",
+  "result": "forestry:sinister",
+  "second": "forestry:modest"
+}

@@ -1,0 +1,14 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.4,
+  "conditions": [
+    {
+      "type": "forestry:biome",
+      "biome": "minecraft:is_nether"
+    }
+  ],
+  "first": "forestry:sinister",
+  "id": "forestry:bee_mutation/fiendish_2",
+  "result": "forestry:fiendish",
+  "second": "forestry:modest"
+}

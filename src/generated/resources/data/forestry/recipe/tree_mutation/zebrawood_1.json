@@ -1,0 +1,20 @@
+{
+  "type": "forestry:tree_mutation",
+  "chance": 0.05,
+  "conditions": [
+    {
+      "type": "forestry:temperature",
+      "max": "hot",
+      "min": "warm"
+    },
+    {
+      "type": "forestry:humidity",
+      "max": "damp",
+      "min": "damp"
+    }
+  ],
+  "first": "forestry:ebony",
+  "id": "forestry:tree_mutation/zebrawood_1",
+  "result": "forestry:zebrawood",
+  "second": "forestry:balsa"
+}

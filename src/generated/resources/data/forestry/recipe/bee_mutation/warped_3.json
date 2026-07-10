@@ -1,0 +1,14 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.4,
+  "conditions": [
+    {
+      "type": "forestry:biome",
+      "biome": "forestry:special/warped_forest"
+    }
+  ],
+  "first": "forestry:embittered",
+  "id": "forestry:bee_mutation/warped_3",
+  "result": "forestry:warped",
+  "second": "forestry:shulking"
+}

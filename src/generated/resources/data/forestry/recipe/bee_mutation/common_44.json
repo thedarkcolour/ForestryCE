@@ -1,0 +1,8 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.15,
+  "first": "forestry:wintry",
+  "id": "forestry:bee_mutation/common_44",
+  "result": "forestry:common",
+  "second": "forestry:aquatic"
+}

@@ -1,0 +1,8 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.12,
+  "first": "forestry:austere",
+  "id": "forestry:bee_mutation/exotic_1",
+  "result": "forestry:exotic",
+  "second": "forestry:tropical"
+}

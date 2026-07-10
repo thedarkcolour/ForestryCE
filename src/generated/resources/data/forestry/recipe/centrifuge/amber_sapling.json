@@ -84,11 +84,11 @@
             "forestry:tree_species": {
               "active": {
                 "dominant": true,
-                "value": "forestry:tree_ginkgo"
+                "value": "forestry:ginkgo"
               },
               "inactive": {
                 "dominant": true,
-                "value": "forestry:tree_ginkgo"
+                "value": "forestry:ginkgo"
               }
             },
             "forestry:yield": {

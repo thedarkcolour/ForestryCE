@@ -1,0 +1,8 @@
+{
+  "type": "forestry:butterfly_mutation",
+  "chance": 0.07,
+  "first": "forestry:latticed_heath",
+  "id": "forestry:butterfly_mutation/bombyx_mori_1",
+  "result": "forestry:bombyx_mori",
+  "second": "forestry:brimstone"
+}

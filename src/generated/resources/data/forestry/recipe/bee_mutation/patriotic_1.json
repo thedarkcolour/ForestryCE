@@ -1,0 +1,17 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.15,
+  "conditions": [
+    {
+      "type": "forestry:time_range",
+      "end_day": 17,
+      "end_month": 7,
+      "start_day": 1,
+      "start_month": 7
+    }
+  ],
+  "first": "forestry:rural",
+  "id": "forestry:bee_mutation/patriotic_1",
+  "result": "forestry:patriotic",
+  "second": "forestry:noble"
+}

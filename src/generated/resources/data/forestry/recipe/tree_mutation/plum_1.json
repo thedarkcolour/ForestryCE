@@ -1,0 +1,20 @@
+{
+  "type": "forestry:tree_mutation",
+  "chance": 0.05,
+  "conditions": [
+    {
+      "type": "forestry:temperature",
+      "max": "normal",
+      "min": "normal"
+    },
+    {
+      "type": "forestry:humidity",
+      "max": "normal",
+      "min": "normal"
+    }
+  ],
+  "first": "forestry:pear",
+  "id": "forestry:tree_mutation/plum_1",
+  "result": "forestry:plum",
+  "second": "forestry:hill_cherry"
+}

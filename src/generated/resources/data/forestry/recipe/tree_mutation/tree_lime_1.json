@@ -1,8 +1,0 @@
-{
-  "type": "forestry:tree_mutation",
-  "chance": 0.15,
-  "first": "forestry:tree_oak",
-  "id": "forestry:tree_mutation/tree_lime_1",
-  "result": "forestry:tree_lime",
-  "second": "forestry:tree_birch"
-}

@@ -1,8 +1,0 @@
-{
-  "type": "forestry:bee_mutation",
-  "chance": 0.04,
-  "first": "forestry:bee_hermitic",
-  "id": "forestry:bee_mutation/bee_spectral_1",
-  "result": "forestry:bee_spectral",
-  "second": "forestry:bee_ended"
-}

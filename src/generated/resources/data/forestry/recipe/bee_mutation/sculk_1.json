@@ -1,0 +1,14 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.06,
+  "conditions": [
+    {
+      "type": "forestry:biome",
+      "biome": "forestry:special/deep_dark"
+    }
+  ],
+  "first": "forestry:abyssal",
+  "id": "forestry:bee_mutation/sculk_1",
+  "result": "forestry:sculk",
+  "second": "forestry:hermitic"
+}

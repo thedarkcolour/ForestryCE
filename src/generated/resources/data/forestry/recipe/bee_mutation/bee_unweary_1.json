@@ -1,8 +1,0 @@
-{
-  "type": "forestry:bee_mutation",
-  "chance": 0.08,
-  "first": "forestry:bee_diligent",
-  "id": "forestry:bee_mutation/bee_unweary_1",
-  "result": "forestry:bee_unweary",
-  "second": "forestry:bee_cultivated"
-}

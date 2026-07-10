@@ -1,0 +1,8 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.08,
+  "first": "forestry:monastic",
+  "id": "forestry:bee_mutation/hermitic_1",
+  "result": "forestry:hermitic",
+  "second": "forestry:secluded"
+}

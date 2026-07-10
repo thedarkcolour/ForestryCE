@@ -1,0 +1,20 @@
+{
+  "type": "forestry:tree_mutation",
+  "chance": 0.05,
+  "conditions": [
+    {
+      "type": "forestry:temperature",
+      "max": "hot",
+      "min": "warm"
+    },
+    {
+      "type": "forestry:humidity",
+      "max": "damp",
+      "min": "damp"
+    }
+  ],
+  "first": "forestry:lemon",
+  "id": "forestry:tree_mutation/papaya_1",
+  "result": "forestry:papaya",
+  "second": "forestry:kapok"
+}

@@ -1,0 +1,8 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.08,
+  "first": "forestry:spiteful",
+  "id": "forestry:bee_mutation/seething_1",
+  "result": "forestry:seething",
+  "second": "forestry:embittered"
+}

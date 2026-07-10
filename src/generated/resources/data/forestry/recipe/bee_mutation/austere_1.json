@@ -1,0 +1,20 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.08,
+  "conditions": [
+    {
+      "type": "forestry:temperature",
+      "max": "hellish",
+      "min": "hot"
+    },
+    {
+      "type": "forestry:humidity",
+      "max": "arid",
+      "min": "arid"
+    }
+  ],
+  "first": "forestry:modest",
+  "id": "forestry:bee_mutation/austere_1",
+  "result": "forestry:austere",
+  "second": "forestry:frugal"
+}

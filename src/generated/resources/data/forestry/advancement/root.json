@@ -93,10 +93,10 @@
             },
             "forestry:bee_species": {
               "active": {
-                "value": "forestry:bee_industrious"
+                "value": "forestry:industrious"
               },
               "inactive": {
-                "value": "forestry:bee_industrious"
+                "value": "forestry:industrious"
               }
             },
             "forestry:cave_dwelling": {

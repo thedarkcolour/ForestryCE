@@ -1,4 +1,4 @@
-// 1.21.1	2026-06-16T16:08:37.774789	Tags for minecraft:item mod id forestry
+// 1.21.1	2026-07-09T17:45:03.348202283	Tags for minecraft:item mod id forestry
 e736c96d74e1d9b8799f108ba1e8b1e2173926fb data/c/tags/item/chests.json
 997ede0ad811c9479aabe6bd63d0a5b90a75c3e6 data/c/tags/item/dusts/ash.json
 d96521ed9e35f1dd037c67f6374622063d9657ac data/c/tags/item/fence_gates.json
@@ -162,7 +162,7 @@ fd7f5b8d14cefaa9260c3a25ed12037ccad07bac data/minecraft/tags/item/dirt.json
 6d6cb2e736c663ed2002b30cf61222cb5e870f09 data/minecraft/tags/item/doors.json
 42faf28ca8d379ccc98c96b6992c4117cf05f6e6 data/minecraft/tags/item/fences.json
 187c2975f45d9928dc3a105b7ff7a0c58aa589d0 data/minecraft/tags/item/hanging_signs.json
-e73ebe50f3648320322f96fec6c45537167124bb data/minecraft/tags/item/leaves.json
+317a4445bcccb6ff5d58eee1e29878d406a0f7ca data/minecraft/tags/item/leaves.json
 c72164ff1b6d852fa51f3c0e98004cacb660a295 data/minecraft/tags/item/logs.json
 a3f470e9eccaa5cf9d4bc2a389bad4a21ce49be5 data/minecraft/tags/item/logs_that_burn.json
 c5f3392d27cc90036aac5738817b418d1d82ad0c data/minecraft/tags/item/non_flammable_wood.json

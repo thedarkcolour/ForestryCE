@@ -1,0 +1,8 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.08,
+  "first": "forestry:noble",
+  "id": "forestry:bee_mutation/majestic_1",
+  "result": "forestry:majestic",
+  "second": "forestry:cultivated"
+}

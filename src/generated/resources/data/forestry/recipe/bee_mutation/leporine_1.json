@@ -1,0 +1,17 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.1,
+  "conditions": [
+    {
+      "type": "forestry:time_range",
+      "end_day": 15,
+      "end_month": 4,
+      "start_day": 29,
+      "start_month": 3
+    }
+  ],
+  "first": "forestry:meadows",
+  "id": "forestry:bee_mutation/leporine_1",
+  "result": "forestry:leporine",
+  "second": "forestry:forest"
+}

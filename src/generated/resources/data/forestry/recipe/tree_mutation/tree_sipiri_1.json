@@ -1,8 +1,0 @@
-{
-  "type": "forestry:tree_mutation",
-  "chance": 0.05,
-  "first": "forestry:tree_kapok",
-  "id": "forestry:tree_mutation/tree_sipiri_1",
-  "result": "forestry:tree_sipiri",
-  "second": "forestry:tree_teak"
-}

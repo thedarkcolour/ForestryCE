@@ -5,11 +5,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 import forestry.api.apiculture.ForestryBeeSpecies;
-import net.minecraft.data.recipes.RecipeOutput;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.data.CachedOutput;
+import net.minecraft.data.DataProvider;
+import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BiomeTags;
+import net.minecraft.world.item.crafting.Recipe;
 import net.neoforged.neoforge.common.Tags;
 
 import forestry.api.ForestryConstants;
@@ -18,6 +24,8 @@ import forestry.api.core.HumidityType;
 import forestry.api.core.TemperatureType;
 import forestry.api.genetics.ForestrySpeciesTypes;
 import forestry.core.data.builder.MutationRecipeBuilder;
+import forestry.core.genetics.mutations.MutationRecipe;
+import org.jetbrains.annotations.ApiStatus;
 
 import static forestry.api.apiculture.ForestryBeeSpecies.*;
 import static forestry.api.arboriculture.ForestryTreeSpecies.*;
@@ -26,45 +34,71 @@ import static forestry.api.lepidopterology.ForestryButterflySpecies.*;
 /**
  * Generates the built-in mutations as {@code forestry:{bee,tree,butterfly}_mutation} recipe JSON. These faithfully
  * reproduce the mutations that used to be code-registered via {@code .addMutations(...)} on the species builders.
+ * <p>
+ * This is a standalone {@link DataProvider} (writing into the same {@code data/forestry/recipe/} tree the recipe
+ * provider uses) rather than piggybacking on the shared {@code RecipeOutput}: as its own provider it owns its slice
+ * of the data-generator {@code HashCache}, so mutation JSONs that stop being generated (e.g. when a per-result
+ * counter shrinks) are deleted on the next run instead of lingering as orphaned files.
  */
-public class MutationProvider {
-	private final RecipeOutput output;
+public class MutationProvider implements DataProvider {
+	private final PackOutput.PathProvider recipePathProvider;
+	private final CompletableFuture<HolderLookup.Provider> lookupProvider;
 	private final List<MutationRecipeBuilder> pending = new ArrayList<>();
 
-	private MutationProvider(RecipeOutput output) {
-		this.output = output;
+	public MutationProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
+		this.recipePathProvider = output.createRegistryElementsPathProvider(Registries.RECIPE);
+		this.lookupProvider = lookupProvider;
 	}
 
-	public static void buildRecipes(RecipeOutput output) {
-		MutationProvider provider = new MutationProvider(output);
-		provider.bees();
-		provider.trees();
-		provider.butterflies();
-		provider.flush();
+	/**
+	 * Add your mutations here. Make sure NOT to call the super constructor in your mod.
+	 */
+	protected void addMutations() {
+		bees();
+		trees();
+		butterflies();
+	}
+
+	@Override
+	public String getName() {
+		return "Forestry Mutation Recipes";
+	}
+
+	@Override
+	public CompletableFuture<?> run(CachedOutput cache) {
+		return this.lookupProvider.thenCompose(registries -> {
+			this.pending.clear();
+			addMutations();
+			return flush(cache, registries);
+		});
 	}
 
 	// chance in [0, 1]
-	private MutationRecipeBuilder add(ResourceLocation speciesTypeId, ResourceLocation first, ResourceLocation second, ResourceLocation result, float chance) {
+	protected MutationRecipeBuilder add(ResourceLocation speciesTypeId, ResourceLocation first, ResourceLocation second, ResourceLocation result, float chance) {
 		MutationRecipeBuilder builder = new MutationRecipeBuilder(speciesTypeId, first, second, result, chance);
 		this.pending.add(builder);
 		return builder;
 	}
 
-	private MutationRecipeBuilder tree(ResourceLocation first, ResourceLocation second, ResourceLocation result, float chance) {
+	protected MutationRecipeBuilder tree(ResourceLocation first, ResourceLocation second, ResourceLocation result, float chance) {
 		return add(ForestrySpeciesTypes.TREE, first, second, result, chance);
 	}
 
-	private MutationRecipeBuilder butterfly(ResourceLocation first, ResourceLocation second, ResourceLocation result, float chance) {
+	protected MutationRecipeBuilder butterfly(ResourceLocation first, ResourceLocation second, ResourceLocation result, float chance) {
 		return add(ForestrySpeciesTypes.BUTTERFLY, first, second, result, chance);
 	}
 
-	private void flush() {
+	private CompletableFuture<?> flush(CachedOutput cache, HolderLookup.Provider registries) {
 		Map<String, Integer> counters = new HashMap<>();
+		List<CompletableFuture<?>> futures = new ArrayList<>();
 		for (MutationRecipeBuilder builder : this.pending) {
 			String base = folder(builder.getSpeciesTypeId()) + "/" + builder.getResultId().getPath();
 			int n = counters.merge(base, 1, Integer::sum);
-			builder.build(this.output, ForestryConstants.forestry(base + "_" + n));
+			ResourceLocation id = ForestryConstants.forestry(base + "_" + n);
+			MutationRecipe recipe = builder.build(id);
+			futures.add(DataProvider.saveStable(cache, registries, Recipe.CODEC, recipe, this.recipePathProvider.json(id)));
 		}
+		return CompletableFuture.allOf(futures.toArray(CompletableFuture[]::new));
 	}
 
 	private static String folder(ResourceLocation speciesTypeId) {

@@ -1,0 +1,8 @@
+{
+  "type": "forestry:tree_mutation",
+  "chance": 0.1,
+  "first": "forestry:pine",
+  "id": "forestry:tree_mutation/sequoia_1",
+  "result": "forestry:sequoia",
+  "second": "forestry:larch"
+}

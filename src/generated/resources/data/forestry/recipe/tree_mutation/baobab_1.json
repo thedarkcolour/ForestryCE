@@ -1,0 +1,20 @@
+{
+  "type": "forestry:tree_mutation",
+  "chance": 0.05,
+  "conditions": [
+    {
+      "type": "forestry:temperature",
+      "max": "hot",
+      "min": "warm"
+    },
+    {
+      "type": "forestry:humidity",
+      "max": "arid",
+      "min": "arid"
+    }
+  ],
+  "first": "forestry:padauk",
+  "id": "forestry:tree_mutation/baobab_1",
+  "result": "forestry:baobab",
+  "second": "forestry:wenge"
+}

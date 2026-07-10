@@ -1,0 +1,13 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.4,
+  "conditions": [
+    {
+      "type": "forestry:cave"
+    }
+  ],
+  "first": "forestry:aquatic",
+  "id": "forestry:bee_mutation/abyssal_2",
+  "result": "forestry:abyssal",
+  "second": "forestry:ended"
+}

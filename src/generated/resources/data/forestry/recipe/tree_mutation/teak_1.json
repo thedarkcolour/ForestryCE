@@ -1,0 +1,8 @@
+{
+  "type": "forestry:tree_mutation",
+  "chance": 0.15,
+  "first": "forestry:jungle",
+  "id": "forestry:tree_mutation/teak_1",
+  "result": "forestry:teak",
+  "second": "forestry:dark_oak"
+}

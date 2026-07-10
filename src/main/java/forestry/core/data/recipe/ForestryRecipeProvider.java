@@ -30,7 +30,6 @@ import forestry.core.circuits.EnumCircuitBoardType;
 import forestry.core.circuits.ItemCircuitBoard;
 import forestry.core.config.Constants;
 import forestry.core.config.Preference;
-import forestry.core.data.MutationProvider;
 import forestry.core.data.builder.*;
 import forestry.core.features.CoreBlocks;
 import forestry.core.features.CoreItems;
@@ -148,8 +147,9 @@ public class ForestryRecipeProvider {
 		registerSqueezer(output);
 		registerStill(output);
 
-		// Built-in genetic mutations (bee/tree/butterfly), generated as datapack recipes.
-		MutationProvider.buildRecipes(output);
+		// Built-in genetic mutations (bee/tree/butterfly) are generated as datapack recipes by the standalone
+		// MutationProvider (registered in Data), which owns its own HashCache slice so removed mutation JSONs
+		// are deleted rather than left orphaned.
 	}
 
 	private static void registerApicultureRecipes(MKRecipeProvider recipes) {

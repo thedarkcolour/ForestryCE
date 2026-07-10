@@ -10,7 +10,6 @@ public class ForestryConstants {
 	 * Forestry's mod ID.
 	 */
 	public static final String MOD_ID = "forestry";
-
 	/**
 	 * @return A new resource location under the Forestry namespace. In most cases, mods should use their own namespace instead.
 	 */

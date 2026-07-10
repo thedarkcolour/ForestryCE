@@ -1,8 +1,0 @@
-{
-  "type": "forestry:bee_mutation",
-  "chance": 0.04,
-  "first": "forestry:bee_kleptoplastic",
-  "id": "forestry:bee_mutation/bee_autotrophic_1",
-  "result": "forestry:bee_autotrophic",
-  "second": "forestry:bee_photosynthetic"
-}

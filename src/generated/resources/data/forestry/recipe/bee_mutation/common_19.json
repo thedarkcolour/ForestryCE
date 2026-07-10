@@ -1,0 +1,8 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.15,
+  "first": "forestry:meadows",
+  "id": "forestry:bee_mutation/common_19",
+  "result": "forestry:common",
+  "second": "forestry:savanna"
+}

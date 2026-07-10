@@ -1,0 +1,15 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.08,
+  "conditions": [
+    {
+      "type": "forestry:temperature",
+      "max": "cold",
+      "min": "icy"
+    }
+  ],
+  "first": "forestry:icy",
+  "id": "forestry:bee_mutation/glacial_1",
+  "result": "forestry:glacial",
+  "second": "forestry:wintry"
+}

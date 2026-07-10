@@ -1,0 +1,14 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.12,
+  "conditions": [
+    {
+      "type": "forestry:biome",
+      "biome": "c:is_plains"
+    }
+  ],
+  "first": "forestry:meadows",
+  "id": "forestry:bee_mutation/rural_1",
+  "result": "forestry:rural",
+  "second": "forestry:diligent"
+}

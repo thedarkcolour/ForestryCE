@@ -1,0 +1,17 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.1,
+  "conditions": [
+    {
+      "type": "forestry:time_range",
+      "end_day": 27,
+      "end_month": 12,
+      "start_day": 21,
+      "start_month": 12
+    }
+  ],
+  "first": "forestry:wintry",
+  "id": "forestry:bee_mutation/merry_1",
+  "result": "forestry:merry",
+  "second": "forestry:forest"
+}

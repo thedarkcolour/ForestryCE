@@ -1,0 +1,14 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.25,
+  "conditions": [
+    {
+      "type": "forestry:biome",
+      "biome": "minecraft:is_nether"
+    }
+  ],
+  "first": "forestry:sinister",
+  "id": "forestry:bee_mutation/demonic_1",
+  "result": "forestry:demonic",
+  "second": "forestry:fiendish"
+}

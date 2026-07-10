@@ -1,0 +1,14 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.09,
+  "conditions": [
+    {
+      "type": "forestry:biome",
+      "biome": "forestry:special/shattered_savanna"
+    }
+  ],
+  "first": "forestry:savanna",
+  "id": "forestry:bee_mutation/pride_1",
+  "result": "forestry:pride",
+  "second": "forestry:argil"
+}

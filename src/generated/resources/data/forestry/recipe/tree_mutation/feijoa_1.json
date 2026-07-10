@@ -1,0 +1,20 @@
+{
+  "type": "forestry:tree_mutation",
+  "chance": 0.05,
+  "conditions": [
+    {
+      "type": "forestry:temperature",
+      "max": "warm",
+      "min": "normal"
+    },
+    {
+      "type": "forestry:humidity",
+      "max": "damp",
+      "min": "normal"
+    }
+  ],
+  "first": "forestry:pear",
+  "id": "forestry:tree_mutation/feijoa_1",
+  "result": "forestry:feijoa",
+  "second": "forestry:lime"
+}

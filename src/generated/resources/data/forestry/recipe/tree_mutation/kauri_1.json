@@ -1,0 +1,20 @@
+{
+  "type": "forestry:tree_mutation",
+  "chance": 0.05,
+  "conditions": [
+    {
+      "type": "forestry:temperature",
+      "max": "cold",
+      "min": "icy"
+    },
+    {
+      "type": "forestry:humidity",
+      "max": "normal",
+      "min": "normal"
+    }
+  ],
+  "first": "forestry:macrocarpa",
+  "id": "forestry:tree_mutation/kauri_1",
+  "result": "forestry:kauri",
+  "second": "forestry:pine"
+}

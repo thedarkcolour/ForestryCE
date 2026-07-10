@@ -114,8 +114,9 @@ public class DefaultForestryClientRegistration implements Consumer<IClientRegist
 	}
 
 	private static void registerSapling(IClientRegistration registration, String modId, ResourceLocation speciesId) {
-		// remove the "tree/" prefix and add "_sapling"
-		String path = speciesId.getPath().substring(5) + "_sapling";
+		// add "_sapling" (no longer need to remove "tree_" prefix)
+		String path = speciesId.getPath() + "_sapling";
+
 		ResourceLocation blockModel = ResourceLocation.fromNamespaceAndPath(modId, "block/" + path);
 		ResourceLocation itemModel = ResourceLocation.fromNamespaceAndPath(modId, "item/" + path);
 		registration.setSaplingModel(speciesId, blockModel, itemModel);

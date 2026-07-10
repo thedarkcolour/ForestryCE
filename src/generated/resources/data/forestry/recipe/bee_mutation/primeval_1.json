@@ -1,0 +1,8 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.15,
+  "first": "forestry:anachrone",
+  "id": "forestry:bee_mutation/primeval_1",
+  "result": "forestry:primeval",
+  "second": "forestry:steadfast"
+}

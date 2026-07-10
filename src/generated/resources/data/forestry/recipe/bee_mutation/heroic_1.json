@@ -1,0 +1,14 @@
+{
+  "type": "forestry:bee_mutation",
+  "chance": 0.06,
+  "conditions": [
+    {
+      "type": "forestry:biome",
+      "biome": "minecraft:is_forest"
+    }
+  ],
+  "first": "forestry:steadfast",
+  "id": "forestry:bee_mutation/heroic_1",
+  "result": "forestry:heroic",
+  "second": "forestry:valiant"
+}

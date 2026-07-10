@@ -1,8 +1,0 @@
-{
-  "type": "forestry:tree_mutation",
-  "chance": 0.05,
-  "first": "forestry:tree_elm",
-  "id": "forestry:tree_mutation/tree_poplar_1",
-  "result": "forestry:tree_poplar",
-  "second": "forestry:tree_birch"
-}

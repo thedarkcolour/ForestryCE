@@ -5,7 +5,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.biome.Biome;
@@ -112,7 +111,7 @@ public class MutationRecipeBuilder {
 		return this;
 	}
 
-	public void build(RecipeOutput output, ResourceLocation id) {
-		output.accept(id, new MutationRecipe(this.speciesTypeId, id, this.firstParentId, this.secondParentId, this.resultId, this.chance, List.copyOf(this.conditions), Map.copyOf(this.resultAlleles)), null);
+	public MutationRecipe build(ResourceLocation id) {
+		return new MutationRecipe(this.speciesTypeId, id, this.firstParentId, this.secondParentId, this.resultId, this.chance, List.copyOf(this.conditions), Map.copyOf(this.resultAlleles));
 	}
 }

@@ -55,7 +55,9 @@ public class ForestryItemModels {
 		for (ITreeSpecies species : SpeciesUtil.getAllTreeSpecies()) {
 			if (vanillaIds.contains(species.id())) continue;
 
-			String name = species.id().getPath().substring("tree_".length()) + "_sapling";
+			// Tree species ids are bare (e.g. "oak", "ipe", "hill_cherry") - they carry no "tree_" prefix
+			// (see ForestryTreeSpecies), and sapling assets are named "<id>_sapling" (e.g. ipe_sapling).
+			String name = species.id().getPath() + "_sapling";
 			models.cross("block/" + name, models.modLoc("item/" + name));
 			models.generic2d(models.modLoc(name));
 		}
