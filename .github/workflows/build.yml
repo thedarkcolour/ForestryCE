@@ -1,13 +1,13 @@
 name: Build
-# Auto-triggers paused while the 1.21 port is incomplete and the build does
-# not yet compile. Re-enable `pull_request` when the port reaches a green
-# build. The workflow can still be run manually via "Run workflow" in the
-# Actions tab.
+
 on:
+  push:
+  pull_request:
   workflow_dispatch:
 
 jobs:
   build:
+    name: Build jar and run GameTests
     if: "! contains(toJSON(github.event.commits.*.message), '[ci skip]')"
     runs-on: ubuntu-latest
     steps:
@@ -20,29 +20,23 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
-      - name: Use Gradle cache for faster builds
-        uses: actions/cache@v4
-        with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v6
 
-      - name: Cleanup Gradle Cache
-        # Remove some files from the Gradle cache, so they aren't cached by GitHub Actions.
-        # Restoring these files from a GitHub Actions cache might cause problems for future builds.
-        run: |
-          rm -f ~/.gradle/caches/modules-2/modules-2.lock
-          rm -f ~/.gradle/caches/modules-2/gc.properties
+      # Produce the published jar. Kept separate from the tests so a test failure still leaves a jar to inspect,
+      # and so the build vs. test failure is obvious in the step list.
+      - name: Build jar
+        run: ./gradlew jar --max-workers 1
 
-      - name: Setup Gradle Wrapper Cache
-        uses: actions/cache@v4
-        with:
-          path: ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
+      # The forestry GameTest suite (src/test, forestry.gametest) runs only via runGameTestServer with the
+      # enabled-namespaces property set in build.gradle — `build`/`test` never execute it. Runs headless on the
+      # dedicated-server dist, so no display is needed.
+      - name: Run GameTests
+        run: ./gradlew runGameTestServer --max-workers 1
 
-      - name: Build
-        run: ./gradlew build --max-workers 1
-
-      - name: Upload artifacts
+      - name: Upload jar
+        # Publish the jar even when the GameTests fail, so the artifact is always available for the run.
+        if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4
         with:
           name: Forestry
