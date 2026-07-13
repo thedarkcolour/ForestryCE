@@ -4,7 +4,6 @@ import forestry.api.client.IClientModuleHandler;
 import forestry.api.fuels.FermenterFuel;
 import forestry.api.fuels.FuelManager;
 import forestry.api.fuels.MoistenerFuel;
-import forestry.api.fuels.RainSubstrate;
 import forestry.api.modules.ForestryModule;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.api.modules.IPacketRegistry;
@@ -78,7 +77,6 @@ public class ModuleFactory extends BlankForestryModule {
 	public void setupApi() {
 		FuelManager.fermenterFuel = new ItemStackMap<>();
 		FuelManager.moistenerResource = new ItemStackMap<>();
-		FuelManager.rainSubstrate = new ItemStackMap<>();
 
 		// Set fuels and resources for the fermenter
 		ItemStack fertilizerCompound = CoreItems.FERTILIZER_COMPOUND.stack();
@@ -99,12 +97,6 @@ public class ModuleFactory extends BlankForestryModule {
 		FuelManager.moistenerResource.put(wheat, new MoistenerFuel(wheat, mouldyWheat, 0, 300));
 		FuelManager.moistenerResource.put(mouldyWheat, new MoistenerFuel(mouldyWheat, decayingWheat, 1, 600));
 		FuelManager.moistenerResource.put(decayingWheat, new MoistenerFuel(decayingWheat, mulch, 2, 900));
-
-		// Set rain substrates
-		ItemStack iodineCharge = CoreItems.IODINE_CHARGE.stack();
-		ItemStack dissipationCharge = CoreItems.DISSIPATION_CHARGE.stack();
-		FuelManager.rainSubstrate.put(iodineCharge, new RainSubstrate(iodineCharge, 10000, 0.01f));
-		FuelManager.rainSubstrate.put(dissipationCharge, new RainSubstrate(dissipationCharge, 0.075f));
 	}
 
 	@Override

@@ -1,4 +1,4 @@
-// 1.21.1	2026-07-12T19:42:08.139839984	Recipes
+// 1.21.1	2026-07-13T11:47:36.54011236	Recipes
 32b0e571261870ac09186d9ba67ab28bcd788d51 data/forestry/advancement/recipes/building_blocks/acacia_desert_fence.json
 9233915fb2e2ed18602eaa661caa52305ef7b957 data/forestry/advancement/recipes/building_blocks/acacia_desert_fence_gate.json
 db67704b9d88cf16bd63e7b6bd1faa77b55a723c data/forestry/advancement/recipes/building_blocks/acacia_desert_fireproof_fence.json
@@ -2781,6 +2781,8 @@ bb10a97b5ed9f6fa3a6d4ec3334e3d0c714e6040 data/forestry/recipe/quartz_pillar_farm
 71e312be9e6a1b1d582e873bdb7f145951486341 data/forestry/recipe/quartz_pillar_farm_hatch.json
 f658ce549422246f5cb904a85867a5d64697f6d2 data/forestry/recipe/quartz_pillar_farm_plain.json
 5b497be770551a7a443ce79a98aa0d8a65e90a3a data/forestry/recipe/quartz_pillar_farm_valve.json
+44dd94821035011bcb84f81f32b2d326501164e3 data/forestry/recipe/rain_substrate/dissipation_charge.json
+8bd1e8e7667206b1c925f17b2e8b03045fa6177c data/forestry/recipe/rain_substrate/iodine_charge.json
 ef2d88346d84ae41854c75d5d1564350e970a101 data/forestry/recipe/rainmaker.json
 9a8a236b99313a53858d84f2f2aadf2fdfa54ae0 data/forestry/recipe/raintank.json
 7463b8ce47a830c427b0283c3fd3149a659adc21 data/forestry/recipe/raw_tin_block.json

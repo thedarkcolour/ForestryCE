@@ -1,0 +1,9 @@
+{
+  "type": "forestry:rain_substrate",
+  "id": "forestry:rain_substrate/dissipation_charge",
+  "reverse": true,
+  "speed": 0.075,
+  "substrate": {
+    "item": "forestry:dissipation_charge"
+  }
+}

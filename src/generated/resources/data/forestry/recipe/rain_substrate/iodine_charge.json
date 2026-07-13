@@ -1,0 +1,9 @@
+{
+  "type": "forestry:rain_substrate",
+  "duration": 10000,
+  "id": "forestry:rain_substrate/iodine_charge",
+  "speed": 0.01,
+  "substrate": {
+    "item": "forestry:iodine_capsule"
+  }
+}

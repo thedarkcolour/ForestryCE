@@ -16,10 +16,6 @@ public class FuelManager {
 	 */
 	public static Map<ItemStack, MoistenerFuel> moistenerResource;
 	/**
-	 * Add new substrates for the rainmaker here
-	 */
-	public static Map<ItemStack, RainSubstrate> rainSubstrate;
-	/**
 	 * Add new fuels for EngineBronze (= biogas engine) here
 	 */
 	public static Map<Fluid, EngineBronzeFuel> biogasEngineFuel;

@@ -1,6 +1,6 @@
 package forestry.factory.recipes.jei.rainmaker;
 
-import forestry.api.fuels.RainSubstrate;
+import forestry.api.recipes.IRainSubstrate;
 import forestry.core.ForestryColors;
 import forestry.core.recipes.jei.ForestryRecipeCategory;
 import forestry.core.recipes.jei.ForestryRecipeType;
@@ -20,7 +20,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
-public class RainmakerRecipeCategory extends ForestryRecipeCategory<RainSubstrate> {
+public class RainmakerRecipeCategory extends ForestryRecipeCategory<IRainSubstrate> {
 	private final IDrawable slot;
 	private final IDrawable icon;
 
@@ -32,7 +32,7 @@ public class RainmakerRecipeCategory extends ForestryRecipeCategory<RainSubstrat
 	}
 
 	@Override
-	public RecipeType<RainSubstrate> getRecipeType() {
+	public RecipeType<IRainSubstrate> getRecipeType() {
 		return ForestryRecipeType.RAINMAKER;
 	}
 
@@ -42,14 +42,14 @@ public class RainmakerRecipeCategory extends ForestryRecipeCategory<RainSubstrat
 	}
 
 	@Override
-	public void setRecipe(IRecipeLayoutBuilder builder, RainSubstrate recipe, IFocusGroup focuses) {
+	public void setRecipe(IRecipeLayoutBuilder builder, IRainSubstrate recipe, IFocusGroup focuses) {
 		builder.addSlot(RecipeIngredientRole.INPUT, 1, 1)
 			.setBackground(this.slot, -1, -1)
-			.addItemStack(recipe.item());
+			.addIngredients(recipe.getInput());
 	}
 
 	@Override
-	public void draw(RainSubstrate recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics graphics, double mouseX, double mouseY) {
+	public void draw(IRainSubstrate recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics graphics, double mouseX, double mouseY) {
 		super.draw(recipe, recipeSlotsView, graphics, mouseX, mouseY);
 		Component effect = getEffectString(recipe);
 		Component speed = Component.translatable("for.jei.rainmaker.speed", recipe.speed());
@@ -63,7 +63,7 @@ public class RainmakerRecipeCategory extends ForestryRecipeCategory<RainSubstrat
 		}
 	}
 
-	private static Component getEffectString(RainSubstrate recipe) {
+	private static Component getEffectString(IRainSubstrate recipe) {
 		if (recipe.reverse()) {
 			return Component.translatable("for.jei.rainmaker.stops.rain");
 		} else {

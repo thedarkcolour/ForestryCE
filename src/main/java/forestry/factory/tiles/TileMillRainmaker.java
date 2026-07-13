@@ -1,9 +1,9 @@
 package forestry.factory.tiles;
 
-import forestry.api.fuels.FuelManager;
-import forestry.api.fuels.RainSubstrate;
+import forestry.api.recipes.IRainSubstrate;
 import forestry.core.render.ParticleRender;
 import forestry.core.tiles.TileMill;
+import forestry.core.utils.RecipeUtils;
 import forestry.factory.features.FactoryTiles;
 import forestry.factory.inventory.InventoryRainmaker;
 import net.minecraft.core.BlockPos;
@@ -39,9 +39,9 @@ public class TileMillRainmaker extends TileMill {
 			ItemStack heldItem = player.getItemInHand(hand);
 
 			// We don't have a gui, but we can be activated
-			if (FuelManager.rainSubstrate.containsKey(heldItem) && this.charge == 0) {
-				RainSubstrate substrate = FuelManager.rainSubstrate.get(heldItem);
-				if (ItemStack.isSameItem(substrate.item(), heldItem)) {
+			if (this.charge == 0) {
+				IRainSubstrate substrate = RecipeUtils.getRainSubstrate(player.level().getRecipeManager(), heldItem);
+				if (substrate != null) {
 					addCharge(substrate);
 					if (!player.isCreative()) {
 						heldItem.shrink(1);
@@ -75,7 +75,7 @@ public class TileMillRainmaker extends TileMill {
 		compoundNBT.putBoolean("Reverse", this.reverse);
 	}
 
-	public void addCharge(RainSubstrate substrate) {
+	public void addCharge(IRainSubstrate substrate) {
         this.charge = 1;
         this.speed = substrate.speed();
         this.duration = substrate.duration();

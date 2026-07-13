@@ -1,8 +1,7 @@
 package forestry.factory.recipes.jei;
 
-import forestry.api.fuels.FuelManager;
-import forestry.api.fuels.RainSubstrate;
 import forestry.api.modules.ForestryModuleIds;
+import forestry.api.recipes.IRainSubstrate;
 import forestry.core.ClientsideCode;
 import forestry.core.features.FluidsItems;
 import forestry.core.gui.GuiForestry;
@@ -83,8 +82,8 @@ public class FactoryJeiPlugin implements IModPlugin {
 		registry.addRecipes(ForestryRecipeType.FABRICATOR, RecipeUtils.getRecipes(manager, FactoryRecipeTypes.FABRICATOR).toList());
 		registry.addRecipes(ForestryRecipeType.FERMENTER, RecipeUtils.getRecipes(manager, FactoryRecipeTypes.FERMENTER).toList());
 		registry.addRecipes(ForestryRecipeType.MOISTENER, RecipeUtils.getRecipes(manager, FactoryRecipeTypes.MOISTENER).toList());
-		registry.addRecipes(ForestryRecipeType.RAINMAKER, FuelManager.rainSubstrate.values().stream()
-			.sorted(Comparator.comparing(RainSubstrate::duration))
+		registry.addRecipes(ForestryRecipeType.RAINMAKER, RecipeUtils.getRecipes(manager, FactoryRecipeTypes.RAIN_SUBSTRATE)
+			.sorted(Comparator.comparingInt(IRainSubstrate::duration))
 			.toList());
 		registry.addRecipes(ForestryRecipeType.SQUEEZER, RecipeUtils.getRecipes(manager, FactoryRecipeTypes.SQUEEZER).toList());
 		registry.addRecipes(ForestryRecipeType.STILL, RecipeUtils.getRecipes(manager, FactoryRecipeTypes.STILL).toList());

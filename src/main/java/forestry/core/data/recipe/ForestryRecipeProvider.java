@@ -146,6 +146,7 @@ public class ForestryRecipeProvider {
 		registerSqueezerContainer(output);
 		registerSqueezer(output);
 		registerStill(output);
+		registerRainSubstrates(output);
 
 		// Built-in genetic mutations (bee/tree/butterfly) are generated as datapack recipes by the standalone
 		// MutationProvider (registered in Data), which owns its own HashCache slice so removed mutation JSONs
@@ -2052,6 +2053,20 @@ public class ForestryRecipeProvider {
 			.setTemperatureSteps(-2)
 			.setHumiditySteps(2)
 			.build(consumer, id("hygroregulator", "ice"));
+	}
+
+	// Built-in rainmaker substrates. Values match the historical defaults; packs/addons can add or retune substrates.
+	private static void registerRainSubstrates(RecipeOutput consumer) {
+		new RainSubstrateRecipeBuilder()
+			.setSubstrate(Ingredient.of(CoreItems.IODINE_CHARGE))
+			.setDuration(10000)
+			.setSpeed(0.01f)
+			.build(consumer, id("rain_substrate", "iodine_charge"));
+		new RainSubstrateRecipeBuilder()
+			.setSubstrate(Ingredient.of(CoreItems.DISSIPATION_CHARGE))
+			.setSpeed(0.075f)
+			.setReverse(true)
+			.build(consumer, id("rain_substrate", "dissipation_charge"));
 	}
 
 	private static void registerMoistener(RecipeOutput consumer) {
