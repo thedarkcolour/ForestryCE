@@ -1,0 +1,10 @@
+{
+  "type": "forestry:biogas_fuel",
+  "burn_duration": 10000,
+  "dissipation_multiplier": 3,
+  "fluid": {
+    "fluid": "minecraft:milk"
+  },
+  "id": "forestry:biogas_fuel/milk",
+  "power_per_cycle": 10
+}

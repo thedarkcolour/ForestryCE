@@ -3,6 +3,7 @@ package forestry.core.utils;
 import forestry.api.recipes.*;
 import forestry.core.ClientsideCode;
 import forestry.core.fluids.FluidHelper;
+import forestry.energy.features.EnergyRecipeTypes;
 import forestry.factory.features.FactoryRecipeTypes;
 import forestry.factory.recipes.FabricatorSmeltingRecipe;
 import forestry.modules.features.FeatureRecipeType;
@@ -154,6 +155,16 @@ public class RecipeUtils {
 	public static boolean isFermenterInput(RecipeManager manager, ItemStack stack) {
 		return getRecipes(manager, FactoryRecipeTypes.FERMENTER)
 			.anyMatch(recipe -> recipe.getInputItem().test(stack));
+	}
+
+	@Nullable
+	public static IBiogasFuel getBiogasFuel(RecipeManager manager, Fluid fluid) {
+		return getMatchingRecipe(manager, EnergyRecipeTypes.BIOGAS_FUEL, recipe -> recipe.matches(fluid));
+	}
+
+	@Nullable
+	public static IPeatFuel getPeatFuel(RecipeManager manager, ItemStack stack) {
+		return getMatchingRecipe(manager, EnergyRecipeTypes.PEAT_FUEL, recipe -> recipe.matches(stack));
 	}
 
 	@Nullable

@@ -1,0 +1,9 @@
+{
+  "type": "forestry:biogas_fuel",
+  "burn_duration": 2500,
+  "fluid": {
+    "fluid": "forestry:honey"
+  },
+  "id": "forestry:biogas_fuel/honey",
+  "power_per_cycle": 20
+}

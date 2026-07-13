@@ -1,4 +1,4 @@
-// 1.21.1	2026-07-12T19:42:08.139839984	Recipes
+// 1.21.1	2026-07-13T10:18:33.990829803	Recipes
 32b0e571261870ac09186d9ba67ab28bcd788d51 data/forestry/advancement/recipes/building_blocks/acacia_desert_fence.json
 9233915fb2e2ed18602eaa661caa52305ef7b957 data/forestry/advancement/recipes/building_blocks/acacia_desert_fence_gate.json
 db67704b9d88cf16bd63e7b6bd1faa77b55a723c data/forestry/advancement/recipes/building_blocks/acacia_desert_fireproof_fence.json
@@ -1353,6 +1353,12 @@ a288a1750ed6ea768ad8755ab358d6d4a4d04aae data/forestry/recipe/beech_stripped_woo
 a44ea31cafdd256ff0834734bad01d8ef4fb9400 data/forestry/recipe/beech_wood.json
 df82fa7c3ea9b1149d5ab41b2eb975b770ca2cf0 data/forestry/recipe/beeswax_candles.json
 41ae300336e6e0075ec3709e5311c1a745064b4d data/forestry/recipe/biogas_engine.json
+68687e66121f4a9b41183c22983693d6171a46ac data/forestry/recipe/biogas_fuel/biomass.json
+2f09d20c26f5f3ca2e410d0c8c03d6f56307ca43 data/forestry/recipe/biogas_fuel/honey.json
+d503eb68ab76ead6cb532ac70d039a48549a35df data/forestry/recipe/biogas_fuel/juice.json
+1b32d9aad1e5bba6f5ffe689f8fc8237b39777b1 data/forestry/recipe/biogas_fuel/milk.json
+8ecf3be41b0620b196066588967b29e42f0778bc data/forestry/recipe/biogas_fuel/seed_oil.json
+e62cdeb4ac9db79c02addb52eb105943b1caec64 data/forestry/recipe/biogas_fuel/water.json
 0ad2a21b0cd140b69572072cbcc255f2886ced27 data/forestry/recipe/birch_door.json
 f4073172632331a3d4f8f74f255c1c42f49b4652 data/forestry/recipe/birch_fireproof_fence.json
 22de49fd398aa2f82e9320a34deff50feabe3443 data/forestry/recipe/birch_fireproof_fence_gate.json
@@ -2677,6 +2683,8 @@ e813e77b30d9fb0e3108fbfda446ca809826a775 data/forestry/recipe/peat_bog_managed.j
 f9b4c40a82e5e4edaf693048ae87b841abe91f19 data/forestry/recipe/peat_bog_managed_from_manual.json
 164b5c5e1582d5919888f299d840254d8414d1c8 data/forestry/recipe/peat_bog_manual.json
 bf7af13e27c131e4ac73512f967fd13d9be7bd4a data/forestry/recipe/peat_engine.json
+6484d9ffda696b2243bec1eee5a9cf844105e2bc data/forestry/recipe/peat_fuel/bituminous_peat.json
+98f2320e5e98e710b713ab74d4b59963b7f5710e data/forestry/recipe/peat_fuel/peat.json
 a4ce8acf2ee1f1a6c66dac97247c4ab648586786 data/forestry/recipe/pewen_boat.json
 90bb71bd3ea59e917a1a64aa0935d9483e321c3a data/forestry/recipe/pewen_button.json
 28c8d0c69cbdcb7b1d496ae54af3ce88ed20244d data/forestry/recipe/pewen_chest_boat.json

@@ -1,0 +1,9 @@
+{
+  "type": "forestry:peat_fuel",
+  "burn_duration": 3000,
+  "fuel": {
+    "item": "forestry:bituminous_peat"
+  },
+  "id": "forestry:peat_fuel/bituminous_peat",
+  "power_per_cycle": 40
+}

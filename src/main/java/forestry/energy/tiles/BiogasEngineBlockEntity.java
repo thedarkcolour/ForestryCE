@@ -2,11 +2,11 @@ package forestry.energy.tiles;
 
 import forestry.api.core.ForestryError;
 import forestry.api.core.IErrorLogic;
-import forestry.api.fuels.EngineBronzeFuel;
-import forestry.api.fuels.FuelManager;
+import forestry.api.recipes.IBiogasFuel;
 import forestry.core.config.Constants;
 import forestry.core.fluids.*;
 import forestry.core.tiles.ILiquidTankTile;
+import forestry.core.utils.RecipeUtils;
 import forestry.energy.features.EnergyTiles;
 import forestry.energy.inventory.InventoryEngineBiogas;
 import forestry.energy.menu.BiogasEngineMenu;
@@ -19,6 +19,7 @@ import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
@@ -47,7 +48,7 @@ public class BiogasEngineBlockEntity extends EngineBlockEntity implements Worldl
 
 		setInternalInventory(new InventoryEngineBiogas(this));
 
-		this.fuelTank = new FilteredTank(Constants.ENGINE_TANK_CAPACITY).setFilters(FuelManager.biogasEngineFuel.keySet());
+		this.fuelTank = new FilteredTank(Constants.ENGINE_TANK_CAPACITY).setFilter(FluidRecipeFilter.BIOGAS_FUEL);
 		this.heatingTank = new FilteredTank(Constants.ENGINE_TANK_CAPACITY, true, false).setFilter(FluidTagFilter.LAVA);
 		this.burnTank = new StandardTank(BUCKET_VOLUME, false, false);
 
@@ -152,9 +153,9 @@ public class BiogasEngineBlockEntity extends EngineBlockEntity implements Worldl
 		if (this.fuelTank.getFluidAmount() > 0) {
 			FluidStack fuelFluidStack = this.fuelTank.getFluid();
 			if (!fuelFluidStack.isEmpty()) {
-				EngineBronzeFuel fuel = FuelManager.biogasEngineFuel.get(fuelFluidStack.getFluid());
+				IBiogasFuel fuel = getFuel(fuelFluidStack);
 				if (fuel != null) {
-					loss = loss * fuel.dissipationMultiplier();
+					loss = loss * fuel.getDissipationMultiplier();
 				}
 			}
 		}
@@ -183,29 +184,31 @@ public class BiogasEngineBlockEntity extends EngineBlockEntity implements Worldl
 	}
 
 	/**
+	 * @return The biogas fuel recipe matching the given fluid, or {@code null} if it is not a valid fuel.
+	 */
+	@Nullable
+	private static IBiogasFuel getFuel(@Nullable FluidStack fluidStack) {
+		if (fluidStack == null || fluidStack.isEmpty()) {
+			return null;
+		}
+		RecipeManager manager = RecipeUtils.getRecipeManager();
+		return manager == null ? null : RecipeUtils.getBiogasFuel(manager, fluidStack.getFluid());
+	}
+
+	/**
 	 * Returns the fuel value (power per cycle) an item of the passed fluid
 	 */
 	private static int determineFuelValue(@Nullable FluidStack fluidStack) {
-		if (fluidStack != null) {
-			Fluid fluid = fluidStack.getFluid();
-			if (FuelManager.biogasEngineFuel.containsKey(fluid)) {
-				return FuelManager.biogasEngineFuel.get(fluid).powerPerCycle();
-			}
-		}
-		return 0;
+		IBiogasFuel fuel = getFuel(fluidStack);
+		return fuel == null ? 0 : fuel.getPowerPerCycle();
 	}
 
 	/**
 	 * @return Duration of burn cycle of one bucket
 	 */
 	private static int determineBurnTime(@Nullable FluidStack fluidStack) {
-		if (fluidStack != null) {
-			Fluid fluid = fluidStack.getFluid();
-			if (FuelManager.biogasEngineFuel.containsKey(fluid)) {
-				return FuelManager.biogasEngineFuel.get(fluid).burnDuration();
-			}
-		}
-		return 0;
+		IBiogasFuel fuel = getFuel(fluidStack);
+		return fuel == null ? 0 : fuel.getBurnDuration();
 	}
 
 	// / STATE INFORMATION

@@ -1,11 +1,12 @@
 package forestry.energy.inventory;
 
-import forestry.api.fuels.FuelManager;
 import forestry.core.inventory.InventoryAdapterTile;
+import forestry.core.utils.RecipeUtils;
 import forestry.core.utils.SlotUtil;
 import forestry.energy.tiles.PeatEngineBlockEntity;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeManager;
 
 public class InventoryEnginePeat extends InventoryAdapterTile<PeatEngineBlockEntity> {
 	public static final short SLOT_FUEL = 0;
@@ -18,7 +19,11 @@ public class InventoryEnginePeat extends InventoryAdapterTile<PeatEngineBlockEnt
 
 	@Override
 	public boolean canSlotAccept(int slotIndex, ItemStack stack) {
-		return slotIndex == SLOT_FUEL && FuelManager.peatEngineFuel.containsKey(stack);
+		if (slotIndex != SLOT_FUEL) {
+			return false;
+		}
+		RecipeManager manager = RecipeUtils.getRecipeManager();
+		return manager != null && RecipeUtils.getPeatFuel(manager, stack) != null;
 	}
 
 	@Override

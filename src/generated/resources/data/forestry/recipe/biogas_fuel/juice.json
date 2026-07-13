@@ -1,0 +1,9 @@
+{
+  "type": "forestry:biogas_fuel",
+  "burn_duration": 2500,
+  "fluid": {
+    "fluid": "forestry:fruit_juice"
+  },
+  "id": "forestry:biogas_fuel/juice",
+  "power_per_cycle": 10
+}

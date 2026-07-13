@@ -88,6 +88,7 @@ import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.crafting.CompoundIngredient;
 import net.neoforged.neoforge.common.crafting.DataComponentIngredient;
 import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.crafting.FluidIngredient;
 import net.neoforged.neoforge.fluids.FluidType;
 import net.neoforged.neoforge.fluids.FluidUtil;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
@@ -146,6 +147,7 @@ public class ForestryRecipeProvider {
 		registerSqueezerContainer(output);
 		registerSqueezer(output);
 		registerStill(output);
+		registerEngineFuels(output);
 
 		// Built-in genetic mutations (bee/tree/butterfly) are generated as datapack recipes by the standalone
 		// MutationProvider (registered in Data), which owns its own HashCache slice so removed mutation JSONs
@@ -1990,6 +1992,38 @@ public class ForestryRecipeProvider {
 			.setProduct(liquidGlassX4)
 			.setMeltingPoint(4800)
 			.build(consumer, id("fabricator", "smelting", "sandstone"));
+	}
+
+	// Built-in engine fuel defaults. Values come from Constants so packs/addons can override the recipes without a rebalance here.
+	private static void registerEngineFuels(RecipeOutput consumer) {
+		// Biogas (bronze) engine
+		biogasFuel(consumer, "biomass", FluidIngredient.of(ForestryFluids.BIOMASS.getFluid()), Constants.ENGINE_FUEL_VALUE_BIOMASS, Constants.ENGINE_CYCLE_DURATION_BIOMASS, 1);
+		biogasFuel(consumer, "water", FluidIngredient.of(Fluids.WATER), Constants.ENGINE_FUEL_VALUE_WATER, Constants.ENGINE_CYCLE_DURATION_WATER, 3);
+		biogasFuel(consumer, "milk", FluidIngredient.of(NeoForgeMod.MILK.get()), Constants.ENGINE_FUEL_VALUE_MILK, Constants.ENGINE_CYCLE_DURATION_MILK, 3);
+		biogasFuel(consumer, "seed_oil", FluidIngredient.of(ForestryFluids.SEED_OIL.getFluid()), Constants.ENGINE_FUEL_VALUE_SEED_OIL, Constants.ENGINE_CYCLE_DURATION_SEED_OIL, 1);
+		biogasFuel(consumer, "honey", FluidIngredient.of(ForestryFluids.HONEY.getFluid()), Constants.ENGINE_FUEL_VALUE_HONEY, Constants.ENGINE_CYCLE_DURATION_HONEY, 1);
+		biogasFuel(consumer, "juice", FluidIngredient.of(ForestryFluids.JUICE.getFluid()), Constants.ENGINE_FUEL_VALUE_JUICE, Constants.ENGINE_CYCLE_DURATION_JUICE, 1);
+
+		// Peat-fired (copper) engine
+		peatFuel(consumer, "peat", Ingredient.of(CoreItems.PEAT), Constants.ENGINE_COPPER_FUEL_VALUE_PEAT, Constants.ENGINE_COPPER_CYCLE_DURATION_PEAT);
+		peatFuel(consumer, "bituminous_peat", Ingredient.of(CoreItems.BITUMINOUS_PEAT), Constants.ENGINE_COPPER_FUEL_VALUE_BITUMINOUS_PEAT, Constants.ENGINE_COPPER_CYCLE_DURATION_BITUMINOUS_PEAT);
+	}
+
+	private static void biogasFuel(RecipeOutput consumer, String name, FluidIngredient fluid, int powerPerCycle, int burnDuration, int dissipationMultiplier) {
+		new BiogasFuelRecipeBuilder()
+			.setFluid(fluid)
+			.setPowerPerCycle(powerPerCycle)
+			.setBurnDuration(burnDuration)
+			.setDissipationMultiplier(dissipationMultiplier)
+			.build(consumer, id("biogas_fuel", name));
+	}
+
+	private static void peatFuel(RecipeOutput consumer, String name, Ingredient fuel, int powerPerCycle, int burnDuration) {
+		new PeatFuelRecipeBuilder()
+			.setFuel(fuel)
+			.setPowerPerCycle(powerPerCycle)
+			.setBurnDuration(burnDuration)
+			.build(consumer, id("peat_fuel", name));
 	}
 
 	private static void registerFermenter(RecipeOutput consumer) {

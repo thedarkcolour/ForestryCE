@@ -1,11 +1,12 @@
 package forestry.energy.tiles;
 
 import forestry.api.core.ForestryError;
-import forestry.api.fuels.FuelManager;
+import forestry.api.recipes.IPeatFuel;
 import forestry.core.config.Constants;
 import forestry.core.features.CoreItems;
 import forestry.core.inventory.IInventoryAdapter;
 import forestry.core.tiles.TemperatureState;
+import forestry.core.utils.RecipeUtils;
 import forestry.energy.features.EnergyTiles;
 import forestry.energy.inventory.InventoryEnginePeat;
 import forestry.energy.menu.PeatEngineMenu;
@@ -18,6 +19,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -169,25 +171,31 @@ public class PeatEngineBlockEntity extends EngineBlockEntity implements WorldlyC
 	}
 
 	/**
-	 * Returns the fuel value (power per cycle) an item of the passed ItemStack provides
+	 * @return The peat fuel recipe matching the given item, or {@code null} if it is not a valid fuel.
 	 */
-	private static int determineFuelValue(ItemStack fuel) {
-		if (FuelManager.peatEngineFuel.containsKey(fuel)) {
-			return FuelManager.peatEngineFuel.get(fuel).powerPerCycle();
-		} else {
-			return 0;
+	@Nullable
+	private static IPeatFuel getFuel(ItemStack fuel) {
+		if (fuel.isEmpty()) {
+			return null;
 		}
+		RecipeManager manager = RecipeUtils.getRecipeManager();
+		return manager == null ? null : RecipeUtils.getPeatFuel(manager, fuel);
 	}
 
 	/**
 	 * Returns the fuel value (power per cycle) an item of the passed ItemStack provides
 	 */
+	private static int determineFuelValue(ItemStack fuel) {
+		IPeatFuel recipe = getFuel(fuel);
+		return recipe == null ? 0 : recipe.getPowerPerCycle();
+	}
+
+	/**
+	 * Returns the burn duration (work cycles) an item of the passed ItemStack provides
+	 */
 	private static int determineBurnDuration(ItemStack fuel) {
-		if (FuelManager.peatEngineFuel.containsKey(fuel)) {
-			return FuelManager.peatEngineFuel.get(fuel).burnDuration();
-		} else {
-			return 0;
-		}
+		IPeatFuel recipe = getFuel(fuel);
+		return recipe == null ? 0 : recipe.getBurnDuration();
 	}
 
 	// / STATE INFORMATION

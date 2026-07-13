@@ -1,0 +1,9 @@
+{
+  "type": "forestry:biogas_fuel",
+  "burn_duration": 2500,
+  "fluid": {
+    "fluid": "forestry:seed_oil"
+  },
+  "id": "forestry:biogas_fuel/seed_oil",
+  "power_per_cycle": 30
+}
