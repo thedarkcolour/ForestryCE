@@ -157,6 +157,11 @@ public class RecipeUtils {
 	}
 
 	@Nullable
+	public static IMoistenerFuel getMoistenerFuel(RecipeManager manager, ItemStack stack) {
+		return getMatchingRecipe(manager, FactoryRecipeTypes.MOISTENER_FUEL, recipe -> recipe.matches(stack));
+	}
+
+	@Nullable
 	public static ICarpenterRecipe getCarpenterRecipe(RecipeManager manager, FluidStack fluid, ItemStack boxStack, Container craftingInventory, Level level) {
 		return getMatchingRecipe(manager, FactoryRecipeTypes.CARPENTER, recipe -> recipe.matches(fluid, boxStack, craftingInventory, level));
 	}

@@ -1,4 +1,4 @@
-// 1.21.1	2026-07-12T19:42:08.139839984	Recipes
+// 1.21.1	2026-07-13T12:15:21.473201753	Recipes
 32b0e571261870ac09186d9ba67ab28bcd788d51 data/forestry/advancement/recipes/building_blocks/acacia_desert_fence.json
 9233915fb2e2ed18602eaa661caa52305ef7b957 data/forestry/advancement/recipes/building_blocks/acacia_desert_fence_gate.json
 db67704b9d88cf16bd63e7b6bd1faa77b55a723c data/forestry/advancement/recipes/building_blocks/acacia_desert_fireproof_fence.json
@@ -2519,6 +2519,9 @@ b773ba961f5c902bb85eddf7709dea34b5c51412 data/forestry/recipe/moistener/mossy_co
 ced123c844aba658534372b92f9075515fe227b9 data/forestry/recipe/moistener/mossy_stone_bricks.json
 98ae12e8e2a8c5099ab4f6d51a9a06e9880cc065 data/forestry/recipe/moistener/mycelium.json
 c5d6e548da5920ef68421095aa34e6e0140c0ec4 data/forestry/recipe/moistener/podzol.json
+6ad9f1f0b605b24318fb2ddc38dc44ccf23094a9 data/forestry/recipe/moistener_fuel/decaying_wheat.json
+e58fae1d5afa166c30fb363ef53874e18e1ece2f data/forestry/recipe/moistener_fuel/mouldy_wheat.json
+6d5e9117d77d1746b750b4587ef515efda8f8915 data/forestry/recipe/moistener_fuel/wheat.json
 e033861857913683ee910494afdce27f0cdb71fa data/forestry/recipe/mossy_comb_block.json
 3eb4ef54c3f558c82d054c31cb1039d8d707b707 data/forestry/recipe/mossy_stone_brick_farm_control.json
 733dc6e2b5b4552407d8e0a934b27cfa8a763547 data/forestry/recipe/mossy_stone_brick_farm_gearbox.json

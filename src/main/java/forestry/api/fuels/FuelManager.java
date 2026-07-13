@@ -12,10 +12,6 @@ public class FuelManager {
 	 */
 	public static Map<ItemStack, FermenterFuel> fermenterFuel;
 	/**
-	 * Add new resources for the moistener here (i.e. wheat)
-	 */
-	public static Map<ItemStack, MoistenerFuel> moistenerResource;
-	/**
 	 * Add new substrates for the rainmaker here
 	 */
 	public static Map<ItemStack, RainSubstrate> rainSubstrate;

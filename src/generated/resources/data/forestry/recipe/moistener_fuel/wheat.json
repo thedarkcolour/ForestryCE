@@ -1,0 +1,13 @@
+{
+  "type": "forestry:moistener_fuel",
+  "id": "forestry:moistener_fuel/wheat",
+  "moistener_value": 300,
+  "product": {
+    "count": 1,
+    "id": "forestry:mouldy_wheat"
+  },
+  "resource": {
+    "item": "minecraft:wheat"
+  },
+  "stage": 0
+}

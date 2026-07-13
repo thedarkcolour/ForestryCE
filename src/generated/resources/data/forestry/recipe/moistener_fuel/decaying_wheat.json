@@ -1,0 +1,13 @@
+{
+  "type": "forestry:moistener_fuel",
+  "id": "forestry:moistener_fuel/decaying_wheat",
+  "moistener_value": 900,
+  "product": {
+    "count": 1,
+    "id": "forestry:mulch"
+  },
+  "resource": {
+    "item": "forestry:decaying_wheat"
+  },
+  "stage": 2
+}

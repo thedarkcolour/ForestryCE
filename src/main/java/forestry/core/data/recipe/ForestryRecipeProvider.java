@@ -143,6 +143,7 @@ public class ForestryRecipeProvider {
 		registerFermenter(output);
 		registerHygroregulator(output);
 		registerMoistener(output);
+		registerMoistenerFuels(output);
 		registerSqueezerContainer(output);
 		registerSqueezer(output);
 		registerStill(output);
@@ -2052,6 +2053,29 @@ public class ForestryRecipeProvider {
 			.setTemperatureSteps(-2)
 			.setHumiditySteps(2)
 			.build(consumer, id("hygroregulator", "ice"));
+	}
+
+	// Built-in moistener resource decay chain (wheat -> mouldy wheat -> decaying wheat -> mulch). Values match the
+	// historical defaults; packs/addons can add or retune the chain.
+	private static void registerMoistenerFuels(RecipeOutput consumer) {
+		new MoistenerFuelRecipeBuilder()
+			.setResource(Ingredient.of(Items.WHEAT))
+			.setProduct(CoreItems.MOULDY_WHEAT.stack())
+			.setStage(0)
+			.setMoistenerValue(300)
+			.build(consumer, id("moistener_fuel", "wheat"));
+		new MoistenerFuelRecipeBuilder()
+			.setResource(Ingredient.of(CoreItems.MOULDY_WHEAT))
+			.setProduct(CoreItems.DECAYING_WHEAT.stack())
+			.setStage(1)
+			.setMoistenerValue(600)
+			.build(consumer, id("moistener_fuel", "mouldy_wheat"));
+		new MoistenerFuelRecipeBuilder()
+			.setResource(Ingredient.of(CoreItems.DECAYING_WHEAT))
+			.setProduct(CoreItems.MULCH.stack())
+			.setStage(2)
+			.setMoistenerValue(900)
+			.build(consumer, id("moistener_fuel", "decaying_wheat"));
 	}
 
 	private static void registerMoistener(RecipeOutput consumer) {

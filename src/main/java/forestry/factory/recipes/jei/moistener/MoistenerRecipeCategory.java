@@ -1,12 +1,13 @@
 package forestry.factory.recipes.jei.moistener;
 
 import forestry.api.ForestryConstants;
-import forestry.api.fuels.FuelManager;
-import forestry.api.fuels.MoistenerFuel;
+import forestry.api.recipes.IMoistenerFuel;
 import forestry.api.recipes.IMoistenerRecipe;
 import forestry.core.config.Constants;
 import forestry.core.recipes.jei.ForestryRecipeCategory;
 import forestry.core.recipes.jei.ForestryRecipeType;
+import forestry.core.utils.RecipeUtils;
+import forestry.factory.features.FactoryRecipeTypes;
 import forestry.factory.blocks.BlockTypeFactoryTesr;
 import forestry.factory.features.FactoryBlocks;
 import mezz.jei.api.constants.VanillaTypes;
@@ -26,7 +27,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.fluids.FluidStack;
 
-import java.util.Collection;
+import java.util.Arrays;
 import java.util.List;
 
 public class MoistenerRecipeCategory extends ForestryRecipeCategory<IMoistenerRecipe> {
@@ -36,8 +37,6 @@ public class MoistenerRecipeCategory extends ForestryRecipeCategory<IMoistenerRe
 	private final IDrawableAnimated progressBar;
 	private final IDrawable tankOverlay;
 	private final IDrawable icon;
-	private final List<ItemStack> fuelResources;
-	private final List<ItemStack> fuelProducts;
 
 	public MoistenerRecipeCategory(IGuiHelper guiHelper) {
 		super(guiHelper.createDrawable(TEXTURE, 15, 15, 145, 60), "block.forestry.moistener");
@@ -49,14 +48,6 @@ public class MoistenerRecipeCategory extends ForestryRecipeCategory<IMoistenerRe
 		this.tankOverlay = guiHelper.createDrawable(TEXTURE, 176, 0, 16, 58);
 		ItemStack moistener = new ItemStack(FactoryBlocks.TESR.get(BlockTypeFactoryTesr.MOISTENER).block());
 		this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, moistener);
-
-		Collection<MoistenerFuel> fuels = FuelManager.moistenerResource.values();
-        this.fuelResources = fuels.stream()
-			.map(MoistenerFuel::resource)
-			.toList();
-        this.fuelProducts = fuels.stream()
-			.map(MoistenerFuel::product)
-			.toList();
 	}
 
 	@Override
@@ -76,14 +67,22 @@ public class MoistenerRecipeCategory extends ForestryRecipeCategory<IMoistenerRe
 		builder.addSlot(RecipeIngredientRole.INPUT, 128, 4)
 			.addIngredients(recipe.getInput());
 
+		List<IMoistenerFuel> fuels = RecipeUtils.getRecipes(RecipeUtils.getRecipeManager(), FactoryRecipeTypes.MOISTENER_FUEL).toList();
+		List<ItemStack> fuelResources = fuels.stream()
+			.flatMap(fuel -> Arrays.stream(fuel.getInput().getItems()))
+			.toList();
+		List<ItemStack> fuelProducts = fuels.stream()
+			.map(IMoistenerFuel::product)
+			.toList();
+
 		IRecipeSlotBuilder fuelResourceSlot = builder.addSlot(RecipeIngredientRole.INPUT, 24, 43)
-			.addItemStacks(this.fuelResources);
+			.addItemStacks(fuelResources);
 
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 128, 40)
 			.addItemStack(recipe.getProduct());
 
 		IRecipeSlotBuilder fuelProductsSlot = builder.addSlot(RecipeIngredientRole.OUTPUT, 90, 22)
-			.addItemStacks(this.fuelProducts);
+			.addItemStacks(fuelProducts);
 
 		FluidStack fluidInput = new FluidStack(Fluids.WATER, recipe.getTimePerItem() / 4);
 		builder.addSlot(RecipeIngredientRole.INPUT, 1, 1)

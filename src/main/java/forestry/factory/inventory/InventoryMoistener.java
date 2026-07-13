@@ -1,6 +1,5 @@
 package forestry.factory.inventory;
 
-import forestry.api.fuels.FuelManager;
 import forestry.core.inventory.InventoryAdapterTile;
 import forestry.core.utils.RecipeUtils;
 import forestry.core.utils.SlotUtil;
@@ -32,7 +31,7 @@ public class InventoryMoistener extends InventoryAdapterTile<TileMoistener> {
 		}
 
 		if (SlotUtil.isSlotInRange(slotIndex, SLOT_STASH_1, SLOT_STASH_COUNT)) {
-			return FuelManager.moistenerResource.containsKey(stack);
+			return RecipeUtils.getMoistenerFuel(this.tile.getLevel().getRecipeManager(), stack) != null;
 		}
 
 		if (slotIndex == SLOT_PRODUCT) {
@@ -50,7 +49,7 @@ public class InventoryMoistener extends InventoryAdapterTile<TileMoistener> {
 		}
 
 		if (SlotUtil.isSlotInRange(slotIndex, SLOT_STASH_1, SLOT_STASH_COUNT + SLOT_RESERVOIR_COUNT)) {
-			return !FuelManager.moistenerResource.containsKey(itemstack);
+			return RecipeUtils.getMoistenerFuel(this.tile.getLevel().getRecipeManager(), itemstack) == null;
 		}
 
 		return false;
