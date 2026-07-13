@@ -1,13 +1,13 @@
 package forestry.factory.recipes.jei.fermenter;
 
 import forestry.api.ForestryConstants;
-import forestry.api.fuels.FermenterFuel;
-import forestry.api.fuels.FuelManager;
 import forestry.api.recipes.IFermenterRecipe;
 import forestry.api.recipes.IVariableFermentable;
 import forestry.core.config.Constants;
 import forestry.core.recipes.jei.ForestryRecipeCategory;
 import forestry.core.recipes.jei.ForestryRecipeType;
+import forestry.core.utils.RecipeUtils;
+import forestry.factory.features.FactoryRecipeTypes;
 import forestry.factory.blocks.BlockTypeFactoryTesr;
 import forestry.factory.features.FactoryBlocks;
 import mezz.jei.api.constants.VanillaTypes;
@@ -27,7 +27,6 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.fluids.FluidStack;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 public class FermenterRecipeCategory extends ForestryRecipeCategory<IFermenterRecipe> {
@@ -65,8 +64,9 @@ public class FermenterRecipeCategory extends ForestryRecipeCategory<IFermenterRe
 		IRecipeSlotBuilder ingredientInputSlot = builder.addSlot(RecipeIngredientRole.INPUT, 51, 5)
 			.addIngredients(recipe.getInputItem());
 
-		Collection<FermenterFuel> fuels = FuelManager.fermenterFuel.values();
-		List<ItemStack> fuelInputs = fuels.stream().map(FermenterFuel::item).toList();
+		List<ItemStack> fuelInputs = RecipeUtils.getRecipes(RecipeUtils.getRecipeManager(), FactoryRecipeTypes.FERMENTER_FUEL)
+			.flatMap(fuel -> Arrays.stream(fuel.getInput().getItems()))
+			.toList();
 		builder.addSlot(RecipeIngredientRole.INPUT, 41, 39)
 			.addItemStacks(fuelInputs);
 

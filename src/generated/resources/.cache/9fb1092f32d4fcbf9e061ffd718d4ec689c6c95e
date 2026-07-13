@@ -1,4 +1,4 @@
-// 1.21.1	2026-07-12T19:42:08.139839984	Recipes
+// 1.21.1	2026-07-13T12:00:43.280200014	Recipes
 32b0e571261870ac09186d9ba67ab28bcd788d51 data/forestry/advancement/recipes/building_blocks/acacia_desert_fence.json
 9233915fb2e2ed18602eaa661caa52305ef7b957 data/forestry/advancement/recipes/building_blocks/acacia_desert_fence_gate.json
 db67704b9d88cf16bd63e7b6bd1faa77b55a723c data/forestry/advancement/recipes/building_blocks/acacia_desert_fireproof_fence.json
@@ -2145,6 +2145,9 @@ b35aa5b0c9c4a326d12b52b2ae50ee010f7a3bc3 data/forestry/recipe/fermenter/sugar_ca
 782693d5f6efce9e0972c40d4e8b8e113023a18e data/forestry/recipe/fermenter/wheat.json
 ed0f147c4b5ab639062a4369dbf2bcdfadd3508c data/forestry/recipe/fermenter/wheat_honey.json
 3baa78a313678ccfb295c2ba193859e290397951 data/forestry/recipe/fermenter/wheat_juice.json
+ae2241736ae7b1a8288860369e08e1b39e805679 data/forestry/recipe/fermenter_fuel/compost.json
+72170c31a3a715e7e84f7a956a3a23e8c617fbb2 data/forestry/recipe/fermenter_fuel/fertilizer_compound.json
+c7a52c1de74f510dffda35df32fd527b92c0efbc data/forestry/recipe/fermenter_fuel/mulch.json
 8b016138444c7c188078efe1209cad23563d3b7d data/forestry/recipe/fertilizer_apatite.json
 17c13d2a8aca067328dc5d9c8730325f10a2647c data/forestry/recipe/fertilizer_ash.json
 2300ed26e4b795e8302711200f6106367d3759a0 data/forestry/recipe/fir_boat.json

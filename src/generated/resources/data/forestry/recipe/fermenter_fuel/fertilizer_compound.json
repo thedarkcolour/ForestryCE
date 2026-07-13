@@ -1,0 +1,9 @@
+{
+  "type": "forestry:fermenter_fuel",
+  "burn_duration": 200,
+  "ferment_per_cycle": 56,
+  "fuel": {
+    "item": "forestry:fertilizer"
+  },
+  "id": "forestry:fermenter_fuel/fertilizer_compound"
+}

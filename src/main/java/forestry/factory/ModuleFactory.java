@@ -1,14 +1,12 @@
 package forestry.factory;
 
 import forestry.api.client.IClientModuleHandler;
-import forestry.api.fuels.FermenterFuel;
 import forestry.api.fuels.FuelManager;
 import forestry.api.fuels.MoistenerFuel;
 import forestry.api.fuels.RainSubstrate;
 import forestry.api.modules.ForestryModule;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.api.modules.IPacketRegistry;
-import forestry.core.config.Preference;
 import forestry.core.features.CoreItems;
 import forestry.core.network.PacketIdClient;
 import forestry.core.network.PacketIdServer;
@@ -76,23 +74,11 @@ public class ModuleFactory extends BlankForestryModule {
 
 	@Override
 	public void setupApi() {
-		FuelManager.fermenterFuel = new ItemStackMap<>();
 		FuelManager.moistenerResource = new ItemStackMap<>();
 		FuelManager.rainSubstrate = new ItemStackMap<>();
 
-		// Set fuels and resources for the fermenter
-		ItemStack fertilizerCompound = CoreItems.FERTILIZER_COMPOUND.stack();
-		FuelManager.fermenterFuel.put(fertilizerCompound, new FermenterFuel(fertilizerCompound,
-			Preference.FERMENTED_CYCLE_FERTILIZER, Preference.FERMENTATION_DURATION_FERTILIZER));
-
-		int cyclesCompost = Preference.FERMENTATION_DURATION_COMPOST;
-		int valueCompost = Preference.FERMENTED_CYCLE_COMPOST;
-		ItemStack fertilizerBio = CoreItems.COMPOST.stack();
-		ItemStack mulch = CoreItems.MULCH.stack();
-		FuelManager.fermenterFuel.put(fertilizerBio, new FermenterFuel(fertilizerBio, valueCompost, cyclesCompost));
-		FuelManager.fermenterFuel.put(mulch, new FermenterFuel(mulch, valueCompost, cyclesCompost));
-
 		// Add moistener resources
+		ItemStack mulch = CoreItems.MULCH.stack();
 		ItemStack wheat = new ItemStack(Items.WHEAT);
 		ItemStack mouldyWheat = CoreItems.MOULDY_WHEAT.stack();
 		ItemStack decayingWheat = CoreItems.DECAYING_WHEAT.stack();

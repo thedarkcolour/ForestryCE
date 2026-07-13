@@ -2,8 +2,7 @@ package forestry.factory.tiles;
 
 import forestry.api.core.ForestryError;
 import forestry.api.core.IErrorLogic;
-import forestry.api.fuels.FermenterFuel;
-import forestry.api.fuels.FuelManager;
+import forestry.api.recipes.IFermenterFuel;
 import forestry.api.recipes.IFermenterRecipe;
 import forestry.api.recipes.IVariableFermentable;
 import forestry.core.config.Constants;
@@ -163,7 +162,7 @@ public class TileFermenter extends TilePowered implements WorldlyContainer, ILiq
 		if (this.fuelBurnTime <= 0) {
 			ItemStack fuel = getItem(InventoryFermenter.SLOT_FUEL);
 			if (!fuel.isEmpty()) {
-				FermenterFuel fermenterFuel = FuelManager.fermenterFuel.get(fuel);
+				IFermenterFuel fermenterFuel = RecipeUtils.getFermenterFuel(this.level.getRecipeManager(), fuel);
 				if (fermenterFuel != null) {
                     this.fuelBurnTime = this.fuelTotalTime = fermenterFuel.burnDuration();
                     this.fuelCurrentFerment = fermenterFuel.fermentPerCycle();

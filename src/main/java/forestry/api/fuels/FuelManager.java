@@ -8,10 +8,6 @@ import java.util.Map;
 // todo get rid of the ItemStack maps
 public class FuelManager {
 	/**
-	 * Add new fuels for the fermenter here (i.e. fertilizer).
-	 */
-	public static Map<ItemStack, FermenterFuel> fermenterFuel;
-	/**
 	 * Add new resources for the moistener here (i.e. wheat)
 	 */
 	public static Map<ItemStack, MoistenerFuel> moistenerResource;

@@ -1,6 +1,5 @@
 package forestry.factory.inventory;
 
-import forestry.api.fuels.FuelManager;
 import forestry.core.fluids.FluidHelper;
 import forestry.core.inventory.InventoryAdapterTile;
 import forestry.core.utils.RecipeUtils;
@@ -33,7 +32,7 @@ public class InventoryFermenter extends InventoryAdapterTile<TileFermenter> {
 		} else if (slotIndex == SLOT_CAN_INPUT) {
 			return FluidHelper.isFillableContainerWithRoom(stack);
 		} else if (slotIndex == SLOT_FUEL) {
-			return FuelManager.fermenterFuel.containsKey(stack);
+			return RecipeUtils.getFermenterFuel(this.tile.getLevel().getRecipeManager(), stack) != null;
 		}
 		return false;
 	}

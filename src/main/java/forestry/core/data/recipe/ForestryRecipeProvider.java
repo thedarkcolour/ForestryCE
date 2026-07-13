@@ -141,6 +141,7 @@ public class ForestryRecipeProvider {
 		registerFabricator(output);
 		registerFabricatorSmelting(output);
 		registerFermenter(output);
+		registerFermenterFuels(output);
 		registerHygroregulator(output);
 		registerMoistener(output);
 		registerSqueezerContainer(output);
@@ -1990,6 +1991,25 @@ public class ForestryRecipeProvider {
 			.setProduct(liquidGlassX4)
 			.setMeltingPoint(4800)
 			.build(consumer, id("fabricator", "smelting", "sandstone"));
+	}
+
+	// Built-in fermenter fuels. Values come from Preference so packs/addons can override the recipes without a rebalance here.
+	private static void registerFermenterFuels(RecipeOutput consumer) {
+		new FermenterFuelRecipeBuilder()
+			.setFuel(Ingredient.of(CoreItems.FERTILIZER_COMPOUND))
+			.setFermentPerCycle(Preference.FERMENTED_CYCLE_FERTILIZER)
+			.setBurnDuration(Preference.FERMENTATION_DURATION_FERTILIZER)
+			.build(consumer, id("fermenter_fuel", "fertilizer_compound"));
+		new FermenterFuelRecipeBuilder()
+			.setFuel(Ingredient.of(CoreItems.COMPOST))
+			.setFermentPerCycle(Preference.FERMENTED_CYCLE_COMPOST)
+			.setBurnDuration(Preference.FERMENTATION_DURATION_COMPOST)
+			.build(consumer, id("fermenter_fuel", "compost"));
+		new FermenterFuelRecipeBuilder()
+			.setFuel(Ingredient.of(CoreItems.MULCH))
+			.setFermentPerCycle(Preference.FERMENTED_CYCLE_COMPOST)
+			.setBurnDuration(Preference.FERMENTATION_DURATION_COMPOST)
+			.build(consumer, id("fermenter_fuel", "mulch"));
 	}
 
 	private static void registerFermenter(RecipeOutput consumer) {

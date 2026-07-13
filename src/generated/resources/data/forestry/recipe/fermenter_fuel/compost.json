@@ -1,0 +1,9 @@
+{
+  "type": "forestry:fermenter_fuel",
+  "burn_duration": 250,
+  "ferment_per_cycle": 48,
+  "fuel": {
+    "item": "forestry:compost"
+  },
+  "id": "forestry:fermenter_fuel/compost"
+}
