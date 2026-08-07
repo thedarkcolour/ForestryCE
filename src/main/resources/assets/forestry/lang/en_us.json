@@ -2482,5 +2482,15 @@
   "config.jade.plugin_forestry.apiary_details.frames_shift": "Shift",
   
   "config.jade.plugin_forestry.apiary_details.output": "Output",
-  "config.jade.plugin_forestry.apiary_details.output_shift": "Shift"
+  "config.jade.plugin_forestry.apiary_details.output_shift": "Shift",
+  
+  "jade.forestry.machine.progress": "Progress: %s%%",
+  
+  "config.jade.plugin_forestry.machine_details": "Machine Details",
+  
+  "config.jade.plugin_forestry.machine_details.progress": "Progress",
+  "config.jade.plugin_forestry.machine_details.progress_shift": "Shift",
+  
+  "config.jade.plugin_forestry.machine_details.errors": "Errors",
+  "config.jade.plugin_forestry.machine_details.errors_shift": "Shift"
 }
