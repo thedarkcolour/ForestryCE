@@ -188,6 +188,11 @@ public class TileCentrifuge extends TilePowered implements ISocketable, WorldlyC
 		return hasResource;
 	}
 
+	@Nullable
+	public ICentrifugeRecipe getCurrentRecipe() {
+		return this.currentRecipe;
+	}
+
 	/* ISocketable */
 	@Override
 	public int getSocketCount() {

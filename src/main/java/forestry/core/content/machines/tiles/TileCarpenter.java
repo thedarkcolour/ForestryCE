@@ -220,6 +220,14 @@ public class TileCarpenter extends TilePowered implements WorldlyContainer, ILiq
 		return new TankRenderInfo(this.resourceTank);
 	}
 
+	public ItemStack getCurrentResult() {
+		if (this.currentRecipe == null || this.level == null) {
+			return ItemStack.EMPTY;
+		}
+
+		return this.currentRecipe.getResultItem(this.level.registryAccess()).copy();
+	}
+
 	/**
 	 * @return Inaccessible crafting inventory for the craft grid.
 	 */

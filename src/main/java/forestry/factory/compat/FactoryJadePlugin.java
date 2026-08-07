@@ -11,6 +11,7 @@ import forestry.factory.tiles.TileMillRainmaker;
 import forestry.factory.tiles.TileMoistener;
 import forestry.factory.tiles.TileSqueezer;
 import forestry.factory.tiles.TileStill;
+import net.minecraft.resources.ResourceLocation;
 import snownee.jade.api.IWailaClientRegistration;
 import snownee.jade.api.IWailaCommonRegistration;
 import snownee.jade.api.IWailaPlugin;
@@ -72,11 +73,6 @@ public class FactoryJadePlugin implements IWailaPlugin {
 	public void registerClient(
 		IWailaClientRegistration registration
 	) {
-		/*
-		 * Factory machines use both factory block implementations.
-		 * FactoryJadeProvider filters by the actual block entity, so
-		 * unrelated Factory blocks such as the Rain Tank are ignored.
-		 */
 		registration.registerBlockComponent(
 			FactoryJadeProvider.INSTANCE,
 			BlockFactoryTESR.class
@@ -87,14 +83,99 @@ public class FactoryJadePlugin implements IWailaPlugin {
 			BlockFactoryPlain.class
 		);
 
-		registration.addConfig(
-			FactoryJadeProvider.SHOW_PROGRESS,
-			FactoryJadeProvider.Visibility.ON
+		registerMachineCategory(
+			registration,
+			FactoryJadeProvider.FABRICATOR_DETAILS
 		);
+		registerOption(registration, FactoryJadeProvider.FABRICATOR_PROGRESS, FactoryJadeProvider.Visibility.ON);
+		registerOption(registration, FactoryJadeProvider.FABRICATOR_ERRORS, FactoryJadeProvider.Visibility.ON);
+		registerOption(registration, FactoryJadeProvider.FABRICATOR_HEAT_CONFIG, FactoryJadeProvider.Visibility.ON);
+		registerOption(registration, FactoryJadeProvider.FABRICATOR_RECIPE_CONFIG, FactoryJadeProvider.Visibility.ON);
 
-		registration.addConfig(
-			FactoryJadeProvider.SHOW_ERRORS,
+		registerMachineCategory(
+			registration,
+			FactoryJadeProvider.SQUEEZER_DETAILS
+		);
+		registerOption(registration, FactoryJadeProvider.SQUEEZER_PROGRESS, FactoryJadeProvider.Visibility.ON);
+		registerOption(registration, FactoryJadeProvider.SQUEEZER_ERRORS, FactoryJadeProvider.Visibility.ON);
+		registerOption(registration, FactoryJadeProvider.SQUEEZER_REMNANT_CONFIG, FactoryJadeProvider.Visibility.SHIFT);
+
+		registerMachineCategory(
+			registration,
+			FactoryJadeProvider.CENTRIFUGE_DETAILS
+		);
+		registerOption(registration, FactoryJadeProvider.CENTRIFUGE_PROGRESS, FactoryJadeProvider.Visibility.ON);
+		registerOption(registration, FactoryJadeProvider.CENTRIFUGE_ERRORS, FactoryJadeProvider.Visibility.ON);
+		registerOption(registration, FactoryJadeProvider.CENTRIFUGE_PRODUCTS_CONFIG, FactoryJadeProvider.Visibility.SHIFT);
+
+		registerMachineCategory(
+			registration,
+			FactoryJadeProvider.STILL_DETAILS
+		);
+		registerOption(registration, FactoryJadeProvider.STILL_PROGRESS, FactoryJadeProvider.Visibility.ON);
+		registerOption(registration, FactoryJadeProvider.STILL_ERRORS, FactoryJadeProvider.Visibility.ON);
+
+		registerMachineCategory(
+			registration,
+			FactoryJadeProvider.FERMENTER_DETAILS
+		);
+		registerOption(registration, FactoryJadeProvider.FERMENTER_PROGRESS, FactoryJadeProvider.Visibility.ON);
+		registerOption(registration, FactoryJadeProvider.FERMENTER_ERRORS, FactoryJadeProvider.Visibility.ON);
+		registerOption(registration, FactoryJadeProvider.FERMENTER_FUEL_CONFIG, FactoryJadeProvider.Visibility.ON);
+
+		registerMachineCategory(
+			registration,
+			FactoryJadeProvider.CARPENTER_DETAILS
+		);
+		registerOption(registration, FactoryJadeProvider.CARPENTER_PROGRESS, FactoryJadeProvider.Visibility.ON);
+		registerOption(registration, FactoryJadeProvider.CARPENTER_ERRORS, FactoryJadeProvider.Visibility.ON);
+		registerOption(registration, FactoryJadeProvider.CARPENTER_RECIPE_CONFIG, FactoryJadeProvider.Visibility.ON);
+
+		registerMachineCategory(
+			registration,
+			FactoryJadeProvider.BOTTLER_DETAILS
+		);
+		registerOption(registration, FactoryJadeProvider.BOTTLER_PROGRESS, FactoryJadeProvider.Visibility.ON);
+		registerOption(registration, FactoryJadeProvider.BOTTLER_ERRORS, FactoryJadeProvider.Visibility.ON);
+		registerOption(registration, FactoryJadeProvider.BOTTLER_MODE_CONFIG, FactoryJadeProvider.Visibility.ON);
+
+		registerMachineCategory(
+			registration,
+			FactoryJadeProvider.RAINMAKER_DETAILS
+		);
+		registerOption(registration, FactoryJadeProvider.RAINMAKER_PROGRESS, FactoryJadeProvider.Visibility.ON);
+		registerOption(registration, FactoryJadeProvider.RAINMAKER_ERRORS, FactoryJadeProvider.Visibility.ON);
+		registerOption(registration, FactoryJadeProvider.RAINMAKER_STATUS_CONFIG, FactoryJadeProvider.Visibility.ON);
+
+		registerMachineCategory(
+			registration,
+			FactoryJadeProvider.MOISTENER_DETAILS
+		);
+		registerOption(registration, FactoryJadeProvider.MOISTENER_PROGRESS, FactoryJadeProvider.Visibility.ON);
+		registerOption(registration, FactoryJadeProvider.MOISTENER_ERRORS, FactoryJadeProvider.Visibility.ON);
+		registerOption(registration, FactoryJadeProvider.MOISTENER_SPEED_CONFIG, FactoryJadeProvider.Visibility.ON);
+		registerOption(
+			registration,
+			FactoryJadeProvider.MOISTENER_RESOURCE_PROGRESS_CONFIG,
 			FactoryJadeProvider.Visibility.ON
 		);
+	}
+
+	private static void registerMachineCategory(
+		IWailaClientRegistration registration,
+		ResourceLocation key
+	) {
+		registration.addConfig(
+			key,
+			FactoryJadeProvider.Visibility.ON
+		);
+	}
+
+	private static void registerOption(
+		IWailaClientRegistration registration,
+		ResourceLocation key,
+		FactoryJadeProvider.Visibility defaultVisibility
+	) {
+		registration.addConfig(key, defaultVisibility);
 	}
 }

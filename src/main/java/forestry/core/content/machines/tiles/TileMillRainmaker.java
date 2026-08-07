@@ -112,6 +112,10 @@ public class TileMillRainmaker extends TileMill {
 		}
 	}
 
+	public boolean isReverse() {
+		return this.reverse;
+	}
+
 	@Override
 	@Nullable
 	public AbstractContainerMenu createMenu(int windowId, Inventory inv, Player player) {

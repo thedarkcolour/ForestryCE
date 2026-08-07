@@ -171,6 +171,10 @@ public class TileFabricator extends TilePowered implements ISlotPickupWatcher, I
 		return myRecipe.getCraftingGridRecipe().getResultItem(this.level.registryAccess()).copy();
 	}
 
+	public ItemStack getCurrentResult() {
+		return getResult(getRecipe());
+	}
+
 	/* ISlotPickupWatcher */
 	@Override
 	public void onTake(int slotIndex, Player player) {
@@ -238,8 +242,20 @@ public class TileFabricator extends TilePowered implements ISlotPickupWatcher, I
 		return hasRecipe;
 	}
 
+	public int getHeat() {
+		return this.heat;
+	}
+
+	public int getMaxHeat() {
+		return MAX_HEAT;
+	}
+
 	public int getHeatScaled(int i) {
 		return this.heat * i / MAX_HEAT;
+	}
+
+	public int getCurrentMeltingPoint() {
+		return getMeltingPoint();
 	}
 
 	private int getMeltingPoint() {
