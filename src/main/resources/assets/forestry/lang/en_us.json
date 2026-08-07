@@ -2428,6 +2428,59 @@
   "for.gui.mail.toast.message": "%1$d unopened letters",
   "jade.forestry.fruit": "Fruit: %s",
   "jade.forestry.ripeness": "Growth: %s%%",
-  "config.jade.plugin_forestry.leaf_fruit": "Leaf Fruit Type",
-  "config.jade.plugin_forestry.fruit_ripeness": "Fruit Growth"
+  
+  "config.jade.plugin_forestry.fruit_details": "Fruit Details",
+  "config.jade.plugin_forestry.fruit_details.fruit_type": "Fruit Type",
+  "config.jade.plugin_forestry.fruit_details.fruit_type_shift": "Shift",
+  "config.jade.plugin_forestry.fruit_details.growth": "Growth",
+  "config.jade.plugin_forestry.fruit_details.growth_shift": "Shift",
+  
+  "jade.forestry.apiary.progress": "Progress: %s%%",
+  
+  "jade.forestry.apiary.queen": "Queen: %s — %s",
+  "jade.forestry.apiary.queen_no_stock": "Queen: %s",
+  "jade.forestry.apiary.princess": "Princess: %s — %s",
+  "jade.forestry.apiary.princess_no_stock": "Princess: %s",
+  "jade.forestry.apiary.drones": "Drones: %sx %s",
+  
+  "jade.forestry.apiary.stats.compact": "  Life: %s | Prod: %s | Fert: %s",
+  "jade.forestry.apiary.stats.core": "  Lifespan: %s | Production: %s | Fertility: %s",
+  "jade.forestry.apiary.stats.work": "  Pollination: %s | Territory: %s | Flowers: %s",
+  "jade.forestry.apiary.stats.climate": "  Climate: T %s / %s | H %s / %s",
+  
+  "jade.forestry.apiary.frames": "Frames:",
+  "jade.forestry.apiary.frame": "%s",
+  "jade.forestry.apiary.frame_durability": "%s (%s%%)",
+  
+  "jade.forestry.apiary.output": "Output:",
+  "jade.forestry.apiary.output_entry": "%sx %s",
+  
+  "config.jade.plugin_forestry.apiary_details": "Apiary Details",
+  
+  "config.jade.plugin_forestry.apiary_details.progress": "Progress",
+  "config.jade.plugin_forestry.apiary_details.progress_shift": "Shift",
+  
+  "config.jade.plugin_forestry.apiary_details.errors": "Errors",
+  "config.jade.plugin_forestry.apiary_details.errors_shift": "Shift",
+  
+  "config.jade.plugin_forestry.apiary_details.queen": "Queen / Princess",
+  "config.jade.plugin_forestry.apiary_details.queen_shift": "Shift",
+  
+  "config.jade.plugin_forestry.apiary_details.stock": "Bee Stock",
+  "config.jade.plugin_forestry.apiary_details.stock_shift": "Shift",
+  
+  "config.jade.plugin_forestry.apiary_details.drones": "Drones",
+  "config.jade.plugin_forestry.apiary_details.drones_shift": "Shift",
+  
+  "config.jade.plugin_forestry.apiary_details.compact_stats": "Compact Bee Stats",
+  "config.jade.plugin_forestry.apiary_details.compact_stats_shift": "Shift",
+  
+  "config.jade.plugin_forestry.apiary_details.expanded_stats": "Expanded Bee Stats",
+  "config.jade.plugin_forestry.apiary_details.expanded_stats_shift": "Shift",
+  
+  "config.jade.plugin_forestry.apiary_details.frames": "Frames",
+  "config.jade.plugin_forestry.apiary_details.frames_shift": "Shift",
+  
+  "config.jade.plugin_forestry.apiary_details.output": "Output",
+  "config.jade.plugin_forestry.apiary_details.output_shift": "Shift"
 }
