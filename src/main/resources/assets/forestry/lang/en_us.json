@@ -2425,5 +2425,9 @@
   "painting.forestry.mystical_tree.title": "Mystical Tree",
   "painting.forestry.mystical_tree.author": "Spearkiller",
   "for.gui.mail.toast.title": "You've got Mail!",
-  "for.gui.mail.toast.message": "%1$d unopened letters"
+  "for.gui.mail.toast.message": "%1$d unopened letters",
+  "jade.forestry.fruit": "Fruit: %s",
+  "jade.forestry.ripeness": "Growth: %s%%",
+  "config.jade.plugin_forestry.leaf_fruit": "Leaf Fruit Type",
+  "config.jade.plugin_forestry.fruit_ripeness": "Fruit Growth"
 }

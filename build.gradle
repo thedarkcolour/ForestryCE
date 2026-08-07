@@ -452,6 +452,9 @@ repositories {
 			includeGroup 'com.github.rtyley'
 		}
 	}
+	maven {
+		url = "https://api.modrinth.com/maven"
+	}
 }
 
 dependencies {
@@ -462,6 +465,9 @@ dependencies {
 	implementation "dev.architectury:architectury-neoforge:${architecturyVersion}"
 	implementation "dev.latvian.mods:rhino:${rhinoVersion}"
 	implementation "dev.latvian.mods:kubejs-neoforge:${kubejsVersion}"
+	// Jade OPTIONAL
+	compileOnly  "maven.modrinth:jade:15.10.6+neoforge"
+	runtimeOnly "maven.modrinth:jade:15.10.6+neoforge"
 	// Curios Optional
 	implementation "top.theillusivec4.curios:curios-neoforge:${curiosVersion}+${minecraftVersion}"
 	// Ponder OPTIONAL
