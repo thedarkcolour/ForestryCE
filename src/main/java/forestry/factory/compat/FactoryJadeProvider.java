@@ -3,10 +3,12 @@ package forestry.factory.compat;
 import forestry.api.ForestryConstants;
 import forestry.api.core.IError;
 import forestry.api.core.IProduct;
+import forestry.api.recipes.ICarpenterRecipe;
 import forestry.api.recipes.ICentrifugeRecipe;
 import forestry.api.recipes.ISqueezerRecipe;
 import forestry.core.tiles.TileForestry;
 import forestry.core.tiles.TilePowered;
+import forestry.factory.recipes.BottlerRecipe;
 import forestry.factory.tiles.TileBottler;
 import forestry.factory.tiles.TileCarpenter;
 import forestry.factory.tiles.TileCentrifuge;
@@ -238,7 +240,7 @@ public enum FactoryJadeProvider implements IBlockComponentProvider, IServerDataP
 	) {
 		if (tile instanceof TileFabricator fabricator) {
 			int heat = fabricator.getHeat();
-			int meltingPoint = fabricator.getCurrentMeltingPoint();
+			int meltingPoint = fabricator.getMeltingPoint();
 
 			if (heat > 0 || meltingPoint > 0) {
 				data.putInt(FABRICATOR_HEAT, heat);
@@ -252,7 +254,7 @@ public enum FactoryJadeProvider implements IBlockComponentProvider, IServerDataP
 			putStack(
 				data,
 				FABRICATOR_RECIPE,
-				fabricator.getCurrentResult(),
+				fabricator.getResult(fabricator.getRecipe()),
 				accessor
 			);
 		}
@@ -266,21 +268,29 @@ public enum FactoryJadeProvider implements IBlockComponentProvider, IServerDataP
 		}
 
 		if (tile instanceof TileCarpenter carpenter) {
-			putStack(
-				data,
-				CARPENTER_RECIPE,
-				carpenter.getCurrentResult(),
-				accessor
-			);
+			ICarpenterRecipe recipe = carpenter.getCurrentRecipe();
+
+			if (recipe != null) {
+				putStack(
+					data,
+					CARPENTER_RECIPE,
+					recipe.getResultItem(accessor.getLevel().registryAccess()),
+					accessor
+				);
+			}
 		}
 
-		if (tile instanceof TileBottler bottler && bottler.hasCurrentRecipe()) {
-			data.putInt(
-				BOTTLER_MODE,
-				bottler.isCurrentRecipeFilling()
-					? BOTTLER_MODE_FILLING
-					: BOTTLER_MODE_EMPTYING
-			);
+		if (tile instanceof TileBottler bottler) {
+			BottlerRecipe recipe = bottler.getCurrentRecipe();
+
+			if (recipe != null) {
+				data.putInt(
+					BOTTLER_MODE,
+					recipe.fillRecipe
+						? BOTTLER_MODE_FILLING
+						: BOTTLER_MODE_EMPTYING
+				);
+			}
 		}
 
 		if (tile instanceof TileMillRainmaker rainmaker && rainmaker.charge > 0) {
@@ -937,7 +947,7 @@ public enum FactoryJadeProvider implements IBlockComponentProvider, IServerDataP
 	private static Integer getFabricatorProgress(
 		TileFabricator fabricator
 	) {
-		int meltingPoint = fabricator.getCurrentMeltingPoint();
+		int meltingPoint = fabricator.getMeltingPoint();
 
 		if (meltingPoint > 0) {
 			return Mth.clamp(
