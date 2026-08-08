@@ -1,7 +1,7 @@
 package forestry.apiculture.compat;
 
-import forestry.apiculture.tiles.TileApiary;
-import forestry.core.blocks.BlockBase;
+import forestry.apiculture.apiary.TileApiary;
+import forestry.core.platform.block.BlockBase;
 import snownee.jade.api.IWailaClientRegistration;
 import snownee.jade.api.IWailaCommonRegistration;
 import snownee.jade.api.IWailaPlugin;

@@ -1,10 +1,10 @@
 package forestry.arboriculture.compat;
 
-import forestry.arboriculture.blocks.BlockAbstractLeaves;
-import forestry.arboriculture.blocks.BlockFruitPod;
+import forestry.arboriculture.leaves.BlockAbstractLeaves;
+import forestry.arboriculture.fruit.BlockFruitPod;
 import forestry.arboriculture.features.ArboricultureBlocks;
-import forestry.arboriculture.tiles.TileFruitPod;
-import forestry.arboriculture.tiles.TileLeaves;
+import forestry.arboriculture.fruit.TileFruitPod;
+import forestry.arboriculture.leaves.TileLeaves;
 import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.IWailaClientRegistration;
 import snownee.jade.api.IWailaCommonRegistration;
