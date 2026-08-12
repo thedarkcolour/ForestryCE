@@ -29,6 +29,14 @@ public final class ForestryBlockTagsProvider {
 		tags.tag(ForestryTags.Blocks.MINEABLE_SCOOP).add(ApicultureBlocks.BEEHIVE.blockArray());
 		tags.tag(ForestryTags.Blocks.MINEABLE_GRAFTER).addTag(BlockTags.LEAVES);
 
+		tags.tag(ForestryTags.Blocks.LEAVES)
+			.add(ArboricultureBlocks.LEAVES.block())
+			.add(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.blockArray())
+			.add(ArboricultureBlocks.LEAVES_DEFAULT.blockArray())
+			.add(ArboricultureBlocks.LEAVES_DECORATIVE.blockArray());
+
+		tags.tag(BlockTags.MINEABLE_WITH_HOE).addTag(ForestryTags.Blocks.LEAVES);
+
 		tags.tag(BlockTags.MINEABLE_WITH_AXE)
 			.add(CoreBlocks.NATURALIST_CHEST.blockArray())
 			.add(CharcoalBlocks.LOG_PILE.block())
@@ -139,7 +147,7 @@ public final class ForestryBlockTagsProvider {
 
 		tags.tag(BlockTags.SAPLINGS).add(ArboricultureBlocks.SAPLING_GE.block());
 		tags.tag(ForestryTags.Blocks.TREE_SAPLINGS).add(ArboricultureBlocks.SAPLING_GE.block());
-		tags.tag(BlockTags.LEAVES).add(ArboricultureBlocks.LEAVES.block()).add(ArboricultureBlocks.LEAVES_DEFAULT_FRUIT.blockArray()).add(ArboricultureBlocks.LEAVES_DEFAULT.blockArray()).add(ArboricultureBlocks.LEAVES_DECORATIVE.blockArray());
+		tags.tag(BlockTags.LEAVES).addTag(ForestryTags.Blocks.LEAVES);
 
 		tags.tag(Tags.Blocks.ORES).addTags(ForestryTags.Blocks.ORES_TIN, ForestryTags.Blocks.ORES_APATITE);
 		tags.tag(ForestryTags.Blocks.ORES_TIN).add(CoreBlocks.TIN_ORE.block(), CoreBlocks.DEEPSLATE_TIN_ORE.block());

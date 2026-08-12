@@ -69,6 +69,16 @@
         }
       ],
       "rolls": 1.0
+    },
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:loot_table",
+          "value": "forestry:blocks/shared_leaf_sticks"
+        }
+      ],
+      "rolls": 1.0
     }
   ],
   "random_sequence": "forestry:blocks/chestnut_decorative_leaves"
