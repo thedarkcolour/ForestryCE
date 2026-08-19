@@ -16,6 +16,7 @@ public class ForestryTags {
 	public static class Blocks {
 		public static final TagKey<Block> MINEABLE_SCOOP = blockTag("scoop");
 		public static final TagKey<Block> MINEABLE_GRAFTER = blockTag("grafter");
+		public static final TagKey<Block> LEAVES = blockTag("leaves");
 
 		// Blocks that can be used as farmland bases for multiblock farms
 		public static final TagKey<Block> VALID_FARM_BASE = blockTag("valid_farm_base");
