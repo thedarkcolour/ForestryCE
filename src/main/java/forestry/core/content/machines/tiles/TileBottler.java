@@ -320,6 +320,11 @@ public class TileBottler extends TilePowered implements WorldlyContainer, ILiqui
 		return true;
 	}
 
+	@Nullable
+	public BottlerRecipe getCurrentRecipe() {
+		return this.currentRecipe;
+	}
+
 	@Override
 	public TankRenderInfo getResourceTankInfo() {
 		return new TankRenderInfo(this.resourceTank);

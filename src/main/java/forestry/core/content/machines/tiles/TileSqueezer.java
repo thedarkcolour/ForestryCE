@@ -232,6 +232,11 @@ public class TileSqueezer extends TilePowered implements ISocketable, WorldlyCon
 		return hasResources && hasRecipe && canFill && canAdd;
 	}
 
+	@Nullable
+	public ISqueezerRecipe getCurrentRecipe() {
+		return this.currentRecipe;
+	}
+
 	@Override
 	public TankRenderInfo getProductTankInfo() {
 		return new TankRenderInfo(this.productTank);

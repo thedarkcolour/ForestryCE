@@ -152,7 +152,7 @@ public class TileFabricator extends TilePowered implements ISlotPickupWatcher, I
 	}
 
 	@Nullable
-	private IFabricatorRecipe getRecipe() {
+	public IFabricatorRecipe getRecipe() {
 		IInventoryAdapter inventory = getInternalInventory();
 		ItemStack plan = inventory.getItem(InventoryFabricator.SLOT_PLAN);
 		FluidStack liquid = this.moltenTank.getFluid();
@@ -238,11 +238,19 @@ public class TileFabricator extends TilePowered implements ISlotPickupWatcher, I
 		return hasRecipe;
 	}
 
+	public int getHeat() {
+		return this.heat;
+	}
+
+	public int getMaxHeat() {
+		return MAX_HEAT;
+	}
+
 	public int getHeatScaled(int i) {
 		return this.heat * i / MAX_HEAT;
 	}
 
-	private int getMeltingPoint() {
+	public int getMeltingPoint() {
 		if (!this.getItem(InventoryFabricator.SLOT_METAL).isEmpty()) {
 			IFabricatorSmeltingRecipe meltingRecipe = RecipeUtils.getFabricatorMeltingRecipe(getLevel().getRecipeManager(), this.getItem(InventoryFabricator.SLOT_METAL));
 			return meltingRecipe == null ? 0 : meltingRecipe.getMeltingPoint();

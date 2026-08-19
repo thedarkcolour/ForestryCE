@@ -143,16 +143,7 @@ public class TileMoistener extends TileBase implements WorldlyContainer, ILiquid
 		}
 
 		// The darker, the better
-		int speed;
-		if (lightvalue >= 9) {
-			speed = 1;
-		} else if (lightvalue >= 7) {
-			speed = 2;
-		} else if (lightvalue >= 5) {
-			speed = 3;
-		} else {
-			speed = 4;
-		}
+		int speed = getSpeedForLight(lightvalue);
 
 		// Already running
 		if (this.burnTime > 0 && this.pendingProduct == null) {
@@ -399,6 +390,31 @@ public class TileMoistener extends TileBase implements WorldlyContainer, ILiquid
 				ItemStackUtil.mergeStacks(getItem(resourceSlot), getItem(targetSlot));
 			}
 		}
+	}
+
+	private static int getSpeedForLight(int lightValue) {
+		if (lightValue >= 9) {
+			return 1;
+		} else if (lightValue >= 7) {
+			return 2;
+		} else if (lightValue >= 5) {
+			return 3;
+		}
+
+		return 4;
+	}
+
+	public int getCurrentSpeed() {
+		if (this.level == null) {
+			return 0;
+		}
+
+		int lightValue = this.level.getLightEmission(getBlockPos().above());
+		if (lightValue > 11) {
+			return 0;
+		}
+
+		return getSpeedForLight(lightValue);
 	}
 
 	public boolean isWorking() {

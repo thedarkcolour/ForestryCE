@@ -82,6 +82,10 @@ public abstract class TilePowered extends TileBase implements IRenderableTile, I
 		return Math.round(this.energyPerWorkCycle * this.powerMultiplier);
 	}
 
+	public double getOutputMultiplier() {
+		return this.outputMultiplier;
+	}
+
 	/* STATE INFORMATION */
 	public boolean hasResourcesMin(float percentage) {
 		return false;
