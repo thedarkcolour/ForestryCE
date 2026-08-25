@@ -52,7 +52,7 @@ public class BlockFactoryPlain extends BlockBase<BlockTypeFactoryPlain> {
 	@Override
 	public VoxelShape getShape(BlockState state, BlockGetter reader, BlockPos pos, CollisionContext context) {
 		switch (this.blockType) {
-			case FABRICATOR, SMELTER -> {
+			case FABRICATOR -> {
 				return Shapes.block();
 			}
 			default -> {
