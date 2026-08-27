@@ -21,6 +21,9 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
+import net.minecraft.resources.ResourceKey;
+import net.neoforged.neoforge.registries.datamaps.DataMapType;
 
 public class FilteredTank extends StandardTank {
 	private Supplier<Set<ResourceLocation>> filters = Suppliers.ofInstance(Set.of());
@@ -37,6 +40,20 @@ public class FilteredTank extends StandardTank {
 
 	public FilteredTank setFilter(Supplier<Set<ResourceLocation>> filters) {
 		this.filters = Preconditions.checkNotNull(filters);
+		return this;
+	}
+
+	/**
+	 * Accepts every fluid with an entry in the data map. The validator reads the entry directly, so only
+	 * the tooltip pays to build the set of names
+	 *
+	 * @param dataMap The fluid data map that decides what this tank holds
+	 */
+	public FilteredTank setFilter(DataMapType<Fluid, ?> dataMap) {
+		this.filters = () -> BuiltInRegistries.FLUID.getDataMap(dataMap).keySet().stream()
+				.map(ResourceKey::location)
+				.collect(Collectors.toSet());
+		setValidator(stack -> !stack.isEmpty() && stack.getFluidHolder().getData(dataMap) != null);
 		return this;
 	}
 

@@ -19,6 +19,8 @@ import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 
 import java.util.function.Consumer;
+import forestry.api.ForestryDataMaps;
+import net.neoforged.neoforge.registries.datamaps.RegisterDataMapTypesEvent;
 
 @ForestryModule
 public class ModuleFarming extends BlankForestryModule {
@@ -36,6 +38,11 @@ public class ModuleFarming extends BlankForestryModule {
 	@Override
 	public void registerEvents(IEventBus modBus) {
 		modBus.addListener(ModuleFarming::registerCapabilities);
+		modBus.addListener(ModuleFarming::registerDataMaps);
+	}
+
+	private static void registerDataMaps(RegisterDataMapTypesEvent event) {
+		event.register(ForestryDataMaps.FARM_FERTILIZERS);
 	}
 
 	@Override

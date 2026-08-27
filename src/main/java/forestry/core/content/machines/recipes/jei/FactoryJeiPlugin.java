@@ -1,7 +1,5 @@
 package forestry.core.content.machines.recipes.jei;
 
-import forestry.api.core.machines.fuels.FuelManager;
-import forestry.api.core.machines.fuels.RainSubstrate;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.core.platform.client.ClientsideCode;
 import forestry.core.features.FluidsItems;
@@ -49,6 +47,9 @@ import net.neoforged.neoforge.fluids.FluidUtil;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import forestry.api.ForestryDataMaps;
+import forestry.core.platform.recipes.jei.JeiDataMaps;
+import forestry.core.content.machines.recipes.jei.rainmaker.RainmakerJeiRecipe;
 
 @JeiPlugin
 public class FactoryJeiPlugin implements IModPlugin {
@@ -84,8 +85,9 @@ public class FactoryJeiPlugin implements IModPlugin {
 		registry.addRecipes(ForestryRecipeType.FABRICATOR, RecipeUtils.getRecipes(manager, FactoryRecipeTypes.FABRICATOR).toList());
 		registry.addRecipes(ForestryRecipeType.FERMENTER, RecipeUtils.getRecipes(manager, FactoryRecipeTypes.FERMENTER).toList());
 		registry.addRecipes(ForestryRecipeType.MOISTENER, RecipeUtils.getRecipes(manager, FactoryRecipeTypes.MOISTENER).toList());
-		registry.addRecipes(ForestryRecipeType.RAINMAKER, FuelManager.rainSubstrate.values().stream()
-			.sorted(Comparator.comparing(RainSubstrate::duration))
+		registry.addRecipes(ForestryRecipeType.RAINMAKER, JeiDataMaps.entries(ForestryDataMaps.RAINMAKER_FUELS).stream()
+			.map(entry -> new RainmakerJeiRecipe(entry.stack(), entry.value()))
+			.sorted(Comparator.comparingInt(recipe -> recipe.fuel().duration()))
 			.toList());
 		registry.addRecipes(ForestryRecipeType.SMELTER, RecipeUtils.getRecipes(manager, FactoryRecipeTypes.SMELTER).toList());
 		registry.addRecipes(ForestryRecipeType.SQUEEZER, RecipeUtils.getRecipes(manager, FactoryRecipeTypes.SQUEEZER).toList());

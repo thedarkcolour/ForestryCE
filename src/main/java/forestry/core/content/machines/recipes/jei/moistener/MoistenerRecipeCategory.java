@@ -2,7 +2,6 @@ package forestry.core.content.machines.recipes.jei.moistener;
 
 import forestry.api.ForestryConstants;
 import forestry.api.core.machines.IMoistenerRecipe;
-import forestry.api.core.machines.fuels.FuelManager;
 import forestry.api.core.machines.fuels.MoistenerFuel;
 import forestry.core.content.machines.blocks.BlockTypeFactoryPlain;
 import forestry.core.content.machines.features.FactoryBlocks;
@@ -28,6 +27,8 @@ import net.neoforged.neoforge.fluids.FluidStack;
 
 import java.util.Collection;
 import java.util.List;
+import forestry.api.ForestryDataMaps;
+import forestry.core.platform.recipes.jei.JeiDataMaps;
 
 public class MoistenerRecipeCategory extends ForestryRecipeCategory<IMoistenerRecipe> {
 	private static final ResourceLocation TEXTURE = ForestryConstants.forestry(Constants.TEXTURE_PATH_GUI + "/moistener.png");
@@ -36,8 +37,6 @@ public class MoistenerRecipeCategory extends ForestryRecipeCategory<IMoistenerRe
 	private final IDrawableAnimated progressBar;
 	private final IDrawable tankOverlay;
 	private final IDrawable icon;
-	private final List<ItemStack> fuelResources;
-	private final List<ItemStack> fuelProducts;
 
 	public MoistenerRecipeCategory(IGuiHelper guiHelper) {
 		super(guiHelper.createDrawable(TEXTURE, 15, 15, 145, 60), "block.forestry.moistener");
@@ -49,14 +48,6 @@ public class MoistenerRecipeCategory extends ForestryRecipeCategory<IMoistenerRe
 		this.tankOverlay = guiHelper.createDrawable(TEXTURE, 176, 0, 16, 58);
 		ItemStack moistener = new ItemStack(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.MOISTENER).block());
 		this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, moistener);
-
-		Collection<MoistenerFuel> fuels = FuelManager.moistenerResource.values();
-		this.fuelResources = fuels.stream()
-			.map(MoistenerFuel::resource)
-			.toList();
-		this.fuelProducts = fuels.stream()
-			.map(MoistenerFuel::product)
-			.toList();
 	}
 
 	@Override
@@ -76,14 +67,17 @@ public class MoistenerRecipeCategory extends ForestryRecipeCategory<IMoistenerRe
 		builder.addSlot(RecipeIngredientRole.INPUT, 128, 4)
 			.addIngredients(recipe.getInput());
 
+		// Built here rather than in the constructor, and in one pass, so the two slots stay index
+		// aligned for the focus link below
+		List<JeiDataMaps.Entry<MoistenerFuel>> fuels = JeiDataMaps.entries(ForestryDataMaps.MOISTENER_FUELS);
 		IRecipeSlotBuilder fuelResourceSlot = builder.addSlot(RecipeIngredientRole.INPUT, 24, 43)
-			.addItemStacks(this.fuelResources);
+			.addItemStacks(fuels.stream().map(JeiDataMaps.Entry::stack).toList());
 
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 128, 40)
 			.addItemStack(recipe.getProduct());
 
 		IRecipeSlotBuilder fuelProductsSlot = builder.addSlot(RecipeIngredientRole.OUTPUT, 90, 22)
-			.addItemStacks(this.fuelProducts);
+			.addItemStacks(fuels.stream().map(entry -> entry.value().product()).toList());
 
 		FluidStack fluidInput = new FluidStack(Fluids.WATER, recipe.getTimePerItem() / 4);
 		builder.addSlot(RecipeIngredientRole.INPUT, 1, 1)

@@ -65,6 +65,8 @@ import java.util.IdentityHashMap;
 import java.util.Map;
 import java.util.Objects;
 import forestry.apiculture.apiarist.ArmorApiaristHelper;
+import forestry.api.ForestryDataMaps;
+import net.neoforged.neoforge.registries.datamaps.RegisterDataMapTypesEvent;
 
 @ForestryModule
 public class ModuleApiculture extends BlankForestryModule {
@@ -182,12 +184,17 @@ public class ModuleApiculture extends BlankForestryModule {
 	public void registerEvents(IEventBus modBus) {
 		modBus.addListener(ApicultureCreativeTab::addToForestryTab);
 		modBus.addListener(ModuleApiculture::registerCapabilities);
+		modBus.addListener(ModuleApiculture::registerDataMaps);
 		modBus.addListener(ModuleApiculture::onCommonSetup);
 
 		NeoForge.EVENT_BUS.addListener(ModuleApiculture::registerBrewingRecipes);
 		NeoForge.EVENT_BUS.addListener(ApicultureVillagers::villagerTrades);
 		NeoForge.EVENT_BUS.addListener(ModuleApiculture::onNetherBeeMate);
 		NeoForge.EVENT_BUS.addListener(ModuleApiculture::modifySnifferLoot);
+	}
+
+	private static void registerDataMaps(RegisterDataMapTypesEvent event) {
+		event.register(ForestryDataMaps.SWARMER_FEED);
 	}
 
 	@Override

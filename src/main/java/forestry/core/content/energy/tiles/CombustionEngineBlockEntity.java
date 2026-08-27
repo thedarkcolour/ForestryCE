@@ -5,7 +5,6 @@ import forestry.api.core.circuits.ForestryCircuitSocketTypes;
 import forestry.api.core.circuits.ICircuitBoard;
 import forestry.api.core.ForestryError;
 import forestry.api.core.IErrorLogic;
-import forestry.api.core.machines.fuels.FuelManager;
 import forestry.core.engine.circuits.IEngineUpgradeable;
 import forestry.core.engine.circuits.ISocketable;
 import forestry.core.platform.config.Constants;
@@ -37,6 +36,8 @@ import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import javax.annotation.Nullable;
 
 import static net.neoforged.neoforge.fluids.FluidType.BUCKET_VOLUME;
+import forestry.api.ForestryDataMaps;
+import forestry.api.core.machines.fuels.BiogasEngineFuel;
 
 public class CombustionEngineBlockEntity extends EngineBlockEntity implements WorldlyContainer, ILiquidTankTile, IEngineUpgradeable, ISocketable {
 	private final StandardTank burnTank;
@@ -60,8 +61,8 @@ public class CombustionEngineBlockEntity extends EngineBlockEntity implements Wo
 
 		setInternalInventory(new InventoryEngineCombustion(this));
 
-		this.fuelTank = new FilteredTank(Constants.ENGINE_TANK_CAPACITY).setFilters(FuelManager.combustionEngineFuel.keySet());
-		this.coolantTank = new FilteredTank(Constants.ENGINE_TANK_CAPACITY, true, false).setFilters(FuelManager.combustionEngineCoolant.keySet());
+		this.fuelTank = new FilteredTank(Constants.ENGINE_TANK_CAPACITY).setFilter(ForestryDataMaps.COMBUSTION_FUELS);
+		this.coolantTank = new FilteredTank(Constants.ENGINE_TANK_CAPACITY, true, false).setFilter(ForestryDataMaps.COMBUSTION_COOLANTS);
 		this.burnTank = new StandardTank(BUCKET_VOLUME, false, false);
 		this.waterTank = new StandardTank(BUCKET_VOLUME, false, false);
 		this.tankManager = new TankManager(this, this.fuelTank, this.coolantTank, this.burnTank, this.waterTank);
@@ -171,9 +172,9 @@ public class CombustionEngineBlockEntity extends EngineBlockEntity implements Wo
 	 */
 	private static int determineFuelValue(@Nullable FluidStack fluidStack) {
 		if (fluidStack != null) {
-			Fluid fluid = fluidStack.getFluid();
-			if (FuelManager.combustionEngineFuel.containsKey(fluid)) {
-				return FuelManager.combustionEngineFuel.get(fluid).powerPerCycle();
+			BiogasEngineFuel fuel = fluidStack.getFluidHolder().getData(ForestryDataMaps.COMBUSTION_FUELS);
+			if (fuel != null) {
+				return fuel.powerPerCycle();
 			}
 		}
 		return 0;
@@ -184,9 +185,9 @@ public class CombustionEngineBlockEntity extends EngineBlockEntity implements Wo
 	 */
 	private static int determineBurnTime(@Nullable FluidStack fluidStack) {
 		if (fluidStack != null) {
-			Fluid fluid = fluidStack.getFluid();
-			if (FuelManager.combustionEngineFuel.containsKey(fluid)) {
-				return FuelManager.combustionEngineFuel.get(fluid).burnDuration();
+			BiogasEngineFuel fuel = fluidStack.getFluidHolder().getData(ForestryDataMaps.COMBUSTION_FUELS);
+			if (fuel != null) {
+				return fuel.burnDuration();
 			}
 		}
 		return 0;
@@ -194,9 +195,9 @@ public class CombustionEngineBlockEntity extends EngineBlockEntity implements Wo
 
 	private static int determineCoolantTime(@Nullable FluidStack fluidStack) {
 		if (fluidStack != null) {
-			Fluid fluid = fluidStack.getFluid();
-			if (FuelManager.combustionEngineCoolant.containsKey(fluid)) {
-				return FuelManager.combustionEngineCoolant.get(fluid).burnDuration();
+			BiogasEngineFuel fuel = fluidStack.getFluidHolder().getData(ForestryDataMaps.COMBUSTION_COOLANTS);
+			if (fuel != null) {
+				return fuel.burnDuration();
 			}
 		}
 		return 0;
@@ -204,9 +205,9 @@ public class CombustionEngineBlockEntity extends EngineBlockEntity implements Wo
 
 	private static int determineCoolantModifier(@Nullable FluidStack fluidStack) {
 		if (fluidStack != null) {
-			Fluid fluid = fluidStack.getFluid();
-			if (FuelManager.combustionEngineCoolant.containsKey(fluid)) {
-				return FuelManager.combustionEngineCoolant.get(fluid).dissipationMultiplier();
+			BiogasEngineFuel fuel = fluidStack.getFluidHolder().getData(ForestryDataMaps.COMBUSTION_COOLANTS);
+			if (fuel != null) {
+				return fuel.dissipationMultiplier();
 			}
 		}
 		return 0;

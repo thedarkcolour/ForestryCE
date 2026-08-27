@@ -9,6 +9,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nullable;
+import forestry.api.ForestryDataMaps;
 
 public class FarmingManager implements IFarmingManager {
 	private final Object2IntOpenHashMap<Item> fertilizers;
@@ -21,6 +22,12 @@ public class FarmingManager implements IFarmingManager {
 
 	@Override
 	public int getFertilizeValue(ItemStack stack) {
+		Integer value = stack.getItemHolder().getData(ForestryDataMaps.FARM_FERTILIZERS);
+		if (value != null) {
+			return value;
+		}
+		// Falls back to the deprecated plugin registration, so a mod that has not moved to the data
+		// map keeps working. A pack overrides either one by writing the data map entry itself
 		return this.fertilizers.getInt(stack.getItem());
 	}
 

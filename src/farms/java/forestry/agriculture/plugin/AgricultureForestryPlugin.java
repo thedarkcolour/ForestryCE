@@ -56,7 +56,6 @@ public class AgricultureForestryPlugin implements IForestryPlugin {
 	public void registerFarming(IFarmingRegistration farming) {
 		DefaultFarms.registerFarmTypes(farming);
 
-		farming.registerFertilizer(CoreItems.FERTILIZER_COMPOUND.get(), 500);
 	}
 
 	@Override

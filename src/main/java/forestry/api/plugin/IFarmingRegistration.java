@@ -40,5 +40,6 @@ public interface IFarmingRegistration {
 	 * @param fertilizer The ingredient to match items against.
 	 * @param amount     The amount of fertilizer a single item is worth. Forestry's fertilizer is worth {@code 500}.
 	 */
+	@Deprecated(forRemoval = true)
 	void registerFertilizer(Item fertilizer, int amount);
 }

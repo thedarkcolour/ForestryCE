@@ -96,5 +96,6 @@ public interface IApicultureRegistration {
 	 * @param swarmItem   The item to be used.
 	 * @param swarmChance The chance a swarm hive is created. For Royal Jelly, this is {@code 0.01} or 1%.
 	 */
+	@Deprecated(forRemoval = true)
 	void registerSwarmerMaterial(Item swarmItem, float swarmChance);
 }

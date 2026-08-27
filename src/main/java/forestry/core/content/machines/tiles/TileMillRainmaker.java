@@ -1,8 +1,6 @@
 package forestry.core.content.machines.tiles;
 
 import forestry.api.ForestryConstants;
-import forestry.api.core.machines.fuels.FuelManager;
-import forestry.api.core.machines.fuels.RainSubstrate;
 import forestry.core.platform.advancements.AdvancementHelper;
 import forestry.core.platform.render.ParticleRender;
 import forestry.core.content.machines.TileMill;
@@ -27,6 +25,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ServerLevelData;
 
 import javax.annotation.Nullable;
+import forestry.api.ForestryDataMaps;
+import forestry.api.core.machines.fuels.RainmakerFuel;
 
 public class TileMillRainmaker extends TileMill {
 	private static final ResourceLocation USE_RAINMAKER = ForestryConstants.forestry("use_rainmaker");
@@ -51,15 +51,13 @@ public class TileMillRainmaker extends TileMill {
 			ItemStack heldItem = player.getItemInHand(hand);
 
 			// We don't have a gui, but we can be activated
-			if (FuelManager.rainSubstrate.containsKey(heldItem) && this.charge == 0) {
-				RainSubstrate substrate = FuelManager.rainSubstrate.get(heldItem);
-				if (ItemStack.isSameItem(substrate.item(), heldItem)) {
-					addCharge(substrate);
-					if (!player.isCreative()) {
-						heldItem.shrink(1);
-					}
-					AdvancementHelper.tryUnlock(player, USE_RAINMAKER);
+			RainmakerFuel substrate = heldItem.getItemHolder().getData(ForestryDataMaps.RAINMAKER_FUELS);
+			if (substrate != null && this.charge == 0) {
+				addCharge(substrate);
+				if (!player.isCreative()) {
+					heldItem.shrink(1);
 				}
+				AdvancementHelper.tryUnlock(player, USE_RAINMAKER);
 			}
 			sendNetworkUpdate();
 		}
@@ -88,7 +86,7 @@ public class TileMillRainmaker extends TileMill {
 		compoundNBT.putBoolean("Reverse", this.reverse);
 	}
 
-	public void addCharge(RainSubstrate substrate) {
+	public void addCharge(RainmakerFuel substrate) {
         this.charge = 1;
         this.speed = substrate.speed();
         this.duration = substrate.duration();

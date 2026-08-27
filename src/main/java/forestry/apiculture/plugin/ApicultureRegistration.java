@@ -96,6 +96,8 @@ public class ApicultureRegistration extends SpeciesRegistration<IBeeSpeciesBuild
 	}
 
 	@Override
+	@Deprecated(forRemoval = true)
+	@SuppressWarnings("removal")
 	public void registerSwarmerMaterial(Item swarmItem, float swarmChance) {
 		this.swarmerMaterials.put(swarmItem, swarmChance);
 	}

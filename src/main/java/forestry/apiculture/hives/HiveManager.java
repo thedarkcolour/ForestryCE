@@ -18,6 +18,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 
 import java.util.List;
+import forestry.api.ForestryDataMaps;
 
 public class HiveManager implements IHiveManager {
 	private final ImmutableMap<ResourceLocation, IHive> registry;
@@ -60,6 +61,12 @@ public class HiveManager implements IHiveManager {
 
 	@Override
 	public float getSwarmingMaterialChance(Item swarmItem) {
+		Float chance = swarmItem.builtInRegistryHolder().getData(ForestryDataMaps.SWARMER_FEED);
+		if (chance != null) {
+			return chance;
+		}
+		// Falls back to the deprecated plugin registration, so a mod that has not moved to the data
+		// map keeps working. A pack overrides either one by writing the data map entry itself
 		return this.swarmerMaterials.getFloat(swarmItem);
 	}
 

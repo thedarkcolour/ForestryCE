@@ -3,8 +3,6 @@ package forestry.core.content.machines.recipes.jei.fermenter;
 import forestry.api.ForestryConstants;
 import forestry.api.core.machines.IFermenterRecipe;
 import forestry.api.core.machines.IVariableFermentable;
-import forestry.api.core.machines.fuels.FermenterFuel;
-import forestry.api.core.machines.fuels.FuelManager;
 import forestry.core.content.machines.blocks.BlockTypeFactoryPlain;
 import forestry.core.content.machines.features.FactoryBlocks;
 import forestry.core.platform.config.Constants;
@@ -29,6 +27,8 @@ import net.neoforged.neoforge.fluids.FluidStack;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import forestry.api.ForestryDataMaps;
+import forestry.core.platform.recipes.jei.JeiDataMaps;
 
 public class FermenterRecipeCategory extends ForestryRecipeCategory<IFermenterRecipe> {
 	private static final ResourceLocation TEXTURE = ForestryConstants.forestry(Constants.TEXTURE_PATH_GUI + "/fermenter.png");
@@ -65,10 +65,8 @@ public class FermenterRecipeCategory extends ForestryRecipeCategory<IFermenterRe
 		IRecipeSlotBuilder ingredientInputSlot = builder.addSlot(RecipeIngredientRole.INPUT, 51, 5)
 			.addIngredients(recipe.getInputItem());
 
-		Collection<FermenterFuel> fuels = FuelManager.fermenterFuel.values();
-		List<ItemStack> fuelInputs = fuels.stream().map(FermenterFuel::item).toList();
 		builder.addSlot(RecipeIngredientRole.INPUT, 41, 39)
-			.addItemStacks(fuelInputs);
+			.addItemStacks(JeiDataMaps.stacks(ForestryDataMaps.FERMENTER_FUELS));
 
 		FluidStack fluidInput = recipe.getInputFluid().copy();
 		fluidInput.setAmount(recipe.getFermentationValue());

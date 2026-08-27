@@ -29,6 +29,8 @@ public class FarmingRegistration implements IFarmingRegistration {
 	}
 
 	@Override
+	@Deprecated(forRemoval = true)
+	@SuppressWarnings("removal")
 	public void registerFertilizer(Item fertilizer, int amount) {
 		this.fertilizers.put(fertilizer, amount);
 	}

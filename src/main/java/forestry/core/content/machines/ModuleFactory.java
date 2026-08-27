@@ -1,31 +1,24 @@
 package forestry.core.content.machines;
 
 import forestry.api.client.IClientModuleHandler;
-import forestry.api.core.machines.fuels.FermenterFuel;
-import forestry.api.core.machines.fuels.FuelManager;
-import forestry.api.core.machines.fuels.MoistenerFuel;
-import forestry.api.core.machines.fuels.RainSubstrate;
 import forestry.api.modules.ForestryModule;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.api.modules.IPacketRegistry;
-import forestry.core.platform.config.Preference;
-import forestry.core.features.CoreItems;
 import forestry.core.platform.network.PacketIdClient;
 import forestry.core.platform.network.PacketIdServer;
-import forestry.core.platform.util.datastructures.ItemStackMap;
 import forestry.core.content.machines.client.FactoryClientHandler;
 import forestry.core.content.machines.features.FactoryTiles;
 import forestry.core.content.machines.network.packets.PacketRecipeTransferRequest;
 import forestry.core.content.machines.network.packets.PacketRecipeTransferUpdate;
 import forestry.modules.BlankForestryModule;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 
 import java.util.function.Consumer;
+import forestry.api.ForestryDataMaps;
+import net.neoforged.neoforge.registries.datamaps.RegisterDataMapTypesEvent;
 
 @ForestryModule
 public class ModuleFactory extends BlankForestryModule {
@@ -67,44 +60,18 @@ public class ModuleFactory extends BlankForestryModule {
 	@Override
 	public void registerEvents(IEventBus modBus) {
 		modBus.addListener(ModuleFactory::registerCapabilities);
+		modBus.addListener(ModuleFactory::registerDataMaps);
+	}
+
+	private static void registerDataMaps(RegisterDataMapTypesEvent event) {
+		event.register(ForestryDataMaps.FERMENTER_FUELS);
+		event.register(ForestryDataMaps.MOISTENER_FUELS);
+		event.register(ForestryDataMaps.RAINMAKER_FUELS);
 	}
 
 	@Override
 	public void registerClientHandler(Consumer<IClientModuleHandler> registrar) {
 		registrar.accept(new FactoryClientHandler());
-	}
-
-	@Override
-	public void setupApi() {
-		FuelManager.fermenterFuel = new ItemStackMap<>();
-		FuelManager.moistenerResource = new ItemStackMap<>();
-		FuelManager.rainSubstrate = new ItemStackMap<>();
-
-		// Set fuels and resources for the fermenter
-		ItemStack fertilizerCompound = CoreItems.FERTILIZER_COMPOUND.stack();
-		FuelManager.fermenterFuel.put(fertilizerCompound, new FermenterFuel(fertilizerCompound,
-			Preference.FERMENTED_CYCLE_FERTILIZER, Preference.FERMENTATION_DURATION_FERTILIZER));
-
-		int cyclesCompost = Preference.FERMENTATION_DURATION_COMPOST;
-		int valueCompost = Preference.FERMENTED_CYCLE_COMPOST;
-		ItemStack fertilizerBio = CoreItems.COMPOST.stack();
-		ItemStack mulch = CoreItems.MULCH.stack();
-		FuelManager.fermenterFuel.put(fertilizerBio, new FermenterFuel(fertilizerBio, valueCompost, cyclesCompost));
-		FuelManager.fermenterFuel.put(mulch, new FermenterFuel(mulch, valueCompost, cyclesCompost));
-
-		// Add moistener resources
-		ItemStack wheat = new ItemStack(Items.WHEAT);
-		ItemStack mouldyWheat = CoreItems.MOULDY_WHEAT.stack();
-		ItemStack decayingWheat = CoreItems.DECAYING_WHEAT.stack();
-		FuelManager.moistenerResource.put(wheat, new MoistenerFuel(wheat, mouldyWheat, 0, 300));
-		FuelManager.moistenerResource.put(mouldyWheat, new MoistenerFuel(mouldyWheat, decayingWheat, 1, 600));
-		FuelManager.moistenerResource.put(decayingWheat, new MoistenerFuel(decayingWheat, mulch, 2, 900));
-
-		// Set rain substrates
-		ItemStack iodineCharge = CoreItems.IODINE_CHARGE.stack();
-		ItemStack dissipationCharge = CoreItems.DISSIPATION_CHARGE.stack();
-		FuelManager.rainSubstrate.put(iodineCharge, new RainSubstrate(iodineCharge, 10000, 0.01f));
-		FuelManager.rainSubstrate.put(dissipationCharge, new RainSubstrate(dissipationCharge, 0.075f));
 	}
 
 	@Override

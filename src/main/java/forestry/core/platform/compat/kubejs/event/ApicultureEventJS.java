@@ -89,6 +89,8 @@ public class ApicultureEventJS implements KubeEvent {
 		this.wrapped.registerActivityType(id, new KubeActivityType(isActive, inactiveErrorFunction, lightPreference, dominant));
 	}
 
+	@Deprecated(forRemoval = true)
+	@SuppressWarnings("removal")
 	public void registerSwarmerMaterial(Item swarmItem, float swarmChance) {
 		this.wrapped.registerSwarmerMaterial(swarmItem, swarmChance);
 	}
