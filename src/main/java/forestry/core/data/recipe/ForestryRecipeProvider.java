@@ -1931,7 +1931,6 @@ public class ForestryRecipeProvider {
 			.setInput(Ingredient.of(ApicultureItems.BEE_COMBS.get(EnumHoneyComb.VINTAGE)))
 			.product(1.0f, CoreItems.BEESWAX.stack())
 			.product(0.9f, CoreItems.HONEYDEW.stack())
-			.product(0.5f, CoreItems.AMBER.stack())
 			.build(consumer, id("centrifuge", "vintage_comb"));
 		new CentrifugeRecipeBuilder()
 			.setProcessingTime(20)

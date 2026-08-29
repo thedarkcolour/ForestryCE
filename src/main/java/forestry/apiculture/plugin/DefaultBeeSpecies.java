@@ -719,6 +719,7 @@ public class DefaultBeeSpecies {
 		apiculture.registerSpecies(ForestryBeeSpecies.PRIMEVAL, GENUS_RELIC, SPECIES_PRIMEVAL, true, TextColor.fromRgb(0x653F33))
 			.setTemperature(TemperatureType.WARM)
 			.addProduct(BEE_COMBS.stack(EnumHoneyComb.VINTAGE), 0.30F)
+			.addSpecialty(CoreItems.AMBER.stack(), 0.15F)
 			.setGenome(genome -> {
 				genome.set(BeeChromosomes.LIFESPAN, ForestryAlleles.LIFESPAN_LONG);
 				genome.set(BeeChromosomes.SPEED, ForestryAlleles.SPEED_SLOW);

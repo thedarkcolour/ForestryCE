@@ -25,6 +25,12 @@
       "item": "forestry:vintage_comb"
     }
   ],
+  "specialties": [
+    {
+      "chance": 0.15,
+      "item": "forestry:amber"
+    }
+  ],
   "species": "antiqua",
   "temperature": "warm"
 }
