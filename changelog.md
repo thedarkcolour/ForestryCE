@@ -1,3 +1,6 @@
+## Forestry 3.0.0-alpha8
+- Fix Apiary not connecting to pipes, thanks to oneironautpebble
+
 ## Forestry 3.0.0-alpha7
 - Fixed localization of Refractory Capsule and Wax Capsules
 - Wood localizations no longer use template "grammar" strings, and can be customized on a per-block basis, allowing for proper gendered language support (#110)
