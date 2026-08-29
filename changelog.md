@@ -1,5 +1,6 @@
 ## Forestry 3.0.0-alpha8
 - Fix Apiary not connecting to pipes, thanks to oneironautpebble
+- Add "hive_second_princess_chance" to the config from 1.12-era Forestry
 
 ## Forestry 3.0.0-alpha7
 - Fixed localization of Refractory Capsule and Wax Capsules
