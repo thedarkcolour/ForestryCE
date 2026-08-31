@@ -32,13 +32,4 @@ public interface IFarmingRegistration {
 	 * @param action The modifications to this farm type.
 	 */
 	void modifyFarmType(ResourceLocation id, Consumer<IFarmTypeBuilder> action);
-
-	/**
-	 * Registers a new fertilizer item for use in the Forestry farms.
-	 * By default, the only fertilizer is the Forestry fertilizer, which is worth {@code 500}.
-	 *
-	 * @param fertilizer The ingredient to match items against.
-	 * @param amount     The amount of fertilizer a single item is worth. Forestry's fertilizer is worth {@code 500}.
-	 */
-	void registerFertilizer(Item fertilizer, int amount);
 }

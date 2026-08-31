@@ -1,6 +1,5 @@
 package forestry.core.content.machines.recipes.jei.rainmaker;
 
-import forestry.api.core.machines.fuels.RainSubstrate;
 import forestry.core.platform.client.ForestryColors;
 import forestry.core.platform.recipes.jei.ForestryRecipeCategory;
 import forestry.core.platform.recipes.jei.ForestryRecipeType;
@@ -20,7 +19,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
-public class RainmakerRecipeCategory extends ForestryRecipeCategory<RainSubstrate> {
+public class RainmakerRecipeCategory extends ForestryRecipeCategory<RainmakerJeiRecipe> {
 	private final IDrawable slot;
 	private final IDrawable icon;
 
@@ -32,7 +31,7 @@ public class RainmakerRecipeCategory extends ForestryRecipeCategory<RainSubstrat
 	}
 
 	@Override
-	public RecipeType<RainSubstrate> getRecipeType() {
+	public RecipeType<RainmakerJeiRecipe> getRecipeType() {
 		return ForestryRecipeType.RAINMAKER;
 	}
 
@@ -42,29 +41,29 @@ public class RainmakerRecipeCategory extends ForestryRecipeCategory<RainSubstrat
 	}
 
 	@Override
-	public void setRecipe(IRecipeLayoutBuilder builder, RainSubstrate recipe, IFocusGroup focuses) {
+	public void setRecipe(IRecipeLayoutBuilder builder, RainmakerJeiRecipe recipe, IFocusGroup focuses) {
 		builder.addSlot(RecipeIngredientRole.INPUT, 1, 1)
 			.setBackground(this.slot, -1, -1)
-			.addItemStack(recipe.item());
+			.addItemStack(recipe.substrate());
 	}
 
 	@Override
-	public void draw(RainSubstrate recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics graphics, double mouseX, double mouseY) {
+	public void draw(RainmakerJeiRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics graphics, double mouseX, double mouseY) {
 		super.draw(recipe, recipeSlotsView, graphics, mouseX, mouseY);
 		Component effect = getEffectString(recipe);
-		Component speed = Component.translatable("for.jei.rainmaker.speed", recipe.speed());
+		Component speed = Component.translatable("for.jei.rainmaker.speed", recipe.fuel().speed());
 
 		Font font = Minecraft.getInstance().font;
 		graphics.drawString(font, effect, 24, 0, ForestryColors.DARK_GRAY, false);
 		graphics.drawString(font, speed, 24, 10, ForestryColors.GRAY, false);
-		if (!recipe.reverse()) {
-			Component duration = Component.translatable("for.jei.rainmaker.duration", recipe.duration());
+		if (!recipe.fuel().reverse()) {
+			Component duration = Component.translatable("for.jei.rainmaker.duration", recipe.fuel().duration());
 			graphics.drawString(font, duration, 24, 20, ForestryColors.GRAY, false);
 		}
 	}
 
-	private static Component getEffectString(RainSubstrate recipe) {
-		if (recipe.reverse()) {
+	private static Component getEffectString(RainmakerJeiRecipe recipe) {
+		if (recipe.fuel().reverse()) {
 			return Component.translatable("for.jei.rainmaker.stops.rain");
 		} else {
 			return Component.translatable("for.jei.rainmaker.causes.rain");

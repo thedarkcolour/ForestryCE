@@ -1,0 +1,9 @@
+{
+  "values": {
+    "forestry:ethanol": {
+      "burn_duration": 15000,
+      "dissipation_multiplier": 1,
+      "power_per_cycle": 40
+    }
+  }
+}

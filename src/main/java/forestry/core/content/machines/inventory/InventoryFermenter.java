@@ -1,6 +1,5 @@
 package forestry.core.content.machines.inventory;
 
-import forestry.api.core.machines.fuels.FuelManager;
 import forestry.core.platform.fluids.FluidHelper;
 import forestry.core.platform.inventory.InventoryAdapterTile;
 import forestry.core.platform.util.RecipeUtils;
@@ -11,6 +10,7 @@ import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidUtil;
 
 import java.util.Optional;
+import forestry.api.ForestryDataMaps;
 
 public class InventoryFermenter extends InventoryAdapterTile<TileFermenter> {
 	public static final short SLOT_RESOURCE = 0;
@@ -33,7 +33,7 @@ public class InventoryFermenter extends InventoryAdapterTile<TileFermenter> {
 		} else if (slotIndex == SLOT_CAN_INPUT) {
 			return FluidHelper.isFillableContainerWithRoom(stack);
 		} else if (slotIndex == SLOT_FUEL) {
-			return FuelManager.fermenterFuel.containsKey(stack);
+			return stack.getItemHolder().getData(ForestryDataMaps.FERMENTER_FUELS) != null;
 		}
 		return false;
 	}

@@ -2,6 +2,7 @@ package forestry.apiculture.hives;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import forestry.api.ForestryDataMaps;
 import forestry.api.apiculture.IBeeHousing;
 import forestry.api.apiculture.IBeeListener;
 import forestry.api.apiculture.IBeeModifier;
@@ -9,11 +10,10 @@ import forestry.api.apiculture.IBeekeepingLogic;
 import forestry.api.apiculture.hives.IHive;
 import forestry.api.apiculture.hives.IHiveDrop;
 import forestry.api.apiculture.hives.IHiveManager;
+import forestry.api.apiculture.hives.VillageHive;
+import forestry.apiculture.bees.BeeHousingBeekeepingLogic;
 import forestry.apiculture.bees.BeeHousingListener;
 import forestry.apiculture.bees.BeeHousingModifier;
-import forestry.apiculture.bees.BeeHousingBeekeepingLogic;
-import forestry.api.apiculture.hives.VillageHive;
-import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 
@@ -24,13 +24,11 @@ public class HiveManager implements IHiveManager {
 
 	private final ImmutableList<VillageHive> commonVillageHives;
 	private final ImmutableList<VillageHive> rareVillageHives;
-	private final Object2FloatOpenHashMap<Item> swarmerMaterials;
 
-	public HiveManager(ImmutableMap<ResourceLocation, IHive> registry, ImmutableList<VillageHive> commonVillageHives, ImmutableList<VillageHive> rareVillageHives, Object2FloatOpenHashMap<Item> swarmerMaterials) {
+	public HiveManager(ImmutableMap<ResourceLocation, IHive> registry, ImmutableList<VillageHive> commonVillageHives, ImmutableList<VillageHive> rareVillageHives) {
 		this.registry = registry;
 		this.commonVillageHives = commonVillageHives;
 		this.rareVillageHives = rareVillageHives;
-		this.swarmerMaterials = swarmerMaterials;
 	}
 
 	@Override
@@ -60,7 +58,8 @@ public class HiveManager implements IHiveManager {
 
 	@Override
 	public float getSwarmingMaterialChance(Item swarmItem) {
-		return this.swarmerMaterials.getFloat(swarmItem);
+		Float chance = swarmItem.builtInRegistryHolder().getData(ForestryDataMaps.SWARMER_FEED);
+		return chance != null ? chance : 0;
 	}
 
 	@Override

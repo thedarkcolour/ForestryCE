@@ -1,0 +1,14 @@
+{
+  "values": {
+    "forestry:dissipation_charge": {
+      "duration": 0,
+      "reverse": true,
+      "speed": 0.075
+    },
+    "forestry:iodine_capsule": {
+      "duration": 10000,
+      "reverse": false,
+      "speed": 0.01
+    }
+  }
+}

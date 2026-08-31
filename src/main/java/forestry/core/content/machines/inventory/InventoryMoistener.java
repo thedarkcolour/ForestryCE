@@ -1,6 +1,5 @@
 package forestry.core.content.machines.inventory;
 
-import forestry.api.core.machines.fuels.FuelManager;
 import forestry.core.platform.inventory.InventoryAdapterTile;
 import forestry.core.platform.util.RecipeUtils;
 import forestry.core.platform.util.SlotUtil;
@@ -11,6 +10,7 @@ import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidUtil;
 
 import java.util.Optional;
+import forestry.api.ForestryDataMaps;
 
 public class InventoryMoistener extends InventoryAdapterTile<TileMoistener> {
 	public static final short SLOT_STASH_1 = 0;
@@ -32,7 +32,7 @@ public class InventoryMoistener extends InventoryAdapterTile<TileMoistener> {
 		}
 
 		if (SlotUtil.isSlotInRange(slotIndex, SLOT_STASH_1, SLOT_STASH_COUNT)) {
-			return FuelManager.moistenerResource.containsKey(stack);
+			return stack.getItemHolder().getData(ForestryDataMaps.MOISTENER_FUELS) != null;
 		}
 
 		if (slotIndex == SLOT_PRODUCT) {
@@ -50,7 +50,7 @@ public class InventoryMoistener extends InventoryAdapterTile<TileMoistener> {
 		}
 
 		if (SlotUtil.isSlotInRange(slotIndex, SLOT_STASH_1, SLOT_STASH_COUNT + SLOT_RESERVOIR_COUNT)) {
-			return !FuelManager.moistenerResource.containsKey(itemstack);
+			return itemstack.getItemHolder().getData(ForestryDataMaps.MOISTENER_FUELS) == null;
 		}
 
 		return false;

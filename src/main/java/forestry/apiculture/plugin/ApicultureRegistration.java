@@ -4,7 +4,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import forestry.api.apiculture.IActivityType;
 import forestry.api.apiculture.IBeeJubilance;
-import forestry.api.apiculture.IFlowerType;
 import forestry.api.apiculture.genetics.IBeeEffect;
 import forestry.api.apiculture.genetics.IBeeSpecies;
 import forestry.api.apiculture.hives.IHiveDefinition;
@@ -95,13 +94,7 @@ public class ApicultureRegistration extends SpeciesRegistration<IBeeSpeciesBuild
 		this.hives.modify(id, builder);
 	}
 
-	@Override
-	public void registerSwarmerMaterial(Item swarmItem, float swarmChance) {
-		this.swarmerMaterials.put(swarmItem, swarmChance);
-	}
-
 	public HiveManager buildHiveManager() {
-		// todo validate IDs of the village species OR use the species directly
-		return new HiveManager(this.hives.build(HiveBuilder::build), ImmutableList.copyOf(this.commonVillageHives), ImmutableList.copyOf(this.rareVillageHives), new Object2FloatOpenHashMap<>(this.swarmerMaterials));
+		return new HiveManager(this.hives.build(HiveBuilder::build), ImmutableList.copyOf(this.commonVillageHives), ImmutableList.copyOf(this.rareVillageHives));
 	}
 }

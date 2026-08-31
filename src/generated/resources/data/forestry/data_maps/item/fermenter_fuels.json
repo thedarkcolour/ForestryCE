@@ -1,0 +1,16 @@
+{
+  "values": {
+    "forestry:compost": {
+      "burn_duration": 250,
+      "ferment_per_cycle": 48
+    },
+    "forestry:fertilizer": {
+      "burn_duration": 200,
+      "ferment_per_cycle": 56
+    },
+    "forestry:mulch": {
+      "burn_duration": 250,
+      "ferment_per_cycle": 48
+    }
+  }
+}

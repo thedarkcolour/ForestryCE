@@ -4,7 +4,6 @@ import forestry.api.IForestryApi;
 import forestry.api.core.ForestryError;
 import forestry.api.core.circuits.ForestryCircuitSocketTypes;
 import forestry.api.core.circuits.ICircuitBoard;
-import forestry.api.core.machines.fuels.FuelManager;
 import forestry.core.platform.config.Constants;
 import forestry.core.engine.circuits.IEngineUpgradeable;
 import forestry.core.engine.circuits.ISocketable;
@@ -30,6 +29,8 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
+import forestry.api.ForestryDataMaps;
+import forestry.api.core.machines.fuels.PeatEngineFuel;
 
 public class PeatEngineBlockEntity extends EngineBlockEntity implements WorldlyContainer, ISocketable, IEngineUpgradeable {
 	private ItemStack fuel = ItemStack.EMPTY;
@@ -201,22 +202,16 @@ public class PeatEngineBlockEntity extends EngineBlockEntity implements WorldlyC
 	 * Returns the fuel value (power per cycle) an item of the passed ItemStack provides
 	 */
 	private static int determineFuelValue(ItemStack fuel) {
-		if (FuelManager.peatEngineFuel.containsKey(fuel)) {
-			return FuelManager.peatEngineFuel.get(fuel).powerPerCycle();
-		} else {
-			return 0;
-		}
+		PeatEngineFuel peatFuel = fuel.getItemHolder().getData(ForestryDataMaps.PEAT_FUELS);
+		return peatFuel != null ? peatFuel.powerPerCycle() : 0;
 	}
 
 	/**
 	 * Returns the fuel value (power per cycle) an item of the passed ItemStack provides
 	 */
 	private static int determineBurnDuration(ItemStack fuel) {
-		if (FuelManager.peatEngineFuel.containsKey(fuel)) {
-			return FuelManager.peatEngineFuel.get(fuel).burnDuration();
-		} else {
-			return 0;
-		}
+		PeatEngineFuel peatFuel = fuel.getItemHolder().getData(ForestryDataMaps.PEAT_FUELS);
+		return peatFuel != null ? peatFuel.burnDuration() : 0;
 	}
 
 	// / STATE INFORMATION

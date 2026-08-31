@@ -61,6 +61,8 @@ import forestry.core.platform.PickupHandlerCore;
 
 @ForestryModule
 public class ModuleCore extends BlankForestryModule {
+	private static volatile boolean apiInitialized = false;
+
 	@Override
 	public ResourceLocation getId() {
 		return ForestryModuleIds.CORE;
@@ -112,9 +114,7 @@ public class ModuleCore extends BlankForestryModule {
 		ensureApiInitialized();
 	}
 
-	private static volatile boolean apiInitialized = false;
-
-	/**
+	/** todo remove
 	 * Idempotent bootstrap of Forestry's runtime API. Some client-side events
 	 * (e.g. ModelEvent.RegisterGeometryLoaders) fire before FMLCommonSetupEvent
 	 * is processed and need TreeManager / BeeManager / etc. already wired up.
@@ -124,7 +124,6 @@ public class ModuleCore extends BlankForestryModule {
 		if (apiInitialized) {
 			return;
 		}
-		PluginManager.registerCircuits();
 		postItemRegistry();
 		((ForestryModuleManager) IForestryApi.INSTANCE.getModuleManager()).setupApi();
 		apiInitialized = true;
@@ -149,15 +148,11 @@ public class ModuleCore extends BlankForestryModule {
 	}
 
 	private static void postItemRegistry() {
-		PluginManager.registerGenetics();
-
 		// Modules load in dependency order (see ForestryModuleManager). A module that supplies one of
 		// the api managers installs it here, over the no-op base put there at construction.
 		for (IForestryModule module : IForestryApi.INSTANCE.getModuleManager().getLoadedModules()) {
-			module.installManagers();
+			module.applyPluginRegistration();
 		}
-
-		PluginManager.registerPollen();
 	}
 
 	private static void onItemPickup(ItemEntityPickupEvent.Post event) {
@@ -251,6 +246,13 @@ public class ModuleCore extends BlankForestryModule {
 		}
 
 		event.getDispatcher().register(forestryCommand);
+	}
+
+	@Override
+	public void applyPluginRegistration() {
+		PluginManager.registerCircuits();
+		PluginManager.registerGenetics();
+		PluginManager.registerPollen();
 	}
 
 	@Override

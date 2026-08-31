@@ -2,6 +2,7 @@ package forestry.apiculture;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import forestry.api.ForestryCapabilities;
+import forestry.api.ForestryDataMaps;
 import forestry.api.apiculture.BeeManager;
 import forestry.api.apiculture.ForestryBeeSpecies;
 import forestry.api.client.IClientModuleHandler;
@@ -56,6 +57,7 @@ import net.neoforged.neoforge.event.AddReloadListenerEvent;
 import net.neoforged.neoforge.event.LootTableLoadEvent;
 import net.neoforged.neoforge.event.OnDatapackSyncEvent;
 import net.neoforged.neoforge.event.brewing.RegisterBrewingRecipesEvent;
+import net.neoforged.neoforge.registries.datamaps.RegisterDataMapTypesEvent;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -176,12 +178,17 @@ public class ModuleApiculture extends BlankForestryModule {
 	public void registerEvents(IEventBus modBus) {
 		modBus.addListener(ApicultureCreativeTab::addToForestryTab);
 		modBus.addListener(ModuleApiculture::registerCapabilities);
+		modBus.addListener(ModuleApiculture::registerDataMaps);
 		modBus.addListener(ModuleApiculture::onCommonSetup);
 
 		NeoForge.EVENT_BUS.addListener(ModuleApiculture::registerBrewingRecipes);
 		NeoForge.EVENT_BUS.addListener(ApicultureVillagers::villagerTrades);
 		NeoForge.EVENT_BUS.addListener(ModuleApiculture::onNetherBeeMate);
 		NeoForge.EVENT_BUS.addListener(ModuleApiculture::modifySnifferLoot);
+	}
+
+	private static void registerDataMaps(RegisterDataMapTypesEvent event) {
+		event.register(ForestryDataMaps.SWARMER_FEED);
 	}
 
 	@Override
@@ -209,7 +216,7 @@ public class ModuleApiculture extends BlankForestryModule {
 	}
 
 	@Override
-	public void installClientManagers(IClientRegistration registration) {
+	public void applyClientPluginRegistration(IClientRegistration registration) {
 		ClientRegistration impl = (ClientRegistration) registration;
 
 		// id-keyed: resolving a specific species happens at render time, so the (possibly

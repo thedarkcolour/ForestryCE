@@ -205,8 +205,6 @@ public class ApicultureForestryPlugin implements IForestryPlugin {
 		apiculture.registerActivityType(ForestryActivityTypes.METATURNAL, new SingleActivityType(0, 24000, ForestryError.INVALID, LightPreference.ANY));
 		apiculture.registerActivityType(ForestryActivityTypes.CREPUSCULAR, new CrepuscularActivityType());
 		apiculture.registerActivityType(ForestryActivityTypes.CATHEMERAL, new CathemeralActivityType());
-
-		apiculture.registerSwarmerMaterial(ApicultureItems.ROYAL_JELLY.get(), 0.01f);
 	}
 
 	private static Supplier<List<ItemStack>> getHoneyComb(EnumHoneyComb type) {

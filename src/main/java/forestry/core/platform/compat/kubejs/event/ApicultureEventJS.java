@@ -88,8 +88,4 @@ public class ApicultureEventJS implements KubeEvent {
 	public void registerCustomActivityType(ResourceLocation id, KubeActivityType.IsActiveFunction isActive, KubeActivityType.InactiveErrorFunction inactiveErrorFunction, LightPreference lightPreference, boolean dominant) {
 		this.wrapped.registerActivityType(id, new KubeActivityType(isActive, inactiveErrorFunction, lightPreference, dominant));
 	}
-
-	public void registerSwarmerMaterial(Item swarmItem, float swarmChance) {
-		this.wrapped.registerSwarmerMaterial(swarmItem, swarmChance);
-	}
 }

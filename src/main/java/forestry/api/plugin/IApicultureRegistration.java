@@ -2,14 +2,12 @@ package forestry.api.plugin;
 
 import forestry.api.apiculture.IActivityType;
 import forestry.api.apiculture.IBeeJubilance;
-import forestry.api.apiculture.IFlowerType;
 import forestry.api.apiculture.genetics.IBeeEffect;
 import forestry.api.apiculture.hives.IHiveDefinition;
 import forestry.api.core.genetics.alleles.Allele;
 import forestry.api.core.genetics.alleles.IChromosome;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
 
 import java.util.Map;
 import java.util.function.Consumer;
@@ -88,13 +86,4 @@ public interface IApicultureRegistration {
 	 * @param type The activity type to register.
 	 */
 	void registerActivityType(ResourceLocation id, IActivityType type);
-
-	/**
-	 * Registers an ingredient to be used in the Alveary Swarmer block, which creates swarm hives around the alveary
-	 * containing ignoble princesses with copies of the queen's genome.
-	 *
-	 * @param swarmItem   The item to be used.
-	 * @param swarmChance The chance a swarm hive is created. For Royal Jelly, this is {@code 0.01} or 1%.
-	 */
-	void registerSwarmerMaterial(Item swarmItem, float swarmChance);
 }
