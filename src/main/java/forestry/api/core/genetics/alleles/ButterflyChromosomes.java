@@ -1,11 +1,6 @@
 package forestry.api.core.genetics.alleles;
 
-import com.mojang.logging.LogUtils;
 import forestry.api.IForestryApi;
-import net.neoforged.neoforge.common.util.Lazy;
-import org.slf4j.Logger;
-import net.minecraft.resources.ResourceLocation;
-
 import forestry.api.core.ToleranceType;
 import forestry.api.core.genetics.ForestrySpeciesTypes;
 import forestry.api.lepidopterology.ForestryButterflyEffects;
@@ -14,33 +9,21 @@ import forestry.api.lepidopterology.IButterflyCocoon;
 import forestry.api.lepidopterology.IButterflyEffect;
 import forestry.api.lepidopterology.genetics.IButterflySpecies;
 import forestry.api.lepidopterology.genetics.IButterflySpeciesType;
+import net.minecraft.resources.ResourceLocation;
+import net.neoforged.neoforge.common.util.Lazy;
+import org.jetbrains.annotations.ApiStatus;
 
 import static forestry.api.ForestryConstants.forestry;
 
 public class ButterflyChromosomes {
-	private static final Logger LOGGER = LogUtils.getLogger();
-	// memoized exactly as core's SpeciesUtil did: these resolvers back every genome decode
-	private static final Lazy<IButterflySpeciesType> BUTTERFLY_TYPE = Lazy.of(() -> IForestryApi.INSTANCE.getGeneticManager().getSpeciesType(ForestrySpeciesTypes.BUTTERFLY, IButterflySpeciesType.class));
+	@ApiStatus.Internal
+	private static final Lazy<IButterflySpeciesType> TYPE = Lazy.of(() -> IForestryApi.INSTANCE.getGeneticManager().getSpeciesType(ForestrySpeciesTypes.BUTTERFLY, IButterflySpeciesType.class));
 
 	/**
 	 * The species of a butterfly. The genome stores the species' ID.
 	 */
 	public static final IChromosome<ResourceLocation> SPECIES = ChromosomeFactory.referenceChromosome(ForestrySpeciesTypes.BUTTERFLY, ButterflyChromosomes::resolveSpeciesOrDefault, IButterflySpecies::isDominant);
 
-	/**
-	 * Resolves a butterfly species id stored in a genome to its species, falling back to the default species (instead
-	 * of throwing) if a datapack has since removed it. Backs every SPECIES chromosome read (tooltips, analyzer,
-	 * spawning, saved items), so a removed id must never crash those paths.
-	 */
-	private static IButterflySpecies resolveSpeciesOrDefault(ResourceLocation id) {
-		IButterflySpeciesType type = BUTTERFLY_TYPE.get();
-		IButterflySpecies species = type.getSpeciesSafe(id);
-		if (species != null) {
-			return species;
-		}
-		LOGGER.warn("Butterfly species {} not found (removed by a datapack?); falling back to the default species", id);
-		return type.getDefaultSpecies();
-	}
 	/**
 	 * Determines physical size of a butterfly.
 	 */
@@ -94,34 +77,33 @@ public class ButterflyChromosomes {
 	 */
 	public static final IChromosome<ResourceLocation> COCOON = ChromosomeFactory.referenceChromosome(forestry("cocoon"), ButterflyChromosomes::resolveCocoonOrDefault, IButterflyCocoon::isDominant);
 
-	/**
-	 * Resolves a butterfly_effect id stored in a genome to its effect, falling back to {@link ForestryButterflyEffects#NONE}
-	 * (instead of throwing) if it isn't registered. Unlike {@link #SPECIES}, this map is code-registered and never
-	 * touched by a datapack reload, but a datapack-authored species (Task 5+) can still reference an unregistered id
-	 * in its genome overrides - that must not crash tooltips/analyzer/cocoon maturation reads.
-	 */
+	@ApiStatus.Internal
 	private static IButterflyEffect resolveEffectOrDefault(ResourceLocation id) {
-		IButterflySpeciesType type = BUTTERFLY_TYPE.get();
+		IButterflySpeciesType type = TYPE.get();
 		IButterflyEffect effect = type.getButterflyEffectSafe(id);
 		if (effect != null) {
 			return effect;
 		}
-		LOGGER.warn("Butterfly effect {} not found; falling back to the default (no-op) effect", id);
 		return type.getButterflyEffectSafe(ForestryButterflyEffects.NONE);
 	}
 
-	/**
-	 * Resolves a cocoon id stored in a genome to its cocoon, falling back to {@link ForestryCocoons#DEFAULT} (instead
-	 * of throwing) if it isn't registered. See {@link #resolveEffectOrDefault} for why this can't just be a fixed,
-	 * always-registered set anymore.
-	 */
+	@ApiStatus.Internal
 	private static IButterflyCocoon resolveCocoonOrDefault(ResourceLocation id) {
-		IButterflySpeciesType type = BUTTERFLY_TYPE.get();
+		IButterflySpeciesType type = TYPE.get();
 		IButterflyCocoon cocoon = type.getCocoonSafe(id);
 		if (cocoon != null) {
 			return cocoon;
 		}
-		LOGGER.warn("Butterfly cocoon {} not found; falling back to the default cocoon", id);
 		return type.getCocoonSafe(ForestryCocoons.DEFAULT);
+	}
+
+	@ApiStatus.Internal
+	private static IButterflySpecies resolveSpeciesOrDefault(ResourceLocation id) {
+		IButterflySpeciesType type = TYPE.get();
+		IButterflySpecies species = type.getSpeciesSafe(id);
+		if (species != null) {
+			return species;
+		}
+		return type.getDefaultSpecies();
 	}
 }
