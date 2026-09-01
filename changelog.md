@@ -3,6 +3,7 @@
 - Add "hive_second_princess_chance" to the config from 1.12-era Forestry
 - Make Amber a Primeval specialty instead of a Vintage comb drop
 - Fix JEI hint translations for several items
+- Fix log spam for invalid species
 
 ## Forestry 3.0.0-alpha7
 - Fixed localization of Refractory Capsule and Wax Capsules
