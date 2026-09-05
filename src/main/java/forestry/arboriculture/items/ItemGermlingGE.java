@@ -104,10 +104,10 @@ public class ItemGermlingGE extends ItemGE implements IVariableFermentable, ICol
 		// x, y, z are the coordinates of the block "hit", can thus either be the soil or tall grass, etc.
 		BlockState hitBlock = worldIn.getBlockState(pos);
 		if (!hitBlock.canBeReplaced(context)) {
-			if (!worldIn.isEmptyBlock(pos.above())) {
+			pos = context.getClickedPos();
+			if (!worldIn.getBlockState(pos).canBeReplaced(context)) {
 				return InteractionResultHolder.pass(stack);
 			}
-			pos = pos.above(); //TODO: Change this so saplings aren't placed on top of a block when clicking the side
 		}
 
 		if (tree.canStay(worldIn, pos)) {
