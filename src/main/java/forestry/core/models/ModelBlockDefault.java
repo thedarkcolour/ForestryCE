@@ -21,7 +21,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.model.data.ModelData;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
@@ -58,7 +57,7 @@ public abstract class ModelBlockDefault<B extends Block, K> implements BakedMode
 		return bakeModel(state, worldKey, block, extraData);
 	}
 
-	protected BakedModel bakeModel(ItemStack stack, Level world, K key) {
+	protected BakedModel bakeModel(ItemStack stack, K key) {
 		ModelBaker baker = new ModelBaker();
 		Block block = Block.byItem(stack.getItem());
 		Preconditions.checkArgument(this.blockClass.isInstance(block));
@@ -69,12 +68,11 @@ public abstract class ModelBlockDefault<B extends Block, K> implements BakedMode
 	}
 
 	protected BakedModel getModel(ItemStack stack, Level world) {
-		return bakeModel(stack, world, getInventoryKey(stack));
+		return bakeModel(stack, getInventoryKey(stack));
 	}
 
-	@Nonnull
 	@Override
-	public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, @Nonnull RandomSource rand, @Nonnull ModelData extraData, @Nullable RenderType renderType) {
+	public List<BakedQuad> getQuads(@Nullable BlockState state, @Nullable Direction side, RandomSource rand, ModelData extraData, @Nullable RenderType renderType) {
 		Preconditions.checkNotNull(state);
 		BakedModel model = getModel(state, extraData);
 		return model.getQuads(state, side, rand, extraData, renderType);

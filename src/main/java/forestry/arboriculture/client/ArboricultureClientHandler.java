@@ -39,12 +39,6 @@ public class ArboricultureClientHandler implements IClientModuleHandler {
 
 	private static void onClientSetup(FMLClientSetupEvent event) {
 		event.enqueueWork(() -> {
-			ClientManager clientManager = ClientManager.INSTANCE;
-			clientManager.registerModel(new ModelLeaves(), ArboricultureBlocks.LEAVES);
-			clientManager.registerModel(new ModelDecorativeLeaves<>(BlockDecorativeLeaves.class), ArboricultureBlocks.LEAVES_DECORATIVE);
-			clientManager.registerModel(new ModelDefaultLeaves(), ArboricultureBlocks.LEAVES_DEFAULT);
-			clientManager.registerModel(new ModelDefaultLeavesFruit(), ArboricultureBlocks.LEAVES_DEFAULT_FRUIT);
-
 			// fruit overlays require CUTOUT_MIPPED, even in Fast graphics
 			ArboricultureBlocks.LEAVES_DEFAULT.getBlocks().forEach(block -> ItemBlockRenderTypes.setRenderLayer(block, RenderType.cutoutMipped()));
 			ItemBlockRenderTypes.setRenderLayer(ArboricultureBlocks.LEAVES.block(), RenderType.cutoutMipped());
@@ -59,6 +53,12 @@ public class ArboricultureClientHandler implements IClientModuleHandler {
 
 	private static void registerModelLoaders(ModelEvent.RegisterGeometryLoaders event) {
 		event.register("sapling_ge", new SaplingModelLoader());
+
+		ClientManager clientManager = ClientManager.INSTANCE;
+		clientManager.registerModel(new ModelLeaves(), ArboricultureBlocks.LEAVES);
+		clientManager.registerModel(new ModelDecorativeLeaves<>(BlockDecorativeLeaves.class), ArboricultureBlocks.LEAVES_DECORATIVE);
+		clientManager.registerModel(new ModelDefaultLeaves(), ArboricultureBlocks.LEAVES_DEFAULT);
+		clientManager.registerModel(new ModelDefaultLeavesFruit(), ArboricultureBlocks.LEAVES_DEFAULT_FRUIT);
 	}
 
 	private static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {

@@ -54,7 +54,7 @@ public abstract class ModelBlockCached<B extends Block, K> extends ModelBlockDef
 
 		BakedModel model = this.inventoryCache.getIfPresent(key);
 		if (model == null) {
-			model = bakeModel(stack, world, key);
+			model = bakeModel(stack, key);
             this.inventoryCache.put(key, model);
 		}
 		return model;
