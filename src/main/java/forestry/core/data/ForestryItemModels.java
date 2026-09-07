@@ -81,7 +81,6 @@ public class ForestryItemModels {
 		models.generic2d(CoreItems.FRUITS.get(FruitItemType.PLUM));
 		models.generic2d(CoreItems.FRUITS.get(FruitItemType.WALNUT));
 
-		models.generic2d(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.PULSATING_DUST));
 		models.generic2d(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.PULSATING_MESH));
 		models.generic2d(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.WOOD_PULP));
 		models.generic2d(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.SILK_WISP));

@@ -1,3 +1,6 @@
+## Forestry 3.0.0-alpha9
+- Remove Pulsating Dust
+
 ## Forestry 3.0.0-alpha8
 - Fix Apiary not connecting to pipes, thanks to oneironautpebble
 - Add "hive_second_princess_chance" to the config from 1.12-era Forestry
