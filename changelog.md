@@ -1,5 +1,6 @@
 ## Forestry 3.0.0-alpha9
-- Remove Pulsating Dust
+- Remove Pulsating Dust (#113)
+- Remove Honey Pot (#189)
 
 ## Forestry 3.0.0-alpha8
 - Fix Apiary not connecting to pipes, thanks to oneironautpebble
