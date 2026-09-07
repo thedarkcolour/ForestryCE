@@ -1,6 +1,7 @@
 ## Forestry 3.0.0-alpha9
 - Remove Pulsating Dust (#113)
 - Remove Honey Pot (#189)
+- Remove Copper/Tin -> Bronze crafting recipe (must use Smelter now)
 
 ## Forestry 3.0.0-alpha8
 - Fix Apiary not connecting to pipes, thanks to oneironautpebble

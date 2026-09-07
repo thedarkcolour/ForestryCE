@@ -47,14 +47,14 @@ public class CoreItems {
 	public static final FeatureItem<ItemResearchNote> RESEARCH_NOTE = REGISTRY.item(ItemResearchNote::new, "research_note");
 
 	/* Alyzer */
-	public static final FeatureItem<PortableAnalyzerItem> PORTABLE_ALYZER = REGISTRY.item(PortableAnalyzerItem::new, () -> new Item.Properties()
+	public static final FeatureItem<PortableAnalyzerItem> PORTABLE_ANALYZER = REGISTRY.item(PortableAnalyzerItem::new, () -> new Item.Properties()
 		.stacksTo(1)
 		.component(DataComponents.CONTAINER, ItemContainerContents.EMPTY)
 		.component(CoreDataComponents.ALYZER_CHARGES.get(), 0), "portable_analyzer");
 
 	/* Ingots */
-	public static final FeatureItem<ItemForestry> INGOT_TIN = REGISTRY.item(ItemForestry::new, "tin_ingot");
-	public static final FeatureItem<ItemForestry> INGOT_BRONZE = REGISTRY.item(ItemForestry::new, "bronze_ingot");
+	public static final FeatureItem<ItemForestry> TIN_INGOT = REGISTRY.item(ItemForestry::new, "tin_ingot");
+	public static final FeatureItem<ItemForestry> BRONZE_INGOT = REGISTRY.item(ItemForestry::new, "bronze_ingot");
 
 	/* Nuggets */
 	public static final FeatureItem<ItemForestry> TIN_NUGGET = REGISTRY.item(ItemForestry::new, "tin_nugget");

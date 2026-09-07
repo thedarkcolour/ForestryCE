@@ -50,7 +50,7 @@ public class ForestryItemModels {
 		models.generic2d(CoreItems.MOULDY_WHEAT);
 		models.generic2d(CoreItems.MULCH);
 		models.generic2d(CoreItems.PEAT);
-		models.generic2d(CoreItems.PORTABLE_ALYZER);
+		models.generic2d(CoreItems.PORTABLE_ANALYZER);
 		models.generic2d(ApicultureItems.FRAME_PROVEN);
 		models.generic2d(ArboricultureItems.PROVEN_GRAFTER);
 		models.generic2d(CoreItems.PROVEN_SCOOP);

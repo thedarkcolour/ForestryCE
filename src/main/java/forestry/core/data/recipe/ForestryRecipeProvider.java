@@ -650,12 +650,12 @@ public class ForestryRecipeProvider {
 
 	private static void registerCoreRecipes(MKRecipeProvider recipes) {
 		recipes.oreSmelting(ingredient(CoreBlocks.APATITE_ORE.get(), CoreBlocks.DEEPSLATE_APATITE_ORE.get()), CoreItems.APATITE, 0.5f, 200);
-		recipes.oreSmelting(ingredient(CoreBlocks.TIN_ORE.get(), CoreBlocks.DEEPSLATE_TIN_ORE.get(), CoreItems.RAW_TIN), CoreItems.INGOT_TIN, 0.5f, 200);
+		recipes.oreSmelting(ingredient(CoreBlocks.TIN_ORE.get(), CoreBlocks.DEEPSLATE_TIN_ORE.get(), CoreItems.RAW_TIN), CoreItems.TIN_INGOT, 0.5f, 200);
 		recipes.smelting(Ingredient.of(CoreItems.PEAT.item()), CoreItems.ASH, 0.0f, 200);
 		recipes.storage3x3(CoreBlocks.RAW_TIN_BLOCK, CoreItems.RAW_TIN);
 
 		recipes.shapedCrafting(RecipeCategory.MISC, CoreBlocks.BASE.get(BlockTypeCoreTesr.ANALYZER), recipe -> {
-			recipe.define('T', CoreItems.PORTABLE_ALYZER);
+			recipe.define('T', CoreItems.PORTABLE_ANALYZER);
 			recipe.define('X', ForestryTags.Items.INGOTS_BRONZE);
 			recipe.define('Y', CoreItems.STURDY_CASING);
 			recipe.pattern("XTX");
@@ -663,7 +663,7 @@ public class ForestryRecipeProvider {
 			recipe.pattern("X X");
 		});
 		recipes.storage3x3(CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.APATITE), CoreItems.APATITE);
-		recipes.storage3x3(CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.BRONZE), CoreItems.INGOT_BRONZE);
+		recipes.storage3x3(CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.BRONZE), CoreItems.BRONZE_INGOT);
 		// Tin storage block crafted from any tin ingot (forge:ingots/tin tag) so cross-mod
 		// tin from Mekanism, Railcraft, etc. is accepted. Decomposition still produces
 		// Forestry's specific tin ingot.
@@ -673,11 +673,11 @@ public class ForestryRecipeProvider {
 			recipe.pattern("###");
 			recipe.pattern("###");
 		});
-		recipes.shapelessCrafting("ingot_tin_from_resource_storage_tin", RecipeCategory.MISC, CoreItems.INGOT_TIN.item(), 9, CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.TIN));
+		recipes.shapelessCrafting("ingot_tin_from_resource_storage_tin", RecipeCategory.MISC, CoreItems.TIN_INGOT.item(), 9, CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.TIN));
 		// Deviation from 1.20.1: that tree spelled the counted ingredient IntObjectPair.of(9, item);
 		// this tree's idiom for the same MKRecipeProvider feature is ObjectIntPair.of(item, 9)
-		recipes.shapelessCrafting("tin_from_nuggets", RecipeCategory.MISC, CoreItems.INGOT_TIN, 1, ObjectIntPair.of(CoreItems.TIN_NUGGET, 9));
-		recipes.shapelessCrafting(RecipeCategory.MISC, CoreItems.TIN_NUGGET, 9, CoreItems.INGOT_TIN);
+		recipes.shapelessCrafting("tin_from_nuggets", RecipeCategory.MISC, CoreItems.TIN_INGOT, 1, ObjectIntPair.of(CoreItems.TIN_NUGGET, 9));
+		recipes.shapelessCrafting(RecipeCategory.MISC, CoreItems.TIN_NUGGET, 9, CoreItems.TIN_INGOT);
 
 		// Building blocks
 		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.TURF, 3, recipe -> {
@@ -761,7 +761,6 @@ public class ForestryRecipeProvider {
 		gear(recipes, CoreItems.GEAR_COPPER, Tags.Items.INGOTS_COPPER);
 		gear(recipes, CoreItems.GEAR_IRON, Tags.Items.INGOTS_IRON);
 
-		recipes.shapelessCrafting("ingot_bronze_alloying", RecipeCategory.MISC, CoreItems.INGOT_BRONZE, 4, ForestryTags.Items.INGOTS_TIN, ObjectIntPair.of(Items.COPPER_INGOT, 3));
 		recipes.shapelessCrafting(RecipeCategory.TOOLS, CoreItems.PICKAXE_KIT, 1, CoreItems.SURVIVALISTS_PICKAXE, CoreItems.CARTON);
 		recipes.shapelessCrafting(RecipeCategory.TOOLS, CoreItems.SHOVEL_KIT, 1, CoreItems.SURVIVALISTS_SHOVEL, CoreItems.CARTON);
 		recipes.shapelessCrafting(RecipeCategory.TOOLS, CoreItems.AXE_KIT, 1, CoreItems.SURVIVALISTS_AXE, CoreItems.CARTON);
@@ -1057,18 +1056,6 @@ public class ForestryRecipeProvider {
 		chiseledStone(output, recipes, set.chiseled(), set.stone());
 	}
 
-	/**
-	 * Registers the crafting and stonecutting recipes of one decorative shape family.
-	 * <p>
-	 * Deviation from 1.20.1: the cobbled families took the set's plain stone as the ingredient of all three
-	 * shapes there, not their own cobbled block. That gave, for example, cobbled_waxstone_stairs and
-	 * waxstone_stairs the same pattern over the same ingredient, so only one of the two could ever fire.
-	 * Each family is cut from its own base block here.
-	 *
-	 * @param output  The output the stonecutting recipes are written through
-	 * @param recipes The provider the crafting recipes are written through
-	 * @param family  The four blocks to write recipes for
-	 */
 	private static void stoneFamily(RecipeOutput output, MKRecipeProvider recipes, CoreBlocks.StoneFamily family) {
 		ItemLike base = family.base();
 		String name = path(base);
@@ -1083,15 +1070,6 @@ public class ForestryRecipeProvider {
 		stonecutting(output, base, family.wall(), 1, name + "_walls_from_stonecutting");
 	}
 
-	/**
-	 * Registers the crafting and stonecutting recipes of one chiseled block, which is two slabs stacked or
-	 * one base block cut.
-	 *
-	 * @param output   The output the stonecutting recipe is written through
-	 * @param recipes  The provider the crafting recipe is written through
-	 * @param chiseled The block to write recipes for
-	 * @param family   The family the chiseled block belongs to
-	 */
 	private static void chiseledStone(RecipeOutput output, MKRecipeProvider recipes, ItemLike chiseled, CoreBlocks.StoneFamily family) {
 		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, chiseled, recipe -> {
 			recipe.define('_', family.slab());
@@ -1101,15 +1079,6 @@ public class ForestryRecipeProvider {
 		stonecutting(output, family.base(), chiseled, 1, path(chiseled) + "_from_stonecutting");
 	}
 
-	/**
-	 * Registers one stonecutting recipe.
-	 *
-	 * @param output The output the recipe is written through
-	 * @param input  The block fed to the stonecutter
-	 * @param result The block cut out of it
-	 * @param count  The number of results one input yields
-	 * @param name   The recipe id, carried over from 1.20.1 unchanged
-	 */
 	private static void stonecutting(RecipeOutput output, ItemLike input, ItemLike result, int count, String name) {
 		SingleItemRecipeBuilder builder = SingleItemRecipeBuilder.stonecutting(Ingredient.of(input), RecipeCategory.BUILDING_BLOCKS, result, count);
 		MKRecipeProvider.unlockedByHaving(builder, input);
@@ -1472,27 +1441,27 @@ public class ForestryRecipeProvider {
 			.build(consumer, id("carpenter", "woven_silk"));
 		new CarpenterRecipeBuilder()
 			.setBox(Ingredient.EMPTY)
-			.recipe(ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, CoreItems.INGOT_BRONZE, 2)
+			.recipe(ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, CoreItems.BRONZE_INGOT, 2)
 				.requires(CoreItems.BROKEN_SURVIVALISTS_PICKAXE))
 			.build(consumer, id("carpenter", "reclaim_bronze_pickaxe"));
 		new CarpenterRecipeBuilder()
 			.setBox(Ingredient.EMPTY)
-			.recipe(ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, CoreItems.INGOT_BRONZE, 1)
+			.recipe(ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, CoreItems.BRONZE_INGOT, 1)
 				.requires(CoreItems.BROKEN_SURVIVALISTS_SHOVEL))
 			.build(consumer, id("carpenter", "reclaim_bronze_shovel"));
 		new CarpenterRecipeBuilder()
 			.setBox(Ingredient.EMPTY)
-			.recipe(ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, CoreItems.INGOT_BRONZE, 2)
+			.recipe(ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, CoreItems.BRONZE_INGOT, 2)
 				.requires(CoreItems.BROKEN_SURVIVALISTS_AXE))
 			.build(consumer, id("carpenter", "reclaim_bronze_axe"));
 		new CarpenterRecipeBuilder()
 			.setBox(Ingredient.EMPTY)
-			.recipe(ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, CoreItems.INGOT_BRONZE, 1)
+			.recipe(ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, CoreItems.BRONZE_INGOT, 1)
 				.requires(CoreItems.BROKEN_SURVIVALISTS_SWORD))
 			.build(consumer, id("carpenter", "reclaim_bronze_sword"));
 		new CarpenterRecipeBuilder()
 			.setBox(Ingredient.EMPTY)
-			.recipe(ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, CoreItems.INGOT_BRONZE, 1)
+			.recipe(ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, CoreItems.BRONZE_INGOT, 1)
 				.requires(CoreItems.BROKEN_SURVIVALISTS_HOE))
 			.build(consumer, id("carpenter", "reclaim_bronze_hoe"));
 		// todo conditional recipe for Create honey fluid 1.20
@@ -1513,7 +1482,7 @@ public class ForestryRecipeProvider {
 			.setPackagingTime(100)
 			.setLiquid(new FluidStack(Fluids.WATER, 2000))
 			.setBox(Ingredient.EMPTY)
-			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, CoreItems.PORTABLE_ALYZER)
+			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, CoreItems.PORTABLE_ANALYZER)
 				.pattern("X#X")
 				.pattern("X#X")
 				.pattern("RDR")
@@ -2137,10 +2106,10 @@ public class ForestryRecipeProvider {
 		metalPlating(consumer, BlockTypeMetalPlating.GOLD, Items.GOLD_INGOT);
 		metalPlating(consumer, BlockTypeMetalPlating.COPPER, Items.COPPER_INGOT);
 		metalPlating(consumer, BlockTypeMetalPlating.NETHERITE, Items.NETHERITE_INGOT);
-		metalPlating(consumer, BlockTypeMetalPlating.TIN, CoreItems.INGOT_TIN);
+		metalPlating(consumer, BlockTypeMetalPlating.TIN, CoreItems.TIN_INGOT);
 		// Deviation from 1.20.1: the bronze recipe named the tin plating as its result there, so bronze
 		// ingots made tin plating and the bronze plating had no recipe at all. It yields bronze here
-		metalPlating(consumer, BlockTypeMetalPlating.BRONZE, CoreItems.INGOT_BRONZE);
+		metalPlating(consumer, BlockTypeMetalPlating.BRONZE, CoreItems.BRONZE_INGOT);
 
 		for (BlockTypeMetalPlating type : BlockTypeMetalPlating.values()) {
 			TagKey<Item> dye = type.getDye();
@@ -2158,14 +2127,6 @@ public class ForestryRecipeProvider {
 		}
 	}
 
-	/**
-	 * Registers the fabricator recipe of one metal plating cast from an ingot, which is eight ingots in a
-	 * ring soaked in fifty millibuckets of wax.
-	 *
-	 * @param consumer The output the recipe is written through
-	 * @param type     The plating the recipe yields
-	 * @param base     The ingot the plating is cast from
-	 */
 	private static void metalPlating(RecipeOutput consumer, BlockTypeMetalPlating type, ItemLike base) {
 		new FabricatorRecipeBuilder()
 			.setPlan(Ingredient.EMPTY)
@@ -2178,14 +2139,6 @@ public class ForestryRecipeProvider {
 			.build(consumer, id("metal_plating", type.getName()));
 	}
 
-	/**
-	 * Registers the fabricator recipe of one lacquered metal plating, which is eight of any plating around
-	 * one dye soaked in fifty millibuckets of wax.
-	 *
-	 * @param consumer The output the recipe is written through
-	 * @param type     The plating the recipe yields
-	 * @param dye      The dye the plating is lacquered with
-	 */
 	private static void lacqueredMetalPlating(RecipeOutput consumer, BlockTypeMetalPlating type, TagKey<Item> dye) {
 		new FabricatorRecipeBuilder()
 			.setPlan(Ingredient.EMPTY)
@@ -2360,7 +2313,7 @@ public class ForestryRecipeProvider {
 		new SqueezerContainerRecipeBuilder()
 			.setProcessingTime(10)
 			.setEmptyContainer(FluidsItems.CONTAINERS.stack(FluidContainerType.CAN))
-			.setRemnants(CoreItems.INGOT_TIN.stack())
+			.setRemnants(CoreItems.TIN_INGOT.stack())
 			.setRemnantsChance(0.05f)
 			.build(consumer, id("squeezer", "container", "can"));
 		new SqueezerContainerRecipeBuilder()
