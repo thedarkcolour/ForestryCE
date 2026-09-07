@@ -8,6 +8,8 @@ import forestry.api.lepidopterology.genetics.IButterfly;
 import forestry.core.genetics.BreedingTracker;
 import net.minecraft.world.level.Level;
 
+import javax.annotation.Nullable;
+
 public class LepidopteristTracker extends BreedingTracker implements ILepidopteristTracker {
 	public LepidopteristTracker() {
 		super(ForestrySpeciesTypes.BUTTERFLY);
@@ -25,7 +27,7 @@ public class LepidopteristTracker extends BreedingTracker implements ILepidopter
 	}
 
 	@Override
-	public void registerProgress(Level level, GameProfile profile, ISpecies<?> species) {
+	public void registerProgress(@Nullable Level level, @Nullable GameProfile profile, ISpecies<?> species) {
 		//Lol butterflies suck imagine tracking their research progress
 	}
 }

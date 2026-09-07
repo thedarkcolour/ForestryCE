@@ -2,23 +2,14 @@ package forestry.core.advancements;
 
 import com.google.gson.JsonObject;
 import com.mojang.authlib.GameProfile;
-import forestry.api.genetics.IBreedingTracker;
-import forestry.api.genetics.IIndividual;
-import forestry.api.genetics.capability.IIndividualHandlerItem;
 import net.minecraft.advancements.critereon.*;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.GsonHelper;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
-import java.util.UUID;
+import javax.annotation.Nullable;
 
 public class DiscoverSpeciesTrigger extends SimpleCriterionTrigger<DiscoverSpeciesTrigger.TriggerInstance> {
-
-
 	public static final ResourceLocation ID = new ResourceLocation("forestry", "pickup_species_trigger");
 
 	@Override
@@ -32,20 +23,11 @@ public class DiscoverSpeciesTrigger extends SimpleCriterionTrigger<DiscoverSpeci
 		return new TriggerInstance(player, required);
 	}
 
-	public void trigger(Level level, GameProfile gp, ResourceLocation speciesID) {
-
-		if (level.getServer() == null) return;
-
-		ServerLevel serverLevel = level.getServer().getLevel(level.dimension());
-		if (serverLevel == null) return;
-		Player player = serverLevel.getPlayerByUUID(gp.getId());
-		if (player instanceof ServerPlayer serverPlayer) {
-			this.trigger(serverPlayer, instance -> instance.check(speciesID));
-		}
+	public void trigger(@Nullable Level level, @Nullable GameProfile gp, ResourceLocation speciesID) {
+		AdvancementHelper.trigger(this, level, gp, instance -> instance.check(speciesID));
 	}
 
 	public static class TriggerInstance extends AbstractCriterionTriggerInstance {
-
 		private final ResourceLocation req;
 
 		public TriggerInstance(ContextAwarePredicate player, ResourceLocation req) {
@@ -58,13 +40,13 @@ public class DiscoverSpeciesTrigger extends SimpleCriterionTrigger<DiscoverSpeci
 		}
 
 		public boolean check(ResourceLocation speciesID) {
-			return speciesID.equals(req);
+			return speciesID.equals(this.req);
 		}
 
 		@Override
 		public JsonObject serializeToJson(SerializationContext context) {
 			JsonObject json = super.serializeToJson(context);
-			json.addProperty("tag", req.toString());
+			json.addProperty("tag", this.req.toString());
 			return json;
 		}
 	}

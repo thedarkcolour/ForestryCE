@@ -4,18 +4,15 @@ import com.google.common.collect.Iterables;
 import com.mojang.authlib.GameProfile;
 import forestry.api.IForestryApi;
 import forestry.api.apiculture.genetics.IBeeSpecies;
-import forestry.api.apiculture.genetics.IBeeSpeciesType;
 import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.core.ForestryEvent;
 import forestry.api.genetics.IBreedingTracker;
 import forestry.api.genetics.IMutation;
 import forestry.api.genetics.ISpecies;
 import forestry.api.genetics.ISpeciesType;
-import forestry.apiculture.BeeSpecies;
 import forestry.core.advancements.ForestryAdvancementTriggers;
 import forestry.core.network.packets.PacketGenomeTrackerSync;
 import forestry.core.utils.NetworkUtil;
-import net.minecraft.advancements.Advancement;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
@@ -158,7 +155,7 @@ public abstract class BreedingTracker extends SavedData implements IBreedingTrac
 	public void registerMutation(IMutation<?> mutation) {
 		String mutationString = getMutationString(mutation);
 		if (!this.discoveredMutations.contains(mutationString)) {
-            this.discoveredMutations.add(mutationString);
+			this.discoveredMutations.add(mutationString);
 			setDirty();
 
 			ISpeciesType<?, ?> speciesRoot = IForestryApi.INSTANCE.getGeneticManager().getSpeciesType(this.typeId);
@@ -200,15 +197,15 @@ public abstract class BreedingTracker extends SavedData implements IBreedingTrac
 		ResourceLocation speciesId = species.id();
 
 		discover(species);
-		if (species instanceof IBeeSpecies bs){
+		if (species instanceof IBeeSpecies bs) {
 
 		}
-		if (species instanceof ITreeSpecies ts){
+		if (species instanceof ITreeSpecies ts) {
 
 		}
 
 		if (!this.discoveredSpecies.contains(speciesId)) {
-            this.discoveredSpecies.add(speciesId);
+			this.discoveredSpecies.add(speciesId);
 
 			ISpeciesType<?, ?> speciesType = IForestryApi.INSTANCE.getGeneticManager().getSpeciesType(this.typeId);
 			ForestryEvent event = new ForestryEvent.SpeciesDiscovered(speciesType, this.username, species, this);
@@ -223,7 +220,7 @@ public abstract class BreedingTracker extends SavedData implements IBreedingTrac
 
 		String mutationString = getMutationString(mutation);
 		if (!this.researchedMutations.contains(mutationString)) {
-            this.researchedMutations.add(mutationString);
+			this.researchedMutations.add(mutationString);
 			setDirty();
 
 			registerMutation(mutation);
@@ -240,12 +237,13 @@ public abstract class BreedingTracker extends SavedData implements IBreedingTrac
 
 	/**
 	 * Used purely for tracking advancements.
+	 *
 	 * @param species
 	 */
-	public void discover(ISpecies<?> species){
+	public void discover(ISpecies<?> species) {
 		ForestryAdvancementTriggers.DISCOVER_SPECIES_TRIGGER.trigger(this.level, this.username, species.id());
 		registerProgress(this.level, this.username, species);
 	}
 
-	public abstract void registerProgress(Level level, GameProfile profile, ISpecies<?> species);
+	public abstract void registerProgress(@Nullable Level level, @Nullable GameProfile profile, ISpecies<?> species);
 }

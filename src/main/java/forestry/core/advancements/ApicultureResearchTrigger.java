@@ -4,15 +4,12 @@ import com.google.gson.JsonObject;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.advancements.critereon.*;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.GsonHelper;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 
+import javax.annotation.Nullable;
+
 public class ApicultureResearchTrigger extends SimpleCriterionTrigger<ApicultureResearchTrigger.TriggerInstance> {
-
-
 	public static final ResourceLocation ID = new ResourceLocation("forestry", "apiculture_research_trigger");
 
 	@Override
@@ -26,21 +23,11 @@ public class ApicultureResearchTrigger extends SimpleCriterionTrigger<Apiculture
 		return new TriggerInstance(player, percentage);
 	}
 
-	public void trigger(Level level, GameProfile gp, double researchCompletion) {
-
-		if (level.getServer() == null) return;
-		ServerLevel serverLevel = level.getServer().getLevel(level.dimension());
-		if (serverLevel == null) return;
-
-
-		Player player = serverLevel.getPlayerByUUID(gp.getId());
-		if (player instanceof ServerPlayer serverPlayer) {
-			this.trigger(serverPlayer, instance -> instance.check(researchCompletion));
-		}
+	public void trigger(@Nullable Level level, @Nullable GameProfile gp, double researchCompletion) {
+		AdvancementHelper.trigger(this, level, gp, instance -> instance.check(researchCompletion));
 	}
 
 	public static class TriggerInstance extends AbstractCriterionTriggerInstance {
-
 		private final double percentage;
 
 		public TriggerInstance(ContextAwarePredicate player, double p) {
@@ -53,7 +40,7 @@ public class ApicultureResearchTrigger extends SimpleCriterionTrigger<Apiculture
 		}
 
 		public boolean check(double amount) {
-			return amount >= percentage;
+			return amount >= this.percentage;
 		}
 
 		@Override
