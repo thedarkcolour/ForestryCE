@@ -138,7 +138,7 @@ dependencies {
 	modCompileOnly "vazkii.patchouli:Patchouli:$patchouliVersion-FORGE:api"
 	modRuntimeOnly "vazkii.patchouli:Patchouli:$patchouliVersion-FORGE"
 	// ModKit DEV ONLY
-	modImplementation 'com.github.thedarkcolour:ModKit:cc8f1c11ec'
+	modImplementation 'com.github.thedarkcolour:ModKit:4182577919f1d9bd1ad03ca95ac89f7f4cd8bac3'
 	modImplementation 'curse.maven:better-advancements-272515:5454907'
 
 	// testing

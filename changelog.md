@@ -2,6 +2,7 @@
 - Fixed leaves sometimes being invisible (#153)
 - Fixed incorrect sapling placement behavior on sides of blocks (#173)
 - Fixed serverside crash with advancement triggers (#432)
+- Fixed wood recipes producing 1 instead of 3 blocks (#439)
 
 ## Forestry 2.11.0
 - Genetic filter now actually moves items around
