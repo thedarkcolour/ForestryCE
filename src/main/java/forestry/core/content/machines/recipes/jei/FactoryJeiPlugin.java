@@ -131,6 +131,8 @@ public class FactoryJeiPlugin implements IModPlugin {
 		registry.addRecipeClickArea(GuiMoistener.class, 123, 35, 19, 21, ForestryRecipeType.MOISTENER);
 
 		registry.addRecipeClickArea(GuiSmelter.class, 95, 57, 16, 16, ForestryRecipeType.SMELTER);
+		registry.addRecipeClickArea(GuiSmelter.class, 80, 40, 11, 15, ForestryRecipeType.SMELTER);
+		registry.addRecipeClickArea(GuiSmelter.class, 115, 40, 16, 15, ForestryRecipeType.SMELTER);
 
 		registry.addRecipeClickArea(GuiSqueezer.class, 76, 41, 43, 16, ForestryRecipeType.SQUEEZER);
 
