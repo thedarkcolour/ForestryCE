@@ -15,6 +15,7 @@ import forestry.api.core.genetics.capability.IIndividualHandlerItem;
 import forestry.api.core.genetics.pollen.IPollen;
 import forestry.apiculture.network.packets.PacketBeeLogicActive;
 import forestry.core.platform.config.Constants;
+import forestry.core.platform.config.ForestryConfig;
 import forestry.core.platform.util.NetworkUtil;
 import forestry.core.platform.util.SpeciesUtil;
 import net.minecraft.client.Minecraft;
@@ -22,7 +23,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
@@ -401,7 +401,7 @@ public class BeeHousingBeekeepingLogic implements IBeekeepingLogic {
 		IApiaristTracker breedingTracker = SpeciesUtil.BEE_TYPE.get().getBreedingTracker(level, beeHousing.getOwner());
 
 		// Princess
-		boolean secondPrincess = level.random.nextInt(10000) < ModuleApiculture.getSecondPrincessChance() * 100;
+		boolean secondPrincess = level.random.nextFloat() < ForestryConfig.SERVER.hiveSecondPrincessChance.get();
 		int count = secondPrincess ? 2 : 1;
 		while (count > 0) {
 			count--;

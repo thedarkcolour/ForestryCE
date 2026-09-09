@@ -1,0 +1,46 @@
+name: Feature request
+description: A new feature, balance change, tag, or API request
+labels: ["enhancement"]
+body:
+  - type: dropdown
+    id: version
+    attributes:
+      label: Target version
+      description: New features only added to 1.21.1. 1.20.1 is bugfix-only.
+      multiple: true
+      options:
+        - 1.21.1 (NeoForge)
+        - 1.20.1 (Forge)
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Kind
+      options:
+        - Gameplay or content
+        - Balance or numbers
+        - Tags, datapacks, or config
+        - API or addon support
+        - Mod compatibility
+        - Textures, models, or UI
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this solve
+      description: What is awkward, missing, or unbalanced
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: Your idea for a new feature/tweak to the mod
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered

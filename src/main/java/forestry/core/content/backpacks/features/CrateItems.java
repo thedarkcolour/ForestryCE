@@ -27,9 +27,9 @@ public class CrateItems {
 	public static final FeatureItem<ItemCrated> CRATED_MULCH = register(CoreItems.MULCH, "crated_mulch");
 	public static final FeatureItem<ItemCrated> CRATED_PHOSPHOR = register(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.PHOSPHOR), "crated_phosphor");
 	public static final FeatureItem<ItemCrated> CRATED_ASH = register(CoreItems.ASH, "crated_ash");
-	public static final FeatureItem<ItemCrated> CRATED_TIN = register(CoreItems.INGOT_TIN, "crated_tin");
+	public static final FeatureItem<ItemCrated> CRATED_TIN = register(CoreItems.TIN_INGOT, "crated_tin");
 	public static final FeatureItem<ItemCrated> CRATED_COPPER = register(Items.COPPER_INGOT, "crated_copper");
-	public static final FeatureItem<ItemCrated> CRATED_BRONZE = register(CoreItems.INGOT_BRONZE, "crated_bronze");
+	public static final FeatureItem<ItemCrated> CRATED_BRONZE = register(CoreItems.BRONZE_INGOT, "crated_bronze");
 
 	public static final FeatureItem<ItemCrated> CRATED_HUMUS = register(CoreBlocks.HUMUS, "crated_humus");
 	public static final FeatureItem<ItemCrated> CRATED_BOG_EARTH = register(CoreBlocks.BOG_EARTH, "crated_bog_earth");

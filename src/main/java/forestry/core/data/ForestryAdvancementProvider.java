@@ -158,9 +158,9 @@ public class ForestryAdvancementProvider extends AdvancementProvider {
 			// iPad Kid
 			// A reference to kids and they phones
 			AdvancementHolder analyser = ForestryAdvancements.add(writer, "get_analyser",
-				CoreItems.PORTABLE_ALYZER.stack(),
+				CoreItems.PORTABLE_ANALYZER.stack(),
 				bee,
-				InventoryChangeTrigger.TriggerInstance.hasItems(CoreItems.PORTABLE_ALYZER.get()));
+				InventoryChangeTrigger.TriggerInstance.hasItems(CoreItems.PORTABLE_ANALYZER.get()));
 
 			/*
 			 * Advancements for finding specific bee species begin here
@@ -392,7 +392,7 @@ public class ForestryAdvancementProvider extends AdvancementProvider {
 			// Lightly Bronzed
 			// To be bronzed is to be tanned.
 			AdvancementHolder bronzed = ForestryAdvancements.add(writer, "get_bronze",
-				CoreItems.INGOT_BRONZE.stack(),
+				CoreItems.BRONZE_INGOT.stack(),
 				engine,
 				InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(ForestryTags.Items.INGOTS_BRONZE)));
 

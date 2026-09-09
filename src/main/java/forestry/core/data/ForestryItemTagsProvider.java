@@ -101,8 +101,8 @@ public class ForestryItemTagsProvider {
 		tags.tag(ForestryTags.Items.GEARS_STONE);
 
 		tags.tag(Tags.Items.INGOTS).addTags(ForestryTags.Items.INGOTS_BRONZE, ForestryTags.Items.INGOTS_TIN);
-		tags.tag(ForestryTags.Items.INGOTS_BRONZE).add(CoreItems.INGOT_BRONZE.item());
-		tags.tag(ForestryTags.Items.INGOTS_TIN).add(CoreItems.INGOT_TIN.item());
+		tags.tag(ForestryTags.Items.INGOTS_BRONZE).add(CoreItems.BRONZE_INGOT.item());
+		tags.tag(ForestryTags.Items.INGOTS_TIN).add(CoreItems.TIN_INGOT.item());
 		tags.tag(ForestryTags.Items.NUGGETS_TIN).add(CoreItems.TIN_NUGGET.item());
 
 		tags.tag(ForestryTags.Items.DUSTS_ASH).add(CoreItems.ASH.item());

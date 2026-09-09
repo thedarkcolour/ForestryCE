@@ -1,3 +1,15 @@
+## Forestry 3.0.0-alpha9
+- Remove Pulsating Dust (#113)
+- Remove Honey Pot (#189)
+- Remove Copper/Tin -> Bronze crafting recipe (must use Smelter now)
+
+## Forestry 3.0.0-alpha8
+- Fix Apiary not connecting to pipes, thanks to oneironautpebble
+- Add "hive_second_princess_chance" to the config from 1.12-era Forestry
+- Make Amber a Primeval specialty instead of a Vintage comb drop
+- Fix JEI hint translations for several items
+- Fix log spam for invalid species
+
 ## Forestry 3.0.0-alpha7
 - Fixed localization of Refractory Capsule and Wax Capsules
 - Wood localizations no longer use template "grammar" strings, and can be customized on a per-block basis, allowing for proper gendered language support (#110)

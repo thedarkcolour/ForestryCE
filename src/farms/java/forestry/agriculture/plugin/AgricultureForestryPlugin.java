@@ -1,17 +1,16 @@
 package forestry.agriculture.plugin;
 
-import net.minecraft.resources.ResourceLocation;
-
+import forestry.agriculture.multifarm.circuits.MultifarmCircuit;
+import forestry.api.agriculture.ForestryFarmTypes;
 import forestry.api.core.circuits.ForestryCircuitLayouts;
 import forestry.api.core.circuits.ForestryCircuitSocketTypes;
-import forestry.api.agriculture.ForestryFarmTypes;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.api.plugin.ICircuitRegistration;
 import forestry.api.plugin.IFarmingRegistration;
 import forestry.api.plugin.IForestryPlugin;
-import forestry.core.features.CoreItems;
 import forestry.core.content.resources.EnumElectronTube;
-import forestry.agriculture.multifarm.circuits.MultifarmCircuit;
+import forestry.core.features.CoreItems;
+import net.minecraft.resources.ResourceLocation;
 
 /**
  * Base Forestry's farming registrations. Split out of {@code forestry.core.plugin.DefaultForestryPlugin}
@@ -55,8 +54,6 @@ public class AgricultureForestryPlugin implements IForestryPlugin {
 	@Override
 	public void registerFarming(IFarmingRegistration farming) {
 		DefaultFarms.registerFarmTypes(farming);
-
-		farming.registerFertilizer(CoreItems.FERTILIZER_COMPOUND.get(), 500);
 	}
 
 	@Override

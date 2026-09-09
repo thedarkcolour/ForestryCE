@@ -1,8 +1,8 @@
 package forestry.core.platform.config;
 
 import net.neoforged.fml.ModContainer;
-import net.neoforged.neoforge.common.ModConfigSpec;
 import net.neoforged.fml.config.ModConfig;
+import net.neoforged.neoforge.common.ModConfigSpec;
 import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.UnknownNullability;
 
@@ -61,6 +61,7 @@ public class ForestryConfig {
 		public final ModConfigSpec.BooleanValue pollinateVanillaLeaves;
 		public final ModConfigSpec.DoubleValue wildHiveSpawnRate;
 		public final ModConfigSpec.BooleanValue useHaploidDrones;
+		public final ModConfigSpec.DoubleValue hiveSecondPrincessChance;
 		// Trees
 		public final ModConfigSpec.DoubleValue treesSpawnNaturally;
 		// Butterflies
@@ -106,6 +107,9 @@ public class ForestryConfig {
 			this.useHaploidDrones = builder
 				.comment("In real life, drone bees are haploid, which means they only carry one set of chromosomes. If this option is enabled, only a drone's active alleles will be used for inheritance, making drones effectively haploid. This CHANGES Forestry's bee breeding mechanics.")
 				.define("use_haploid_drones", true);
+			this.hiveSecondPrincessChance = builder
+				.comment("The probability between 0 and 1 that an additional princess drops from a wild hive. 0 by default, meaning no second princess, ever.")
+				.defineInRange("hive_second_princess_chance", 0.0, 0.0, 1.0);
 			builder.pop();
 
 			// Farming

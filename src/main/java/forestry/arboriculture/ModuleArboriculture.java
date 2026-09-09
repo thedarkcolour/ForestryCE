@@ -167,7 +167,7 @@ public class ModuleArboriculture extends BlankForestryModule {
 	}
 
 	@Override
-	public void installClientManagers(IClientRegistration registration) {
+	public void applyClientPluginRegistration(IClientRegistration registration) {
 		ClientRegistration impl = (ClientRegistration) registration;
 
 		// id-keyed: resolving a species happens at render time by id, so the (datapack-driven) species list is not

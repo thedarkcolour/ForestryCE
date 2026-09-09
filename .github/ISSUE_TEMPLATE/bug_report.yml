@@ -1,0 +1,69 @@
+name: Bug report
+description: Something is not working properly
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Try the latest version first, it may already be fixed. One bug per report.
+  - type: dropdown
+    id: version
+    attributes:
+      label: Minecraft version
+      description: "Which Forestry: CE version are you on? Pick both if you confirmed it on both."
+      multiple: true
+      options:
+        - 1.21.1 (NeoForge)
+        - 1.20.1 (Forge)
+    validations:
+      required: true
+  - type: input
+    id: forestry_version
+    attributes:
+      label: Forestry version
+      placeholder: "ex. 3.0.0-alpha8 or 2.11.0"
+    validations:
+      required: true
+  - type: input
+    id: loader_version
+    attributes:
+      label: Loader version
+      placeholder: "ex. NeoForge 21.1.235 or Forge 47.4.10"
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you did, what you expected, what happened instead
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Place a ...
+        2. Right click with ...
+        3. ...
+  - type: input
+    id: log
+    attributes:
+      label: Log or crash report
+      description: Upload latest.log or the crash report to https://mclo.gs and paste the link. Required for crashes.
+      placeholder: https://mclo.gs/...
+  - type: dropdown
+    id: other_mods
+    attributes:
+      label: Does it happen with only Forestry and Patchouli installed?
+      options:
+        - "Yes"
+        - "No, it needs another mod (name it below)"
+        - "Not sure (haven't tested)"
+    validations:
+      required: true
+  - type: textarea
+    id: extra
+    attributes:
+      label: Anything else
+      description: Screenshots, other mods involved, modpack name

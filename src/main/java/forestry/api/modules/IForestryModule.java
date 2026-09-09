@@ -82,20 +82,18 @@ public interface IForestryModule {
 	}
 
 	/**
-	 * Called after item registration, in module load order. Modules build their manager from the
-	 * plugin data and install it here. Farming is the only manager whose module ships in an optional
-	 * jar, so it is the only one base leaves a no-op in place of.
+	 * Called after item registration, in module load order. Used to register IFlowerTypeManager, IFarmingManger, etc.
 	 */
-	default void installManagers() {
+	default void applyPluginRegistration() {
 	}
 
 	/**
-	 * Called during client plugin registration, after every plugin has registered. Modules build
+	 * Called during client plugin registration after {@link #applyPluginRegistration}. Modules build
 	 * their client manager from the assembled registration and install it here.
 	 *
 	 * @param registration The completed client registration
 	 */
-	default void installClientManagers(IClientRegistration registration) {
+	default void applyClientPluginRegistration(IClientRegistration registration) {
 	}
 
 	/**

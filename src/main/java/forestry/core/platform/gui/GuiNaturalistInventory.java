@@ -60,7 +60,7 @@ public class GuiNaturalistInventory<C extends AbstractContainerMenu & INaturalis
 		}
 
 		this.breedingTracker = this.speciesType.getBreedingTracker(playerInv.player.level(), playerInv.player.getGameProfile());
-		this.ledgerIcon = CoreItems.PORTABLE_ALYZER.stack();
+		this.ledgerIcon = CoreItems.PORTABLE_ANALYZER.stack();
 	}
 
 	@Override

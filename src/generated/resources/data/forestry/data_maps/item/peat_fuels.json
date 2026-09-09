@@ -1,0 +1,12 @@
+{
+  "values": {
+    "forestry:bituminous_peat": {
+      "burn_duration": 3000,
+      "power_per_cycle": 40
+    },
+    "forestry:peat": {
+      "burn_duration": 2500,
+      "power_per_cycle": 20
+    }
+  }
+}

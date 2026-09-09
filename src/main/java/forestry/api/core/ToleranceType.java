@@ -1,5 +1,7 @@
 package forestry.api.core;
 
+import com.mojang.serialization.Codec;
+
 /**
  * Used to determine the range of acceptable alternatives to an ideal {@link forestry.api.core.TemperatureType} or {@link forestry.api.core.HumidityType}.
  * For example, a bee whose ideal humidity is NORMAL and has a tolerance of BOTH_1 can tolerate DAMP, NORMAL, and ARID humidity,
@@ -23,6 +25,7 @@ public enum ToleranceType {
 	DOWN_4(0, 4),
 	DOWN_5(0, 5);
 
+	public static final Codec<ToleranceType> CODEC = Codec.STRING.xmap(ToleranceType::valueOf, Enum::name);
 	public final int up;
 	public final int down;
 

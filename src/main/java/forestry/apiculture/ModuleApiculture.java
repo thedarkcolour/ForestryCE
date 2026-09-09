@@ -1,40 +1,45 @@
 package forestry.apiculture;
 
-import forestry.apiculture.bees.genetics.BeeEffectManager;
-import forestry.apiculture.bees.genetics.BeeSpeciesManager;
-import forestry.apiculture.network.packets.BeeEffectSyncPacket;
-import forestry.apiculture.network.packets.BeeSpeciesSyncPacket;
-import forestry.core.platform.util.NetworkUtil;
-import net.neoforged.neoforge.event.AddReloadListenerEvent;
-import net.neoforged.neoforge.event.OnDatapackSyncEvent;
-import forestry.apiculture.network.ApiculturePacketIds;
-
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import forestry.api.ForestryCapabilities;
+import forestry.api.ForestryDataMaps;
 import forestry.api.apiculture.BeeManager;
 import forestry.api.apiculture.ForestryBeeSpecies;
-import forestry.api.ForestryCapabilities;
 import forestry.api.client.IClientModuleHandler;
+import forestry.api.client.IForestryClientApi;
+import forestry.api.client.plugin.IClientRegistration;
 import forestry.api.core.ForestryEvent;
 import forestry.api.core.TemperatureType;
 import forestry.api.core.genetics.ForestryTaxa;
+import forestry.api.core.genetics.ILifeStage;
 import forestry.api.modules.ForestryModule;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.api.modules.IPacketRegistry;
+import forestry.apiculture.alveary.multiblock.AbstractAlvearyBlockEntity;
+import forestry.apiculture.alveary.multiblock.AlvearyClimatizerBlockEntity;
+import forestry.apiculture.alveary.multiblock.AlvearyHygroregulatorBlockEntity;
+import forestry.apiculture.apiarist.ArmorApiaristHelper;
+import forestry.apiculture.apiarist.ItemArmorApiarist;
+import forestry.apiculture.apiarist.villagers.ApicultureVillagers;
+import forestry.apiculture.bees.EnumPollenCluster;
+import forestry.apiculture.bees.genetics.BeeEffectManager;
+import forestry.apiculture.bees.genetics.BeeSpeciesManager;
+import forestry.apiculture.client.BeeClientManager;
 import forestry.apiculture.commands.CommandBee;
 import forestry.apiculture.features.ApicultureItems;
 import forestry.apiculture.features.ApicultureTiles;
-import forestry.apiculture.bees.EnumPollenCluster;
-import forestry.apiculture.apiarist.ItemArmorApiarist;
-import forestry.apiculture.network.packets.PacketAlvearyChange;
-import forestry.apiculture.network.packets.PacketBeeLogicActive;
-import forestry.apiculture.network.packets.PacketHabitatBiomePointer;
+import forestry.apiculture.network.ApiculturePacketIds;
+import forestry.apiculture.network.packets.*;
 import forestry.apiculture.proxy.ApicultureClientHandler;
-import forestry.apiculture.apiarist.villagers.ApicultureVillagers;
+import forestry.apiculture.tab.ApicultureCreativeTab;
+import forestry.apiimpl.client.ForestryClientApiImpl;
+import forestry.apiimpl.client.plugin.ClientRegistration;
+import forestry.core.platform.tile.TileForestry;
+import forestry.core.platform.util.NetworkUtil;
 import forestry.core.platform.util.SpeciesUtil;
 import forestry.modules.BlankForestryModule;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.alchemy.Potions;
@@ -43,32 +48,22 @@ import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
-import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
-import net.neoforged.neoforge.event.LootTableLoadEvent;
-import net.neoforged.neoforge.event.brewing.RegisterBrewingRecipesEvent;
-import forestry.apiculture.tab.ApicultureCreativeTab;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.AddReloadListenerEvent;
+import net.neoforged.neoforge.event.LootTableLoadEvent;
+import net.neoforged.neoforge.event.OnDatapackSyncEvent;
+import net.neoforged.neoforge.event.brewing.RegisterBrewingRecipesEvent;
+import net.neoforged.neoforge.registries.datamaps.RegisterDataMapTypesEvent;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.function.Consumer;
-import forestry.api.client.IForestryClientApi;
-import forestry.api.client.plugin.IClientRegistration;
-import forestry.api.core.genetics.ILifeStage;
-import forestry.apiculture.client.BeeClientManager;
-import forestry.apiimpl.client.ForestryClientApiImpl;
-import forestry.apiimpl.client.plugin.ClientRegistration;
-import java.util.IdentityHashMap;
-import java.util.Map;
-import java.util.Objects;
-import forestry.apiculture.apiarist.ArmorApiaristHelper;
 
 @ForestryModule
 public class ModuleApiculture extends BlankForestryModule {
-	public static int ticksPerBeeWorkCycle = 550;
 	public static boolean hivesDamageOnPeaceful = false;
 	public static boolean hivesDamageUnderwater = true;
 	public static boolean hivesDamageOnlyPlayers = false;
@@ -96,16 +91,17 @@ public class ModuleApiculture extends BlankForestryModule {
 			ApicultureItems.APIARIST_CHEST.item(),
 			ApicultureItems.APIARIST_LEGS.item(),
 			ApicultureItems.APIARIST_BOOTS.item());
-		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ApicultureTiles.ALVEARY_PLAIN.tileType(), (tile, side) -> tile.getItemHandler(side));
-		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ApicultureTiles.ALVEARY_SIEVE.tileType(), (tile, side) -> tile.getItemHandler(side));
-		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ApicultureTiles.ALVEARY_SWARMER.tileType(), (tile, side) -> tile.getItemHandler(side));
-		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ApicultureTiles.ALVEARY_HYGROREGULATOR.tileType(), (tile, side) -> tile.getItemHandler(side));
-		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ApicultureTiles.ALVEARY_STABILISER.tileType(), (tile, side) -> tile.getItemHandler(side));
-		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ApicultureTiles.ALVEARY_FAN.tileType(), (tile, side) -> tile.getItemHandler(side));
-		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ApicultureTiles.ALVEARY_HEATER.tileType(), (tile, side) -> tile.getItemHandler(side));
-		event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, ApicultureTiles.ALVEARY_FAN.tileType(), (tile, side) -> tile.getEnergyHandler(side));
-		event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, ApicultureTiles.ALVEARY_HEATER.tileType(), (tile, side) -> tile.getEnergyHandler(side));
-		event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, ApicultureTiles.ALVEARY_HYGROREGULATOR.tileType(), (tile, side) -> tile.getFluidHandler(side));
+		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ApicultureTiles.ALVEARY_PLAIN.tileType(), AbstractAlvearyBlockEntity::getItemHandler);
+		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ApicultureTiles.ALVEARY_SIEVE.tileType(), AbstractAlvearyBlockEntity::getItemHandler);
+		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ApicultureTiles.ALVEARY_SWARMER.tileType(), AbstractAlvearyBlockEntity::getItemHandler);
+		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ApicultureTiles.ALVEARY_HYGROREGULATOR.tileType(), AbstractAlvearyBlockEntity::getItemHandler);
+		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ApicultureTiles.ALVEARY_STABILISER.tileType(), AbstractAlvearyBlockEntity::getItemHandler);
+		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ApicultureTiles.ALVEARY_FAN.tileType(), AbstractAlvearyBlockEntity::getItemHandler);
+		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ApicultureTiles.ALVEARY_HEATER.tileType(), AbstractAlvearyBlockEntity::getItemHandler);
+		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ApicultureTiles.APIARY.tileType(), TileForestry::getItemHandler);
+		event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, ApicultureTiles.ALVEARY_FAN.tileType(), AlvearyClimatizerBlockEntity::getEnergyHandler);
+		event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, ApicultureTiles.ALVEARY_HEATER.tileType(), AlvearyClimatizerBlockEntity::getEnergyHandler);
+		event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, ApicultureTiles.ALVEARY_HYGROREGULATOR.tileType(), AlvearyHygroregulatorBlockEntity::getFluidHandler);
 	}
 
 	private static void onNetherBeeMate(ForestryEvent.BeeMatingEvent event) {
@@ -182,12 +178,17 @@ public class ModuleApiculture extends BlankForestryModule {
 	public void registerEvents(IEventBus modBus) {
 		modBus.addListener(ApicultureCreativeTab::addToForestryTab);
 		modBus.addListener(ModuleApiculture::registerCapabilities);
+		modBus.addListener(ModuleApiculture::registerDataMaps);
 		modBus.addListener(ModuleApiculture::onCommonSetup);
 
 		NeoForge.EVENT_BUS.addListener(ModuleApiculture::registerBrewingRecipes);
 		NeoForge.EVENT_BUS.addListener(ApicultureVillagers::villagerTrades);
 		NeoForge.EVENT_BUS.addListener(ModuleApiculture::onNetherBeeMate);
 		NeoForge.EVENT_BUS.addListener(ModuleApiculture::modifySnifferLoot);
+	}
+
+	private static void registerDataMaps(RegisterDataMapTypesEvent event) {
+		event.register(ForestryDataMaps.SWARMER_FEED);
 	}
 
 	@Override
@@ -215,7 +216,7 @@ public class ModuleApiculture extends BlankForestryModule {
 	}
 
 	@Override
-	public void installClientManagers(IClientRegistration registration) {
+	public void applyClientPluginRegistration(IClientRegistration registration) {
 		ClientRegistration impl = (ClientRegistration) registration;
 
 		// id-keyed: resolving a specific species happens at render time, so the (possibly

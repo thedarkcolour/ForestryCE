@@ -3,7 +3,6 @@ package forestry.core.content.machines.tiles;
 import forestry.api.core.ForestryError;
 import forestry.api.core.IErrorLogic;
 import forestry.api.core.machines.fuels.FermenterFuel;
-import forestry.api.core.machines.fuels.FuelManager;
 import forestry.api.core.machines.IFermenterRecipe;
 import forestry.api.core.machines.IVariableFermentable;
 import forestry.core.platform.config.Constants;
@@ -39,6 +38,7 @@ import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
 import javax.annotation.Nullable;
+import forestry.api.ForestryDataMaps;
 
 public class TileFermenter extends TilePowered implements WorldlyContainer, ILiquidTankTile {
 	private final FilteredTank resourceTank;
@@ -199,7 +199,7 @@ public class TileFermenter extends TilePowered implements WorldlyContainer, ILiq
 		if (this.fuelBurnTime <= 0) {
 			ItemStack fuel = getItem(InventoryFermenter.SLOT_FUEL);
 			if (!fuel.isEmpty()) {
-				FermenterFuel fermenterFuel = FuelManager.fermenterFuel.get(fuel);
+				FermenterFuel fermenterFuel = fuel.getItemHolder().getData(ForestryDataMaps.FERMENTER_FUELS);
 				if (fermenterFuel != null) {
                     this.fuelBurnTime = this.fuelTotalTime = fermenterFuel.burnDuration();
                     this.fuelCurrentFerment = fermenterFuel.fermentPerCycle();

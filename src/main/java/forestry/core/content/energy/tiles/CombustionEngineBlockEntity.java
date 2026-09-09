@@ -1,20 +1,21 @@
 package forestry.core.content.energy.tiles;
 
+import forestry.api.ForestryDataMaps;
 import forestry.api.IForestryApi;
-import forestry.api.core.circuits.ForestryCircuitSocketTypes;
-import forestry.api.core.circuits.ICircuitBoard;
 import forestry.api.core.ForestryError;
 import forestry.api.core.IErrorLogic;
-import forestry.api.core.machines.fuels.FuelManager;
+import forestry.api.core.circuits.ForestryCircuitSocketTypes;
+import forestry.api.core.circuits.ICircuitBoard;
+import forestry.api.core.machines.fuels.BiogasEngineFuel;
+import forestry.core.content.energy.features.EnergyTiles;
+import forestry.core.content.energy.inventory.InventoryEngineCombustion;
+import forestry.core.content.energy.menu.CombustionEngineMenu;
 import forestry.core.engine.circuits.IEngineUpgradeable;
 import forestry.core.engine.circuits.ISocketable;
 import forestry.core.platform.config.Constants;
 import forestry.core.platform.fluids.*;
 import forestry.core.platform.inventory.InventoryAdapter;
 import forestry.core.platform.tile.ILiquidTankTile;
-import forestry.core.content.energy.features.EnergyTiles;
-import forestry.core.content.energy.inventory.InventoryEngineCombustion;
-import forestry.core.content.energy.menu.CombustionEngineMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -28,7 +29,6 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Fluid;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.fluids.FluidStack;
@@ -60,8 +60,8 @@ public class CombustionEngineBlockEntity extends EngineBlockEntity implements Wo
 
 		setInternalInventory(new InventoryEngineCombustion(this));
 
-		this.fuelTank = new FilteredTank(Constants.ENGINE_TANK_CAPACITY).setFilters(FuelManager.combustionEngineFuel.keySet());
-		this.coolantTank = new FilteredTank(Constants.ENGINE_TANK_CAPACITY, true, false).setFilters(FuelManager.combustionEngineCoolant.keySet());
+		this.fuelTank = new FilteredTank(Constants.ENGINE_TANK_CAPACITY).setFilter(ForestryDataMaps.COMBUSTION_FUELS);
+		this.coolantTank = new FilteredTank(Constants.ENGINE_TANK_CAPACITY, true, false).setFilter(ForestryDataMaps.COMBUSTION_COOLANTS);
 		this.burnTank = new StandardTank(BUCKET_VOLUME, false, false);
 		this.waterTank = new StandardTank(BUCKET_VOLUME, false, false);
 		this.tankManager = new TankManager(this, this.fuelTank, this.coolantTank, this.burnTank, this.waterTank);
@@ -171,9 +171,9 @@ public class CombustionEngineBlockEntity extends EngineBlockEntity implements Wo
 	 */
 	private static int determineFuelValue(@Nullable FluidStack fluidStack) {
 		if (fluidStack != null) {
-			Fluid fluid = fluidStack.getFluid();
-			if (FuelManager.combustionEngineFuel.containsKey(fluid)) {
-				return FuelManager.combustionEngineFuel.get(fluid).powerPerCycle();
+			BiogasEngineFuel fuel = fluidStack.getFluidHolder().getData(ForestryDataMaps.COMBUSTION_FUELS);
+			if (fuel != null) {
+				return fuel.powerPerCycle();
 			}
 		}
 		return 0;
@@ -184,9 +184,9 @@ public class CombustionEngineBlockEntity extends EngineBlockEntity implements Wo
 	 */
 	private static int determineBurnTime(@Nullable FluidStack fluidStack) {
 		if (fluidStack != null) {
-			Fluid fluid = fluidStack.getFluid();
-			if (FuelManager.combustionEngineFuel.containsKey(fluid)) {
-				return FuelManager.combustionEngineFuel.get(fluid).burnDuration();
+			BiogasEngineFuel fuel = fluidStack.getFluidHolder().getData(ForestryDataMaps.COMBUSTION_FUELS);
+			if (fuel != null) {
+				return fuel.burnDuration();
 			}
 		}
 		return 0;
@@ -194,9 +194,9 @@ public class CombustionEngineBlockEntity extends EngineBlockEntity implements Wo
 
 	private static int determineCoolantTime(@Nullable FluidStack fluidStack) {
 		if (fluidStack != null) {
-			Fluid fluid = fluidStack.getFluid();
-			if (FuelManager.combustionEngineCoolant.containsKey(fluid)) {
-				return FuelManager.combustionEngineCoolant.get(fluid).burnDuration();
+			BiogasEngineFuel fuel = fluidStack.getFluidHolder().getData(ForestryDataMaps.COMBUSTION_COOLANTS);
+			if (fuel != null) {
+				return fuel.burnDuration();
 			}
 		}
 		return 0;
@@ -204,9 +204,9 @@ public class CombustionEngineBlockEntity extends EngineBlockEntity implements Wo
 
 	private static int determineCoolantModifier(@Nullable FluidStack fluidStack) {
 		if (fluidStack != null) {
-			Fluid fluid = fluidStack.getFluid();
-			if (FuelManager.combustionEngineCoolant.containsKey(fluid)) {
-				return FuelManager.combustionEngineCoolant.get(fluid).dissipationMultiplier();
+			BiogasEngineFuel fuel = fluidStack.getFluidHolder().getData(ForestryDataMaps.COMBUSTION_COOLANTS);
+			if (fuel != null) {
+				return fuel.dissipationMultiplier();
 			}
 		}
 		return 0;

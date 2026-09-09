@@ -70,9 +70,9 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 		generic3d(CoreBlocks.RAW_TIN_BLOCK.block());
 
 		generic2d(CoreItems.RAW_TIN);
-		generic2d(CoreItems.INGOT_TIN);
+		generic2d(CoreItems.TIN_INGOT);
 		generic2d(CoreItems.GEAR_TIN);
-		generic2d(CoreItems.INGOT_BRONZE);
+		generic2d(CoreItems.BRONZE_INGOT);
 		generic2d(CoreItems.GEAR_BRONZE);
 		generic2d(CoreItems.GEAR_COPPER);
 		generic2d(CoreItems.GEAR_IRON);

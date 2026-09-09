@@ -50,7 +50,7 @@ public class ForestryItemModels {
 		models.generic2d(CoreItems.MOULDY_WHEAT);
 		models.generic2d(CoreItems.MULCH);
 		models.generic2d(CoreItems.PEAT);
-		models.generic2d(CoreItems.PORTABLE_ALYZER);
+		models.generic2d(CoreItems.PORTABLE_ANALYZER);
 		models.generic2d(ApicultureItems.FRAME_PROVEN);
 		models.generic2d(ArboricultureItems.PROVEN_GRAFTER);
 		models.generic2d(CoreItems.PROVEN_SCOOP);
@@ -81,7 +81,6 @@ public class ForestryItemModels {
 		models.generic2d(CoreItems.FRUITS.get(FruitItemType.PLUM));
 		models.generic2d(CoreItems.FRUITS.get(FruitItemType.WALNUT));
 
-		models.generic2d(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.PULSATING_DUST));
 		models.generic2d(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.PULSATING_MESH));
 		models.generic2d(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.WOOD_PULP));
 		models.generic2d(CoreItems.CRAFTING_MATERIALS.get(EnumCraftingMaterial.SILK_WISP));
@@ -124,7 +123,6 @@ public class ForestryItemModels {
 		models.generic2d(CoreItems.HONEYDEW);
 		models.generic2d(ApicultureItems.EXPERIENCE_DROP);
 		models.generic2d(ApicultureItems.MAGMATIC_DROP);
-		models.generic2d(ApicultureItems.HONEY_POT);
 		models.generic2d(ApicultureItems.HONEYED_SLICE);
 
 		for (ForestryWoodType type : ForestryWoodType.VALUES) {

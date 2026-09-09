@@ -49,7 +49,7 @@ public class ForestryCreativeTabs {
 	private static final IFeatureRegistry REGISTRY = ModFeatureRegistry.get(ForestryModuleIds.CORE);
 
 	public static final FeatureCreativeTab FORESTRY = REGISTRY.creativeTab(ForestryConstants.MOD_ID, tab -> {
-		tab.icon(CoreItems.PORTABLE_ALYZER::stack);
+		tab.icon(CoreItems.PORTABLE_ANALYZER::stack);
 		tab.displayItems(ForestryCreativeTabs::addForestryItems);
 		tab.withTabsBefore(CreativeModeTabs.SPAWN_EGGS);
 		tab.withTabsAfter(tabKey("building_blocks"), tabKey("storage"), tabKey("apiculture"), tabKey("arboriculture"), tabKey("lepidopterology"));
@@ -125,9 +125,9 @@ public class ForestryCreativeTabs {
 		items.accept(CoreItems.SILICON);
 		// Processed ores
 		items.accept(CoreItems.FERTILIZER_COMPOUND);
-		items.accept(CoreItems.INGOT_TIN);
+		items.accept(CoreItems.TIN_INGOT);
 		items.accept(CoreItems.TIN_NUGGET);
-		items.accept(CoreItems.INGOT_BRONZE);
+		items.accept(CoreItems.BRONZE_INGOT);
 		// Block forms
 		items.accept(CoreBlocks.RAW_TIN_BLOCK);
 		CoreBlocks.RESOURCE_STORAGE.getItems().forEach(items::accept);
@@ -347,7 +347,7 @@ public class ForestryCreativeTabs {
 	}
 
 	public static void addGeneticBasics(CreativeModeTab.Output items) {
-		items.accept(CoreItems.PORTABLE_ALYZER);
+		items.accept(CoreItems.PORTABLE_ANALYZER);
 		items.accept(CoreItems.HONEY_DROP);
 		items.accept(CoreItems.HONEYDEW);
 		items.accept(ApicultureItems.EXPERIENCE_DROP);

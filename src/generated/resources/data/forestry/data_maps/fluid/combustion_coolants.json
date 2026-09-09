@@ -1,0 +1,14 @@
+{
+  "values": {
+    "forestry:crushed_ice": {
+      "burn_duration": 100000,
+      "dissipation_multiplier": 20,
+      "power_per_cycle": 0
+    },
+    "minecraft:water": {
+      "burn_duration": 10000,
+      "dissipation_multiplier": 0,
+      "power_per_cycle": 0
+    }
+  }
+}

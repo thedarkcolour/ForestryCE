@@ -1,27 +1,25 @@
 package forestry.agriculture.farmlogic;
 
 import com.google.common.collect.ImmutableMap;
+import forestry.api.ForestryDataMaps;
 import forestry.api.agriculture.IFarmType;
 import forestry.api.agriculture.IFarmingManager;
-import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nullable;
 
 public class FarmingManager implements IFarmingManager {
-	private final Object2IntOpenHashMap<Item> fertilizers;
 	private final ImmutableMap<ResourceLocation, IFarmType> farmTypes;
 
-	public FarmingManager(Object2IntOpenHashMap<Item> fertilizers, ImmutableMap<ResourceLocation, IFarmType> farmTypes) {
+	public FarmingManager(ImmutableMap<ResourceLocation, IFarmType> farmTypes) {
 		this.farmTypes = farmTypes;
-		this.fertilizers = fertilizers;
 	}
 
 	@Override
 	public int getFertilizeValue(ItemStack stack) {
-		return this.fertilizers.getInt(stack.getItem());
+		Integer value = stack.getItemHolder().getData(ForestryDataMaps.FARM_FERTILIZERS);
+		return value != null ? value : 0;
 	}
 
 	@Nullable

@@ -1,0 +1,29 @@
+{
+  "values": {
+    "forestry:biomass": {
+      "burn_duration": 2500,
+      "dissipation_multiplier": 1,
+      "power_per_cycle": 50
+    },
+    "forestry:fruit_juice": {
+      "burn_duration": 2500,
+      "dissipation_multiplier": 2,
+      "power_per_cycle": 10
+    },
+    "forestry:honey": {
+      "burn_duration": 2500,
+      "dissipation_multiplier": 1,
+      "power_per_cycle": 20
+    },
+    "forestry:seed_oil": {
+      "burn_duration": 2500,
+      "dissipation_multiplier": 1,
+      "power_per_cycle": 30
+    },
+    "minecraft:milk": {
+      "burn_duration": 10000,
+      "dissipation_multiplier": 3,
+      "power_per_cycle": 10
+    }
+  }
+}
