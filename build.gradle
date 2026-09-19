@@ -496,9 +496,8 @@ dependencies {
 	// PATCHOULI REQUIRED
 	compileOnly "vazkii.patchouli:Patchouli:$patchouliVersion-NEOFORGE:api"
 	runtimeOnly "vazkii.patchouli:Patchouli:$patchouliVersion-NEOFORGE"
-	// ModKit DEV ONLY - the data providers and nothing else. What keeps it out of a shipped jar is
-	// the datagen exclude on every jar task plus checkJarPartition; see the configurations block
-	modkit 'com.github.thedarkcolour:ModKit:c2e10b8'
+	// ModKit DEV ONLY
+	modkit 'com.github.thedarkcolour:ModKit:c0c491b35bf7c5785b933b27966a9c0b9dee4163'
 
 	// GameTests exercise every jar, and two of them build their expected species maps from the data
 	// providers that now live in those jars
