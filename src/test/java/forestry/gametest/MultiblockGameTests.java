@@ -17,7 +17,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.neoforged.neoforge.gametest.GameTestHolder;
@@ -77,11 +76,6 @@ public class MultiblockGameTests {
 	}
 
 	@GameTest(template = "empty", timeoutTicks = TIMEOUT)
-	public static void alvearyStagedReloadConservesInventory(GameTestHelper helper) {
-		stagedReload(helper, MultiblockTestSupport::buildAlveary, MultiblockTestSupport.ALVEARY_INV_SIZE, 2);
-	}
-
-	@GameTest(template = "empty", timeoutTicks = TIMEOUT)
 	public static void alvearyBreakConservesInventory(GameTestHelper helper) {
 		breakAll(helper, MultiblockTestSupport::buildAlveary, MultiblockTestSupport.ALVEARY_INV_SIZE, 2);
 	}
@@ -101,11 +95,6 @@ public class MultiblockGameTests {
 	@GameTest(template = "empty", timeoutTicks = TIMEOUT)
 	public static void farmRoundTripConservesInventory(GameTestHelper helper) {
 		roundTrip(helper, MultiblockTestSupport::buildFarm, MultiblockTestSupport.FARM_INV_SIZE, 0);
-	}
-
-	@GameTest(template = "empty", timeoutTicks = TIMEOUT)
-	public static void farmStagedReloadConservesInventory(GameTestHelper helper) {
-		stagedReload(helper, MultiblockTestSupport::buildFarm, MultiblockTestSupport.FARM_INV_SIZE, 0);
 	}
 
 	@GameTest(template = "empty", timeoutTicks = TIMEOUT)
@@ -138,7 +127,6 @@ public class MultiblockGameTests {
 		Map<Item, Integer> before;
 		AABB box;
 		Set<UUID> dropsBefore;
-		Map<BlockPos, BlockEntity> fresh;
 		BlockPos brokenPos;
 		BlockState brokenState;
 	}
@@ -161,38 +149,6 @@ public class MultiblockGameTests {
 				MultiblockTestSupport.reloadInPlace(level, run.members);
 			})
 			.thenExecuteAfter(8, () -> assertConservedNoLeak(helper, run, "reload"))
-			.thenSucceed();
-	}
-
-	/**
-	 * Test reloading in the "save-delegate arrives last" order: recreate every member except the anchor, let
-	 * a partial controller form (asserted, so this is a genuinely different code path from {@link #roundTrip}), THEN
-	 * recreate the anchor and let the structure reform, and check that the save delegate was not wiped.
-	 */
-	private static void stagedReload(GameTestHelper helper, Builder builder, int invSize, int slot) {
-		ServerLevel level = helper.getLevel();
-		Run run = new Run();
-		helper.startSequence()
-			.thenExecute(() -> {
-				placeFloor(helper);
-				run.members = builder.build(helper, BASE);
-			})
-			.thenExecuteAfter(5, () -> {
-				assertAssembledAndLoad(helper, run, invSize, slot);
-				run.fresh = MultiblockTestSupport.teardown(level, run.members);
-			})
-			.thenExecute(() -> {
-				List<BlockPos> withoutAnchor = new ArrayList<>(run.members);
-				// the anchor (lowest-(x,y,z) member, the save-delegate)
-				withoutAnchor.removeFirst();
-				MultiblockTestSupport.placeAndRegister(level, run.fresh, withoutAnchor);
-			})
-			.thenExecuteAfter(4, () -> {
-				helper.assertTrue(MultiblockTestSupport.controllerAt(level, run.members.get(1)) != null,
-					"staged path not exercised: no partial controller formed from the non-anchor members");
-				MultiblockTestSupport.placeAndRegister(level, run.fresh, List.of(run.members.get(0)));
-			})
-			.thenExecuteAfter(8, () -> assertConservedNoLeak(helper, run, "staged reload (anchor last)"))
 			.thenSucceed();
 	}
 

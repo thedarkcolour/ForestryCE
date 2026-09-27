@@ -3,12 +3,10 @@ package forestry.apiculture.alveary;
 import forestry.api.core.IBlockSubtype;
 import forestry.apiculture.features.ApicultureTiles;
 import forestry.apiculture.alveary.multiblock.AbstractAlvearyBlockEntity;
-import forestry.apiculture.network.packets.PacketAlvearyChange;
 import forestry.core.platform.block.BlockStructure;
 import forestry.core.platform.tile.IActivatable;
 import forestry.core.platform.tile.TileUtil;
 import forestry.core.platform.util.ItemTooltipUtil;
-import forestry.core.platform.util.NetworkUtil;
 import forestry.core.platform.registration.FeatureTileType;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
@@ -147,11 +145,8 @@ public class AlvearyBlock extends BlockStructure implements EntityBlock {
 	public void neighborChanged(BlockState state, Level level, BlockPos pos, Block blockIn, BlockPos fromPos, boolean movedByPiston) {
 		// The non-Forestry alveary cells (slab cap / entrance air ring) are caught here. Re-run the
 		// event-driven validation for this block (spec §5.3) instead of the deleted controller.reassemble().
-		TileUtil.actOnTile(level, pos, AbstractAlvearyBlockEntity.class, tileAlveary -> {
-			forestry.core.platform.multiblock.MultiblockValidation.validateFor(level, pos, tileAlveary);
-			// Refresh the client so the entrance textures / assembled state update (spec §5.3, §7.3).
-			NetworkUtil.sendNetworkPacket(new PacketAlvearyChange(pos), pos, level);
-		});
+		TileUtil.actOnTile(level, pos, AbstractAlvearyBlockEntity.class, tileAlveary ->
+			forestry.core.platform.multiblock.MultiblockValidation.validateFor(level, pos, tileAlveary));
 	}
 
 	@Override

@@ -60,9 +60,31 @@ public class BeeHousingInventory extends InventoryAdapterRestricted implements I
 		setItem(SLOT_DRONE, stack);
 	}
 
+	// the beekeeping logic writes through these without calling setChanged, and an idle housing never marks its
+	// chunk from the tick (ex. a queen dying and her offspring moving into the inventory)
+	@Override
+	public void setItem(int slotId, ItemStack stack) {
+		super.setItem(slotId, stack);
+		setChanged();
+	}
+
+	@Override
+	public ItemStack removeItem(int slotId, int count) {
+		ItemStack removed = super.removeItem(slotId, count);
+		if (!removed.isEmpty()) {
+			setChanged();
+		}
+		return removed;
+	}
+
 	@Override
 	public final boolean addProduct(ItemStack product, boolean all) {
-		return InventoryUtil.tryAddStack(this, product, SLOT_PRODUCT_1, SLOT_PRODUCT_COUNT, all, true);
+		// grows existing stacks in place without going through setItem
+		boolean added = InventoryUtil.tryAddStack(this, product, SLOT_PRODUCT_1, SLOT_PRODUCT_COUNT, all, true);
+		if (added) {
+			setChanged();
+		}
+		return added;
 	}
 
 }

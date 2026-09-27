@@ -92,6 +92,9 @@ public class ApiaristAI extends MoveToBlockGoal {
 				}
 			}
 
+			// the stacks above are grown and shrunk in place
+			inventory.setChanged();
+
 			//add remaining bees to villager inventory
 			for (ItemStack stack : InventoryUtil.getStacks(inventory, SLOT_PRODUCT_1, SLOT_PRODUCT_COUNT)) {
 				if (stack.getItem() instanceof ForestryBeeItem) {

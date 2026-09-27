@@ -207,7 +207,6 @@ public class ModuleApiculture extends BlankForestryModule {
 		registry.clientbound(ApiculturePacketIds.BEE_SPECIES_SYNC, BeeSpeciesSyncPacket::encode, BeeSpeciesSyncPacket::decode, BeeSpeciesSyncPacket::handle);
 		registry.clientbound(ApiculturePacketIds.BEE_LOGIC_ACTIVE, PacketBeeLogicActive::encode, PacketBeeLogicActive::decode, PacketBeeLogicActive::handle);
 		registry.clientbound(ApiculturePacketIds.HABITAT_BIOME_POINTER, PacketHabitatBiomePointer::encode, PacketHabitatBiomePointer::decode, PacketHabitatBiomePointer::handle);
-		registry.clientbound(ApiculturePacketIds.ALVEARY_CONTROLLER_CHANGE, PacketAlvearyChange::encode, PacketAlvearyChange::decode, PacketAlvearyChange::handle);
 	}
 
 	@Override
