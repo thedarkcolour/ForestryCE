@@ -61,7 +61,14 @@ public class AlvearyController extends MultiblockController implements IAlvearyC
 
 	public AlvearyController(Level world) {
 		super(world);
-		this.inventory = new BeeHousingInventory(9);
+		// item handlers write here directly without going through any member's setChanged
+		this.inventory = new BeeHousingInventory(9) {
+			@Override
+			public void setChanged() {
+				super.setChanged();
+				AlvearyController.this.setChanged();
+			}
+		};
 		this.beekeepingLogic = IForestryApi.INSTANCE.getHiveManager().createBeekeepingLogic(this);
 
 		this.beeModifiers.add(new AlvearyBeeModifier());

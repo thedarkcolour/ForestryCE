@@ -8,9 +8,13 @@ import javax.annotation.Nullable;
 import forestry.api.core.multiblock.IMultiblockComponent;
 import forestry.core.platform.multiblock.pattern.MultiblockPattern;
 import forestry.core.platform.multiblock.pattern.PatternResult;
+import forestry.core.platform.multiblock.pattern.Predicates;
 import forestry.core.platform.multiblock.pattern.StructurePos;
 import forestry.core.platform.tile.TileUtil;
+import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
+import it.unimi.dsi.fastutil.longs.LongSet;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 
 /**
@@ -19,8 +23,8 @@ import net.minecraft.world.level.Level;
  * (bounded candidate origins fed to {@link MultiblockPattern#validate}) and applies the resulting assemble
  * or deactivate transition against the {@link MultiblockIndex} and the member BlockEntities.
  *
- * <p>It is intentionally cheap and never runs on a tick loop. All access is on the main thread, server or
- * client, matching the engine's threading constraint.
+ * <p>It is intentionally cheap and never runs on a tick loop. It runs only on the server thread. Clients
+ * mirror the holder's description packet.
  */
 public final class MultiblockValidation {
 	private MultiblockValidation() {
@@ -28,8 +32,7 @@ public final class MultiblockValidation {
 
 	/**
 	 * Re-validates any structure the position could be a member of, and applies the transition. Called from a
-	 * member BE's {@code onLoad} and {@code setRemoved}, a block's {@code neighborChanged}, and the client
-	 * {@code PacketAlvearyChange} handler.
+	 * member BE's {@code onLoad} and {@code setRemoved}, and a block's {@code neighborChanged}.
 	 */
 	public static void validateAt(Level level, BlockPos pos) {
 		MultiblockTileEntityForestry<?> member = TileUtil.getTile(level, pos, MultiblockTileEntityForestry.class);
@@ -45,6 +48,11 @@ public final class MultiblockValidation {
 	 * this block currently anchors or belongs to.
 	 */
 	public static void validateFor(Level level, BlockPos pos, MultiblockTileEntityForestry<?> member) {
+		// the client receives chunks in a different order than the server loads them, so it mirrors the holder's
+		// description packet instead of reaching its own verdict
+		if (level.isClientSide) {
+			return;
+		}
 		MultiblockPattern pattern = member.getPattern();
 		LevelStructureView view = new LevelStructureView(level);
 		StructurePos origin = new StructurePos(pos.getX(), pos.getY(), pos.getZ());
@@ -52,6 +60,7 @@ public final class MultiblockValidation {
 		@Nullable PatternResult.Match match = null;
 		@Nullable PatternResult.Failure bestFailure = null;
 		int bestRank = Integer.MIN_VALUE;
+		LongSet unloadedChunks = new LongOpenHashSet();
 		for (StructurePos candidate : pattern.candidateOrigins(origin)) {
 			PatternResult result = pattern.validate(view, candidate);
 			if (result instanceof PatternResult.Match m) {
@@ -65,6 +74,10 @@ public final class MultiblockValidation {
 				// Track the most player-meaningful failure, not just the first, so the stored deactivation
 				// message matches what the right-click hint would show. Never the internal NOT_MAXIMAL deferral.
 				PatternResult.Failure failure = (PatternResult.Failure) result;
+				if (failure.firstKey().equals(Predicates.KEY_NOT_LOADED)) {
+					StructurePos cell = failure.first().pos();
+					unloadedChunks.add(ChunkPos.asLong(cell.x() >> 4, cell.z() >> 4));
+				}
 				int rank = hintRank(failure.firstKey());
 				if (rank > bestRank) {
 					bestRank = rank;
@@ -74,8 +87,14 @@ public final class MultiblockValidation {
 		}
 
 		if (match != null) {
+			DeferredValidation.forget(level, pos);
 			assemble(level, member, match);
+		} else if (!unloadedChunks.isEmpty()) {
+			// any candidate cut off by an unloaded chunk might be the real structure, so no verdict or message yet
+			DeferredValidation.defer(level, pos, unloadedChunks);
+			deactivate(level, member, null);
 		} else {
+			DeferredValidation.forget(level, pos);
 			deactivate(level, member, bestFailure);
 		}
 	}
@@ -121,7 +140,7 @@ public final class MultiblockValidation {
 		// If only internal "wrong candidate origin" deferrals were seen, with no real content or size error
 		// from any candidate, there is no actionable hint. Suppress the message rather than show the
 		// internal key.
-		if (best == null || best.firstKey().equals(forestry.core.platform.multiblock.pattern.Predicates.KEY_NOT_MAXIMAL)) {
+		if (best == null || isInternal(best.firstKey())) {
 			return null;
 		}
 		return buildMessage(level, best.first());
@@ -158,8 +177,8 @@ public final class MultiblockValidation {
 		// non-min-corner candidate (spec 5.3), tells the player nothing. It is a discovery artefact of probing
 		// many permissive origins, not an error. Rank it LOWEST so the meaningful failure from the candidate
 		// rooted at the true min corner always wins. This is the Task A fix, since it used to leak as the
-		// misleading invalid.part "%s".
-		if (key.equals(forestry.core.platform.multiblock.pattern.Predicates.KEY_NOT_MAXIMAL)) {
+		// misleading invalid.part "%s". The not-loaded deferral is ranked the same, since it is no verdict at all.
+		if (isInternal(key)) {
 			return -1;
 		}
 		// A generic "this cell is or isn't a component" message is the next least useful, but still better
@@ -174,6 +193,11 @@ public final class MultiblockValidation {
 		// Everything else is a real content or size error: needSlabs, needSpace, needGearbox, needPlain*,
 		// small and large
 		return 2;
+	}
+
+	// never shown to the player, and a not-loaded cell's chunk must not be read to name its block
+	private static boolean isInternal(String key) {
+		return key.equals(Predicates.KEY_NOT_MAXIMAL) || key.equals(Predicates.KEY_NOT_LOADED);
 	}
 
 	private static boolean containsPos(PatternResult.Match match, BlockPos pos) {
@@ -230,6 +254,7 @@ public final class MultiblockValidation {
 					oldHolderBe.setAnchorPos(holderPos);
 				}
 				MultiblockController.markChunkDirty(level, oldHolder);
+				MultiblockController.syncHolder(level, oldHolder);
 			}
 		}
 
@@ -294,6 +319,8 @@ public final class MultiblockValidation {
 		for (IMultiblockComponent part : controller.getComponents()) {
 			part.onMachineAssembled(controller, min, max);
 		}
+
+		MultiblockController.syncHolder(level, holderPos);
 	}
 
 	/**
@@ -316,7 +343,7 @@ public final class MultiblockValidation {
 				part.onMachineBroken();
 			}
 		}
-		if (failure != null && !failure.firstKey().equals(forestry.core.platform.multiblock.pattern.Predicates.KEY_NOT_MAXIMAL)) {
+		if (failure != null && !isInternal(failure.firstKey())) {
 			// Build the localized message with its format args filled (spec Task A.3). Skip the internal
 			// "wrong candidate origin" deferral, which is never shown to the player.
 			controller.setLastValidationError(buildMessage(level, failure.first()).getString());
@@ -332,6 +359,7 @@ public final class MultiblockValidation {
 			holder.stashFrom(controller);
 		}
 		MultiblockIndex.deregister(level, anchorPos);
+		MultiblockController.syncHolder(level, anchorPos);
 	}
 
 	/**

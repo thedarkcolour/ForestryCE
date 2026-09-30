@@ -205,6 +205,17 @@ public abstract class MultiblockTileEntityForestry<T extends IMultiblockLogic> e
 		}
 	}
 
+	@Override
+	public void setChanged() {
+		super.setChanged();
+		// menus and hatches write the shared inventory through this member, which may be in a different chunk
+		// than the holder that saves it
+		MultiblockController controller = getController();
+		if (controller != null) {
+			controller.setChanged();
+		}
+	}
+
 	/* ===== Lifecycle triggers (spec 5.3, 6.4, 7.4) ===== */
 
 	@Override
@@ -226,14 +237,20 @@ public abstract class MultiblockTileEntityForestry<T extends IMultiblockLogic> e
 		// farm that clears the computed targets, which the old PAUSED path left intact (MINOR 6 parity). The
 		// state stays untouched in the anchor's NBT, and reload re-fires the assembled callbacks through
 		// load-time validation.
-		if (this.level != null) {
+		if (this.level != null && !this.level.isClientSide) {
 			BlockPos anchor = getAnchorPos();
 			if (anchor != null) {
 				MultiblockController controller = MultiblockIndex.get(this.level, anchor);
 				if (controller != null && controller.isAssembled()) {
 					controller.setAssembled(false);
 				}
+				// the chunk was saved just before unloading, so a reload must read that copy instead of reviving
+				// this controller, which would also never be released
+				if (controller != null && anchor.equals(getBlockPos())) {
+					MultiblockIndex.deregister(this.level, anchor);
+				}
 			}
+			DeferredValidation.forget(this.level, getBlockPos());
 		}
 	}
 
@@ -246,7 +263,12 @@ public abstract class MultiblockTileEntityForestry<T extends IMultiblockLogic> e
 
 		super.setRemoved();
 
-		if (level == null || level.isClientSide) {
+		if (level == null) {
+			return;
+		}
+		if (level.isClientSide) {
+			// the server resends the new holder's packet if the machine survives
+			dropClientController();
 			return;
 		}
 
@@ -254,6 +276,7 @@ public abstract class MultiblockTileEntityForestry<T extends IMultiblockLogic> e
 			// Temporary chunk unload, deactivation already happened in onChunkUnloaded. No re-anchor, no drops
 			return;
 		}
+		DeferredValidation.forget(level, pos);
 
 		// Genuine break (spec 6.4). Three cases by where the shared payload currently lives:
 		//   A. a LIVE controller is hosted at this broken holder          -> re-anchor controller state, or drop
@@ -277,6 +300,7 @@ public abstract class MultiblockTileEntityForestry<T extends IMultiblockLogic> e
 				for (IMultiblockComponent part : parts) {
 					part.onMachineBroken();
 				}
+				MultiblockController.syncHolder(level, anchor);
 			}
 		} else if (hasStash()) {
 			// Dormant payload carrier broken with no live controller (Case C)
@@ -584,18 +608,23 @@ public abstract class MultiblockTileEntityForestry<T extends IMultiblockLogic> e
 		// client-side controller and adopt the synced payload. This is the authoritative client path. It does
 		// NOT depend on the client running its own unreliable validation, so the GUI and highlight resolve a
 		// real assembled controller after a world reload (spec 9).
-		if (this.level != null && this.level.isClientSide && packetData.getBoolean(ASSEMBLED_KEY) && packetData.contains(MEMBERS_KEY)) {
-			reconstructClientController(packetData);
-			return;
-		}
-
-		if (packetData.contains(PAYLOAD_KEY)) {
-			MultiblockController controller = getController();
-			if (controller != null) {
-				controller.readDescriptionPayload(packetData.getCompound(PAYLOAD_KEY));
+		if (this.level != null && this.level.isClientSide) {
+			if (packetData.getBoolean(ASSEMBLED_KEY) && packetData.contains(MEMBERS_KEY)) {
+				reconstructClientController(packetData);
 			} else {
-				setStash(packetData.getCompound(PAYLOAD_KEY).copy());
+				dropClientController();
 			}
+		}
+	}
+
+	// only a holder's packet ever registered a client controller at this position
+	private void dropClientController() {
+		BlockPos pos = getBlockPos();
+		MultiblockController controller = MultiblockIndex.get(this.level, pos);
+		if (controller != null) {
+			controller.setAssembled(false);
+			controller.onBroken();
+			MultiblockIndex.deregister(this.level, pos);
 		}
 	}
 
@@ -648,7 +677,7 @@ public abstract class MultiblockTileEntityForestry<T extends IMultiblockLogic> e
 		}
 		// Fire the assembled transition so the controller's derived client state is real (ex. the alveary's
 		// climate provider, while the farm is a no-op). Per-part onMachineAssembled visuals, meaning entrance
-		// textures and BAND, are owned by the client's PacketAlvearyChange validation path and are
+		// textures and BAND, are blockstates set on the server and synced by vanilla block updates, so they are
 		// intentionally NOT re-fired here.
 		controller.onAssembled();
 		MultiblockIndex.register(this.level, holderPos, controller);

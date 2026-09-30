@@ -29,7 +29,13 @@ import forestry.apiculture.bees.AbstractBeeHousingBlockEntity;
 public class ApiaryBlockEntity extends AbstractBeeHousingBlockEntity implements IBeeHousing {
 	private final ApiaryBeeModifier beeModifier = new ApiaryBeeModifier();
 	private final ApiaryBeeListener beeListener = new ApiaryBeeListener();
-	private final ApiaryInventory inventory = new ApiaryInventory();
+	private final ApiaryInventory inventory = new ApiaryInventory() {
+		@Override
+		public void setChanged() {
+			super.setChanged();
+			ApiaryBlockEntity.this.setChanged();
+		}
+	};
 
 	public ApiaryBlockEntity(BlockPos pos, BlockState state) {
 		super(ApicultureTiles.APIARY.tileType(), pos, state, "apiary");

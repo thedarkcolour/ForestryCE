@@ -138,6 +138,8 @@ public abstract class AbstractBeeHousingBlockEntity extends TileBase implements 
 	public void serverTick(Level level, BlockPos pos, BlockState state) {
 		if (this.beeLogic.canWork()) {
             this.beeLogic.doWork();
+			// breeding progress and the work throttle change every tick without touching the inventory
+			level.blockEntityChanged(pos);
 		}
 
 		// every 64 ticks, update the climate state in case of changed biome or climate (& is faster than modulus)

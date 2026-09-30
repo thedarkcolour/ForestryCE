@@ -30,7 +30,13 @@ public class BeeHouseBlockEntity extends AbstractBeeHousingBlockEntity {
 	public BeeHouseBlockEntity(BlockPos pos, BlockState state) {
 		super(ApicultureTiles.BEE_HOUSE.tileType(), pos, state, "bee.house");
 
-		this.beeInventory = new BeeHousingInventory(12);
+		this.beeInventory = new BeeHousingInventory(12) {
+			@Override
+			public void setChanged() {
+				super.setChanged();
+				BeeHouseBlockEntity.this.setChanged();
+			}
+		};
 		this.beeInventory.disableAutomation();
 		setInternalInventory(this.beeInventory);
 	}

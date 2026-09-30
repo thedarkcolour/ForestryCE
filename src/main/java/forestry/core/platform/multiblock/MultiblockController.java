@@ -399,8 +399,8 @@ public abstract class MultiblockController implements IMultiblockController, Wor
 	 * inventory has no tile of its own, and every controller inventory bottoms out in a {@code setChanged}
 	 * with an empty body, so delegating there marked nothing dirty.
 	 *
-	 * <p>Routine persistence does not depend on this. {@link MultiblockTicker} already dirties the holder
-	 * whenever {@link #serverTick(int)} reports a change, which is every tick for a farm.
+	 * <p>Called by every member's {@code setChanged} and by the alveary inventory. {@link MultiblockTicker}
+	 * only dirties the holder when {@link #serverTick(int)} reports a change, which an idle alveary never does.
 	 */
 	@Override
 	public void setChanged() {
@@ -520,6 +520,18 @@ public abstract class MultiblockController implements IMultiblockController, Wor
 		net.minecraft.world.level.chunk.LevelChunk chunk = level.getChunkSource().getChunkNow(pos.getX() >> 4, pos.getZ() >> 4);
 		if (chunk != null) {
 			chunk.setUnsaved(true);
+		}
+	}
+
+	// resends the holder's description packet so clients rebuild or drop their controller to match the server
+	public static void syncHolder(Level level, BlockPos holderPos) {
+		if (level.isClientSide) {
+			return;
+		}
+		net.minecraft.world.level.chunk.LevelChunk chunk = level.getChunkSource().getChunkNow(holderPos.getX() >> 4, holderPos.getZ() >> 4);
+		if (chunk != null) {
+			net.minecraft.world.level.block.state.BlockState state = chunk.getBlockState(holderPos);
+			level.sendBlockUpdated(holderPos, state, state, net.minecraft.world.level.block.Block.UPDATE_CLIENTS);
 		}
 	}
 }

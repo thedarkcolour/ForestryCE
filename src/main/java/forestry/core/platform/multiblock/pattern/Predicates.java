@@ -57,6 +57,10 @@ public final class Predicates {
 	 */
 	public static final String KEY_NOT_MAXIMAL = "for.multiblock.error.internal.notMaximal";
 
+	// internal like KEY_NOT_MAXIMAL: a cell the query needs is in an unloaded chunk, so the structure is undecided and
+	// validation is retried once that chunk loads
+	public static final String KEY_NOT_LOADED = "for.multiblock.error.internal.notLoaded";
+
 	/** Too few blocks for the minimum machine size ({@code error.small}, 3 dimension args). */
 	public static final String KEY_SMALL = "for.multiblock.error.small";
 	public static final String KEY_SMALL_X = "for.multiblock.error.small.x";

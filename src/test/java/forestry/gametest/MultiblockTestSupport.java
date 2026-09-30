@@ -259,8 +259,9 @@ public final class MultiblockTestSupport {
 	/**
 	 * Places and registers the pre-built block entities at {@code positions} (a subset of a {@link #teardown} result).
 	 * Sets all first so no member observes a hole, then registers each (fires {@code onLoad} -> the engine queues each
-	 * as an orphan; the next server tick reforms/merges). Staging different subsets across ticks reproduces an
-	 * adversarial partial-arrival order.
+	 * as an orphan; the next server tick reforms/merges). Place every member in the same tick: a member left out keeps
+	 * its block without a block entity, which a real chunk never does, and {@code Level.getBlockEntity} fills the gap
+	 * with an empty one. Partial arrival is covered with real chunks in {@code MultiblockChunkTest}.
 	 */
 	public static void placeAndRegister(ServerLevel level, Map<BlockPos, BlockEntity> fresh, List<BlockPos> positions) {
 		for (BlockPos pos : positions) {

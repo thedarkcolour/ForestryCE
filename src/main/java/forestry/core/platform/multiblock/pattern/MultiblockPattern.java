@@ -85,7 +85,10 @@ public final class MultiblockPattern {
 	public PatternResult validate(StructureView view, StructurePos origin) {
 		// A valid origin is always the min-corner component itself. Candidate discovery is deliberately
 		// permissive, so discard empty origins before they can surface bogus size errors.
-		if (!view.isLoaded(origin) || !isSameTypeComponent(view.sample(origin))) {
+		if (!view.isLoaded(origin)) {
+			return failure(origin, Predicates.KEY_NOT_LOADED);
+		}
+		if (!isSameTypeComponent(view.sample(origin))) {
 			return failure(origin, Predicates.KEY_NOT_MAXIMAL);
 		}
 
@@ -100,7 +103,7 @@ public final class MultiblockPattern {
 		for (StructurePos below : new StructurePos[]{
 				origin.offset(-1, 0, 0), origin.offset(0, -1, 0), origin.offset(0, 0, -1)}) {
 			if (!view.isLoaded(below)) {
-				return failure(below, Predicates.KEY_NOT_MAXIMAL);
+				return failure(below, Predicates.KEY_NOT_LOADED);
 			}
 			if (isSameTypeComponent(view.sample(below))) {
 				return failure(below, Predicates.KEY_NOT_MAXIMAL);
@@ -109,10 +112,13 @@ public final class MultiblockPattern {
 
 		// --- Measure the maximal contiguous same-type component box growing from origin in +X/+Y/+Z.
 		// Each grown layer must be fully loaded (loaded-shell) and fully same-type-component. ---
-		Measure measure = measureBox(view, origin);
-		if (measure == null) {
-			// a required cell was unloaded while measuring, cannot confirm extent, so defer
-			return failure(origin, Predicates.KEY_INVALID_INTERIOR);
+		Measure measure;
+		Measure extent;
+		try {
+			measure = measureBox(view, origin);
+			extent = measureExtent(view, origin);
+		} catch (UnloadedCell e) {
+			return failure(e.pos, Predicates.KEY_NOT_LOADED);
 		}
 		int sizeX = measure.sizeX;
 		int sizeY = measure.sizeY;
@@ -127,7 +133,6 @@ public final class MultiblockPattern {
 		// surfaces error.small or error.small.{x,y,z}. A hole that does NOT shrink the outer extent, meaning
 		// a full shell with a missing interior, leaves the extent at full size, so it still falls through to
 		// the per-cell invalid.interior path. ---
-		Measure extent = measureExtent(view, origin);
 		PatternResult.Failure sizeFailure = checkSize(origin, sizeX, sizeY, sizeZ, extent);
 		if (sizeFailure != null) {
 			return sizeFailure;
@@ -141,7 +146,7 @@ public final class MultiblockPattern {
 		for (StructurePos rel : extra.keySet()) {
 			StructurePos worldPos = origin.offset(rel.x(), rel.y(), rel.z());
 			if (!view.isLoaded(worldPos)) {
-				return failure(worldPos, Predicates.KEY_INVALID_INTERIOR);
+				return failure(worldPos, Predicates.KEY_NOT_LOADED);
 			}
 		}
 
@@ -163,7 +168,7 @@ public final class MultiblockPattern {
 				for (int dz = 0; dz < sizeZ; dz++) {
 					StructurePos worldPos = origin.offset(dx, dy, dz);
 					if (!view.isLoaded(worldPos)) {
-						return failure(worldPos, Predicates.KEY_INVALID_INTERIOR);
+						return failure(worldPos, Predicates.KEY_NOT_LOADED);
 					}
 					CellSample sample = view.sample(worldPos);
 					CellPredicate predicate = this.boxCellPredicate.predicateFor(sizeX, sizeY, sizeZ, dx, dy, dz);
@@ -209,37 +214,23 @@ public final class MultiblockPattern {
 	 * exact parity with the old bounding-box-then-validate-each-cell behaviour. For a <b>ranged axis</b> the
 	 * size is found by growing along the min-corner edge while the next edge cell is a same-type component,
 	 * clamped to {@code max}. That resolves which size variant a variable-size machine, the farm, is, and
-	 * remaining interior cells are still validated by predicates. Returns {@code null} if a consulted cell is
-	 * unloaded, deferring under the loaded-shell rule.
+	 * remaining interior cells are still validated by predicates. Throws {@link UnloadedCell} if a consulted cell
+	 * is unloaded, deferring under the loaded-shell rule.
 	 */
 	private Measure measureBox(StructureView view, StructurePos origin) {
-		if (!view.isLoaded(origin)) {
-			return null;
-		}
 		// If origin is not even a same-type component, report 1x1x1 so size and predicate checks emit a key
 		boolean originIsComponent = isSameTypeComponent(view.sample(origin));
 
 		int sizeX = measureAxis(view, origin, 1, 0, 0, this.minSizeX, this.maxSizeX, originIsComponent);
-		if (sizeX == UNLOADED) {
-			return null;
-		}
 		int sizeY = measureAxis(view, origin, 0, 1, 0, this.minSizeY, this.maxSizeY, originIsComponent);
-		if (sizeY == UNLOADED) {
-			return null;
-		}
 		int sizeZ = measureAxis(view, origin, 0, 0, 1, this.minSizeZ, this.maxSizeZ, originIsComponent);
-		if (sizeZ == UNLOADED) {
-			return null;
-		}
 		return new Measure(sizeX, sizeY, sizeZ);
 	}
-
-	private static final int UNLOADED = -1;
 
 	/**
 	 * Measures one axis. Fixed axes, where {@code min == max}, return {@code max} immediately. Ranged axes
 	 * grow along the unit-vector edge from origin while the next edge cell is a same-type component, clamped
-	 * to {@code max}. Returns {@link #UNLOADED} if a consulted edge cell is unloaded.
+	 * to {@code max}. Throws {@link UnloadedCell} if a consulted edge cell is unloaded.
 	 */
 	private int measureAxis(StructureView view, StructurePos origin, int ux, int uy, int uz, int min, int max, boolean originIsComponent) {
 		if (min == max) {
@@ -251,10 +242,7 @@ public final class MultiblockPattern {
 		int size = 1;
 		while (size < max) {
 			StructurePos next = origin.offset(ux * size, uy * size, uz * size);
-			if (!view.isLoaded(next)) {
-				return UNLOADED;
-			}
-			if (!isSameTypeComponent(view.sample(next))) {
+			if (!isSameTypeComponent(sampleLoaded(view, next))) {
 				break;
 			}
 			size++;
@@ -280,7 +268,7 @@ public final class MultiblockPattern {
 	 * is 0.
 	 */
 	private Measure measureExtent(StructureView view, StructurePos origin) {
-		if (!view.isLoaded(origin) || !isSameTypeComponent(view.sample(origin))) {
+		if (!isSameTypeComponent(sampleLoaded(view, origin))) {
 			return new Measure(0, 0, 0);
 		}
 		// Unit vectors are X=(1,0,0) Y=(0,1,0) Z=(0,0,1). For each measured axis, pass the two perpendiculars
@@ -306,13 +294,13 @@ public final class MultiblockPattern {
 		for (int a = 0; a < minA; a++) {
 			for (int b = 0; b < minB; b++) {
 				StructurePos start = origin.offset(pa.x() * a + pb.x() * b, pa.y() * a + pb.y() * b, pa.z() * a + pb.z() * b);
-				if (!view.isLoaded(start) || !isSameTypeComponent(view.sample(start))) {
+				if (!isSameTypeComponent(sampleLoaded(view, start))) {
 					continue;
 				}
 				int run = 1;
 				while (true) {
 					StructurePos next = start.offset(u.x() * run, u.y() * run, u.z() * run);
-					if (!view.isLoaded(next) || !isSameTypeComponent(view.sample(next))) {
+					if (!isSameTypeComponent(sampleLoaded(view, next))) {
 						break;
 					}
 					run++;
@@ -365,7 +353,7 @@ public final class MultiblockPattern {
 
 	private PatternResult.Failure confirmShellClear(StructureView view, StructurePos pos) {
 		if (!view.isLoaded(pos)) {
-			return new PatternResult.Failure(List.of(new FailingCell(pos, Predicates.KEY_INVALID_INTERIOR)));
+			return new PatternResult.Failure(List.of(new FailingCell(pos, Predicates.KEY_NOT_LOADED)));
 		}
 		if (isSameTypeComponent(view.sample(pos))) {
 			// the real structure is larger, so this candidate is a non-maximal sub-region
@@ -455,6 +443,23 @@ public final class MultiblockPattern {
 	/** Failure carrying integer message format args, used by the size keys (spec Task A.3). */
 	private static PatternResult.Failure failure(StructurePos pos, String key, int... args) {
 		return new PatternResult.Failure(List.of(new FailingCell(pos, key, args)));
+	}
+
+	private static CellSample sampleLoaded(StructureView view, StructurePos pos) {
+		if (!view.isLoaded(pos)) {
+			throw new UnloadedCell(pos);
+		}
+		return view.sample(pos);
+	}
+
+	// aborts a measurement that reached an unloaded cell, caught once in validate
+	private static final class UnloadedCell extends RuntimeException {
+		private final StructurePos pos;
+
+		private UnloadedCell(StructurePos pos) {
+			super(null, null, false, false);
+			this.pos = pos;
+		}
 	}
 
 	private record Measure(int sizeX, int sizeY, int sizeZ) {
