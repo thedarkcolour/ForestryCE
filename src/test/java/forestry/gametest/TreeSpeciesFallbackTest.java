@@ -19,7 +19,7 @@ import forestry.api.core.genetics.alleles.IChromosome;
 import forestry.api.core.genetics.alleles.TreeChromosomes;
 import forestry.arboriculture.trees.genetics.ArboricultureReloadHandler;
 import forestry.arboriculture.trees.genetics.TreeSpeciesDefinition;
-import forestry.core.data.TreeSpeciesProvider;
+import forestry.arboriculture.trees.genetics.TreeSpeciesProvider;
 import forestry.core.engine.genetics.GeneticsReloadHandler;
 import forestry.core.engine.genetics.SpeciesType;
 import forestry.core.platform.util.SpeciesUtil;

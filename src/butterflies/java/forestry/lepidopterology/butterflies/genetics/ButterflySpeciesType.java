@@ -16,6 +16,7 @@ import forestry.api.lepidopterology.genetics.IButterfly;
 import forestry.api.lepidopterology.genetics.IButterflySpecies;
 import forestry.api.lepidopterology.genetics.IButterflySpeciesType;
 import forestry.api.plugin.IForestryPlugin;
+import forestry.api.plugin.ILepidopterologyRegistration;
 import forestry.api.plugin.ISpeciesTypeBuilder;
 import forestry.lepidopterology.plugin.LepidopterologyRegistration;
 import forestry.core.engine.genetics.SpeciesType;
@@ -33,6 +34,9 @@ import forestry.lepidopterology.features.LepidopterologyBlocks;
 import forestry.lepidopterology.features.LepidopterologyEntities;
 import forestry.lepidopterology.cocoons.TileCocoon;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.data.DataProvider;
+import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -43,6 +47,8 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 
 public class ButterflySpeciesType extends SpeciesType<IButterflySpecies, IButterfly> implements IButterflySpeciesType {
 	// Reference-value registries backing the cocoon and butterfly_effect chromosomes.
@@ -233,5 +239,10 @@ public class ButterflySpeciesType extends SpeciesType<IButterflySpecies, IButter
 	@Override
 	public Codec<? extends IButterfly> getIndividualCodec() {
 		return Butterfly.CODEC;
+	}
+
+	@Override
+	public DataProvider createSpeciesProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries, Consumer<ILepidopterologyRegistration> species) {
+		return new ButterflySpeciesProvider(output, registries, this, species);
 	}
 }

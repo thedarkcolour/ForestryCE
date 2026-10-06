@@ -1,4 +1,4 @@
-package forestry.core.data;
+package forestry.core.engine.genetics;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -11,11 +11,7 @@ import forestry.api.core.genetics.alleles.AlleleOverride;
 import forestry.api.core.genetics.alleles.IChromosome;
 import forestry.api.plugin.IGenomeBuilder;
 
-/**
- * Shim to capture {@link forestry.api.plugin.ISpeciesBuilder#setGenome} overrides into a map for data generation.
- * Records all three setters, so a genome closure that sets only one side of a pair generates the same one-sided
- * {@link AlleleOverride} that {@code GenomeProjection} reads back.
- */
+// records each side separately so a one-sided genome closure generates a one-sided override
 public class MapGenomeBuilder implements IGenomeBuilder {
 	public final Map<ResourceLocation, AlleleOverride<?>> overrides = new LinkedHashMap<>();
 

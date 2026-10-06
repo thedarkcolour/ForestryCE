@@ -16,6 +16,7 @@ import forestry.api.core.IProduct;
 import forestry.api.core.genetics.*;
 import forestry.api.core.genetics.alleles.IKaryotype;
 import forestry.api.core.genetics.capability.IIndividualHandlerItem;
+import forestry.api.plugin.IApicultureRegistration;
 import forestry.api.plugin.IForestryPlugin;
 import forestry.api.plugin.ISpeciesTypeBuilder;
 import forestry.apiimpl.ForestryApiImpl;
@@ -24,6 +25,9 @@ import forestry.core.platform.config.ForestryConfig;
 import forestry.core.engine.genetics.BreedingTracker;
 import forestry.core.engine.genetics.SpeciesType;
 import forestry.core.engine.genetics.root.BreedingTrackerManager;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.data.DataProvider;
+import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
@@ -32,6 +36,8 @@ import net.minecraft.world.level.LevelAccessor;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 
 public class BeeSpeciesType extends SpeciesType<IBeeSpecies, IBee> implements IBeeSpeciesType {
 	// Reference-value registries backing the flower_type, bee_effect, activity, and jubilance chromosomes.
@@ -196,5 +202,10 @@ public class BeeSpeciesType extends SpeciesType<IBeeSpecies, IBee> implements IB
 		int stackMaxSize = copy.getMaxStackSize();
 		copy.setCount(Math.min(productGenSuccessCounter, stackMaxSize));
 		return copy;
+	}
+
+	@Override
+	public DataProvider createSpeciesProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries, Consumer<IApicultureRegistration> species) {
+		return new BeeSpeciesProvider(output, registries, this, species);
 	}
 }

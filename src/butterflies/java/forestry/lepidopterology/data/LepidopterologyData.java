@@ -9,6 +9,9 @@ import forestry.core.data.ContentJarData;
 import forestry.core.data.DataRoots;
 import forestry.core.data.JarLootTableProvider;
 import forestry.core.data.JarScope;
+import forestry.core.platform.util.SpeciesUtil;
+import forestry.lepidopterology.butterflies.genetics.ButterflySpeciesProvider;
+import forestry.lepidopterology.plugin.DefaultButterflySpecies;
 
 /**
  * Registers every provider that writes into the butterflies jar. Loaded by core through
@@ -30,7 +33,7 @@ public class LepidopterologyData extends ContentJarData {
 		jar.helper().createRecipes(LepidopterologyRecipeProvider::addRecipes);
 
 		jar.addServer(new ButterflyTaxonProvider(jar.output()));
-		jar.addServer(new ButterflySpeciesProvider(jar.output(), jar.lookup()));
+		jar.addServer(SpeciesUtil.BUTTERFLY_TYPE.get().createSpeciesProvider(jar.output(), jar.lookup(), DefaultButterflySpecies::register));
 		jar.addServer(new ButterflyMutationProvider(jar.output(), jar.lookup()));
 		jar.addServer(new JarLootTableProvider(jar.output(), jar.lookup(), LepidopterologyBlockLootTables::new));
 		jar.addServer(new LepidopterologyDataMapProvider(jar.output(), jar.lookup()));

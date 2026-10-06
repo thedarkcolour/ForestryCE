@@ -2,11 +2,16 @@ package forestry.core.data;
 
 import forestry.api.ForestryConstants;
 import forestry.api.IForestryApi;
+import forestry.apiculture.bees.genetics.BeeSpeciesProvider;
+import forestry.apiculture.plugin.DefaultBeeSpecies;
 import forestry.apiimpl.plugin.PluginManager;
+import forestry.arboriculture.plugin.DefaultTreeSpecies;
+import forestry.arboriculture.trees.genetics.TreeSpeciesProvider;
 import forestry.core.data.models.ForestryBlockStateProvider;
 import forestry.core.data.models.ForestryItemModelProvider;
 import forestry.core.data.models.ForestryWoodModelProvider;
 import forestry.core.data.recipe.ForestryRecipeProvider;
+import forestry.core.platform.util.SpeciesUtil;
 import forestry.modules.ForestryModuleManager;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
@@ -92,8 +97,8 @@ public class Data {
 		generator.addProvider(event.includeServer(), new TaxonProvider(output));
 		generator.addProvider(event.includeServer(), new FlowerTypeProvider(output));
 		generator.addProvider(event.includeServer(), new BeeEffectProvider(output, lookup));
-		generator.addProvider(event.includeServer(), new BeeSpeciesProvider(output, lookup));
-		generator.addProvider(event.includeServer(), new TreeSpeciesProvider(output, lookup));
+		generator.addProvider(event.includeServer(), SpeciesUtil.BEE_TYPE.get().createSpeciesProvider(output, lookup, DefaultBeeSpecies::register));
+		generator.addProvider(event.includeServer(), SpeciesUtil.TREE_TYPE.get().createSpeciesProvider(output, lookup, DefaultTreeSpecies::register));
 		generator.addProvider(event.includeServer(), new MutationProvider(output, lookup));
 		generator.addProvider(event.includeServer(), new ForestryDataMapProvider(output, lookup));
 		generator.addProvider(event.includeClient(), new ForestryCuriosProvider(output, existingFileHelper, lookup));

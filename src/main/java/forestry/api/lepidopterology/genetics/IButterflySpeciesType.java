@@ -5,7 +5,11 @@ import forestry.api.core.genetics.IBreedingTracker;
 import forestry.api.core.genetics.ISpeciesType;
 import forestry.api.lepidopterology.IButterflyCocoon;
 import forestry.api.lepidopterology.IButterflyEffect;
+import forestry.api.plugin.ILepidopterologyRegistration;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.data.DataProvider;
+import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.ItemStack;
@@ -13,6 +17,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 
 import javax.annotation.Nullable;
+import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 
 public interface IButterflySpeciesType extends ISpeciesType<IButterflySpecies, IButterfly> {
 	@Override
@@ -61,4 +67,14 @@ public interface IButterflySpeciesType extends ISpeciesType<IButterflySpecies, I
 	 * @return true if passed item is mated.
 	 */
 	boolean isMated(ItemStack stack);
+
+	/**
+	 * Creates a data provider that generates butterfly species JSON.
+	 *
+	 * @param output     The pack output to generate into
+	 * @param registries The registries used to encode the species
+	 * @param species    The action that registers the species to generate
+	 * @return The data provider to add to the data generator
+	 */
+	DataProvider createSpeciesProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries, Consumer<ILepidopterologyRegistration> species);
 }
