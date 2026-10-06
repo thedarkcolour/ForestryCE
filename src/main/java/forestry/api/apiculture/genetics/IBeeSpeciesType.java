@@ -61,8 +61,8 @@ public interface IBeeSpeciesType extends ISpeciesType<IBeeSpecies, IBee> {
 	/**
 	 * Creates a data provider that generates bee species JSON.
 	 *
-	 * A custom {@link IBeeJubilance} must also be registered by the action.
-	 * Otherwise its species generate with the default jubilance.
+	 * Each jubilance ID used by a species must be registered, either by a plugin or by the action.
+	 * Otherwise, the data provider throws when it runs.
 	 *
 	 * @param output     The pack output to generate into
 	 * @param registries The registries used to encode the species

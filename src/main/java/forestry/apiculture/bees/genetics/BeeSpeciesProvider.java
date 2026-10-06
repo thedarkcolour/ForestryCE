@@ -1,10 +1,10 @@
 package forestry.apiculture.bees.genetics;
 
 import java.util.ArrayList;
-import java.util.IdentityHashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
@@ -18,8 +18,6 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.resources.RegistryOps;
 import net.minecraft.resources.ResourceLocation;
 
-import forestry.api.apiculture.ForestryBeeJubilances;
-import forestry.api.apiculture.IBeeJubilance;
 import forestry.api.apiculture.genetics.IBeeSpeciesType;
 import forestry.api.plugin.IApicultureRegistration;
 import forestry.api.plugin.IBeeSpeciesBuilder;
@@ -55,16 +53,11 @@ public class BeeSpeciesProvider implements DataProvider {
 
 	public static Map<ResourceLocation, BeeSpeciesDefinition> buildDefinitions(IBeeSpeciesType type, Consumer<IApicultureRegistration> species) {
 		ApicultureRegistration reg = new ApicultureRegistration(type);
-		// builders hold jubilance instances, so the default instances need IDs here too
-		reg.registerBeeJubilance(ForestryBeeJubilances.DEFAULT, DefaultBeeJubilance.INSTANCE);
-		reg.registerBeeJubilance(ForestryBeeJubilances.HERMIT, HermitBeeJubilance.INSTANCE);
 		species.accept(reg);
 
-		Map<IBeeJubilance, ResourceLocation> jubilanceIds = new IdentityHashMap<>();
-		reg.getJubilances().forEach((id, instance) -> jubilanceIds.put(instance, id));
-
+		Set<ResourceLocation> actionJubilances = reg.getJubilances().keySet();
 		Map<ResourceLocation, BeeSpeciesDefinition> definitions = new LinkedHashMap<>();
-		reg.forEachSpeciesBuilder((id, builder) -> definitions.put(id, buildDefinition(jubilanceIds, builder)));
+		reg.forEachSpeciesBuilder((id, builder) -> definitions.put(id, buildDefinition(type, actionJubilances, id, builder)));
 		return definitions;
 	}
 
@@ -77,11 +70,14 @@ public class BeeSpeciesProvider implements DataProvider {
 		ApicultureReloadHandler.rebuildSpecies(buildDefinitions());
 	}
 
-	private static BeeSpeciesDefinition buildDefinition(Map<IBeeJubilance, ResourceLocation> jubilanceIds, IBeeSpeciesBuilder builder) {
+	private static BeeSpeciesDefinition buildDefinition(IBeeSpeciesType type, Set<ResourceLocation> actionJubilances, ResourceLocation id, IBeeSpeciesBuilder builder) {
 		MapGenomeBuilder rec = new MapGenomeBuilder();
 		builder.buildGenome(rec);
 
-		ResourceLocation jubilanceId = jubilanceIds.getOrDefault(builder.getJubilance(), ForestryBeeJubilances.DEFAULT);
+		ResourceLocation jubilanceId = builder.getJubilance();
+		if (type.getJubilanceSafe(jubilanceId) == null && !actionJubilances.contains(jubilanceId)) {
+			throw new IllegalStateException("Bee species " + id + " uses a jubilance that is not registered: " + jubilanceId);
+		}
 
 		return new BeeSpeciesDefinition(
 			builder.getGenus(),

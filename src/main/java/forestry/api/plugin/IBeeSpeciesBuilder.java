@@ -8,6 +8,7 @@ import forestry.api.core.Product;
 import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.TextColor;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.CustomData;
 
@@ -76,8 +77,10 @@ public interface IBeeSpeciesBuilder extends ISpeciesBuilder<IBeeSpeciesType, IBe
 	/**
 	 * Specify the jubilance conditions for this bee species. The default returns true if the bee's ideal temperature and humidity are met.
 	 * When {@link IBeeJubilance#isJubilant} returns true, a bee can produce its specialty products.
+	 *
+	 * @param id The ID of a jubilance registered with {@link IApicultureRegistration#registerBeeJubilance}
 	 */
-	IBeeSpeciesBuilder setJubilance(IBeeJubilance jubilance);
+	IBeeSpeciesBuilder setJubilance(ResourceLocation id);
 
 	List<IProduct> buildProducts();
 
@@ -89,5 +92,5 @@ public interface IBeeSpeciesBuilder extends ISpeciesBuilder<IBeeSpeciesType, IBe
 
 	int getOutline();
 
-	IBeeJubilance getJubilance();
+	ResourceLocation getJubilance();
 }
