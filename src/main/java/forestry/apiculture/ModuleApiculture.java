@@ -162,7 +162,7 @@ public class ModuleApiculture extends BlankForestryModule {
 
 	@Override
 	public void sendDatapackData(OnDatapackSyncEvent event) {
-		BeeEffectSyncPacket beeEffects = new BeeEffectSyncPacket(BeeEffectManager.INSTANCE.getEffects());
+		BeeEffectSyncPacket beeEffects = new BeeEffectSyncPacket(BeeEffectManager.INSTANCE.getDefinitions());
 		BeeSpeciesSyncPacket beeSpecies = new BeeSpeciesSyncPacket(BeeSpeciesManager.INSTANCE.getDefinitions());
 
 		// send effects and bee species to clients

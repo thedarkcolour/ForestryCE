@@ -181,7 +181,7 @@ public class BeeEffectSystemTest {
 	@GameTest(template = "empty")
 	public static void datapackEffectsMergeOntoBuiltins(GameTestHelper helper) {
 		IBeeSpeciesType beeType = SpeciesUtil.BEE_TYPE.get();
-		Map<ResourceLocation, IBeeEffect> original = BeeEffectManager.INSTANCE.getEffects();
+		Map<ResourceLocation, IBeeEffect> original = BeeEffectManager.INSTANCE.getDefinitions();
 		ResourceLocation testId = ForestryConstants.forestry("gametest_transform");
 		IBeeEffect testEffect = new TransformBlockBeeEffect(
 			new ThrottleSettings(true, 30, false, false),
