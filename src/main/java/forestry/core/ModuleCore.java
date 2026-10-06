@@ -209,26 +209,19 @@ public class ModuleCore extends BlankForestryModule {
 		});
 	}
 
-	/**
-	 * Sends core's taxa to the client on login/reload, then lets each module send its own definitions, before tags
-	 * and recipes sync (per {@code OnDatapackSyncEvent}'s contract). The client has no datapack access, so these
-	 * packets are its only source for the reloadable genetics data, and each species packet's {@code handle}
-	 * rebuilds the client-side species (and, in order, mutation) index from them.
-	 * <p>
-	 * Taxa go first because species projection resolves each species' genus against them. The modules then run in
-	 * load order, which is the order their data depends on - the same guarantee {@link #onAddReloadListeners}
-	 * rests on.
-	 */
 	private static void onDatapackSync(OnDatapackSyncEvent event) {
-		TaxonSyncPacket taxonPacket = new TaxonSyncPacket(TaxonManager.INSTANCE.getDefinitions());
-		FlowerTypeSyncPacket flowerTypePacket = new FlowerTypeSyncPacket(FlowerTypeManager.INSTANCE.getDefinitions());
+		TaxonSyncPacket taxa = new TaxonSyncPacket(TaxonManager.INSTANCE.getDefinitions());
+		FlowerTypeSyncPacket flowerTypes = new FlowerTypeSyncPacket(FlowerTypeManager.INSTANCE.getDefinitions());
+
+		// send taxa and flower type datapack data to each client, before species
 		event.getRelevantPlayers().forEach(player -> {
-			NetworkUtil.sendToPlayer(taxonPacket, player);
-			NetworkUtil.sendToPlayer(flowerTypePacket, player);
+			NetworkUtil.sendToPlayer(taxa, player);
+			NetworkUtil.sendToPlayer(flowerTypes, player);
 		});
 
+		// send necessary data from each module (currently, this is where each module sends its respective bee/tree/butterfly species)
 		for (IForestryModule module : IForestryApi.INSTANCE.getModuleManager().getLoadedModules()) {
-			module.syncDatapack(event);
+			module.sendDatapackData(event);
 		}
 	}
 

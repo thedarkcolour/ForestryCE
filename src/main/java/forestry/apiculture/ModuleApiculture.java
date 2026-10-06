@@ -160,17 +160,16 @@ public class ModuleApiculture extends BlankForestryModule {
 		event.addListener(BeeSpeciesManager.INSTANCE);
 	}
 
-	/**
-	 * Flower types and effects are sent before species for the same reason they load first: the client
-	 * rebuilds its species index from the species packet's handler, and projection reads both.
-	 */
 	@Override
-	public void syncDatapack(OnDatapackSyncEvent event) {
-		BeeEffectSyncPacket beeEffectPacket = new BeeEffectSyncPacket(BeeEffectManager.INSTANCE.getEffects());
-		BeeSpeciesSyncPacket beePacket = new BeeSpeciesSyncPacket(BeeSpeciesManager.INSTANCE.getDefinitions());
+	public void sendDatapackData(OnDatapackSyncEvent event) {
+		BeeEffectSyncPacket beeEffects = new BeeEffectSyncPacket(BeeEffectManager.INSTANCE.getEffects());
+		BeeSpeciesSyncPacket beeSpecies = new BeeSpeciesSyncPacket(BeeSpeciesManager.INSTANCE.getDefinitions());
+
+		// send effects and bee species to clients
 		event.getRelevantPlayers().forEach(player -> {
-			NetworkUtil.sendToPlayer(beeEffectPacket, player);
-			NetworkUtil.sendToPlayer(beePacket, player);
+			// effects come before species
+			NetworkUtil.sendToPlayer(beeEffects, player);
+			NetworkUtil.sendToPlayer(beeSpecies, player);
 		});
 	}
 

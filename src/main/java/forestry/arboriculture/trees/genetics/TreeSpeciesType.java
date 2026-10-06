@@ -75,7 +75,7 @@ public class TreeSpeciesType extends SpeciesType<ITreeSpecies, ITree> implements
 
 	@Override
 	public IFruit getFruit(ResourceLocation id) {
-		return requireValue(this.fruits, id, "fruit");
+		return getMapValue(this.fruits, id, "fruit");
 	}
 
 	@Nullable
@@ -86,18 +86,12 @@ public class TreeSpeciesType extends SpeciesType<ITreeSpecies, ITree> implements
 	@Nullable
 	@Override
 	public IFruit getFruitSafe(ResourceLocation id) {
-		return valueSafe(this.fruits, id);
+		return getMapValueSafe(this.fruits, id);
 	}
 
 	@Override
 	public ITreeEffect getTreeEffect(ResourceLocation id) {
-		return requireValue(this.treeEffects, id, "tree effect");
-	}
-
-	@Override
-	public void onSpeciesRegistered(ImmutableMap<ResourceLocation, ITreeSpecies> allSpecies) {
-		// Base delegates to setSpecies (overridden below), which runs the tree side effects. Kept as an override point.
-		super.onSpeciesRegistered(allSpecies);
+		return getMapValue(this.treeEffects, id, "tree effect");
 	}
 
 	@Override

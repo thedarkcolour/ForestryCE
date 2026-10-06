@@ -56,7 +56,6 @@ public final class GeneticsReloadHandler {
 		}
 	}
 
-	@SuppressWarnings({"unchecked", "rawtypes"})
 	private static <S extends ISpecies<?>> void rebuildOne(ISpeciesType<S, ?> type, RecipeManager rm) {
 		FeatureRecipeType<MutationRecipe> featureType = GeneticsRecipeTypes.forType(type.id());
 		if (featureType == null) {
@@ -79,8 +78,5 @@ public final class GeneticsReloadHandler {
 		ImmutableList<IMutation<S>> mutations = builder.build();
 		((SpeciesType<S, ?>) type).setMutations(new MutationManager<>(mutations));
 		Forestry.LOGGER.debug("Loaded {} {} mutation recipes", mutations.size(), type.id());
-	}
-
-	private GeneticsReloadHandler() {
 	}
 }

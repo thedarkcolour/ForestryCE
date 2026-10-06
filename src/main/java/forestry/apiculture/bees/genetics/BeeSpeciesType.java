@@ -48,7 +48,7 @@ public class BeeSpeciesType extends SpeciesType<IBeeSpecies, IBee> implements IB
 
 	@Override
 	public IBeeEffect getBeeEffect(ResourceLocation id) {
-		return requireValue(this.beeEffects, id, "bee effect");
+		return getMapValue(this.beeEffects, id, "bee effect");
 	}
 
 	public void setBeeEffects(ImmutableMap<ResourceLocation, IBeeEffect> beeEffects) {
@@ -61,18 +61,18 @@ public class BeeSpeciesType extends SpeciesType<IBeeSpecies, IBee> implements IB
 
 	@Override
 	public IActivityType getActivityType(ResourceLocation id) {
-		return requireValue(this.activityTypes, id, "activity type");
+		return getMapValue(this.activityTypes, id, "activity type");
 	}
 
 	@Override
 	public IBeeJubilance getJubilance(ResourceLocation id) {
-		return requireValue(this.jubilances, id, "bee jubilance");
+		return getMapValue(this.jubilances, id, "bee jubilance");
 	}
 
 	@Nullable
 	@Override
 	public IBeeJubilance getJubilanceSafe(ResourceLocation id) {
-		return valueSafe(this.jubilances, id);
+		return getMapValueSafe(this.jubilances, id);
 	}
 
 	@Override

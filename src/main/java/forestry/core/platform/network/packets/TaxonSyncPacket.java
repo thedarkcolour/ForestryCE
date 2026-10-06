@@ -16,11 +16,6 @@ import forestry.core.engine.genetics.GeneticsReloadHandler;
 import forestry.core.engine.genetics.TaxonDefinition;
 import forestry.core.platform.network.PacketIdClient;
 
-/**
- * Server -&gt; client sync of the datapack-loaded taxa, sent on player login/reload (see {@code ModuleCore}'s
- * {@code OnDatapackSyncEvent} listener), <em>before</em> {@link BeeSpeciesSyncPacket} so a species' genus resolves when
- * the client projects it. Mirrors {@link FlowerTypeSyncPacket}.
- */
 public record TaxonSyncPacket(Map<ResourceLocation, TaxonDefinition> definitions) implements CustomPacketPayload {
 	private static final StreamCodec<RegistryFriendlyByteBuf, Map<ResourceLocation, TaxonDefinition>> STREAM_CODEC =
 		ByteBufCodecs.map(HashMap::new, ResourceLocation.STREAM_CODEC, TaxonDefinition.STREAM_CODEC);
