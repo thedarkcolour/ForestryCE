@@ -8,6 +8,7 @@ import com.google.common.collect.ImmutableMap;
 import net.minecraft.resources.ResourceLocation;
 
 import forestry.Forestry;
+import forestry.api.apiculture.IBeeJubilance;
 import forestry.api.apiculture.IFlowerType;
 import forestry.api.apiculture.genetics.IBeeEffect;
 import forestry.api.apiculture.genetics.IBeeSpecies;
@@ -39,6 +40,14 @@ public final class ApicultureReloadHandler {
 		// datapack effects replace code-registered effects with the same ID
 		effective.putAll(dataDefinitions);
 		type.setBeeEffects(ImmutableMap.copyOf(effective));
+	}
+
+	public static void rebuildJubilances(Map<ResourceLocation, IBeeJubilance> dataDefinitions) {
+		BeeSpeciesType type = (BeeSpeciesType) SpeciesUtil.BEE_TYPE.get();
+		Map<ResourceLocation, IBeeJubilance> effective = new LinkedHashMap<>(type.getCodeJubilances());
+		// datapack jubilances replace code-registered jubilances with the same ID
+		effective.putAll(dataDefinitions);
+		type.setJubilances(ImmutableMap.copyOf(effective));
 	}
 
 	private ApicultureReloadHandler() {

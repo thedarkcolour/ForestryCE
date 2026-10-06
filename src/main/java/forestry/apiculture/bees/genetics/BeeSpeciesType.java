@@ -47,6 +47,7 @@ public class BeeSpeciesType extends SpeciesType<IBeeSpecies, IBee> implements IB
 	private ImmutableMap<ResourceLocation, IActivityType> activityTypes;
 	@Nullable
 	private ImmutableMap<ResourceLocation, IBeeJubilance> jubilances;
+	private ImmutableMap<ResourceLocation, IBeeJubilance> codeJubilances = ImmutableMap.of();
 
 	public BeeSpeciesType(IKaryotype karyotype, ISpeciesTypeBuilder builder) {
 		super(ForestrySpeciesTypes.BEE, karyotype, builder);
@@ -79,6 +80,14 @@ public class BeeSpeciesType extends SpeciesType<IBeeSpecies, IBee> implements IB
 	@Override
 	public IBeeJubilance getJubilanceSafe(ResourceLocation id) {
 		return getMapValueSafe(this.jubilances, id);
+	}
+
+	public void setJubilances(ImmutableMap<ResourceLocation, IBeeJubilance> jubilances) {
+		this.jubilances = jubilances;
+	}
+
+	public ImmutableMap<ResourceLocation, IBeeJubilance> getCodeJubilances() {
+		return this.codeJubilances;
 	}
 
 	@Override
@@ -178,7 +187,8 @@ public class BeeSpeciesType extends SpeciesType<IBeeSpecies, IBee> implements IB
 		this.codeEffects = registration.getBeeEffects();
 		this.beeEffects = this.codeEffects; // bootstrap: code base alone until the first datapack load
 		this.activityTypes = registration.getActivityTypes();
-		this.jubilances = registration.getJubilances();
+		this.codeJubilances = registration.getJubilances();
+		this.jubilances = this.codeJubilances;
 
 		// initialize hive manager
 		((ForestryApiImpl) IForestryApi.INSTANCE).setHiveManager(registration.buildHiveManager());
