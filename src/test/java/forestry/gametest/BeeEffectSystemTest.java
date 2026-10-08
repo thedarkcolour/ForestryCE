@@ -1,14 +1,21 @@
 package forestry.gametest;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.mojang.serialization.JsonOps;
 
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.data.CachedOutput;
+import net.minecraft.data.PackOutput;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -38,6 +45,7 @@ import forestry.api.core.TemperatureType;
 import forestry.api.core.genetics.alleles.BeeChromosomes;
 import forestry.apiculture.bees.genetics.ApicultureReloadHandler;
 import forestry.apiculture.bees.genetics.BeeEffectManager;
+import forestry.apiculture.bees.genetics.BlockMatcher;
 import forestry.apiculture.bees.genetics.effects.AgingBeeEffect;
 import forestry.apiculture.bees.genetics.effects.DamageBeeEffect;
 import forestry.apiculture.bees.genetics.effects.PotionBeeEffect;
@@ -97,7 +105,7 @@ public class BeeEffectSystemTest {
 		TransformBlockBeeEffect original = new TransformBlockBeeEffect(
 			new ThrottleSettings(false, 30, true, false),
 			List.of(new TransformBlockBeeEffect.Transform(
-				new TransformBlockBeeEffect.BlockMatcher.Tag(BlockTags.DIRT),
+				new BlockMatcher.Tag(BlockTags.DIRT),
 				new TransformBlockBeeEffect.To.Fixed(Blocks.COARSE_DIRT.defaultBlockState()),
 				true)),
 			10, 0.34f, Optional.of(TemperatureType.NORMAL));
@@ -186,7 +194,7 @@ public class BeeEffectSystemTest {
 		IBeeEffect testEffect = new TransformBlockBeeEffect(
 			new ThrottleSettings(true, 30, false, false),
 			List.of(new TransformBlockBeeEffect.Transform(
-				new TransformBlockBeeEffect.BlockMatcher.Tag(BlockTags.DIRT),
+				new BlockMatcher.Tag(BlockTags.DIRT),
 				new TransformBlockBeeEffect.To.Fixed(Blocks.COARSE_DIRT.defaultBlockState()),
 				false)),
 			1, 0.34f, Optional.empty());
@@ -554,6 +562,40 @@ public class BeeEffectSystemTest {
 			return;
 		}
 
+		helper.succeed();
+	}
+
+	@GameTest(template = "empty")
+	public static void effectProviderGenerates(GameTestHelper helper) throws IOException {
+		IBeeEffect effect = new PotionBeeEffect(false, MobEffects.REGENERATION, 100);
+		Path dir = Files.createTempDirectory("forestry_effect_test");
+		Path file = dir.resolve("data/forestry/bee_effect/test_regeneration.json");
+		try {
+			SpeciesUtil.BEE_TYPE.get().createEffectProvider(new PackOutput(dir), CompletableFuture.completedFuture(helper.getLevel().registryAccess()), Map.of(ForestryConstants.forestry("test_regeneration"), effect))
+				.run(CachedOutput.NO_CACHE).join();
+
+			JsonElement expected = IBeeEffect.CODEC.encodeStart(RegistryOps.create(JsonOps.INSTANCE, helper.getLevel().registryAccess()), effect).getOrThrow();
+			if (!Files.exists(file) || !JsonParser.parseString(Files.readString(file)).equals(expected)) {
+				helper.fail("effect provider did not generate the expected file at " + file);
+				return;
+			}
+		} finally {
+			Files.deleteIfExists(file);
+		}
+		helper.succeed();
+	}
+
+	@GameTest(template = "empty")
+	public static void effectFactoryCreatesPotion(GameTestHelper helper) {
+		RegistryOps<JsonElement> ops = RegistryOps.create(JsonOps.INSTANCE, helper.getLevel().registryAccess());
+		IBeeEffect created = SpeciesUtil.BEE_TYPE.get().getEffectFactory().createPotion(false, MobEffects.POISON, 600, 100, 0.1f);
+		JsonElement actual = IBeeEffect.CODEC.encodeStart(ops, created).getOrThrow();
+		JsonElement expected = IBeeEffect.CODEC.encodeStart(ops, new PotionBeeEffect(false, MobEffects.POISON, 600, 100, 0.1f)).getOrThrow();
+
+		if (!actual.equals(expected) || !"forestry:apply_potion".equals(actual.getAsJsonObject().get("type").getAsString())) {
+			helper.fail("effect factory potion did not encode as forestry:apply_potion: " + actual);
+			return;
+		}
 		helper.succeed();
 	}
 }

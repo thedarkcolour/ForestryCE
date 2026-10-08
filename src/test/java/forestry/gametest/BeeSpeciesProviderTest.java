@@ -24,18 +24,7 @@ public class BeeSpeciesProviderTest {
 	private static final ResourceLocation JUBILANCE = ForestryConstants.forestry("test_jubilance");
 
 	@GameTest(template = "empty")
-	public static void jubilanceRegisteredByActionIsGenerated(GameTestHelper helper) {
-		BeeSpeciesDefinition def = build(reg -> {
-			reg.registerBeeJubilance(JUBILANCE, (species, genome, housing) -> true);
-			reg.registerSpecies(SPECIES, "Testus", "jubilans", true, TextColor.fromRgb(0)).setJubilance(JUBILANCE);
-		}).get(SPECIES);
-
-		helper.assertValueEqual(def.jubilance(), JUBILANCE, "jubilance");
-		helper.succeed();
-	}
-
-	@GameTest(template = "empty")
-	public static void jubilanceRegisteredByPluginIsGenerated(GameTestHelper helper) {
+	public static void jubilanceIsGenerated(GameTestHelper helper) {
 		BeeSpeciesDefinition def = build(reg -> {
 			reg.registerSpecies(SPECIES, "Testus", "jubilans", true, TextColor.fromRgb(0)).setJubilance(ForestryBeeJubilances.HERMIT);
 		}).get(SPECIES);
@@ -45,14 +34,13 @@ public class BeeSpeciesProviderTest {
 	}
 
 	@GameTest(template = "empty")
-	public static void unregisteredJubilanceThrows(GameTestHelper helper) {
-		try {
-			build(reg -> reg.registerSpecies(SPECIES, "Testus", "jubilans", true, TextColor.fromRgb(0)).setJubilance(JUBILANCE));
-		} catch (IllegalStateException expected) {
-			helper.succeed();
-			return;
-		}
-		helper.fail("expected an unregistered jubilance to throw");
+	public static void unregisteredJubilanceIsGenerated(GameTestHelper helper) {
+		BeeSpeciesDefinition def = build(reg -> {
+			reg.registerSpecies(SPECIES, "Testus", "jubilans", true, TextColor.fromRgb(0)).setJubilance(JUBILANCE);
+		}).get(SPECIES);
+
+		helper.assertValueEqual(def.jubilance(), JUBILANCE, "jubilance");
+		helper.succeed();
 	}
 
 	private static Map<ResourceLocation, BeeSpeciesDefinition> build(Consumer<IApicultureRegistration> species) {

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
@@ -55,9 +54,8 @@ public class BeeSpeciesProvider implements DataProvider {
 		ApicultureRegistration reg = new ApicultureRegistration(type);
 		species.accept(reg);
 
-		Set<ResourceLocation> actionJubilances = reg.getJubilances().keySet();
 		Map<ResourceLocation, BeeSpeciesDefinition> definitions = new LinkedHashMap<>();
-		reg.forEachSpeciesBuilder((id, builder) -> definitions.put(id, buildDefinition(type, actionJubilances, id, builder)));
+		reg.forEachSpeciesBuilder((id, builder) -> definitions.put(id, buildDefinition(builder)));
 		return definitions;
 	}
 
@@ -70,14 +68,9 @@ public class BeeSpeciesProvider implements DataProvider {
 		ApicultureReloadHandler.rebuildSpecies(buildDefinitions());
 	}
 
-	private static BeeSpeciesDefinition buildDefinition(IBeeSpeciesType type, Set<ResourceLocation> actionJubilances, ResourceLocation id, IBeeSpeciesBuilder builder) {
+	private static BeeSpeciesDefinition buildDefinition(IBeeSpeciesBuilder builder) {
 		MapGenomeBuilder rec = new MapGenomeBuilder();
 		builder.buildGenome(rec);
-
-		ResourceLocation jubilanceId = builder.getJubilance();
-		if (type.getJubilanceSafe(jubilanceId) == null && !actionJubilances.contains(jubilanceId)) {
-			throw new IllegalStateException("Bee species " + id + " uses a jubilance that is not registered: " + jubilanceId);
-		}
 
 		return new BeeSpeciesDefinition(
 			builder.getGenus(),
@@ -95,7 +88,7 @@ public class BeeSpeciesProvider implements DataProvider {
 			builder.getOutline(),
 			builder.buildProducts(),
 			builder.buildSpecialties(),
-			jubilanceId,
+			builder.getJubilance(),
 			rec.overrides
 		);
 	}

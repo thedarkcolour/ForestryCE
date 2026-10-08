@@ -1,7 +1,11 @@
 package forestry.gametest;
 
+import java.io.IOException;
 import java.lang.reflect.Proxy;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
@@ -9,6 +13,8 @@ import com.mojang.serialization.JsonOps;
 
 import io.netty.buffer.Unpooled;
 import net.minecraft.core.BlockPos;
+import net.minecraft.data.CachedOutput;
+import net.minecraft.data.PackOutput;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -16,6 +22,7 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.RegistryOps;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.gametest.GameTestHolder;
 import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
@@ -128,6 +135,38 @@ public class BeeJubilanceDataTest {
 			}
 		} finally {
 			ApicultureReloadHandler.rebuildJubilances(original);
+		}
+		helper.succeed();
+	}
+
+	@GameTest(template = "empty")
+	public static void jubilanceProviderGenerates(GameTestHelper helper) throws IOException {
+		IBeeSpeciesType type = SpeciesUtil.BEE_TYPE.get();
+		Path dir = Files.createTempDirectory("forestry_jubilance_test");
+		try {
+			type.createJubilanceProvider(new PackOutput(dir), CompletableFuture.completedFuture(helper.getLevel().registryAccess()), Map.of(TEST_ID, parse(helper)))
+				.run(CachedOutput.NO_CACHE).join();
+
+			Path file = dir.resolve("data/forestry/bee_jubilance/test_requires_gold.json");
+			if (!Files.exists(file) || !JsonParser.parseString(Files.readString(file)).equals(JsonParser.parseString(JSON))) {
+				helper.fail("jubilance provider did not generate the expected file at " + file);
+				return;
+			}
+		} finally {
+			Files.deleteIfExists(dir.resolve("data/forestry/bee_jubilance/test_requires_gold.json"));
+		}
+		helper.succeed();
+	}
+
+	@GameTest(template = "empty")
+	public static void jubilanceFactoryEncodesTag(GameTestHelper helper) {
+		IBeeJubilance jubilance = SpeciesUtil.BEE_TYPE.get().getJubilanceFactory().getRequiresResource(BlockTags.DIRT);
+		JsonElement json = IBeeJubilance.CODEC.encodeStart(RegistryOps.create(JsonOps.INSTANCE, helper.getLevel().registryAccess()), jubilance).getOrThrow();
+		JsonElement expected = JsonParser.parseString("{\"type\":\"forestry:requires_resource\",\"blocks\":\"#minecraft:dirt\"}");
+
+		if (!json.equals(expected)) {
+			helper.fail("tag jubilance encoded as " + json);
+			return;
 		}
 		helper.succeed();
 	}

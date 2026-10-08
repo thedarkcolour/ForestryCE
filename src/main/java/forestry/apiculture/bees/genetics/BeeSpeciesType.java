@@ -7,9 +7,11 @@ import forestry.api.IForestryApi;
 import forestry.api.apiculture.IActivityType;
 import forestry.api.apiculture.IApiaristTracker;
 import forestry.api.apiculture.IBeeJubilance;
+import forestry.api.apiculture.IJubilanceFactory;
 import forestry.api.apiculture.genetics.BeeLifeStage;
 import forestry.api.apiculture.genetics.IBee;
 import forestry.api.apiculture.genetics.IBeeEffect;
+import forestry.api.apiculture.genetics.IBeeEffectFactory;
 import forestry.api.apiculture.genetics.IBeeSpecies;
 import forestry.api.apiculture.genetics.IBeeSpeciesType;
 import forestry.api.core.IProduct;
@@ -20,6 +22,7 @@ import forestry.api.plugin.IApicultureRegistration;
 import forestry.api.plugin.IForestryPlugin;
 import forestry.api.plugin.ISpeciesTypeBuilder;
 import forestry.apiimpl.ForestryApiImpl;
+import forestry.apiculture.bees.genetics.effects.BeeEffectFactory;
 import forestry.apiculture.plugin.ApicultureRegistration;
 import forestry.core.platform.config.ForestryConfig;
 import forestry.core.engine.genetics.BreedingTracker;
@@ -36,10 +39,13 @@ import net.minecraft.world.level.LevelAccessor;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 public class BeeSpeciesType extends SpeciesType<IBeeSpecies, IBee> implements IBeeSpeciesType {
+	private final IBeeEffectFactory effectFactory = new BeeEffectFactory();
+	private final IJubilanceFactory jubilanceFactory = new JubilanceFactory();
 	// Reference-value registries backing the flower_type, bee_effect, activity, and jubilance chromosomes.
 	private ImmutableMap<ResourceLocation, IBeeEffect> beeEffects = ImmutableMap.of();
 	private ImmutableMap<ResourceLocation, IBeeEffect> codeEffects = ImmutableMap.of();
@@ -217,5 +223,25 @@ public class BeeSpeciesType extends SpeciesType<IBeeSpecies, IBee> implements IB
 	@Override
 	public DataProvider createSpeciesProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries, Consumer<IApicultureRegistration> species) {
 		return new BeeSpeciesProvider(output, registries, this, species);
+	}
+
+	@Override
+	public IBeeEffectFactory getEffectFactory() {
+		return this.effectFactory;
+	}
+
+	@Override
+	public IJubilanceFactory getJubilanceFactory() {
+		return this.jubilanceFactory;
+	}
+
+	@Override
+	public DataProvider createEffectProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries, Map<ResourceLocation, IBeeEffect> effects) {
+		return new BeeEffectProvider(output, registries, effects);
+	}
+
+	@Override
+	public DataProvider createJubilanceProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries, Map<ResourceLocation, IBeeJubilance> jubilances) {
+		return new BeeJubilanceProvider(output, registries, jubilances);
 	}
 }

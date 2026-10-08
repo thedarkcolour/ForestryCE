@@ -5,7 +5,6 @@ import forestry.api.apiculture.IBeeHousing;
 import forestry.api.apiculture.IBeeJubilance;
 import forestry.api.apiculture.genetics.IBeeSpecies;
 import forestry.api.core.genetics.IGenome;
-import forestry.apiculture.bees.genetics.effects.TransformBlockBeeEffect.BlockMatcher;
 import forestry.core.platform.tile.TileUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
