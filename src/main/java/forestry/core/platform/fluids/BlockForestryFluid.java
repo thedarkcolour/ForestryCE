@@ -153,7 +153,7 @@ public class BlockForestryFluid extends LiquidBlock {
 	private static boolean isNearFire(Level world, int x, int y, int z) {
 		AABB boundingBox = new AABB(x - 1, y - 1, z - 1, x + 1, y + 1, z + 1);
 		// Copied from 'Entity.move', replaces method 'World.isFlammableWithin'
-		return BlockPos.betweenClosedStream(boundingBox.deflate(0.001D)).noneMatch((pos) -> {
+		return BlockPos.betweenClosedStream(boundingBox.deflate(0.001D)).anyMatch((pos) -> {
 			BlockState state = world.getBlockState(pos);
 			return state.is(BlockTags.FIRE) || state.is(Blocks.LAVA) || state.isBurning(world, pos);
 		});
