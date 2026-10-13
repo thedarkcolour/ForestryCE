@@ -6,6 +6,7 @@ import forestry.core.platform.util.VecUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Vec3i;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
@@ -82,9 +83,8 @@ public abstract class FarmLogic implements IFarmLogic {
 		if (!world.hasChunkAt(position)) {
 			return false;
 		}
-		BlockState blockState = world.getBlockState(position);
-		Block block = blockState.getBlock();
-		return block == Blocks.WATER;
+		// don't destroy waterlogged blocks, which are sources
+		return world.getFluidState(position).is(FluidTags.WATER);
 	}
 
 	protected final boolean isIceBlock(Level world, BlockPos position) {
