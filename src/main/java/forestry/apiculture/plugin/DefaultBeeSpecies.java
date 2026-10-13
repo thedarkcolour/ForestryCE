@@ -8,7 +8,6 @@ import forestry.api.core.genetics.alleles.ForestryAlleles;
 import forestry.api.plugin.IApicultureRegistration;
 import forestry.apiculture.features.ApicultureItems;
 import forestry.apiculture.bees.genetics.FireworkProduct;
-import forestry.apiculture.bees.genetics.HermitBeeJubilance;
 import forestry.apiculture.bees.EnumHoneyComb;
 import forestry.apiculture.bees.EnumPollenCluster;
 import forestry.core.features.CoreItems;
@@ -23,6 +22,7 @@ import static forestry.apiculture.features.ApicultureItems.BEE_COMBS;
 import static forestry.apiculture.features.ApicultureItems.POLLEN_CLUSTER;
 import forestry.api.apiculture.ForestryActivityTypes;
 import forestry.api.apiculture.ForestryBeeEffects;
+import forestry.api.apiculture.ForestryBeeJubilances;
 import forestry.api.apiculture.ForestryFlowerTypes;
 
 public class DefaultBeeSpecies {
@@ -227,13 +227,13 @@ public class DefaultBeeSpecies {
 
 		// Monastic (Only obtainable from villagers)
 		apiculture.registerSpecies(ForestryBeeSpecies.MONASTIC, GENUS_MONASTIC, SPECIES_MONASTIC, false, TextColor.fromRgb(0x42371c))
-			.setJubilance(HermitBeeJubilance.INSTANCE)
+			.setJubilance(ForestryBeeJubilances.HERMIT)
 			.addProduct(BEE_COMBS.stack(EnumHoneyComb.WHEATEN), 0.30f)
 			.addSpecialty(BEE_COMBS.stack(EnumHoneyComb.MELLOW), 0.10f);
 
 		// Secluded
 		apiculture.registerSpecies(ForestryBeeSpecies.SECLUDED, GENUS_MONASTIC, SPECIES_SECLUDED, true, TextColor.fromRgb(0x7b6634))
-			.setJubilance(HermitBeeJubilance.INSTANCE)
+			.setJubilance(ForestryBeeJubilances.HERMIT)
 			.addSpecialty(BEE_COMBS.stack(EnumHoneyComb.MELLOW), 0.20f)
 			.setGenome(genome -> {
 				genome.set(BeeChromosomes.POLLINATION, ForestryAlleles.POLLINATION_FASTEST);
@@ -241,7 +241,7 @@ public class DefaultBeeSpecies {
 
 		// Hermitic
 		apiculture.registerSpecies(ForestryBeeSpecies.HERMITIC, GENUS_MONASTIC, SPECIES_HERMITIC, false, TextColor.fromRgb(0xffd46c))
-			.setJubilance(HermitBeeJubilance.INSTANCE)
+			.setJubilance(ForestryBeeJubilances.HERMIT)
 			.addSpecialty(BEE_COMBS.stack(EnumHoneyComb.MELLOW), 0.20f)
 			.setGenome(genome -> {
 				genome.set(BeeChromosomes.POLLINATION, ForestryAlleles.POLLINATION_FASTEST);

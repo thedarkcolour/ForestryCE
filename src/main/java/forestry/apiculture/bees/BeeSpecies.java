@@ -42,7 +42,7 @@ public class BeeSpecies extends Species<IBeeSpeciesType, IBee> implements IBeeSp
 		this.specialties = builder.buildSpecialties();
 		this.temperature = builder.getTemperature();
 		this.humidity = builder.getHumidity();
-		this.jubilance = builder.getJubilance();
+		this.jubilance = speciesType.getJubilance(builder.getJubilance());
 		this.body = builder.getBody();
 		this.outline = builder.getOutline();
 		this.stripes = builder.getStripes();

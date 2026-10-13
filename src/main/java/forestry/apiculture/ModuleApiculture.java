@@ -23,6 +23,7 @@ import forestry.apiculture.apiarist.ItemArmorApiarist;
 import forestry.apiculture.apiarist.villagers.ApicultureVillagers;
 import forestry.apiculture.bees.EnumPollenCluster;
 import forestry.apiculture.bees.genetics.BeeEffectManager;
+import forestry.apiculture.bees.genetics.BeeJubilanceManager;
 import forestry.apiculture.bees.genetics.BeeSpeciesManager;
 import forestry.apiculture.client.BeeClientManager;
 import forestry.apiculture.commands.CommandBee;
@@ -141,7 +142,7 @@ public class ModuleApiculture extends BlankForestryModule {
 	/**
 	 * Order within this method matters. Apply order follows registration order, and bee species
 	 * projection resolves each genome's flower type and bee_effect reference as it runs, so both must
-	 * already be loaded. Core's taxa are registered before any module for the same reason.
+	 * already be loaded. The same applies to the jubilance of each species. Core's taxa are registered before any module for the same reason.
 	 */
 	@Override
 	public void registerReloadListeners(AddReloadListenerEvent event) {
@@ -153,6 +154,9 @@ public class ModuleApiculture extends BlankForestryModule {
 		// first.
 		event.addListener(BeeEffectManager.INSTANCE);
 
+		// before BeeSpeciesManager, a species resolves its jubilance when it is built
+		event.addListener(BeeJubilanceManager.INSTANCE);
+
 		// Load bee species from the "bee_species" datapack folder and rebuild the live species map from
 		// them. SimpleJsonResourceReloadListener#apply already runs on the game executor, so no extra
 		// marshalling is needed here. Core registers the mutation rebuild after every module, and
@@ -160,17 +164,18 @@ public class ModuleApiculture extends BlankForestryModule {
 		event.addListener(BeeSpeciesManager.INSTANCE);
 	}
 
-	/**
-	 * Flower types and effects are sent before species for the same reason they load first: the client
-	 * rebuilds its species index from the species packet's handler, and projection reads both.
-	 */
 	@Override
-	public void syncDatapack(OnDatapackSyncEvent event) {
-		BeeEffectSyncPacket beeEffectPacket = new BeeEffectSyncPacket(BeeEffectManager.INSTANCE.getEffects());
-		BeeSpeciesSyncPacket beePacket = new BeeSpeciesSyncPacket(BeeSpeciesManager.INSTANCE.getDefinitions());
+	public void sendDatapackData(OnDatapackSyncEvent event) {
+		BeeEffectSyncPacket beeEffects = new BeeEffectSyncPacket(BeeEffectManager.INSTANCE.getDefinitions());
+		BeeJubilanceSyncPacket beeJubilances = new BeeJubilanceSyncPacket(BeeJubilanceManager.INSTANCE.getDefinitions());
+		BeeSpeciesSyncPacket beeSpecies = new BeeSpeciesSyncPacket(BeeSpeciesManager.INSTANCE.getDefinitions());
+
+		// send effects, jubilances and bee species to clients
 		event.getRelevantPlayers().forEach(player -> {
-			NetworkUtil.sendToPlayer(beeEffectPacket, player);
-			NetworkUtil.sendToPlayer(beePacket, player);
+			// effects and jubilances come before species
+			NetworkUtil.sendToPlayer(beeEffects, player);
+			NetworkUtil.sendToPlayer(beeJubilances, player);
+			NetworkUtil.sendToPlayer(beeSpecies, player);
 		});
 	}
 
@@ -204,6 +209,7 @@ public class ModuleApiculture extends BlankForestryModule {
 	@Override
 	public void registerPackets(IPacketRegistry registry) {
 		registry.clientbound(ApiculturePacketIds.BEE_EFFECT_SYNC, BeeEffectSyncPacket::encode, BeeEffectSyncPacket::decode, BeeEffectSyncPacket::handle);
+		registry.clientbound(ApiculturePacketIds.BEE_JUBILANCE_SYNC, BeeJubilanceSyncPacket::encode, BeeJubilanceSyncPacket::decode, BeeJubilanceSyncPacket::handle);
 		registry.clientbound(ApiculturePacketIds.BEE_SPECIES_SYNC, BeeSpeciesSyncPacket::encode, BeeSpeciesSyncPacket::decode, BeeSpeciesSyncPacket::handle);
 		registry.clientbound(ApiculturePacketIds.BEE_LOGIC_ACTIVE, PacketBeeLogicActive::encode, PacketBeeLogicActive::decode, PacketBeeLogicActive::handle);
 		registry.clientbound(ApiculturePacketIds.HABITAT_BIOME_POINTER, PacketHabitatBiomePointer::encode, PacketHabitatBiomePointer::decode, PacketHabitatBiomePointer::handle);

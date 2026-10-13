@@ -86,9 +86,11 @@ public class ModuleArboriculture extends BlankForestryModule {
 	}
 
 	@Override
-	public void syncDatapack(OnDatapackSyncEvent event) {
-		TreeSpeciesSyncPacket treePacket = new TreeSpeciesSyncPacket(TreeSpeciesManager.INSTANCE.getDefinitions());
-		event.getRelevantPlayers().forEach(player -> NetworkUtil.sendToPlayer(treePacket, player));
+	public void sendDatapackData(OnDatapackSyncEvent event) {
+		TreeSpeciesSyncPacket treeSpecies = new TreeSpeciesSyncPacket(TreeSpeciesManager.INSTANCE.getDefinitions());
+
+		// send tree species to clients (the only data-driven part of trees are the species, not fruit or effects)
+		event.getRelevantPlayers().forEach(player -> NetworkUtil.sendToPlayer(treeSpecies, player));
 	}
 
 	@Override

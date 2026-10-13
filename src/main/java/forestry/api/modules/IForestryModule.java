@@ -73,12 +73,15 @@ public interface IForestryModule {
 	}
 
 	/**
-	 * Called when datapack contents are synced to a player on login or reload. Modules send their own
-	 * definitions here. Called in module load order, matching the order the reload listeners ran in.
+	 * Send datapack data to clients here. Called after taxa and flower types are synced. <p>
 	 *
-	 * @param event The datapack sync event
+	 * Data-driven parts of the genetics system are sent via this method. This includes bee effects, bee species,
+	 * tree species, and butterfly species. It does not include code-only parts of the genetic system, such as tree
+	 * effects or fruit types.
+	 *
+	 * @param event The datapack sync event, fired when a player joins the server or /reload is ran, before tags/recipes
 	 */
-	default void syncDatapack(OnDatapackSyncEvent event) {
+	default void sendDatapackData(OnDatapackSyncEvent event) {
 	}
 
 	/**

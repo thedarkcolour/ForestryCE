@@ -51,7 +51,7 @@ public record BeeEffectSyncPacket(Map<ResourceLocation, IBeeEffect> effects) imp
 		if (Minecraft.getInstance().hasSingleplayerServer()) {
 			return;
 		}
-		BeeEffectManager.INSTANCE.setEffects(msg.effects);
+		BeeEffectManager.INSTANCE.setDefinitions(msg.effects);
 		ApicultureReloadHandler.rebuildBeeEffects(msg.effects);
 	}
 }

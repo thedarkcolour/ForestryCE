@@ -14,6 +14,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.ApiStatus;
 
 import javax.annotation.Nullable;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
@@ -94,12 +95,12 @@ public abstract class SpeciesType<S extends ISpecies<I>, I extends IIndividual> 
 		setSpecies(allSpecies);
 	}
 
-	@org.jetbrains.annotations.ApiStatus.Internal
+	@ApiStatus.Internal
 	public void setSpecies(ImmutableMap<ResourceLocation, S> allSpecies) {
 		this.allSpecies = allSpecies;
 	}
 
-	@org.jetbrains.annotations.ApiStatus.Internal
+	@ApiStatus.Internal
 	public void setMutations(IMutationManager<S> mutations) {
 		this.mutations = mutations;
 	}
@@ -146,14 +147,8 @@ public abstract class SpeciesType<S extends ISpecies<I>, I extends IIndividual> 
 		return this.allSpecies.size();
 	}
 
-	/**
-	 * Looks up a reference value (flower type, effect, cocoon, ...) registered for this species type. These maps back
-	 * the reference chromosomes; resolution happens on demand once registration is complete.
-	 *
-	 * @throws IllegalStateException    If the values have not been registered yet.
-	 * @throws IllegalArgumentException If no value was registered with the given ID.
-	 */
-	protected static <V> V requireValue(@Nullable ImmutableMap<ResourceLocation, V> map, ResourceLocation id, String what) {
+	// registry map getter with logging
+	protected static <V> V getMapValue(@Nullable ImmutableMap<ResourceLocation, V> map, ResourceLocation id, String what) {
 		if (map == null) {
 			throw new IllegalStateException(what + " have not been registered yet (looking up " + id + ").");
 		}
@@ -164,12 +159,8 @@ public abstract class SpeciesType<S extends ISpecies<I>, I extends IIndividual> 
 		return value;
 	}
 
-	/**
-	 * Nullable variant of {@link #requireValue}: returns {@code null} for an unregistered id (or before registration),
-	 * for callers that gracefully fall back instead of failing (e.g. stale saved data, UI tooltips).
-	 */
 	@Nullable
-	protected static <V> V valueSafe(@Nullable ImmutableMap<ResourceLocation, V> map, ResourceLocation id) {
+	protected static <V> V getMapValueSafe(@Nullable ImmutableMap<ResourceLocation, V> map, ResourceLocation id) {
 		return map == null ? null : map.get(id);
 	}
 

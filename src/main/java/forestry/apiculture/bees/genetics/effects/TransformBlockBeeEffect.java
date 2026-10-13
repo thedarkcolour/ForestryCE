@@ -3,7 +3,6 @@ package forestry.apiculture.bees.genetics.effects;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.function.Function;
 
 import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
@@ -15,13 +14,11 @@ import forestry.api.core.TemperatureType;
 import forestry.api.core.genetics.IEffectData;
 import forestry.api.core.genetics.IGenome;
 import forestry.apiculture.bees.genetics.Bee;
+import forestry.apiculture.bees.genetics.BlockMatcher;
 import forestry.core.platform.util.VecUtil;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -82,44 +79,6 @@ public class TransformBlockBeeEffect extends ThrottledBeeEffect {
 
 			private static <T extends Comparable<T>> BlockState setValue(BlockState state, Property<T> property, String value) {
 				return property.getValue(value).map(parsed -> state.setValue(property, parsed)).orElse(state);
-			}
-		}
-	}
-
-	/**
-	 * What a transform matches: a block tag ({@code "from": "#minecraft:dirt"}) or explicit blocks
-	 * ({@code "from": "minecraft:water"}, or a list of ids). Deliberately not a {@link net.minecraft.core.HolderSet}:
-	 * both shapes here encode as plain strings under any ops, whereas a holder set demands registry-aware ops whose
-	 * lookup owns the set &mdash; which datagen's lookup provider does not for sets built from
-	 * {@code BuiltInRegistries}. A tag is also resolved at match time through the state itself, so tag reloads apply
-	 * without re-decoding the effect.
-	 */
-	public sealed interface BlockMatcher {
-		Codec<List<Block>> BLOCK_LIST_CODEC = Codec.either(BuiltInRegistries.BLOCK.byNameCodec(), BuiltInRegistries.BLOCK.byNameCodec().listOf())
-			.xmap(either -> either.map(List::of, Function.identity()),
-				list -> list.size() == 1 ? Either.left(list.getFirst()) : Either.right(list));
-		Codec<BlockMatcher> CODEC = Codec.either(TagKey.hashedCodec(Registries.BLOCK), BLOCK_LIST_CODEC)
-			.xmap(either -> either.map(Tag::new, Direct::new),
-				matcher -> matcher instanceof Tag tag ? Either.left(tag.tag()) : Either.right(((Direct) matcher).blocks()));
-
-		boolean matches(BlockState state);
-
-		record Tag(TagKey<Block> tag) implements BlockMatcher {
-			@Override
-			public boolean matches(BlockState state) {
-				return state.is(this.tag);
-			}
-		}
-
-		record Direct(List<Block> blocks) implements BlockMatcher {
-			@Override
-			public boolean matches(BlockState state) {
-				for (Block block : this.blocks) {
-					if (state.is(block)) {
-						return true;
-					}
-				}
-				return false;
 			}
 		}
 	}

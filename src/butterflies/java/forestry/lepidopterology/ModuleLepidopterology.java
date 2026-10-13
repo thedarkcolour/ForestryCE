@@ -74,9 +74,10 @@ public class ModuleLepidopterology extends BlankForestryModule {
 	}
 
 	@Override
-	public void syncDatapack(OnDatapackSyncEvent event) {
-		ButterflySpeciesSyncPacket butterflyPacket = new ButterflySpeciesSyncPacket(ButterflySpeciesManager.INSTANCE.getDefinitions());
-		event.getRelevantPlayers().forEach(player -> NetworkUtil.sendToPlayer(butterflyPacket, player));
+	public void sendDatapackData(OnDatapackSyncEvent event) {
+		ButterflySpeciesSyncPacket butterflySpecies = new ButterflySpeciesSyncPacket(ButterflySpeciesManager.INSTANCE.getDefinitions());
+
+		event.getRelevantPlayers().forEach(player -> NetworkUtil.sendToPlayer(butterflySpecies, player));
 	}
 
 	@Override

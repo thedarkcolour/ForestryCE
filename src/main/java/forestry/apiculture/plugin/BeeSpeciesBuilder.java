@@ -1,12 +1,11 @@
 package forestry.apiculture.plugin;
 
-import forestry.api.apiculture.IBeeJubilance;
+import forestry.api.apiculture.ForestryBeeJubilances;
 import forestry.api.apiculture.genetics.IBeeSpecies;
 import forestry.api.apiculture.genetics.IBeeSpeciesType;
 import forestry.api.core.IProduct;
 import forestry.api.plugin.IBeeSpeciesBuilder;
 import forestry.apiculture.bees.BeeSpecies;
-import forestry.apiculture.bees.genetics.DefaultBeeJubilance;
 import forestry.apiimpl.plugin.SpeciesBuilder;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
@@ -20,7 +19,7 @@ public class BeeSpeciesBuilder extends SpeciesBuilder<IBeeSpeciesType, IBeeSpeci
 	private int bodyColor = 0xffdc16;
 	private int stripesColor = 0;
 	private int outlineColor = -1;
-	private IBeeJubilance jubilance = DefaultBeeJubilance.INSTANCE;
+	private ResourceLocation jubilance = ForestryBeeJubilances.DEFAULT;
 
 	public BeeSpeciesBuilder(ResourceLocation id, String genus, String species) {
 		super(id, genus, species);
@@ -62,8 +61,8 @@ public class BeeSpeciesBuilder extends SpeciesBuilder<IBeeSpeciesType, IBeeSpeci
 	}
 
 	@Override
-	public IBeeSpeciesBuilder setJubilance(IBeeJubilance jubilance) {
-		this.jubilance = jubilance;
+	public IBeeSpeciesBuilder setJubilance(ResourceLocation id) {
+		this.jubilance = id;
 		return this;
 	}
 
@@ -93,7 +92,7 @@ public class BeeSpeciesBuilder extends SpeciesBuilder<IBeeSpeciesType, IBeeSpeci
 	}
 
 	@Override
-	public IBeeJubilance getJubilance() {
+	public ResourceLocation getJubilance() {
 		return this.jubilance;
 	}
 }

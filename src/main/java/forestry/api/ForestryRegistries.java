@@ -3,6 +3,7 @@ package forestry.api;
 import com.mojang.serialization.MapCodec;
 
 import forestry.api.apiculture.FlowerTypeType;
+import forestry.api.apiculture.IBeeJubilance;
 import forestry.api.apiculture.IFlowerType;
 import forestry.api.apiculture.genetics.IBeeEffect;
 import forestry.api.core.FluidProductType;
@@ -34,6 +35,9 @@ public class ForestryRegistries {
 	public static final Registry<MapCodec<? extends IBeeEffect>> BEE_EFFECT_TYPE = new RegistryBuilder<>(Keys.BEE_EFFECT_TYPE)
 		.create();
 
+	public static final Registry<MapCodec<? extends IBeeJubilance>> BEE_JUBILANCE_TYPE = new RegistryBuilder<>(Keys.BEE_JUBILANCE_TYPE)
+		.create();
+
 	public static final Registry<MutationConditionType<?>> MUTATION_CONDITION_TYPE = new RegistryBuilder<>(Keys.MUTATION_CONDITION_TYPE)
 		.sync(true)
 		.create();
@@ -55,6 +59,7 @@ public class ForestryRegistries {
 		public static final ResourceKey<Registry<IPostalCarrier>> POSTAL_CARRIER = ResourceKey.createRegistryKey(ForestryConstants.forestry("postal_carrier"));
 		public static final ResourceKey<Registry<ISpeciesType<?, ?>>> SPECIES_TYPE = ResourceKey.createRegistryKey(ForestryConstants.forestry("species_type"));
 		public static final ResourceKey<Registry<MapCodec<? extends IBeeEffect>>> BEE_EFFECT_TYPE = ResourceKey.createRegistryKey(ForestryConstants.forestry("bee_effect_type"));
+		public static final ResourceKey<Registry<MapCodec<? extends IBeeJubilance>>> BEE_JUBILANCE_TYPE = ResourceKey.createRegistryKey(ForestryConstants.forestry("bee_jubilance_type"));
 		public static final ResourceKey<Registry<MutationConditionType<?>>> MUTATION_CONDITION_TYPE = ResourceKey.createRegistryKey(ForestryConstants.forestry("mutation_condition_type"));
 		public static final ResourceKey<Registry<ProductType<?>>> PRODUCT_TYPE = ResourceKey.createRegistryKey(ForestryConstants.forestry("product_type"));
 		public static final ResourceKey<Registry<FluidProductType<?>>> FLUID_PRODUCT_TYPE = ResourceKey.createRegistryKey(ForestryConstants.forestry("fluid_product_type"));

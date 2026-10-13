@@ -246,6 +246,7 @@ public final class ForestryBlockTagsProvider {
 
 		tags.tag(ForestryTags.Blocks.PLANTABLE_FLOWERS_GROUND).add(Blocks.DIRT, Blocks.GRASS_BLOCK, Blocks.SNOW, Blocks.SAND, Blocks.SANDSTONE, CoreBlocks.TURF_BLOCK.block());
 
+		tags.tag(ForestryTags.Blocks.SWARM_BEE_GROUND).addTag(BlockTags.DIRT);
 		tags.tag(ForestryTags.Blocks.MODEST_BEE_GROUND).addTag(BlockTags.SAND).addTag(BlockTags.TERRACOTTA);
 		tags.tag(ForestryTags.Blocks.WINTRY_BEE_GROUND).addTag(BlockTags.DIRT).addTag(BlockTags.SNOW);
 		tags.tag(ForestryTags.Blocks.ENDED_BEE_GROUND).add(Blocks.END_STONE);

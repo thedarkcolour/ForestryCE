@@ -17,6 +17,7 @@ import forestry.api.core.IProduct;
 import forestry.api.core.genetics.*;
 import forestry.api.core.genetics.alleles.IKaryotype;
 import forestry.api.core.genetics.alleles.TreeChromosomes;
+import forestry.api.plugin.IArboricultureRegistration;
 import forestry.api.plugin.IForestryPlugin;
 import forestry.api.plugin.ISpeciesTypeBuilder;
 import forestry.apiimpl.ForestryApiImpl;
@@ -35,6 +36,9 @@ import forestry.core.platform.tile.TileUtil;
 import forestry.core.platform.util.BlockUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.data.DataProvider;
+import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -51,6 +55,8 @@ import java.util.Collection;
 import java.util.IdentityHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 
 public class TreeSpeciesType extends SpeciesType<ITreeSpecies, ITree> implements ITreeSpeciesType, IBreedingTrackerHandler {
 	// todo make both of these reloadable
@@ -75,7 +81,7 @@ public class TreeSpeciesType extends SpeciesType<ITreeSpecies, ITree> implements
 
 	@Override
 	public IFruit getFruit(ResourceLocation id) {
-		return requireValue(this.fruits, id, "fruit");
+		return getMapValue(this.fruits, id, "fruit");
 	}
 
 	@Nullable
@@ -86,18 +92,12 @@ public class TreeSpeciesType extends SpeciesType<ITreeSpecies, ITree> implements
 	@Nullable
 	@Override
 	public IFruit getFruitSafe(ResourceLocation id) {
-		return valueSafe(this.fruits, id);
+		return getMapValueSafe(this.fruits, id);
 	}
 
 	@Override
 	public ITreeEffect getTreeEffect(ResourceLocation id) {
-		return requireValue(this.treeEffects, id, "tree effect");
-	}
-
-	@Override
-	public void onSpeciesRegistered(ImmutableMap<ResourceLocation, ITreeSpecies> allSpecies) {
-		// Base delegates to setSpecies (overridden below), which runs the tree side effects. Kept as an override point.
-		super.onSpeciesRegistered(allSpecies);
+		return getMapValue(this.treeEffects, id, "tree effect");
 	}
 
 	@Override
@@ -321,5 +321,10 @@ public class TreeSpeciesType extends SpeciesType<ITreeSpecies, ITree> implements
 			}
 		}
 		return super.getResearchSuitability(species, stack);
+	}
+
+	@Override
+	public DataProvider createSpeciesProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries, Consumer<IArboricultureRegistration> species) {
+		return new TreeSpeciesProvider(output, registries, this, species);
 	}
 }

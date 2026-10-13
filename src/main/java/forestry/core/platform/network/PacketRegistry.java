@@ -31,7 +31,6 @@ public class PacketRegistry implements IPacketRegistry {
 	}
 
 	private static <P extends CustomPacketPayload> void handleServerbound(P message, IPayloadContext context, BiConsumer<P, ServerPlayer> handler) {
-		// todo verify that this is actually on the main thread
 		handler.accept(message, (ServerPlayer) context.player());
 	}
 

@@ -6,7 +6,11 @@ import forestry.api.arboriculture.ILeafTickHandler;
 import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.core.genetics.IGenome;
 import forestry.api.core.genetics.ISpeciesType;
+import forestry.api.plugin.IArboricultureRegistration;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.data.DataProvider;
+import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
@@ -16,6 +20,8 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
+import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 
 public interface ITreeSpeciesType extends ISpeciesType<ITreeSpecies, ITree> {
 	@Override
@@ -76,4 +82,14 @@ public interface ITreeSpeciesType extends ISpeciesType<ITreeSpecies, ITree> {
 	 */
 	@Nullable
 	ITree getVanillaIndividual(Item item);
+
+	/**
+	 * Creates a data provider that generates tree species JSON.
+	 *
+	 * @param output     The pack output to generate into
+	 * @param registries The registries used to encode the species
+	 * @param species    The action that registers the species to generate
+	 * @return The data provider to add to the data generator
+	 */
+	DataProvider createSpeciesProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries, Consumer<IArboricultureRegistration> species);
 }

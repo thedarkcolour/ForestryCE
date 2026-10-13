@@ -27,7 +27,7 @@ import forestry.api.core.genetics.alleles.IKaryotype;
 import forestry.apiculture.bees.BeeSpecies;
 import forestry.apiculture.bees.genetics.BeeSpeciesDefinition;
 import forestry.apiculture.bees.genetics.BeeSpeciesProjector;
-import forestry.core.data.MapGenomeBuilder;
+import forestry.core.engine.genetics.MapGenomeBuilder;
 import forestry.core.engine.genetics.GenomeCodecs;
 import forestry.core.platform.util.SpeciesUtil;
 

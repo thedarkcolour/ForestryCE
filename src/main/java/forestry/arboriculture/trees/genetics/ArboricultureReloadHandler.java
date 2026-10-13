@@ -10,22 +10,10 @@ import forestry.Forestry;
 import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.arboriculture.genetics.ITreeSpeciesType;
 import forestry.arboriculture.trees.TreeSpecies;
-import forestry.core.engine.genetics.GeneticsReloadHandler;
 import forestry.core.engine.genetics.SpeciesType;
 import forestry.core.platform.util.SpeciesUtil;
 
-/**
- * Rebuilds arboriculture's runtime genetics state from loaded data. Split out of
- * {@link GeneticsReloadHandler} so the base artifact does not name tree types.
- * <p>
- * <b>Ordering matters:</b> species must be rebuilt before {@link GeneticsReloadHandler#rebuildMutations}, which
- * resolves its species by id against the live map and then indexes the results by object identity.
- */
 public final class ArboricultureReloadHandler {
-	/**
-	 * Projects each tree definition into a {@link TreeSpecies} (fail-soft: a bad/binding-less definition is logged and
-	 * dropped by {@link TreeSpeciesProjector#project}) and swaps the resulting map into the live tree species type.
-	 */
 	@SuppressWarnings("unchecked")
 	public static void rebuildTreeSpecies(Map<ResourceLocation, TreeSpeciesDefinition> defs) {
 		ITreeSpeciesType type = SpeciesUtil.TREE_TYPE.get();
