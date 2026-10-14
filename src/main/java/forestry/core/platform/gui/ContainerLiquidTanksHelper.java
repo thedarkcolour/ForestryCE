@@ -1,6 +1,7 @@
 package forestry.core.platform.gui;
 
 import forestry.api.core.IToolPipette;
+import forestry.core.platform.fluids.ITankManager;
 import forestry.core.platform.fluids.StandardTank;
 import forestry.core.platform.network.packets.PacketPipetteClick;
 import forestry.core.platform.tile.ILiquidTankTile;
@@ -47,7 +48,15 @@ public class ContainerLiquidTanksHelper<T extends BlockEntity & ILiquidTankTile>
 			return;
 		}
 
-		IFluidTank tank = this.tile.getTankManager().getTank(slot);
+		ITankManager tankManager = this.tile.getTankManager();
+		// the slot comes from the client
+		if (slot < 0 || slot >= tankManager.getTanks()) {
+			return;
+		}
+		IFluidTank tank = tankManager.getTank(slot);
+		if (tank == null) {
+			return;
+		}
 		int liquidAmount = tank.getFluidAmount();
 
 		Optional<IFluidHandlerItem> fluidCap = FluidUtil.getFluidHandler(itemstack);
@@ -56,9 +65,10 @@ public class ContainerLiquidTanksHelper<T extends BlockEntity & ILiquidTankTile>
 				if (tank instanceof StandardTank standard) {
 					FluidStack fillAmount = standard.drainInternal(FluidType.BUCKET_VOLUME, IFluidHandler.FluidAction.SIMULATE);
 					int filled = fluidHandlerItem.fill(fillAmount, IFluidHandler.FluidAction.EXECUTE);
-					tank.drain(filled, IFluidHandler.FluidAction.EXECUTE);
-					player.inventoryMenu.setCarried(fluidHandlerItem.getContainer());
-					player.inventoryMenu.broadcastChanges();
+					// not drain, which does nothing on a tank that is drain-locked for automation
+					standard.drainInternal(filled, IFluidHandler.FluidAction.EXECUTE);
+					player.containerMenu.setCarried(fluidHandlerItem.getContainer());
+					player.containerMenu.broadcastChanges();
 				} else {//TODO: Test if this works
 					FluidStack fillAmount = tank.drain(FluidType.BUCKET_VOLUME, IFluidHandler.FluidAction.EXECUTE);
 					int filled = fluidHandlerItem.fill(fillAmount, IFluidHandler.FluidAction.EXECUTE);
