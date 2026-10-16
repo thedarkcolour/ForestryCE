@@ -51,25 +51,21 @@ public class BlockFactoryPlain extends BlockBase<BlockTypeFactoryPlain> {
 
 	@Override
 	public VoxelShape getShape(BlockState state, BlockGetter reader, BlockPos pos, CollisionContext context) {
-		switch (this.blockType) {
-			case FABRICATOR, SMELTER -> {
-				return Shapes.block();
-			}
-			default -> {
-				if (state.getValue(BlockBase.FACING) == Direction.SOUTH || state.getValue(BlockBase.FACING) == Direction.NORTH) {
-					return Shapes.or(
-						Block.box(0, 0, 0, 16, 16, 4),
-						Block.box(2, 2, 4, 14, 14, 12),
-						Block.box(0, 0, 12, 16, 16, 16)
-					);
-				} else {
-					return Shapes.or(
-						Block.box(0, 0, 0, 4, 16, 16),
-						Block.box(4, 2, 2, 12, 14, 14),
-						Block.box(12, 0, 0, 16, 16, 16)
-					);
-				}
-			}
+		if (this.blockType == BlockTypeFactoryPlain.FABRICATOR) {
+			return Shapes.block();
+		}
+		if (state.getValue(BlockBase.FACING) == Direction.SOUTH || state.getValue(BlockBase.FACING) == Direction.NORTH) {
+			return Shapes.or(
+				Block.box(0, 0, 0, 16, 16, 4),
+				Block.box(2, 2, 4, 14, 14, 12),
+				Block.box(0, 0, 12, 16, 16, 16)
+			);
+		} else {
+			return Shapes.or(
+				Block.box(0, 0, 0, 4, 16, 16),
+				Block.box(4, 2, 2, 12, 14, 14),
+				Block.box(12, 0, 0, 16, 16, 16)
+			);
 		}
 	}
 
