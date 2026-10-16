@@ -41,6 +41,14 @@ public abstract class FarmLogicWatered extends FarmLogicSoil {
 		return true;
 	}
 
+	protected BlockState getSoilState(IFarmHousing housing, Direction direction, BlockPos pos, Soil soil) {
+		return soil.soilState();
+	}
+
+	protected boolean isAcceptedSoil(IFarmHousing housing, Direction direction, BlockPos pos, BlockState state) {
+		return isAcceptedSoil(state);
+	}
+
 	private boolean maintainSoil(Level world, IFarmHousing farmHousing, BlockPos pos, Direction direction, int extent) {
 		if (!farmHousing.canPlantSoil(this.isManual)) {
 			return false;
@@ -59,7 +67,7 @@ public abstract class FarmLogicWatered extends FarmLogicSoil {
 				BlockState state = world.getBlockState(position);
 				if (!isValidPosition(farmHousing, direction, position, CultivationType.SOIL)
 					|| !BlockUtil.isBreakableBlock(state, world, pos)
-					|| isAcceptedSoil(state)
+					|| isAcceptedSoil(farmHousing, direction, position, state)
 					|| isWaterSourceBlock(world, position)
 					|| !farmHousing.getFarmInventory().hasResources(resources)) {
 					continue;
@@ -70,18 +78,19 @@ public abstract class FarmLogicWatered extends FarmLogicSoil {
 					break;
 				}
 
+				BlockState soilState = getSoilState(farmHousing, direction, position, soil);
 				if (!BlockUtil.isReplaceableBlock(state, world, position)) {
 					BlockUtil.getBlockDrops(world, position).forEach(farmHousing::addPendingProduct);
 					world.removeBlock(position, false);
-					return FarmLogicCocoa.trySetSoil(world, farmHousing, position, soil.resource(), soil.soilState());
+					return FarmLogicCocoa.trySetSoil(world, farmHousing, position, soil.resource(), soilState);
 				}
 
 				if (!this.isManual) {
-					if (trySetWater(world, farmHousing, position)) {
+					if (isValidPosition(farmHousing, direction, position, CultivationType.WATER) && trySetWater(world, farmHousing, position)) {
 						return true;
 					}
 
-					return FarmLogicCocoa.trySetSoil(world, farmHousing, position, soil.resource(), soil.soilState());
+					return FarmLogicCocoa.trySetSoil(world, farmHousing, position, soil.resource(), soilState);
 				}
 			}
 		}
