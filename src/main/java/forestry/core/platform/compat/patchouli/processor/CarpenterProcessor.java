@@ -23,8 +23,14 @@ public class CarpenterProcessor implements IComponentProcessor {
 
 	@Override
 	public void setup(Level level, IVariableProvider variables) {
-		this.output = variables.get("item", level.registryAccess()).as(ItemStack.class, ItemStack.EMPTY);
-		this.recipe = RecipeUtils.getRecipeByOutput(FactoryRecipeTypes.CARPENTER, level.registryAccess(), this.output);
+		try {
+			this.output = variables.get("item", level.registryAccess()).as(ItemStack.class, ItemStack.EMPTY);
+			this.recipe = RecipeUtils.getRecipeByOutput(FactoryRecipeTypes.CARPENTER, level.registryAccess(), this.output);
+		} catch (RuntimeException e) {
+			this.recipe = null;
+			Forestry.LOGGER.error("Failed to look up the carpenter recipe for {} in the Forester's Manual", this.output, e);
+			return;
+		}
 
 		if (this.recipe == null) {
 			Forestry.LOGGER.warn("No carpenter recipe with output {}, showing an empty recipe in the guide", this.output);
@@ -33,6 +39,15 @@ public class CarpenterProcessor implements IComponentProcessor {
 
 	@Override
 	public IVariable process(Level level, String key) {
+		try {
+			return processRecipe(level, key);
+		} catch (RuntimeException e) {
+			Forestry.LOGGER.error("Failed to read {} of the carpenter recipe for {} in the Forester's Manual", key, this.output, e);
+			return IVariable.empty();
+		}
+	}
+
+	private IVariable processRecipe(Level level, String key) {
 		HolderLookup.Provider registries = level.registryAccess();
 		// a datapack can remove or replace the recipe this page was written for
 		if (this.recipe == null) {
