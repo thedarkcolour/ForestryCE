@@ -16,17 +16,19 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-/**
- * A one-pixel-thick sheet laid against the face of another block.
- */
 public class BlockSheet extends BlockBurnable {
-	/**
-	 * The face of the neighbouring block the sheet lies against, not the face the sheet points at.
-	 * Ex. UP -> the sheet sits on top of the block below it.
-	 */
+	// the face of the block the sheet lies against, not the face the sheet points at
 	public static final DirectionProperty FACING = BlockStateProperties.FACING;
 
-	private static final float DEPTH = 1 / 16f;
+	// indexed by Direction ordinal
+	private static final VoxelShape[] SHAPES = {
+		Shapes.box(0, 0.9375f, 0, 1, 1, 1),
+		Shapes.box(0, 0, 0, 1, 0.0625f, 1),
+		Shapes.box(0, 0, 0.9375f, 1, 1, 1),
+		Shapes.box(0, 0, 0, 1, 1, 0.0625f),
+		Shapes.box(0.9375f, 0, 0, 1, 1, 1),
+		Shapes.box(0, 0, 0, 0.0625f, 1, 1),
+	};
 
 	public BlockSheet(Properties properties) {
 		super(properties);
@@ -40,14 +42,7 @@ public class BlockSheet extends BlockBurnable {
 
 	@Override
 	protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-		return switch (state.getValue(FACING)) {
-			case DOWN -> Shapes.box(0, 1 - DEPTH, 0, 1, 1, 1);
-			case NORTH -> Shapes.box(0, 0, 1 - DEPTH, 1, 1, 1);
-			case SOUTH -> Shapes.box(0, 0, 0, 1, 1, DEPTH);
-			case EAST -> Shapes.box(0, 0, 0, DEPTH, 1, 1);
-			case WEST -> Shapes.box(1 - DEPTH, 0, 0, 1, 1, 1);
-			default -> Shapes.box(0, 0, 0, 1, DEPTH, 1);
-		};
+		return SHAPES[state.getValue(FACING).ordinal()];
 	}
 
 	@Override
@@ -69,7 +64,6 @@ public class BlockSheet extends BlockBurnable {
 	}
 
 	// A sheet only burns on the face it lies flat against, the one face it fills
-
 	@Override
 	public boolean isFlammable(BlockState state, BlockGetter level, BlockPos pos, Direction direction) {
 		return state.isFaceSturdy(level, pos, direction);
