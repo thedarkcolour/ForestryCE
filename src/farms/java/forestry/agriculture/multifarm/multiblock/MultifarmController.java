@@ -363,6 +363,11 @@ public class MultifarmController extends MultiblockController implements IFarmCo
 	}
 
 	@Override
+	public void markMissingSoil() {
+		this.manager.markMissingSoil();
+	}
+
+	@Override
 	public void setFarmLogic(Direction direction, IFarmLogic logic) {
 		Preconditions.checkNotNull(direction);
 		Preconditions.checkNotNull(logic, "logic must not be null");

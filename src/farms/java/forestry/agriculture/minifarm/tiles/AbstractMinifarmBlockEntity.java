@@ -241,6 +241,11 @@ public abstract class AbstractMinifarmBlockEntity extends PoweredBlockEntity imp
 	}
 
 	@Override
+	public void markMissingSoil() {
+		this.manager.markMissingSoil();
+	}
+
+	@Override
 	public void setFarmLogic(Direction direction, IFarmLogic logic) {
 	}
 

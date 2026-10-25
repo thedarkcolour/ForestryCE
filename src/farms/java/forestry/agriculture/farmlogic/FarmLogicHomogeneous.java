@@ -37,28 +37,28 @@ public abstract class FarmLogicHomogeneous extends FarmLogicSoil {
 			return false;
 		}
 
-		for (Soil soil : getSoils()) {
-			NonNullList<ItemStack> resources = NonNullList.create();
-			resources.add(soil.resource());
-			if (!farmHousing.getFarmInventory().hasResources(resources)) {
+		for (int i = 0; i < extent; i++) {
+			BlockPos position = translateWithOffset(pos, direction, i);
+			BlockState soilState = world.getBlockState(position);
+
+			if (!world.hasChunkAt(position) || farmHousing.isValidPlatform(world, pos)) {
+				break;
+			}
+
+			if (!BlockUtil.isBreakableBlock(soilState, world, pos) || isAcceptedSoil(soilState)) {
 				continue;
 			}
 
-			for (int i = 0; i < extent; i++) {
-				BlockPos position = translateWithOffset(pos, direction, i);
-				BlockState soilState = world.getBlockState(position);
+			BlockPos platformPosition = position.below();
+			if (!farmHousing.isValidPlatform(world, platformPosition)) {
+				break;
+			}
 
-				if (!world.hasChunkAt(position) || farmHousing.isValidPlatform(world, pos)) {
-					break;
-				}
-
-				if (!BlockUtil.isBreakableBlock(soilState, world, pos) || isAcceptedSoil(soilState)) {
+			for (Soil soil : getSoils()) {
+				NonNullList<ItemStack> resources = NonNullList.create();
+				resources.add(soil.resource());
+				if (!farmHousing.getFarmInventory().hasResources(resources)) {
 					continue;
-				}
-
-				BlockPos platformPosition = position.below();
-				if (!farmHousing.isValidPlatform(world, platformPosition)) {
-					break;
 				}
 
 				BlockUtil.getBlockDrops(world, position).forEach(farmHousing::addPendingProduct);
@@ -67,6 +67,12 @@ public abstract class FarmLogicHomogeneous extends FarmLogicSoil {
 				farmHousing.getFarmInventory().removeResources(resources);
 				return true;
 			}
+
+			// later positions need the same resources, so stop at the first one
+			if (farmHousing instanceof IFarmHousingInternal internal) {
+				internal.markMissingSoil();
+			}
+			return false;
 		}
 
 		return false;
