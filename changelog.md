@@ -4,6 +4,23 @@
 - Remove Copper/Tin -> Bronze crafting recipe (must use Smelter now)
 - Fix wood recipes being incorrect (#439)
 - Fix open fence gates being destroyed by water (#451)
+- Fix Alveary Swarmer never placing swarm hives, thanks to otya128 (#460)
+- Fix Alvearies and Multifarms looking unformed on the client and crashing when clicked
+- Fix multiblocks failing to form when part of the structure is in a chunk that is not loaded yet
+- Fix bees sometimes disappearing from Apiaries, Bee Houses, and Alvearies after a restart
+- Fix Mushroom farms not growing mushrooms
+- Fix Gourd farms not planting the soil that gourds grow on
+- Fix farms breaking waterlogged blocks
+- Fix pipettes infinitely extracting liquid from GUIs
+- Fix flammable fluids exploding when not near fire, instead of when near fire
+- Fix Cork, Plywood, and Plywood Sheet blocks burning at the wrong rate, acting as a permanent fire source, and turning straight into fire when lit
+- Bee jubilances are now data-driven. Datapacks can define them in the `bee_jubilance` folder, and bee species reference them by ID
+  - `requires_resource` jubilances now match blocks or a block tag instead of exact block states
+- API changes for addons:
+  - Add `createSpeciesProvider` to bee, tree, and butterfly species types, so addons can generate species JSON from the API alone
+  - Add `createEffectProvider`, `createJubilanceProvider`, `getEffectFactory`, and `getJubilanceFactory` to `IBeeSpeciesType`
+  - `IBeeSpeciesBuilder.setJubilance` now takes the ID of a registered jubilance instead of an instance
+- A bunch of internal code renaming to follow Vanilla's naming scheme
 
 ## Forestry 3.0.0-alpha8
 - Fix Apiary not connecting to pipes, thanks to oneironautpebble
