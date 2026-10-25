@@ -40,6 +40,6 @@ public class BackpackInterface implements IBackpackInterface {
 
 	@Override
 	public Predicate<ItemStack> createNaturalistBackpackFilter(ResourceLocation speciesRootUid) {
-		return new BackpackFilterNaturalist(speciesRootUid);
+		return new NaturalistBackpackFilter(speciesRootUid);
 	}
 }

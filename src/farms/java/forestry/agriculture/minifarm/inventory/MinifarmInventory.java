@@ -4,14 +4,14 @@ import forestry.api.agriculture.HorizontalDirection;
 import forestry.api.agriculture.IFarmable;
 import forestry.agriculture.minifarm.tiles.AbstractMinifarmBlockEntity;
 import forestry.agriculture.multifarm.multiblock.IFarmInventoryInternal;
-import forestry.agriculture.multifarm.multiblock.InventoryPlantation;
+import forestry.agriculture.multifarm.multiblock.AbstractFarmInventory;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
-public class MinifarmInventory extends InventoryPlantation<AbstractMinifarmBlockEntity> implements IFarmInventoryInternal {
-	public static InventoryPlantation.InventoryConfig CONFIG = new InventoryPlantation.InventoryConfig(
+public class MinifarmInventory extends AbstractFarmInventory<AbstractMinifarmBlockEntity> implements IFarmInventoryInternal {
+	public static AbstractFarmInventory.InventoryConfig CONFIG = new AbstractFarmInventory.InventoryConfig(
 		0, 4,
 		4, 4,
 		8, 4,

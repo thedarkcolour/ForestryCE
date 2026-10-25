@@ -7,13 +7,13 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 
 import forestry.api.ForestryConstants;
 import forestry.api.client.IForestryClientApi;
-import forestry.core.platform.gui.GuiForestryTitled;
+import forestry.core.platform.gui.TitledForestryScreen;
 import forestry.core.platform.gui.GuiUtil;
 import forestry.core.platform.gui.ledgers.Ledger;
 import forestry.core.platform.gui.ledgers.LedgerManager;
 import forestry.core.content.energy.tiles.EngineBlockEntity;
 
-public class EngineScreen<M extends AbstractContainerMenu, E extends EngineBlockEntity> extends GuiForestryTitled<M> {
+public class EngineScreen<M extends AbstractContainerMenu, E extends EngineBlockEntity> extends TitledForestryScreen<M> {
 	protected final E engine;
 
 	public EngineScreen(String texture, M menu, Inventory inv, Component title, E engine) {

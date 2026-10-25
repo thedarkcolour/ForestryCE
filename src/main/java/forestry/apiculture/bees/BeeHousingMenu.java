@@ -1,7 +1,7 @@
 package forestry.apiculture.bees;
 
 import forestry.apiculture.features.ApicultureMenuTypes;
-import forestry.core.platform.gui.ContainerTile;
+import forestry.core.platform.gui.BlockEntityMenu;
 import forestry.core.platform.network.packets.PacketGuiStream;
 import forestry.core.platform.tile.TileUtil;
 import forestry.core.platform.util.NetworkUtil;
@@ -10,7 +10,7 @@ import net.minecraft.world.entity.player.Inventory;
 
 import java.util.Objects;
 
-public class BeeHousingMenu extends ContainerTile<AbstractBeeHousingBlockEntity> {
+public class BeeHousingMenu extends BlockEntityMenu<AbstractBeeHousingBlockEntity> {
 	private final IGuiBeeHousingDelegate delegate;
 	private final BeeHousingScreen.Icon icon;
 
@@ -23,7 +23,7 @@ public class BeeHousingMenu extends ContainerTile<AbstractBeeHousingBlockEntity>
 
 	public BeeHousingMenu(int windowId, Inventory playerInv, AbstractBeeHousingBlockEntity tile, boolean hasFrames, BeeHousingScreen.Icon icon) {
 		super(windowId, ApicultureMenuTypes.BEE_HOUSING.menuType(), playerInv, tile, 8, 108);
-		ContainerBeeHelper.addSlots(this, tile, hasFrames);
+		BeeMenuHelper.addSlots(this, tile, hasFrames);
 
 		tile.getBeekeepingLogic().clearCachedValues();
 

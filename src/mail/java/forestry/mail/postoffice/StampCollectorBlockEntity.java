@@ -1,7 +1,7 @@
 package forestry.mail.postoffice;
 
 import forestry.api.core.IInventoryAdapter;
-import forestry.core.platform.tile.TileBase;
+import forestry.core.platform.tile.BaseBlockEntity;
 import forestry.core.platform.util.InventoryUtil;
 import forestry.mail.features.MailBlockEntities;
 import forestry.mail.gui.StampCollectorMenu;
@@ -18,7 +18,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class StampCollectorBlockEntity extends TileBase implements Container {
+public class StampCollectorBlockEntity extends BaseBlockEntity implements Container {
 	public StampCollectorBlockEntity(BlockPos pos, BlockState state) {
 		super(MailBlockEntities.STAMP_COLLECTOR.tileType(), pos, state);
 		setInternalInventory(new StampCollectorInventory(this));

@@ -13,14 +13,14 @@ public class FactoryClientHandler implements IClientModuleHandler {
 	}
 
 	private static void registerMenuScreens(RegisterMenuScreensEvent event) {
-		event.register(FactoryMenuTypes.BOTTLER.menuType(), GuiBottler::new);
-		event.register(FactoryMenuTypes.CARPENTER.menuType(), GuiCarpenter::new);
-		event.register(FactoryMenuTypes.CENTRIFUGE.menuType(), GuiCentrifuge::new);
-		event.register(FactoryMenuTypes.FABRICATOR.menuType(), GuiFabricator::new);
-		event.register(FactoryMenuTypes.FERMENTER.menuType(), GuiFermenter::new);
-		event.register(FactoryMenuTypes.MOISTENER.menuType(), GuiMoistener::new);
-		event.register(FactoryMenuTypes.SMELTER.menuType(), GuiSmelter::new);
-		event.register(FactoryMenuTypes.SQUEEZER.menuType(), GuiSqueezer::new);
-		event.register(FactoryMenuTypes.STILL.menuType(), GuiStill::new);
+		event.register(FactoryMenuTypes.BOTTLER.menuType(), BottlerScreen::new);
+		event.register(FactoryMenuTypes.CARPENTER.menuType(), CarpenterScreen::new);
+		event.register(FactoryMenuTypes.CENTRIFUGE.menuType(), CentrifugeScreen::new);
+		event.register(FactoryMenuTypes.FABRICATOR.menuType(), FabricatorScreen::new);
+		event.register(FactoryMenuTypes.FERMENTER.menuType(), FermenterScreen::new);
+		event.register(FactoryMenuTypes.MOISTENER.menuType(), MoistenerScreen::new);
+		event.register(FactoryMenuTypes.SMELTER.menuType(), SmelterScreen::new);
+		event.register(FactoryMenuTypes.SQUEEZER.menuType(), SqueezerScreen::new);
+		event.register(FactoryMenuTypes.STILL.menuType(), StillScreen::new);
 	}
 }

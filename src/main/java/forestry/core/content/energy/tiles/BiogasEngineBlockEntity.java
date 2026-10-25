@@ -7,8 +7,8 @@ import forestry.api.core.IErrorLogic;
 import forestry.api.core.circuits.ForestryCircuitSocketTypes;
 import forestry.api.core.circuits.ICircuitBoard;
 import forestry.api.core.machines.fuels.BiogasEngineFuel;
-import forestry.core.content.energy.features.EnergyTiles;
-import forestry.core.content.energy.inventory.InventoryEngineBiogas;
+import forestry.core.content.energy.features.EnergyBlockEntities;
+import forestry.core.content.energy.inventory.BiogasEngineInventory;
 import forestry.core.content.energy.menu.BiogasEngineMenu;
 import forestry.core.engine.circuits.IEngineUpgradeable;
 import forestry.core.engine.circuits.ISocketable;
@@ -53,9 +53,9 @@ public class BiogasEngineBlockEntity extends EngineBlockEntity implements Worldl
 	private boolean shutdown; // true if the engine is too cold and needs to warm itself up.
 
 	public BiogasEngineBlockEntity(BlockPos pos, BlockState state) {
-		super(EnergyTiles.BIOGAS_ENGINE.tileType(), pos, state, "engine.bronze", ENGINE_BRONZE_HEAT_MAX, 60000);
+		super(EnergyBlockEntities.BIOGAS_ENGINE.tileType(), pos, state, "engine.bronze", ENGINE_BRONZE_HEAT_MAX, 60000);
 
-		setInternalInventory(new InventoryEngineBiogas(this));
+		setInternalInventory(new BiogasEngineInventory(this));
 
 		this.fuelTank = new FilteredTank(Constants.ENGINE_TANK_CAPACITY).setFilter(ForestryDataMaps.BIOGAS_FUELS);
 		this.heatingTank = new FilteredTank(Constants.ENGINE_TANK_CAPACITY, true, false).setFilter(FluidTagFilter.LAVA);
@@ -77,7 +77,7 @@ public class BiogasEngineBlockEntity extends EngineBlockEntity implements Worldl
 		}
 
 		// Check if we have suitable items waiting in the item slot
-		FluidHelper.drainContainers(this.tankManager, this, InventoryEngineBiogas.SLOT_CAN);
+		FluidHelper.drainContainers(this.tankManager, this, BiogasEngineInventory.SLOT_CAN);
 
 		IErrorLogic errorLogic = getErrorLogic();
 

@@ -3,7 +3,7 @@ package forestry.core.content.backpacks.items;
 import forestry.api.IForestryApi;
 import forestry.api.core.backpacks.EnumBackpackType;
 import forestry.api.core.backpacks.IBackpackDefinition;
-import forestry.core.content.backpacks.gui.ContainerNaturalistBackpack;
+import forestry.core.content.backpacks.gui.NaturalistBackpackMenu;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -37,6 +37,6 @@ public class NaturalistBackpackItem extends BackpackItem {
 
 	@Override
 	public AbstractContainerMenu getContainer(int containerId, Player player, ItemStack heldItem) {
-		return ContainerNaturalistBackpack.makeContainer(containerId, player, heldItem, this.typeId);
+		return NaturalistBackpackMenu.makeContainer(containerId, player, heldItem, this.typeId);
 	}
 }

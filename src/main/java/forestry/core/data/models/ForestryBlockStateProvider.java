@@ -10,23 +10,23 @@ import forestry.apiculture.features.ApicultureBlocks;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.leaves.ForestryLeafType;
 import forestry.arboriculture.features.CharcoalBlocks;
-import forestry.core.content.burnbarrel.BlockBurnBarrel;
-import forestry.core.content.decorative.BlockJumboCandle;
-import forestry.core.content.decorative.BlockPlywoodBlock;
-import forestry.core.content.decorative.BlockTypeBigCandle;
-import forestry.core.content.decorative.BlockTypeJumboCandle;
-import forestry.core.content.decorative.BlockTypeMetalPlating;
-import forestry.core.content.resources.EnumResourceType;
+import forestry.core.content.burnbarrel.BurnBarrelBlock;
+import forestry.core.content.decorative.JumboCandleBlock;
+import forestry.core.content.decorative.PlywoodBlock;
+import forestry.core.content.decorative.BigCandleBlockType;
+import forestry.core.content.decorative.JumboCandleBlockType;
+import forestry.core.content.decorative.MetalPlatingBlockType;
+import forestry.core.content.resources.ResourceStorageBlockType;
 import forestry.core.content.soil.BlockBogEarth;
-import forestry.core.content.soil.BlockHumus;
+import forestry.core.content.soil.HumusBlock;
 import forestry.core.features.CoreBlocks;
 import forestry.core.features.CoreItems;
-import forestry.core.platform.block.BlockTypeCoreTesr;
+import forestry.core.platform.block.CoreMachineBlockType;
 import forestry.core.platform.block.IMachineProperties;
 import forestry.core.platform.fluids.ForestryFluids;
 import forestry.core.content.energy.features.EnergyBlocks;
-import forestry.core.content.machines.blocks.BlockFactoryPlain;
-import forestry.core.content.machines.blocks.BlockTypeFactoryPlain;
+import forestry.core.content.machines.blocks.FactoryBlock;
+import forestry.core.content.machines.blocks.FactoryBlockType;
 import forestry.core.content.machines.features.FactoryBlocks;
 import forestry.core.platform.util.ModUtil;
 import forestry.core.content.worktable.features.WorktableBlocks;
@@ -40,7 +40,7 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CandleBlock;
-import forestry.core.platform.block.BlockBase;
+import forestry.core.platform.block.BaseBlock;
 import net.minecraft.core.Direction;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
 import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
@@ -56,7 +56,7 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 	protected void registerStatesAndModels() {
 		// Resources
 		agingSoil(CoreBlocks.BOG_EARTH.block(), BlockBogEarth.MATURITY);
-		agingSoil(CoreBlocks.HUMUS.block(), BlockHumus.DEGRADE);
+		agingSoil(CoreBlocks.HUMUS.block(), HumusBlock.DEGRADE);
 
 		simpleBlock(CoreBlocks.APATITE_ORE.block());
 		simpleBlock(CoreBlocks.DEEPSLATE_APATITE_ORE.block());
@@ -134,7 +134,7 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 		for (Block block : ApicultureBlocks.COMB_BLOCK.blockArray()) singleModelBlock(this, block, combModel);
 
 		// Resource storage blocks use block/storage/<type>.
-		for (EnumResourceType type : EnumResourceType.values()) {
+		for (ResourceStorageBlockType type : ResourceStorageBlockType.values()) {
 			existingModelBlock(CoreBlocks.RESOURCE_STORAGE.get(type).block(), "storage/" + type.getSerializedName());
 		}
 
@@ -152,36 +152,36 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 		// stay hand-authored (custom display transforms), so no generic3d here.
 		horizontalMachine(this, ApicultureBlocks.BASE.get(ApicultureBlockType.APIARY).block(), "apiary", 0, 1, 2, 4, 4, 4, 4);
 		horizontalMachine(this, ApicultureBlocks.BASE.get(ApicultureBlockType.BEE_HOUSE).block(), "beehouse", 0, 1, 2, 4, 4, 4, 4);
-		horizontalMachine(this, FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.FABRICATOR).block(), "thermionic_fabricator", 0, 1, 3, 2, 4, 4, 4);
+		horizontalMachine(this, FactoryBlocks.PLAIN.get(FactoryBlockType.FABRICATOR).block(), "thermionic_fabricator", 0, 1, 3, 2, 4, 4, 4);
 		horizontalMachine(this, WorktableBlocks.WORKTABLE.block(), "worktable", 0, 1, 3, 2, 4, 4, 4);
 
 		// The smelter keeps its hand-authored 1.20.1 model, so only the facing blockstate is generated.
 		// Deviation from 1.20.1: that model parented block/machines/base_machine, whose only other job
 		// was to hold two tank slices the smelter never shows. The body is inlined instead
-		horizontalForestryBlock(this, FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.SMELTER).block(), models().getExistingFile(modBlock(this, "smelter")));
+		horizontalForestryBlock(this, FactoryBlocks.PLAIN.get(FactoryBlockType.SMELTER).block(), models().getExistingFile(modBlock(this, "smelter")));
 
 		// The packaging machines moved from a BlockEntityRenderer to generated .json models + blockstates,
 		// with the fluid tank levels expressed as blockstate properties. Each model parents
 		// block/machines/base_machine and layers per-level tank textures on top of the base
-		machineBlock(BlockTypeFactoryPlain.BOTTLER, IMachineProperties.TankLayout.RESOURCE);
-		machineBlock(BlockTypeFactoryPlain.CARPENTER, IMachineProperties.TankLayout.RESOURCE);
-		machineBlock(BlockTypeFactoryPlain.CENTRIFUGE, IMachineProperties.TankLayout.NONE);
-		machineBlock(BlockTypeFactoryPlain.FERMENTER, IMachineProperties.TankLayout.BOTH);
-		machineBlock(BlockTypeFactoryPlain.MOISTENER, IMachineProperties.TankLayout.RESOURCE);
-		machineBlock(BlockTypeFactoryPlain.SQUEEZER, IMachineProperties.TankLayout.PRODUCT);
-		machineBlock(BlockTypeFactoryPlain.STILL, IMachineProperties.TankLayout.BOTH);
+		machineBlock(FactoryBlockType.BOTTLER, IMachineProperties.TankLayout.RESOURCE);
+		machineBlock(FactoryBlockType.CARPENTER, IMachineProperties.TankLayout.RESOURCE);
+		machineBlock(FactoryBlockType.CENTRIFUGE, IMachineProperties.TankLayout.NONE);
+		machineBlock(FactoryBlockType.FERMENTER, IMachineProperties.TankLayout.BOTH);
+		machineBlock(FactoryBlockType.MOISTENER, IMachineProperties.TankLayout.RESOURCE);
+		machineBlock(FactoryBlockType.SQUEEZER, IMachineProperties.TankLayout.PRODUCT);
+		machineBlock(FactoryBlockType.STILL, IMachineProperties.TankLayout.BOTH);
 
 		// The analyzer and escritoire keep their hand-authored 1.20.1 Blockbench models, so only the
 		// facing blockstate is generated
-		horizontalForestryBlock(this, CoreBlocks.BASE.get(BlockTypeCoreTesr.ANALYZER).block(), models().getExistingFile(modBlock(this, "analyzer")));
-		horizontalForestryBlock(this, CoreBlocks.BASE.get(BlockTypeCoreTesr.ESCRITOIRE).block(), models().getExistingFile(modBlock(this, "escritoire")));
+		horizontalForestryBlock(this, CoreBlocks.BASE.get(CoreMachineBlockType.ANALYZER).block(), models().getExistingFile(modBlock(this, "analyzer")));
+		horizontalForestryBlock(this, CoreBlocks.BASE.get(CoreMachineBlockType.ESCRITOIRE).block(), models().getExistingFile(modBlock(this, "escritoire")));
 
 		// The burn barrel keeps its four hand-authored 1.20.1 models, one per LIT / HAS_ASH pair. Deviation from
 		// 1.20.1: the blockstate was hand-authored there, this tree generates it. The item model stays hand-authored,
 		// it parents the empty block model rather than a generated cube
 		getVariantBuilder(CoreBlocks.BURN_BARREL.block()).forAllStates(state -> {
-			boolean lit = state.getValue(BlockBurnBarrel.LIT);
-			boolean hasAsh = state.getValue(BlockBurnBarrel.HAS_ASH);
+			boolean lit = state.getValue(BurnBarrelBlock.LIT);
+			boolean hasAsh = state.getValue(BurnBarrelBlock.HAS_ASH);
 			String name = hasAsh
 				? (lit ? "burn_barrel_full_burning" : "burn_barrel_full")
 				: (lit ? "burn_barrel_burning" : "burn_barrel_empty");
@@ -221,17 +221,17 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 		}
 
 		// Metal plating
-		for (BlockTypeMetalPlating type : BlockTypeMetalPlating.values()) {
+		for (MetalPlatingBlockType type : MetalPlatingBlockType.values()) {
 			Block block = CoreBlocks.METAL_PLATING.get(type).block();
 			simpleBlock(block);
 			generic3d(block);
 		}
 
 		// Candles
-		for (BlockTypeJumboCandle type : BlockTypeJumboCandle.values()) {
+		for (JumboCandleBlockType type : JumboCandleBlockType.values()) {
 			jumboCandle(type);
 		}
-		for (BlockTypeBigCandle type : BlockTypeBigCandle.values()) {
+		for (BigCandleBlockType type : BigCandleBlockType.values()) {
 			bigCandle(type);
 		}
 		vanillaCandle(CoreBlocks.REFRACTORY_CANDLE.block());
@@ -242,7 +242,7 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 	 * Emits the blockstate, the four shape models and the item model of one jumbo candle. Each shape gets its
 	 * own model, since a candle in the middle of a stack shows neither a wick nor a melted top.
 	 */
-	private void jumboCandle(BlockTypeJumboCandle type) {
+	private void jumboCandle(JumboCandleBlockType type) {
 		String name = type.getSerializedName();
 		Block candle = CoreBlocks.JUMBO_CANDLES.get(type).block();
 
@@ -252,7 +252,7 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 		jumboCandleModel(name, "bottom", "bottom", "side_bottom", "bottom_top");
 
 		getVariantBuilder(candle).forAllStates(state -> {
-			String shape = state.getValue(BlockJumboCandle.SHAPE).getSerializedName();
+			String shape = state.getValue(JumboCandleBlock.SHAPE).getSerializedName();
 			return ConfiguredModel.builder()
 				.modelFile(models().getExistingFile(modBlock(this, "candles/" + name + "_jumbo_" + shape)))
 				.build();
@@ -290,7 +290,7 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 	 * Deviation from 1.20.1: the blockstate listed all four lit and waterlogged combinations there, each
 	 * pointing at the one model. This writes the single empty variant, which matches every state.
 	 */
-	private void bigCandle(BlockTypeBigCandle type) {
+	private void bigCandle(BigCandleBlockType type) {
 		Block candle = CoreBlocks.BIG_CANDLES.get(type).block();
 		String model = "candles/" + type.getSerializedName() + "_big";
 
@@ -368,7 +368,7 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 		directionalBlock(sheet, models().getExistingFile(modBlock(this, path(sheet))));
 		generic3d(sheet);
 
-		BlockPlywoodBlock block = CoreBlocks.PLYWOOD_BLOCK.block();
+		PlywoodBlock block = CoreBlocks.PLYWOOD_BLOCK.block();
 		ResourceLocation top = modBlock(this, "plywood_top");
 		ModelFile model = models().withExistingParent(path(block), mcBlock(this, "cube_column"))
 			.texture("end", top)
@@ -457,8 +457,8 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 	 * @param block  The machine's block type, which the model and texture ids are built from
 	 * @param layout How many tanks the model shows
 	 */
-	private void machineBlock(BlockTypeFactoryPlain block, IMachineProperties.TankLayout layout) {
-		BlockFactoryPlain machine = FactoryBlocks.PLAIN.get(block).block();
+	private void machineBlock(FactoryBlockType block, IMachineProperties.TankLayout layout) {
+		FactoryBlock machine = FactoryBlocks.PLAIN.get(block).block();
 		String name = block.name().toLowerCase();
 
 		String baseTexture = "block/machines/" + name + "/base";
@@ -473,7 +473,7 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 
 				getVariantBuilder(machine).forAllStates(state -> ConfiguredModel.builder()
 					.modelFile(models().getExistingFile(modLoc("block/" + name)))
-					.rotationY(rotationFromFacing(state.getValue(BlockBase.FACING)))
+					.rotationY(rotationFromFacing(state.getValue(BaseBlock.FACING)))
 					.build());
 			}
 			case RESOURCE -> {
@@ -488,10 +488,10 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 				}
 
 				getVariantBuilder(machine).forAllStates(state -> {
-					int level = state.getValue(BlockFactoryPlain.TANK_RESOURCE_LEVEL);
+					int level = state.getValue(FactoryBlock.TANK_RESOURCE_LEVEL);
 					return ConfiguredModel.builder()
 						.modelFile(models().getExistingFile(modLoc("block/" + name + "_res_" + level)))
-						.rotationY(rotationFromFacing(state.getValue(BlockBase.FACING)))
+						.rotationY(rotationFromFacing(state.getValue(BaseBlock.FACING)))
 						.build();
 				});
 			}
@@ -507,10 +507,10 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 				}
 
 				getVariantBuilder(machine).forAllStates(state -> {
-					int level = state.getValue(BlockFactoryPlain.TANK_PRODUCT_LEVEL);
+					int level = state.getValue(FactoryBlock.TANK_PRODUCT_LEVEL);
 					return ConfiguredModel.builder()
 						.modelFile(models().getExistingFile(modLoc("block/" + name + "_prod_" + level)))
-						.rotationY(rotationFromFacing(state.getValue(BlockBase.FACING)))
+						.rotationY(rotationFromFacing(state.getValue(BaseBlock.FACING)))
 						.build();
 				});
 			}
@@ -529,13 +529,13 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 				}
 
 				getVariantBuilder(machine).forAllStates(state -> {
-					int left = state.getValue(BlockFactoryPlain.TANK_RESOURCE_LEVEL);
-					int right = state.getValue(BlockFactoryPlain.TANK_PRODUCT_LEVEL);
+					int left = state.getValue(FactoryBlock.TANK_RESOURCE_LEVEL);
+					int right = state.getValue(FactoryBlock.TANK_PRODUCT_LEVEL);
 					String modelName = name + "_res_" + left + "_prod_" + right;
 
 					return ConfiguredModel.builder()
 						.modelFile(models().getExistingFile(modLoc("block/" + modelName)))
-						.rotationY(rotationFromFacing(state.getValue(BlockBase.FACING)))
+						.rotationY(rotationFromFacing(state.getValue(BaseBlock.FACING)))
 						.build();
 				});
 			}
@@ -583,7 +583,7 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 	 */
 	public static void horizontalForestryBlock(BlockStateProvider states, Block block, ModelFile model) {
 		states.getVariantBuilder(block).forAllStates(state -> {
-			Direction facing = state.getValue(BlockBase.FACING);
+			Direction facing = state.getValue(BaseBlock.FACING);
 			int yRot = ((int) facing.toYRot() + 180) % 360;
 			return ConfiguredModel.builder()
 				.modelFile(model)

@@ -1,6 +1,6 @@
 package forestry.core.content.energy.blocks;
 
-import forestry.core.platform.block.BlockBase;
+import forestry.core.platform.block.BaseBlock;
 import forestry.core.platform.tile.TileUtil;
 import forestry.core.content.energy.EnergyHelper;
 import forestry.core.content.energy.ForestryEnergyStorage;
@@ -23,7 +23,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
-public class EngineBlock extends BlockBase<EngineBlockType> {
+public class EngineBlock extends BaseBlock<EngineBlockType> {
 	private static final VoxelShape[] SHAPE_FOR_DIRECTIONS = new VoxelShape[6];
 
 	public static final EnumProperty<Direction> VERTICAL_FACING = EnumProperty.create("facing", Direction.class, Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST, Direction.DOWN, Direction.UP);

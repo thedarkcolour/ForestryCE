@@ -20,7 +20,7 @@ import forestry.core.engine.genetics.flowers.TagFlowerType;
 import forestry.core.platform.client.ForestryColors;
 import forestry.core.platform.util.TranslationKeys;
 import forestry.core.platform.config.ForestryConfig;
-import forestry.core.platform.gui.GuiForestry;
+import forestry.core.platform.gui.ForestryScreen;
 import forestry.core.content.analyzer.PortableAnalyzerScreen;
 import forestry.core.platform.util.GeneticsUtil;
 import forestry.core.platform.util.SpeciesUtil;
@@ -163,6 +163,6 @@ public class BeeAnalyzerPlugin implements IAnalyzerPlugin<IBeeSpecies, IBee> {
 
 	@Override
 	public List<String> getHints() {
-		return GuiForestry.HINTS.get("beealyzer");
+		return ForestryScreen.HINTS.get("beealyzer");
 	}
 }

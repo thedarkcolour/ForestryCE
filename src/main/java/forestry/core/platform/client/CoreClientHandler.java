@@ -16,16 +16,16 @@ import forestry.api.client.arboriculture.ITreeClientManager;
 import forestry.api.core.ISpectacleBlock;
 import forestry.apiimpl.client.ForestryClientApiImpl;
 import forestry.apiimpl.plugin.PluginManager;
-import forestry.core.engine.circuits.GuiSolderingIron;
+import forestry.core.engine.circuits.SolderingIronScreen;
 import forestry.core.platform.config.Constants;
 import forestry.core.engine.genetics.GeneticsReloadHandler;
 import forestry.core.features.*;
 import forestry.core.platform.fluids.ForestryFluids;
 import forestry.core.platform.gui.*;
 import forestry.core.content.analyzer.*;
-import forestry.core.content.burnbarrel.GuiBurnBarrel;
+import forestry.core.content.burnbarrel.BurnBarrelScreen;
 import forestry.core.content.escritoire.*;
-import forestry.core.platform.item.ItemBlockTesr;
+import forestry.core.platform.item.SpecialRendererBlockItem;
 import forestry.core.platform.models.ClientManager;
 import forestry.core.platform.models.FluidContainerModel;
 import forestry.core.platform.models.ModelBlockCached;
@@ -36,9 +36,9 @@ import forestry.core.platform.util.GeneticsUtil;
 import forestry.core.platform.util.RenderUtil;
 import forestry.core.platform.registration.FeatureFluid;
 import forestry.core.content.energy.features.EnergyBlocks;
-import forestry.core.content.energy.features.EnergyTiles;
+import forestry.core.content.energy.features.EnergyBlockEntities;
 import forestry.core.content.machines.features.FactoryBlocks;
-import forestry.core.content.machines.features.FactoryTiles;
+import forestry.core.content.machines.features.FactoryBlockEntities;
 import forestry.modules.ModuleUtil;
 import forestry.core.content.backpacks.features.BackpackItems;
 import forestry.core.content.backpacks.features.CrateItems;
@@ -132,12 +132,12 @@ public class CoreClientHandler implements IClientModuleHandler {
 	}
 
 	private static void registerMenuScreens(RegisterMenuScreensEvent event) {
-		event.register(CoreMenuTypes.ALYZER.menuType(), PortableAnalyzerScreen::new);
-		event.register(CoreMenuTypes.ANALYZER.menuType(), GuiAnalyzer::new);
-		event.register(CoreMenuTypes.NATURALIST_INVENTORY.menuType(), GuiNaturalistInventory<ContainerNaturalistInventory>::new);
-		event.register(CoreMenuTypes.ESCRITOIRE.menuType(), GuiEscritoire::new);
-		event.register(CoreMenuTypes.BURN_BARREL.menuType(), GuiBurnBarrel::new);
-		event.register(CoreMenuTypes.SOLDERING_IRON.menuType(), GuiSolderingIron::new);
+		event.register(CoreMenuTypes.PORTABLE_ANALYZER.menuType(), PortableAnalyzerScreen::new);
+		event.register(CoreMenuTypes.ANALYZER.menuType(), AnalyzerScreen::new);
+		event.register(CoreMenuTypes.NATURALIST_INVENTORY.menuType(), NaturalistInventoryScreen<NaturalistInventoryMenu>::new);
+		event.register(CoreMenuTypes.ESCRITOIRE.menuType(), EscritoireScreen::new);
+		event.register(CoreMenuTypes.BURN_BARREL.menuType(), BurnBarrelScreen::new);
+		event.register(CoreMenuTypes.SOLDERING_IRON.menuType(), SolderingIronScreen::new);
 	}
 
 	private static void registerModelLoaders(ModelEvent.RegisterGeometryLoaders event) {
@@ -172,27 +172,27 @@ public class CoreClientHandler implements IClientModuleHandler {
 	}
 
 	private static void setupLayers(EntityRenderersEvent.RegisterLayerDefinitions event) {
-		event.registerLayerDefinition(ForestryModelLayers.NATURALIST_CHEST_LAYER, RenderNaturalistChest::createBodyLayer);
-		event.registerLayerDefinition(ForestryModelLayers.MILL_LAYER, RenderMill::createBodyLayer);
-		event.registerLayerDefinition(ForestryModelLayers.ENGINE_LAYER, RenderEngine::createBodyLayer);
+		event.registerLayerDefinition(ForestryModelLayers.NATURALIST_CHEST_LAYER, NaturalistChestRenderer::createBodyLayer);
+		event.registerLayerDefinition(ForestryModelLayers.MILL_LAYER, RainmakerRenderer::createBodyLayer);
+		event.registerLayerDefinition(ForestryModelLayers.ENGINE_LAYER, EngineRenderer::createBodyLayer);
 	}
 
 	private static void clientSetupRenderers(EntityRenderersEvent.RegisterRenderers event) {
 		// Core
-		event.registerBlockEntityRenderer(CoreTiles.ANALYZER.tileType(), RenderAnalyzer::new);
-		event.registerBlockEntityRenderer(CoreTiles.ESCRITOIRE.tileType(), RenderEscritoire::new);
+		event.registerBlockEntityRenderer(CoreTiles.ANALYZER.tileType(), AnalyzerRenderer::new);
+		event.registerBlockEntityRenderer(CoreTiles.ESCRITOIRE.tileType(), EscritoireRenderer::new);
 		// Apiculture/Arboriculture/Lepidopterology
-		event.registerBlockEntityRenderer(CoreTiles.APIARIST_CHEST.tileType(), ctx -> new RenderNaturalistChest(ctx, "apiaristchest"));
-		event.registerBlockEntityRenderer(CoreTiles.ARBORIST_CHEST.tileType(), ctx -> new RenderNaturalistChest(ctx, "arbchest"));
-		event.registerBlockEntityRenderer(CoreTiles.LEPIDOPTERIST_CHEST.tileType(), ctx -> new RenderNaturalistChest(ctx, "lepichest"));
+		event.registerBlockEntityRenderer(CoreTiles.APIARIST_CHEST.tileType(), ctx -> new NaturalistChestRenderer(ctx, "apiaristchest"));
+		event.registerBlockEntityRenderer(CoreTiles.ARBORIST_CHEST.tileType(), ctx -> new NaturalistChestRenderer(ctx, "arbchest"));
+		event.registerBlockEntityRenderer(CoreTiles.LEPIDOPTERIST_CHEST.tileType(), ctx -> new NaturalistChestRenderer(ctx, "lepichest"));
 		// Engine
-		event.registerBlockEntityRenderer(EnergyTiles.CLOCKWORK_ENGINE.tileType(), ctx -> new RenderEngine(ctx, Constants.TEXTURE_PATH_BLOCK + "/engine_clock_"));
-		event.registerBlockEntityRenderer(EnergyTiles.BIOGAS_ENGINE.tileType(), ctx -> new RenderEngine(ctx, Constants.TEXTURE_PATH_BLOCK + "/engine_bronze_"));
-		event.registerBlockEntityRenderer(EnergyTiles.PEAT_ENGINE.tileType(), ctx -> new RenderEngine(ctx, Constants.TEXTURE_PATH_BLOCK + "/engine_copper_"));
-		event.registerBlockEntityRenderer(EnergyTiles.COMBUSTION_ENGINE.tileType(), ctx -> new RenderEngine(ctx, Constants.TEXTURE_PATH_BLOCK + "/engine_iron_"));
-		event.registerBlockEntityRenderer(EnergyTiles.SOLAR_ENGINE.tileType(), ctx -> new RenderEngine(ctx, Constants.TEXTURE_PATH_BLOCK + "/engine_tin_"));
+		event.registerBlockEntityRenderer(EnergyBlockEntities.CLOCKWORK_ENGINE.tileType(), ctx -> new EngineRenderer(ctx, Constants.TEXTURE_PATH_BLOCK + "/engine_clock_"));
+		event.registerBlockEntityRenderer(EnergyBlockEntities.BIOGAS_ENGINE.tileType(), ctx -> new EngineRenderer(ctx, Constants.TEXTURE_PATH_BLOCK + "/engine_bronze_"));
+		event.registerBlockEntityRenderer(EnergyBlockEntities.PEAT_ENGINE.tileType(), ctx -> new EngineRenderer(ctx, Constants.TEXTURE_PATH_BLOCK + "/engine_copper_"));
+		event.registerBlockEntityRenderer(EnergyBlockEntities.COMBUSTION_ENGINE.tileType(), ctx -> new EngineRenderer(ctx, Constants.TEXTURE_PATH_BLOCK + "/engine_iron_"));
+		event.registerBlockEntityRenderer(EnergyBlockEntities.SOLAR_ENGINE.tileType(), ctx -> new EngineRenderer(ctx, Constants.TEXTURE_PATH_BLOCK + "/engine_tin_"));
 		// Factory
-		event.registerBlockEntityRenderer(FactoryTiles.RAINMAKER.tileType(), ctx -> new RenderMill(ctx, Constants.TEXTURE_PATH_BLOCK + "/rainmaker_"));
+		event.registerBlockEntityRenderer(FactoryBlockEntities.RAINMAKER.tileType(), ctx -> new RainmakerRenderer(ctx, Constants.TEXTURE_PATH_BLOCK + "/rainmaker_"));
 	}
 
 	private static void registerReloadListeners(RegisterClientReloadListenersEvent event) {
@@ -216,7 +216,7 @@ public class CoreClientHandler implements IClientModuleHandler {
 				return bewlr;
 			}
 		};
-		for (ItemBlockTesr<?> item : ItemBlockTesr.getInstances()) {
+		for (SpecialRendererBlockItem<?> item : SpecialRendererBlockItem.getInstances()) {
 			event.registerItem(tesrExtensions, item);
 		}
 

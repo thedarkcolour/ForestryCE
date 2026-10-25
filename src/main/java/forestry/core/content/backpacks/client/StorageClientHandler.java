@@ -3,12 +3,12 @@ package forestry.core.content.backpacks.client;
 import forestry.api.ForestryConstants;
 import forestry.api.client.IClientModuleHandler;
 import forestry.api.modules.ForestryModuleIds;
-import forestry.core.platform.gui.GuiNaturalistInventory;
+import forestry.core.platform.gui.NaturalistInventoryScreen;
 import forestry.core.platform.registration.IFeatureRegistry;
 import forestry.core.platform.registration.ModFeatureRegistry;
 import forestry.core.content.backpacks.features.BackpackMenuTypes;
-import forestry.core.content.backpacks.gui.ContainerNaturalistBackpack;
-import forestry.core.content.backpacks.gui.GuiBackpack;
+import forestry.core.content.backpacks.gui.NaturalistBackpackMenu;
+import forestry.core.content.backpacks.gui.BackpackScreen;
 import forestry.core.content.backpacks.items.BackpackItem;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.client.renderer.item.ItemPropertyFunction;
@@ -65,7 +65,7 @@ public class StorageClientHandler implements IClientModuleHandler {
 	}
 
 	private static void onClientSetup(RegisterMenuScreensEvent event) {
-		event.register(BackpackMenuTypes.BACKPACK.menuType(), GuiBackpack::new);
-		event.register(BackpackMenuTypes.NATURALIST_BACKPACK.menuType(), GuiNaturalistInventory<ContainerNaturalistBackpack>::new);
+		event.register(BackpackMenuTypes.BACKPACK.menuType(), BackpackScreen::new);
+		event.register(BackpackMenuTypes.NATURALIST_BACKPACK.menuType(), NaturalistInventoryScreen<NaturalistBackpackMenu>::new);
 	}
 }

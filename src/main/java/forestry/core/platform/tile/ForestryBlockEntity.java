@@ -1,0 +1,270 @@
+package forestry.core.platform.tile;
+
+import forestry.api.core.IFilterSlotDelegate;
+import com.google.common.base.Preconditions;
+import forestry.api.core.IErrorLogic;
+import forestry.api.core.IErrorLogicSource;
+import forestry.api.core.ILocationProvider;
+import forestry.api.core.util.TickHelper;
+import forestry.core.platform.block.TileStreamUpdateTracker;
+import forestry.core.platform.errors.ErrorLogic;
+import forestry.core.platform.inventory.FakeInventoryAdapter;
+import forestry.api.core.IInventoryAdapter;
+import forestry.core.platform.network.IStreamable;
+import forestry.core.platform.util.NBTUtilForestry;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.WorldlyContainer;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.wrapper.InvWrapper;
+import net.neoforged.neoforge.items.wrapper.SidedInvWrapper;
+
+import javax.annotation.Nullable;
+
+public abstract class ForestryBlockEntity extends BlockEntity implements IStreamable, IErrorLogicSource, WorldlyContainer, IFilterSlotDelegate, ITitled, ILocationProvider, MenuProvider {
+	private final ErrorLogic errorHandler = new ErrorLogic();
+	private final AdjacentTileCache tileCache = new AdjacentTileCache(this);
+
+	private IInventoryAdapter inventory = FakeInventoryAdapter.INSTANCE;
+
+	// package private for ForestryTicker
+	final TickHelper tickHelper;
+
+	public ForestryBlockEntity(BlockEntityType<?> tileEntityTypeIn, BlockPos pos, BlockState state) {
+		super(tileEntityTypeIn, pos, state);
+
+		this.tickHelper = new TickHelper(pos.hashCode());
+	}
+
+	protected AdjacentTileCache getTileCache() {
+		return this.tileCache;
+	}
+
+	public void onNeighborTileChange(Level world, BlockPos pos, BlockPos neighbor) {
+        this.tileCache.onNeighborChange();
+	}
+
+	@Override
+	public void setRemoved() {
+        this.tileCache.purge();
+		super.setRemoved();
+	}
+
+	@Override
+	public void clearRemoved() {
+        this.tileCache.purge();
+		super.clearRemoved();
+	}
+
+	// these are not called automatically, they must be specified in the MachineProperties
+	protected void clientTick(Level level, BlockPos pos, BlockState state) {
+	}
+
+	protected void serverTick(Level level, BlockPos pos, BlockState state) {
+	}
+
+	protected final boolean updateOnInterval(int tickInterval) {
+		return this.tickHelper.updateOnInterval(tickInterval);
+	}
+
+	// / SAVING & LOADING
+	@Override
+	public void loadAdditional(CompoundTag data, HolderLookup.Provider registries) {
+		super.loadAdditional(data, registries);
+        this.inventory.read(data, registries);
+	}
+
+	@Deprecated(forRemoval = true)
+	public void load(CompoundTag data) {
+		loadAdditional(data, getRegistries());
+	}
+
+	@Override
+	public void saveAdditional(CompoundTag data, HolderLookup.Provider registries) {
+		super.saveAdditional(data, registries);
+        this.inventory.write(data, registries);
+	}
+
+	@Nullable
+	@Override
+	public ClientboundBlockEntityDataPacket getUpdatePacket() {
+		return ClientboundBlockEntityDataPacket.create(this);
+	}
+
+	@Override
+	public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+		CompoundTag tag = super.getUpdateTag(registries);
+		return NBTUtilForestry.writeStreamableToNbt(this, tag, registries);
+	}
+
+	@Override
+	public void handleUpdateTag(CompoundTag tag, HolderLookup.Provider registries) {
+		super.handleUpdateTag(tag, registries);
+		NBTUtilForestry.readStreamableFromNbt(this, tag, registries);
+	}
+
+	/* INetworkedEntity */
+	protected final void sendNetworkUpdate() {
+		TileStreamUpdateTracker.sendVisualUpdate(this);
+	}
+
+	/* IStreamable */
+	@Override
+	public void writeData(RegistryFriendlyByteBuf data) {
+	}
+
+	@Override
+	public void readData(RegistryFriendlyByteBuf data) {
+	}
+
+	protected HolderLookup.Provider getRegistries() {
+		return this.level != null ? this.level.registryAccess() : RegistryAccess.EMPTY;
+	}
+
+	// serverside only, called when the block is destroyed and its inventory is spilled into the world
+	public void onDropContents(ServerLevel level) {
+	}
+
+	// / REDSTONE INFO
+	protected boolean isRedstoneActivated() {
+		return this.level.getBestNeighborSignal(getBlockPos()) > 0;
+	}
+
+	@Override
+	public final IErrorLogic getErrorLogic() {
+		return this.errorHandler;
+	}
+
+	/* NAME */
+
+	/**
+	 * Gets the tile's unlocalized name, based on the block at the location of this entity (client-only).
+	 */
+	@Override
+	public Component getTitle() {
+		return Component.translatable(getBlockState().getBlock().getDescriptionId());
+	}
+
+	/* INVENTORY BASICS */
+	public IInventoryAdapter getInternalInventory() {
+		return this.inventory;
+	}
+
+	protected final void setInternalInventory(IInventoryAdapter inv) {
+		Preconditions.checkNotNull(inv);
+		this.inventory = inv;
+	}
+
+	/* ISidedInventory */
+
+	@Override
+	public boolean isEmpty() {
+		return getInternalInventory().isEmpty();
+	}
+
+	@Override
+	public final int getContainerSize() {
+		return getInternalInventory().getContainerSize();
+	}
+
+	@Override
+	public final ItemStack getItem(int slotIndex) {
+		return getInternalInventory().getItem(slotIndex);
+	}
+
+	@Override
+	public ItemStack removeItem(int slotIndex, int amount) {
+		return getInternalInventory().removeItem(slotIndex, amount);
+	}
+
+	@Override
+	public ItemStack removeItemNoUpdate(int slotIndex) {
+		return getInternalInventory().removeItemNoUpdate(slotIndex);
+	}
+
+	@Override
+	public void setItem(int slotIndex, ItemStack itemstack) {
+		getInternalInventory().setItem(slotIndex, itemstack);
+	}
+
+	@Override
+	public final int getMaxStackSize() {
+		return getInternalInventory().getMaxStackSize();
+	}
+
+	@Override
+	public final void startOpen(Player player) {
+		getInternalInventory().startOpen(player);
+	}
+
+	@Override
+	public final void stopOpen(Player player) {
+		getInternalInventory().stopOpen(player);
+	}
+
+	@Override
+	public final boolean stillValid(Player player) {
+		return getInternalInventory().stillValid(player);
+	}
+
+	@Override
+	public final boolean canPlaceItem(int slotIndex, ItemStack itemStack) {
+		return getInternalInventory().canPlaceItem(slotIndex, itemStack);
+	}
+
+	@Override
+	public final boolean canSlotAccept(int slotIndex, ItemStack stack) {
+		return getInternalInventory().canSlotAccept(slotIndex, stack);
+	}
+
+	@Override
+	public boolean isLocked(int slotIndex) {
+		return getInternalInventory().isLocked(slotIndex);
+	}
+
+	@Override
+	public int[] getSlotsForFace(Direction side) {
+		return getInternalInventory().getSlotsForFace(side);
+	}
+
+	@Override
+	public final boolean canPlaceItemThroughFace(int slotIndex, ItemStack itemStack, Direction side) {
+		return getInternalInventory().canPlaceItemThroughFace(slotIndex, itemStack, side);
+	}
+
+	@Override
+	public final boolean canTakeItemThroughFace(int slotIndex, ItemStack itemStack, Direction side) {
+		return getInternalInventory().canTakeItemThroughFace(slotIndex, itemStack, side);
+	}
+
+	@Override
+	public void clearContent() {
+	}
+
+	@Nullable
+	public IItemHandler getItemHandler(@Nullable Direction facing) {
+		if (facing != null) {
+			return new SidedInvWrapper(getInternalInventory(), facing);
+		}
+		return new InvWrapper(getInternalInventory());
+	}
+
+	@Override
+	public Component getDisplayName() {
+		return getTitle();
+	}
+}

@@ -25,11 +25,11 @@ import forestry.arboriculture.wood.WoodAccess;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.features.ArboricultureItems;
 import forestry.arboriculture.features.CharcoalBlocks;
-import forestry.core.platform.block.BlockTypeCoreTesr;
-import forestry.core.content.decorative.BlockTypeBigCandle;
-import forestry.core.content.decorative.BlockTypeJumboCandle;
-import forestry.core.content.decorative.BlockTypeMetalPlating;
-import forestry.core.content.resources.EnumResourceType;
+import forestry.core.platform.block.CoreMachineBlockType;
+import forestry.core.content.decorative.BigCandleBlockType;
+import forestry.core.content.decorative.JumboCandleBlockType;
+import forestry.core.content.decorative.MetalPlatingBlockType;
+import forestry.core.content.resources.ResourceStorageBlockType;
 import forestry.core.engine.circuits.EnumCircuitBoardType;
 import forestry.core.engine.circuits.ItemCircuitBoard;
 import forestry.core.platform.config.Constants;
@@ -46,14 +46,14 @@ import forestry.core.platform.util.ModUtil;
 import forestry.core.platform.util.SpeciesUtil;
 import forestry.core.content.energy.blocks.EngineBlockType;
 import forestry.core.content.energy.features.EnergyBlocks;
-import forestry.core.content.machines.blocks.BlockTypeFactoryPlain;
-import forestry.core.content.machines.blocks.BlockTypeFactoryTesr;
+import forestry.core.content.machines.blocks.FactoryBlockType;
+import forestry.core.content.machines.blocks.SpecialFactoryBlockType;
 import forestry.core.content.machines.features.FactoryBlocks;
 import forestry.core.platform.registration.FeatureItem;
 import forestry.core.content.sorting.features.SortingBlocks;
 import forestry.core.content.backpacks.features.BackpackItems;
 import forestry.core.content.backpacks.features.CrateItems;
-import forestry.core.content.backpacks.items.ItemCrated;
+import forestry.core.content.backpacks.items.CratedItem;
 import forestry.core.content.worktable.features.WorktableBlocks;
 import it.unimi.dsi.fastutil.objects.ObjectIntPair;
 import net.minecraft.Util;
@@ -654,7 +654,7 @@ public class ForestryRecipeProvider {
 		recipes.smelting(Ingredient.of(CoreItems.PEAT.item()), CoreItems.ASH, 0.0f, 200);
 		recipes.storage3x3(CoreBlocks.RAW_TIN_BLOCK, CoreItems.RAW_TIN);
 
-		recipes.shapedCrafting(RecipeCategory.MISC, CoreBlocks.BASE.get(BlockTypeCoreTesr.ANALYZER), recipe -> {
+		recipes.shapedCrafting(RecipeCategory.MISC, CoreBlocks.BASE.get(CoreMachineBlockType.ANALYZER), recipe -> {
 			recipe.define('T', CoreItems.PORTABLE_ANALYZER);
 			recipe.define('X', ForestryTags.Items.INGOTS_BRONZE);
 			recipe.define('Y', CoreItems.STURDY_CASING);
@@ -662,18 +662,18 @@ public class ForestryRecipeProvider {
 			recipe.pattern(" Y ");
 			recipe.pattern("X X");
 		});
-		recipes.storage3x3(CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.APATITE), CoreItems.APATITE);
-		recipes.storage3x3(CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.BRONZE), CoreItems.BRONZE_INGOT);
+		recipes.storage3x3(CoreBlocks.RESOURCE_STORAGE.get(ResourceStorageBlockType.APATITE), CoreItems.APATITE);
+		recipes.storage3x3(CoreBlocks.RESOURCE_STORAGE.get(ResourceStorageBlockType.BRONZE), CoreItems.BRONZE_INGOT);
 		// Tin storage block crafted from any tin ingot (forge:ingots/tin tag) so cross-mod
 		// tin from Mekanism, Railcraft, etc. is accepted. Decomposition still produces
 		// Forestry's specific tin ingot.
-		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.TIN), recipe -> {
+		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.RESOURCE_STORAGE.get(ResourceStorageBlockType.TIN), recipe -> {
 			recipe.define('#', ForestryTags.Items.INGOTS_TIN);
 			recipe.pattern("###");
 			recipe.pattern("###");
 			recipe.pattern("###");
 		});
-		recipes.shapelessCrafting("ingot_tin_from_resource_storage_tin", RecipeCategory.MISC, CoreItems.TIN_INGOT.item(), 9, CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.TIN));
+		recipes.shapelessCrafting("ingot_tin_from_resource_storage_tin", RecipeCategory.MISC, CoreItems.TIN_INGOT.item(), 9, CoreBlocks.RESOURCE_STORAGE.get(ResourceStorageBlockType.TIN));
 		// Deviation from 1.20.1: that tree spelled the counted ingredient IntObjectPair.of(9, item);
 		// this tree's idiom for the same MKRecipeProvider feature is ObjectIntPair.of(item, 9)
 		recipes.shapelessCrafting("tin_from_nuggets", RecipeCategory.MISC, CoreItems.TIN_INGOT, 1, ObjectIntPair.of(CoreItems.TIN_NUGGET, 9));
@@ -709,17 +709,17 @@ public class ForestryRecipeProvider {
 			recipe.pattern(".^.");
 			recipe.pattern("...");
 		});
-		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.AMBER), recipe -> {
+		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.RESOURCE_STORAGE.get(ResourceStorageBlockType.AMBER), recipe -> {
 			recipe.define('#', CoreItems.AMBER);
 			recipe.pattern("##");
 			recipe.pattern("##");
 		});
-		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.SILICON), recipe -> {
+		recipes.shapedCrafting(RecipeCategory.BUILDING_BLOCKS, CoreBlocks.RESOURCE_STORAGE.get(ResourceStorageBlockType.SILICON), recipe -> {
 			recipe.define('#', CoreItems.SILICON);
 			recipe.pattern("##");
 			recipe.pattern("##");
 		});
-		recipes.shapelessCrafting(RecipeCategory.MISC, CoreItems.SILICON, 4, CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.SILICON));
+		recipes.shapelessCrafting(RecipeCategory.MISC, CoreItems.SILICON, 4, CoreBlocks.RESOURCE_STORAGE.get(ResourceStorageBlockType.SILICON));
 		recipes.shapedCrafting(RecipeCategory.TOOLS, CoreItems.SURVIVALISTS_PICKAXE, recipe -> {
 			recipe.define('#', ForestryTags.Items.INGOTS_BRONZE);
 			recipe.define('X', Tags.Items.RODS_WOODEN);
@@ -959,13 +959,13 @@ public class ForestryRecipeProvider {
 	 * from wax, and every other colour is one of those dyed.
 	 */
 	private static void registerCandleRecipes(MKRecipeProvider recipes) {
-		bigCandle(recipes, BlockTypeBigCandle.NORMAL, CoreItems.BEESWAX);
-		jumboCandle(recipes, BlockTypeJumboCandle.NORMAL, ApicultureBlocks.WAX_BLOCK);
-		bigCandle(recipes, BlockTypeBigCandle.REFRACTORY, CoreItems.REFRACTORY_WAX);
-		jumboCandle(recipes, BlockTypeJumboCandle.REFRACTORY, ApicultureBlocks.REFRACTORY_WAX_BLOCK);
+		bigCandle(recipes, BigCandleBlockType.NORMAL, CoreItems.BEESWAX);
+		jumboCandle(recipes, JumboCandleBlockType.NORMAL, ApicultureBlocks.WAX_BLOCK);
+		bigCandle(recipes, BigCandleBlockType.REFRACTORY, CoreItems.REFRACTORY_WAX);
+		jumboCandle(recipes, JumboCandleBlockType.REFRACTORY, ApicultureBlocks.REFRACTORY_WAX_BLOCK);
 
 		// The rainbow candles stay uncraftable, as on 1.20.1, where the comment reads "it's fun to have secrets"
-		for (BlockTypeJumboCandle type : BlockTypeJumboCandle.values()) {
+		for (JumboCandleBlockType type : JumboCandleBlockType.values()) {
 			TagKey<Item> dye = type.getDye();
 			if (dye != null) {
 				// Deviation from 1.20.1: the jumbo recipes took ForestryTags.Items.BIG_CANDLES as their base
@@ -974,7 +974,7 @@ public class ForestryRecipeProvider {
 				recipes.shapelessCrafting(RecipeCategory.DECORATIONS, CoreBlocks.JUMBO_CANDLES.get(type), 1, ForestryTags.Items.JUMBO_CANDLES, Ingredient.of(dye));
 			}
 		}
-		for (BlockTypeBigCandle type : BlockTypeBigCandle.values()) {
+		for (BigCandleBlockType type : BigCandleBlockType.values()) {
 			TagKey<Item> dye = type.getDye();
 			if (dye != null) {
 				recipes.shapelessCrafting(RecipeCategory.DECORATIONS, CoreBlocks.BIG_CANDLES.get(type), 1, ForestryTags.Items.BIG_CANDLES, Ingredient.of(dye));
@@ -989,7 +989,7 @@ public class ForestryRecipeProvider {
 	 * @param type    The candle the recipe yields
 	 * @param wax     The wax the candle is cast from
 	 */
-	private static void bigCandle(MKRecipeProvider recipes, BlockTypeBigCandle type, ItemLike wax) {
+	private static void bigCandle(MKRecipeProvider recipes, BigCandleBlockType type, ItemLike wax) {
 		recipes.shapedCrafting(RecipeCategory.DECORATIONS, CoreBlocks.BIG_CANDLES.get(type), recipe -> {
 			recipe.define('|', Tags.Items.STRINGS);
 			recipe.define('#', wax);
@@ -1006,7 +1006,7 @@ public class ForestryRecipeProvider {
 	 * @param type    The candle the recipe yields
 	 * @param wax     The wax block the candle is cast from
 	 */
-	private static void jumboCandle(MKRecipeProvider recipes, BlockTypeJumboCandle type, ItemLike wax) {
+	private static void jumboCandle(MKRecipeProvider recipes, JumboCandleBlockType type, ItemLike wax) {
 		recipes.shapedCrafting(RecipeCategory.DECORATIONS, CoreBlocks.JUMBO_CANDLES.get(type), recipe -> {
 			recipe.define('|', Tags.Items.STRINGS);
 			recipe.define('#', wax);
@@ -1110,7 +1110,7 @@ public class ForestryRecipeProvider {
 	}
 
 	private static void registerFactoryRecipes(MKRecipeProvider recipes) {
-		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.BOTTLER).block(), recipe -> {
+		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.PLAIN.get(FactoryBlockType.BOTTLER).block(), recipe -> {
 			recipe.define('#', Tags.Items.GLASS_BLOCKS_COLORLESS);
 			recipe.define('X', FluidsItems.CONTAINERS.get(FluidContainerType.CAN));
 			recipe.define('Y', CoreItems.STURDY_CASING);
@@ -1119,7 +1119,7 @@ public class ForestryRecipeProvider {
 			recipe.pattern("X#X");
 		});
 
-		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.CARPENTER).block(), recipe -> {
+		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.PLAIN.get(FactoryBlockType.CARPENTER).block(), recipe -> {
 			recipe.define('#', Tags.Items.GLASS_BLOCKS_COLORLESS);
 			recipe.define('X', ForestryTags.Items.INGOTS_BRONZE);
 			recipe.define('Y', CoreItems.STURDY_CASING);
@@ -1128,7 +1128,7 @@ public class ForestryRecipeProvider {
 			recipe.pattern("X#X");
 		});
 
-		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.CENTRIFUGE).block(), recipe -> {
+		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.PLAIN.get(FactoryBlockType.CENTRIFUGE).block(), recipe -> {
 			recipe.define('#', Tags.Items.GLASS_BLOCKS_COLORLESS);
 			recipe.define('X', Tags.Items.INGOTS_COPPER);
 			recipe.define('Y', CoreItems.STURDY_CASING);
@@ -1137,7 +1137,7 @@ public class ForestryRecipeProvider {
 			recipe.pattern("X#X");
 		});
 
-		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.FABRICATOR).block(), recipe -> {
+		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.PLAIN.get(FactoryBlockType.FABRICATOR).block(), recipe -> {
 			recipe.define('#', Tags.Items.GLASS_BLOCKS_COLORLESS);
 			recipe.define('X', Tags.Items.INGOTS_GOLD);
 			recipe.define('Y', CoreItems.STURDY_CASING);
@@ -1147,7 +1147,7 @@ public class ForestryRecipeProvider {
 			recipe.pattern("XZX");
 		});
 
-		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.FERMENTER).block(), recipe -> {
+		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.PLAIN.get(FactoryBlockType.FERMENTER).block(), recipe -> {
 			recipe.define('#', Tags.Items.GLASS_BLOCKS_COLORLESS);
 			recipe.define('X', ForestryTags.Items.GEARS_BRONZE);
 			recipe.define('Y', CoreItems.STURDY_CASING);
@@ -1156,7 +1156,7 @@ public class ForestryRecipeProvider {
 			recipe.pattern("X#X");
 		});
 
-		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.MOISTENER).block(), recipe -> {
+		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.PLAIN.get(FactoryBlockType.MOISTENER).block(), recipe -> {
 			recipe.define('#', Tags.Items.GLASS_BLOCKS_COLORLESS);
 			recipe.define('X', ForestryTags.Items.GEARS_COPPER);
 			recipe.define('Y', CoreItems.STURDY_CASING);
@@ -1165,7 +1165,7 @@ public class ForestryRecipeProvider {
 			recipe.pattern("X#X");
 		});
 
-		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.TESR.get(BlockTypeFactoryTesr.RAINMAKER).block(), recipe -> {
+		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.TESR.get(SpecialFactoryBlockType.RAINMAKER).block(), recipe -> {
 			recipe.define('#', Tags.Items.GLASS_BLOCKS_COLORLESS);
 			recipe.define('X', ForestryTags.Items.GEARS_TIN);
 			recipe.define('Y', CoreItems.STURDY_CASING);
@@ -1176,7 +1176,7 @@ public class ForestryRecipeProvider {
 
 		// Deviation from 1.20.1: '#' was Tags.Items.GLASS there, which every sibling above resolves to
 		// GLASS_BLOCKS_COLORLESS in this tree
-		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.SMELTER).block(), recipe -> {
+		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.PLAIN.get(FactoryBlockType.SMELTER).block(), recipe -> {
 			recipe.define('#', Tags.Items.GLASS_BLOCKS_COLORLESS);
 			recipe.define('X', Tags.Items.INGOTS_IRON);
 			recipe.define('Y', Items.FURNACE);
@@ -1193,7 +1193,7 @@ public class ForestryRecipeProvider {
 			recipe.pattern("XXX");
 		});
 
-		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.SQUEEZER).block(), recipe -> {
+		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.PLAIN.get(FactoryBlockType.SQUEEZER).block(), recipe -> {
 			recipe.define('#', Tags.Items.GLASS_BLOCKS_COLORLESS);
 			recipe.define('X', ForestryTags.Items.INGOTS_TIN);
 			recipe.define('Y', CoreItems.STURDY_CASING);
@@ -1202,7 +1202,7 @@ public class ForestryRecipeProvider {
 			recipe.pattern("X#X");
 		});
 
-		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.STILL).block(), recipe -> {
+		recipes.shapedCrafting(RecipeCategory.MISC, FactoryBlocks.PLAIN.get(FactoryBlockType.STILL).block(), recipe -> {
 			recipe.define('#', Tags.Items.GLASS_BLOCKS_COLORLESS);
 			recipe.define('X', Tags.Items.DUSTS_REDSTONE);
 			recipe.define('Y', CoreItems.STURDY_CASING);
@@ -1344,7 +1344,7 @@ public class ForestryRecipeProvider {
 			.setPackagingTime(50)
 			.setLiquid(ForestryFluids.SEED_OIL.getFluid(500))
 			.setBox(Ingredient.EMPTY)
-			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CoreBlocks.BASE.get(BlockTypeCoreTesr.ESCRITOIRE).item())
+			.recipe(ShapedRecipeBuilder.shaped(RecipeCategory.MISC, CoreBlocks.BASE.get(CoreMachineBlockType.ESCRITOIRE).item())
 				.pattern("#  ")
 				.pattern("###")
 				.pattern("# #")
@@ -1780,7 +1780,7 @@ public class ForestryRecipeProvider {
 			.build(consumer, id("woven_backpack", id));
 	}
 
-	private static void crate(RecipeOutput consumer, ItemCrated crated, Ingredient ingredient) {
+	private static void crate(RecipeOutput consumer, CratedItem crated, Ingredient ingredient) {
 		ItemStack contained = crated.getContained();
 		ResourceLocation name = ModUtil.getRegistryName(contained.getItem());
 
@@ -2102,16 +2102,16 @@ public class ForestryRecipeProvider {
 				.define('E', Tags.Items.GEMS_EMERALD))
 			.build(consumer, id("fabricator", "electron_tubes", "flexible_casing"));
 
-		metalPlating(consumer, BlockTypeMetalPlating.IRON, Items.IRON_INGOT);
-		metalPlating(consumer, BlockTypeMetalPlating.GOLD, Items.GOLD_INGOT);
-		metalPlating(consumer, BlockTypeMetalPlating.COPPER, Items.COPPER_INGOT);
-		metalPlating(consumer, BlockTypeMetalPlating.NETHERITE, Items.NETHERITE_INGOT);
-		metalPlating(consumer, BlockTypeMetalPlating.TIN, CoreItems.TIN_INGOT);
+		metalPlating(consumer, MetalPlatingBlockType.IRON, Items.IRON_INGOT);
+		metalPlating(consumer, MetalPlatingBlockType.GOLD, Items.GOLD_INGOT);
+		metalPlating(consumer, MetalPlatingBlockType.COPPER, Items.COPPER_INGOT);
+		metalPlating(consumer, MetalPlatingBlockType.NETHERITE, Items.NETHERITE_INGOT);
+		metalPlating(consumer, MetalPlatingBlockType.TIN, CoreItems.TIN_INGOT);
 		// Deviation from 1.20.1: the bronze recipe named the tin plating as its result there, so bronze
 		// ingots made tin plating and the bronze plating had no recipe at all. It yields bronze here
-		metalPlating(consumer, BlockTypeMetalPlating.BRONZE, CoreItems.BRONZE_INGOT);
+		metalPlating(consumer, MetalPlatingBlockType.BRONZE, CoreItems.BRONZE_INGOT);
 
-		for (BlockTypeMetalPlating type : BlockTypeMetalPlating.values()) {
+		for (MetalPlatingBlockType type : MetalPlatingBlockType.values()) {
 			TagKey<Item> dye = type.getDye();
 			if (dye != null) {
 				lacqueredMetalPlating(consumer, type, dye);
@@ -2127,7 +2127,7 @@ public class ForestryRecipeProvider {
 		}
 	}
 
-	private static void metalPlating(RecipeOutput consumer, BlockTypeMetalPlating type, ItemLike base) {
+	private static void metalPlating(RecipeOutput consumer, MetalPlatingBlockType type, ItemLike base) {
 		new FabricatorRecipeBuilder()
 			.setPlan(Ingredient.EMPTY)
 			.setMolten(ForestryFluids.WAX.getFluid(50))
@@ -2139,7 +2139,7 @@ public class ForestryRecipeProvider {
 			.build(consumer, id("metal_plating", type.getName()));
 	}
 
-	private static void lacqueredMetalPlating(RecipeOutput consumer, BlockTypeMetalPlating type, TagKey<Item> dye) {
+	private static void lacqueredMetalPlating(RecipeOutput consumer, MetalPlatingBlockType type, TagKey<Item> dye) {
 		new FabricatorRecipeBuilder()
 			.setPlan(Ingredient.EMPTY)
 			.setMolten(ForestryFluids.WAX.getFluid(50))

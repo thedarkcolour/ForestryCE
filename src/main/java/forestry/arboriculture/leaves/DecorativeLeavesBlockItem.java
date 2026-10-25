@@ -6,12 +6,12 @@ import forestry.api.client.IForestryClientApi;
 import forestry.api.core.genetics.IGenome;
 import forestry.api.core.genetics.alleles.TreeChromosomes;
 import forestry.core.platform.item.ITintedItem;
-import forestry.core.platform.item.ItemBlockForestry;
+import forestry.core.platform.item.ForestryBlockItem;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
-public class DecorativeLeavesBlockItem extends ItemBlockForestry<DecorativeLeavesBlock> implements ITintedItem {
+public class DecorativeLeavesBlockItem extends ForestryBlockItem<DecorativeLeavesBlock> implements ITintedItem {
 	public DecorativeLeavesBlockItem(DecorativeLeavesBlock block, Item.Properties properties) {
 		super(block, properties);
 	}

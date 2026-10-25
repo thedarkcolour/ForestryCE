@@ -12,9 +12,9 @@ import forestry.core.platform.registration.ModFeatureRegistry;
 public class MultifarmBlockEntities {
 	private static final IFeatureRegistry REGISTRY = ModFeatureRegistry.get(ForestryModuleIds.FARMING);
 
-	public static final FeatureTileType<TileFarmControl> CONTROL = REGISTRY.tile(TileFarmControl::new, "control", () -> MultifarmBlocks.FARM.getRowBlocks(MultifarmBlockType.CONTROL));
-	public static final FeatureTileType<TileFarmGearbox> GEARBOX = REGISTRY.tile(TileFarmGearbox::new, "gearbox", () -> MultifarmBlocks.FARM.getRowBlocks(MultifarmBlockType.GEARBOX));
-	public static final FeatureTileType<TileFarmHatch> HATCH = REGISTRY.tile(TileFarmHatch::new, "hatch", () -> MultifarmBlocks.FARM.getRowBlocks(MultifarmBlockType.HATCH));
-	public static final FeatureTileType<TileFarmPlain> PLAIN = REGISTRY.tile(TileFarmPlain::new, "plain", () -> MultifarmBlocks.FARM.getRowBlocks(MultifarmBlockType.PLAIN));
-	public static final FeatureTileType<TileFarmValve> VALVE = REGISTRY.tile(TileFarmValve::new, "valve", () -> MultifarmBlocks.FARM.getRowBlocks(MultifarmBlockType.VALVE));
+	public static final FeatureTileType<MultifarmControlBlockEntity> CONTROL = REGISTRY.tile(MultifarmControlBlockEntity::new, "control", () -> MultifarmBlocks.FARM.getRowBlocks(MultifarmBlockType.CONTROL));
+	public static final FeatureTileType<MultifarmGearboxBlockEntity> GEARBOX = REGISTRY.tile(MultifarmGearboxBlockEntity::new, "gearbox", () -> MultifarmBlocks.FARM.getRowBlocks(MultifarmBlockType.GEARBOX));
+	public static final FeatureTileType<MultifarmHatchBlockEntity> HATCH = REGISTRY.tile(MultifarmHatchBlockEntity::new, "hatch", () -> MultifarmBlocks.FARM.getRowBlocks(MultifarmBlockType.HATCH));
+	public static final FeatureTileType<PlainMultifarmBlockEntity> PLAIN = REGISTRY.tile(PlainMultifarmBlockEntity::new, "plain", () -> MultifarmBlocks.FARM.getRowBlocks(MultifarmBlockType.PLAIN));
+	public static final FeatureTileType<MultifarmValveBlockEntity> VALVE = REGISTRY.tile(MultifarmValveBlockEntity::new, "valve", () -> MultifarmBlocks.FARM.getRowBlocks(MultifarmBlockType.VALVE));
 }

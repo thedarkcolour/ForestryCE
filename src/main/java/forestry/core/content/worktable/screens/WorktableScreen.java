@@ -1,7 +1,7 @@
 package forestry.core.content.worktable.screens;
 
 import forestry.core.platform.config.Constants;
-import forestry.core.platform.gui.GuiForestryTitled;
+import forestry.core.platform.gui.TitledForestryScreen;
 import forestry.core.platform.gui.buttons.GuiBetterButton;
 import forestry.core.platform.gui.buttons.StandardButtonTextureSets;
 import forestry.core.platform.network.packets.PacketGuiSelectRequest;
@@ -10,14 +10,14 @@ import forestry.core.platform.util.SoundUtil;
 import forestry.core.content.worktable.recipes.RecipeMemory;
 import forestry.core.content.worktable.screens.widgets.ClearWorktable;
 import forestry.core.content.worktable.screens.widgets.MemorizedRecipeSlot;
-import forestry.core.content.worktable.tiles.WorktableTile;
+import forestry.core.content.worktable.tiles.WorktableBlockEntity;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
-public class WorktableScreen extends GuiForestryTitled<WorktableMenu> {
+public class WorktableScreen extends TitledForestryScreen<WorktableMenu> {
 	private static final int SPACING = 18;
 
-	private final WorktableTile worktable;
+	private final WorktableBlockEntity worktable;
 	private boolean hasRecipeConflict;
 
 	public WorktableScreen(WorktableMenu container, Inventory inv, Component title) {

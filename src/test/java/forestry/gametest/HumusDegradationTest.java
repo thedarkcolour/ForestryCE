@@ -12,7 +12,7 @@ import net.neoforged.neoforge.gametest.GameTestHolder;
 import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
 import forestry.api.ForestryConstants;
-import forestry.core.content.soil.BlockHumus;
+import forestry.core.content.soil.HumusBlock;
 import forestry.core.features.CoreBlocks;
 
 /**
@@ -84,13 +84,13 @@ public class HumusDegradationTest {
 	public static void everyDegradeValueReachesSand(GameTestHelper helper) {
 		helper.setBlock(ROOT_POS, Blocks.OAK_LOG);
 
-		Collection<Integer> degrades = BlockHumus.DEGRADE.getPossibleValues();
+		Collection<Integer> degrades = HumusBlock.DEGRADE.getPossibleValues();
 		helper.assertTrue(degrades.size() == EXPECTED_ADVANCES,
 			"expected " + EXPECTED_ADVANCES + " degrade values, one per advance, found " + degrades.size());
 
 		for (int degrade : degrades) {
 			helper.setBlock(SUPPORT_POS, Blocks.STONE);
-			helper.setBlock(HUMUS_POS, CoreBlocks.HUMUS.defaultState().setValue(BlockHumus.DEGRADE, degrade));
+			helper.setBlock(HUMUS_POS, CoreBlocks.HUMUS.defaultState().setValue(HumusBlock.DEGRADE, degrade));
 
 			int advances = advanceUntilSand(helper);
 
@@ -145,8 +145,8 @@ public class HumusDegradationTest {
 			advances++;
 
 			if (!after.is(Blocks.SAND)) {
-				int from = before.getValue(BlockHumus.DEGRADE);
-				int to = after.getValue(BlockHumus.DEGRADE);
+				int from = before.getValue(HumusBlock.DEGRADE);
+				int to = after.getValue(HumusBlock.DEGRADE);
 				helper.assertTrue(to == from + 1, "degrade jumped from " + from + " to " + to + " in one tick");
 			}
 		}
@@ -163,6 +163,6 @@ public class HumusDegradationTest {
 		}
 
 		helper.assertBlockPresent(CoreBlocks.HUMUS.block(), HUMUS_POS);
-		helper.assertTrue(helper.getBlockState(HUMUS_POS).getValue(BlockHumus.DEGRADE) == 0, message);
+		helper.assertTrue(helper.getBlockState(HUMUS_POS).getValue(HumusBlock.DEGRADE) == 0, message);
 	}
 }

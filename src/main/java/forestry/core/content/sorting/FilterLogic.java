@@ -162,6 +162,7 @@ public class FilterLogic implements IFilterLogic {
 		return IIndividualHandlerItem.filter(stack, (individual, stage) -> isValid(facing, stack, new FilterData(individual, stage)));
 	}
 
+	@Override
 	public boolean isValid(Direction facing, ItemStack stack, FilterData filterData) {
 		IFilterRuleType rule = getRule(facing);
 		if (rule == DefaultFilterRuleType.CLOSED) {
@@ -183,6 +184,7 @@ public class FilterLogic implements IFilterLogic {
 		return false;
 	}
 
+	@Override
 	public boolean isValidAllelePair(Direction orientation, ISpecies<?> active, ISpecies<?> inactive) {
 		AlleleFilter[] directionFilters = this.genomeFilter[orientation.ordinal()];
 
@@ -203,10 +205,12 @@ public class FilterLogic implements IFilterLogic {
 		return !foundFilter;
 	}
 
+	@Override
 	public IFilterRuleType getRule(Direction facing) {
 		return this.filterRules[facing.ordinal()];
 	}
 
+	@Override
 	public boolean setRule(Direction facing, IFilterRuleType rule) {
 		if (this.filterRules[facing.ordinal()] != rule) {
             this.filterRules[facing.ordinal()] = rule;
@@ -229,6 +233,7 @@ public class FilterLogic implements IFilterLogic {
 		return active ? filter.activeSpecies : filter.inactiveSpecies;
 	}
 
+	@Override
 	public boolean setGenomeFilter(Direction facing, int index, boolean active, @Nullable ISpecies<?> allele) {
 		AlleleFilter filter = this.genomeFilter[facing.ordinal()][index];
 		if (filter == null) {

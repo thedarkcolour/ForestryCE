@@ -1,6 +1,6 @@
 package forestry.agriculture.multifarm.blocks;
 
-import forestry.core.platform.block.BlockStructure;
+import forestry.core.platform.block.AbstractMultiblockBlock;
 import forestry.agriculture.multifarm.tiles.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -14,7 +14,7 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 
 import javax.annotation.Nullable;
 
-public class MultifarmBlock extends BlockStructure implements EntityBlock {
+public class MultifarmBlock extends AbstractMultiblockBlock implements EntityBlock {
 	private final MultifarmBlockType type;
 	private final MultifarmMaterialType farmMaterial;
 
@@ -45,11 +45,11 @@ public class MultifarmBlock extends BlockStructure implements EntityBlock {
 	@Override
 	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
 		return switch (this.type) {
-			case GEARBOX -> new TileFarmGearbox(pos, state);
-			case HATCH -> new TileFarmHatch(pos, state);
-			case VALVE -> new TileFarmValve(pos, state);
-			case CONTROL -> new TileFarmControl(pos, state);
-			default -> new TileFarmPlain(pos, state);
+			case GEARBOX -> new MultifarmGearboxBlockEntity(pos, state);
+			case HATCH -> new MultifarmHatchBlockEntity(pos, state);
+			case VALVE -> new MultifarmValveBlockEntity(pos, state);
+			case CONTROL -> new MultifarmControlBlockEntity(pos, state);
+			default -> new PlainMultifarmBlockEntity(pos, state);
 		};
 	}
 

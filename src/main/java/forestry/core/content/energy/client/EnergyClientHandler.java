@@ -19,17 +19,14 @@ public class EnergyClientHandler implements forestry.api.client.IClientModuleHan
 		modBus.addListener(EnergyClientHandler::onClientSetup);
 	}
 
-	// Deviation from 1.20.1: the solar panel's cutout render layer was registered from CoreClientHandler
-	// there. That file is outside the energy slice here, and the energy module already owns a client
-	// handler, so the registration lives with the block it belongs to.
 	private static void onClientSetup(FMLClientSetupEvent event) {
 		event.enqueueWork(() -> ItemBlockRenderTypes.setRenderLayer(EnergyBlocks.SOLAR_PANEL.block(), RenderType.cutout()));
 	}
 
 	private static void registerMenuScreens(RegisterMenuScreensEvent event) {
-		event.register(EnergyMenus.ENGINE_BIOGAS.menuType(), BiogasEngineScreen::new);
-		event.register(EnergyMenus.ENGINE_COMBUSTION.menuType(), CombustionEngineScreen::new);
-		event.register(EnergyMenus.ENGINE_PEAT.menuType(), PeatEngineScreen::new);
-		event.register(EnergyMenus.ENGINE_SOLAR.menuType(), SolarEngineScreen::new);
+		event.register(EnergyMenus.BIOGAS_ENGINE.menuType(), BiogasEngineScreen::new);
+		event.register(EnergyMenus.COMBUSTION_ENGINE.menuType(), CombustionEngineScreen::new);
+		event.register(EnergyMenus.PEAT_ENGINE.menuType(), PeatEngineScreen::new);
+		event.register(EnergyMenus.SOLAR_ENGINE.menuType(), SolarEngineScreen::new);
 	}
 }

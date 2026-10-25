@@ -2,7 +2,7 @@ package forestry.core.platform.network.packets;
 
 import forestry.api.IForestryApi;
 import forestry.api.core.circuits.ICircuitLayout;
-import forestry.core.engine.circuits.ContainerSolderingIron;
+import forestry.core.engine.circuits.SolderingIronMenu;
 import forestry.core.platform.network.PacketIdClient;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -23,7 +23,7 @@ public record PacketGuiLayoutSelect(String layoutUid) implements CustomPacketPay
 	}
 
 	public static void handle(PacketGuiLayoutSelect msg, Player player) {
-		if (player.containerMenu instanceof ContainerSolderingIron solderingIron) {
+		if (player.containerMenu instanceof SolderingIronMenu solderingIron) {
 			ICircuitLayout layout = IForestryApi.INSTANCE.getCircuitManager().getLayout(msg.layoutUid);
 
 			if (layout != null) {

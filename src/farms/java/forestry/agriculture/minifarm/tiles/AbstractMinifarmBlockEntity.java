@@ -15,7 +15,7 @@ import forestry.core.platform.owner.IOwnedTile;
 import forestry.core.platform.owner.IOwnerHandler;
 import forestry.core.platform.owner.OwnerHandler;
 import forestry.core.platform.tile.ILiquidTankTile;
-import forestry.core.platform.tile.TilePowered;
+import forestry.core.platform.tile.PoweredBlockEntity;
 import forestry.core.platform.util.PlayerUtil;
 import forestry.agriculture.farmlogic.IFarmHousingInternal;
 import forestry.agriculture.minifarm.blocks.MinifarmBlockType;
@@ -50,7 +50,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public abstract class AbstractMinifarmBlockEntity extends TilePowered implements IFarmHousingInternal, IClimateProvider, ILiquidTankTile, IOwnedTile, IStreamableGui {
+public abstract class AbstractMinifarmBlockEntity extends PoweredBlockEntity implements IFarmHousingInternal, IClimateProvider, ILiquidTankTile, IOwnedTile, IStreamableGui {
 	private final MinifarmInventory inventory;
 	private final OwnerHandler ownerHandler = new OwnerHandler();
 	private final FarmManager manager;

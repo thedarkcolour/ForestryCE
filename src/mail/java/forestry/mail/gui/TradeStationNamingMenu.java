@@ -1,7 +1,7 @@
 package forestry.mail.gui;
 
 import forestry.api.mail.IMailAddress;
-import forestry.core.platform.gui.ContainerTile;
+import forestry.core.platform.gui.BlockEntityMenu;
 import forestry.core.platform.tile.TileUtil;
 import forestry.mail.features.MailMenuTypes;
 import forestry.mail.tradestation.TradeStationBlockEntity;
@@ -10,7 +10,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 
-public class TradeStationNamingMenu extends ContainerTile<TradeStationBlockEntity> {
+public class TradeStationNamingMenu extends BlockEntityMenu<TradeStationBlockEntity> {
 	public static TradeStationNamingMenu fromNetwork(int windowId, Inventory inv, FriendlyByteBuf data) {
 		TradeStationBlockEntity tile = TileUtil.getTile(inv.player.level(), data.readBlockPos(), TradeStationBlockEntity.class);
 		return new TradeStationNamingMenu(windowId, inv.player, tile);

@@ -5,7 +5,7 @@ import forestry.api.mail.IMailAddress;
 import forestry.api.mail.IPostalCarrier;
 import forestry.core.platform.config.Constants;
 import forestry.core.platform.config.SessionVars;
-import forestry.core.platform.gui.GuiForestry;
+import forestry.core.platform.gui.ForestryScreen;
 import forestry.core.platform.gui.GuiTextBox;
 import forestry.core.platform.gui.widgets.ItemStackWidget;
 import forestry.core.platform.gui.widgets.Widget;
@@ -28,7 +28,7 @@ import org.lwjgl.glfw.GLFW;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class LetterScreen extends GuiForestry<LetterMenu> {
+public class LetterScreen extends ForestryScreen<LetterMenu> {
 	private final LetterInventory itemInventory;
 	private final boolean isProcessedLetter;
 	private boolean checkedSessionVars;

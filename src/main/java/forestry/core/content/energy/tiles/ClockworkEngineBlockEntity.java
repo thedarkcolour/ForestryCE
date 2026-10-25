@@ -5,7 +5,7 @@ import forestry.core.platform.advancements.AdvancementHelper;
 import forestry.core.platform.config.Constants;
 import forestry.core.platform.damage.CoreDamageTypes;
 import forestry.core.platform.tile.TemperatureState;
-import forestry.core.content.energy.features.EnergyTiles;
+import forestry.core.content.energy.features.EnergyBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -35,7 +35,7 @@ public class ClockworkEngineBlockEntity extends EngineBlockEntity {
 	private static final ResourceLocation CLOCKWORK_ENGINE_HURT_PLAYER = ForestryConstants.forestry("take_damage_from_clockwork_engine");
 
 	public ClockworkEngineBlockEntity(BlockPos pos, BlockState state) {
-		super(EnergyTiles.CLOCKWORK_ENGINE.tileType(), pos, state, "", ENGINE_CLOCKWORK_HEAT_MAX, 10000);
+		super(EnergyBlockEntities.CLOCKWORK_ENGINE.tileType(), pos, state, "", ENGINE_CLOCKWORK_HEAT_MAX, 10000);
 	}
 
 	@Override

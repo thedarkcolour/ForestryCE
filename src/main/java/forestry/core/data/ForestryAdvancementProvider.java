@@ -43,8 +43,8 @@ import forestry.arboriculture.features.ArboricultureItems;
 import forestry.arboriculture.features.CharcoalBlocks;
 import forestry.core.content.energy.blocks.EngineBlockType;
 import forestry.core.content.energy.features.EnergyBlocks;
-import forestry.core.content.machines.blocks.BlockTypeFactoryPlain;
-import forestry.core.content.machines.blocks.BlockTypeFactoryTesr;
+import forestry.core.content.machines.blocks.FactoryBlockType;
+import forestry.core.content.machines.blocks.SpecialFactoryBlockType;
 import forestry.core.content.machines.features.FactoryBlocks;
 import forestry.core.features.CoreBlocks;
 import forestry.core.features.CoreItems;
@@ -52,7 +52,7 @@ import forestry.core.features.FluidsItems;
 import forestry.core.platform.advancements.ApicultureResearchTrigger;
 import forestry.core.platform.advancements.ArboricultureResearchTrigger;
 import forestry.core.platform.advancements.DiscoverSpeciesTrigger;
-import forestry.core.platform.block.BlockTypeCoreTesr;
+import forestry.core.platform.block.CoreMachineBlockType;
 import forestry.core.platform.fluids.ForestryFluids;
 import forestry.core.platform.item.FluidContainerType;
 import forestry.core.platform.util.SpeciesUtil;
@@ -214,9 +214,9 @@ public class ForestryAdvancementProvider extends AdvancementProvider {
 			// When Is a Raven Like a Writing Desk?
 			// A reference to the quote which is from like, Lewis Carrol or something?
 			AdvancementHolder escritoire = ForestryAdvancements.add(writer, "get_escritoire",
-				CoreBlocks.BASE.stack(BlockTypeCoreTesr.ESCRITOIRE),
+				CoreBlocks.BASE.stack(CoreMachineBlockType.ESCRITOIRE),
 				apiary,
-				InventoryChangeTrigger.TriggerInstance.hasItems(CoreBlocks.BASE.get(BlockTypeCoreTesr.ESCRITOIRE).get()));
+				InventoryChangeTrigger.TriggerInstance.hasItems(CoreBlocks.BASE.get(CoreMachineBlockType.ESCRITOIRE).get()));
 
 			// Eureka
 			// This is supposed to trigger when using a research note but I got lazy.
@@ -385,9 +385,9 @@ public class ForestryAdvancementProvider extends AdvancementProvider {
 
 			// Next Level Crafting
 			ForestryAdvancements.add(writer, "get_carpenter",
-				FactoryBlocks.PLAIN.stack(BlockTypeFactoryPlain.CARPENTER),
+				FactoryBlocks.PLAIN.stack(FactoryBlockType.CARPENTER),
 				engine,
-				InventoryChangeTrigger.TriggerInstance.hasItems(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.CARPENTER).get()));
+				InventoryChangeTrigger.TriggerInstance.hasItems(FactoryBlocks.PLAIN.get(FactoryBlockType.CARPENTER).get()));
 
 			// Lightly Bronzed
 			// To be bronzed is to be tanned.
@@ -411,9 +411,9 @@ public class ForestryAdvancementProvider extends AdvancementProvider {
 
 			// You Spin Me Right Round
 			AdvancementHolder centrifuge = ForestryAdvancements.add(writer, "get_centrifuge",
-				FactoryBlocks.PLAIN.stack(BlockTypeFactoryPlain.CENTRIFUGE),
+				FactoryBlocks.PLAIN.stack(FactoryBlockType.CENTRIFUGE),
 				bronzed,
-				InventoryChangeTrigger.TriggerInstance.hasItems(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.CENTRIFUGE).get()));
+				InventoryChangeTrigger.TriggerInstance.hasItems(FactoryBlocks.PLAIN.get(FactoryBlockType.CENTRIFUGE).get()));
 
 			// Honey (Sugar, Sugar)
 			// Deviation from 1.20.1: the honey drop, honeydew and beeswax moved to core
@@ -428,9 +428,9 @@ public class ForestryAdvancementProvider extends AdvancementProvider {
 
 			// Freshly Squeezed
 			AdvancementHolder squeezer = ForestryAdvancements.add(writer, "get_squeezer",
-				FactoryBlocks.PLAIN.stack(BlockTypeFactoryPlain.SQUEEZER),
+				FactoryBlocks.PLAIN.stack(FactoryBlockType.SQUEEZER),
 				bronzed,
-				InventoryChangeTrigger.TriggerInstance.hasItems(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.SQUEEZER).get()));
+				InventoryChangeTrigger.TriggerInstance.hasItems(FactoryBlocks.PLAIN.get(FactoryBlockType.SQUEEZER).get()));
 
 			// Bee Juice
 			// A reference to Clarkson's Farm, and what Clarkson refers to his honey as
@@ -442,9 +442,9 @@ public class ForestryAdvancementProvider extends AdvancementProvider {
 
 			// Glass Crafting
 			AdvancementHolder fabricator = ForestryAdvancements.add(writer, "get_fabricator",
-				FactoryBlocks.PLAIN.stack(BlockTypeFactoryPlain.FABRICATOR),
+				FactoryBlocks.PLAIN.stack(FactoryBlockType.FABRICATOR),
 				bronzed,
-				InventoryChangeTrigger.TriggerInstance.hasItems(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.FABRICATOR).get()));
+				InventoryChangeTrigger.TriggerInstance.hasItems(FactoryBlocks.PLAIN.get(FactoryBlockType.FABRICATOR).get()));
 
 			// Non-Inflammable
 			ForestryAdvancements.add(writer, "do_fireproofing",
@@ -458,7 +458,7 @@ public class ForestryAdvancementProvider extends AdvancementProvider {
 			// Make It Rain!
 			// Granted manually via TileMillRainmaker
 			ForestryAdvancements.add(writer, "use_rainmaker",
-				FactoryBlocks.TESR.stack(BlockTypeFactoryTesr.RAINMAKER),
+				FactoryBlocks.TESR.stack(SpecialFactoryBlockType.RAINMAKER),
 				bronzed,
 				CriteriaTriggers.IMPOSSIBLE.createCriterion(new ImpossibleTrigger.TriggerInstance()));
 

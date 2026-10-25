@@ -5,7 +5,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.state.BlockState;
 
-public interface IForestryTicker<T extends TileForestry> extends BlockEntityTicker<T> {
+public interface IForestryTicker<T extends ForestryBlockEntity> extends BlockEntityTicker<T> {
 	@Override
 	default void tick(Level level, BlockPos pos, BlockState state, T tile) {
 		tile.tickHelper.onTick();

@@ -1,6 +1,6 @@
 package forestry.core.platform.gui.widgets;
 
-import forestry.core.platform.gui.GuiForestry;
+import forestry.core.platform.gui.ForestryScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 
@@ -9,11 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WidgetManager {
-	public final GuiForestry gui;
+	public final ForestryScreen<?> gui;
 	public final Minecraft minecraft;
 	protected final List<Widget> widgets = new ArrayList<>();
 
-	public WidgetManager(GuiForestry gui) {
+	public WidgetManager(ForestryScreen<?> gui) {
 		this.gui = gui;
 		this.minecraft = Minecraft.getInstance();
 	}

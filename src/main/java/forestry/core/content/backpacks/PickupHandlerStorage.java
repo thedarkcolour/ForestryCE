@@ -1,8 +1,8 @@
 package forestry.core.content.backpacks;
 
 import forestry.api.core.backpacks.IBackpackDefinition;
-import forestry.core.content.backpacks.gui.ContainerBackpack;
-import forestry.core.content.backpacks.gui.ContainerNaturalistBackpack;
+import forestry.core.content.backpacks.gui.BackpackMenu;
+import forestry.core.content.backpacks.gui.NaturalistBackpackMenu;
 import forestry.core.content.backpacks.items.BackpackItem;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -20,7 +20,7 @@ public class PickupHandlerStorage {
 		}
 
 		// Do not pick up if a backpack is open
-		if (player.containerMenu instanceof ContainerBackpack || player.containerMenu instanceof ContainerNaturalistBackpack) {
+		if (player.containerMenu instanceof BackpackMenu || player.containerMenu instanceof NaturalistBackpackMenu) {
 			return false;
 		}
 

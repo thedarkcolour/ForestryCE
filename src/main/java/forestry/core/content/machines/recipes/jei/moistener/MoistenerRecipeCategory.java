@@ -4,7 +4,7 @@ import com.mojang.datafixers.util.Pair;
 import forestry.api.ForestryConstants;
 import forestry.api.ForestryDataMaps;
 import forestry.api.core.machines.IMoistenerRecipe;
-import forestry.core.content.machines.blocks.BlockTypeFactoryPlain;
+import forestry.core.content.machines.blocks.FactoryBlockType;
 import forestry.core.content.machines.features.FactoryBlocks;
 import forestry.core.platform.config.Constants;
 import forestry.core.platform.recipes.jei.ForestryRecipeCategory;
@@ -43,7 +43,7 @@ public class MoistenerRecipeCategory extends ForestryRecipeCategory<IMoistenerRe
 		IDrawableStatic progressBar = guiHelper.createDrawable(TEXTURE, 176, 74, 16, 15);
 		this.progressBar = guiHelper.createAnimatedDrawable(progressBar, 160, IDrawableAnimated.StartDirection.LEFT, false);
 		this.tankOverlay = guiHelper.createDrawable(TEXTURE, 176, 0, 16, 58);
-		ItemStack moistener = new ItemStack(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.MOISTENER).block());
+		ItemStack moistener = new ItemStack(FactoryBlocks.PLAIN.get(FactoryBlockType.MOISTENER).block());
 		this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, moistener);
 	}
 

@@ -6,11 +6,11 @@ import forestry.api.client.IForestryClientApi;
 import forestry.api.core.tooltips.ToolTip;
 import forestry.api.core.genetics.filter.IFilterLogic;
 import forestry.api.core.genetics.filter.IFilterRuleType;
-import forestry.core.platform.gui.GuiForestry;
+import forestry.core.platform.gui.ForestryScreen;
 import forestry.core.platform.gui.widgets.Widget;
 import forestry.core.platform.gui.widgets.WidgetManager;
 import forestry.core.platform.util.SoundUtil;
-import forestry.core.content.sorting.gui.GuiGeneticFilter;
+import forestry.core.content.sorting.gui.GeneticFilterScreen;
 import forestry.core.content.sorting.gui.ISelectableProvider;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -23,9 +23,9 @@ public class RuleWidget extends Widget implements ISelectableProvider<IFilterRul
 	private static final ImmutableSet<IFilterRuleType> ENTRIES = createEntries();
 
 	private final Direction facing;
-	private final GuiGeneticFilter gui;
+	private final GeneticFilterScreen gui;
 
-	public RuleWidget(WidgetManager manager, int xPos, int yPos, Direction facing, GuiGeneticFilter gui) {
+	public RuleWidget(WidgetManager manager, int xPos, int yPos, Direction facing, GeneticFilterScreen gui) {
 		super(manager, xPos, yPos);
 		this.facing = facing;
 		this.gui = gui;
@@ -50,7 +50,7 @@ public class RuleWidget extends Widget implements ISelectableProvider<IFilterRul
 	}
 
 	@Override
-	public void draw(GuiForestry<?> gui, IFilterRuleType selectable, GuiGraphics graphics, int y, int x) {
+	public void draw(ForestryScreen<?> gui, IFilterRuleType selectable, GuiGraphics graphics, int y, int x) {
 		TextureAtlasSprite sprite = IForestryClientApi.INSTANCE.getTextureManager().getSprite(selectable.getSprite());
 		graphics.blit(x, y, 0, 16, 16, sprite);
 	}

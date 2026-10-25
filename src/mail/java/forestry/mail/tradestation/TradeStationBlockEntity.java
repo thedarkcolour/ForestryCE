@@ -8,7 +8,7 @@ import forestry.api.core.IInventoryAdapter;
 import forestry.core.platform.owner.IOwnedTile;
 import forestry.core.platform.owner.IOwnerHandler;
 import forestry.core.platform.owner.OwnerHandler;
-import forestry.core.platform.tile.TileBase;
+import forestry.core.platform.tile.BaseBlockEntity;
 import forestry.core.platform.util.InventoryUtil;
 import forestry.core.platform.util.ItemStackUtil;
 import forestry.core.platform.util.NetworkUtil;
@@ -37,7 +37,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 
-public class TradeStationBlockEntity extends TileBase implements IOwnedTile {
+public class TradeStationBlockEntity extends BaseBlockEntity implements IOwnedTile {
 	private final OwnerHandler ownerHandler = new OwnerHandler();
 	private IMailAddress address;
 

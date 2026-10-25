@@ -1,7 +1,7 @@
 package forestry.core.platform.gui.ledgers;
 
 import forestry.api.core.IError;
-import forestry.core.platform.gui.GuiForestry;
+import forestry.core.platform.gui.ForestryScreen;
 import forestry.core.platform.util.StringUtil;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.Rect2i;
@@ -32,7 +32,7 @@ public class ErrorLedger extends Ledger {
 
 	@Override
 	public Rect2i getArea() {
-		GuiForestry gui = this.manager.gui;
+		ForestryScreen<?> gui = this.manager.gui;
 		return new Rect2i(gui.getGuiLeft() - (int) this.currentWidth, gui.getGuiTop() + this.y, (int) this.currentWidth, (int) this.currentHeight);
 	}
 

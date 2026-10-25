@@ -7,7 +7,7 @@ import forestry.core.platform.network.IStreamableGui;
 import forestry.core.platform.network.packets.PacketActiveUpdate;
 import forestry.core.platform.tile.IActivatable;
 import forestry.core.platform.tile.TemperatureState;
-import forestry.core.platform.tile.TileBase;
+import forestry.core.platform.tile.BaseBlockEntity;
 import forestry.core.platform.util.NetworkUtil;
 import forestry.core.content.energy.EnergyHelper;
 import forestry.core.content.energy.EnergyTransferMode;
@@ -28,7 +28,7 @@ import net.neoforged.neoforge.energy.IEnergyStorage;
 
 import javax.annotation.Nullable;
 
-public abstract class EngineBlockEntity extends TileBase implements IActivatable, IStreamableGui {
+public abstract class EngineBlockEntity extends BaseBlockEntity implements IActivatable, IStreamableGui {
 	private static final int CANT_SEND_ENERGY_TIME = 20;
 
 	private boolean active = false; // Used for smp.

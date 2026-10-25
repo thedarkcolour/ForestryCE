@@ -15,15 +15,15 @@ import net.neoforged.neoforge.gametest.GameTestHolder;
 import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
 import forestry.api.ForestryConstants;
-import forestry.core.content.machines.blocks.BlockTypeFactoryPlain;
+import forestry.core.content.machines.blocks.FactoryBlockType;
 import forestry.core.content.machines.features.FactoryBlocks;
-import forestry.core.content.machines.inventory.InventorySqueezer;
-import forestry.core.content.machines.tiles.TileSqueezer;
+import forestry.core.content.machines.inventory.SqueezerInventory;
+import forestry.core.content.machines.tiles.SqueezerBlockEntity;
 import forestry.core.platform.fluids.ForestryFluids;
 import forestry.core.platform.fluids.StandardTank;
 
 /**
- * Covers the glass bottle branch of {@link InventorySqueezer#fillContainers}.
+ * Covers the glass bottle branch of {@link SqueezerInventory#fillContainers}.
  * <p>
  * The squeezer normally fills containers through {@code FluidHelper.fillContainers}, which delegates to the item's
  * fluid handler capability. A vanilla glass bottle has no such capability, so
@@ -58,7 +58,7 @@ public class SqueezerBottlingTest {
 	 */
 	@GameTest(template = "empty")
 	public static void waterBottlesIntoAWaterBottle(GameTestHelper helper) {
-		TileSqueezer squeezer = bottlingSqueezer(helper, Fluids.WATER);
+		SqueezerBlockEntity squeezer = bottlingSqueezer(helper, Fluids.WATER);
 
 		bottleOnce(squeezer);
 
@@ -78,7 +78,7 @@ public class SqueezerBottlingTest {
 	 */
 	@GameTest(template = "empty")
 	public static void honeyBottlesIntoAHoneyBottle(GameTestHelper helper) {
-		TileSqueezer squeezer = bottlingSqueezer(helper, ForestryFluids.HONEY.getFluid());
+		SqueezerBlockEntity squeezer = bottlingSqueezer(helper, ForestryFluids.HONEY.getFluid());
 
 		bottleOnce(squeezer);
 
@@ -95,7 +95,7 @@ public class SqueezerBottlingTest {
 	 */
 	@GameTest(template = "empty")
 	public static void anUnmappedFluidBottlesIntoNothing(GameTestHelper helper) {
-		TileSqueezer squeezer = bottlingSqueezer(helper, Fluids.LAVA);
+		SqueezerBlockEntity squeezer = bottlingSqueezer(helper, Fluids.LAVA);
 
 		bottleOnce(squeezer);
 
@@ -110,7 +110,7 @@ public class SqueezerBottlingTest {
 	 */
 	@GameTest(template = "empty")
 	public static void aPartialTankBottlesNothing(GameTestHelper helper) {
-		TileSqueezer squeezer = squeezerWith(helper, Fluids.WATER, WATER_PER_BOTTLE - 1);
+		SqueezerBlockEntity squeezer = squeezerWith(helper, Fluids.WATER, WATER_PER_BOTTLE - 1);
 
 		bottleOnce(squeezer);
 
@@ -122,27 +122,27 @@ public class SqueezerBottlingTest {
 		helper.succeed();
 	}
 
-	private static TileSqueezer bottlingSqueezer(GameTestHelper helper, Fluid fluid) {
+	private static SqueezerBlockEntity bottlingSqueezer(GameTestHelper helper, Fluid fluid) {
 		return squeezerWith(helper, fluid, TANK_CONTENTS);
 	}
 
-	private static TileSqueezer squeezerWith(GameTestHelper helper, Fluid fluid, int amount) {
-		helper.setBlock(SQUEEZER_POS, FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.SQUEEZER).block());
-		TileSqueezer squeezer = (TileSqueezer) helper.getBlockEntity(SQUEEZER_POS);
+	private static SqueezerBlockEntity squeezerWith(GameTestHelper helper, Fluid fluid, int amount) {
+		helper.setBlock(SQUEEZER_POS, FactoryBlocks.PLAIN.get(FactoryBlockType.SQUEEZER).block());
+		SqueezerBlockEntity squeezer = (SqueezerBlockEntity) helper.getBlockEntity(SQUEEZER_POS);
 
 		// The product tank refuses external fills by design, so seed it the way workCycle() does.
 		tank(squeezer).fillInternal(new FluidStack(fluid, amount), IFluidHandler.FluidAction.EXECUTE);
-		inventory(squeezer).setItem(InventorySqueezer.SLOT_CAN_INPUT, new ItemStack(Items.GLASS_BOTTLE, BOTTLES_IN));
+		inventory(squeezer).setItem(SqueezerInventory.SLOT_CAN_INPUT, new ItemStack(Items.GLASS_BOTTLE, BOTTLES_IN));
 		return squeezer;
 	}
 
-	private static void bottleOnce(TileSqueezer squeezer) {
+	private static void bottleOnce(SqueezerBlockEntity squeezer) {
 		inventory(squeezer).fillContainers(tank(squeezer).getFluid(), squeezer.getTankManager());
 	}
 
-	private static void assertConsumed(GameTestHelper helper, TileSqueezer squeezer, int fluidCost) {
+	private static void assertConsumed(GameTestHelper helper, SqueezerBlockEntity squeezer, int fluidCost) {
 		int expectedBottles = BOTTLES_IN - (fluidCost > 0 ? 1 : 0);
-		int bottlesLeft = inventory(squeezer).getItem(InventorySqueezer.SLOT_CAN_INPUT).getCount();
+		int bottlesLeft = inventory(squeezer).getItem(SqueezerInventory.SLOT_CAN_INPUT).getCount();
 		helper.assertTrue(bottlesLeft == expectedBottles,
 			"expected " + expectedBottles + " glass bottle(s) left in the input slot, found " + bottlesLeft);
 
@@ -152,15 +152,15 @@ public class SqueezerBottlingTest {
 			"expected " + expectedFluid + "mB left in the tank, found " + fluidLeft);
 	}
 
-	private static InventorySqueezer inventory(TileSqueezer squeezer) {
-		return (InventorySqueezer) squeezer.getInternalInventory();
+	private static SqueezerInventory inventory(SqueezerBlockEntity squeezer) {
+		return (SqueezerInventory) squeezer.getInternalInventory();
 	}
 
-	private static StandardTank tank(TileSqueezer squeezer) {
+	private static StandardTank tank(SqueezerBlockEntity squeezer) {
 		return (StandardTank) squeezer.getTankManager().getTank(0);
 	}
 
-	private static ItemStack output(TileSqueezer squeezer) {
-		return inventory(squeezer).getItem(InventorySqueezer.SLOT_CAN_OUTPUT);
+	private static ItemStack output(SqueezerBlockEntity squeezer) {
+		return inventory(squeezer).getItem(SqueezerInventory.SLOT_CAN_OUTPUT);
 	}
 }

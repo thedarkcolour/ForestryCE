@@ -8,8 +8,8 @@ import forestry.core.platform.recipes.jei.ForestryRecipeCategory;
 import forestry.core.platform.recipes.jei.ForestryRecipeType;
 import forestry.core.platform.util.JeiUtil;
 import forestry.core.platform.util.RecipeUtils;
-import forestry.core.content.machines.blocks.BlockFactoryPlain;
-import forestry.core.content.machines.blocks.BlockTypeFactoryPlain;
+import forestry.core.content.machines.blocks.FactoryBlock;
+import forestry.core.content.machines.blocks.FactoryBlockType;
 import forestry.core.content.machines.features.FactoryBlocks;
 import forestry.core.content.machines.features.FactoryRecipeTypes;
 import forestry.core.platform.registration.FeatureBlock;
@@ -41,7 +41,7 @@ public class FabricatorRecipeCategory extends ForestryRecipeCategory<IFabricator
 	public FabricatorRecipeCategory(IGuiHelper guiHelper) {
 		super(guiHelper.createDrawable(guiTexture, 20, 16, 136, 54), "block.forestry.thermionic_fabricator");
 
-		FeatureBlock<BlockFactoryPlain, BlockItem> fabricatorFeatureBlock = FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.FABRICATOR);
+		FeatureBlock<FactoryBlock, BlockItem> fabricatorFeatureBlock = FactoryBlocks.PLAIN.get(FactoryBlockType.FABRICATOR);
 		ItemStack fabricator = new ItemStack(fabricatorFeatureBlock.block());
 		this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, fabricator);
 		this.craftingGridHelper = guiHelper.createCraftingGridHelper();

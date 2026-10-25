@@ -1,18 +1,18 @@
 package forestry.agriculture.multifarm.gui;
 
 import forestry.core.platform.config.Constants;
-import forestry.core.platform.gui.GuiForestryTitled;
+import forestry.core.platform.gui.TitledForestryScreen;
 import forestry.core.platform.gui.widgets.SocketWidget;
 import forestry.core.platform.gui.widgets.TankWidget;
 import forestry.agriculture.multifarm.multiblock.IFarmControllerInternal;
-import forestry.agriculture.multifarm.tiles.TileFarm;
+import forestry.agriculture.multifarm.tiles.MultifarmBlockEntity;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
-public class MultifarmScreen extends GuiForestryTitled<MultifarmMenu> {
-	private final TileFarm tile;
+public class MultifarmScreen extends TitledForestryScreen<MultifarmMenu> {
+	private final MultifarmBlockEntity tile;
 
 	public MultifarmScreen(MultifarmMenu container, Inventory inv, Component title) {
 		super(Constants.TEXTURE_PATH_GUI + "/mfarm.png", container, inv, title);

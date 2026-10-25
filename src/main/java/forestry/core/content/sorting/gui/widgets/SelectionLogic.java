@@ -1,7 +1,7 @@
 package forestry.core.content.sorting.gui.widgets;
 
 import forestry.api.core.tooltips.ToolTip;
-import forestry.core.platform.gui.GuiForestry;
+import forestry.core.platform.gui.ForestryScreen;
 import forestry.core.platform.gui.widgets.IScrollable;
 import forestry.core.content.sorting.gui.ISelectableProvider;
 import net.minecraft.client.gui.GuiGraphics;
@@ -129,7 +129,7 @@ public class SelectionLogic<S> implements IScrollable {
 			this.yPos = yPos;
 		}
 
-		public void draw(GuiForestry gui, GuiGraphics graphics) {
+		public void draw(ForestryScreen<?> gui, GuiGraphics graphics) {
             SelectionLogic.this.provider.draw(gui, this.selectable, graphics, this.yPos, this.xPos);
 		}
 

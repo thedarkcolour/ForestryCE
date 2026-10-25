@@ -3,7 +3,7 @@ package forestry.core.content.machines.recipes.jei.fermenter;
 import forestry.api.ForestryConstants;
 import forestry.api.core.machines.IFermenterRecipe;
 import forestry.api.core.machines.IVariableFermentable;
-import forestry.core.content.machines.blocks.BlockTypeFactoryPlain;
+import forestry.core.content.machines.blocks.FactoryBlockType;
 import forestry.core.content.machines.features.FactoryBlocks;
 import forestry.core.platform.config.Constants;
 import forestry.core.platform.recipes.jei.ForestryRecipeCategory;
@@ -25,7 +25,6 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.fluids.FluidStack;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import forestry.api.ForestryDataMaps;
 import forestry.core.platform.recipes.jei.JeiDataMaps;
@@ -46,7 +45,7 @@ public class FermenterRecipeCategory extends ForestryRecipeCategory<IFermenterRe
 		IDrawableStatic progressBarDrawable1 = guiHelper.createDrawable(TEXTURE, 176, 78, 4, 18);
 		this.progressBar1 = guiHelper.createAnimatedDrawable(progressBarDrawable1, 80, IDrawableAnimated.StartDirection.BOTTOM, false);
 		this.tankOverlay = guiHelper.createDrawable(TEXTURE, 192, 0, 16, 58);
-		ItemStack fermenter = new ItemStack(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.FERMENTER).block());
+		ItemStack fermenter = new ItemStack(FactoryBlocks.PLAIN.get(FactoryBlockType.FERMENTER).block());
 		this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, fermenter);
 	}
 

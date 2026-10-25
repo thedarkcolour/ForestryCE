@@ -3,14 +3,14 @@ package forestry.core.content.worktable.network.packets;
 import forestry.core.platform.network.PacketIdClient;
 import forestry.core.platform.tile.TileUtil;
 import forestry.core.content.worktable.recipes.RecipeMemory;
-import forestry.core.content.worktable.tiles.WorktableTile;
+import forestry.core.content.worktable.tiles.WorktableBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.world.entity.player.Player;
 
 public record PacketWorktableMemoryUpdate(BlockPos pos, RecipeMemory memory) implements CustomPacketPayload {
-	public PacketWorktableMemoryUpdate(WorktableTile worktable) {
+	public PacketWorktableMemoryUpdate(WorktableBlockEntity worktable) {
 		this(worktable.getBlockPos(), worktable.getMemory());
 	}
 
@@ -29,7 +29,7 @@ public record PacketWorktableMemoryUpdate(BlockPos pos, RecipeMemory memory) imp
 	}
 
 	public static void handle(PacketWorktableMemoryUpdate msg, Player player) {
-		WorktableTile tile = TileUtil.getTile(player.level(), msg.pos, WorktableTile.class);
+		WorktableBlockEntity tile = TileUtil.getTile(player.level(), msg.pos, WorktableBlockEntity.class);
 		if (tile != null) {
 			tile.getMemory().copy(msg.memory);
 		}

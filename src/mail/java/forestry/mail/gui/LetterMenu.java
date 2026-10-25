@@ -3,7 +3,7 @@ package forestry.mail.gui;
 import forestry.Forestry;
 import forestry.api.ForestryRegistries;
 import forestry.api.mail.*;
-import forestry.core.platform.gui.ContainerItemInventory;
+import forestry.core.platform.gui.ItemInventoryMenu;
 import forestry.core.platform.gui.slots.SlotFiltered;
 import forestry.core.platform.util.NetworkUtil;
 import forestry.mail.letters.Letter;
@@ -29,7 +29,7 @@ import net.neoforged.api.distmarker.OnlyIn;
 import javax.annotation.Nullable;
 import java.util.Iterator;
 
-public class LetterMenu extends ContainerItemInventory<LetterInventory> implements ILetterInfoReceiver {
+public class LetterMenu extends ItemInventoryMenu<LetterInventory> implements ILetterInfoReceiver {
 	private IPostalCarrier carrier = PostalCarriers.PLAYER.value();
 	@Nullable
 	private ITradeStationInfo tradeInfo = null;

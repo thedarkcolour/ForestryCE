@@ -2,7 +2,7 @@ package forestry.core.platform.block;
 
 import com.google.common.base.Preconditions;
 import forestry.core.platform.tile.IForestryTicker;
-import forestry.core.platform.tile.TileForestry;
+import forestry.core.platform.tile.ForestryBlockEntity;
 import forestry.core.platform.registration.FeatureTileType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
@@ -16,7 +16,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 import javax.annotation.Nullable;
 
-public class MachineProperties<T extends TileForestry> implements IMachineProperties<T> {
+public class MachineProperties<T extends ForestryBlockEntity> implements IMachineProperties<T> {
 	private static final ISimpleShapeProvider FULL_CUBE = Shapes::block;
 
 	private final String name;
@@ -88,7 +88,7 @@ public class MachineProperties<T extends TileForestry> implements IMachineProper
 		return this.name;
 	}
 
-	public static class Builder<T extends TileForestry, B extends Builder<T, ?>> {
+	public static class Builder<T extends ForestryBlockEntity, B extends Builder<T, ?>> {
 		protected final FeatureTileType<? extends T> type;
 		protected final String name;
 		protected IShapeProvider shape = FULL_CUBE;

@@ -12,8 +12,8 @@ import net.minecraft.world.item.CreativeModeTab;
 import forestry.agriculture.minifarm.blocks.MinifarmBlockType;
 import forestry.agriculture.features.MinifarmBlocks;
 import forestry.core.content.energy.features.EnergyBlocks;
-import forestry.core.content.machines.blocks.BlockTypeFactoryPlain;
-import forestry.core.content.machines.blocks.BlockTypeFactoryTesr;
+import forestry.core.content.machines.blocks.FactoryBlockType;
+import forestry.core.content.machines.blocks.SpecialFactoryBlockType;
 import forestry.core.content.machines.features.FactoryBlocks;
 import forestry.agriculture.multifarm.blocks.MultifarmBlockType;
 import forestry.agriculture.multifarm.blocks.MultifarmMaterialType;
@@ -47,15 +47,15 @@ public class AgricultureCreativeTab {
 		// Engines
 		EnergyBlocks.ENGINES.getItems().forEach(items::accept);
 		// Machines
-		items.accept(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.CARPENTER));
-		items.accept(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.CENTRIFUGE));
-		items.accept(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.FERMENTER));
-		items.accept(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.MOISTENER));
-		items.accept(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.SQUEEZER));
-		items.accept(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.STILL));
+		items.accept(FactoryBlocks.PLAIN.get(FactoryBlockType.CARPENTER));
+		items.accept(FactoryBlocks.PLAIN.get(FactoryBlockType.CENTRIFUGE));
+		items.accept(FactoryBlocks.PLAIN.get(FactoryBlockType.FERMENTER));
+		items.accept(FactoryBlocks.PLAIN.get(FactoryBlockType.MOISTENER));
+		items.accept(FactoryBlocks.PLAIN.get(FactoryBlockType.SQUEEZER));
+		items.accept(FactoryBlocks.PLAIN.get(FactoryBlockType.STILL));
 
 		// Rainmaker
-		items.accept(FactoryBlocks.TESR.get(BlockTypeFactoryTesr.RAINMAKER));
+		items.accept(FactoryBlocks.TESR.get(SpecialFactoryBlockType.RAINMAKER));
 		items.accept(CoreItems.IODINE_CHARGE);
 		items.accept(CoreItems.DISSIPATION_CHARGE);
 

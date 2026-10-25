@@ -2,7 +2,7 @@ package forestry.agriculture.minifarm.gui;
 
 import forestry.core.platform.config.Constants;
 import forestry.core.features.CoreItems;
-import forestry.core.platform.gui.GuiForestryTitled;
+import forestry.core.platform.gui.TitledForestryScreen;
 import forestry.core.platform.gui.widgets.TankWidget;
 import forestry.agriculture.minifarm.gui.widgets.GhostItemStackWidget;
 import forestry.agriculture.minifarm.inventory.MinifarmInventory;
@@ -15,7 +15,7 @@ import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
 
-public class MinifarmScreen extends GuiForestryTitled<MinifarmMenu> {
+public class MinifarmScreen extends TitledForestryScreen<MinifarmMenu> {
 	private final AbstractMinifarmBlockEntity tile;
 
 	public MinifarmScreen(MinifarmMenu container, Inventory playerInventory, Component title) {

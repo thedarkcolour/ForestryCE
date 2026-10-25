@@ -1,6 +1,6 @@
 package forestry.agriculture.minifarm.gui;
 
-import forestry.core.platform.gui.ContainerLiquidTanks;
+import forestry.core.platform.gui.LiquidTanksMenu;
 import forestry.core.platform.gui.slots.SlotFiltered;
 import forestry.core.platform.gui.slots.SlotLiquidIn;
 import forestry.core.platform.gui.slots.SlotOutput;
@@ -12,7 +12,7 @@ import forestry.agriculture.minifarm.tiles.AbstractMinifarmBlockEntity;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 
-public class MinifarmMenu extends ContainerLiquidTanks<AbstractMinifarmBlockEntity> {
+public class MinifarmMenu extends LiquidTanksMenu<AbstractMinifarmBlockEntity> {
 	public static MinifarmMenu fromNetwork(int windowId, Inventory playerInv, FriendlyByteBuf extraData) {
 		AbstractMinifarmBlockEntity planter = TileUtil.getTile(playerInv.player.level(), extraData.readBlockPos(), AbstractMinifarmBlockEntity.class);
 		return new MinifarmMenu(windowId, playerInv, planter);

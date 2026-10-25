@@ -16,7 +16,7 @@ import java.util.Optional;
 // todo this stuff should probably be yeeted
 public class GuiUtil {
 	// todo replace with AbstractContainerScreen#renderFloatingItem
-	public static void drawItemStack(GuiGraphics graphics, GuiForestry<?> gui, ItemStack stack, int xPos, int yPos) {
+	public static void drawItemStack(GuiGraphics graphics, ForestryScreen<?> gui, ItemStack stack, int xPos, int yPos) {
 		drawItemStack(graphics, gui.font(), stack, xPos, yPos);
 	}
 
@@ -30,7 +30,7 @@ public class GuiUtil {
 	}
 
 
-	public static void drawToolTips(GuiGraphics graphics, GuiForestry<?> screen, IToolTipProvider provider, ToolTip toolTips, int mouseX, int mouseY) {
+	public static void drawToolTips(GuiGraphics graphics, ForestryScreen<?> screen, IToolTipProvider provider, ToolTip toolTips, int mouseX, int mouseY) {
 		if (!toolTips.isEmpty()) {
 			PoseStack pose = graphics.pose();
 			pose.pushPose();
@@ -44,7 +44,7 @@ public class GuiUtil {
 		}
 	}
 
-	public static void drawToolTips(GuiGraphics graphics, GuiForestry<?> gui, Collection<?> objects, int mouseX, int mouseY) {
+	public static void drawToolTips(GuiGraphics graphics, ForestryScreen<?> gui, Collection<?> objects, int mouseX, int mouseY) {
 		for (Object obj : objects) {
 			if (!(obj instanceof IToolTipProvider provider)) {
 				continue;

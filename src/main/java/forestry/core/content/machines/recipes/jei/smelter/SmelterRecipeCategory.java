@@ -2,7 +2,7 @@ package forestry.core.content.machines.recipes.jei.smelter;
 
 import forestry.api.ForestryConstants;
 import forestry.api.core.machines.ISmelterRecipe;
-import forestry.core.content.machines.blocks.BlockTypeFactoryPlain;
+import forestry.core.content.machines.blocks.FactoryBlockType;
 import forestry.core.content.machines.features.FactoryBlocks;
 import forestry.core.platform.config.Constants;
 import forestry.core.platform.recipes.jei.ForestryRecipeCategory;
@@ -38,7 +38,7 @@ public class SmelterRecipeCategory extends ForestryRecipeCategory<ISmelterRecipe
 		this.arrow = guiHelper.createAnimatedDrawable(arrowDrawable, 200, IDrawableAnimated.StartDirection.LEFT, false);
 		this.fire = guiHelper.createDrawable(TEXTURE, 176, 68, 14, 14);
 
-		ItemStack smelter = new ItemStack(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.SMELTER).block());
+		ItemStack smelter = new ItemStack(FactoryBlocks.PLAIN.get(FactoryBlockType.SMELTER).block());
 		this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, smelter);
 	}
 

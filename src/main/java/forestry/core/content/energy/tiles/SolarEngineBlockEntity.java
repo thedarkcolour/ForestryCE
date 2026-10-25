@@ -4,7 +4,7 @@ import forestry.api.agriculture.HorizontalDirection;
 import forestry.api.core.ForestryError;
 import forestry.core.content.energy.blocks.SolarPanelBlock;
 import forestry.core.content.energy.features.EnergyBlocks;
-import forestry.core.content.energy.features.EnergyTiles;
+import forestry.core.content.energy.features.EnergyBlockEntities;
 import forestry.core.content.energy.menu.SolarEngineMenu;
 import forestry.core.platform.config.Constants;
 import forestry.core.platform.config.ForestryConfig;
@@ -64,7 +64,7 @@ public class SolarEngineBlockEntity extends EngineBlockEntity {
 	private int clientSkyDarken;
 
 	public SolarEngineBlockEntity(BlockPos pos, BlockState state) {
-		super(EnergyTiles.SOLAR_ENGINE.tileType(), pos, state, "engine.tin", Constants.ENGINE_COPPER_HEAT_MAX, 10000);
+		super(EnergyBlockEntities.SOLAR_ENGINE.tileType(), pos, state, "engine.tin", Constants.ENGINE_COPPER_HEAT_MAX, 10000);
 	}
 
 	@Override

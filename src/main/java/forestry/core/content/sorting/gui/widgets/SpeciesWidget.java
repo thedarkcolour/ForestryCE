@@ -10,13 +10,13 @@ import forestry.api.core.genetics.ISpecies;
 import forestry.api.core.genetics.ISpeciesType;
 import forestry.api.core.genetics.capability.IIndividualHandlerItem;
 import forestry.api.core.genetics.filter.IFilterLogic;
-import forestry.core.platform.gui.GuiForestry;
+import forestry.core.platform.gui.ForestryScreen;
 import forestry.core.platform.gui.GuiUtil;
 import forestry.core.platform.gui.widgets.Widget;
 import forestry.core.platform.gui.widgets.WidgetManager;
 import forestry.core.platform.util.GeneticsUtil;
 import forestry.core.platform.util.SoundUtil;
-import forestry.core.content.sorting.gui.GuiGeneticFilter;
+import forestry.core.content.sorting.gui.GeneticFilterScreen;
 import forestry.core.content.sorting.gui.ISelectableProvider;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.Direction;
@@ -34,9 +34,9 @@ public class SpeciesWidget extends Widget implements ISelectableProvider<ISpecie
 	private final Direction facing;
 	private final int index;
 	private final boolean active;
-	private final GuiGeneticFilter gui;
+	private final GeneticFilterScreen gui;
 
-	public SpeciesWidget(WidgetManager manager, int xPos, int yPos, Direction facing, int index, boolean active, GuiGeneticFilter gui) {
+	public SpeciesWidget(WidgetManager manager, int xPos, int yPos, Direction facing, int index, boolean active, GeneticFilterScreen gui) {
 		super(manager, xPos, yPos);
 		this.facing = facing;
 		this.index = index;
@@ -92,7 +92,7 @@ public class SpeciesWidget extends Widget implements ISelectableProvider<ISpecie
 	}
 
 	@Override
-	public void draw(GuiForestry<?> gui, ISpecies<?> selectable, GuiGraphics graphics, int y, int x) {
+	public void draw(ForestryScreen<?> gui, ISpecies<?> selectable, GuiGraphics graphics, int y, int x) {
 		GuiUtil.drawItemStack(graphics, gui, ITEMS.getOrDefault(selectable, ItemStack.EMPTY), x, y);
 	}
 

@@ -1,7 +1,7 @@
 package forestry.core.platform.block;
 
 import forestry.core.platform.network.packets.PacketTileStream;
-import forestry.core.platform.tile.TileForestry;
+import forestry.core.platform.tile.ForestryBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
@@ -18,7 +18,7 @@ import java.util.Set;
 public class TileStreamUpdateTracker {
 	private static final Map<ResourceKey<Level>, Map<ChunkPos, Set<BlockPos>>> UPDATES = new HashMap<>();
 
-	public static void sendVisualUpdate(TileForestry tile) {
+	public static void sendVisualUpdate(ForestryBlockEntity tile) {
 		var level = tile.getLevel();
 
 		if (level != null && !level.isClientSide) {
@@ -38,7 +38,7 @@ public class TileStreamUpdateTracker {
 					var chunkPos = entry.getKey();
 
 					for (var updatePos : entry.getValue()) {
-						if (level.getBlockEntity(updatePos) instanceof TileForestry blockEntity) {
+						if (level.getBlockEntity(updatePos) instanceof ForestryBlockEntity blockEntity) {
 							PacketDistributor.sendToPlayersTrackingChunk(level, chunkPos, new PacketTileStream(blockEntity));
 						}
 					}

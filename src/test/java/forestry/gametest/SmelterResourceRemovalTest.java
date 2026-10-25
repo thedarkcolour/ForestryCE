@@ -13,13 +13,13 @@ import net.neoforged.neoforge.gametest.GameTestHolder;
 import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
 import forestry.api.ForestryConstants;
-import forestry.core.content.machines.blocks.BlockTypeFactoryPlain;
+import forestry.core.content.machines.blocks.FactoryBlockType;
 import forestry.core.content.machines.features.FactoryBlocks;
-import forestry.core.content.machines.inventory.InventorySmelter;
-import forestry.core.content.machines.tiles.TileSmelter;
+import forestry.core.content.machines.inventory.SmelterInventory;
+import forestry.core.content.machines.tiles.SmelterBlockEntity;
 
 /**
- * Covers {@link InventorySmelter#removeResources}, which is the only place the smelter decides whether it can pay
+ * Covers {@link SmelterInventory#removeResources}, which is the only place the smelter decides whether it can pay
  * for a recipe and then deducts the cost.
  * <p>
  * The method was ported from 1.20.1 with two corrections, and these tests are what pin them down. The original
@@ -36,14 +36,14 @@ public class SmelterResourceRemovalTest {
 	private static final BlockPos SMELTER_POS = new BlockPos(8, 1, 8);
 
 	/** The last input slot, the one the original loop bound excluded. */
-	private static final int LAST_INPUT_SLOT = InventorySmelter.SLOT_INPUT_COUNT - 1;
+	private static final int LAST_INPUT_SLOT = SmelterInventory.SLOT_INPUT_COUNT - 1;
 
 	/**
 	 * A cost spread over three slots must be payable, and each slot must be emptied by what it actually held.
 	 */
 	@GameTest(template = "empty")
 	public static void aCostSpreadOverSlotsIsPaidFromAllOfThem(GameTestHelper helper) {
-		InventorySmelter inventory = smelter(helper);
+		SmelterInventory inventory = smelter(helper);
 		inventory.setItem(0, new ItemStack(Items.QUARTZ, 5));
 		inventory.setItem(1, new ItemStack(Items.QUARTZ, 5));
 		inventory.setItem(2, new ItemStack(Items.QUARTZ, 5));
@@ -61,7 +61,7 @@ public class SmelterResourceRemovalTest {
 	 */
 	@GameTest(template = "empty")
 	public static void theLastInputSlotIsUsable(GameTestHelper helper) {
-		InventorySmelter inventory = smelter(helper);
+		SmelterInventory inventory = smelter(helper);
 		inventory.setItem(LAST_INPUT_SLOT, new ItemStack(Items.QUARTZ, 4));
 
 		helper.assertTrue(inventory.removeResources(costOf(Items.QUARTZ, 4)),
@@ -77,7 +77,7 @@ public class SmelterResourceRemovalTest {
 	 */
 	@GameTest(template = "empty")
 	public static void anUnpayableCostChangesNothing(GameTestHelper helper) {
-		InventorySmelter inventory = smelter(helper);
+		SmelterInventory inventory = smelter(helper);
 		inventory.setItem(0, new ItemStack(Items.QUARTZ, 2));
 		inventory.setItem(1, new ItemStack(Items.QUARTZ, 2));
 
@@ -95,7 +95,7 @@ public class SmelterResourceRemovalTest {
 	 */
 	@GameTest(template = "empty")
 	public static void twoIngredientsDoNotDoubleSpendOneSlot(GameTestHelper helper) {
-		InventorySmelter inventory = smelter(helper);
+		SmelterInventory inventory = smelter(helper);
 		inventory.setItem(0, new ItemStack(Items.QUARTZ, 3));
 
 		List<SizedIngredient> twoClaimsOnTheSameSlot = List.of(
@@ -110,19 +110,19 @@ public class SmelterResourceRemovalTest {
 		helper.succeed();
 	}
 
-	private static InventorySmelter smelter(GameTestHelper helper) {
-		helper.setBlock(SMELTER_POS, FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.SMELTER).block());
-		TileSmelter smelter = (TileSmelter) helper.getBlockEntity(SMELTER_POS);
-		return (InventorySmelter) smelter.getInternalInventory();
+	private static SmelterInventory smelter(GameTestHelper helper) {
+		helper.setBlock(SMELTER_POS, FactoryBlocks.PLAIN.get(FactoryBlockType.SMELTER).block());
+		SmelterBlockEntity smelter = (SmelterBlockEntity) helper.getBlockEntity(SMELTER_POS);
+		return (SmelterInventory) smelter.getInternalInventory();
 	}
 
 	private static List<SizedIngredient> costOf(net.minecraft.world.item.Item item, int count) {
 		return List.of(new SizedIngredient(Ingredient.of(item), count));
 	}
 
-	private static int countIn(InventorySmelter inventory, net.minecraft.world.item.Item item) {
+	private static int countIn(SmelterInventory inventory, net.minecraft.world.item.Item item) {
 		int total = 0;
-		for (int slot = 0; slot < InventorySmelter.SLOT_INPUT_COUNT; slot++) {
+		for (int slot = 0; slot < SmelterInventory.SLOT_INPUT_COUNT; slot++) {
 			ItemStack stack = inventory.getItem(slot);
 			if (stack.is(item)) {
 				total += stack.getCount();

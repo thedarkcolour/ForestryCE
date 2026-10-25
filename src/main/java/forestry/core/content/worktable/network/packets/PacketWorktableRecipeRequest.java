@@ -5,7 +5,7 @@ import forestry.core.platform.tile.TileUtil;
 import forestry.core.platform.util.NetworkUtil;
 import forestry.core.content.worktable.recipes.MemorizedRecipe;
 import forestry.core.content.worktable.screens.WorktableMenu;
-import forestry.core.content.worktable.tiles.WorktableTile;
+import forestry.core.content.worktable.tiles.WorktableBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -29,7 +29,7 @@ public record PacketWorktableRecipeRequest(BlockPos pos, MemorizedRecipe recipe)
 	public static void handle(PacketWorktableRecipeRequest msg, ServerPlayer player) {
 		BlockPos pos = msg.pos();
 		MemorizedRecipe recipe = msg.recipe();
-		TileUtil.actOnTile(player.level(), pos, WorktableTile.class, worktable -> {
+		TileUtil.actOnTile(player.level(), pos, WorktableBlockEntity.class, worktable -> {
 			worktable.setCurrentRecipe(recipe);
 
 			if (player.containerMenu instanceof WorktableMenu containerWorktable) {

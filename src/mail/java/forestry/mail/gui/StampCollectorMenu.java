@@ -1,6 +1,6 @@
 package forestry.mail.gui;
 
-import forestry.core.platform.gui.ContainerTile;
+import forestry.core.platform.gui.BlockEntityMenu;
 import forestry.core.platform.gui.slots.SlotFiltered;
 import forestry.core.platform.gui.slots.SlotOutput;
 import forestry.core.platform.tile.TileUtil;
@@ -10,7 +10,7 @@ import forestry.mail.postoffice.StampCollectorBlockEntity;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 
-public class StampCollectorMenu extends ContainerTile<StampCollectorBlockEntity> {
+public class StampCollectorMenu extends BlockEntityMenu<StampCollectorBlockEntity> {
 	public static StampCollectorMenu fromNetwork(int windowId, Inventory inv, FriendlyByteBuf data) {
 		StampCollectorBlockEntity tile = TileUtil.getTile(inv.player.level(), data.readBlockPos(), StampCollectorBlockEntity.class);
 		return new StampCollectorMenu(windowId, inv, tile);
