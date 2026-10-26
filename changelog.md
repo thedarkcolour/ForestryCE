@@ -12,6 +12,7 @@
 - Fix Gourd farms not planting the soil that gourds grow on
 - Fix farms breaking waterlogged blocks
 - Farms now show a missing resource error when they need to place soil but have none
+- Fix farms replacing farm base blocks in a row with soil and checking the wrong block before placing water
 - Fix pipettes infinitely extracting liquid from GUIs
 - Fix flammable fluids exploding when not near fire, instead of when near fire
 - Fix Cork, Plywood, and Plywood Sheet blocks burning at the wrong rate, acting as a permanent fire source, and turning straight into fire when lit

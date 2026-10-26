@@ -68,7 +68,7 @@ public class FarmLogicCocoa extends FarmLogicSoil {
 					BlockState state = world.getBlockState(location);
 					if (z == 0 && !world.isEmptyBlock(location)
 						|| z > 0 && isAcceptedSoil(state)
-						|| !BlockUtil.isBreakableBlock(state, world, pos)) {
+						|| !BlockUtil.isBreakableBlock(state, world, location)) {
 						continue;
 					}
 
