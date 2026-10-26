@@ -1,11 +1,11 @@
 package forestry.agriculture.multifarm.tiles;
 
+import forestry.agriculture.features.FarmingBlockEntities;
 import forestry.agriculture.multifarm.multiblock.FarmPattern;
 import forestry.api.core.multiblock.IFarmComponent;
 import forestry.api.core.multiblock.IFarmController;
 import forestry.core.content.energy.EnergyHelper;
 import forestry.core.content.energy.ForestryEnergyStorage;
-import forestry.agriculture.features.MultifarmBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -24,7 +24,7 @@ public class MultifarmGearboxBlockEntity extends MultifarmBlockEntity implements
 	private int workCounter;
 
 	public MultifarmGearboxBlockEntity(BlockPos pos, BlockState state) {
-		super(MultifarmBlockEntities.GEARBOX.tileType(), pos, state);
+		super(FarmingBlockEntities.GEARBOX.tileType(), pos, state);
 
 		this.energyStorage = new ForestryEnergyStorage(200, 10000);
 	}

@@ -18,7 +18,6 @@ public class ForestryModuleIds {
 	public static final ResourceLocation MAIL = ForestryConstants.forestry("mail");
 	public static final ResourceLocation STORAGE = ForestryConstants.forestry("storage");
 	public static final ResourceLocation SORTING = ForestryConstants.forestry("sorting");
-	public static final ResourceLocation CULTIVATION = ForestryConstants.forestry("cultivation");
 	public static final ResourceLocation WORKTABLE = ForestryConstants.forestry("worktable");
 	public static final ResourceLocation CURIOS = ForestryConstants.forestry("curios");
 }

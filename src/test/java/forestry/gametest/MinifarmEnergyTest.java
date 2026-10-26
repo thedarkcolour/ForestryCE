@@ -11,7 +11,7 @@ import net.neoforged.neoforge.gametest.GameTestHolder;
 import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
 import forestry.api.ForestryConstants;
-import forestry.agriculture.features.MinifarmBlocks;
+import forestry.agriculture.features.FarmingBlocks;
 import forestry.agriculture.minifarm.blocks.MinifarmBlockType;
 import forestry.agriculture.minifarm.tiles.AbstractMinifarmBlockEntity;
 import forestry.core.content.energy.ForestryEnergyStorage;
@@ -96,7 +96,7 @@ public class MinifarmEnergyTest {
 	}
 
 	private static AbstractMinifarmBlockEntity placeFarm(GameTestHelper helper) {
-		helper.setBlock(FARM_POS, MinifarmBlocks.MANAGED_PLANTER.get(MinifarmBlockType.ARBORETUM).defaultState());
+		helper.setBlock(FARM_POS, FarmingBlocks.MANAGED_MINIFARM.get(MinifarmBlockType.ARBORETUM).defaultState());
 
 		if (helper.getBlockEntity(FARM_POS) instanceof AbstractMinifarmBlockEntity farm) {
 			return farm;

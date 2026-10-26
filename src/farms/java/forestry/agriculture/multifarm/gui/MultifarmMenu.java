@@ -1,5 +1,6 @@
 package forestry.agriculture.multifarm.gui;
 
+import forestry.agriculture.features.FarmingMenuTypes;
 import forestry.api.ForestryConstants;
 import forestry.core.platform.advancements.AdvancementHelper;
 import forestry.core.platform.gui.SocketedMenu;
@@ -9,7 +10,6 @@ import forestry.core.platform.gui.slots.SlotLiquidIn;
 import forestry.core.platform.gui.slots.SlotOutput;
 import forestry.core.platform.network.packets.PacketGuiStream;
 import forestry.core.platform.tile.TileUtil;
-import forestry.agriculture.features.MultifarmMenuTypes;
 import forestry.agriculture.multifarm.multiblock.MultifarmInventory;
 import forestry.agriculture.multifarm.tiles.MultifarmBlockEntity;
 import net.minecraft.network.FriendlyByteBuf;
@@ -27,7 +27,7 @@ public class MultifarmMenu extends SocketedMenu<MultifarmBlockEntity> implements
 	}
 
 	public MultifarmMenu(int windowId, Inventory playerInventory, MultifarmBlockEntity data) {
-		super(windowId, MultifarmMenuTypes.FARM.menuType(), playerInventory, data, 28, 138);
+		super(windowId, FarmingMenuTypes.MULTIFARM.menuType(), playerInventory, data, 28, 138);
 
 		Player player = playerInventory.player;
 		if (player != null) {

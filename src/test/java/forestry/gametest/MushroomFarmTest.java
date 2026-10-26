@@ -11,7 +11,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.gametest.GameTestHolder;
 import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
-import forestry.agriculture.features.MinifarmBlocks;
+import forestry.agriculture.features.FarmingBlocks;
 import forestry.agriculture.minifarm.blocks.MinifarmBlockType;
 import forestry.api.ForestryConstants;
 import forestry.api.IForestryApi;
@@ -43,7 +43,7 @@ public class MushroomFarmTest {
 	}
 
 	private static void assertFarmGrowsMushroom(GameTestHelper helper, Block mushroom) {
-		helper.setBlock(FARM_POS, MinifarmBlocks.MANAGED_PLANTER.get(MinifarmBlockType.FARM_MUSHROOM).defaultState());
+		helper.setBlock(FARM_POS, FarmingBlocks.MANAGED_MINIFARM.get(MinifarmBlockType.FARM_MUSHROOM).defaultState());
 		helper.setBlock(SOIL_POS, Blocks.MYCELIUM);
 		helper.setBlock(MUSHROOM_POS, mushroom);
 

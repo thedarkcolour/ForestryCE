@@ -10,25 +10,20 @@ import forestry.core.platform.registration.IFeatureRegistry;
 import forestry.core.platform.registration.ModFeatureRegistry;
 import net.minecraft.world.item.CreativeModeTab;
 import forestry.agriculture.minifarm.blocks.MinifarmBlockType;
-import forestry.agriculture.features.MinifarmBlocks;
+import forestry.agriculture.features.FarmingBlocks;
 import forestry.core.content.energy.features.EnergyBlocks;
 import forestry.core.content.machines.blocks.FactoryBlockType;
 import forestry.core.content.machines.blocks.SpecialFactoryBlockType;
 import forestry.core.content.machines.features.FactoryBlocks;
 import forestry.agriculture.multifarm.blocks.MultifarmBlockType;
 import forestry.agriculture.multifarm.blocks.MultifarmMaterialType;
-import forestry.agriculture.features.MultifarmBlocks;
 
-/**
- * The farming creative tab. Ordering keys are built from tab ids rather than tab objects so
- * this module does not depend on the others' holder classes.
- */
 @FeatureProvider
 public class AgricultureCreativeTab {
 	private static final IFeatureRegistry REGISTRY = ModFeatureRegistry.get(ForestryModuleIds.FARMING);
 
 	public static final FeatureCreativeTab AGRICULTURE = REGISTRY.creativeTab("agriculture", tab -> {
-		tab.icon(() -> MinifarmBlocks.MANAGED_PLANTER.stack(MinifarmBlockType.ARBORETUM));
+		tab.icon(() -> FarmingBlocks.MANAGED_MINIFARM.stack(MinifarmBlockType.ARBORETUM));
 		tab.displayItems(AgricultureCreativeTab::addAgricultureItems);
 		tab.withTabsBefore(ForestryCreativeTabs.tabKey("lepidopterology"));
 		tab.withTabsAfter(ForestryCreativeTabs.tabKey("storage"));
@@ -72,14 +67,14 @@ public class AgricultureCreativeTab {
 		// Multi farm
 		for (MultifarmMaterialType material : MultifarmMaterialType.values()) {
 			for (MultifarmBlockType type : MultifarmBlockType.values()) {
-				items.accept(MultifarmBlocks.FARM.stack(type, material));
+				items.accept(FarmingBlocks.FARM.stack(type, material));
 			}
 		}
 
 		// Single farm (boo)
 		for (MinifarmBlockType type : MinifarmBlockType.values()) {
-			items.accept(MinifarmBlocks.MANAGED_PLANTER.stack(type));
-			items.accept(MinifarmBlocks.MANUAL_PLANTER.stack(type));
+			items.accept(FarmingBlocks.MANAGED_MINIFARM.stack(type));
+			items.accept(FarmingBlocks.MANUAL_MINIFARM.stack(type));
 		}
 	}
 }

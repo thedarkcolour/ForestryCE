@@ -1,10 +1,10 @@
 package forestry.agriculture.multifarm.tiles;
 
+import forestry.agriculture.features.FarmingBlockEntities;
 import forestry.api.agriculture.IFarmListener;
 import forestry.api.agriculture.IFarmLogic;
 import forestry.api.core.multiblock.IFarmComponent;
 import forestry.agriculture.multifarm.blocks.MultifarmBlock;
-import forestry.agriculture.features.MultifarmBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
@@ -14,7 +14,7 @@ public class MultifarmControlBlockEntity extends MultifarmBlockEntity implements
 	private final IFarmListener farmListener;
 
 	public MultifarmControlBlockEntity(BlockPos pos, BlockState state) {
-		super(MultifarmBlockEntities.CONTROL.tileType(), pos, state);
+		super(FarmingBlockEntities.CONTROL.tileType(), pos, state);
 		this.farmListener = new ControlFarmListener(this);
 	}
 

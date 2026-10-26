@@ -1359,7 +1359,6 @@
   "for.module.charcoal.description": "Beinhaltet Holzstöße, Lehmerde und Holzkohleproduktion.",
   "for.module.core.description": "Grundlegende Mechaniken für Forestry. Von allen Modulen benötigt.",
   "for.module.crates.description": "Beinhaltet Kisten.",
-  "for.module.cultivation.description": "Beinhaltet automatische Farmen für alle möglichen Dinge.",
   "for.module.database.description": "Beinhaltet einen neuen Lagerblock für Bienen, Bäume und Schmetterlinge.",
   "for.module.energy.description": "Beinhaltet verschiedene FE-Motoren.",
   "for.module.factory.description": "Beinhaltet unterschiedliche Maschinen zur Fertigung, Herstellung und Verarbeitung von Produkten.",

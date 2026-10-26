@@ -9,8 +9,7 @@ import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.level.block.Block;
 
-import forestry.agriculture.features.MinifarmBlocks;
-import forestry.agriculture.features.MultifarmBlocks;
+import forestry.agriculture.features.FarmingBlocks;
 
 /**
  * Generates the block drop loot tables for the farms jar. Every farm block and every planter drops
@@ -30,9 +29,9 @@ public class AgricultureBlockLootTables extends BlockLootSubProvider {
 
 	@Override
 	protected List<Block> getKnownBlocks() {
-		List<Block> blocks = new ArrayList<>(MultifarmBlocks.FARM.getBlocks());
-		blocks.addAll(List.of(MinifarmBlocks.MANAGED_PLANTER.blockArray()));
-		blocks.addAll(List.of(MinifarmBlocks.MANUAL_PLANTER.blockArray()));
+		List<Block> blocks = new ArrayList<>(FarmingBlocks.FARM.getBlocks());
+		blocks.addAll(List.of(FarmingBlocks.MANAGED_MINIFARM.blockArray()));
+		blocks.addAll(List.of(FarmingBlocks.MANUAL_MINIFARM.blockArray()));
 		return blocks;
 	}
 }

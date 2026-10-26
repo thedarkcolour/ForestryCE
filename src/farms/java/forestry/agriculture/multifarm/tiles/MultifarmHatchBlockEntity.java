@@ -1,10 +1,10 @@
 package forestry.agriculture.multifarm.tiles;
 
+import forestry.agriculture.features.FarmingBlockEntities;
 import forestry.api.core.multiblock.IFarmComponent;
 import forestry.core.platform.inventory.AdjacentInventoryCache;
 import forestry.core.platform.tile.AdjacentTileCache;
 import forestry.core.platform.util.InventoryUtil;
-import forestry.agriculture.features.MultifarmBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.Container;
@@ -21,7 +21,7 @@ public class MultifarmHatchBlockEntity extends MultifarmBlockEntity implements W
 	private final AdjacentInventoryCache inventoryCache;
 
 	public MultifarmHatchBlockEntity(BlockPos pos, BlockState state) {
-		super(MultifarmBlockEntities.HATCH.tileType(), pos, state);
+		super(FarmingBlockEntities.HATCH.tileType(), pos, state);
 		this.tileCache = new AdjacentTileCache(this);
 		this.inventoryCache = new AdjacentInventoryCache(this, this.tileCache, tile -> !(tile instanceof MultifarmBlockEntity) && tile.getBlockPos().getY() < getBlockPos().getY());
 	}

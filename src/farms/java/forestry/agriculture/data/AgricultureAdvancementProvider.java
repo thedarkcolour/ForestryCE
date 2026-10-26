@@ -19,8 +19,7 @@ import net.minecraft.world.item.Item;
 import net.neoforged.neoforge.common.data.AdvancementProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
-import forestry.agriculture.features.MinifarmBlocks;
-import forestry.agriculture.features.MultifarmBlocks;
+import forestry.agriculture.features.FarmingBlocks;
 import forestry.agriculture.multifarm.blocks.MultifarmBlockType;
 import forestry.agriculture.multifarm.blocks.MultifarmMaterialType;
 import forestry.agriculture.minifarm.blocks.MinifarmBlockType;
@@ -43,23 +42,23 @@ public class AgricultureAdvancementProvider extends AdvancementProvider {
 			AdvancementHolder fabricator = ForestryAdvancements.reference("get_fabricator");
 
 			List<Item> planters = new ArrayList<>();
-			for (BlockItem planter : MinifarmBlocks.MANAGED_PLANTER.getItems()) {
+			for (BlockItem planter : FarmingBlocks.MANAGED_MINIFARM.getItems()) {
 				planters.add(planter.asItem());
 			}
-			for (BlockItem planter : MinifarmBlocks.MANUAL_PLANTER.getItems()) {
+			for (BlockItem planter : FarmingBlocks.MANUAL_MINIFARM.getItems()) {
 				planters.add(planter.asItem());
 			}
 
 			// Farming Simulator
 			AdvancementHolder farmingSimulator = ForestryAdvancements.add(writer, "farming_simulator",
-				MinifarmBlocks.MANAGED_PLANTER.stack(MinifarmBlockType.ARBORETUM),
+				FarmingBlocks.MANAGED_MINIFARM.stack(MinifarmBlockType.ARBORETUM),
 				fabricator,
 				InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(planters.toArray(Item[]::new))));
 
 			// Feed The World
 			// Granted manually via ContainerFarm
 			ForestryAdvancements.add(writer, "feed_the_world",
-				MultifarmBlocks.FARM.stack(MultifarmBlockType.PLAIN, MultifarmMaterialType.STONE_BRICK),
+				FarmingBlocks.FARM.stack(MultifarmBlockType.PLAIN, MultifarmMaterialType.STONE_BRICK),
 				farmingSimulator,
 				CriteriaTriggers.IMPOSSIBLE.createCriterion(new ImpossibleTrigger.TriggerInstance()),
 				AdvancementType.GOAL, false);

@@ -9,8 +9,7 @@ import net.neoforged.neoforge.client.model.generators.ModelFile;
 import net.neoforged.neoforge.client.model.generators.loaders.CompositeModelBuilder;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
-import forestry.agriculture.features.MinifarmBlocks;
-import forestry.agriculture.features.MultifarmBlocks;
+import forestry.agriculture.features.FarmingBlocks;
 import forestry.agriculture.multifarm.blocks.MultifarmBlockType;
 import forestry.agriculture.multifarm.blocks.MultifarmMaterialType;
 import forestry.agriculture.multifarm.blocks.MultifarmBlock;
@@ -35,7 +34,7 @@ public class AgricultureBlockStateProvider extends BlockStateProvider {
 
 	@Override
 	protected void registerStatesAndModels() {
-		for (MultifarmBlock block : MultifarmBlocks.FARM.getBlocks()) {
+		for (MultifarmBlock block : FarmingBlocks.FARM.getBlocks()) {
 			if (block.getType() == MultifarmBlockType.PLAIN) {
 				plainFarm(block);
 			} else {
@@ -47,8 +46,8 @@ public class AgricultureBlockStateProvider extends BlockStateProvider {
 
 		for (MinifarmBlockType planter : MinifarmBlockType.values()) {
 			ModelFile model = models().getExistingFile(modBlock(this, planter.getSerializedName()));
-			Block managed = MinifarmBlocks.MANAGED_PLANTER.get(planter).block();
-			Block manual = MinifarmBlocks.MANUAL_PLANTER.get(planter).block();
+			Block managed = FarmingBlocks.MANAGED_MINIFARM.get(planter).block();
+			Block manual = FarmingBlocks.MANUAL_MINIFARM.get(planter).block();
 
 			ForestryBlockStateProvider.horizontalForestryBlock(this, managed, model);
 			ForestryBlockStateProvider.horizontalForestryBlock(this, manual, model);

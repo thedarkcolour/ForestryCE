@@ -1,12 +1,12 @@
 package forestry.agriculture.data;
 
+import forestry.agriculture.features.FarmingBlocks;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 
 import thedarkcolour.modkit.data.MKTagsProvider;
 
-import forestry.agriculture.features.MultifarmBlocks;
 import forestry.agriculture.multifarm.blocks.MultifarmMaterialType;
 import forestry.agriculture.multifarm.blocks.MultifarmBlock;
 import forestry.api.ForestryTags;
@@ -23,7 +23,7 @@ public class AgricultureBlockTagsProvider {
 		}
 		tags.tag(ForestryTags.Blocks.VALID_FARM_BASE).add(Blocks.SMOOTH_STONE);
 
-		for (MultifarmBlock block : MultifarmBlocks.FARM.getBlocks()) {
+		for (MultifarmBlock block : FarmingBlocks.FARM.getBlocks()) {
 			tags.tag(BlockTags.MINEABLE_WITH_PICKAXE).add(block);
 		}
 	}

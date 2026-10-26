@@ -1,7 +1,7 @@
 package forestry.agriculture.minifarm.tiles;
 
 import forestry.api.agriculture.ForestryFarmTypes;
-import forestry.agriculture.features.MinifarmBlockEntities;
+import forestry.agriculture.features.FarmingBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -12,7 +12,7 @@ import java.util.List;
 
 public class ArboretumBlockEntity extends AbstractMinifarmBlockEntity {
 	public ArboretumBlockEntity(BlockPos pos, BlockState state) {
-		super(MinifarmBlockEntities.ARBORETUM.tileType(), pos, state, ForestryFarmTypes.ARBOREAL);
+		super(FarmingBlockEntities.ARBORETUM.tileType(), pos, state, ForestryFarmTypes.ARBOREAL);
 	}
 
 	@Override

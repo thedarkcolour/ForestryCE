@@ -1,45 +1,28 @@
 package forestry.agriculture.multifarm.blocks;
 
 import forestry.api.core.IBlockSubtype;
-import net.minecraft.ChatFormatting;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 
 import java.util.Locale;
 
 public enum MultifarmMaterialType implements IBlockSubtype {
-	STONE_BRICK(Blocks.STONE_BRICKS, ChatFormatting.DARK_GRAY),
-	MOSSY_STONE_BRICK(Blocks.MOSSY_STONE_BRICKS, ChatFormatting.DARK_GRAY),
-	CRACKED_STONE_BRICK(Blocks.CRACKED_STONE_BRICKS, ChatFormatting.DARK_GRAY),
-	BRICK(Blocks.BRICKS, ChatFormatting.GOLD),
-	CUT_SANDSTONE(Blocks.CUT_SANDSTONE, ChatFormatting.YELLOW),
-	SANDSTONE_CHISELED(Blocks.CHISELED_SANDSTONE, ChatFormatting.YELLOW),
-	BRICK_NETHER(Blocks.NETHER_BRICKS, ChatFormatting.DARK_RED),
-	BRICK_CHISELED(Blocks.CHISELED_STONE_BRICKS, ChatFormatting.GOLD),
-	QUARTZ(Blocks.QUARTZ_BLOCK, ChatFormatting.WHITE),
-	QUARTZ_CHISELED(Blocks.CHISELED_QUARTZ_BLOCK, ChatFormatting.WHITE),
-	QUARTZ_LINES(Blocks.QUARTZ_PILLAR, ChatFormatting.WHITE);
+	STONE_BRICK(Blocks.STONE_BRICKS),
+	MOSSY_STONE_BRICK(Blocks.MOSSY_STONE_BRICKS),
+	CRACKED_STONE_BRICK(Blocks.CRACKED_STONE_BRICKS),
+	BRICK(Blocks.BRICKS),
+	CUT_SANDSTONE(Blocks.CUT_SANDSTONE),
+	CHISELED_SANDSTONE(Blocks.CHISELED_SANDSTONE),
+	NETHER_BRICK(Blocks.NETHER_BRICKS),
+	CHISELED_STONE_BRICK(Blocks.CHISELED_STONE_BRICKS),
+	QUARTZ(Blocks.QUARTZ_BLOCK),
+	CHISELED_QUARTZ(Blocks.CHISELED_QUARTZ_BLOCK),
+	QUARTZ_PILLAR(Blocks.QUARTZ_PILLAR);
 
 	private final Block base;
-	private final ChatFormatting formatting;
 
-	MultifarmMaterialType(Block base, ChatFormatting formatting) {
+	MultifarmMaterialType(Block base) {
 		this.base = base;
-		this.formatting = formatting;
-	}
-
-	public ChatFormatting getFormatting() {
-		return this.formatting;
-	}
-
-	public void saveToCompound(CompoundTag compound) {
-		compound.putInt("FarmBlock", this.ordinal());
-	}
-
-	public Component getDisplayName() {
-		return this.base.getName();
 	}
 
 	@Override

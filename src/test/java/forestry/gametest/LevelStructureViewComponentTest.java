@@ -2,6 +2,7 @@ package forestry.gametest;
 
 import java.util.List;
 
+import forestry.agriculture.features.FarmingBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
@@ -17,7 +18,6 @@ import forestry.apiculture.features.ApicultureBlocks;
 import forestry.core.platform.multiblock.LevelStructureView;
 import forestry.agriculture.multifarm.blocks.MultifarmBlockType;
 import forestry.agriculture.multifarm.blocks.MultifarmMaterialType;
-import forestry.agriculture.features.MultifarmBlocks;
 
 /**
  * Covers component recognition in {@link LevelStructureView}. A member that fills no reserved role
@@ -54,7 +54,7 @@ public class LevelStructureViewComponentTest {
 	@GameTest(template = "empty", timeoutTicks = TIMEOUT)
 	public static void farmFormsWithNonRoleComponent(GameTestHelper helper) {
 		List<BlockPos> members = MultiblockTestSupport.buildFarm(helper, BASE);
-		BlockState hatch = MultifarmBlocks.FARM.get(MultifarmBlockType.HATCH, MultifarmMaterialType.STONE_BRICK).defaultState();
+		BlockState hatch = FarmingBlocks.FARM.get(MultifarmBlockType.HATCH, MultifarmMaterialType.STONE_BRICK).defaultState();
 		// exterior, and not the level-2 plain-only band
 		helper.setBlock(BASE.offset(0, 1, 1), hatch);
 

@@ -1,16 +1,16 @@
 package forestry.agriculture.multifarm.tiles;
 
+import forestry.agriculture.features.FarmingBlockEntities;
 import forestry.agriculture.multifarm.multiblock.FarmPattern;
 import forestry.api.core.multiblock.IMultiblockController;
 import forestry.agriculture.multifarm.blocks.MultifarmBlock;
-import forestry.agriculture.features.MultifarmBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class PlainMultifarmBlockEntity extends MultifarmBlockEntity {
 	public PlainMultifarmBlockEntity(BlockPos pos, BlockState state) {
-		super(MultifarmBlockEntities.PLAIN.tileType(), pos, state);
+		super(FarmingBlockEntities.PLAIN.tileType(), pos, state);
 	}
 
 	@Override
