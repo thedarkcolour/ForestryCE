@@ -12,7 +12,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 
-public class BlockExtendedLeaves extends LeavesBlock {
+public class ExtendedLeavesBlock extends LeavesBlock {
 	private static final ThreadLocal<byte[]> SURROUNDINGS = ThreadLocal.withInitial(() -> new byte[32768]);
 	private static final byte SUPPORTED_LEAVES = 0;
 	private static final byte NO_LEAVES = -1;
@@ -21,7 +21,7 @@ public class BlockExtendedLeaves extends LeavesBlock {
 	// true when a leaves block with distance 6 or below is nearby (extends range to ~10)
 	public static final BooleanProperty SUPPORTED = BooleanProperty.create("supported");
 
-	public BlockExtendedLeaves(Properties properties) {
+	public ExtendedLeavesBlock(Properties properties) {
 		super(properties);
 
 		registerDefaultState(defaultBlockState().setValue(SUPPORTED, false));
@@ -73,7 +73,7 @@ public class BlockExtendedLeaves extends LeavesBlock {
 					BlockPos neighborPos = pos.relative(direction);
 					BlockState neighborState = level.getBlockState(neighborPos);
 
-					if (neighborState.getBlock() instanceof BlockExtendedLeaves) {
+					if (neighborState.getBlock() instanceof ExtendedLeavesBlock) {
 						level.scheduleTick(neighborPos, neighborState.getBlock(), 1);
 					}
 				}
@@ -90,7 +90,7 @@ public class BlockExtendedLeaves extends LeavesBlock {
 	}
 
 	private static boolean hasExtendedSupport(LevelAccessor level, BlockPos pos) {
-		byte[] surroundings = BlockExtendedLeaves.SURROUNDINGS.get();
+		byte[] surroundings = ExtendedLeavesBlock.SURROUNDINGS.get();
 
 		BlockPos.MutableBlockPos cursor = new BlockPos.MutableBlockPos();
 		// there's probably a faster way than just re-adding each time

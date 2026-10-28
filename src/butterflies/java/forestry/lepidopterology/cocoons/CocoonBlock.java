@@ -6,7 +6,6 @@ import forestry.core.platform.tile.TileUtil;
 import forestry.core.platform.util.NBTUtilForestry;
 import forestry.core.platform.util.SpeciesUtil;
 import forestry.lepidopterology.butterflies.ItemButterflyGE;
-import forestry.lepidopterology.cocoons.TileCocoon;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -29,11 +28,11 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-public class BlockCocoon extends Block implements EntityBlock {
+public class CocoonBlock extends Block implements EntityBlock {
 	public static final VoxelShape BOUNDING_BOX = Block.box(5f, 5f, 5f, 11f, 16F, 11f);
 	public static final IntegerProperty AGE = IntegerProperty.create("age", 0, 2);
 
-	public BlockCocoon(Block.Properties properties) {
+	public CocoonBlock(Block.Properties properties) {
 		super(properties.randomTicks().sound(SoundType.GRAVEL));
 		registerDefaultState(getStateDefinition().any().setValue(AGE, 0));
 	}

@@ -17,8 +17,8 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
-public class ItemSmoker extends ItemForestry {
-	public ItemSmoker() {
+public class SmokerItem extends ItemForestry {
+	public SmokerItem() {
 		super(new Properties().stacksTo(1));
 	}
 

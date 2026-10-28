@@ -16,7 +16,7 @@ import forestry.arboriculture.wood.ForestryDoorBlock;
 import forestry.arboriculture.wood.ForestryFenceBlock;
 import forestry.arboriculture.wood.ForestryFenceGateBlock;
 import forestry.arboriculture.wood.ForestryHangingSignBlock;
-import forestry.arboriculture.leaves.BlockForestryLeaves;
+import forestry.arboriculture.leaves.ForestryLeavesBlock;
 import forestry.arboriculture.wood.ForestryLogBlock;
 import forestry.arboriculture.wood.ForestryPlanksBlock;
 import forestry.arboriculture.wood.ForestryPressurePlateBlock;
@@ -100,7 +100,7 @@ public class ArboricultureBlocks {
 
 	/* GENETICS */
 	public static final FeatureBlock<SaplingBlock, BlockItem> SAPLING_GE = REGISTRY.block(SaplingBlock::new, "sapling_ge");
-	public static final FeatureBlock<BlockForestryLeaves, LeavesBlockItem> LEAVES = REGISTRY.block(BlockForestryLeaves::new, LeavesBlockItem::new, "leaves");
+	public static final FeatureBlock<ForestryLeavesBlock, LeavesBlockItem> LEAVES = REGISTRY.block(ForestryLeavesBlock::new, LeavesBlockItem::new, "leaves");
 	public static final FeatureBlockGroup<DefaultLeavesBlock, ForestryLeafType> LEAVES_DEFAULT = REGISTRY.blockGroup(DefaultLeavesBlock::new, ForestryLeafType.values()).item(DefaultLeavesBlockItem::new).identifier("default_leaves", FeatureGroup.IdentifierType.SUFFIX).create();
 	public static final FeatureBlockGroup<DefaultFruitLeavesBlock, ForestryLeafType> LEAVES_DEFAULT_FRUIT = REGISTRY.blockGroup(DefaultFruitLeavesBlock::new, ForestryLeafType.values()).item(DefaultLeavesBlockItem::new).identifier("default_leaves_fruit", FeatureGroup.IdentifierType.SUFFIX).create();
 	public static final FeatureBlockGroup<DecorativeLeavesBlock, ForestryLeafType> LEAVES_DECORATIVE = REGISTRY.blockGroup(DecorativeLeavesBlock::new, ForestryLeafType.values()).item(DecorativeLeavesBlockItem::new).identifier("decorative_leaves", FeatureGroup.IdentifierType.SUFFIX).create();

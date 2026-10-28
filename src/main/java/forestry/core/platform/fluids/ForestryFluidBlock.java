@@ -11,14 +11,13 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.phys.AABB;
 
-public class BlockForestryFluid extends LiquidBlock {
+public class ForestryFluidBlock extends LiquidBlock {
 	private final boolean spreadsFire;
 	private final int flammability;
 	private final int color;
@@ -27,7 +26,7 @@ public class BlockForestryFluid extends LiquidBlock {
 	private final float explosionPower;
 	private final boolean explodes;
 
-	public BlockForestryFluid(BlockBehaviour.Properties blockProperties, FeatureFluid feature) {
+	public ForestryFluidBlock(BlockBehaviour.Properties blockProperties, FeatureFluid feature) {
 		super(feature.fluid(), createBlockProperties(blockProperties, feature.properties()));
 		FluidProperties properties = feature.properties();
 		this.flammability = properties.flammability;

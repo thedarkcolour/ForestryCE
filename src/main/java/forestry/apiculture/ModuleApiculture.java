@@ -19,7 +19,7 @@ import forestry.apiculture.alveary.multiblock.AbstractAlvearyBlockEntity;
 import forestry.apiculture.alveary.multiblock.AlvearyClimatizerBlockEntity;
 import forestry.apiculture.alveary.multiblock.AlvearyHygroregulatorBlockEntity;
 import forestry.apiculture.apiarist.ArmorApiaristHelper;
-import forestry.apiculture.apiarist.ItemArmorApiarist;
+import forestry.apiculture.apiarist.ApiaristSuitItem;
 import forestry.apiculture.apiarist.villagers.ApicultureVillagers;
 import forestry.apiculture.apiary.ApiaryBlockEntity;
 import forestry.apiculture.bees.EnumPollenCluster;
@@ -87,7 +87,7 @@ public class ModuleApiculture extends BlankForestryModule {
 	}
 
 	private static void registerCapabilities(RegisterCapabilitiesEvent event) {
-		event.registerItem(ForestryCapabilities.BEE_PROTECTION, (stack, context) -> ItemArmorApiarist.BeeProtection.INSTANCE,
+		event.registerItem(ForestryCapabilities.BEE_PROTECTION, (stack, context) -> ApiaristSuitItem.BeeProtection.INSTANCE,
 			ApicultureItems.APIARIST_HELMET.item(),
 			ApicultureItems.APIARIST_CHEST.item(),
 			ApicultureItems.APIARIST_LEGS.item(),

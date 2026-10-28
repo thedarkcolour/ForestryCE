@@ -18,7 +18,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.Map;
 
-public class ItemArmorApiarist extends ArmorItem {
+public class ApiaristSuitItem extends ArmorItem {
 	private static final Holder<ArmorMaterial> APIARIST_ARMOR_MATERIAL = Holder.direct(new ArmorMaterial(
 		Map.of(
 			ArmorItem.Type.BOOTS, 1,
@@ -44,7 +44,7 @@ public class ItemArmorApiarist extends ArmorItem {
 		}
 	}
 
-	public ItemArmorApiarist(ArmorItem.Type type) {
+	public ApiaristSuitItem(ArmorItem.Type type) {
 		super(APIARIST_ARMOR_MATERIAL, type, new Item.Properties());
 	}
 }

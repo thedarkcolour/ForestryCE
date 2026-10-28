@@ -1,6 +1,5 @@
 package forestry.apiculture.bees;
 
-import forestry.apiculture.bees.EnumHoneyComb;
 import forestry.core.platform.block.IColoredBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockAndTintGetter;
@@ -12,10 +11,10 @@ import net.neoforged.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
 
-public class BlockHoneyComb extends Block implements IColoredBlock {
+public class HoneyCombBlock extends Block implements IColoredBlock {
 	public final EnumHoneyComb type;
 
-	public BlockHoneyComb(EnumHoneyComb type) {
+	public HoneyCombBlock(EnumHoneyComb type) {
 		super(Block.Properties.of().sound(SoundType.CORAL_BLOCK).strength(1F));
 		this.type = type;
 	}

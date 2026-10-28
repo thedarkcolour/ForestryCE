@@ -31,8 +31,8 @@ import net.neoforged.neoforge.items.ItemHandlerHelper;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class BlockForestryLeaves extends AbstractLeavesBlock implements BonemealableBlock, EntityBlock {
-	public BlockForestryLeaves(Properties properties) {
+public class ForestryLeavesBlock extends AbstractLeavesBlock implements BonemealableBlock, EntityBlock {
+	public ForestryLeavesBlock(Properties properties) {
 		super(properties);
 	}
 

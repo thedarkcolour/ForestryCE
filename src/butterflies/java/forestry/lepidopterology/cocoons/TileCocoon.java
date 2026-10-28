@@ -5,7 +5,6 @@ import forestry.api.core.genetics.alleles.ButterflyChromosomes;
 import forestry.api.lepidopterology.genetics.IButterfly;
 import forestry.core.platform.util.ItemStackUtil;
 import forestry.core.platform.util.SpeciesUtil;
-import forestry.lepidopterology.cocoons.BlockCocoon;
 import forestry.lepidopterology.features.LepidopterologyTiles;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
@@ -64,10 +63,10 @@ public class TileCocoon extends BlockEntity {
 			.round((float) caterpillarGenome.getActiveValue(ButterflyChromosomes.LIFESPAN) / (caterpillarGenome.getActiveValue(ButterflyChromosomes.FERTILITY) * 2));
 
 		if (this.maturationTime >= caterpillarMatureTime) {
-			int age = getBlockState().getValue(BlockCocoon.AGE);
+			int age = getBlockState().getValue(CocoonBlock.AGE);
 			if (age < 2) {
                 this.maturationTime = 0;
-				BlockState blockState = getBlockState().setValue(BlockCocoon.AGE, age + 1);
+				BlockState blockState = getBlockState().setValue(CocoonBlock.AGE, age + 1);
                 this.level.setBlock(this.worldPosition, blockState, Block.UPDATE_NEIGHBORS | Block.UPDATE_CLIENTS);
 			} else if (this.caterpillar.canTakeFlight(this.level, getBlockPos().getX(), getBlockPos().getY(), getBlockPos().getZ())) {
 				List<ItemStack> cocoonDrops = this.caterpillar.getCocoonDrop(this.isSolid, this.caterpillar.getGenome().resolveActive(ButterflyChromosomes.COCOON));

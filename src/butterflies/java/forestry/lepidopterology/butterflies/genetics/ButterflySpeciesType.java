@@ -28,7 +28,7 @@ import forestry.core.platform.util.SpeciesUtil;
 import forestry.arboriculture.trees.TreeUtil;
 import forestry.lepidopterology.butterflies.ButterflySpawner;
 import forestry.lepidopterology.ModuleLepidopterology;
-import forestry.lepidopterology.cocoons.BlockCocoon;
+import forestry.lepidopterology.cocoons.CocoonBlock;
 import forestry.lepidopterology.entities.EntityButterfly;
 import forestry.lepidopterology.features.LepidopterologyBlocks;
 import forestry.lepidopterology.features.LepidopterologyEntities;
@@ -132,7 +132,7 @@ public class ButterflySpeciesType extends SpeciesType<IButterflySpecies, IButter
 			return null;
 		}
 		// todo replace with cocoon allele
-		BlockState state = LepidopterologyBlocks.COCOON.defaultState().setValue(BlockCocoon.AGE, age);
+		BlockState state = LepidopterologyBlocks.COCOON.defaultState().setValue(CocoonBlock.AGE, age);
 		boolean placed = level.setBlock(pos, state, Block.UPDATE_CLIENTS | Block.UPDATE_KNOWN_SHAPE);
 		if (!placed) {
 			return null;

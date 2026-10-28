@@ -52,8 +52,8 @@ public class CoreBlocks {
 		.sound(SoundType.METAL)
 		.lightLevel(state -> state.getValue(BurnBarrelBlock.LIT) ? 15 : 0), ForestryBlockItem::new, "burn_barrel");
 
-	public static final FeatureBlock<BlockBogEarth, ForestryBlockItem<?>> BOG_EARTH = REGISTRY.block(BlockBogEarth::new, ForestryBlockItem::new, "bog_earth");
-	public static final FeatureBlock<BlockPeat, ForestryBlockItem<?>> PEAT = REGISTRY.block(BlockPeat::new, null, "peat");
+	public static final FeatureBlock<BogEarthBlock, ForestryBlockItem<?>> BOG_EARTH = REGISTRY.block(BogEarthBlock::new, ForestryBlockItem::new, "bog_earth");
+	public static final FeatureBlock<PeatBlock, ForestryBlockItem<?>> PEAT = REGISTRY.block(PeatBlock::new, null, "peat");
 	public static final FeatureBlock<HumusBlock, ForestryBlockItem<?>> HUMUS = REGISTRY.block(HumusBlock::new, ForestryBlockItem::new, "humus");
 	public static final FeatureBlockGroup<ResourceStorageBlock, ResourceStorageBlockType> RESOURCE_STORAGE = REGISTRY.blockGroup(ResourceStorageBlock::new, List.of(ResourceStorageBlockType.values())).item(ForestryBlockItem::new).identifier("block", FeatureGroup.IdentifierType.SUFFIX).create();
 	public static final FeatureBlock<Block, BlockItem> APATITE_ORE = REGISTRY.block((properties) -> new DropExperienceBlock(UniformInt.of(0, 4), properties), () -> Properties.ofFullCopy(Blocks.COAL_ORE), ForestryBlockItem::new, "apatite_ore");

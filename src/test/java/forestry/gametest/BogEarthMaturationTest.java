@@ -12,7 +12,7 @@ import net.neoforged.neoforge.gametest.GameTestHolder;
 import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
 import forestry.api.ForestryConstants;
-import forestry.core.content.soil.BlockBogEarth;
+import forestry.core.content.soil.BogEarthBlock;
 import forestry.core.features.CoreBlocks;
 
 /**
@@ -84,12 +84,12 @@ public class BogEarthMaturationTest {
 	public static void everyMaturityValueReachesPeat(GameTestHelper helper) {
 		helper.setBlock(NEAR_WATER, Blocks.WATER);
 
-		Collection<Integer> maturities = BlockBogEarth.MATURITY.getPossibleValues();
+		Collection<Integer> maturities = BogEarthBlock.MATURITY.getPossibleValues();
 		helper.assertTrue(maturities.size() == EXPECTED_ADVANCES,
 			"expected " + EXPECTED_ADVANCES + " maturity values, one per advance, found " + maturities.size());
 
 		for (int maturity : maturities) {
-			helper.setBlock(BOG_POS, CoreBlocks.BOG_EARTH.defaultState().setValue(BlockBogEarth.MATURITY, maturity));
+			helper.setBlock(BOG_POS, CoreBlocks.BOG_EARTH.defaultState().setValue(BogEarthBlock.MATURITY, maturity));
 
 			int advances = advanceUntilPeat(helper);
 
@@ -139,8 +139,8 @@ public class BogEarthMaturationTest {
 			advances++;
 
 			if (!after.is(CoreBlocks.PEAT.block())) {
-				int from = before.getValue(BlockBogEarth.MATURITY);
-				int to = after.getValue(BlockBogEarth.MATURITY);
+				int from = before.getValue(BogEarthBlock.MATURITY);
+				int to = after.getValue(BogEarthBlock.MATURITY);
 				helper.assertTrue(to == from + 1, "maturity jumped from " + from + " to " + to + " in one tick");
 			}
 		}
@@ -157,6 +157,6 @@ public class BogEarthMaturationTest {
 		}
 
 		helper.assertBlockPresent(CoreBlocks.BOG_EARTH.block(), BOG_POS);
-		helper.assertTrue(helper.getBlockState(BOG_POS).getValue(BlockBogEarth.MATURITY) == 0, message);
+		helper.assertTrue(helper.getBlockState(BOG_POS).getValue(BogEarthBlock.MATURITY) == 0, message);
 	}
 }

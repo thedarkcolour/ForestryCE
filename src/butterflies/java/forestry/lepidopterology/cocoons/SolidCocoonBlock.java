@@ -1,7 +1,6 @@
 package forestry.lepidopterology.cocoons;
 
 import forestry.core.platform.util.ItemStackUtil;
-import forestry.lepidopterology.cocoons.TileCocoon;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.player.Player;
@@ -22,18 +21,18 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class BlockSolidCocoon extends Block implements EntityBlock {
-	public BlockSolidCocoon(Block.Properties properties) {
+public class SolidCocoonBlock extends Block implements EntityBlock {
+	public SolidCocoonBlock(Block.Properties properties) {
 		super(properties
 			.strength(0.5F)
 			.randomTicks()
 			.sound(SoundType.GRAVEL));
-		registerDefaultState(getStateDefinition().any().setValue(BlockCocoon.AGE, 0));
+		registerDefaultState(getStateDefinition().any().setValue(CocoonBlock.AGE, 0));
 	}
 
 	@Override
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-		builder.add(BlockCocoon.AGE);
+		builder.add(CocoonBlock.AGE);
 	}
 
 	@Override
@@ -64,6 +63,6 @@ public class BlockSolidCocoon extends Block implements EntityBlock {
 
 	@Override
 	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
-		return BlockCocoon.BOUNDING_BOX;
+		return CocoonBlock.BOUNDING_BOX;
 	}
 }

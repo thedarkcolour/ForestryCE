@@ -12,16 +12,14 @@ import net.minecraft.world.level.material.Fluid;
 import javax.annotation.Nullable;
 import java.util.function.Supplier;
 
-public class BlockWax extends Block {
+public class WaxBlock extends Block {
 	private final boolean meltable;
 
 	// Adding this for compatibility reasons. Other bee mods might want meltable wax blocks yknow.
-	// Deviation from 1.20.1: held as a Supplier so the block never resolves a deferred fluid while
-	// the block registry is still being filled
 	@Nullable
 	private final Supplier<Fluid> meltingFluid;
 
-	public BlockWax(Properties properties, boolean melts, @Nullable Supplier<Fluid> meltingFluid) {
+	public WaxBlock(Properties properties, boolean melts, @Nullable Supplier<Fluid> meltingFluid) {
 		super(properties);
 		this.meltable = melts;
 		this.meltingFluid = meltingFluid;

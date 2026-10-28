@@ -44,14 +44,14 @@ import java.util.Map;
 import forestry.api.apiculture.ForestryActivityTypes;
 
 // Hives where wild bees live
-public class BlockBeeHive extends Block implements EntityBlock {
+public class HiveBlock extends Block implements EntityBlock {
 	private final ResourceLocation speciesId;
 
-	public BlockBeeHive(HiveBlockType type) {
+	public HiveBlock(HiveBlockType type) {
 		this(type.getSpeciesId());
 	}
 
-	public BlockBeeHive(ResourceLocation speciesId) {
+	public HiveBlock(ResourceLocation speciesId) {
 		super(Properties.of().sound(SoundType.WOOD).lightLevel(state -> 7).strength(2.5f));
 		this.speciesId = speciesId;
 	}

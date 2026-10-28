@@ -17,12 +17,12 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
  * bog earth, which becomes peat.
  * <a href="https://forestryce.miraheze.org/wiki/Bog_Earth">Bog Earth - Forestry: Community Edition</a>
  */
-public class BlockBogEarth extends Block {
+public class BogEarthBlock extends Block {
 	// maturity at which bogEarth becomes peat
 	private static final int MAX_MATURITY = 2;
 	public static final IntegerProperty MATURITY = IntegerProperty.create("maturity", 0, MAX_MATURITY);
 
-	public BlockBogEarth(Block.Properties properties) {
+	public BogEarthBlock(Block.Properties properties) {
 		super(properties
 			.randomTicks()
 			.strength(0.5f)

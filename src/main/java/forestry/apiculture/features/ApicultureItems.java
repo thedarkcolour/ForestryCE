@@ -6,14 +6,14 @@ import forestry.apiculture.bees.EnumHoneyComb;
 import forestry.apiculture.bees.EnumPollenCluster;
 import forestry.apiculture.bees.EnumPropolis;
 import forestry.apiculture.bees.ItemAmbrosia;
-import forestry.apiculture.apiarist.ItemArmorApiarist;
+import forestry.apiculture.apiarist.ApiaristSuitItem;
 import forestry.apiculture.bees.ForestryBeeItem;
 import forestry.apiculture.apiary.CreativeHiveFrameItem;
 import forestry.apiculture.apiary.HiveFrameItem;
 import forestry.apiculture.bees.ItemHoneyComb;
 import forestry.apiculture.bees.PollenClusterItem;
 import forestry.apiculture.bees.PropolisItem;
-import forestry.apiculture.apiarist.ItemSmoker;
+import forestry.apiculture.apiarist.SmokerItem;
 import forestry.core.platform.item.ItemForestry;
 import forestry.core.platform.item.ItemForestryFood;
 import forestry.core.platform.registration.*;
@@ -60,13 +60,13 @@ public class ApicultureItems {
 	public static final FeatureItem<ItemForestryFood> AMBROSIA = REGISTRY.item(() -> new ItemAmbrosia().setIsDrink(), "ambrosia");
 
 	// / APIARIST'S CLOTHES
-	public static final FeatureItem<ItemArmorApiarist> APIARIST_HELMET = REGISTRY.item(() -> new ItemArmorApiarist(ArmorItem.Type.HELMET), "apiarists_hat");
-	public static final FeatureItem<ItemArmorApiarist> APIARIST_CHEST = REGISTRY.item(() -> new ItemArmorApiarist(ArmorItem.Type.CHESTPLATE), "apiarists_shirt");
-	public static final FeatureItem<ItemArmorApiarist> APIARIST_LEGS = REGISTRY.item(() -> new ItemArmorApiarist(ArmorItem.Type.LEGGINGS), "apiarists_pants");
-	public static final FeatureItem<ItemArmorApiarist> APIARIST_BOOTS = REGISTRY.item(() -> new ItemArmorApiarist(ArmorItem.Type.BOOTS), "apiarists_shoes");
+	public static final FeatureItem<ApiaristSuitItem> APIARIST_HELMET = REGISTRY.item(() -> new ApiaristSuitItem(ArmorItem.Type.HELMET), "apiarists_hat");
+	public static final FeatureItem<ApiaristSuitItem> APIARIST_CHEST = REGISTRY.item(() -> new ApiaristSuitItem(ArmorItem.Type.CHESTPLATE), "apiarists_shirt");
+	public static final FeatureItem<ApiaristSuitItem> APIARIST_LEGS = REGISTRY.item(() -> new ApiaristSuitItem(ArmorItem.Type.LEGGINGS), "apiarists_pants");
+	public static final FeatureItem<ApiaristSuitItem> APIARIST_BOOTS = REGISTRY.item(() -> new ApiaristSuitItem(ArmorItem.Type.BOOTS), "apiarists_shoes");
 
 	// TOOLS
-	public static final FeatureItem<ItemSmoker> SMOKER = REGISTRY.item(ItemSmoker::new, "bee_smoker");
+	public static final FeatureItem<SmokerItem> SMOKER = REGISTRY.item(SmokerItem::new, "bee_smoker");
 
 	// MISC
 	public static final FeatureItem<ItemForestry> AMBER_DRONE = REGISTRY.item(ItemForestry::new, "amber_drone_fossil");

@@ -3,11 +3,11 @@ package forestry.apiculture.features;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.apiculture.alveary.AlvearyBlock;
 import forestry.apiculture.apiary.ApicultureBlockType;
-import forestry.apiculture.bees.BlockHoneyComb;
-import forestry.apiculture.bees.BlockWax;
+import forestry.apiculture.bees.HoneyCombBlock;
+import forestry.apiculture.bees.WaxBlock;
 import forestry.apiculture.bees.EnumHoneyComb;
 import forestry.apiculture.bees.HoneyCombBlockItem;
-import forestry.apiculture.hives.BlockBeeHive;
+import forestry.apiculture.hives.HiveBlock;
 import forestry.apiculture.hives.HiveBlockType;
 import forestry.core.platform.block.BaseBlock;
 import forestry.core.platform.fluids.ForestryFluids;
@@ -29,14 +29,14 @@ public class ApicultureBlocks {
 		.item(ForestryBlockItem::new)
 		.create();
 
-	public static final FeatureBlockGroup<BlockBeeHive, HiveBlockType> HIVE = REGISTRY
-		.blockGroup(BlockBeeHive::new, HiveBlockType.values())
+	public static final FeatureBlockGroup<HiveBlock, HiveBlockType> HIVE = REGISTRY
+		.blockGroup(HiveBlock::new, HiveBlockType.values())
 		.item(ForestryBlockItem::new)
 		.identifierSuffix("hive")
 		.create();
 
-	public static final FeatureBlockGroup<BlockHoneyComb, EnumHoneyComb> COMB_BLOCK = REGISTRY
-		.blockGroup(BlockHoneyComb::new, EnumHoneyComb.VALUES)
+	public static final FeatureBlockGroup<HoneyCombBlock, EnumHoneyComb> COMB_BLOCK = REGISTRY
+		.blockGroup(HoneyCombBlock::new, EnumHoneyComb.VALUES)
 		.item(HoneyCombBlockItem::new)
 		.identifierSuffix("comb_block")
 		.create();
@@ -47,14 +47,14 @@ public class ApicultureBlocks {
 		.identifierPrefix("alveary")
 		.create();
 
-	public static final FeatureBlock<BlockWax, BlockItem> WAX_BLOCK = REGISTRY.block(
-		properties -> new BlockWax(properties, true, ForestryFluids.WAX::getFluid),
+	public static final FeatureBlock<WaxBlock, BlockItem> WAX_BLOCK = REGISTRY.block(
+		properties -> new WaxBlock(properties, true, ForestryFluids.WAX::getFluid),
 		() -> Block.Properties.ofFullCopy(Blocks.HONEYCOMB_BLOCK).sound(SoundType.HONEY_BLOCK).mapColor(MapColor.COLOR_YELLOW).ignitedByLava(),
 		ForestryBlockItem::new,
 		"wax_block"
 	);
-	public static final FeatureBlock<BlockWax, BlockItem> REFRACTORY_WAX_BLOCK = REGISTRY.block(
-		properties -> new BlockWax(properties, false, null),
+	public static final FeatureBlock<WaxBlock, BlockItem> REFRACTORY_WAX_BLOCK = REGISTRY.block(
+		properties -> new WaxBlock(properties, false, null),
 		() -> Block.Properties.ofFullCopy(Blocks.HONEYCOMB_BLOCK).sound(SoundType.HONEY_BLOCK).mapColor(MapColor.COLOR_RED).ignitedByLava(),
 		ForestryBlockItem::new,
 		"refractory_wax_block"

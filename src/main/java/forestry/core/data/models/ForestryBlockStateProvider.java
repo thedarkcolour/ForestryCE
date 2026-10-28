@@ -3,7 +3,7 @@ package forestry.core.data.models;
 import forestry.api.ForestryConstants;
 import forestry.api.client.IForestryClientApi;
 import forestry.apiculture.alveary.AlvearyBlock;
-import forestry.apiculture.hives.BlockBeeHive;
+import forestry.apiculture.hives.HiveBlock;
 import forestry.apiculture.hives.HiveBlockType;
 import forestry.apiculture.apiary.ApicultureBlockType;
 import forestry.apiculture.features.ApicultureBlocks;
@@ -17,7 +17,7 @@ import forestry.core.content.decorative.BigCandleBlockType;
 import forestry.core.content.decorative.JumboCandleBlockType;
 import forestry.core.content.decorative.MetalPlatingBlockType;
 import forestry.core.content.resources.ResourceStorageBlockType;
-import forestry.core.content.soil.BlockBogEarth;
+import forestry.core.content.soil.BogEarthBlock;
 import forestry.core.content.soil.HumusBlock;
 import forestry.core.features.CoreBlocks;
 import forestry.core.features.CoreItems;
@@ -55,7 +55,7 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 	@Override
 	protected void registerStatesAndModels() {
 		// Resources
-		agingSoil(CoreBlocks.BOG_EARTH.block(), BlockBogEarth.MATURITY);
+		agingSoil(CoreBlocks.BOG_EARTH.block(), BogEarthBlock.MATURITY);
 		agingSoil(CoreBlocks.HUMUS.block(), HumusBlock.DEGRADE);
 
 		simpleBlock(CoreBlocks.APATITE_ORE.block());
@@ -103,7 +103,7 @@ public class ForestryBlockStateProvider extends BlockStateProvider {
 		singleModelBlock(this, ArboricultureBlocks.LEAVES.block(), particleOnly(this, ArboricultureBlocks.LEAVES.getName(), blockTexture(Blocks.OAK_LEAVES)));
 
 		for (HiveBlockType type : HiveBlockType.values()) {
-			BlockBeeHive feature = ApicultureBlocks.HIVE.get(type).block();
+			HiveBlock feature = ApicultureBlocks.HIVE.get(type).block();
 			String path = path(feature);
 
 			ResourceLocation side = modBlock(this, "hive/" + type.getSerializedName() + "_side");

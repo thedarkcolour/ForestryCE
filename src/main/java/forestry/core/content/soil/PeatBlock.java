@@ -13,8 +13,8 @@ import net.minecraft.world.phys.HitResult;
 /**
  * Mature form of bog earth. Has no block item of its own, so picking it gives back bog earth.
  */
-public class BlockPeat extends Block {
-	public BlockPeat(Block.Properties properties) {
+public class PeatBlock extends Block {
+	public PeatBlock(Block.Properties properties) {
 		super(properties
 			.strength(0.5f)
 			.sound(SoundType.MUDDY_MANGROVE_ROOTS));

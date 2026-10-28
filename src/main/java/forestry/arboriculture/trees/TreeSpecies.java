@@ -14,7 +14,7 @@ import forestry.api.core.genetics.ILifeStage;
 import forestry.api.core.genetics.alleles.TreeChromosomes;
 import forestry.api.plugin.ITreeSpeciesBuilder;
 import forestry.arboriculture.leaves.DefaultFruitLeavesBlock;
-import forestry.arboriculture.leaves.BlockExtendedLeaves;
+import forestry.arboriculture.leaves.ExtendedLeavesBlock;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.trees.genetics.Tree;
 import forestry.arboriculture.trees.genetics.TreeGrowthHelper;
@@ -183,7 +183,7 @@ public class TreeSpecies extends Species<ITreeSpeciesType, ITree> implements ITr
 		if (convertBlockEntity) {
 			// assume all generated leaves are properly supported
 			BlockState state = LeavesBlock.updateDistance(ArboricultureBlocks.LEAVES.defaultState(), level, pos)
-				.setValue(BlockExtendedLeaves.SUPPORTED, true);
+				.setValue(ExtendedLeavesBlock.SUPPORTED, true);
 			boolean wasFruit = isFruitLeaf(level, pos);
 			boolean placed = level.setBlock(pos, state, 19);
 

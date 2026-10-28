@@ -5,13 +5,13 @@ import forestry.core.platform.item.ITintedItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
-public class HoneyCombBlockItem extends ForestryBlockItem<BlockHoneyComb> implements ITintedItem {
+public class HoneyCombBlockItem extends ForestryBlockItem<HoneyCombBlock> implements ITintedItem {
 	@Deprecated
-	public HoneyCombBlockItem(BlockHoneyComb block) {
+	public HoneyCombBlockItem(HoneyCombBlock block) {
 		this(block, new Item.Properties());
 	}
 
-	public HoneyCombBlockItem(BlockHoneyComb block, Item.Properties properties) {
+	public HoneyCombBlockItem(HoneyCombBlock block, Item.Properties properties) {
 		super(block, properties);
 	}
 
