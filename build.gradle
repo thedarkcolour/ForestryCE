@@ -7,7 +7,7 @@ plugins {
 	id 'net.neoforged.moddev' version '2.0.140'
 	// todo replace with mc-publish, as these plugins do not support Gradle configuration cache
 	id('com.modrinth.minotaur') version '2.+'
-	id('com.matthewprenger.cursegradle') version '1.4.0'
+	id('net.darkhax.curseforgegradle') version '1.3.33'
 }
 
 tasks.named('wrapper', Wrapper).configure {
@@ -945,27 +945,23 @@ publishing {
 }
 
 if (System.getenv('CURSEFORGE_TOKEN')) {
-	curseforge {
-		apiKey = System.getenv('CURSEFORGE_TOKEN')
+	tasks.register('curseforge', net.darkhax.curseforgegradle.TaskPublishCurseForge) {
+		apiToken = System.getenv('CURSEFORGE_TOKEN')
 
-		project {
-			id = project.curseforgeId
-			changelogType = 'markdown'
-			changelog = getChangelog(version)
+		upload(project.curseforgeId, jar).with {
+			displayName = "Forestry: Community Edition ${project.version}"
 
 			releaseType = 'release'
+			changelog = getChangelog(project.version)
+			changelogType = 'markdown'
 
 			addGameVersion(project.minecraftVersion)
-			addGameVersion('Forge')
-			addGameVersion('Java 17')
+			addGameVersion('NeoForge')
+			addGameVersion('Java 21')
+			addEnvironment('Client', 'Server')
 
-			mainArtifact(jar.archiveFile) {
-				displayName = "Forestry: Community Edition ${project.version}"
-				relations {
-					optionalDependency 'jei'
-					requiredDependency 'patchouli'
-				}
-			}
+			addRelation('jei', 'optionalDependency')
+			addRelation('patchouli', 'requiredDependency')
 		}
 	}
 }
@@ -977,7 +973,7 @@ modrinth {
 	versionNumber = version.toString()
 	versionType = 'release'
 	gameVersions = [minecraftVersion]
-	loaders = ['forge']
+	loaders = ['neoforge']
 	changelog = getChangelog(project.version)
 
 	uploadFile = jar
