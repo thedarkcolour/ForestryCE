@@ -4,6 +4,8 @@
 - Remove Copper/Tin -> Bronze crafting recipe (must use Smelter now)
 - Fix wood recipes being incorrect (#439)
 - Fix open fence gates being destroyed by water (#451)
+- Fix Forester's Manual pages with Carpenter or Fabricator recipes crashing the game when a recipe or fluid can't be shown, the broken part is now hidden and logged instead (#245)
+- Fix missing image on the Alveary page of the Forester's Manual (#245)
 
 ## Forestry 3.0.0-alpha8
 - Fix Apiary not connecting to pipes, thanks to oneironautpebble
