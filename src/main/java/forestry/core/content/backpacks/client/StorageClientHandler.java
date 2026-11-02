@@ -13,13 +13,12 @@ import forestry.core.content.backpacks.items.BackpackItem;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.client.renderer.item.ItemPropertyFunction;
 import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.minecraft.core.registries.Registries;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.neoforged.neoforge.client.event.ModelEvent;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
-import net.neoforged.neoforge.registries.DeferredHolder;
 
 public class StorageClientHandler implements IClientModuleHandler {
 	// Standalone models resolve through ModelBakery.MODEL_LISTER ("models/<path>.json"),
@@ -41,10 +40,10 @@ public class StorageClientHandler implements IClientModuleHandler {
 	private static void registerBackpackItemProperties(net.neoforged.fml.event.lifecycle.FMLClientSetupEvent event) {
 		event.enqueueWork(() -> {
 			ItemPropertyFunction itemPropertyFunction = (stack, clientLevel, holder, idk) -> BackpackItem.getMode(stack).ordinal();
-			IFeatureRegistry registry = ModFeatureRegistry.get(ForestryModuleIds.STORAGE);
-			for (DeferredHolder<Item, ? extends Item> entry : registry.getRegistry(Registries.ITEM).getEntries()) {
-				if (entry.get() instanceof BackpackItem) {
-					ItemProperties.register(entry.get(), ResourceLocation.withDefaultNamespace("mode"), itemPropertyFunction);
+			// all registered backpacks, so addon backpacks from IBackpackInterface get the property too
+			for (Item item : BuiltInRegistries.ITEM) {
+				if (item instanceof BackpackItem) {
+					ItemProperties.register(item, ResourceLocation.withDefaultNamespace("mode"), itemPropertyFunction);
 				}
 			}
 		});

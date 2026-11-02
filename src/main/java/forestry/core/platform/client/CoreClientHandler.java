@@ -40,13 +40,15 @@ import forestry.core.content.energy.features.EnergyBlockEntities;
 import forestry.core.content.machines.features.FactoryBlocks;
 import forestry.core.content.machines.features.FactoryBlockEntities;
 import forestry.modules.ModuleUtil;
-import forestry.core.content.backpacks.features.BackpackItems;
+import forestry.core.content.backpacks.items.BackpackItem;
 import forestry.core.content.backpacks.features.CrateItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.*;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraft.util.Unit;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ChunkPos;
@@ -268,26 +270,12 @@ public class CoreClientHandler implements IClientModuleHandler {
 
 
 
-		// Backpacks
-		event.register(ClientManager.FORESTRY_ITEM_COLOR,
-			BackpackItems.APIARIST_BACKPACK.item(),
-			BackpackItems.ARBORIST_BACKPACK.item(),
-			BackpackItems.LEPIDOPTERIST_BACKPACK.item(),
-			BackpackItems.MINER_BACKPACK.item(),
-			BackpackItems.MINER_BACKPACK_T_2.item(),
-			BackpackItems.DIGGER_BACKPACK.item(),
-			BackpackItems.DIGGER_BACKPACK_T_2.item(),
-			BackpackItems.FORESTER_BACKPACK.item(),
-			BackpackItems.FORESTER_BACKPACK_T_2.item(),
-			BackpackItems.HUNTER_BACKPACK.item(),
-			BackpackItems.HUNTER_BACKPACK_T_2.item(),
-			BackpackItems.ADVENTURER_BACKPACK.item(),
-			BackpackItems.ADVENTURER_BACKPACK_T_2.item(),
-			BackpackItems.BUILDER_BACKPACK.item(),
-			BackpackItems.BUILDER_BACKPACK_T_2.item(),
-			BackpackItems.BREWER_BACKPACK.item(),
-			BackpackItems.BREWER_BACKPACK_T_2.item()
-		);
+		// Backpacks, including addon backpacks from IBackpackInterface
+		for (Item item : BuiltInRegistries.ITEM) {
+			if (item instanceof BackpackItem) {
+				event.register(ClientManager.FORESTRY_ITEM_COLOR, item);
+			}
+		}
 
 		// A turf item has no level to sample, so both show the default grass colour, the way vanilla's does
 		event.register((stack, tintIndex) -> GrassColor.getDefaultColor(), CoreBlocks.TURF_BLOCK.item(), CoreBlocks.TURF.item());

@@ -3,6 +3,7 @@ package forestry.apiimpl;
 import forestry.api.IForestryApi;
 import forestry.api.apiculture.hives.IHiveManager;
 import forestry.api.arboriculture.ITreeManager;
+import forestry.api.core.backpacks.IBackpackInterface;
 import forestry.api.core.circuits.ICircuitManager;
 import forestry.api.core.climate.IClimateManager;
 import forestry.api.core.IErrorManager;
@@ -14,6 +15,7 @@ import forestry.api.core.genetics.filter.IFilterManager;
 import forestry.api.core.genetics.pollen.IPollenManager;
 import forestry.api.modules.IModuleManager;
 import forestry.apiimpl.fake.FakeFarmingManager;
+import forestry.core.content.backpacks.BackpackInterface;
 import forestry.core.engine.circuits.CircuitManager;
 import forestry.core.engine.climate.ForestryClimateManager;
 import forestry.core.platform.errors.ErrorManager;
@@ -47,6 +49,7 @@ public class ForestryApiImpl implements IForestryApi {
 	private ICircuitManager circuitManager;
 	@Nullable
 	private IPollenManager pollenManager;
+	private final IBackpackInterface backpackInterface = new BackpackInterface();
 
 	@Override
 	public IModuleManager getModuleManager() {
@@ -129,6 +132,11 @@ public class ForestryApiImpl implements IForestryApi {
 			throw new IllegalStateException("IPollenManager not initialized yet");
 		}
 		return manager;
+	}
+
+	@Override
+	public IBackpackInterface getBackpackInterface() {
+		return this.backpackInterface;
 	}
 
 	@ApiStatus.Internal

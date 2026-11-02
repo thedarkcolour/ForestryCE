@@ -2,6 +2,7 @@ package forestry.api;
 
 import forestry.api.apiculture.hives.IHiveManager;
 import forestry.api.arboriculture.ITreeManager;
+import forestry.api.core.backpacks.IBackpackInterface;
 import forestry.api.core.circuits.ICircuitManager;
 import forestry.api.core.climate.IClimateManager;
 import forestry.api.core.IErrorManager;
@@ -65,4 +66,10 @@ public interface IForestryApi {
 	ICircuitManager getCircuitManager();
 
 	IPollenManager getPollenManager();
+
+	/**
+	 * @return The backpack interface, used to create backpack items and backpack filters
+	 * @since 3.0.0
+	 */
+	IBackpackInterface getBackpackInterface();
 }
