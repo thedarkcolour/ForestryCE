@@ -421,27 +421,37 @@ public abstract class MultiblockControllerBase implements IMultiblockControllerI
 			clientTick(this.tickCount);
 		} else if (serverTick(this.tickCount)) {
 			// If this returns true, the server has changed its internal data.
-			// If our chunks are loaded (they should be), we must mark our chunks as dirty.
-			if (this.minimumCoord != null && this.maximumCoord != null &&
-                    this.level.hasChunksAt(this.minimumCoord, this.maximumCoord)) {
-				int minChunkX = this.minimumCoord.getX() >> 4;
-				int minChunkZ = this.minimumCoord.getZ() >> 4;
-				int maxChunkX = this.maximumCoord.getX() >> 4;
-				int maxChunkZ = this.maximumCoord.getZ() >> 4;
+			markChunksUnsaved();
+		}
+		// Else: Server, but no need to save data.
+	}
 
-				for (int x = minChunkX; x <= maxChunkX; x++) {
-					for (int z = minChunkZ; z <= maxChunkZ; z++) {
-						// Ensure that we save our data, even if the our save delegate is in has no TEs.
-						LevelChunk chunkToSave = this.level.getChunkSource().getChunkNow(x, z);
-						// unloaded chunks do not need to be saved again, NBT delegate is in loaded chunks
-						if (chunkToSave != null) {
-							chunkToSave.setUnsaved(true);
-						}
+	/**
+	 * Marks every loaded chunk this multiblock spans as unsaved, so the save delegate writes the controller data.
+	 */
+	protected final void markChunksUnsaved() {
+		if (this.level.isClientSide) {
+			return;
+		}
+		// If our chunks are loaded (they should be), we must mark our chunks as dirty.
+		if (this.minimumCoord != null && this.maximumCoord != null &&
+				this.level.hasChunksAt(this.minimumCoord, this.maximumCoord)) {
+			int minChunkX = this.minimumCoord.getX() >> 4;
+			int minChunkZ = this.minimumCoord.getZ() >> 4;
+			int maxChunkX = this.maximumCoord.getX() >> 4;
+			int maxChunkZ = this.maximumCoord.getZ() >> 4;
+
+			for (int x = minChunkX; x <= maxChunkX; x++) {
+				for (int z = minChunkZ; z <= maxChunkZ; z++) {
+					// Ensure that we save our data, even if the our save delegate is in has no TEs.
+					LevelChunk chunkToSave = this.level.getChunkSource().getChunkNow(x, z);
+					// unloaded chunks do not need to be saved again, NBT delegate is in loaded chunks
+					if (chunkToSave != null) {
+						chunkToSave.setUnsaved(true);
 					}
 				}
 			}
 		}
-		// Else: Server, but no need to save data.
 	}
 
 	/**

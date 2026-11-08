@@ -59,7 +59,14 @@ public class AlvearyController extends RectangularMultiblockControllerBase imple
 
 	public AlvearyController(Level world) {
 		super(world, AlvearyMultiblockSizeLimits.instance);
-		this.inventory = new InventoryBeeHousing(9);
+		// item handlers write here directly without going through any member's setChanged
+		this.inventory = new InventoryBeeHousing(9) {
+			@Override
+			public void setChanged() {
+				super.setChanged();
+				markChunksUnsaved();
+			}
+		};
 		this.beekeepingLogic = IForestryApi.INSTANCE.getHiveManager().createBeekeepingLogic(this);
 
 		this.beeModifiers.add(new AlvearyBeeModifier());

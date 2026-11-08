@@ -32,7 +32,13 @@ import java.util.List;
 public class TileApiary extends TileBeeHousingBase implements IApiary {
 	private final IBeeModifier beeModifier = new ApiaryBeeModifier();
 	private final IBeeListener beeListener = new ApiaryBeeListener(this);
-	private final InventoryApiary inventory = new InventoryApiary();
+	private final InventoryApiary inventory = new InventoryApiary() {
+		@Override
+		public void setChanged() {
+			super.setChanged();
+			TileApiary.this.setChanged();
+		}
+	};
 
 	public TileApiary(BlockPos pos, BlockState state) {
 		super(ApicultureTiles.APIARY.tileType(), pos, state, "apiary");

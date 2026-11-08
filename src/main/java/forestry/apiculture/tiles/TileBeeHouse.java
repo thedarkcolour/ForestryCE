@@ -28,7 +28,13 @@ public class TileBeeHouse extends TileBeeHousingBase {
 	public TileBeeHouse(BlockPos pos, BlockState state) {
 		super(ApicultureTiles.BEE_HOUSE.tileType(), pos, state, "bee.house");
 
-        this.beeInventory = new InventoryBeeHousing(12);
+		this.beeInventory = new InventoryBeeHousing(12) {
+			@Override
+			public void setChanged() {
+				super.setChanged();
+				TileBeeHouse.this.setChanged();
+			}
+		};
         this.beeInventory.disableAutomation();
 		setInternalInventory(this.beeInventory);
 	}

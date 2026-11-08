@@ -8,6 +8,7 @@
 - Fix Mushroom farms not growing mushrooms
 - Fix some erroneous position checks in farm logic
 - Fix Gourd farms not planting the soil that gourds grow on
+- Fix bees sometimes disappearing from Apiaries, Bee Houses, and Alvearies after a restart
 
 ## Forestry 2.11.1
 - Fixed leaves sometimes being invisible (#153)
