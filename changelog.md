@@ -2,6 +2,7 @@
 - Fix pipettes infinitely extracting liquid from GUIs
 - Fix flammable fluids exploding when not near fire, instead of when near fire
 - Fix farms breaking waterlogged blocks
+- Fix Cork, Plywood, and Plywood Sheet blocks burning at the wrong rate, acting as a permanent fire source, and turning straight into fire when lit
 
 ## Forestry 2.11.1
 - Fixed leaves sometimes being invisible (#153)
