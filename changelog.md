@@ -4,6 +4,7 @@
 - Fix farms breaking waterlogged blocks
 - Fix Cork, Plywood, and Plywood Sheet blocks burning at the wrong rate, acting as a permanent fire source, and turning straight into fire when lit
 - Fix open fence gates being destroyed by water (#451)
+- Fix Alveary Swarmer never placing swarm hives, thanks to otya128 (#460)
 
 ## Forestry 2.11.1
 - Fixed leaves sometimes being invisible (#153)
