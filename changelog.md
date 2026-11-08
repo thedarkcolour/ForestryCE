@@ -6,6 +6,7 @@
 - Fix open fence gates being destroyed by water (#451)
 - Fix Alveary Swarmer never placing swarm hives, thanks to otya128 (#460)
 - Fix Mushroom farms not growing mushrooms
+- Fix some erroneous position checks in farm logic
 
 ## Forestry 2.11.1
 - Fixed leaves sometimes being invisible (#153)

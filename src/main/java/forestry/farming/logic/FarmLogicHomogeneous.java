@@ -48,11 +48,11 @@ public abstract class FarmLogicHomogeneous extends FarmLogicSoil {
 				BlockPos position = translateWithOffset(pos, direction, i);
 				BlockState soilState = world.getBlockState(position);
 
-				if (!world.hasChunkAt(position) || farmHousing.isValidPlatform(world, pos)) {
+				if (!world.hasChunkAt(position) || farmHousing.isValidPlatform(world, position)) {
 					break;
 				}
 
-				if (!BlockUtil.isBreakableBlock(soilState, world, pos) || isAcceptedSoil(soilState)) {
+				if (!BlockUtil.isBreakableBlock(soilState, world, position) || isAcceptedSoil(soilState)) {
 					continue;
 				}
 

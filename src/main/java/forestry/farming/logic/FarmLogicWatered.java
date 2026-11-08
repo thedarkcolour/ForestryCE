@@ -58,8 +58,8 @@ public abstract class FarmLogicWatered extends FarmLogicSoil {
 
 				BlockState state = world.getBlockState(position);
 				if (!isValidPosition(farmHousing, direction, position, CultivationType.SOIL)
-					|| !BlockUtil.isBreakableBlock(state, world, pos)
 					|| isAcceptedSoil(state)
+					|| !BlockUtil.isBreakableBlock(state, world, position)
 					|| isWaterSourceBlock(world, position)
 					|| !farmHousing.getFarmInventory().hasResources(resources)) {
 					continue;
@@ -107,7 +107,7 @@ public abstract class FarmLogicWatered extends FarmLogicSoil {
 				break;
 			}
 
-			if (BlockUtil.isBreakableBlock(world, pos) && trySetWater(world, farmHousing, position)) {
+			if (BlockUtil.isBreakableBlock(world, position) && trySetWater(world, farmHousing, position)) {
 				return true;
 			}
 		}
