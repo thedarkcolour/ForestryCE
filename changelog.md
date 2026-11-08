@@ -7,6 +7,7 @@
 - Fix Alveary Swarmer never placing swarm hives, thanks to otya128 (#460)
 - Fix Mushroom farms not growing mushrooms
 - Fix some erroneous position checks in farm logic
+- Fix Gourd farms not planting the soil that gourds grow on
 
 ## Forestry 2.11.1
 - Fixed leaves sometimes being invisible (#153)
