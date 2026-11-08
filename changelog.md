@@ -1,3 +1,6 @@
+## Forestry 2.11.2
+- Fix pipettes infinitely extracting liquid from GUIs
+
 ## Forestry 2.11.1
 - Fixed leaves sometimes being invisible (#153)
 - Fixed incorrect sapling placement behavior on sides of blocks (#173)
