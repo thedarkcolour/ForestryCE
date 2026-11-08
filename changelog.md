@@ -1,5 +1,6 @@
 ## Forestry 2.11.2
 - Fix pipettes infinitely extracting liquid from GUIs
+- Fix flammable fluids exploding when not near fire, instead of when near fire
 
 ## Forestry 2.11.1
 - Fixed leaves sometimes being invisible (#153)
