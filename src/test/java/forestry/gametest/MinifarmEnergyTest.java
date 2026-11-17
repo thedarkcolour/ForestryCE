@@ -1,5 +1,6 @@
 package forestry.gametest;
 
+import forestry.core.platform.tile.PoweredBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
@@ -10,7 +11,7 @@ import net.neoforged.neoforge.gametest.GameTestHolder;
 import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
 import forestry.api.ForestryConstants;
-import forestry.agriculture.features.MinifarmBlocks;
+import forestry.agriculture.features.FarmingBlocks;
 import forestry.agriculture.minifarm.blocks.MinifarmBlockType;
 import forestry.agriculture.minifarm.tiles.AbstractMinifarmBlockEntity;
 import forestry.core.content.energy.ForestryEnergyStorage;
@@ -18,7 +19,7 @@ import forestry.core.content.energy.ForestryEnergyStorage;
 /**
  * Regression suite for the minifarm doing its work for free.
  * <p>
- * {@link forestry.core.platform.tile.TilePowered} charges for work in steps. It draws one step's worth of energy while
+ * {@link PoweredBlockEntity} charges for work in steps. It draws one step's worth of energy while
  * the work counter is below {@code stepsPerWorkCycle}, calls {@code workCycle} once the counter reaches it, and resets
  * the counter only when {@code workCycle} reports that a cycle finished. {@code AbstractMinifarmBlockEntity.workCycle}
  * threw away the result of {@code FarmManager.doWork} and always returned false, so the counter stayed pinned at the
@@ -95,7 +96,7 @@ public class MinifarmEnergyTest {
 	}
 
 	private static AbstractMinifarmBlockEntity placeFarm(GameTestHelper helper) {
-		helper.setBlock(FARM_POS, MinifarmBlocks.MANAGED_PLANTER.get(MinifarmBlockType.ARBORETUM).defaultState());
+		helper.setBlock(FARM_POS, FarmingBlocks.MANAGED_MINIFARM.get(MinifarmBlockType.ARBORETUM).defaultState());
 
 		if (helper.getBlockEntity(FARM_POS) instanceof AbstractMinifarmBlockEntity farm) {
 			return farm;

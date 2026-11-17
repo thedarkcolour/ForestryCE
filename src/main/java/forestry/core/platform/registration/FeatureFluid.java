@@ -1,7 +1,7 @@
 package forestry.core.platform.registration;
 
 import forestry.core.platform.client.ForestryColors;
-import forestry.core.platform.fluids.BlockForestryFluid;
+import forestry.core.platform.fluids.ForestryFluidBlock;
 import forestry.core.platform.item.DrinkProperties;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
@@ -23,7 +23,7 @@ import javax.annotation.Nullable;
 import java.util.function.Supplier;
 
 public class FeatureFluid extends ModFeature implements IFluidFeature {
-	private final IBlockFeature<BlockForestryFluid, BlockItem> block;
+	private final IBlockFeature<ForestryFluidBlock, BlockItem> block;
 	private final FluidProperties properties;
 	private final BaseFlowingFluid.Properties internal;
 
@@ -32,7 +32,7 @@ public class FeatureFluid extends ModFeature implements IFluidFeature {
 
 	public FeatureFluid(Builder builder) {
 		super(builder.moduleId, builder.identifier);
-		this.block = builder.registry.block((properties) -> new BlockForestryFluid(properties, this), "fluid_" + builder.identifier);
+		this.block = builder.registry.block((properties) -> new ForestryFluidBlock(properties, this), "fluid_" + builder.identifier);
 		this.properties = new FluidProperties(builder);
 		DeferredHolder<FluidType, FluidType> attributes = builder.registry.getRegistry(NeoForgeRegistries.Keys.FLUID_TYPES).register(this.name, () -> new ForestryFluidType(this.properties, FluidType.Properties.create()
 			.density(this.properties.density)
@@ -50,7 +50,7 @@ public class FeatureFluid extends ModFeature implements IFluidFeature {
 	}
 
 	@Override
-	public IBlockFeature<BlockForestryFluid, BlockItem> fluidBlock() {
+	public IBlockFeature<ForestryFluidBlock, BlockItem> fluidBlock() {
 		return this.block;
 	}
 

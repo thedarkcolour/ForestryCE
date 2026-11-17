@@ -1,6 +1,6 @@
 package forestry.core.platform.network.packets;
 
-import forestry.core.platform.gui.ContainerTile;
+import forestry.core.platform.gui.BlockEntityMenu;
 import forestry.core.platform.network.PacketIdClient;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -22,7 +22,7 @@ public record PacketGuiEnergy(int windowId, int value) implements CustomPacketPa
 	}
 
 	public static void handle(PacketGuiEnergy msg, Player player) {
-		if (player.containerMenu.containerId == msg.windowId && player.containerMenu instanceof ContainerTile<?> menu) {
+		if (player.containerMenu.containerId == msg.windowId && player.containerMenu instanceof BlockEntityMenu<?> menu) {
 			menu.onGuiEnergy(msg.value);
 		}
 	}

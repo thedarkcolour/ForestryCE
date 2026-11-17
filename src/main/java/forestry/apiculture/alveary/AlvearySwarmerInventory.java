@@ -2,10 +2,10 @@ package forestry.apiculture.alveary;
 
 import forestry.api.IForestryApi;
 import forestry.apiculture.alveary.multiblock.AlvearySwarmerBlockEntity;
-import forestry.core.platform.inventory.InventoryAdapterTile;
+import forestry.core.platform.inventory.BlockEntityInventoryAdapter;
 import net.minecraft.world.item.ItemStack;
 
-public class AlvearySwarmerInventory extends InventoryAdapterTile<AlvearySwarmerBlockEntity> {
+public class AlvearySwarmerInventory extends BlockEntityInventoryAdapter<AlvearySwarmerBlockEntity> {
 	public AlvearySwarmerInventory(AlvearySwarmerBlockEntity alvearySwarmer) {
 		super(alvearySwarmer, 4, "SwarmInv");
 	}

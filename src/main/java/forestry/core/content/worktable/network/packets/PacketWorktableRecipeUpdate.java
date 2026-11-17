@@ -1,10 +1,10 @@
 package forestry.core.content.worktable.network.packets;
 
+import forestry.core.content.worktable.recipes.MemorizedRecipe;
+import forestry.core.content.worktable.tiles.WorktableBlockEntity;
 import forestry.core.platform.network.PacketIdClient;
 import forestry.core.platform.tile.TileUtil;
 import forestry.core.platform.util.NetworkUtil;
-import forestry.core.content.worktable.recipes.MemorizedRecipe;
-import forestry.core.content.worktable.tiles.WorktableTile;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -13,8 +13,8 @@ import net.minecraft.world.entity.player.Player;
 import javax.annotation.Nullable;
 
 public record PacketWorktableRecipeUpdate(BlockPos pos,
-										  @Nullable MemorizedRecipe recipe) implements CustomPacketPayload {
-	public PacketWorktableRecipeUpdate(WorktableTile tile) {
+                                          @Nullable MemorizedRecipe recipe) implements CustomPacketPayload {
+	public PacketWorktableRecipeUpdate(WorktableBlockEntity tile) {
 		this(tile.getBlockPos(), tile.getCurrentRecipe());
 	}
 
@@ -33,6 +33,6 @@ public record PacketWorktableRecipeUpdate(BlockPos pos,
 	}
 
 	public static void handle(PacketWorktableRecipeUpdate msg, Player player) {
-		TileUtil.actOnTile(player.level(), msg.pos, WorktableTile.class, tile -> tile.setCurrentRecipe(msg.recipe));
+		TileUtil.actOnTile(player.level(), msg.pos, WorktableBlockEntity.class, tile -> tile.setCurrentRecipe(msg.recipe));
 	}
 }

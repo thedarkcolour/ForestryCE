@@ -1,25 +1,25 @@
 package forestry.agriculture.minifarm.gui;
 
-import forestry.core.platform.gui.ContainerLiquidTanks;
+import forestry.core.platform.gui.LiquidTanksMenu;
 import forestry.core.platform.gui.slots.SlotFiltered;
 import forestry.core.platform.gui.slots.SlotLiquidIn;
 import forestry.core.platform.gui.slots.SlotOutput;
 import forestry.core.platform.network.packets.PacketGuiStream;
 import forestry.core.platform.tile.TileUtil;
-import forestry.agriculture.features.MinifarmMenuTypes;
+import forestry.agriculture.features.FarmingMenuTypes;
 import forestry.agriculture.minifarm.inventory.MinifarmInventory;
 import forestry.agriculture.minifarm.tiles.AbstractMinifarmBlockEntity;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 
-public class MinifarmMenu extends ContainerLiquidTanks<AbstractMinifarmBlockEntity> {
+public class MinifarmMenu extends LiquidTanksMenu<AbstractMinifarmBlockEntity> {
 	public static MinifarmMenu fromNetwork(int windowId, Inventory playerInv, FriendlyByteBuf extraData) {
 		AbstractMinifarmBlockEntity planter = TileUtil.getTile(playerInv.player.level(), extraData.readBlockPos(), AbstractMinifarmBlockEntity.class);
 		return new MinifarmMenu(windowId, playerInv, planter);
 	}
 
 	public MinifarmMenu(int windowId, Inventory playerInventory, AbstractMinifarmBlockEntity tileForestry) {
-		super(windowId, MinifarmMenuTypes.PLANTER.menuType(), playerInventory, tileForestry, 21, 110);
+		super(windowId, FarmingMenuTypes.MINIFARM.menuType(), playerInventory, tileForestry, 21, 110);
 
 		// Resources
 		for (int i = 0; i < 2; i++) {

@@ -7,9 +7,9 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import forestry.core.platform.gui.ContainerItemInventory;
+import forestry.core.platform.gui.ItemInventoryMenu;
 
-public class PortableAnalyzerMenu extends ContainerItemInventory<PortableAnalyzerInventory> {
+public class PortableAnalyzerMenu extends ItemInventoryMenu<PortableAnalyzerInventory> {
 	public static PortableAnalyzerMenu fromNetwork(int windowId, Inventory playerInv, FriendlyByteBuf extraData) {
 		InteractionHand hand = extraData.readBoolean() ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
 		Player player = playerInv.player;
@@ -18,7 +18,7 @@ public class PortableAnalyzerMenu extends ContainerItemInventory<PortableAnalyze
 	}
 
 	public PortableAnalyzerMenu(int containerId, PortableAnalyzerInventory inventory, Player player) {
-		super(containerId, inventory, player.getInventory(), 43, 156, CoreMenuTypes.ALYZER.menuType());
+		super(containerId, inventory, player.getInventory(), 43, 156, CoreMenuTypes.PORTABLE_ANALYZER.menuType());
 
 		final int xPosLeftSlots = 223;
 

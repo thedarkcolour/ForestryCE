@@ -3,7 +3,7 @@ package forestry.apiculture.alveary;
 import forestry.api.core.IBlockSubtype;
 import forestry.apiculture.features.ApicultureTiles;
 import forestry.apiculture.alveary.multiblock.AbstractAlvearyBlockEntity;
-import forestry.core.platform.block.BlockStructure;
+import forestry.core.platform.block.AbstractMultiblockBlock;
 import forestry.core.platform.tile.IActivatable;
 import forestry.core.platform.tile.TileUtil;
 import forestry.core.platform.util.ItemTooltipUtil;
@@ -32,7 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class AlvearyBlock extends BlockStructure implements EntityBlock {
+public class AlvearyBlock extends AbstractMultiblockBlock implements EntityBlock {
 	public static final EnumProperty<State> STATE = EnumProperty.create("state", State.class);
 	private static final EnumProperty<AlvearyPlainType> PLAIN_TYPE = EnumProperty.create("type", AlvearyPlainType.class);
 

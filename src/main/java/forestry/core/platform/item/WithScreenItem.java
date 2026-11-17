@@ -1,6 +1,6 @@
 package forestry.core.platform.item;
 
-import forestry.core.platform.gui.ContainerItemInventory;
+import forestry.core.platform.gui.ItemInventoryMenu;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -44,7 +44,7 @@ public abstract class WithScreenItem extends ItemForestry {
 
 	@Override
 	public boolean onDroppedByPlayer(ItemStack itemstack, Player player) {
-		if (!itemstack.isEmpty() && player instanceof ServerPlayer && player.containerMenu instanceof ContainerItemInventory) {
+		if (!itemstack.isEmpty() && player instanceof ServerPlayer && player.containerMenu instanceof ItemInventoryMenu) {
 			player.closeContainer();
 		}
 

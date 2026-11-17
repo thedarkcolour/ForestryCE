@@ -1,9 +1,9 @@
 package forestry.core.data;
 
 import forestry.api.ForestryConstants;
-import forestry.core.content.decorative.BlockTypeBigCandle;
-import forestry.core.content.decorative.BlockTypeJumboCandle;
-import forestry.core.content.decorative.BlockTypeMetalPlating;
+import forestry.core.content.decorative.BigCandleBlockType;
+import forestry.core.content.decorative.JumboCandleBlockType;
+import forestry.core.content.decorative.MetalPlatingBlockType;
 import forestry.core.features.CoreBlocks;
 import forestry.core.features.CoreItems;
 
@@ -46,18 +46,17 @@ public class ForestryEnglishProvider {
 
 		// These three families carry their type last in the id, so a generated name reads "Metal Plating Gold"
 		// or "Jumbo Candle Red". Named explicitly, in the wording 1.20.1 shipped
-		for (BlockTypeMetalPlating type : BlockTypeMetalPlating.values()) {
+		for (MetalPlatingBlockType type : MetalPlatingBlockType.values()) {
 			// The six cast from an ingot are named after the metal, the sixteen dyed ones after the lacquer.
 			// Deviation from 1.20.1: red read "Red Metal Lacquered Plating" and green and magenta carried a
 			// trailing space. All three are typos and are dropped here
 			String suffix = type.getDye() == null ? " Metal Plating" : " Lacquered Metal Plating";
 			lang.add(CoreBlocks.METAL_PLATING.get(type).item(), titleCase(type.getSerializedName()) + suffix);
 		}
-		for (BlockTypeJumboCandle type : BlockTypeJumboCandle.values()) {
+		for (JumboCandleBlockType type : JumboCandleBlockType.values()) {
 			lang.add(CoreBlocks.JUMBO_CANDLES.get(type).item(), candleName("Jumbo", type.getSerializedName()));
 		}
-		// Deviation from 1.20.1: big_candle_green read "Big Green Cale" there, plainly a typo
-		for (BlockTypeBigCandle type : BlockTypeBigCandle.values()) {
+		for (BigCandleBlockType type : BigCandleBlockType.values()) {
 			lang.add(CoreBlocks.BIG_CANDLES.get(type).item(), candleName("Big", type.getSerializedName()));
 		}
 

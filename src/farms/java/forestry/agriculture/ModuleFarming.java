@@ -1,8 +1,9 @@
 package forestry.agriculture;
 
-import forestry.agriculture.client.MultifarmClientHandler;
+import forestry.agriculture.client.FarmingClientHandler;
 import forestry.agriculture.farmlogic.FarmingManager;
-import forestry.agriculture.features.MultifarmBlockEntities;
+import forestry.agriculture.features.FarmingBlockEntities;
+import forestry.agriculture.minifarm.tiles.AbstractMinifarmBlockEntity;
 import forestry.agriculture.plugin.FarmingRegistration;
 import forestry.api.ForestryDataMaps;
 import forestry.api.IForestryApi;
@@ -12,8 +13,11 @@ import forestry.api.modules.ForestryModuleIds;
 import forestry.api.plugin.IForestryPlugin;
 import forestry.apiimpl.ForestryApiImpl;
 import forestry.apiimpl.plugin.PluginManager;
+import forestry.core.platform.tile.ForestryBlockEntity;
+import forestry.core.platform.tile.PoweredBlockEntity;
 import forestry.modules.BlankForestryModule;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
@@ -35,9 +39,23 @@ public class ModuleFarming extends BlankForestryModule {
 	}
 
 	private static void registerCapabilities(RegisterCapabilitiesEvent event) {
-		event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, MultifarmBlockEntities.GEARBOX.tileType(), (tile, side) -> tile.getEnergyHandler(side));
-		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, MultifarmBlockEntities.HATCH.tileType(), (tile, side) -> tile.getItemHandler(side));
-		event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, MultifarmBlockEntities.VALVE.tileType(), (tile, side) -> tile.getFluidHandler(side));
+		event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, FarmingBlockEntities.GEARBOX.tileType(), (tile, side) -> tile.getEnergyHandler(side));
+		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, FarmingBlockEntities.HATCH.tileType(), (tile, side) -> tile.getItemHandler(side));
+		event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, FarmingBlockEntities.VALVE.tileType(), (tile, side) -> tile.getFluidHandler(side));
+
+		registerMinifarmCapabilities(event, FarmingBlockEntities.ARBORETUM.tileType());
+		registerMinifarmCapabilities(event, FarmingBlockEntities.BOG.tileType());
+		registerMinifarmCapabilities(event, FarmingBlockEntities.CROPS.tileType());
+		registerMinifarmCapabilities(event, FarmingBlockEntities.ENDER.tileType());
+		registerMinifarmCapabilities(event, FarmingBlockEntities.GOURD.tileType());
+		registerMinifarmCapabilities(event, FarmingBlockEntities.MUSHROOM.tileType());
+		registerMinifarmCapabilities(event, FarmingBlockEntities.NETHER.tileType());
+	}
+
+	private static <T extends AbstractMinifarmBlockEntity> void registerMinifarmCapabilities(RegisterCapabilitiesEvent event, BlockEntityType<T> type) {
+		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, type, ForestryBlockEntity::getItemHandler);
+		event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, type, PoweredBlockEntity::getEnergyHandler);
+		event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, type, AbstractMinifarmBlockEntity::getFluidHandler);
 	}
 
 	private static void registerDataMaps(RegisterDataMapTypesEvent event) {
@@ -64,6 +82,6 @@ public class ModuleFarming extends BlankForestryModule {
 
 	@Override
 	public void registerClientHandler(Consumer<IClientModuleHandler> registrar) {
-		registrar.accept(new MultifarmClientHandler());
+		registrar.accept(new FarmingClientHandler());
 	}
 }

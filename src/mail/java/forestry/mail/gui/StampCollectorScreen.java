@@ -1,12 +1,12 @@
 package forestry.mail.gui;
 
 import forestry.core.platform.config.Constants;
-import forestry.core.platform.gui.GuiForestry;
+import forestry.core.platform.gui.ForestryScreen;
 import forestry.mail.postoffice.StampCollectorBlockEntity;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
-public class StampCollectorScreen extends GuiForestry<StampCollectorMenu> {
+public class StampCollectorScreen extends ForestryScreen<StampCollectorMenu> {
 	private final StampCollectorBlockEntity tile;
 
 	public StampCollectorScreen(StampCollectorMenu container, Inventory inv, Component title) {

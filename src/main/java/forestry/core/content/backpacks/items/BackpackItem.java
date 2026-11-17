@@ -13,7 +13,7 @@ import forestry.core.platform.item.ITintedItem;
 import forestry.core.platform.tile.TileUtil;
 import forestry.core.platform.util.NetworkUtil;
 import forestry.core.content.backpacks.BackpackMode;
-import forestry.core.content.backpacks.gui.ContainerBackpack;
+import forestry.core.content.backpacks.gui.BackpackMenu;
 import forestry.core.content.backpacks.inventory.BackpackInventory;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -61,7 +61,7 @@ public class BackpackItem extends WithScreenItem implements ITintedItem {
 
 	@Override
 	protected void writeContainerData(ServerPlayer player, ItemStack stack, RegistryFriendlyByteBuf buffer) {
-		NetworkUtil.writeEnum(buffer, this.type == EnumBackpackType.WOVEN ? ContainerBackpack.Size.T2 : ContainerBackpack.Size.DEFAULT);
+		NetworkUtil.writeEnum(buffer, this.type == EnumBackpackType.WOVEN ? BackpackMenu.Size.T2 : BackpackMenu.Size.DEFAULT);
 		ItemStack.STREAM_CODEC.encode(buffer, stack);
 	}
 
@@ -248,8 +248,8 @@ public class BackpackItem extends WithScreenItem implements ITintedItem {
 			return null;
 		}
 		return switch (backpack.type) {
-			case NORMAL -> new ContainerBackpack(containerId, player, ContainerBackpack.Size.DEFAULT, heldItem);
-			case WOVEN -> new ContainerBackpack(containerId, player, ContainerBackpack.Size.T2, heldItem);
+			case NORMAL -> new BackpackMenu(containerId, player, BackpackMenu.Size.DEFAULT, heldItem);
+			case WOVEN -> new BackpackMenu(containerId, player, BackpackMenu.Size.T2, heldItem);
 			default -> null;
 		};
 	}

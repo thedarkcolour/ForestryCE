@@ -3,13 +3,13 @@ package forestry.apiculture.alveary;
 import forestry.apiculture.alveary.multiblock.IAlvearyControllerInternal;
 import forestry.apiculture.alveary.multiblock.AbstractAlvearyBlockEntity;
 import forestry.core.platform.config.Constants;
-import forestry.core.platform.gui.GuiForestryTitled;
+import forestry.core.platform.gui.TitledForestryScreen;
 import forestry.core.platform.render.EnumTankLevel;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
-public class AlvearyScreen extends GuiForestryTitled<AlvearyMenu> {
+public class AlvearyScreen extends TitledForestryScreen<AlvearyMenu> {
 	private final AbstractAlvearyBlockEntity tile;
 
 	public AlvearyScreen(AlvearyMenu container, Inventory inventory, Component title) {

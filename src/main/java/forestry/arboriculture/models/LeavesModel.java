@@ -4,7 +4,7 @@ import forestry.api.arboriculture.ITreeSpecies;
 import forestry.api.client.IForestryClientApi;
 import forestry.api.client.arboriculture.ILeafSprite;
 import forestry.arboriculture.leaves.AbstractLeavesBlock;
-import forestry.arboriculture.leaves.BlockForestryLeaves;
+import forestry.arboriculture.leaves.ForestryLeavesBlock;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.leaves.LeavesBlockEntity;
 import forestry.core.platform.models.ModelBlockCached;
@@ -32,10 +32,10 @@ import javax.annotation.Nullable;
 import java.util.Objects;
 
 @OnlyIn(Dist.CLIENT)
-public class LeavesModel extends ModelBlockCached<BlockForestryLeaves, LeavesModel.Key> {
+public class LeavesModel extends ModelBlockCached<ForestryLeavesBlock, LeavesModel.Key> {
 
 	public LeavesModel() {
-		super(BlockForestryLeaves.class);
+		super(ForestryLeavesBlock.class);
 	}
 
 	public static class Key {
@@ -103,7 +103,7 @@ public class LeavesModel extends ModelBlockCached<BlockForestryLeaves, LeavesMod
 	}
 
 	@Override
-	protected void bakeBlock(BlockForestryLeaves block, ModelData extraData, Key key, ModelBaker baker, boolean inventory) {
+	protected void bakeBlock(ForestryLeavesBlock block, ModelData extraData, Key key, ModelBaker baker, boolean inventory) {
 		// Render the plain leaf block.
 		baker.addBlockModel(key.leafSprite, AbstractLeavesBlock.FOLIAGE_COLOR_INDEX);
 

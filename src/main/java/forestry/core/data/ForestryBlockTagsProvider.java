@@ -6,9 +6,9 @@ import forestry.arboriculture.wood.ForestryWoodType;
 import forestry.arboriculture.wood.VanillaWoodType;
 import forestry.arboriculture.features.ArboricultureBlocks;
 import forestry.arboriculture.features.CharcoalBlocks;
-import forestry.core.content.decorative.BlockTypeBigCandle;
-import forestry.core.content.decorative.BlockTypeJumboCandle;
-import forestry.core.content.resources.EnumResourceType;
+import forestry.core.content.decorative.BigCandleBlockType;
+import forestry.core.content.decorative.JumboCandleBlockType;
+import forestry.core.content.resources.ResourceStorageBlockType;
 import forestry.core.features.CoreBlocks;
 import forestry.core.content.energy.features.EnergyBlocks;
 import forestry.core.content.machines.features.FactoryBlocks;
@@ -76,8 +76,8 @@ public final class ForestryBlockTagsProvider {
 		tags.tag(ForestryTags.Blocks.BIG_CANDLE).add(CoreBlocks.BIG_CANDLES.blockArray());
 		tags.tag(BlockTags.CANDLES).add(CoreBlocks.RAINBOW_CANDLE.block(), CoreBlocks.REFRACTORY_CANDLE.block());
 		tags.tag(BlockTags.PIGLIN_REPELLENTS).add(
-			CoreBlocks.BIG_CANDLES.get(BlockTypeBigCandle.REFRACTORY).block(),
-			CoreBlocks.JUMBO_CANDLES.get(BlockTypeJumboCandle.REFRACTORY).block(),
+			CoreBlocks.BIG_CANDLES.get(BigCandleBlockType.REFRACTORY).block(),
+			CoreBlocks.JUMBO_CANDLES.get(JumboCandleBlockType.REFRACTORY).block(),
 			CoreBlocks.REFRACTORY_CANDLE.block()
 		);
 
@@ -188,11 +188,11 @@ public final class ForestryBlockTagsProvider {
 
 		// Deviation from 1.20.1: that tree left silicon out of the aggregate storage block tag
 		tags.tag(Tags.Blocks.STORAGE_BLOCKS).addTags(ForestryTags.Blocks.STORAGE_BLOCKS_APATITE, ForestryTags.Blocks.STORAGE_BLOCKS_BRONZE, ForestryTags.Blocks.STORAGE_BLOCKS_TIN, ForestryTags.Blocks.STORAGE_BLOCKS_AMBER, ForestryTags.Blocks.STORAGE_BLOCKS_SILICON);
-		tags.tag(ForestryTags.Blocks.STORAGE_BLOCKS_APATITE).add(CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.APATITE).block());
-		tags.tag(ForestryTags.Blocks.STORAGE_BLOCKS_TIN).add(CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.TIN).block());
-		tags.tag(ForestryTags.Blocks.STORAGE_BLOCKS_BRONZE).add(CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.BRONZE).block());
-		tags.tag(ForestryTags.Blocks.STORAGE_BLOCKS_AMBER).add(CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.AMBER).block());
-		tags.tag(ForestryTags.Blocks.STORAGE_BLOCKS_SILICON).add(CoreBlocks.RESOURCE_STORAGE.get(EnumResourceType.SILICON).block());
+		tags.tag(ForestryTags.Blocks.STORAGE_BLOCKS_APATITE).add(CoreBlocks.RESOURCE_STORAGE.get(ResourceStorageBlockType.APATITE).block());
+		tags.tag(ForestryTags.Blocks.STORAGE_BLOCKS_TIN).add(CoreBlocks.RESOURCE_STORAGE.get(ResourceStorageBlockType.TIN).block());
+		tags.tag(ForestryTags.Blocks.STORAGE_BLOCKS_BRONZE).add(CoreBlocks.RESOURCE_STORAGE.get(ResourceStorageBlockType.BRONZE).block());
+		tags.tag(ForestryTags.Blocks.STORAGE_BLOCKS_AMBER).add(CoreBlocks.RESOURCE_STORAGE.get(ResourceStorageBlockType.AMBER).block());
+		tags.tag(ForestryTags.Blocks.STORAGE_BLOCKS_SILICON).add(CoreBlocks.RESOURCE_STORAGE.get(ResourceStorageBlockType.SILICON).block());
 
 		tags.tag(BlockTags.DIRT).add(CoreBlocks.HUMUS.block(), CoreBlocks.TURF_BLOCK.block());
 

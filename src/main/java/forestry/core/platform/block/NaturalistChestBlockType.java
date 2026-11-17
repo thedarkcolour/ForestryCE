@@ -1,7 +1,7 @@
 package forestry.core.platform.block;
 
 import forestry.core.features.CoreTiles;
-import forestry.core.platform.tile.TileNaturalistChest;
+import forestry.core.platform.tile.NaturalistChestBlockEntity;
 import forestry.core.platform.registration.FeatureTileType;
 
 public enum NaturalistChestBlockType implements IBlockType {
@@ -11,10 +11,10 @@ public enum NaturalistChestBlockType implements IBlockType {
 
 	private final MachineProperties<?> machineProperties;
 
-	NaturalistChestBlockType(String name, FeatureTileType<? extends TileNaturalistChest> tileType) {
+	NaturalistChestBlockType(String name, FeatureTileType<? extends NaturalistChestBlockEntity> tileType) {
 		this.machineProperties = new MachineProperties.Builder<>(tileType, name)
-			.setClientTicker(TileNaturalistChest::clientTick)
-			.setShape(TileNaturalistChest.CHEST_SHAPE)
+			.setClientTicker(NaturalistChestBlockEntity::clientTick)
+			.setShape(NaturalistChestBlockEntity.CHEST_SHAPE)
 			.create();
 	}
 

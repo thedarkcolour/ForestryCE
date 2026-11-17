@@ -42,6 +42,9 @@ public class FarmManager implements INbtReadable, INbtWritable, IStreamable, IEx
 	private final ArrayDeque<ItemStack> pendingProduce = new ArrayDeque<>();
 
 	private FarmingStage stage = FarmingStage.CULTIVATE;
+	// sides keep their entry until cultivated again, the work loop does not visit every side each cycle
+	private final Set<Direction> sidesMissingSoil = EnumSet.noneOf(Direction.class);
+	private boolean soilMissing;
 
 	private final Set<IFarmListener> farmListeners = new HashSet<>();
 
@@ -170,6 +173,7 @@ public class FarmManager implements INbtReadable, INbtWritable, IStreamable, IEx
 			errorLogic.setCondition(!farmWorkStatus.hasFarmland, ForestryError.NO_FARMLAND);
 			errorLogic.setCondition(!farmWorkStatus.hasFertilizer, ForestryError.NO_FERTILIZER);
 			errorLogic.setCondition(!farmWorkStatus.hasLiquid, ForestryError.NO_LIQUID_FARM);
+			errorLogic.setCondition(!this.sidesMissingSoil.isEmpty(), ForestryError.NO_RESOURCE);
 		}
 
 		// alternate between cultivation and harvest.
@@ -186,6 +190,8 @@ public class FarmManager implements INbtReadable, INbtWritable, IStreamable, IEx
 			final int fertilizerConsumption = Math.round(logic.getType().getFertilizerConsumption(this.housing));
 			final int liquidConsumption = logic.getType().getWaterConsumption(this.housing, hydrationModifier);
 			final FluidStack liquid = new FluidStack(Fluids.WATER, liquidConsumption);
+			boolean cultivated = false;
+			this.soilMissing = false;
 
 			for (FarmTarget target : farmTargets) {
 				// Check fertilizer and water
@@ -199,6 +205,7 @@ public class FarmManager implements INbtReadable, INbtWritable, IStreamable, IEx
 					continue;
 				}
 
+				cultivated = true;
 				if (FarmHelper.cultivateTarget(level, this.housing, target, logic, this.farmListeners)) {
 					// Remove fertilizer and water
                     this.fertilizerManager.removeFertilizer(fertilizerConsumption);
@@ -207,7 +214,19 @@ public class FarmManager implements INbtReadable, INbtWritable, IStreamable, IEx
 					farmWorkStatus.didWork = true;
 				}
 			}
+
+			if (cultivated) {
+				if (this.soilMissing) {
+					this.sidesMissingSoil.add(farmSide);
+				} else {
+					this.sidesMissingSoil.remove(farmSide);
+				}
+			}
 		}
+	}
+
+	public void markMissingSoil() {
+		this.soilMissing = true;
 	}
 
 	private boolean collectWindfall(IFarmLogic logic) {
@@ -301,6 +320,7 @@ public class FarmManager implements INbtReadable, INbtWritable, IStreamable, IEx
 
 	public void clearTargets() {
         this.targets.clear();
+		this.sidesMissingSoil.clear();
 	}
 
 	public void addPendingProduct(ItemStack stack) {

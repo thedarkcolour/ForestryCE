@@ -20,10 +20,10 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
-import forestry.core.platform.gui.GuiForestry;
+import forestry.core.platform.gui.ForestryScreen;
 
 // Portable analyzer
-public class PortableAnalyzerScreen extends GuiForestry<PortableAnalyzerMenu> {
+public class PortableAnalyzerScreen extends ForestryScreen<PortableAnalyzerMenu> {
 	private final PortableAnalyzerInventory itemInventory;
 
 	public PortableAnalyzerScreen(PortableAnalyzerMenu container, Inventory playerInv, Component name) {

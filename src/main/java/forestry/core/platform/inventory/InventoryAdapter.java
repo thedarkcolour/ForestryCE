@@ -18,8 +18,7 @@ import javax.annotation.Nullable;
  * With permission from Krapht.
  */
 public class InventoryAdapter implements IInventoryAdapter, IStreamable {
-
-	private final InventoryPlain inventory;
+	private final PlainInventory inventory;
 	private boolean allowAutomation = true;
 	@Nullable
 	private int[] slotMap;
@@ -29,10 +28,10 @@ public class InventoryAdapter implements IInventoryAdapter, IStreamable {
 	}
 
 	public InventoryAdapter(int size, String name, int stackLimit) {
-		this(new InventoryPlain(size, name, stackLimit));
+		this(new PlainInventory(size, name, stackLimit));
 	}
 
-	public InventoryAdapter(InventoryPlain inventory) {
+	public InventoryAdapter(PlainInventory inventory) {
 		this.inventory = inventory;
 		configureSided();
 	}

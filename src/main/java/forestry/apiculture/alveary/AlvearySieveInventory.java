@@ -2,14 +2,14 @@ package forestry.apiculture.alveary;
 
 import forestry.apiculture.alveary.multiblock.AlvearySieveBlockEntity;
 import forestry.core.features.CoreItems;
-import forestry.core.platform.inventory.InventoryAdapterTile;
+import forestry.core.platform.inventory.BlockEntityInventoryAdapter;
 import forestry.core.platform.inventory.watchers.ISlotPickupWatcher;
 import forestry.core.content.resources.EnumCraftingMaterial;
 import forestry.core.platform.util.ItemStackUtil;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
-public class AlvearySieveInventory extends InventoryAdapterTile<AlvearySieveBlockEntity> implements ISlotPickupWatcher {
+public class AlvearySieveInventory extends BlockEntityInventoryAdapter<AlvearySieveBlockEntity> implements ISlotPickupWatcher {
 	public static final int SLOT_POLLEN_1 = 0;
 	public static final int SLOTS_POLLEN_COUNT = 4;
 	public static final int SLOT_SIEVE = 4;

@@ -2,7 +2,7 @@ package forestry.core.platform.network.packets;
 
 import forestry.core.platform.network.PacketIdClient;
 import forestry.core.platform.tile.IItemStackDisplay;
-import forestry.core.platform.tile.TileForestry;
+import forestry.core.platform.tile.ForestryBlockEntity;
 import forestry.core.platform.tile.TileUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -11,7 +11,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
 public record PacketItemStackDisplay(BlockPos pos, ItemStack itemStack) implements CustomPacketPayload {
-	public <T extends TileForestry & IItemStackDisplay> PacketItemStackDisplay(T tile, ItemStack itemStack) {
+	public <T extends ForestryBlockEntity & IItemStackDisplay> PacketItemStackDisplay(T tile, ItemStack itemStack) {
 		this(tile.getBlockPos(), itemStack);
 	}
 

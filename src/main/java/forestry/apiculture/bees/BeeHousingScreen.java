@@ -1,13 +1,13 @@
 package forestry.apiculture.bees;
 
 import forestry.core.platform.config.Constants;
-import forestry.core.platform.gui.GuiForestryTitled;
+import forestry.core.platform.gui.TitledForestryScreen;
 import forestry.core.platform.render.EnumTankLevel;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
-public class BeeHousingScreen extends GuiForestryTitled<BeeHousingMenu> {
+public class BeeHousingScreen extends TitledForestryScreen<BeeHousingMenu> {
 	private final IGuiBeeHousingDelegate delegate;
 
 	public enum Icon {

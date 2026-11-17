@@ -1,11 +1,11 @@
 package forestry.core.content.worktable.screens;
 
-import forestry.core.platform.gui.ContainerTile;
+import forestry.core.platform.gui.BlockEntityMenu;
 import forestry.core.platform.gui.IContainerCrafting;
 import forestry.core.platform.gui.IGuiSelectable;
 import forestry.core.platform.gui.slots.SlotCraftMatrix;
 import forestry.core.platform.gui.slots.WorktableSlot;
-import forestry.core.platform.inventory.InventoryGhostCrafting;
+import forestry.core.platform.inventory.GhostCraftingInventory;
 import forestry.core.platform.network.packets.PacketGuiSelectRequest;
 import forestry.core.platform.tile.TileUtil;
 import forestry.core.platform.util.ItemStackUtil;
@@ -18,7 +18,7 @@ import forestry.core.content.worktable.network.packets.PacketWorktableRecipeRequ
 import forestry.core.content.worktable.network.packets.PacketWorktableRecipeUpdate;
 import forestry.core.content.worktable.recipes.MemorizedRecipe;
 import forestry.core.content.worktable.recipes.RecipeMemory;
-import forestry.core.content.worktable.tiles.WorktableTile;
+import forestry.core.content.worktable.tiles.WorktableBlockEntity;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
@@ -26,17 +26,17 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 
-public class WorktableMenu extends ContainerTile<WorktableTile> implements IContainerCrafting, IGuiSelectable {
+public class WorktableMenu extends BlockEntityMenu<WorktableBlockEntity> implements IContainerCrafting, IGuiSelectable {
 	private final WorktableCraftingContainer craftMatrix = new WorktableCraftingContainer(this);
 	private long lastMemoryUpdate;
 	private boolean craftMatrixChanged = false;
 
 	public static WorktableMenu fromNetwork(int windowId, Inventory playerInv, FriendlyByteBuf extraData) {
-		WorktableTile worktable = TileUtil.getTile(playerInv.player.level(), extraData.readBlockPos(), WorktableTile.class);
+		WorktableBlockEntity worktable = TileUtil.getTile(playerInv.player.level(), extraData.readBlockPos(), WorktableBlockEntity.class);
 		return new WorktableMenu(windowId, playerInv, worktable);
 	}
 
-	public WorktableMenu(int windowId, Inventory inv, WorktableTile tile) {
+	public WorktableMenu(int windowId, Inventory inv, WorktableBlockEntity tile) {
 		super(windowId, WorktableMenus.WORKTABLE.menuType(), inv, tile, 8, 136);
 
 		Container craftingDisplay = tile.getCraftingDisplay();
@@ -57,7 +57,7 @@ public class WorktableMenu extends ContainerTile<WorktableTile> implements ICont
 		}
 
 		// CraftResult display
-		addSlot(new WorktableSlot(inv.player, this.craftMatrix, craftingDisplay, tile, InventoryGhostCrafting.SLOT_CRAFTING_RESULT, 77, 38));
+		addSlot(new WorktableSlot(inv.player, this.craftMatrix, craftingDisplay, tile, GhostCraftingInventory.SLOT_CRAFTING_RESULT, 77, 38));
 
 		for (int i = 0; i < this.craftMatrix.getContainerSize(); i++) {
 			onCraftMatrixChanged(tile.getCraftingDisplay(), i);

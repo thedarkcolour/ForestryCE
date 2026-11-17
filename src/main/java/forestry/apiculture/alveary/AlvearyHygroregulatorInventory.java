@@ -1,14 +1,14 @@
 package forestry.apiculture.alveary;
 
 import forestry.apiculture.alveary.multiblock.AlvearyHygroregulatorBlockEntity;
-import forestry.core.platform.inventory.InventoryAdapterTile;
+import forestry.core.platform.inventory.BlockEntityInventoryAdapter;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidUtil;
 
 import java.util.Optional;
 
-public class AlvearyHygroregulatorInventory extends InventoryAdapterTile<AlvearyHygroregulatorBlockEntity> {
+public class AlvearyHygroregulatorInventory extends BlockEntityInventoryAdapter<AlvearyHygroregulatorBlockEntity> {
 	public static final short SLOT_INPUT = 0;
 
 	public AlvearyHygroregulatorInventory(AlvearyHygroregulatorBlockEntity alvearyHygroregulator) {

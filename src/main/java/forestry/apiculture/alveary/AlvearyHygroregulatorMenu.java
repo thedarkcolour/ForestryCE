@@ -2,13 +2,13 @@ package forestry.apiculture.alveary;
 
 import forestry.apiculture.features.ApicultureMenuTypes;
 import forestry.apiculture.alveary.multiblock.AlvearyHygroregulatorBlockEntity;
-import forestry.core.platform.gui.ContainerLiquidTanks;
+import forestry.core.platform.gui.LiquidTanksMenu;
 import forestry.core.platform.gui.slots.SlotLiquidIn;
 import forestry.core.platform.tile.TileUtil;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 
-public class AlvearyHygroregulatorMenu extends ContainerLiquidTanks<AlvearyHygroregulatorBlockEntity> {
+public class AlvearyHygroregulatorMenu extends LiquidTanksMenu<AlvearyHygroregulatorBlockEntity> {
 	public static AlvearyHygroregulatorMenu fromNetwork(int windowId, Inventory inv, FriendlyByteBuf data) {
 		AlvearyHygroregulatorBlockEntity tile = TileUtil.getTile(inv.player.level(), data.readBlockPos(), AlvearyHygroregulatorBlockEntity.class);
 		return new AlvearyHygroregulatorMenu(windowId, inv, tile);

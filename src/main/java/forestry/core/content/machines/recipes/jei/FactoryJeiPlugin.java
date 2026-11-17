@@ -3,14 +3,14 @@ package forestry.core.content.machines.recipes.jei;
 import forestry.api.modules.ForestryModuleIds;
 import forestry.core.platform.client.ClientsideCode;
 import forestry.core.features.FluidsItems;
-import forestry.core.platform.gui.GuiForestry;
+import forestry.core.platform.gui.ForestryScreen;
 import forestry.core.platform.gui.widgets.TankWidget;
 import forestry.core.platform.recipes.jei.ForestryRecipeType;
 import forestry.core.platform.util.JeiUtil;
 import forestry.core.platform.util.ModUtil;
 import forestry.core.platform.util.RecipeUtils;
-import forestry.core.content.machines.blocks.BlockTypeFactoryPlain;
-import forestry.core.content.machines.blocks.BlockTypeFactoryTesr;
+import forestry.core.content.machines.blocks.FactoryBlockType;
+import forestry.core.content.machines.blocks.SpecialFactoryBlockType;
 import forestry.core.content.machines.features.FactoryBlocks;
 import forestry.core.content.machines.features.FactoryRecipeTypes;
 import forestry.core.content.machines.gui.*;
@@ -93,7 +93,7 @@ public class FactoryJeiPlugin implements IModPlugin {
 		registry.addRecipes(ForestryRecipeType.SQUEEZER, RecipeUtils.getRecipes(manager, FactoryRecipeTypes.SQUEEZER).toList());
 		registry.addRecipes(ForestryRecipeType.STILL, RecipeUtils.getRecipes(manager, FactoryRecipeTypes.STILL).toList());
 
-		JeiUtil.addDescription(registry, FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.BOTTLER).block());
+		JeiUtil.addDescription(registry, FactoryBlocks.PLAIN.get(FactoryBlockType.BOTTLER).block());
 	}
 
 	@Override
@@ -104,37 +104,37 @@ public class FactoryJeiPlugin implements IModPlugin {
 
 	@Override
 	public void registerRecipeCatalysts(IRecipeCatalystRegistration registry) {
-		registry.addRecipeCatalyst(new ItemStack(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.CARPENTER).block()), ForestryRecipeType.CARPENTER);
-		registry.addRecipeCatalyst(new ItemStack(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.CENTRIFUGE).block()), ForestryRecipeType.CENTRIFUGE);
-		registry.addRecipeCatalyst(new ItemStack(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.FABRICATOR).block()), ForestryRecipeType.FABRICATOR);
-		registry.addRecipeCatalyst(new ItemStack(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.FERMENTER).block()), ForestryRecipeType.FERMENTER);
-		registry.addRecipeCatalyst(new ItemStack(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.MOISTENER).block()), ForestryRecipeType.MOISTENER);
-		registry.addRecipeCatalyst(new ItemStack(FactoryBlocks.TESR.get(BlockTypeFactoryTesr.RAINMAKER).block()), ForestryRecipeType.RAINMAKER);
-		registry.addRecipeCatalyst(new ItemStack(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.SMELTER).block()), ForestryRecipeType.SMELTER);
-		registry.addRecipeCatalyst(new ItemStack(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.SQUEEZER).block()), ForestryRecipeType.SQUEEZER);
-		registry.addRecipeCatalyst(new ItemStack(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.STILL).block()), ForestryRecipeType.STILL);
+		registry.addRecipeCatalyst(new ItemStack(FactoryBlocks.PLAIN.get(FactoryBlockType.CARPENTER).block()), ForestryRecipeType.CARPENTER);
+		registry.addRecipeCatalyst(new ItemStack(FactoryBlocks.PLAIN.get(FactoryBlockType.CENTRIFUGE).block()), ForestryRecipeType.CENTRIFUGE);
+		registry.addRecipeCatalyst(new ItemStack(FactoryBlocks.PLAIN.get(FactoryBlockType.FABRICATOR).block()), ForestryRecipeType.FABRICATOR);
+		registry.addRecipeCatalyst(new ItemStack(FactoryBlocks.PLAIN.get(FactoryBlockType.FERMENTER).block()), ForestryRecipeType.FERMENTER);
+		registry.addRecipeCatalyst(new ItemStack(FactoryBlocks.PLAIN.get(FactoryBlockType.MOISTENER).block()), ForestryRecipeType.MOISTENER);
+		registry.addRecipeCatalyst(new ItemStack(FactoryBlocks.TESR.get(SpecialFactoryBlockType.RAINMAKER).block()), ForestryRecipeType.RAINMAKER);
+		registry.addRecipeCatalyst(new ItemStack(FactoryBlocks.PLAIN.get(FactoryBlockType.SMELTER).block()), ForestryRecipeType.SMELTER);
+		registry.addRecipeCatalyst(new ItemStack(FactoryBlocks.PLAIN.get(FactoryBlockType.SQUEEZER).block()), ForestryRecipeType.SQUEEZER);
+		registry.addRecipeCatalyst(new ItemStack(FactoryBlocks.PLAIN.get(FactoryBlockType.STILL).block()), ForestryRecipeType.STILL);
 	}
 
 	@Override
 	public void registerGuiHandlers(IGuiHandlerRegistration registry) {
-		registry.addGenericGuiContainerHandler(GuiForestry.class, new ForestryAdvancedGuiHandler(registry.getJeiHelpers().getIngredientManager()));
+		registry.addGenericGuiContainerHandler(ForestryScreen.class, new ForestryAdvancedGuiHandler(registry.getJeiHelpers().getIngredientManager()));
 
-		registry.addRecipeClickArea(GuiCarpenter.class, 98, 48, 21, 26, ForestryRecipeType.CARPENTER);
+		registry.addRecipeClickArea(CarpenterScreen.class, 98, 48, 21, 26, ForestryRecipeType.CARPENTER);
 
-		registry.addRecipeClickArea(GuiCentrifuge.class, 38, 22, 38, 14, ForestryRecipeType.CENTRIFUGE);
-		registry.addRecipeClickArea(GuiCentrifuge.class, 38, 54, 38, 14, ForestryRecipeType.CENTRIFUGE);
+		registry.addRecipeClickArea(CentrifugeScreen.class, 38, 22, 38, 14, ForestryRecipeType.CENTRIFUGE);
+		registry.addRecipeClickArea(CentrifugeScreen.class, 38, 54, 38, 14, ForestryRecipeType.CENTRIFUGE);
 
-		registry.addRecipeClickArea(GuiFabricator.class, 121, 53, 18, 18, ForestryRecipeType.FABRICATOR);
+		registry.addRecipeClickArea(FabricatorScreen.class, 121, 53, 18, 18, ForestryRecipeType.FABRICATOR);
 
-		registry.addRecipeClickArea(GuiFermenter.class, 72, 40, 32, 18, ForestryRecipeType.FERMENTER);
+		registry.addRecipeClickArea(FermenterScreen.class, 72, 40, 32, 18, ForestryRecipeType.FERMENTER);
 
-		registry.addRecipeClickArea(GuiMoistener.class, 123, 35, 19, 21, ForestryRecipeType.MOISTENER);
+		registry.addRecipeClickArea(MoistenerScreen.class, 123, 35, 19, 21, ForestryRecipeType.MOISTENER);
 
-		registry.addRecipeClickArea(GuiSmelter.class, 95, 57, 16, 16, ForestryRecipeType.SMELTER);
+		registry.addRecipeClickArea(SmelterScreen.class, 95, 57, 16, 16, ForestryRecipeType.SMELTER);
 
-		registry.addRecipeClickArea(GuiSqueezer.class, 76, 41, 43, 16, ForestryRecipeType.SQUEEZER);
+		registry.addRecipeClickArea(SqueezerScreen.class, 76, 41, 43, 16, ForestryRecipeType.SQUEEZER);
 
-		registry.addRecipeClickArea(GuiStill.class, 73, 17, 33, 57, ForestryRecipeType.STILL);
+		registry.addRecipeClickArea(StillScreen.class, 73, 17, 33, 57, ForestryRecipeType.STILL);
 	}
 
 	@Override
@@ -163,7 +163,7 @@ public class FactoryJeiPlugin implements IModPlugin {
 	}
 
 
-	static class ForestryAdvancedGuiHandler implements IGuiContainerHandler<GuiForestry<?>> {
+	static class ForestryAdvancedGuiHandler implements IGuiContainerHandler<ForestryScreen<?>> {
 		private final IIngredientManager manager;
 
 		ForestryAdvancedGuiHandler(IIngredientManager manager) {
@@ -171,12 +171,12 @@ public class FactoryJeiPlugin implements IModPlugin {
 		}
 
 		@Override
-		public List<Rect2i> getGuiExtraAreas(GuiForestry<?> guiContainer) {
-			return guiContainer.getExtraGuiAreas();
+		public List<Rect2i> getGuiExtraAreas(ForestryScreen<?> screen) {
+			return screen.getExtraGuiAreas();
 		}
 
 		@Override
-		public Optional<? extends IClickableIngredient<?>> getClickableIngredientUnderMouse(IClickableIngredientFactory factory, GuiForestry<?> guiContainer, double mouseX, double mouseY) {
+		public Optional<? extends IClickableIngredient<?>> getClickableIngredientUnderMouse(IClickableIngredientFactory factory, ForestryScreen<?> guiContainer, double mouseX, double mouseY) {
 			TankWidget widget = guiContainer.getTankAtPosition(mouseX, mouseY);
 
 			if (widget == null || widget.getTank() == null) {

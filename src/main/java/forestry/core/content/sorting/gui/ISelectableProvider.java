@@ -1,6 +1,6 @@
 package forestry.core.content.sorting.gui;
 
-import forestry.core.platform.gui.GuiForestry;
+import forestry.core.platform.gui.ForestryScreen;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 
@@ -11,7 +11,7 @@ public interface ISelectableProvider<S> {
 
 	void onSelect(S selectable);
 
-	void draw(GuiForestry<?> gui, S selectable, GuiGraphics graphics, int y, int x);
+	void draw(ForestryScreen<?> gui, S selectable, GuiGraphics graphics, int y, int x);
 
 	Component getName(S selectable);
 }

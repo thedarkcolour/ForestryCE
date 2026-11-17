@@ -1,6 +1,6 @@
 package forestry.core.content.worktable.blocks;
 
-import forestry.core.platform.block.BlockBase;
+import forestry.core.platform.block.BaseBlock;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -10,7 +10,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 
 import java.util.List;
 
-public class WorktableBlock extends BlockBase<WorktableBlockType> {
+public class WorktableBlock extends BaseBlock<WorktableBlockType> {
 	public WorktableBlock(BlockBehaviour.Properties properties, WorktableBlockType blockType) {
 		super(properties.sound(SoundType.WOOD), blockType);
 	}

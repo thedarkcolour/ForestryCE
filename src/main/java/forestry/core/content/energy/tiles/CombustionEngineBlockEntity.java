@@ -7,8 +7,8 @@ import forestry.api.core.IErrorLogic;
 import forestry.api.core.circuits.ForestryCircuitSocketTypes;
 import forestry.api.core.circuits.ICircuitBoard;
 import forestry.api.core.machines.fuels.BiogasEngineFuel;
-import forestry.core.content.energy.features.EnergyTiles;
-import forestry.core.content.energy.inventory.InventoryEngineCombustion;
+import forestry.core.content.energy.features.EnergyBlockEntities;
+import forestry.core.content.energy.inventory.CombustionEngineInventory;
 import forestry.core.content.energy.menu.CombustionEngineMenu;
 import forestry.core.engine.circuits.IEngineUpgradeable;
 import forestry.core.engine.circuits.ISocketable;
@@ -56,9 +56,9 @@ public class CombustionEngineBlockEntity extends EngineBlockEntity implements Wo
 	public CombustionEngineBlockEntity(BlockPos pos, BlockState state) {
 		// Deviation from 1.20.1: the hint key was "engine_iron" there, which matches no key in
 		// hints.properties. Every other engine uses the dotted form
-		super(EnergyTiles.COMBUSTION_ENGINE.tileType(), pos, state, "engine.iron", Constants.ENGINE_COPPER_HEAT_MAX, 80000);
+		super(EnergyBlockEntities.COMBUSTION_ENGINE.tileType(), pos, state, "engine.iron", Constants.ENGINE_COPPER_HEAT_MAX, 80000);
 
-		setInternalInventory(new InventoryEngineCombustion(this));
+		setInternalInventory(new CombustionEngineInventory(this));
 
 		this.fuelTank = new FilteredTank(Constants.ENGINE_TANK_CAPACITY).setFilter(ForestryDataMaps.COMBUSTION_FUELS);
 		this.coolantTank = new FilteredTank(Constants.ENGINE_TANK_CAPACITY, true, false).setFilter(ForestryDataMaps.COMBUSTION_COOLANTS);
@@ -75,7 +75,7 @@ public class CombustionEngineBlockEntity extends EngineBlockEntity implements Wo
 		}
 
 		// Check if we have suitable items waiting in the item slot
-		FluidHelper.drainContainers(this.tankManager, this, InventoryEngineCombustion.SLOT_CAN);
+		FluidHelper.drainContainers(this.tankManager, this, CombustionEngineInventory.SLOT_CAN);
 
 		IErrorLogic errorLogic = getErrorLogic();
 

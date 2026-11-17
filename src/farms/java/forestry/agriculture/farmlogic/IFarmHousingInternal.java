@@ -4,7 +4,6 @@ import forestry.api.core.climate.IClimateProvider;
 import forestry.api.agriculture.IFarmHousing;
 import forestry.core.platform.fluids.ITankManager;
 import forestry.core.platform.tile.ILiquidTankTile;
-import forestry.agriculture.farmlogic.FarmTarget;
 import forestry.agriculture.multifarm.multiblock.IFarmInventoryInternal;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -22,4 +21,7 @@ public interface IFarmHousingInternal extends IFarmHousing, ILiquidTankTile, ICl
 	void setUpFarmlandTargets(Map<Direction, List<FarmTarget>> targets);
 
 	BlockPos getTopCoord();
+
+	// called by a farm logic that needs to place soil but has none of its soil resources
+	void markMissingSoil();
 }

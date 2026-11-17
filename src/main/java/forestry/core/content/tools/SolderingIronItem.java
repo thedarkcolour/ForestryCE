@@ -1,6 +1,6 @@
 package forestry.core.content.tools;
 
-import forestry.core.engine.circuits.ContainerSolderingIron;
+import forestry.core.engine.circuits.SolderingIronMenu;
 import forestry.core.engine.circuits.ISolderingIron;
 import forestry.core.platform.inventory.SolderingIronInventory;
 import net.minecraft.world.entity.player.Player;
@@ -16,6 +16,6 @@ public class SolderingIronItem extends WithScreenItem implements ISolderingIron 
 
 	@Override
 	public AbstractContainerMenu getContainer(int containerId, Player player, ItemStack heldItem) {
-		return new ContainerSolderingIron(containerId, player, new SolderingIronInventory(player, heldItem));
+		return new SolderingIronMenu(containerId, player, new SolderingIronInventory(player, heldItem));
 	}
 }

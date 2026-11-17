@@ -1,7 +1,7 @@
 package forestry.mail.gui;
 
 import forestry.api.mail.IMailAddress;
-import forestry.core.platform.gui.ContainerTile;
+import forestry.core.platform.gui.BlockEntityMenu;
 import forestry.core.platform.gui.slots.SlotFiltered;
 import forestry.core.platform.gui.slots.SlotForestry;
 import forestry.core.platform.gui.slots.SlotOutput;
@@ -12,7 +12,7 @@ import forestry.mail.tradestation.TradeStationBlockEntity;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 
-public class TradeStationMenu extends ContainerTile<TradeStationBlockEntity> {
+public class TradeStationMenu extends BlockEntityMenu<TradeStationBlockEntity> {
 	public static TradeStationMenu fromNetwork(int windowId, Inventory inv, FriendlyByteBuf data) {
 		TradeStationBlockEntity tile = TileUtil.getTile(inv.player.level(), data.readBlockPos(), TradeStationBlockEntity.class);
 		return new TradeStationMenu(windowId, inv, tile);

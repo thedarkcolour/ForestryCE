@@ -2,7 +2,7 @@ package forestry.arboriculture.leaves;
 
 import forestry.api.arboriculture.genetics.ITree;
 import forestry.api.core.genetics.ISpecies;
-import forestry.core.platform.item.ItemBlockForestry;
+import forestry.core.platform.item.ForestryBlockItem;
 import forestry.core.platform.item.ITintedItem;
 import forestry.core.platform.util.NBTUtilForestry;
 import net.minecraft.client.Minecraft;
@@ -14,7 +14,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.FoliageColor;
 
-public class LeavesBlockItem extends ItemBlockForestry<AbstractLeavesBlock> implements ITintedItem {
+public class LeavesBlockItem extends ForestryBlockItem<AbstractLeavesBlock> implements ITintedItem {
 	public LeavesBlockItem(AbstractLeavesBlock block, Item.Properties properties) {
 		super(block, properties);
 	}

@@ -5,7 +5,7 @@ import forestry.api.mail.ILetter;
 import forestry.api.mail.IMailAddress;
 import forestry.api.mail.IPostalState;
 import forestry.core.platform.inventory.InventoryAdapter;
-import forestry.core.platform.tile.TileBase;
+import forestry.core.platform.tile.BaseBlockEntity;
 import forestry.mail.letters.LetterUtils;
 import forestry.mail.letters.MailAddress;
 import forestry.mail.carriers.players.POBox;
@@ -26,7 +26,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.items.IItemHandler;
 
-public class MailboxBlockEntity extends TileBase {
+public class MailboxBlockEntity extends BaseBlockEntity {
 	// virtual slot for mail, successful insertion immediately sends one letter
 	private final IItemHandler automatedMailHandler = new IItemHandler() {
 		@Override

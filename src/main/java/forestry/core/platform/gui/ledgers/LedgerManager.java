@@ -6,18 +6,15 @@ import forestry.api.core.IError;
 import forestry.api.core.IErrorSource;
 import forestry.api.core.tooltips.ToolTip;
 import forestry.core.platform.config.SessionVars;
-import forestry.core.platform.gui.GuiForestry;
+import forestry.core.platform.gui.ForestryScreen;
 import forestry.core.platform.gui.GuiUtil;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.Rect2i;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-@OnlyIn(Dist.CLIENT)
 public class LedgerManager {
 	private final List<Ledger> ledgers = new ArrayList<>();
 	private final List<ErrorLedger> errorLedgers = new ArrayList<>();
@@ -25,9 +22,9 @@ public class LedgerManager {
 	private IErrorSource errorSource;
 	private int maxWidth;
 
-	public final GuiForestry<?> gui;
+	public final ForestryScreen<?> gui;
 
-	public LedgerManager(GuiForestry<?> gui) {
+	public LedgerManager(ForestryScreen<?> gui) {
 		this.gui = gui;
 		this.errorSource = IErrorSource.EMPTY;
 	}

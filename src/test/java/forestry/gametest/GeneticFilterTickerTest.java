@@ -15,17 +15,17 @@ import net.neoforged.neoforge.gametest.GameTestHolder;
 import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 
 import forestry.api.ForestryConstants;
-import forestry.core.content.sorting.blocks.BlockGeneticFilter;
+import forestry.core.content.sorting.blocks.GeneticFilterBlock;
 import forestry.core.content.sorting.features.SortingBlocks;
-import forestry.core.content.sorting.features.SortingTiles;
-import forestry.core.content.sorting.tiles.TileGeneticFilter;
+import forestry.core.content.sorting.features.SortingBlockEntities;
+import forestry.core.content.sorting.tiles.GeneticFilterBlockEntity;
 
 /**
  * Regression suite for the Genetic Filter never forwarding items.
  * <p>
  * {@code TileGeneticFilter.serverTick} holds the only code that moves a routed item into the adjacent inventory, but
  * {@code TileForestry.serverTick} is not called automatically. It needs a {@link net.minecraft.world.level.block.entity.BlockEntityTicker},
- * and {@link BlockGeneticFilter} never supplied one, so the filter accepted items and kept them forever. This was
+ * and {@link GeneticFilterBlock} never supplied one, so the filter accepted items and kept them forever. This was
  * broken from the 1.19 port, where Forge dropped automatic block entity ticking for the explicit ticker model.
  * <p>
  * The ticker must be an {@code IForestryTicker}. A bare lambda runs {@code serverTick} but skips the {@code TickHelper}
@@ -50,9 +50,9 @@ public class GeneticFilterTickerTest {
 		helper.setBlock(FILTER_POS, SortingBlocks.FILTER.defaultState());
 
 		BlockState state = helper.getBlockState(FILTER_POS);
-		BlockGeneticFilter block = (BlockGeneticFilter) state.getBlock();
+		GeneticFilterBlock block = (GeneticFilterBlock) state.getBlock();
 
-		helper.assertTrue(block.getTicker(helper.getLevel(), state, SortingTiles.GENETIC_FILTER.tileType()) != null,
+		helper.assertTrue(block.getTicker(helper.getLevel(), state, SortingBlockEntities.GENETIC_FILTER.tileType()) != null,
 			"BlockGeneticFilter supplied no ticker, so TileGeneticFilter.serverTick can never run");
 		helper.assertTrue(block.getTicker(helper.getLevel(), state, BlockEntityType.CHEST) == null,
 			"BlockGeneticFilter supplied a ticker for a foreign block entity type");
@@ -64,7 +64,7 @@ public class GeneticFilterTickerTest {
 		helper.setBlock(CHEST_POS, Blocks.CHEST);
 		helper.setBlock(FILTER_POS, SortingBlocks.FILTER.defaultState());
 
-		if (!(helper.getBlockEntity(FILTER_POS) instanceof TileGeneticFilter filter)) {
+		if (!(helper.getBlockEntity(FILTER_POS) instanceof GeneticFilterBlockEntity filter)) {
 			helper.fail("Expected a TileGeneticFilter at " + FILTER_POS);
 			return;
 		}

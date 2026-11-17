@@ -1,6 +1,6 @@
 package forestry.mail.gui;
 
-import forestry.core.platform.gui.ContainerTile;
+import forestry.core.platform.gui.BlockEntityMenu;
 import forestry.core.platform.gui.slots.SlotOutput;
 import forestry.core.platform.tile.TileUtil;
 import forestry.core.platform.util.NetworkUtil;
@@ -19,7 +19,7 @@ import net.minecraft.world.inventory.ClickType;
 
 import javax.annotation.Nullable;
 
-public class MailboxMenu extends ContainerTile<MailboxBlockEntity> {
+public class MailboxMenu extends BlockEntityMenu<MailboxBlockEntity> {
 
 	public static final short SLOT_LETTERS = 0;
 	public static final short SLOT_LETTERS_COUNT = 7 * 12;

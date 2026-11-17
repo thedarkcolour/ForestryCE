@@ -7,7 +7,7 @@ plugins {
 	id 'net.neoforged.moddev' version '2.0.140'
 	// todo replace with mc-publish, as these plugins do not support Gradle configuration cache
 	id('com.modrinth.minotaur') version '2.+'
-	id('com.matthewprenger.cursegradle') version '1.4.0'
+	id('net.darkhax.curseforgegradle') version '1.3.33'
 }
 
 tasks.named('wrapper', Wrapper).configure {
@@ -944,26 +944,45 @@ publishing {
 	}
 }
 
+// one entry per CurseForge/Modrinth project
+var publishTargets = [[
+		module      : 'core',
+		title       : 'Forestry: Community Edition',
+		jar         : tasks.named('jar', Jar),
+		curseforgeId: project.curseforgeId,
+		modrinthId  : project.modrinthId,
+]] + contentModules.collect { m -> [
+		module      : m,
+		title       : "Forestry: CE - ${m.capitalize()}",
+		jar         : contentJars[m],
+		curseforgeId: project.property("${m}CurseforgeId"),
+		modrinthId  : project.property("${m}ModrinthId"),
+]}
+
 if (System.getenv('CURSEFORGE_TOKEN')) {
-	curseforge {
-		apiKey = System.getenv('CURSEFORGE_TOKEN')
+	tasks.register('curseforge', net.darkhax.curseforgegradle.TaskPublishCurseForge) {
+		apiToken = System.getenv('CURSEFORGE_TOKEN')
 
-		project {
-			id = project.curseforgeId
-			changelogType = 'markdown'
-			changelog = getChangelog(version)
+		publishTargets.each { target ->
+			dependsOn target.jar
 
-			releaseType = 'release'
+			upload(target.curseforgeId, target.jar.flatMap { it.archiveFile }).with {
+				displayName = "${target.title} ${project.version}"
 
-			addGameVersion(project.minecraftVersion)
-			addGameVersion('Forge')
-			addGameVersion('Java 17')
+				releaseType = 'release'
+				changelog = getChangelog(project.version)
+				changelogType = 'markdown'
 
-			mainArtifact(jar.archiveFile) {
-				displayName = "Forestry: Community Edition ${project.version}"
-				relations {
-					optionalDependency 'jei'
-					requiredDependency 'patchouli'
+				addGameVersion(project.minecraftVersion)
+				addGameVersion('NeoForge')
+				addGameVersion('Java 21')
+				addEnvironment('Client', 'Server')
+
+				if (target.module == 'core') {
+					addRelation('jei', 'optionalDependency')
+					addRelation('patchouli', 'requiredDependency')
+				} else {
+					addRelation('forestry-community-edition', 'requiredDependency')
 				}
 			}
 		}
@@ -973,21 +992,46 @@ if (System.getenv('CURSEFORGE_TOKEN')) {
 modrinth {
 	token = System.getenv('MODRINTH_TOKEN')
 	projectId = project.modrinthId
-	versionName = "Forestry: Community Edition $version"
 	versionNumber = version.toString()
 	versionType = 'release'
 	gameVersions = [minecraftVersion]
-	loaders = ['forge']
+	loaders = ['neoforge']
 	changelog = getChangelog(project.version)
+	// Minotaur wires this as a task input during configuration, before any doFirst below can set it
+	file.set(jar.archiveFile)
+}
 
-	uploadFile = jar
-	additionalFiles.add(sourcesJar)
-	additionalFiles.add(apiJar)
-	additionalFiles.add(javadocJar)
+publishTargets.each { target ->
+	var configureUpload = { com.modrinth.minotaur.TaskModrinthUpload task ->
+		task.dependsOn target.jar
+		if (target.module == 'core') {
+			task.dependsOn sourcesJar, apiJar, javadocJar
+		}
 
-	dependencies {
-		optional.project('jei')
-		required.project('patchouli')
+		// Minotaur reads the single modrinth extension when the task runs, so each upload points it at its own project first
+		task.doFirst {
+			modrinth.projectId.set(target.modrinthId)
+			modrinth.versionName.set("${target.title} ${project.version}".toString())
+			modrinth.file.set(target.jar.flatMap { it.archiveFile })
+
+			if (target.module == 'core') {
+				modrinth.additionalFiles.set([sourcesJar, apiJar, javadocJar])
+				modrinth.dependencies.set([
+						new com.modrinth.minotaur.dependencies.ModDependency('u6dRKJwZ', 'optional'), // jei
+						new com.modrinth.minotaur.dependencies.ModDependency('nU0bVIaL', 'required'), // patchouli
+				])
+			} else {
+				modrinth.additionalFiles.empty()
+				modrinth.dependencies.set([new com.modrinth.minotaur.dependencies.ModDependency(project.modrinthId, 'required')])
+			}
+		}
+	}
+
+	if (target.module == 'core') {
+		tasks.named('modrinth', com.modrinth.minotaur.TaskModrinthUpload, configureUpload)
+	} else {
+		var upload = tasks.register("modrinth${target.module.capitalize()}", com.modrinth.minotaur.TaskModrinthUpload, configureUpload)
+		tasks.named('modrinth') { dependsOn upload }
 	}
 }
 

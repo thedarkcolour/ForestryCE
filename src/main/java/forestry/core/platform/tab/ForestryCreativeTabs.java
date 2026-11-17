@@ -8,9 +8,9 @@ import forestry.apiculture.features.ApicultureItems;
 import forestry.arboriculture.features.CharcoalBlocks;
 import forestry.arboriculture.tab.ArboricultureCreativeTab;
 import forestry.arboriculture.wood.WoodAccess;
-import forestry.core.content.decorative.BlockTypeMetalPlating;
+import forestry.core.content.decorative.MetalPlatingBlockType;
 import forestry.core.platform.block.NaturalistChestBlockType;
-import forestry.core.platform.block.BlockTypeCoreTesr;
+import forestry.core.platform.block.CoreMachineBlockType;
 import forestry.core.features.CoreBlocks;
 import forestry.core.features.CoreItems;
 import forestry.core.features.FluidsItems;
@@ -18,14 +18,14 @@ import forestry.core.platform.fluids.ForestryFluids;
 import forestry.core.platform.item.FluidContainerType;
 import forestry.core.platform.item.FluidHandlerItemForestry;
 import forestry.core.content.energy.features.EnergyBlocks;
-import forestry.core.content.machines.blocks.BlockTypeFactoryPlain;
+import forestry.core.content.machines.blocks.FactoryBlockType;
 import forestry.core.content.machines.features.FactoryBlocks;
 import forestry.core.platform.registration.*;
 import forestry.core.platform.util.SpeciesUtil;
 import forestry.core.content.sorting.features.SortingBlocks;
 import forestry.core.content.backpacks.features.BackpackItems;
 import forestry.core.content.backpacks.features.CrateItems;
-import forestry.core.content.backpacks.items.ItemCrated;
+import forestry.core.content.backpacks.items.CratedItem;
 import forestry.core.content.worktable.features.WorktableBlocks;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -55,7 +55,7 @@ public class ForestryCreativeTabs {
 		tab.withTabsAfter(tabKey("building_blocks"), tabKey("storage"), tabKey("apiculture"), tabKey("arboriculture"), tabKey("lepidopterology"));
 	});
 	public static final FeatureCreativeTab BUILDING = REGISTRY.creativeTab("building_blocks", tab -> {
-		tab.icon(() -> CoreBlocks.METAL_PLATING.get(BlockTypeMetalPlating.BLUE).stack());
+		tab.icon(() -> CoreBlocks.METAL_PLATING.get(MetalPlatingBlockType.BLUE).stack());
 		tab.displayItems(ForestryCreativeTabs::addBuildingItems);
 		tab.withTabsBefore(tabKey("forestry"));
 		tab.withTabsAfter(tabKey("apiculture"));
@@ -109,7 +109,7 @@ public class ForestryCreativeTabs {
 		FactoryBlocks.TESR.getItems().forEach(items::accept);
 		items.accept(CoreBlocks.BURN_BARREL);
 		// Circuit boards
-		items.accept(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.FABRICATOR));
+		items.accept(FactoryBlocks.PLAIN.get(FactoryBlockType.FABRICATOR));
 		CoreItems.CIRCUITBOARDS.getItems().forEach(items::accept);
 		CoreItems.ELECTRON_TUBES.getItems().forEach(items::accept);
 
@@ -279,8 +279,8 @@ public class ForestryCreativeTabs {
 		items.accept(BackpackItems.BREWER_BACKPACK_T_2);
 
 		// Packing machines
-		items.accept(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.BOTTLER));
-		items.accept(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.CARPENTER));
+		items.accept(FactoryBlocks.PLAIN.get(FactoryBlockType.BOTTLER));
+		items.accept(FactoryBlocks.PLAIN.get(FactoryBlockType.CARPENTER));
 
 		// Misc gear
 		items.accept(CoreItems.PIPETTE);
@@ -326,7 +326,7 @@ public class ForestryCreativeTabs {
 		}
 
 		// Filled crates
-		for (FeatureItem<ItemCrated> crate : CrateItems.getCrates()) {
+		for (FeatureItem<CratedItem> crate : CrateItems.getCrates()) {
 			items.accept(crate);
 		}
 	}
@@ -352,7 +352,7 @@ public class ForestryCreativeTabs {
 		items.accept(CoreItems.HONEYDEW);
 		items.accept(ApicultureItems.EXPERIENCE_DROP);
 		items.accept(ApicultureItems.MAGMATIC_DROP);
-		items.accept(CoreBlocks.BASE.get(BlockTypeCoreTesr.ESCRITOIRE));
-		items.accept(CoreBlocks.BASE.get(BlockTypeCoreTesr.ANALYZER));
+		items.accept(CoreBlocks.BASE.get(CoreMachineBlockType.ESCRITOIRE));
+		items.accept(CoreBlocks.BASE.get(CoreMachineBlockType.ANALYZER));
 	}
 }

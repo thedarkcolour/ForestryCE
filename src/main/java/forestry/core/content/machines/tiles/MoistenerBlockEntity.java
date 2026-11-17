@@ -1,0 +1,519 @@
+package forestry.core.content.machines.tiles;
+
+import forestry.api.core.ForestryError;
+import forestry.api.core.IErrorLogic;
+import forestry.api.core.machines.fuels.MoistenerFuel;
+import forestry.api.core.machines.IMoistenerRecipe;
+import forestry.core.platform.config.Constants;
+import forestry.core.platform.fluids.FilteredTank;
+import forestry.core.platform.fluids.FluidHelper;
+import forestry.core.platform.fluids.FluidTagFilter;
+import forestry.core.platform.fluids.TankManager;
+import forestry.api.core.IInventoryAdapter;
+import forestry.core.platform.render.TankRenderInfo;
+import forestry.core.platform.tile.ILiquidTankTile;
+import forestry.core.platform.tile.IRenderableTile;
+import forestry.core.platform.tile.BaseBlockEntity;
+import forestry.core.platform.util.InventoryUtil;
+import forestry.core.platform.util.ItemStackUtil;
+import forestry.core.platform.util.RecipeUtils;
+import forestry.core.content.machines.blocks.FactoryBlock;
+import forestry.core.content.machines.features.FactoryBlockEntities;
+import forestry.core.content.machines.gui.MoistenerMenu;
+import forestry.core.content.machines.inventory.MoistenerInventory;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.world.WorldlyContainer;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerListener;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeManager;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import forestry.api.ForestryDataMaps;
+
+public class MoistenerBlockEntity extends BaseBlockEntity implements WorldlyContainer, ILiquidTankTile, IRenderableTile {
+	private final FilteredTank resourceTank;
+	private final TankManager tankManager;
+	@Nullable
+	private IMoistenerRecipe currentRecipe;
+
+	private int burnTime = 0;
+	private int totalTime = 0;
+	private int productionTime = 0;
+	private int timePerItem = 0;
+	@Nullable
+	private ItemStack currentProduct;
+	@Nullable
+	private ItemStack pendingProduct;
+
+	public MoistenerBlockEntity(BlockPos pos, BlockState state) {
+		super(FactoryBlockEntities.MOISTENER.tileType(), pos, state);
+		setInternalInventory(new MoistenerInventory(this));
+        this.resourceTank = new FilteredTank(Constants.PROCESSOR_TANK_CAPACITY).setFilter(FluidTagFilter.WATER);
+        this.tankManager = new TankManager(this, this.resourceTank);
+	}
+
+	/* LOADING & SAVING */
+	@Override
+	public void saveAdditional(CompoundTag compoundNBT, HolderLookup.Provider registries) {
+		super.saveAdditional(compoundNBT, registries);
+
+		compoundNBT.putInt("BurnTime", this.burnTime);
+		compoundNBT.putInt("TotalTime", this.totalTime);
+		compoundNBT.putInt("ProductionTime", this.productionTime);
+
+        this.tankManager.write(compoundNBT, registries);
+
+		// Write pending product
+		if (this.pendingProduct != null) {
+			CompoundTag CompoundNBTP = (CompoundTag) this.pendingProduct.saveOptional(registries);
+			compoundNBT.put("PendingProduct", CompoundNBTP);
+		}
+		if (this.currentProduct != null) {
+			CompoundTag CompoundNBTP = (CompoundTag) this.currentProduct.saveOptional(registries);
+			compoundNBT.put("CurrentProduct", CompoundNBTP);
+		}
+	}
+
+	@Override
+	public void loadAdditional(CompoundTag compoundNBT, HolderLookup.Provider registries) {
+		super.loadAdditional(compoundNBT, registries);
+
+        this.burnTime = compoundNBT.getInt("BurnTime");
+        this.totalTime = compoundNBT.getInt("TotalTime");
+        this.productionTime = compoundNBT.getInt("ProductionTime");
+
+        this.tankManager.read(compoundNBT, registries);
+
+		// Load pending product
+		if (compoundNBT.contains("PendingProduct")) {
+			CompoundTag compoundNBTP = compoundNBT.getCompound("PendingProduct");
+            this.pendingProduct = ItemStack.parse(registries, compoundNBTP).orElse(ItemStack.EMPTY);
+		}
+		if (compoundNBT.contains("CurrentProduct")) {
+			CompoundTag compoundNBTP = compoundNBT.getCompound("CurrentProduct");
+            this.currentProduct = ItemStack.parse(registries, compoundNBTP).orElse(ItemStack.EMPTY);
+		}
+
+		checkRecipe();
+	}
+
+	@Override
+	public void writeData(RegistryFriendlyByteBuf data) {
+		super.writeData(data);
+        this.tankManager.writeData(data);
+	}
+
+	@Override
+	@OnlyIn(Dist.CLIENT)
+	public void readData(RegistryFriendlyByteBuf data) {
+		super.readData(data);
+        this.tankManager.readData(data);
+	}
+
+	@Override
+	public void serverTick(Level level, BlockPos pos, BlockState state) {
+
+		if (updateOnInterval(20)) {
+			// Check if we have suitable water container waiting in the item slot
+			FluidHelper.drainContainers(this.tankManager, this, MoistenerInventory.SLOT_PRODUCT);
+
+			TankRenderInfo resourceTankInfo = this.getResourceTankInfo();
+
+			int newLevel = resourceTankInfo.getLevel().getLevelScaled(4);
+			boolean update = false;
+
+			if (state.hasProperty(FactoryBlock.TANK_RESOURCE_LEVEL) &&
+				state.getValue(FactoryBlock.TANK_RESOURCE_LEVEL) != newLevel) {
+				state = state.setValue(FactoryBlock.TANK_RESOURCE_LEVEL, newLevel);
+				update = true;
+			}
+
+			if (update) {
+				level.setBlock(pos, state, FactoryBlock.UPDATE_CLIENTS);
+			}
+		}
+
+		// Let's get to work
+		int lightvalue = level.getMaxLocalRawBrightness(getBlockPos().above());
+
+		IErrorLogic errorLogic = getErrorLogic();
+
+		// Not working in broad daylight
+		boolean gloomy = lightvalue <= 11;
+		if (errorLogic.setCondition(!gloomy, ForestryError.NOT_DARK)) {
+			return;
+		}
+
+		// The darker, the better
+		int speed;
+		if (lightvalue >= 9) {
+			speed = 1;
+		} else if (lightvalue >= 7) {
+			speed = 2;
+		} else if (lightvalue >= 5) {
+			speed = 3;
+		} else {
+			speed = 4;
+		}
+
+		// Already running
+		if (this.burnTime > 0 && this.pendingProduct == null) {
+			// Not working if there is no water available.
+			boolean hasLiquid = this.resourceTank.getFluidAmount() > 0;
+			if (errorLogic.setCondition(!hasLiquid, ForestryError.NO_RESOURCE_LIQUID)) {
+				return;
+			}
+
+			checkRecipe();
+
+			if (this.currentRecipe == null) {
+				return;
+			}
+
+            this.resourceTank.drain(1, IFluidHandler.FluidAction.EXECUTE);
+            this.burnTime -= speed;
+            this.productionTime -= speed;
+
+			if (this.productionTime <= 0) {
+                this.pendingProduct = this.currentProduct;
+				removeItem(MoistenerInventory.SLOT_RESOURCE, 1);
+				resetRecipe();
+				tryAddPending();
+			}
+
+		} else if (this.pendingProduct != null) {
+			tryAddPending();
+		}
+		// Try to start process
+		else { // Make sure we have a new item in the working slot.
+			if (rotateWorkingSlot()) {
+				checkRecipe();
+
+				// Let's see if we have a valid resource in the working slot
+				if (getItem(MoistenerInventory.SLOT_WORKING).isEmpty()) {
+					return;
+				}
+
+				MoistenerFuel res = getItem(MoistenerInventory.SLOT_WORKING).getItemHolder().getData(ForestryDataMaps.MOISTENER_FUELS);
+				if (res != null) {
+                    this.burnTime = this.totalTime = res.moistenerValue();
+				}
+			} else {
+				rotateReservoir();
+			}
+		}
+
+		errorLogic.setCondition(this.currentRecipe == null, ForestryError.NO_RECIPE);
+	}
+
+	private boolean tryAddPending() {
+		if (this.pendingProduct == null) {
+			return false;
+		}
+
+		boolean added = InventoryUtil.tryAddStack(this, this.pendingProduct, MoistenerInventory.SLOT_PRODUCT, 1, true);
+		getErrorLogic().setCondition(!added, ForestryError.NO_SPACE_INVENTORY);
+
+		if (added) {
+            this.pendingProduct = null;
+		}
+
+		return added;
+	}
+
+	public void checkRecipe() {
+		RecipeManager manager = RecipeUtils.getRecipeManager();
+		IMoistenerRecipe sameRec = null;
+		if (manager != null) {
+			sameRec = RecipeUtils.getMoistenerRecipe(manager, getInternalInventory().getItem(MoistenerInventory.SLOT_RESOURCE));
+		}
+		if (this.currentRecipe != sameRec) {
+            this.currentRecipe = sameRec;
+			resetRecipe();
+		}
+
+		getErrorLogic().setCondition(this.currentRecipe == null, ForestryError.NO_RECIPE);
+	}
+
+	private void resetRecipe() {
+		if (this.currentRecipe == null) {
+            this.currentProduct = null;
+            this.productionTime = 0;
+            this.timePerItem = 0;
+		} else {
+            this.currentProduct = this.currentRecipe.getProduct();
+            this.productionTime = this.currentRecipe.getTimePerItem();
+            this.timePerItem = this.currentRecipe.getTimePerItem();
+		}
+	}
+
+	private int getFreeSlot(ItemStack deposit, int startSlot, int endSlot, boolean emptyOnly) {
+		int slot = -1;
+
+		for (int i = startSlot; i < endSlot; i++) {
+			ItemStack slotStack = getItem(i);
+			// Empty slots are okay.
+			if (slotStack.isEmpty()) {
+				if (slot < 0) {
+					slot = i;
+				}
+				continue;
+			}
+
+			if (emptyOnly) {
+				continue;
+			}
+
+			// Wrong item or full
+			if (!ItemStack.isSameItem(slotStack, deposit) || slotStack.getCount() >= slotStack.getMaxStackSize()) {
+				continue;
+			}
+
+			slot = i;
+		}
+
+		return slot;
+	}
+
+	private int getFreeStashSlot(ItemStack deposit, boolean emptyOnly) {
+		return getFreeSlot(deposit, 0, MoistenerInventory.SLOT_RESERVOIR_1, emptyOnly);
+	}
+
+	private int getFreeReservoirSlot(ItemStack deposit) {
+		return getFreeSlot(deposit, MoistenerInventory.SLOT_RESERVOIR_1, MoistenerInventory.SLOT_RESERVOIR_1 + MoistenerInventory.SLOT_RESERVOIR_COUNT, false);
+
+	}
+
+	private int getNextResourceSlot(int startSlot, int endSlot) {
+		// Let's look for a new resource to put into the working slot.
+		int stage = -1;
+		int resourceSlot = -1;
+
+		IInventoryAdapter inventory = getInternalInventory();
+		for (int i = startSlot; i < endSlot; i++) {
+			ItemStack slotStack = inventory.getItem(i);
+			if (slotStack.isEmpty()) {
+				continue;
+			}
+
+			MoistenerFuel res = slotStack.getItemHolder().getData(ForestryDataMaps.MOISTENER_FUELS);
+			if (res == null) {
+				continue;
+			}
+
+			if (stage < 0 || res.stage() < stage) {
+				stage = res.stage();
+				resourceSlot = i;
+			}
+		}
+
+		return resourceSlot;
+	}
+
+	private boolean rotateWorkingSlot() {
+		IErrorLogic errorLogic = getErrorLogic();
+
+		// Put working slot contents into inventory if space is available
+		if (!getItem(MoistenerInventory.SLOT_WORKING).isEmpty()) {
+			// Get the result of the consumed item in the working slot
+			ItemStack deposit;
+			MoistenerFuel res = getItem(MoistenerInventory.SLOT_WORKING).getItemHolder().getData(ForestryDataMaps.MOISTENER_FUELS);
+			if (res != null) {
+				deposit = res.product().copy();
+			} else {
+				deposit = getItem(MoistenerInventory.SLOT_WORKING).copy();
+			}
+
+			int targetSlot = getFreeReservoirSlot(deposit);
+			// We stop the whole thing, if we don't have any room anymore.
+			if (errorLogic.setCondition(targetSlot < 0, ForestryError.NO_SPACE_INVENTORY)) {
+				return false;
+			}
+
+			if (getItem(targetSlot).isEmpty()) {
+				setItem(targetSlot, deposit);
+			} else {
+				getItem(targetSlot).grow(1);
+			}
+
+			removeItem(MoistenerInventory.SLOT_WORKING, 1);
+		}
+
+		if (!getItem(MoistenerInventory.SLOT_WORKING).isEmpty()) {
+			return true;
+		}
+
+		// Let's look for a new resource to put into the working slot.
+		int resourceSlot = getNextResourceSlot(MoistenerInventory.SLOT_RESERVOIR_1, MoistenerInventory.SLOT_RESERVOIR_1 + MoistenerInventory.SLOT_RESERVOIR_COUNT);
+		// Nothing found, stop.
+		if (errorLogic.setCondition(resourceSlot < 0, ForestryError.NO_RESOURCE)) {
+			return false;
+		}
+
+		setItem(MoistenerInventory.SLOT_WORKING, removeItem(resourceSlot, 1));
+		return true;
+	}
+
+	private void rotateReservoir() {
+		ArrayList<Integer> slotsToShift = new ArrayList<>();
+
+		for (int i = MoistenerInventory.SLOT_RESERVOIR_1; i < MoistenerInventory.SLOT_RESERVOIR_1 + MoistenerInventory.SLOT_RESERVOIR_COUNT; i++) {
+			if (getItem(i).isEmpty()) {
+				continue;
+			}
+
+			if (getItem(i).getItemHolder().getData(ForestryDataMaps.MOISTENER_FUELS) == null) {
+				slotsToShift.add(i);
+			}
+		}
+
+		// Move consumed items back to stash
+		int shiftedSlots = 0;
+		for (int slot : slotsToShift) {
+			ItemStack slotStack = getItem(slot);
+			int targetSlot = getFreeStashSlot(slotStack, true);
+			if (targetSlot < 0) {
+				continue;
+			}
+
+			setItem(targetSlot, slotStack);
+			setItem(slot, ItemStack.EMPTY);
+			shiftedSlots++;
+		}
+
+		// Grab new items from stash
+		for (int i = 0; i < (!slotsToShift.isEmpty() ? shiftedSlots : 2); i++) {
+			int resourceSlot = getNextResourceSlot(0, MoistenerInventory.SLOT_RESERVOIR_1);
+			// Stop if no resources are available
+			if (resourceSlot < 0) {
+				break;
+			}
+			int targetSlot = getFreeReservoirSlot(getItem(resourceSlot));
+			// No free target slot, stop
+			if (targetSlot < 0) {
+				break;
+			}
+			// Else shift
+			if (getItem(targetSlot).isEmpty()) {
+				setItem(targetSlot, getItem(resourceSlot));
+				setItem(resourceSlot, ItemStack.EMPTY);
+			} else {
+				ItemStackUtil.mergeStacks(getItem(resourceSlot), getItem(targetSlot));
+			}
+		}
+	}
+
+	public boolean isWorking() {
+		return this.burnTime > 0 && this.resourceTank.getFluidAmount() > 0;
+	}
+
+	public boolean hasFuelMin(float percentage) {
+		int max = 0;
+		int avail = 0;
+		IInventoryAdapter inventory = getInternalInventory();
+
+		for (int i = MoistenerInventory.SLOT_STASH_1; i < MoistenerInventory.SLOT_RESERVOIR_1; i++) {
+			if (inventory.getItem(i).isEmpty()) {
+				max += 64;
+				continue;
+			}
+			if (inventory.getItem(i).getItemHolder().getData(ForestryDataMaps.MOISTENER_FUELS) != null) {
+				max += 64;
+				avail += inventory.getItem(i).getCount();
+			}
+		}
+
+		return (float) avail / (float) max > percentage;
+	}
+
+	public boolean hasResourcesMin(float percentage) {
+		IInventoryAdapter inventory = getInternalInventory();
+		if (inventory.getItem(MoistenerInventory.SLOT_RESOURCE).isEmpty()) {
+			return false;
+		}
+
+		return (float) inventory.getItem(MoistenerInventory.SLOT_RESOURCE).getCount() / (float) inventory.getItem(MoistenerInventory.SLOT_RESOURCE).getMaxStackSize() > percentage;
+	}
+
+	public boolean isProducing() {
+		return this.productionTime > 0;
+	}
+
+	public int getProductionProgressScaled(int i) {
+		if (this.timePerItem == 0) {
+			return 0;
+		}
+
+		return this.productionTime * i / this.timePerItem;
+
+	}
+
+	public int getConsumptionProgressScaled(int i) {
+		if (this.totalTime == 0) {
+			return 0;
+		}
+
+		return this.burnTime * i / this.totalTime;
+
+	}
+
+	public int getResourceScaled(int i) {
+		return this.resourceTank.getFluidAmount() * i / Constants.PROCESSOR_TANK_CAPACITY;
+	}
+
+	/* IRenderableTile */
+	@Override
+	public TankRenderInfo getResourceTankInfo() {
+		return new TankRenderInfo(this.resourceTank);
+	}
+
+	@Override
+	public TankRenderInfo getProductTankInfo() {
+		return TankRenderInfo.EMPTY;
+	}
+
+
+	@Override
+	public TankManager getTankManager() {
+		return this.tankManager;
+	}
+
+	/* SMP GUI */
+	public void getGUINetworkData(int i, int j) {
+		switch (i) {
+			case 0 -> this.burnTime = j;
+			case 1 -> this.totalTime = j;
+			case 2 -> this.productionTime = j;
+			case 3 -> this.timePerItem = j;
+		}
+	}
+
+	public void sendGUINetworkData(AbstractContainerMenu container, ContainerListener iCrafting) {
+		iCrafting.dataChanged(container, 0, this.burnTime);
+		iCrafting.dataChanged(container, 1, this.totalTime);
+		iCrafting.dataChanged(container, 2, this.productionTime);
+		iCrafting.dataChanged(container, 3, this.timePerItem);
+	}
+
+	@Override
+	public AbstractContainerMenu createMenu(int windowId, Inventory inv, Player player) {
+		return new MoistenerMenu(windowId, inv, this);
+	}
+
+	public IFluidHandler getFluidHandler(@Nullable Direction facing) {
+		return this.tankManager;
+	}
+}

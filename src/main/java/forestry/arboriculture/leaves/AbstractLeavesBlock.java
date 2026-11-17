@@ -43,9 +43,9 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Parent class for shared behavior between {@link DefaultLeavesBlock} and {@link BlockForestryLeaves}
+ * Parent class for shared behavior between {@link DefaultLeavesBlock} and {@link ForestryLeavesBlock}
  */
-public abstract class AbstractLeavesBlock extends BlockExtendedLeaves implements IColoredBlock {
+public abstract class AbstractLeavesBlock extends ExtendedLeavesBlock implements IColoredBlock {
 	public static final int FOLIAGE_COLOR_INDEX = 0;
 	public static final int FRUIT_COLOR_INDEX = 2;
 

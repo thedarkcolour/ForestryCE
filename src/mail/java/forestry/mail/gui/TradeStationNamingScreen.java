@@ -1,7 +1,7 @@
 package forestry.mail.gui;
 
 import forestry.core.platform.config.Constants;
-import forestry.core.platform.gui.GuiForestry;
+import forestry.core.platform.gui.ForestryScreen;
 import forestry.core.platform.render.ColourProperties;
 import forestry.core.platform.util.NetworkUtil;
 import forestry.mail.network.packets.PacketTraderAddressRequest;
@@ -13,7 +13,7 @@ import net.minecraft.world.entity.player.Inventory;
 import org.apache.commons.lang3.StringUtils;
 import org.lwjgl.glfw.GLFW;
 
-public class TradeStationNamingScreen extends GuiForestry<TradeStationNamingMenu> {
+public class TradeStationNamingScreen extends ForestryScreen<TradeStationNamingMenu> {
 	private final TradeStationBlockEntity tile;
 	private EditBox addressNameField;
 

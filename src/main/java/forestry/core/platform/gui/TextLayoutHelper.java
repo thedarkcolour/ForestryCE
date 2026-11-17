@@ -8,7 +8,7 @@ import net.minecraft.network.chat.Component;
 public class TextLayoutHelper {
 	private static final int LINE_HEIGHT = 12;
 
-	private final GuiForestry<?> screen;
+	private final ForestryScreen<?> screen;
 	private final int defaultFontColor;
 	private final Font font;
 
@@ -17,7 +17,7 @@ public class TextLayoutHelper {
 	public int column2;
 	public int line;
 
-	public TextLayoutHelper(GuiForestry<?> gui, ColourProperties fontColour) {
+	public TextLayoutHelper(ForestryScreen<?> gui, ColourProperties fontColour) {
 		this.screen = gui;
 		this.font = gui.font();
 		this.defaultFontColor = fontColour.get("gui.screen");

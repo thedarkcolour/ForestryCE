@@ -1,6 +1,6 @@
 package forestry.agriculture.minifarm.blocks;
 
-import forestry.core.platform.block.BlockBase;
+import forestry.core.platform.block.BaseBlock;
 import forestry.core.platform.render.ParticleRender;
 import forestry.agriculture.minifarm.tiles.AbstractMinifarmBlockEntity;
 import net.minecraft.core.BlockPos;
@@ -9,7 +9,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class MinifarmBlock extends BlockBase<MinifarmBlockType> {
+public class MinifarmBlock extends BaseBlock<MinifarmBlockType> {
 	private final boolean manual;
 
 	public MinifarmBlock(MinifarmBlockType type, boolean manual) {

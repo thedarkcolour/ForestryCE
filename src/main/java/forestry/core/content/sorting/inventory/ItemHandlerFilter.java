@@ -1,19 +1,17 @@
 package forestry.core.content.sorting.inventory;
 
-import forestry.core.content.sorting.tiles.TileGeneticFilter;
+import forestry.core.content.sorting.tiles.GeneticFilterBlockEntity;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.wrapper.InvWrapper;
 
-import javax.annotation.Nonnull;
-
 public class ItemHandlerFilter implements IItemHandler {
-	private final TileGeneticFilter filter;
+	private final GeneticFilterBlockEntity filter;
 	private final IItemHandler itemHandler;
 	private final Direction facing;
 
-	public ItemHandlerFilter(TileGeneticFilter filter, Direction facing) {
+	public ItemHandlerFilter(GeneticFilterBlockEntity filter, Direction facing) {
 		this.filter = filter;
 		this.facing = facing;
 		this.itemHandler = new InvWrapper(filter);
@@ -53,7 +51,7 @@ public class ItemHandlerFilter implements IItemHandler {
 
 	//TODO
 	@Override
-	public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
+	public boolean isItemValid(int slot, ItemStack stack) {
 		return this.itemHandler.isItemValid(slot, stack);
 	}
 }

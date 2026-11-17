@@ -6,7 +6,7 @@ import forestry.core.platform.config.Constants;
 import forestry.core.platform.gui.widgets.Widget;
 import forestry.core.platform.gui.widgets.WidgetManager;
 import forestry.core.platform.gui.widgets.WidgetScrollBar;
-import forestry.core.content.sorting.gui.GuiGeneticFilter;
+import forestry.core.content.sorting.gui.GeneticFilterScreen;
 import forestry.core.content.sorting.gui.ISelectableProvider;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
@@ -19,9 +19,9 @@ public class SelectionWidget extends Widget {
 	final WidgetScrollBar scrollBar;
 	@Nullable
 	private SelectionLogic<?> logic;
-	final GuiGeneticFilter gui;
+	final GeneticFilterScreen gui;
 
-	public SelectionWidget(WidgetManager manager, int xPos, int yPos, WidgetScrollBar scrollBar, GuiGeneticFilter gui) {
+	public SelectionWidget(WidgetManager manager, int xPos, int yPos, WidgetScrollBar scrollBar, GeneticFilterScreen gui) {
 		super(manager, xPos, yPos);
 		this.width = 212;
 		this.height = 88;

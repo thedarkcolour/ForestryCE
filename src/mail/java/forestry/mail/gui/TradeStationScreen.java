@@ -1,14 +1,14 @@
 package forestry.mail.gui;
 
 import forestry.core.platform.config.Constants;
-import forestry.core.platform.gui.GuiForestry;
+import forestry.core.platform.gui.ForestryScreen;
 import forestry.core.platform.render.ColourProperties;
 import forestry.mail.tradestation.TradeStationBlockEntity;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
-public class TradeStationScreen extends GuiForestry<TradeStationMenu> {
+public class TradeStationScreen extends ForestryScreen<TradeStationMenu> {
 	private final TradeStationBlockEntity tile;
 
 	public TradeStationScreen(TradeStationMenu container, Inventory inv, Component title) {

@@ -2,7 +2,7 @@ package forestry.core.content.machines.recipes.jei.squeezer;
 
 import forestry.api.ForestryConstants;
 import forestry.api.core.machines.ISqueezerRecipe;
-import forestry.core.content.machines.blocks.BlockTypeFactoryPlain;
+import forestry.core.content.machines.blocks.FactoryBlockType;
 import forestry.core.content.machines.features.FactoryBlocks;
 import forestry.core.platform.config.Constants;
 import forestry.core.platform.recipes.jei.ChanceTooltipCallback;
@@ -42,7 +42,7 @@ public class SqueezerRecipeCategory extends ForestryRecipeCategory<ISqueezerReci
 		IDrawableStatic arrowDrawable = guiHelper.createDrawable(TEXTURE, 176, 60, 43, 18);
 		this.arrow = guiHelper.createAnimatedDrawable(arrowDrawable, 200, IDrawableAnimated.StartDirection.LEFT, false);
 		this.tankOverlay = guiHelper.createDrawable(TEXTURE, 176, 0, 16, 58);
-		ItemStack squeezer = new ItemStack(FactoryBlocks.PLAIN.get(BlockTypeFactoryPlain.SQUEEZER).block());
+		ItemStack squeezer = new ItemStack(FactoryBlocks.PLAIN.get(FactoryBlockType.SQUEEZER).block());
 		this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, squeezer);
 		this.craftingGridHelper = guiHelper.createCraftingGridHelper();
 	}

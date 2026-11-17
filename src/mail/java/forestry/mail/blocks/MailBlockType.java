@@ -4,7 +4,7 @@ import forestry.core.platform.block.IBlockType;
 import forestry.core.platform.block.IMachineProperties;
 import forestry.core.platform.block.MachineProperties;
 import forestry.core.platform.tile.IForestryTicker;
-import forestry.core.platform.tile.TileForestry;
+import forestry.core.platform.tile.ForestryBlockEntity;
 import forestry.mail.features.MailBlockEntities;
 import forestry.mail.postoffice.StampCollectorBlockEntity;
 import forestry.mail.tradestation.TradeStationBlockEntity;
@@ -19,7 +19,7 @@ public enum MailBlockType implements IBlockType {
 
 	private final IMachineProperties<?> machineProperties;
 
-	<T extends TileForestry> MailBlockType(FeatureTileType<T> teClass, String name, @Nullable IForestryTicker<T> serverTicker) {
+	<T extends ForestryBlockEntity> MailBlockType(FeatureTileType<T> teClass, String name, @Nullable IForestryTicker<T> serverTicker) {
 		this.machineProperties = new MachineProperties.Builder<>(teClass, name).setServerTicker(serverTicker).create();
 	}
 

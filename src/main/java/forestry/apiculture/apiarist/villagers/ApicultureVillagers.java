@@ -9,7 +9,7 @@ import forestry.apiculture.apiary.ApicultureBlockType;
 import forestry.apiculture.features.ApicultureBlocks;
 import forestry.apiculture.features.ApicultureItems;
 import forestry.apiculture.bees.EnumPropolis;
-import forestry.core.platform.block.BlockTypeCoreTesr;
+import forestry.core.platform.block.CoreMachineBlockType;
 import forestry.core.features.CoreBlocks;
 import forestry.core.features.CoreItems;
 import forestry.core.platform.villager.VillagerTrade;
@@ -50,7 +50,7 @@ public class ApicultureVillagers {
 	private static final DeferredRegister<PoiType> POINTS_OF_INTEREST = REGISTRY.getRegistry(Registries.POINT_OF_INTEREST_TYPE);
 	private static final DeferredRegister<VillagerProfession> PROFESSIONS = REGISTRY.getRegistry(Registries.VILLAGER_PROFESSION);
 
-	public static final DeferredHolder<PoiType, PoiType> POI_ESCRITOIRE = POINTS_OF_INTEREST.register("escritoire", () -> new PoiType(Set.copyOf(CoreBlocks.BASE.get(BlockTypeCoreTesr.ESCRITOIRE).block().getStateDefinition().getPossibleStates()), 1, 1));
+	public static final DeferredHolder<PoiType, PoiType> POI_ESCRITOIRE = POINTS_OF_INTEREST.register("escritoire", () -> new PoiType(Set.copyOf(CoreBlocks.BASE.get(CoreMachineBlockType.ESCRITOIRE).block().getStateDefinition().getPossibleStates()), 1, 1));
 	public static final DeferredHolder<VillagerProfession, VillagerProfession> PROF_BEEKEEPER = PROFESSIONS.register("beekeeper", () -> {
 		ResourceKey<PoiType> key = Objects.requireNonNull(POI_ESCRITOIRE.getKey());
 		Predicate<Holder<PoiType>> jobSitePredicate = e -> e.is(key);

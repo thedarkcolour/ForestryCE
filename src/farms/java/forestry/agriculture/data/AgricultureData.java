@@ -16,7 +16,7 @@ import forestry.core.data.JarScope;
  */
 public class AgricultureData extends ContentJarData {
 	public AgricultureData() {
-		super("farms", DataRoots.FARMS, Set.of(ForestryModuleIds.FARMING, ForestryModuleIds.CULTIVATION));
+		super("farms", DataRoots.FARMS, Set.of(ForestryModuleIds.FARMING));
 	}
 
 	@Override

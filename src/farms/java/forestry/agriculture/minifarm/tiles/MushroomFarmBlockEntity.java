@@ -1,7 +1,7 @@
 package forestry.agriculture.minifarm.tiles;
 
 import forestry.api.agriculture.ForestryFarmTypes;
-import forestry.agriculture.features.MinifarmBlockEntities;
+import forestry.agriculture.features.FarmingBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
@@ -11,7 +11,7 @@ import java.util.List;
 
 public class MushroomFarmBlockEntity extends AbstractMinifarmBlockEntity {
 	public MushroomFarmBlockEntity(BlockPos pos, BlockState state) {
-		super(MinifarmBlockEntities.MUSHROOM.tileType(), pos, state, ForestryFarmTypes.SHROOM);
+		super(FarmingBlockEntities.MUSHROOM.tileType(), pos, state, ForestryFarmTypes.SHROOM);
 	}
 
 	@Override

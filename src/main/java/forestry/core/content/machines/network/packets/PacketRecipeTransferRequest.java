@@ -3,8 +3,8 @@ package forestry.core.content.machines.network.packets;
 import forestry.core.platform.network.PacketIdServer;
 import forestry.core.platform.tile.TileUtil;
 import forestry.core.platform.util.NetworkUtil;
-import forestry.core.content.machines.tiles.TileCarpenter;
-import forestry.core.content.machines.tiles.TileFabricator;
+import forestry.core.content.machines.tiles.CarpenterBlockEntity;
+import forestry.core.content.machines.tiles.FabricatorBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -20,7 +20,7 @@ public record PacketRecipeTransferRequest(BlockPos pos,
 		NonNullList<ItemStack> craftingInventory = msg.craftingInventory();
 
 		BlockEntity tile = TileUtil.getTile(player.level(), pos);
-		if (tile instanceof TileCarpenter carpenter) {
+		if (tile instanceof CarpenterBlockEntity carpenter) {
 			int index = 0;
 			for (ItemStack stack : craftingInventory) {
 				carpenter.getCraftingInventory().setItem(index, stack);
@@ -28,7 +28,7 @@ public record PacketRecipeTransferRequest(BlockPos pos,
 			}
 
 			NetworkUtil.sendNetworkPacket(new PacketRecipeTransferUpdate(carpenter.getBlockPos(), craftingInventory), pos, player.level());
-		} else if (tile instanceof TileFabricator fabricator) {
+		} else if (tile instanceof FabricatorBlockEntity fabricator) {
 			int index = 0;
 			for (ItemStack stack : craftingInventory) {
 				fabricator.getCraftingInventory().setItem(index, stack);

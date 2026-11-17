@@ -8,7 +8,7 @@ import forestry.api.modules.IPacketRegistry;
 import forestry.core.platform.network.PacketIdClient;
 import forestry.core.platform.network.PacketIdServer;
 import forestry.modules.BlankForestryModule;
-import forestry.core.content.sorting.features.SortingTiles;
+import forestry.core.content.sorting.features.SortingBlockEntities;
 import forestry.core.content.sorting.client.SortingClientHandler;
 import forestry.core.content.sorting.network.packets.PacketFilterChangeGenome;
 import forestry.core.content.sorting.network.packets.PacketFilterChangeRule;
@@ -41,8 +41,8 @@ public class ModuleSorting extends BlankForestryModule {
 	}
 
 	public static void registerCapabilities(RegisterCapabilitiesEvent consumer) {
-		consumer.registerBlockEntity(Capabilities.ItemHandler.BLOCK, SortingTiles.GENETIC_FILTER.tileType(), (tile, side) -> tile.getItemHandler(side));
-		consumer.registerBlockEntity(ForestryCapabilities.FILTER_LOGIC, SortingTiles.GENETIC_FILTER.tileType(), (tile, side) -> tile.getLogic());
+		consumer.registerBlockEntity(Capabilities.ItemHandler.BLOCK, SortingBlockEntities.GENETIC_FILTER.tileType(), (tile, side) -> tile.getItemHandler(side));
+		consumer.registerBlockEntity(ForestryCapabilities.FILTER_LOGIC, SortingBlockEntities.GENETIC_FILTER.tileType(), (tile, side) -> tile.getLogic());
 	}
 
 	@Override

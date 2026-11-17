@@ -1,15 +1,15 @@
 package forestry.core.content.worktable.inventory;
 
-import forestry.core.platform.inventory.InventoryAdapterTile;
+import forestry.core.platform.inventory.BlockEntityInventoryAdapter;
 import forestry.core.platform.util.SlotUtil;
-import forestry.core.content.worktable.tiles.WorktableTile;
+import forestry.core.content.worktable.tiles.WorktableBlockEntity;
 import net.minecraft.world.item.ItemStack;
 
-public class WorktableInventory extends InventoryAdapterTile<WorktableTile> {
+public class WorktableInventory extends BlockEntityInventoryAdapter<WorktableBlockEntity> {
 	public static final int SLOT_INVENTORY_1 = 0;
 	public static final int SLOT_INVENTORY_COUNT = 18;
 
-	public WorktableInventory(WorktableTile worktable) {
+	public WorktableInventory(WorktableBlockEntity worktable) {
 		super(worktable, 18, "Items");
 	}
 

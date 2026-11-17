@@ -1,13 +1,13 @@
 package forestry.core.platform.registration;
 
-import forestry.core.platform.fluids.BlockForestryFluid;
+import forestry.core.platform.fluids.ForestryFluidBlock;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.material.FlowingFluid;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidType;
 
 public interface IFluidFeature extends IModFeature {
-	IBlockFeature<BlockForestryFluid, BlockItem> fluidBlock();
+	IBlockFeature<ForestryFluidBlock, BlockItem> fluidBlock();
 
 	FluidProperties properties();
 

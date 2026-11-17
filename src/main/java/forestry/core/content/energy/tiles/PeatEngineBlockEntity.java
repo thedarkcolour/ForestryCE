@@ -10,8 +10,8 @@ import forestry.core.engine.circuits.ISocketable;
 import forestry.core.features.CoreItems;
 import forestry.api.core.IInventoryAdapter;
 import forestry.core.platform.inventory.InventoryAdapter;
-import forestry.core.content.energy.features.EnergyTiles;
-import forestry.core.content.energy.inventory.InventoryEnginePeat;
+import forestry.core.content.energy.features.EnergyBlockEntities;
+import forestry.core.content.energy.inventory.PeatEngineInventory;
 import forestry.core.content.energy.menu.PeatEngineMenu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
@@ -45,20 +45,20 @@ public class PeatEngineBlockEntity extends EngineBlockEntity implements WorldlyC
 	private float burnRate = 1.0f;
 
 	public PeatEngineBlockEntity(BlockPos pos, BlockState state) {
-		super(EnergyTiles.PEAT_ENGINE.tileType(), pos, state, "engine.copper", Constants.ENGINE_COPPER_HEAT_MAX, 40000);
+		super(EnergyBlockEntities.PEAT_ENGINE.tileType(), pos, state, "engine.copper", Constants.ENGINE_COPPER_HEAT_MAX, 40000);
 
         this.ashForItem = Constants.ENGINE_COPPER_ASH_FOR_ITEM;
-		setInternalInventory(new InventoryEnginePeat(this));
+		setInternalInventory(new PeatEngineInventory(this));
 	}
 
 	private int getFuelSlot() {
 		IInventoryAdapter inventory = getInternalInventory();
-		if (inventory.getItem(InventoryEnginePeat.SLOT_FUEL).isEmpty()) {
+		if (inventory.getItem(PeatEngineInventory.SLOT_FUEL).isEmpty()) {
 			return -1;
 		}
 
-		if (determineFuelValue(inventory.getItem(InventoryEnginePeat.SLOT_FUEL)) > 0) {
-			return InventoryEnginePeat.SLOT_FUEL;
+		if (determineFuelValue(inventory.getItem(PeatEngineInventory.SLOT_FUEL)) > 0) {
+			return PeatEngineInventory.SLOT_FUEL;
 		}
 
 		return -1;
@@ -66,7 +66,7 @@ public class PeatEngineBlockEntity extends EngineBlockEntity implements WorldlyC
 
 	private int getFreeWasteSlot() {
 		IInventoryAdapter inventory = getInternalInventory();
-		for (int i = InventoryEnginePeat.SLOT_WASTE_1; i <= InventoryEnginePeat.SLOT_WASTE_COUNT; i++) {
+		for (int i = PeatEngineInventory.SLOT_WASTE_1; i <= PeatEngineInventory.SLOT_WASTE_COUNT; i++) {
 			ItemStack waste = inventory.getItem(i);
 			if (waste.isEmpty()) {
 				return i;

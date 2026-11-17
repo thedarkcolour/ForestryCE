@@ -3,7 +3,7 @@ package forestry.core.content.machines.recipes.jei.rainmaker;
 import forestry.core.platform.client.ForestryColors;
 import forestry.core.platform.recipes.jei.ForestryRecipeCategory;
 import forestry.core.platform.recipes.jei.ForestryRecipeType;
-import forestry.core.content.machines.blocks.BlockTypeFactoryTesr;
+import forestry.core.content.machines.blocks.SpecialFactoryBlockType;
 import forestry.core.content.machines.features.FactoryBlocks;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
@@ -26,7 +26,7 @@ public class RainmakerRecipeCategory extends ForestryRecipeCategory<RainmakerJei
 	public RainmakerRecipeCategory(IGuiHelper guiHelper) {
 		super(guiHelper.createBlankDrawable(150, 30), "block.forestry.rainmaker");
 		this.slot = guiHelper.getSlotDrawable();
-		ItemStack rainmaker = new ItemStack(FactoryBlocks.TESR.get(BlockTypeFactoryTesr.RAINMAKER).block());
+		ItemStack rainmaker = new ItemStack(FactoryBlocks.TESR.get(SpecialFactoryBlockType.RAINMAKER).block());
 		this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, rainmaker);
 	}
 

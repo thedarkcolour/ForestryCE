@@ -2,11 +2,11 @@ package forestry.apiculture.alveary;
 
 import forestry.apiculture.alveary.multiblock.AlvearySwarmerBlockEntity;
 import forestry.core.platform.config.Constants;
-import forestry.core.platform.gui.GuiForestryTitled;
+import forestry.core.platform.gui.TitledForestryScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 
-public class AlvearySwarmerScreen extends GuiForestryTitled<AlvearySwarmerMenu> {
+public class AlvearySwarmerScreen extends TitledForestryScreen<AlvearySwarmerMenu> {
 	private final AlvearySwarmerBlockEntity tile;
 
 	public AlvearySwarmerScreen(AlvearySwarmerMenu container, Inventory inventory, Component title) {

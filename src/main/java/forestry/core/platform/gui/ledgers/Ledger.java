@@ -6,7 +6,7 @@ import forestry.api.client.ForestrySprites;
 import forestry.api.client.IForestryClientApi;
 import forestry.core.platform.config.Constants;
 import forestry.core.platform.config.SessionVars;
-import forestry.core.platform.gui.GuiForestry;
+import forestry.core.platform.gui.ForestryScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.Rect2i;
@@ -84,7 +84,7 @@ public abstract class Ledger {
 	}
 
 	public Rect2i getArea() {
-		GuiForestry gui = this.manager.gui;
+		ForestryScreen<?> gui = this.manager.gui;
 		return new Rect2i(gui.getGuiLeft() + this.x, gui.getGuiTop() + this.y, (int) this.currentWidth, (int) this.currentHeight);
 	}
 

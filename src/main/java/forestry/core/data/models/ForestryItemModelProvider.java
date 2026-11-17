@@ -11,7 +11,7 @@ import forestry.core.platform.registration.FeatureItem;
 import forestry.core.platform.registration.ModFeatureRegistry;
 import forestry.core.content.backpacks.features.CrateItems;
 import forestry.core.content.backpacks.items.BackpackItem;
-import forestry.core.content.backpacks.items.ItemCrated;
+import forestry.core.content.backpacks.items.CratedItem;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
@@ -33,7 +33,7 @@ public class ForestryItemModelProvider extends ItemModelProvider {
 
 	@Override
 	protected void registerModels() {
-		for (FeatureItem<ItemCrated> featureCrated : CrateItems.getCrates()) {
+		for (FeatureItem<CratedItem> featureCrated : CrateItems.getCrates()) {
 			Item containedItem = featureCrated.get().getContained().getItem();
 			String id = featureCrated.getName();
 

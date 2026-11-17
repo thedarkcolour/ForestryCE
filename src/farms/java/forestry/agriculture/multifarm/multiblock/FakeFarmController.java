@@ -101,6 +101,10 @@ public enum FakeFarmController implements IFarmControllerInternal {
 	}
 
 	@Override
+	public void markMissingSoil() {
+	}
+
+	@Override
 	public void setFarmLogic(Direction direction, IFarmLogic logic) {
 	}
 

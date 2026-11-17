@@ -128,7 +128,7 @@ public class HiveBlockEntity extends BlockEntity implements IHiveTile, IActivata
 					return this.containedBee = bee;
 				}
 			}
-			IBeeSpecies primarySpecies = SpeciesUtil.BEE_TYPE.get().getSpeciesSafe(((BlockBeeHive) getBlockState().getBlock()).getSpeciesId());
+			IBeeSpecies primarySpecies = SpeciesUtil.BEE_TYPE.get().getSpeciesSafe(((HiveBlock) getBlockState().getBlock()).getSpeciesId());
 			if (primarySpecies != null) {
 				return this.containedBee = primarySpecies.createIndividual();
 			}

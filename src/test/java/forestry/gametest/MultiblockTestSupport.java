@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.UUID;
 
+import forestry.agriculture.features.FarmingBlocks;
 import forestry.api.core.multiblock.IMultiblockComponent;
 import forestry.api.core.multiblock.IMultiblockController;
 import forestry.api.core.multiblock.IMultiblockInventoryProbe;
@@ -16,7 +17,6 @@ import forestry.apiculture.alveary.AlvearyBlock;
 import forestry.apiculture.features.ApicultureBlocks;
 import forestry.agriculture.multifarm.blocks.MultifarmBlockType;
 import forestry.agriculture.multifarm.blocks.MultifarmMaterialType;
-import forestry.agriculture.features.MultifarmBlocks;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -87,8 +87,8 @@ public final class MultiblockTestSupport {
 	 * @return the absolute world positions of the 36 farm block entities (sorted).
 	 */
 	public static List<BlockPos> buildFarm(GameTestHelper helper, BlockPos base) {
-		BlockState plain = MultifarmBlocks.FARM.get(MultifarmBlockType.PLAIN, MultifarmMaterialType.STONE_BRICK).defaultState();
-		BlockState gearbox = MultifarmBlocks.FARM.get(MultifarmBlockType.GEARBOX, MultifarmMaterialType.STONE_BRICK).defaultState();
+		BlockState plain = FarmingBlocks.FARM.get(MultifarmBlockType.PLAIN, MultifarmMaterialType.STONE_BRICK).defaultState();
+		BlockState gearbox = FarmingBlocks.FARM.get(MultifarmBlockType.GEARBOX, MultifarmMaterialType.STONE_BRICK).defaultState();
 		List<BlockPos> members = new ArrayList<>();
 		for (int x = 0; x < 3; x++) {
 			for (int z = 0; z < 3; z++) {

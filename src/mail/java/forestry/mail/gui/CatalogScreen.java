@@ -2,7 +2,7 @@ package forestry.mail.gui;
 
 import forestry.api.mail.ITradeStationInfo;
 import forestry.core.platform.config.SessionVars;
-import forestry.core.platform.gui.GuiForestry;
+import forestry.core.platform.gui.ForestryScreen;
 import forestry.core.platform.gui.widgets.ItemStackWidget;
 import forestry.core.platform.gui.widgets.Widget;
 import forestry.core.platform.network.packets.PacketGuiSelectRequest;
@@ -25,7 +25,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CatalogScreen extends GuiForestry<CatalogMenu> {
+public class CatalogScreen extends ForestryScreen<CatalogMenu> {
 	private static final String BOLD_UNDERLINE = ChatFormatting.BOLD.toString() + ChatFormatting.UNDERLINE;
 
 	@Nullable
