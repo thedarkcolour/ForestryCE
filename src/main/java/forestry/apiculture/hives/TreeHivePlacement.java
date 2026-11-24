@@ -37,11 +37,14 @@ public enum TreeHivePlacement implements IHivePlacement {
 	@Nullable
 	public BlockPos getPosForHive(WorldGenLevel level, RandomSource random, int posX, int posZ) {
 		ChunkAccess chunk = level.getChunk(posX >> 4, posZ >> 4);
+		Heightmap.Types heightmapType = chunk.hasPrimedHeightmap(Heightmap.Types.WORLD_SURFACE_WG)
+			? Heightmap.Types.WORLD_SURFACE_WG
+			: Heightmap.Types.WORLD_SURFACE;
 
-		// get top leaf block
-		int height = chunk.getHeight(Heightmap.Types.WORLD_SURFACE, posX & 0xFF, posZ & 0xFF) - 1;
+		int height = chunk.getHeight(heightmapType, posX & 15, posZ & 15);
+		int minBuildHeight = chunk.getMinBuildHeight();
 
-		if (height <= chunk.getMinBuildHeight()) {
+		if (height <= minBuildHeight) {
 			return null;
 		}
 
@@ -52,12 +55,29 @@ public enum TreeHivePlacement implements IHivePlacement {
 			return null;
 		}
 
-		// get to the bottom of the leaves
-		do {
-			pos.move(Direction.DOWN);
-			state = chunk.getBlockState(pos);
-		} while (IHivePlacement.isTreeBlock(state));
+		while (pos.getY() > minBuildHeight) {
+			do {
+				pos.move(Direction.DOWN);
+				state = chunk.getBlockState(pos);
+			} while (pos.getY() > minBuildHeight && IHivePlacement.isTreeBlock(state));
 
-		return pos.immutable();
+			if (pos.getY() <= minBuildHeight || !canReplace(state, level, pos)) {
+				return null;
+			}
+
+			BlockPos posBelow = pos.below();
+			BlockState stateBelow = chunk.getBlockState(posBelow);
+			if (canReplace(stateBelow, level, posBelow)) {
+				return pos.immutable();
+			}
+			if (!IHivePlacement.isTreeBlock(stateBelow)) {
+				return null;
+			}
+
+			pos.set(posBelow);
+			state = stateBelow;
+		}
+
+		return null;
 	}
 }
